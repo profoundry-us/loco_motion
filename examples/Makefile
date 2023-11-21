@@ -5,7 +5,7 @@
 # Open a shell to your development container
 .PHONY: dev-shell
 dev-shell:
-	docker exec -it $$(docker ps -q -f name=dev) /bin/bash
+	docker compose exec -it dev /bin/bash
 
 # Run & build all containers
 .PHONY: dev
@@ -30,17 +30,22 @@ down:
 # Open a bash shell in the running app container
 .PHONY: app-shell
 app-shell:
-	docker exec -it $$(docker ps -q -f name=app) /bin/bash
+	docker compose exec -it app /bin/bash
 
 # Open a Rails console
 .PHONY: app-console
 app-console:
-	docker exec -it $$(docker ps -q -f name=app) rails c
+	docker compose exec -it app rails c
+
+# Open a remote debugging console
+.PHONY: app-debug
+app-debug:
+	docker compose exec -it app bundle exec rdbg -a
 
 # Run all Rspec tests
 .PHONY: app-rspec
 app-rspec:
-	docker exec -it $$(docker ps -q -f name=app) rspec spec
+	docker compose exec -it app rspec spec
 
 
 ##############################
@@ -51,14 +56,14 @@ app-rspec:
 # Open a bash shell in the running db container
 .PHONY: db-shell
 db-shell:
-	docker exec -it $$(docker ps -q -f name=db) /bin/bash
+	docker compose exec -it db /bin/bash
 
 # Open a connection to the development database
 .PHONY: db-dev
 db-dev:
-	docker exec -it $$(docker ps -q -f name=db) psql -U postgres -d app_development
+	docker compose exec -it db psql -U postgres -d app_development
 
 # Open a connection to the test database
 .PHONY: db-test
 db-test:
-	docker exec -it $$(docker ps -q -f name=db) psql -U postgres -d app_test
+	docker compose exec -it db psql -U postgres -d app_test

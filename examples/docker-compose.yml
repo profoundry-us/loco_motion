@@ -16,7 +16,8 @@ services:
       - 'redis:/data'
 
   dev:
-    image: ruby:3.2-bullseye
+    image: timbru31/ruby-node:3.3-slim-18
+    build: ./dev/
     volumes:
       - .:/home/app
     tty: true

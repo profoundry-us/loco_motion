@@ -1,6 +1,6 @@
-FROM ruby:3.2-bullseye
+FROM timbru31/ruby-node:3.3-slim-18
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y build-essential postgresql-client
 
 ENV APP_HOME /home/app
 
