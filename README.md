@@ -4,12 +4,13 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
 
+- [loco-motion](#loco-motion)
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
-    + [Install HAML (Optional)](#install-haml-optional)
-    + [Install DaisyUI (Optional)](#install-daisyui-optional)
-    + [Try Out Your Application](#try-out-your-application)
+    - [Install HAML (Optional)](#install-haml-optional)
+    - [Install DaisyUI (Optional)](#install-daisyui-optional)
+    - [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
 - [Next Steps](#next-steps)
@@ -63,7 +64,7 @@ Look in the `examples` directory for basic `docker-compose.yml`, `Dockerfile`,
 `dev/Dockerfile`, and `entrypoint.sh` files to get you started and give you a
 place to run commands. Copy these into your project directory.
 
-Next, we recommend using a (Makefile)[/blob/main/examples/Makefile] (also in
+Next, we recommend using a [Makefile](/blob/main/examples/Makefile) (also in
 `examples`) to create shortcuts for running your various commands. `make` will
 run on just about any operating system, and provides a self-documenting list of
 all of the ways that you typically interact with your application. This means
@@ -87,7 +88,7 @@ Your directory structure should look like this:
       - entrypoint.sh
 ```
 
-Finally, we recommend (VSCode)[https://code.visualstudio.com/] as your code
+Finally, we recommend [VSCode](https://code.visualstudio.com/) as your code
 editor, but this is purely preference. It has a lot of plugins that make it
 really customizable, but utlimately, you should use whatever editor makes you
 most comfortable during development.
@@ -163,7 +164,8 @@ your template files.
 
 Drop this at the bottom of your `Gemfile`:
 
-> **NOTE:** We suggest keeping your custom gems alphabetized at the bottom.
+> [!NOTE]
+> We suggest keeping your custom gems alphabetized at the bottom.
 
 ```yaml
 # App-Specific Gems
@@ -259,15 +261,15 @@ yarn add daisyui@latest --dev
 
 Next, edit your `tailwind.config.js` file to add it as a plugin:
 
+> [!IMPORTANT]
+> Make sure to add a `,` to the previous line if you put it at the bottom.
+
 ```js
 module.exports = {
   //...
   plugins: [require("daisyui")],
 }
 ```
-
-> [!IMPORTANT]
-> Make sure to add a `,` to the previous line if you put it at the bottom.
 
 ### Try Out Your Application
 
@@ -312,22 +314,25 @@ Finally, you can kill your running docker containers (either using
 
 Now restart using `make dev`.
 
-> **NOTE:** Once you have stabalized your Dockerfile and any dependencies, you
-> can run `make dev-quick` to launch the containers without rebuilding.
+> [!TIP]
+> Once you have stabalized your Dockerfile and any dependencies, you can run
+> `make dev-quick` to launch the containers without rebuilding.
 >
 > In this case, since we changed our `Dockerfile`, we still need to use the
 > regular `make dev` command.
 
-You should be able to test that everything is working by alter a few files
-so you can see some custom output:
+You should be able to test that everything is working by altering a few files so
+you can see some custom output:
 
-`config/routes.rb`
 ```ruby
+# config/routes.rb
+
 root "application#test"
 ```
 
-`app/controllers/application_controller.rb`
 ```ruby
+# app/controllers/application_controller.rb
+
 class ApplicationController < ActionController::Base
   def test
     render html: 'Test', layout: true
@@ -335,8 +340,9 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-`app/views/layouts/application.html.haml`
 ```haml
+# app/views/layouts/application.html.haml
+
   # Just modify the body & yield lines to look like this
 
   %body
@@ -351,6 +357,8 @@ If you also installed, DaisyUI, we can test that as well. Add some additional
 code to the bottom of the `application.html.haml` file:
 
 ```haml
+# app/views/layouts/application.html.haml
+
   # Leave the html / head code above
 
   %body
