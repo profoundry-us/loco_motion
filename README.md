@@ -1,5 +1,27 @@
 # loco-motion
-Modern tools to make Rails development crazy fast!
+
+Modern paradigms and tools to make Rails development crazy fast!
+
+<!-- toc -->
+<!-- tocstop -->
+
+# About
+
+loco-motion is both a set of philosophies / paradigms for developing robust web
+applications in Ruby on Rails, as well gems and tools to help you execute on
+your vision quickly and reliably.
+
+It includes standards for your
+
+ * Development Environment
+ * Testing / Debugging
+ * CSS / Page Markup
+ * Components / Libraries
+ * Releasing / Hosting
+ * and much more!
+
+You can use as much or as little of the frameworks and philosophies provided,
+and you can customize it all to your hearts content.
 
 # Getting Started
 
@@ -73,13 +95,16 @@ ready for you to install Ruby on Rails.
 Change into the app directory which is mapped to your local machine and run the
 `rails new` command:
 
+> **NOTE:** If you want to use something other than PostgreSQL or TailwindCSS,
+> you can change that here. These are just our recommendations.
+
 ```shell
 cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
 ```
 
 Once complete, you should now be able to exit out of the dev container and kill
-the running docker containers with `Ctrl-c` in the running terminal, or you can
-open a new terminal and run `make down`.
+the running docker containers with <kbd>Ctrl-C</kbd> in the running terminal, or
+you can open a new terminal and run `make down`.
 
 Open the newly created `config/database.yml` file and add the following three
 lines under the `default` key:
@@ -192,7 +217,7 @@ For example, to make a rounded button, you might do something like this:
 ```
 
 > **NOTE:** We _highly_ recommend using Tailwind for every project and have
-already installed it as part of the `rails new` command above.
+> already installed it as part of the `rails new` command above.
 
 [DaisyUI](https://daisyui.com/) takes a more traditional route and provides a
 set of classes that utilize Tailwind to create the components for you. This
@@ -266,9 +291,9 @@ Add the following lines right above the last line (`exec foreman start ...`):
 rm /home/app/tmp/pids/server.pid
 ```
 
-Finally, you can kill your running docker containers (either using Ctrl-C,
-opening a new terminal in your project folder and running `make down`, or
-using the UI to stop all of the containers).
+Finally, you can kill your running docker containers (either using
+<kbd>Ctrl-C</kbd>, opening a new terminal in your project folder and running
+`make down`, or using the Docker UI to stop all of the containers).
 
 Now restart using `make dev`.
 
@@ -337,6 +362,33 @@ then run `make app-debug` in a separate terminal.
 This will connect to the remote debugger instance which will be stopped at your
 `debugger` line.
 
+# Testing
+
+Before we start creating a bunch of models, controllers, and other pieces of
+code, it's good to get a solid testing foundation in place. Rails ships with
+[MiniTest](https://guides.rubyonrails.org/testing.html) out of the box and many
+people prefer this as it's built-in and is essentially just Ruby code.
+
+However, many larger teams opt to utilize [RSpec](https://rspec.info/) which is
+a Behavior Driven Development (BDD) framework whose tests utilize the english
+language to help you build relevant test cases. It also has a large ecosystem of
+plugins which can accelerate your development.
+
+Which one you choose is up to you, but after developing many applications, we
+recommned Rspec with (factory_bot)[https://github.com/thoughtbot/factory_bot]
+and (Shoulda Matchers)[https://github.com/thoughtbot/shoulda-matchers].
+
+Finally, although both libraries offer some functionality for testing your user
+interface, we recommend utilizing (Cypress)[https://www.cypress.io/] instead as
+it more closely mimics the real user experience in a browser and it allows you
+to see in real-time what is happening, including in-browser debugging!
+
+One thing to note about Cypress, however, is that it is Javascript-based and
+thus requires you to write tests in Javascript. If you are only famililar with
+Ruby, you might want to stick with Rspec or Minitest when you first start your
+project, and expand into using Cypress once you are comfortable learning a new
+lanugage / framework.
+
 # Next Steps
 
-TODO: Install Rspec, Loco-Motion / Daisy-rails gems?, etc
+TODO: Install Rspec, loco-motion / Daisy-rails gems?, etc
