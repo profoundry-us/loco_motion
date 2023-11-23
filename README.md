@@ -63,7 +63,7 @@ Look in the `examples` directory for basic `docker-compose.yml`, `Dockerfile`,
 `dev/Dockerfile`, and `entrypoint.sh` files to get you started and give you a
 place to run commands. Copy these into your project directory.
 
-Next, we recommend using a [Makefile](/blob/main/examples/Makefile) (also in
+Next, we recommend using a [Makefile](/examples/Makefile) (also in
 `examples`) to create shortcuts for running your various commands. `make` will
 run on just about any operating system, and provides a self-documenting list of
 all of the ways that you typically interact with your application. This means
@@ -397,19 +397,20 @@ language to help you build relevant test cases. It also has a large ecosystem of
 plugins which can accelerate your development.
 
 Which one you choose is up to you, but after developing many applications, we
-recommned Rspec with (factory_bot)[https://github.com/thoughtbot/factory_bot]
-and (Shoulda Matchers)[https://github.com/thoughtbot/shoulda-matchers].
+recommned Rspec with [factory_bot](https://github.com/thoughtbot/factory_bot)
+and [Shoulda Matchers](https://github.com/thoughtbot/shoulda-matchers).
 
 Finally, although both libraries offer some functionality for testing your user
-interface, we recommend utilizing (Cypress)[https://www.cypress.io/] instead as
+interface, we recommend utilizing [Cypress](https://www.cypress.io/) instead as
 it more closely mimics the real user experience in a browser and it allows you
 to see in real-time what is happening, including in-browser debugging!
 
-One thing to note about Cypress, however, is that it is Javascript-based and
-thus requires you to write tests in Javascript. If you are only famililar with
-Ruby, you might want to stick with Rspec or Minitest when you first start your
-project, and expand into using Cypress once you are comfortable learning a new
-lanugage / framework.
+> [!NOTE]
+> One thing to note about Cypress, however, is that it is Javascript-based and
+> thus requires you to write tests in Javascript. If you are only famililar with
+> Ruby, you might want to stick with Rspec or Minitest when you first start your
+> project, and expand into using Cypress once you are comfortable learning a new
+> lanugage / framework.
 
 # Next Steps
 
