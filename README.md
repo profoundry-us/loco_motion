@@ -3,6 +3,17 @@
 Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
+
+- [About](#about)
+- [Getting Started](#getting-started)
+- [Installing / Setting up Rails](#installing--setting-up-rails)
+    + [Install HAML (Optional)](#install-haml-optional)
+    + [Install DaisyUI (Optional)](#install-daisyui-optional)
+    + [Try Out Your Application](#try-out-your-application)
+- [Debugging](#debugging)
+- [Testing](#testing)
+- [Next Steps](#next-steps)
+
 <!-- tocstop -->
 
 # About
