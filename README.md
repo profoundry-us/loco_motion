@@ -63,12 +63,13 @@ Look in the `examples` directory for basic `docker-compose.yml`, `Dockerfile`,
 `dev/Dockerfile`, and `entrypoint.sh` files to get you started and give you a
 place to run commands. Copy these into your project directory.
 
-Next, we recommend using a `Makefile` (also in `examples`) to create shortcuts
-for running your various commands. `make` will run on just about any operating
-system, and provides a self-documenting list of all of the ways that you
-typically interact with your application. This means that other developers can
-quickly see the common use-cases, but will also have a starting point if they
-need to customize any of the commands for their particular setup.
+Next, we recommend using a (Makefile)[/blob/main/examples/Makefile] (also in
+`examples`) to create shortcuts for running your various commands. `make` will
+run on just about any operating system, and provides a self-documenting list of
+all of the ways that you typically interact with your application. This means
+that other developers can quickly see the common use-cases, but will also have a
+starting point if they need to customize any of the commands for their
+particular setup.
 
 Copy this `Makefile` into your top-level project directory as well.
 
@@ -86,9 +87,10 @@ Your directory structure should look like this:
       - entrypoint.sh
 ```
 
-Finally, we recommend VSCode as your editor, but this is purely preference. It
-has a lot of plugins that make it really customizable, but utlimately, you
-should use whatever editor makes you most comfortable during development.
+Finally, we recommend (VSCode)[https://code.visualstudio.com/] as your code
+editor, but this is purely preference. It has a lot of plugins that make it
+really customizable, but utlimately, you should use whatever editor makes you
+most comfortable during development.
 
 You should now be able to run `make dev` in a terminal inside your project
 directory to build and run all of the containers.
@@ -106,8 +108,9 @@ ready for you to install Ruby on Rails.
 Change into the app directory which is mapped to your local machine and run the
 `rails new` command:
 
-> **NOTE:** If you want to use something other than PostgreSQL or TailwindCSS,
-> you can change that here. These are just our recommendations.
+> [!NOTE]
+> If you want to use something other than PostgreSQL or TailwindCSS, you can
+> change that here. These are just our recommendations.
 
 ```shell
 cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
@@ -160,7 +163,7 @@ your template files.
 
 Drop this at the bottom of your `Gemfile`:
 
-_**NOTE: ** We suggest keeping your custom gems alphabetized at the bottom._
+> **NOTE:** We suggest keeping your custom gems alphabetized at the bottom.
 
 ```yaml
 # App-Specific Gems
@@ -227,8 +230,9 @@ For example, to make a rounded button, you might do something like this:
   My Button
 ```
 
-> **NOTE:** We _highly_ recommend using Tailwind for every project and have
-> already installed it as part of the `rails new` command above.
+> [!IMPORTANT]
+> We _highly_ recommend using Tailwind for every project and have already
+> installed it as part of the `rails new` command above.
 
 [DaisyUI](https://daisyui.com/) takes a more traditional route and provides a
 set of classes that utilize Tailwind to create the components for you. This
@@ -262,8 +266,8 @@ module.exports = {
 }
 ```
 
-> **NOTE:** Make sure to add a `,` to the previous line if you put it at the
-bottom.
+> [!IMPORTANT]
+> Make sure to add a `,` to the previous line if you put it at the bottom.
 
 ### Try Out Your Application
 
@@ -402,4 +406,4 @@ lanugage / framework.
 
 # Next Steps
 
-TODO: Install Rspec, loco-motion / Daisy-rails gems?, etc
+TODO: loco-motion / Daisy-rails gems?, etc
