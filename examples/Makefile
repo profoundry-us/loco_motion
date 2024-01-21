@@ -2,20 +2,20 @@
 # General commands
 ##############################
 
+# Run & build the dev container
+.PHONY: dev
+dev:
+	docker compose up dev --build
+
+# Run the dev container without rebuilding
+.PHONY: dev-quick
+dev-quick:
+	docker compose up dev
+
 # Open a shell to your development container
 .PHONY: dev-shell
 dev-shell:
 	docker compose exec -it dev /bin/bash
-
-# Run & build all containers
-.PHONY: dev
-dev:
-	docker compose up --build
-
-# Run all containers without rebuilding
-.PHONY: dev-quick
-dev-quick:
-	docker compose up
 
 # Stop all running containers
 .PHONY: down
@@ -26,6 +26,16 @@ down:
 ##############################
 # Rails app commands
 ##############################
+
+# Run all of the containers and build
+.PHONY: app
+app:
+	docker compose up --build app
+
+# Run all of the containers without building
+.PHONY: app-quick
+app-quick:
+	docker compose up app
 
 # Open a bash shell in the running app container
 .PHONY: app-shell

@@ -162,8 +162,8 @@ browser and see your running Rails application!
 ### Install HAML (Optional)
 
 While you can use the default ERB templating system that comes with Rails, we
-highly recommend using HAML instead as it provides a much cleaner language for
-your template files.
+highly recommend using [HAML](https://haml.info/) instead as it provides a much
+cleaner language for your template files.
 
 Drop this at the bottom of your `Gemfile`:
 
@@ -304,15 +304,16 @@ to
 CMD ["./bin/dev"]
 ```
 
-Since we're using Docker, you might also want to edit your `bin/dev` file (or
-alternatively the `bin/setup` file) to automatically remove any old PID files
-that might be lying around from a bad container shutdown.
+Since we're using Docker, you might also want to edit your `bin/setup` file
+to automatically remove any old PID files that might be lying around from a bad
+container shutdown.
 
-Add the following lines right above the last line (`exec foreman start ...`):
+Add the following lines right above the last few lines that restart the
+application server:
 
 ```sh
-# Delete any old PID files
-rm /home/app/tmp/pids/server.pid
+puts "\n== Removing old PID files =="
+system! "rm -rf /home/app/tmp/pids/server.pid"
 ```
 
 Finally, you can kill your running docker containers (either using
@@ -535,6 +536,9 @@ the following:
 Cannot render console from 172.23.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
 ```
 
+> [!NOTE]
+> Your IP address may be different! Take note of what IP the error says.
+
 Because we're running inside Docker, we have a different network than what Rails
 typically expects (127.0.0.1) and it blocks the default web console that loads
 when an error happens.
@@ -611,8 +615,8 @@ Add the following to the `config/environments/development.rb` file (make sure
 the IP address matches the one you used for the Web Console above):
 
 ```ruby
-  # Allow BetterErrors to render
-  BetterErrors::Middleware.allow_ip! '172.23.0.1'
+# Allow BetterErrors to render
+BetterErrors::Middleware.allow_ip! '172.23.0.1'
 ```
 
 # Next Steps
