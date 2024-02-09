@@ -4,17 +4,20 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
 
+- [loco-motion](#loco-motion)
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
-    + [Install HAML (Optional)](#install-haml-optional)
-    + [Install DaisyUI (Optional)](#install-daisyui-optional)
-    + [Try Out Your Application](#try-out-your-application)
+    - [Install HAML (Optional)](#install-haml-optional)
+    - [Install DaisyUI (Optional)](#install-daisyui-optional)
+    - [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
 - [Authentication](#authentication)
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
+- [LocoMotion Components](#locomotion-components)
+    - [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
 
 <!-- tocstop -->
@@ -618,6 +621,42 @@ the IP address matches the one you used for the Web Console above):
 BetterErrors::Middleware.allow_ip! '172.23.0.1'
 ```
 
+# LocoMotion Components
+
+In addition to the recommendations / suggestions above, LocoMotion also provides
+a full set of UI components to help you build robust and full-featured apps.
+
+### Setting a Base Component Class
+
+Sometimes, you may want to override the way that LocoMotion handles things, or
+provide some functionality yourself in a sub-class of our components. Since you
+can't have a class inherit from two classes, we give you a way to override the
+base class that all of our components inherit from.
+
+This allows you to define a class that inherits from `LocoMotion::BaseComponent`
+and then adds any special methods or overrides to our default components.
+
+Just add the following to `config/initializers/loco_motion.rb`.
+
+
+```ruby
+LocoMotion.configure do |config|
+
+  # Override the base component class to inherit from our ApplicationComponent
+  # so that we can add our own overrides / methods.
+  Rails.application.config.after_initialize do
+    config.base_component_class = ApplicationComponent
+  end
+
+end
+```
+
+> [!NOTE]
+> It doesn't have to inherit from `ApplicationComponent`, you can use any class
+> you want, so you could create a separate `CustomizedLocoMotionComponent` class
+> so that you don't have any conflicts with your `ApplicationComponent`.
+
 # Next Steps
 
-TODO: loco-motion / Daisy-rails gems?, etc
+TODO: Expand upon loco-motion components, Daisy-rails gems, icons, pagination
+gems, etc

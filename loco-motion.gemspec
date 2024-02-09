@@ -8,9 +8,13 @@ Gem::Specification.new do |s|
   s.homepage    = "https://rubygems.org/gems/loco-motion"
   s.license     = "MIT"
 
-  s.files = Dir.glob("lib/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
-  s.require_paths = ["lib"]
+  s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
+  s.require_paths = ["lib", "app"]
 
   # Add our few dependencies
   s.add_dependency 'view_component', '~> 3.10'
+
+  # Add our development dependencies
+  s.add_development_dependency 'webrick', '~> 1.8.1'
+  s.add_development_dependency 'yard', '~> 0.9.34'
 end
