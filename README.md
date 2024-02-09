@@ -4,20 +4,19 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
 
-- [loco-motion](#loco-motion)
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
-    - [Install HAML (Optional)](#install-haml-optional)
-    - [Install DaisyUI (Optional)](#install-daisyui-optional)
-    - [Try Out Your Application](#try-out-your-application)
+    + [Install HAML (Optional)](#install-haml-optional)
+    + [Install DaisyUI (Optional)](#install-daisyui-optional)
+    + [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
 - [Authentication](#authentication)
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
 - [LocoMotion Components](#locomotion-components)
-    - [Setting a Base Component Class](#setting-a-base-component-class)
+    + [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
 
 <!-- tocstop -->
