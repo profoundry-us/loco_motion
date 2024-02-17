@@ -52,6 +52,11 @@ app-console:
 app-debug:
 	docker compose exec -it app bundle exec rdbg -a
 
+# Restart the Rails application
+.PHONY: app-restart
+app-restart:
+	touch tmp/restart.txt
+
 # Run all Rspec tests
 .PHONY: app-rspec
 app-rspec:

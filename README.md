@@ -24,9 +24,9 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 # About
 
-loco-motion is both a set of philosophies / paradigms for developing robust web
-applications in Ruby on Rails, as well gems and tools to help you execute on
-your vision quickly and reliably.
+loco-motion is both a set of philosophies and paradigms for developing robust
+web applications in Ruby on Rails, as well gems and tools to help you execute
+on your vision quickly and reliably.
 
 It includes standards for your
 
@@ -38,7 +38,7 @@ It includes standards for your
  * and much more!
 
 You can use as much or as little of the frameworks and philosophies provided,
-and you can customize it all to your hearts content.
+and you can customize it all to your heart's content.
 
 # Getting Started
 
@@ -118,8 +118,23 @@ Change into the app directory which is mapped to your local machine and run the
 > If you want to use something other than PostgreSQL or TailwindCSS, you can
 > change that here. These are just our recommendations.
 
+> [!TIP]
+> We tend to recommend that you lag behind on the latest version of Ruby as
+> it can occassionally have issues building the Rails project. But you can
+> swap it to the latest inside of the `dev/Dockerfile` by changing the `FROM`
+> line at the top.
+
 ```shell
 cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
+```
+
+If you run into trouble with the above Rails command, this should get you back
+to a good starting point without having to blow away any changes you might have
+made to the dev files.
+
+```shell
+rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version\
+  Gemfile README.md Rakefile app bin config config.ru
 ```
 
 Once complete, you should now be able to exit out of the dev container and kill
@@ -135,8 +150,8 @@ lines under the `default` key:
   password: password
 ```
 
-Now, uncomment the `app` section in your `docker-compose.yml` file and re-run
-`make dev` to build the application.
+Now, uncomment the `app` section in your `docker-compose.yml` file and run
+`make app` to build the application.
 
 After a minute or two, everything should be booted up and you should see output
 similar to the following:
@@ -285,6 +300,9 @@ module.exports = {
 Now that we have everything installed and running, let's build a few simple
 parts of a Rails application to test that everything is working properly!
 
+By default, only the Rails application is running, but we now need to build
+and bundle our Javascript and CSS.
+
 Open up your `Procfile.dev` and tell the Rails server to bind to `0.0.0.0`:
 
 ```
@@ -322,14 +340,14 @@ Finally, you can kill your running docker containers (either using
 <kbd>Ctrl-C</kbd>, opening a new terminal in your project folder and running
 `make down`, or using the Docker UI to stop all of the containers).
 
-Now restart using `make dev`.
+Now restart using `make app`.
 
 > [!TIP]
 > Once you have stabalized your Dockerfile and any dependencies, you can run
-> `make dev-quick` to launch the containers without rebuilding.
+> `make app-quick` to launch the containers without rebuilding.
 >
 > In this case, since we changed our `Dockerfile`, we still need to use the
-> regular `make dev` command.
+> regular `make app` command.
 
 You should be able to test that everything is working by altering a few files so
 you can see some custom output:
@@ -451,22 +469,11 @@ gem 'omniauth'
 gem "omniauth-rails_csrf_protection"
 ```
 
-> [!CAUTION]
-> Unfortunately, it looks like the developer strategy is currently not working
-> until OmniAuth releases a new version.
->
-> For the time being, you can use the pre-release version of the gem by
-> specifying it in the Gemfile.
->
-> ```Gemfile
-> gem "omniauth", git: "https://github.com/omniauth/omniauth", branch: "master"
-> ```
-
 After that has finished, you'll need to restart your Rails server.
 
 > [!TIP]
 > Although you can do this by using <kbd>Ctrl-C</kbd> and re-running `make
-> dev-quick`, a faster way to restart only the web server is to create a
+> app-quick`, a faster way to restart only the web server is to create a
 > temporary file named `restart.txt`.
 >
 > You can easily do this by running `touch tmp/restart.txt` in a terminal!
@@ -503,6 +510,10 @@ class SessionsController < ApplicationController
   def create
     user_info = request.env['omniauth.auth']
     raise user_info # Your own session management should be placed here.
+
+    session[:user_info] = user_info.to_hash
+
+    redirect_to root_path
   end
 end
 ```
@@ -525,9 +536,14 @@ It should throw an error and show you the line that it failed on
 This is not terribly helpful as you can't easily inspect the variable and see
 it's value.
 
-In general, you'd want to set this to something like `session[:userinfo]` and
-integrate it into your application flow, but for this example, let's just add
-some better error tracking.
+In general, you'd want to set this to something like `session[:user_info]` and
+integrate it into your application flow.
+
+When you're ready for it to work, just delete or comment out the
+`raise user_info` line.
+
+However, this gives us an opportune time to get some better error management.
+So let's do that first!
 
 # Web Console
 
@@ -550,8 +566,8 @@ above and add the following line to our `config/environments/development.rb`
 file:
 
 ```ruby
-  # Fix console permissions for Docker
-  config.web_console.permissions = '172.23.0.1'
+# Fix console permissions for Docker
+config.web_console.permissions = '172.23.0.1'
 ```
 
 Restart the application and refresh the page. You should see the same error
@@ -561,7 +577,7 @@ allows you to interact with the application.
 Type the following in the console and hit enter:
 
 ```ruby
-session[:userinfo].to_hash
+user_info.to_hash
 ```
 
 You should see some information about the user you just logged in with.
@@ -592,7 +608,7 @@ Docker app container (`make app-shell`).
 
 > [!TIP]
 > You can also just kill (using <kbd>Ctrl-C</kbd>) and restart the container
-> using `make dev-quick` as this process attempts to install any gems for you.
+> using `make app-quick` as this process attempts to install any gems for you.
 
 
 ```Gemfile
@@ -626,6 +642,36 @@ BetterErrors::Middleware.allow_ip! '172.23.0.1'
 In addition to the recommendations / suggestions above, LocoMotion also provides
 a full set of UI components to help you build robust and full-featured apps.
 
+### Install
+
+Add the following to your `Gemfile` and re-run `bundle`:
+
+```Gemfile
+# Gemfile
+
+gem "loco-motion", github: "profoundry-us/loco-motion", branch: "main"
+```
+
+### Using Components
+
+Back in the `app/layouts/application.html.haml` file, replace the `body` with
+the following code and refresh your page.
+
+```haml
+  %body
+    .m-2.p-2.rounded.bg-red-400
+      = yield
+
+    .btn
+      = LocoMotion.hello_world
+
+    %div
+      = session[:user_info].inspect
+```
+
+You should see a gray button that says "Hello World!" and the user info that
+we saved from OmniAuth represented as a Ruby hash!
+
 ### Setting a Base Component Class
 
 Sometimes, you may want to override the way that LocoMotion handles things, or
@@ -636,7 +682,15 @@ base class that all of our components inherit from.
 This allows you to define a class that inherits from `LocoMotion::BaseComponent`
 and then adds any special methods or overrides to our default components.
 
-Just add the following to `config/initializers/loco_motion.rb`.
+Create a file called `app/components/application_component.rb` with the following
+contents:
+
+```ruby
+class ApplicationComponent < LocoMotion::BaseComponent
+end
+```
+
+Then add the following to `config/initializers/loco_motion.rb`.
 
 
 ```ruby

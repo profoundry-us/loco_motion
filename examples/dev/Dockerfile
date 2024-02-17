@@ -1,4 +1,4 @@
-FROM timbru31/ruby-node:3.3-18
+FROM timbru31/ruby-node:3.3-20
 
 # Install some relevant dependencies
 RUN apt-get update -qq && apt-get install -y tini build-essential git postgresql-client
