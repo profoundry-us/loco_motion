@@ -16,6 +16,8 @@ Modern paradigms and tools to make Rails development crazy fast!
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
 - [LocoMotion Components](#locomotion-components)
+    + [Install](#install)
+    + [Using Components](#using-components)
     + [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
 
