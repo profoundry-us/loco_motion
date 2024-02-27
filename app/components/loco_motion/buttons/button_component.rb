@@ -3,6 +3,6 @@ class LocoMotion::Buttons::ButtonComponent < LocoMotion.configuration.base_compo
   define_part :inside
 
   erb_template <<-ERB
-    <button>Click Me</button>
+    <button class="btn">Regular Button</button>
   ERB
 end
