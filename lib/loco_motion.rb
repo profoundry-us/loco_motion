@@ -25,7 +25,7 @@ module LocoMotion
     end
   end
 
-  autoload :BaseComponent, "loco-motion/base_component"
+  autoload :BaseComponent, "loco_motion/base_component"
 
   module Buttons
     autoload :ButtonComponent, File.join(LocoMotion::APP_PATH, "components/buttons/button_component.rb")

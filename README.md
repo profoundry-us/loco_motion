@@ -1,4 +1,4 @@
-# loco-motion
+# loco_motion
 
 Modern paradigms and tools to make Rails development crazy fast!
 
@@ -25,7 +25,7 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 # About
 
-loco-motion is both a set of philosophies and paradigms for developing robust
+loco_motion is both a set of philosophies and paradigms for developing robust
 web applications in Ruby on Rails, as well gems and tools to help you execute
 on your vision quickly and reliably.
 
@@ -650,7 +650,7 @@ Add the following to your `Gemfile` and re-run `bundle`:
 ```Gemfile
 # Gemfile
 
-gem "loco-motion", github: "profoundry-us/loco-motion", branch: "main"
+gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 ```
 
 ### Using Components
@@ -713,5 +713,5 @@ end
 
 # Next Steps
 
-TODO: Expand upon loco-motion components, Daisy-rails gems, icons, pagination
+TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc

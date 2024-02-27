@@ -3,11 +3,11 @@ FROM ruby:3.3
 RUN apt-get update -qq && apt-get install -y build-essential git
 RUN gem update --system
 
-ENV APP_HOME /home/loco-motion
+ENV APP_HOME /home/loco_motion
 
 WORKDIR $APP_HOME
 
-COPY Gemfile Gemfile.* loco-motion.gemspec $APP_HOME
+COPY Gemfile Gemfile.* loco_motion.gemspec $APP_HOME
 
 RUN bundle install
 

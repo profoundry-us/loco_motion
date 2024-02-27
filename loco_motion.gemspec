@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
-  s.name        = "loco-motion"
-  s.version     = "0.0.1"
+  s.name        = "loco_motion"
+  s.version     = "0.0.2"
   s.summary     = "Ruby on Rails, loco fast!"
   s.description = "Advanced components and Rails management with LocoMotion."
   s.authors     = ["Topher Fangio"]
   s.email       = "topher@profoundry.us"
-  s.homepage    = "https://rubygems.org/gems/loco-motion"
+  s.homepage    = "https://rubygems.org/gems/loco_motion"
   s.license     = "MIT"
 
   s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later

@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: dev/Dockerfile.dev
     volumes:
-      - .:/home/loco-motion
+      - .:/home/loco_motion
     tty: true
     stdin_open: true
 
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: dev/Dockerfile.yard
     volumes:
-      - .:/home/loco-motion
+      - .:/home/loco_motion
     ports:
       - 8808:8808
     tty: true
