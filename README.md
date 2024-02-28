@@ -4,21 +4,22 @@ Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
 
+- [loco\_motion](#loco_motion)
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
-    + [Install HAML (Optional)](#install-haml-optional)
-    + [Install DaisyUI (Optional)](#install-daisyui-optional)
-    + [Try Out Your Application](#try-out-your-application)
+    - [Install HAML (Optional)](#install-haml-optional)
+    - [Install DaisyUI (Optional)](#install-daisyui-optional)
+    - [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
 - [Authentication](#authentication)
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
 - [LocoMotion Components](#locomotion-components)
-    + [Install](#install)
-    + [Using Components](#using-components)
-    + [Setting a Base Component Class](#setting-a-base-component-class)
+    - [Install](#install)
+    - [Using Components](#using-components)
+    - [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
 
 <!-- tocstop -->
@@ -643,6 +644,12 @@ BetterErrors::Middleware.allow_ip! '172.23.0.1'
 In addition to the recommendations / suggestions above, LocoMotion also provides
 a full set of UI components to help you build robust and full-featured apps.
 
+> [!CAUTION]
+> The LocoMotion components are being actively developed and are NOT ready for
+> production / public use (currently they are just some example components while
+> I get everything setup). I'm mainly adding the docs here so that I remember
+> how to set them up properly when they are ready for release.
+
 ### Install
 
 Add the following to your `Gemfile` and re-run `bundle`:
@@ -652,6 +659,23 @@ Add the following to your `Gemfile` and re-run `bundle`:
 
 gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 ```
+
+Next add the following line to the `contents` section of your
+`tailwind.config.js` file (make sure to change the version number to the one
+you install):
+
+```js
+  content:[
+    `${process.env.GEM_HOME}/loco_motion-0.0.3/app/components/**/*.{rb,js,html.haml}`,
+
+    // ...
+  ]
+```
+
+> [!WARNING]
+> Note that this will not output anything if it fails to find the right
+> directory, so your CSS may stop working if you update the gem and forget to
+> update this setting.
 
 ### Using Components
 
@@ -667,11 +691,18 @@ the following code and refresh your page.
       = LocoMotion.hello_world
 
     %div
+      = render(LocoMotion::Buttons::ButtonComponent.new)
+
+    %div
+      = render(LocoMotion::Buttons::FabComponent.new)
+
+    %div
       = session[:user_info].inspect
 ```
 
 You should see a gray button that says "Hello World!" and the user info that
-we saved from OmniAuth represented as a Ruby hash!
+we saved from OmniAuth represented as a Ruby hash! You should also see the
+example Button and Fab components.
 
 ### Setting a Base Component Class
 
