@@ -2,7 +2,6 @@ version: '3.8'
 services:
 
   dev:
-    image: ruby:3.3
     build:
       context: .
       dockerfile: dev/Dockerfile.dev

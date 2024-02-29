@@ -1,7 +1,10 @@
-FROM ruby:3.3
+FROM ruby:3.2.3
+
+COPY .ruby-version /usr/src/app/.ruby-version
 
 # Install some relevant dependencies
 RUN apt-get update -qq && apt-get install -y tini
 
 # Run a simple command so that the container will stay running
 ENTRYPOINT ["/usr/bin/tini", "--", "tail", "-f", "/dev/null"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

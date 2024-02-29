@@ -2,6 +2,8 @@ class LocoMotion::Buttons::ButtonComponent < LocoMotion.configuration.base_compo
   define_part :outside
   define_part :inside
 
+  define_variants :small, :big
+
   erb_template <<-ERB
     <button class="btn">Regular Button</button>
   ERB

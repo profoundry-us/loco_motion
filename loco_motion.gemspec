@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib", "app"]
 
   # Add our few dependencies
+  s.add_dependency 'rails', '~> 6.1'
   s.add_dependency 'view_component', '~> 3.10'
 
   # Add our development dependencies
