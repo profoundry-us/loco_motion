@@ -1,10 +1,19 @@
 class LocoMotion::Buttons::FabComponent < LocoMotion.configuration.base_component_class
-  define_part :upside
-  define_part :downside
+  define_part :outside, tag_name: :button
+  define_part :inside, tag_name: :span
 
-  erb_template <<-ERB
-    <button class="btn btn-circle">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-    </button>
-  ERB
+  def initialize(*args, **kws, &block)
+    super
+
+    set_tag_name(:component, :button)
+
+    add_css(:component, "btn btn-circle")
+    add_html(:component, { foo: 'bar' })
+
+    add_css(:inside, "woot ha-ha-ha")
+
+    add_stimulus_controller(:component, :test_controller)
+    add_stimulus_controller(:outside, :outside_controller)
+    add_stimulus_controller(:inside, :inside_controller)
+  end
 end

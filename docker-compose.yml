@@ -10,6 +10,15 @@ services:
     tty: true
     stdin_open: true
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/loco_motion
+    tty: true
+    stdin_open: true
+
   yard:
     build:
       context: .

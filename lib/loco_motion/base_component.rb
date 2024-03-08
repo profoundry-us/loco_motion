@@ -1,9 +1,6 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
   class_attribute :component_parts, default: { component: {} }
-  # TODO: Determine whether or not the stimulus stuff should be part of the
-  # component definition, or part of the after-init configuration.
-  class_attribute :stimulus_controllers, default: []
   class_attribute :variants, default: []
 
   #
@@ -12,6 +9,12 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   # @return LocoMotion::ComponentConfig
   #
   attr_reader :config
+
+  #
+  # Allow users to alter the config through the component itself
+  #
+  delegate :set_tag_name, :add_css, :add_html, :add_stimulus_controller,
+    to: :config
 
   #
   # Create a new instance of a component.
@@ -25,6 +28,9 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
   #
   # Defines a new part of this component which can customize CSS, HTML and more.
+  #
+  # @param part_name [Symbol] The name of the part.
+  # @param part_defaults [Hash] Any default config options such as `tag_name`.
   #
   def self.define_part(part_name, part_defaults = {})
     # Note that since we're using Rails' class_attribute method for these, we
@@ -65,14 +71,6 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
-  # Add a Stimulus (Javascript) controller to this component.
-  #
-  def self.add_stimulus_controller(part_name, controller_name)
-    self.stimulus_controllers ||= {}
-    self.stimulus_controllers[part_name] = controller_name
-  end
-
-  #
   # Returns a reference to this component. Useful for passing a parent component
   # into child components.
   #
@@ -80,6 +78,116 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   def component_ref
     self
+  end
+
+  #
+  # Renders the given part.
+  #
+  def part(part_name, &block)
+    tag_name = rendered_tag_name(part_name)
+
+    content_tag(tag_name, **rendered_html(part_name), &block)
+  end
+
+  #
+  # Returns the user-provided or component-default HTML tag-name.
+  #
+  # @param part_name [Symbol] The part whose tag-name you desire.
+  #
+  # @return [Symbol,String] The HTML tag-name for the requested comopnent part.
+  #
+  def rendered_tag_name(part_name)
+    part = @config.get_part(part_name)
+
+    part[:user_tag_name] || part[:default_tag_name]
+  end
+
+  #
+  # Builds a string suitable for the HTML element's `class` attribute for the
+  # requested component part.
+  #
+  # @param part_name [Symbol] The component part whose CSS you desire.
+  #
+  # @return [String] A string of CSS names.
+  #
+  def rendered_css(part_name)
+    default_css = @config.get_part(part_name)[:default_css]
+    user_css = @config.get_part(part_name)[:user_css]
+
+    cssify([default_css, user_css])
+  end
+
+  #
+  # Builds a Hash of all of the HTML attributes for the requested component
+  # part.
+  #
+  # @param part_name [Symbol] The component part whose HTML you desire.
+  #
+  # @return [Hash] A combination of all generated, component default, and
+  #   user-specified HTML attributes for the part.
+  #
+  def rendered_html(part_name)
+    default_html = @config.get_part(part_name)[:default_html]
+    user_html = @config.get_part(part_name)[:user_html]
+
+    generated_html = {
+      class: rendered_css(part_name),
+      data: rendered_data(part_name)
+    }.deep_merge(default_html).deep_merge(user_html)
+  end
+
+  #
+  # Builds the HTML `data` attribute.
+  #
+  # @param part_name [Symbol] The component part whose HTML `data` attribute
+  #   you desire.
+  #
+  # @return [Hash] A hash of objects to be rendered in the `data` attribute.
+  #
+  def rendered_data(part_name)
+    generated_data = {}
+
+    stimulus_controllers = rendered_stimulus_controllers(part_name)
+
+    generated_data[:controller] = stimulus_controllers if stimulus_controllers.present?
+
+    generated_data
+  end
+
+  #
+  # Builds a list of Stimulus controllers for the HTML `data-controller`
+  # attribute.
+  #
+  # @param part_name [Symbol] The component part whose Stimulus controllers you
+  #   desire.
+  #
+  # @ return [String] A space-separated list of Stimulus controllers.
+  #
+  def rendered_stimulus_controllers(part_name)
+    default_controllers = @config.get_part(part_name)[:default_stimulus_controllers]
+    user_controllers = @config.get_part(part_name)[:user_stimulus_controllers]
+
+    strip_spaces([default_controllers, user_controllers].join(" "))
+  end
+
+  #
+  # Convert strings, symbols, and arrays of those into a single CSS-like string.
+  #
+  def cssify(content)
+    css = [content].flatten
+
+    strip_spaces(css.join(" "))
+  end
+
+  #
+  # Strip extra whitespace from a given string.
+  #
+  # @param str [String] The string you wish to strip.
+  #
+  # @return [String] A string with minimal possible whitespace.
+  #
+  def strip_spaces(str)
+    str.gsub(/ +/, " ").strip
   end
 
 end

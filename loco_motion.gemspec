@@ -16,6 +16,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'view_component', '~> 3.10'
 
   # Add our development dependencies
+  s.add_development_dependency 'capybara', '~> 3.40'
+  s.add_development_dependency 'combustion', '~> 1.3'
+  s.add_development_dependency 'haml-rails', '~> 2.1'
+  s.add_development_dependency 'rspec', '~> 3.13.0'
+  s.add_development_dependency 'rspec-rails', '~> 6.1.1'
   s.add_development_dependency 'webrick', '~> 1.8.1'
   s.add_development_dependency 'yard', '~> 0.9.34'
 end
