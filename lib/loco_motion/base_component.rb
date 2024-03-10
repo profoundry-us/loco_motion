@@ -1,7 +1,9 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
+  class_attribute :component_name
   class_attribute :component_parts, default: { component: {} }
-  class_attribute :variants, default: []
+  class_attribute :valid_variants, default: []
+  class_attribute :valid_sizes, default: []
 
   #
   # Return the current configruation of this component.
@@ -24,6 +26,15 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
     # Create our config object
     @config = LocoMotion::ComponentConfig.new(self, **kws, &block)
+  end
+
+  #
+  # Sets the component name used in CSS generation.
+  #
+  # @param component_name [Symbol,String] The name of the component.
+  #
+  def self.set_component_name(component_name)
+    self.component_name = component_name
   end
 
   #
@@ -66,8 +77,35 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     # override the parent value.
     #
     # For example, we cannot use `<<` or `concat` here.
-    self.variants ||= []
-    self.variants += variant_names
+    self.valid_variants ||= []
+    self.valid_variants += variant_names
+  end
+
+  #
+  # Define a single size of this component. Sizes control how big or small this
+  # component will render.
+  #
+  # @param size_name [Symbol] The name of the size you wish to define.
+  #
+  def self.define_size(size_name)
+    define_sizes(size_name)
+  end
+
+  #
+  # Define multiple sizes for this component. Sizes control how big or small
+  # this component will render.
+  #
+  # @param size_names [Array[Symbol]] An array of the sizes you wish to define.
+  #
+  def self.define_sizes(*size_names)
+    # Note that since we're using Rails' class_attribute method for these, we
+    # must take care not to alter the original object but rather use a setter
+    # (the `+=` in this case) to set the new value so Rails knows not to
+    # override the parent value.
+    #
+    # For example, we cannot use `<<` or `concat` here.
+    self.valid_sizes ||= []
+    self.valid_sizes += size_names
   end
 
   #
@@ -114,7 +152,17 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     default_css = @config.get_part(part_name)[:default_css]
     user_css = @config.get_part(part_name)[:user_css]
 
-    cssify([default_css, user_css])
+    base_css = self.component_name
+    variant_css = []
+    size_css = nil
+
+    # If we have a base component name, we can generate some variant / size CSS
+    if part_name == :component && base_css.present?
+      variant_css = (@config.variants || []).map { |variant| "#{base_css}-#{variant}" }
+      size_css = "#{base_css}-#{@size}" if @config.size
+    end
+
+    cssify([default_css, base_css, variant_css, size_css, user_css])
   end
 
   #
@@ -127,8 +175,8 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #   user-specified HTML attributes for the part.
   #
   def rendered_html(part_name)
-    default_html = @config.get_part(part_name)[:default_html]
-    user_html = @config.get_part(part_name)[:user_html]
+    default_html = @config.get_part(part_name)[:default_html] || {}
+    user_html = @config.get_part(part_name)[:user_html] || {}
 
     generated_html = {
       class: rendered_css(part_name),
@@ -174,7 +222,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   # Convert strings, symbols, and arrays of those into a single CSS-like string.
   #
   def cssify(content)
-    css = [content].flatten
+    css = [content].flatten.compact
 
     strip_spaces(css.join(" "))
   end
@@ -190,4 +238,23 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     str.gsub(/ +/, " ").strip
   end
 
+  #
+  # Provide some nice output for debugging or other purposes.
+  #
+  def inspect
+    {
+      component_name: component_name || :unnamed,
+      valid_variants: valid_variants,
+      valid_sizes: valid_sizes,
+      config: @config.inspect,
+      parts: component_parts.map do |part_name, part_defaults|
+        {
+          part_name: part_name,
+          tag_name: rendered_tag_name(part_name),
+          css: rendered_css(part_name),
+          html: rendered_html(part_name)
+        }
+      end
+    }
+  end
 end

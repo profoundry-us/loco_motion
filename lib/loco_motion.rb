@@ -1,18 +1,12 @@
 require "rails"
 require "view_component"
 require "loco_motion/engine"
+require "loco_motion/errors"
 require "loco_motion/component_config"
 require "loco_motion/base_component"
 
 module LocoMotion
-  module Buttons
-  end
-
   class << self
-    def hello_world
-      "Hello world!"
-    end
-
     def configure
       yield(configuration)
     end
