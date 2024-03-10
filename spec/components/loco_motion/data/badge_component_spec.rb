@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe LocoMotion::Data::BadgeComponent, type: :component do
+  context "testing failure" do
+    it "dies" do
+      raise "Oops..."
+    end
+  end
+
   context "with no options" do
     before do
       render_inline(described_class.new)
