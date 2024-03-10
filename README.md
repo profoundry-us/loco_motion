@@ -665,7 +665,7 @@ you install):
 
 ```js
   content:[
-    `${process.env.GEM_HOME}/loco_motion-0.0.3/app/components/**/*.{rb,js,html.haml}`,
+    `${process.env.GEM_HOME}/loco_motion-0.0.4/app/components/**/*.{rb,js,html.haml}`,
 
     // ...
   ]

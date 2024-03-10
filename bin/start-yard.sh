@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-bundle exec yard server
+bundle
+
+bundle exec yard server --reload --bind 0.0.0.0
