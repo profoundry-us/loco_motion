@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "loco_motion"
-  s.version     = "0.0.3"
+  s.version     = "0.0.4"
   s.summary     = "Ruby on Rails, loco fast!"
   s.description = "Advanced components and Rails management with LocoMotion."
   s.authors     = ["Topher Fangio"]
