@@ -5,7 +5,20 @@ require "loco_motion/errors"
 require "loco_motion/component_config"
 require "loco_motion/base_component"
 
+#
+# Module containing all features related to the LocoMotion gem.
+#
 module LocoMotion
+  #
+  # Holds all Action-type components.
+  #
+  module Actions; end
+
+  #
+  # Holds all Data-type components.
+  #
+  module Data; end
+
   class << self
     def configure
       yield(configuration)

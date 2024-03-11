@@ -1,3 +1,5 @@
+# This is the Badge component.
+# @!parse class LocoMotion::Data::BadgeComponent < LocoMotion::BaseComponent; end
 class LocoMotion::Data::BadgeComponent < LocoMotion.configuration.base_component_class
   set_component_name :badge
 
@@ -7,6 +9,9 @@ class LocoMotion::Data::BadgeComponent < LocoMotion.configuration.base_component
   define_variants :info, :success, :warning, :error
   define_variant :outline
 
+  #
+  # Create a new Badge component.
+  #
   def initialize(*args, **kws, &block)
     super
 
