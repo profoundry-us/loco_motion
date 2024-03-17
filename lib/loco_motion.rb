@@ -1,4 +1,9 @@
 require "rails"
+require "haml-rails"
+require "heroicons-rails"
+
+require Gem::Specification.find_by_name("heroicons-rails").gem_dir + "/app/helpers/heroicons/icons_helper.rb"
+
 require "view_component"
 require "loco_motion/engine"
 require "loco_motion/errors"

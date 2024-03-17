@@ -1,5 +1,7 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
+  include Heroicons::IconsHelper
+
   class_attribute :component_name
   class_attribute :component_parts, default: { component: {} }
   class_attribute :valid_variants, default: []
@@ -51,6 +53,17 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     #
     # For example, we cannot use `merge!` or `[part_name] = ` here.
     self.component_parts = component_parts.merge({ part_name => part_defaults })
+  end
+
+  #
+  # Convenience method for defining multiple parts at once with no defaults.
+  #
+  # @param part_names [Array<Symbol>] The names of the parts you wish to define.
+  #
+  def self.define_parts(*part_names)
+    (part_names || []).each do |part_name|
+      define_part(part_name)
+    end
   end
 
   #
@@ -152,12 +165,13 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     default_css = @config.get_part(part_name)[:default_css]
     user_css = @config.get_part(part_name)[:user_css]
 
-    base_css = self.component_name
-    variant_css = []
+    base_css = nil
+    variant_css = nil
     size_css = nil
 
     # If we have a base component name, we can generate some variant / size CSS
-    if part_name == :component && base_css.present?
+    if part_name == :component && self.component_name.present?
+      base_css = self.component_name
       variant_css = (@config.variants || []).map { |variant| "#{base_css}-#{variant}" }
       size_css = "#{base_css}-#{@size}" if @config.size
     end
@@ -239,22 +253,39 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
+  # Retrieve the requested component option, or the desired default if no option
+  # was provided.
+  #
+  # @param key [Symbol] The name of the keyword argument option you wish to
+  #   retrieve.
+  # @param default [Object] Any value that you wish to use as a default should
+  #   the option be undefined. Defaults to `nil`.
+  #
+  def config_option(key, default = nil)
+    value = @config.options[key]
+
+    value.nil? ? default : value
+  end
+
   # Provide some nice output for debugging or other purposes.
   #
   def inspect
-    {
-      component_name: component_name || :unnamed,
-      valid_variants: valid_variants,
-      valid_sizes: valid_sizes,
-      config: @config.inspect,
-      parts: component_parts.map do |part_name, part_defaults|
-        {
-          part_name: part_name,
-          tag_name: rendered_tag_name(part_name),
-          css: rendered_css(part_name),
-          html: rendered_html(part_name)
-        }
-      end
-    }
+    parts = component_parts.map do |part_name, part_defaults|
+      {
+        part_name: part_name,
+        tag_name: rendered_tag_name(part_name),
+        css: rendered_css(part_name),
+        html: rendered_html(part_name)
+      }
+    end
+
+    [
+      "#<#{self.class.name}",
+      "@component_name=#{(component_name || :unnamed).inspect}",
+      "@valid_variants=#{valid_variants.inspect}",
+      "@valid_sizes=#{valid_sizes.inspect}",
+      "@config=#{@config.inspect}",
+      "@component_parts=#{parts.inspect}",
+    ].join(" ") + ">"
   end
 end

@@ -98,6 +98,12 @@ class LocoMotion::ComponentConfig
   # For now, just return the Hash version for inspect.
   #
   def inspect
-    to_h
+    [
+      "#<#{self.class.name}",
+      "@options=#{@options.inspect}",
+      "@parts=#{@parts.inspect}",
+      "@variants=#{@variants.inspect}",
+      "@size=#{@size.inspect}",
+    ].join(" ") + ">"
   end
 end
