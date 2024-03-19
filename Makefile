@@ -62,6 +62,35 @@ loco-test:
 	docker compose exec -it loco bundle exec rspec spec
 
 ##############################
+# demo commands
+##############################
+
+# Run & build the demo container
+.PHONY: demo
+demo:
+	docker compose up demo --build
+
+# Run the demo container without rebuilding
+.PHONY: demo-quick
+demo-quick:
+	docker compose up demo
+
+# Open a Ruby console in the demo container
+.PHONY: demo-console
+demo-console:
+	docker compose exec -it demo /home/demo_motion/bin/console.sh
+
+# Open a shell to your demo container
+.PHONY: demo-shell
+demo-shell:
+	docker compose exec -it demo /bin/bash
+
+# Run all of the Rspec tests
+.PHONY: demo-test
+demo-test:
+	docker compose exec -it demo bundle exec rspec spec
+
+##############################
 # Yard commands
 ##############################
 
