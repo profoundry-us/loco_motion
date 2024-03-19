@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Clear the Yard cache
-rm -rf .yardoc
+rm -rf docs/yard/.yardoc
 
 # Install any missing gems
 bundle

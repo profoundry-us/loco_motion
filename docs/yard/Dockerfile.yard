@@ -11,4 +11,4 @@ COPY Gemfile Gemfile.* loco_motion.gemspec $APP_HOME
 
 RUN bundle install
 
-ENTRYPOINT [ "/usr/bin/tini", "--", "bin/start-yard.sh" ]
+ENTRYPOINT [ "/usr/bin/tini", "--", "docs/yard/bin/start-yard.sh" ]
