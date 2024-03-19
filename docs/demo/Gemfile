@@ -76,3 +76,4 @@ end
 
 # App-Specific Gems
 gem "haml-rails", "~> 2.0"
+gem "loco_motion", path: "/home/loco_motion"

@@ -4,7 +4,7 @@ PATH
     loco_motion (0.0.4)
       haml-rails (~> 2.1)
       heroicons-rails (~> 1.2)
-      rails (~> 6.1)
+      rails (>= 6.1)
       view_component (~> 3.10)
 
 GEM

@@ -25,6 +25,7 @@ services:
       dockerfile: Dockerfile.demo
     volumes:
       - ./docs/demo:/home/loco_demo
+      - .:/home/loco_motion
     ports:
       - 3000:3000
     tty: true
