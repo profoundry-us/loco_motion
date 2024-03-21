@@ -130,6 +130,9 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
           expect(css1).not_to include("some_name-beans")
           expect(css2).not_to include("some_name-cool")
         end
+
+        # TODO: Add a check for variant names that have underscores (should translate to dashes)
+        # TODO: Component names with underscores should probably also use dashes? Not sure if there are any in DaisyUI.
       end
     end
   end

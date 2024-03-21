@@ -10,5 +10,5 @@
     = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
   %body
     .m-2.p-2.rounded.bg-red-400
-    = render(LocoMotion::Actions::ButtonComponent.new(variant: :big))
+    = render(LocoMotion::Actions::ButtonComponent.new(variant: :primary, size: :xs))
     = yield
