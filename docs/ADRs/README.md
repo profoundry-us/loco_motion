@@ -66,20 +66,66 @@ as a brainstorming section.
 Typically, items / ideas in the brainstorming section will be moved (or perhaps
 duplicated / refined) into the appropriate solution sub-sections within the ADR.
 
+## Types
+
+There are many types of ADRs, but we primarily use the following two for our
+needs.
+
+  * **Architectural -** Major architectural decisions about the system(s) as a
+    whole.
+  * **Lightweight -** Smaller ADRs about specific models, components, or
+    interactions.
+
+Each of these has a `TEMPLATE.md` file that can be used as a starting point for
+building your ADRs and which goes in-depth on the different sections and how you
+might leverage them.
+
+## Naming Conventions
+
+It is nice to have a slight bit of organization to the ADRs files that you
+create. That said, there is also a lot of value in being able to see the order
+in which decisions about the system were made.
+
+Therefore, we try to keep folder organization to a minimum and make sure to
+start our files names with the year and month in which they began their life.
+
+Additionally, you should choose a descriptive name for the decision you need to
+make, rather than the choice that was made (or you expect to make).
+
+For example, if you're building an ADR about which testing framework to use, you
+might name your file `202403_testing_framework.md` and put it in the
+`architectural` folder.
+
+> [!NOTE]
+> We recommend using lower-case for consistency, but this is purely preference.
+
+On the other hand, if you are building an ADR about the relationships between a
+few models, you might name your file
+`202405_author_post_comments_relationships.md` and put it in the `lightweight`
+directory.
+
+## Additional Resources
+
+There are a lot of resources available if you just search Google for
+`architecture design record`, but here are a few that we can whole heartedly
+recommend.
+
+  * https://adr.github.io/
+
+  * https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
+
 # TODO
 
-  * Talk about the template
-  * Build the template
-  * Discuss naming conventions
-    * Include year / month at start?
-    * Use dashes or underscores
-    * Capitalization
-  * Mention general guidelines regarding how long it should take to draft,
-    review, and approve ADRs
-  * Create first ADR regarding sizes / variants
-  * Discuss the difference between large ADRs and lightweight ADRs
-    * Maybe separate / organize them in your docs
-  * Discuss best way to get started with LocoMotion's ADRs specifically
-  * Add resources to other ADR knowledge
-    * https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
-    * https://adr.github.io/
+- [x] Talk about the templates
+- [ ] Build the template
+- [x] Discuss naming conventions
+  * Include year / month at start?
+  * Use dashes or underscores
+  * Capitalization
+- [ ] Mention general guidelines regarding how long it should take to draft,
+      review, and approve ADRs
+- [ ] Create first ADR regarding sizes / variants
+- [ ] Discuss the difference between large ADRs and lightweight ADRs
+  * Maybe separate / organize them in your docs
+- [ ] Discuss best way to get started with LocoMotion's ADRs specifically
+- [x] Add resources to other ADR knowledge
