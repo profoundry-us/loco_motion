@@ -101,7 +101,7 @@ might name your file `202403_testing_framework.md` and put it in the
 
 On the other hand, if you are building an ADR about the relationships between a
 few models, you might name your file
-`202405_author_post_comments_relationships.md` and put it in the `lightweight`
+`202405_author_post_comment_relationships.md` and put it in the `lightweight`
 directory.
 
 ## Additional Resources
@@ -125,7 +125,7 @@ recommend.
 - [ ] Mention general guidelines regarding how long it should take to draft,
       review, and approve ADRs
 - [ ] Create first ADR regarding sizes / variants
-- [ ] Discuss the difference between large ADRs and lightweight ADRs
+- [x] Discuss the difference between large ADRs and lightweight ADRs
   * Maybe separate / organize them in your docs
 - [ ] Discuss best way to get started with LocoMotion's ADRs specifically
 - [x] Add resources to other ADR knowledge
