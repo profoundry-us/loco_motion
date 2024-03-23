@@ -1,4 +1,4 @@
-name: Update READMEs table of contents
+name: READMEs ToCs
 
 on:
   workflow_dispatch:
