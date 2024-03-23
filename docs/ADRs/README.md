@@ -4,13 +4,12 @@ What are ADRs and why should we use them?
 
 <!-- toc -->
 
-- [Architecture Design Records](#architecture-design-records)
-  - [Purpose](#purpose)
-  - [Format](#format)
-  - [Types](#types)
-  - [Naming Conventions](#naming-conventions)
-  - [Additional Resources](#additional-resources)
-  - [TODO](#todo)
+- [Purpose](#purpose)
+- [Format](#format)
+- [Types](#types)
+- [Naming Conventions](#naming-conventions)
+- [Additional Resources](#additional-resources)
+- [TODO](#todo)
 
 <!-- tocstop -->
 
