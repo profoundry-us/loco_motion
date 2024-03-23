@@ -4,12 +4,13 @@ What are ADRs and why should we use them?
 
 <!-- toc -->
 
-  * [Purpose](#purpose)
-  * [Format](#format)
-  * [Types](#types)
-  * [Naming Conventions](#naming-conventions)
-  * [Additional Resources](#additional-resources)
-- [TODO](#todo)
+- [Architecture Design Records](#architecture-design-records)
+  - [Purpose](#purpose)
+  - [Format](#format)
+  - [Types](#types)
+  - [Naming Conventions](#naming-conventions)
+  - [Additional Resources](#additional-resources)
+  - [TODO](#todo)
 
 <!-- tocstop -->
 
@@ -125,7 +126,7 @@ recommend.
 
   * https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
 
-# TODO
+## TODO
 
 - [x] Talk about the templates
 - [ ] Build the template
