@@ -2,6 +2,9 @@
 
 What are ADRs and why should we use them?
 
+<!-- toc -->
+<!-- tocstop -->
+
 ## Purpose
 
 ADRs, or Architecture Design Records, are documents that describe decisions that
