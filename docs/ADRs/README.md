@@ -3,6 +3,14 @@
 What are ADRs and why should we use them?
 
 <!-- toc -->
+
+  * [Purpose](#purpose)
+  * [Format](#format)
+  * [Types](#types)
+  * [Naming Conventions](#naming-conventions)
+  * [Additional Resources](#additional-resources)
+- [TODO](#todo)
+
 <!-- tocstop -->
 
 ## Purpose
