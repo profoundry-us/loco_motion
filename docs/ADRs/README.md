@@ -137,5 +137,6 @@ recommend.
 - [ ] Create first ADR regarding sizes / variants
 - [x] Discuss the difference between large ADRs and lightweight ADRs
   * Maybe separate / organize them in your docs
+- [ ] Talk more about the lightweight ADRs and their purpose
 - [ ] Discuss best way to get started with LocoMotion's ADRs specifically
 - [x] Add resources to other ADR knowledge
