@@ -140,3 +140,5 @@ recommend.
 - [ ] Talk more about the lightweight ADRs and their purpose
 - [ ] Discuss best way to get started with LocoMotion's ADRs specifically
 - [x] Add resources to other ADR knowledge
+- [ ] Rename to `Architectural Decision Records` but mention how some people use
+      the design moniker
