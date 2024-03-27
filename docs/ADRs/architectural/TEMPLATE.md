@@ -19,6 +19,7 @@
   - [Rollout / Release](#rollout--release)
   - [Consequences](#consequences)
   - [Timelines / Milestones](#timelines--milestones)
+- [ADR Tasks](#adr-tasks)
 - [Brainstorming](#brainstorming)
 <!-- tocstop -->
 
@@ -27,7 +28,6 @@
 **Draft** - The authors are currently drafting this document and expect to have
 it completed within 1-2 weeks.
 
-> [!NOTE]
 > You can choose your own statuses for your project, but typical ones would
 > include `draft`, `in review`, `approved`, `rejected`, and maybe `abandoned`.
 >
@@ -38,7 +38,6 @@ it completed within 1-2 weeks.
  - John Author - [john@somewhere.com](mailto:john@somewhere.com)
  - Jill Stakeholder - [jill@somewhere.com](mailto:jill@somewhere.com)
 
-> [!NOTE]
 > List any authors of this ADR as well as the stakeholders / decision makers.
 > You can do it alphabetically, in order of contribution, standing, or random if
 > you like.

@@ -117,7 +117,7 @@ directory.
 ## Additional Resources
 
 There are a lot of resources available if you just search Google for
-`architecture design record`, but here are a few that we can whole heartedly
+`architecture decision record`, but here are a few that we can whole heartedly
 recommend.
 
   * https://adr.github.io/
@@ -127,7 +127,8 @@ recommend.
 ## TODO
 
 - [x] Talk about the templates
-- [ ] Build the template
+- [x] Build the arch template
+- [ ] Build the lightweight template
 - [x] Discuss naming conventions
   * Include year / month at start?
   * Use dashes or underscores
