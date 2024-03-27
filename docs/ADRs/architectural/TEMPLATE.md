@@ -50,18 +50,18 @@ it completed within 1-2 weeks.
 >
 > But it is also usually helpful to discuss the reasoning behind the desire to
 > come to a decision.
-
+>
 > - What situation led you to this point in time?
 > - Why is it relevant to solve this problem **now**?
 > - Who can provide additional context and in what capacity?
-
+>
 > All of these are things you may want to consider adding to this section.
 
 ### Constraints
 
 > It is particularly important to make sure that you list out any relevant
 > constraints for this decision / project.
-
+>
 > - How much time do you have to come to a decision?
 > - How much time do you have to implement the decision?
 > - How many resources are going to be dedicated to solving this?
@@ -72,11 +72,11 @@ it completed within 1-2 weeks.
 
 > Here you should list out any resources that will be valuable in helping make
 > the decision.
-
+>
 > This could be design files, prototypes, one-pagers, brainstorming docs, Slack
 > conversations, articles, conference papers, or anything else that will help
 > you in the decision-making process.
-
+>
 > Basically, links to existing documents or references.
 
 ### Open Questions
