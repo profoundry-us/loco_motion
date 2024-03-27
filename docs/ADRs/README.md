@@ -1,5 +1,5 @@
 <!-- omit from toc -->
-# Architecture Design Records
+# Architectural Decision Records
 
 What are ADRs and why should we use them?
 
@@ -14,9 +14,9 @@ What are ADRs and why should we use them?
 
 ## Purpose
 
-ADRs, or Architecture Design Records, are documents that describe decisions that
-need to be made during the course of developing software applications or other
-complex systems.
+ADRs, or Architectural Decision Records (also sometimes called Architectural
+Design Records), are documents that describe decisions that need to be made
+during the course of developing software applications or other complex systems.
 
 When trying to understand a large and complex system, it is often helpful to
 review the reasoning that went into much of it's design. ADRs give us a way to
@@ -140,5 +140,5 @@ recommend.
 - [ ] Talk more about the lightweight ADRs and their purpose
 - [ ] Discuss best way to get started with LocoMotion's ADRs specifically
 - [x] Add resources to other ADR knowledge
-- [ ] Rename to `Architectural Decision Records` but mention how some people use
+- [x] Rename to `Architectural Decision Records` but mention how some people use
       the design moniker
