@@ -135,7 +135,7 @@ recommend.
   * Capitalization
 - [ ] Mention general guidelines regarding how long it should take to draft,
       review, and approve ADRs
-- [ ] Create first ADR regarding sizes / variants
+- [x] Create first ADR regarding sizes / variants
 - [x] Discuss the difference between large ADRs and lightweight ADRs
   * Maybe separate / organize them in your docs
 - [ ] Talk more about the lightweight ADRs and their purpose
