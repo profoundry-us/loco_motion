@@ -7,9 +7,12 @@ What are ADRs and why should we use them?
 - [Purpose](#purpose)
 - [Format](#format)
 - [Types](#types)
+  - [Foundational](#foundational)
+  - [Lightweight](#lightweight)
 - [Naming Conventions](#naming-conventions)
 - [Additional Resources](#additional-resources)
 - [TODO](#todo)
+  - [Potential ADRs](#potential-adrs)
 <!-- tocstop -->
 
 ## Purpose
@@ -81,14 +84,53 @@ duplicated / refined) into the appropriate solution sub-sections within the ADR.
 There are many types of ADRs, but we primarily use the following two for our
 needs.
 
-  * **Architectural -** Major architectural decisions about the system(s) as a
+  * **Foundational -** Major architectural decisions about the system(s) as a
     whole.
-  * **Lightweight -** Smaller ADRs about specific models, components, or
-    interactions.
+  * **Lightweight -** Smaller, more specific ADRs about particular pieces of the
+    system.
 
 Each of these has a `TEMPLATE.md` file that can be used as a starting point for
-building your ADRs and which goes in-depth on the different sections and how you
-might leverage them.
+building your ADRs.
+
+### Foundational
+
+Foundational ADRs are the primary form of ADRs that you will use for making
+decisions about how to build your application.
+
+Typically, this includes things such as
+
+  * What libraries or frameworks you will be using
+  * Any overarching design patterns used throughout the system
+  * How core models relate to one another
+  * New features that are large and complex
+  * Major refactorings that affect big chunks of the application
+  * Anything else that has large-reaching effects
+
+By reading through all of the Foundational ADRs, a new developer should have a
+pretty good idea of not only of how the system works, but also why it works that
+particular way. ADRs are documentation that enable people to see the _reasoning_
+behind the decisions that were made. As such, it can be a very valuable resource
+for onboarding new hires.
+
+### Lightweight
+
+Lightweight ADRs are typically slimmed down versions of a foundation ADR that
+are built to document decisions about a particular piece of the system.
+
+These are great for when you need to
+
+  * Decide relationships between a small sub-set of models
+  * Refactor a class or two
+  * Add a smaller feature with less impact
+  * Brainstorm a solution to a particularly nasty bug
+  * Or any other smaller decisions that require discussion and consesus
+
+It's not anticipated that developers read every lightweight ADR, but rather use
+them as a resource when new problems arise. Ideally, these are searchable and
+developers will learn to poke around a bit before coming up with new solutions,
+but they can also be valuable as a method of knowledge transfer when
+conversations are in progress and more experienced developers can recall an
+existing ARD and pass it on to the appropriate parties.
 
 ## Naming Conventions
 
@@ -104,7 +146,7 @@ make, rather than the choice that was made (or you expect to make).
 
 For example, if you're building an ADR about which testing framework to use, you
 might name your file `202403_testing_framework.md` and put it in the
-`architectural` folder.
+`foundational` folder.
 
 > [!NOTE]
 > We recommend using lower-case for consistency, but this is purely preference.
@@ -128,7 +170,7 @@ recommend.
 
 - [x] Talk about the templates
 - [x] Build the arch template
-- [ ] Build the lightweight template
+- [x] Build the lightweight template
 - [x] Discuss naming conventions
   * Include year / month at start?
   * Use dashes or underscores
@@ -138,8 +180,15 @@ recommend.
 - [x] Create first ADR regarding sizes / variants
 - [x] Discuss the difference between large ADRs and lightweight ADRs
   * Maybe separate / organize them in your docs
-- [ ] Talk more about the lightweight ADRs and their purpose
+- [x] Talk more about the lightweight ADRs and their purpose
 - [ ] Discuss best way to get started with LocoMotion's ADRs specifically
 - [x] Add resources to other ADR knowledge
 - [x] Rename to `Architectural Decision Records` but mention how some people use
       the design moniker
+
+### Potential ADRs
+
+- [ ] Rename LocoMotion `variants` to avoid conflicts with ViewComponent
+  * VC already has a concept of variants which is different than LM
+  * Use a meaningful name that doesn't conflict (`styles`?)
+  * Refactor to allow multiple variants at once (`primary` & `outline`)

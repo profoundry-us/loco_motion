@@ -4,7 +4,6 @@
 > Underneath the title, you should have a short sentence or two describing the
 > decision that needs to be made.
 
-<!-- toc -->
 - [Current Status](#current-status)
 - [Authors / Stakeholders](#authors--stakeholders)
 - [Context](#context)
@@ -21,7 +20,6 @@
   - [Timelines / Milestones](#timelines--milestones)
 - [ADR Tasks](#adr-tasks)
 - [Brainstorming](#brainstorming)
-<!-- tocstop -->
 
 ## Current Status
 

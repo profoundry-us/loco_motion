@@ -48,7 +48,7 @@ Since DaisyUI already handles this scenario by defining a single CSS class for
 the variant and sizes, LocoMotion's solution didn't offer hardly any value.
 
 The fact that it offered little value and caused issues with rendering led to us
-deciding to find a different solution.
+find a different solution.
 
 ### Constraints
 
@@ -143,7 +143,7 @@ the components.
 ## ADR Tasks
 
 - [x] Draft the core ADR
-- [ ] Refine various sections
+- [x] Refine various sections
 - [ ] Submit for review
 - [ ] Make code changes
 - [ ] Review after implementation to see if we can add additional context /
