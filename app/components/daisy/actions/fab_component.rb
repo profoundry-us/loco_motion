@@ -1,4 +1,4 @@
-class LocoMotion::Actions::FabComponent < LocoMotion.configuration.base_component_class
+class Daisy::Actions::FabComponent < LocoMotion.configuration.base_component_class
   define_part :outside, tag_name: :button
   define_part :inside, tag_name: :span
 

@@ -101,11 +101,11 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
       end
     end
 
-    context "with variants" do
-      class VariantsComponent < LocoMotion::BaseComponent
+    context "with modifiers" do
+      class ModifiersComponent < LocoMotion::BaseComponent
         set_component_name :some_name
 
-        define_variants :cool, :beans
+        define_modifiers :cool, :beans
 
         def call
           part(:component) do
@@ -114,25 +114,26 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         end
       end
 
-      let(:variant1) { VariantsComponent.new(variant: :cool) }
-      let(:variant2) { VariantsComponent.new(variant: :beans) }
+      let(:modifier1) { ModifiersComponent.new(modifier: :cool) }
+      let(:modifier2) { ModifiersComponent.new(modifier: :beans) }
 
       context "rendered_css(:component)" do
-        let(:css1) { variant1.rendered_css(:component) }
-        let(:css2) { variant2.rendered_css(:component) }
+        let(:css1) { modifier1.rendered_css(:component) }
+        let(:css2) { modifier2.rendered_css(:component) }
 
-        it "adds the component name + variant to the CSS" do
+        it "adds the component name + modifier to the CSS" do
           expect(css1).to include("some_name-cool")
           expect(css2).to include("some_name-beans")
         end
 
-        it "does not add the other variant's CSS" do
+        it "does not add the other modifier's CSS" do
           expect(css1).not_to include("some_name-beans")
           expect(css2).not_to include("some_name-cool")
         end
 
-        # TODO: Add a check for variant names that have underscores (should translate to dashes)
+        # TODO: Add a check for modifier names that have underscores (should translate to dashes)
         # TODO: Component names with underscores should probably also use dashes? Not sure if there are any in DaisyUI.
+        # TODO: Allow multiple modifiers at once
       end
     end
   end

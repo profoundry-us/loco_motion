@@ -80,6 +80,11 @@ demo-quick:
 demo-console:
 	docker compose exec -it demo /home/demo_motion/bin/console.sh
 
+# Restart the demo app
+.PHONY: demo-restart
+demo-restart:
+	touch docs/demo/tmp/restart.txt
+
 # Open a shell to your demo container
 .PHONY: demo-shell
 demo-shell:

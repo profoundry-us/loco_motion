@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe LocoMotion::Actions::ModalComponent, type: :component do
+RSpec.describe Daisy::Actions::ModalComponent, type: :component do
   context "with no options" do
     let(:modal) { described_class.new }
 

@@ -1,6 +1,4 @@
 module.exports = {
-  // TODO: Figure out how to get dynamically generated classes (like
-  // btn-primary) into Tailwind...
   content: [
     '/home/loco_motion/app/components/**/*.{rb,js,html.haml}',
     './app/views/**/*.html.haml',

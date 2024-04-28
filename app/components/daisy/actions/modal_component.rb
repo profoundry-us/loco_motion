@@ -1,9 +1,7 @@
 # This is a Modal component.
-# @!parse class LocoMotion::Actions::ModalComponent < LocoMotion::BaseComponent; end
-class LocoMotion::Actions::ModalComponent < LocoMotion.configuration.base_component_class
+# @!parse class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent; end
+class Daisy::Actions::ModalComponent < LocoMotion.configuration.base_component_class
   set_component_name :modal
-
-  define_variants :top, :middle, :bottom
 
   define_parts :dialog, :box, :actions,
     :activator, :close_icon, :title, :start_actions, :end_actions

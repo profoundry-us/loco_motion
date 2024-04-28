@@ -4,7 +4,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
   class_attribute :component_name
   class_attribute :component_parts, default: { component: {} }
-  class_attribute :valid_variants, default: []
+  class_attribute :valid_modifiers, default: []
   class_attribute :valid_sizes, default: []
 
   #
@@ -67,31 +67,31 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
-  # Defines a single variant of this component. Variants control certain
+  # Defines a single modifier of this component. Modifiers control certain
   # rendering aspects of the component.
   #
-  # @param variant_name [Symbol] The name of the variant.
+  # @param modifier_name [Symbol] The name of the modifier.
   #
-  def self.define_variant(variant_name)
-    define_variants(variant_name)
+  def self.define_modifier(modifier_name)
+    define_modifiers(modifier_name)
   end
 
   #
-  # Define multiple variants for this component. Variants control certain
+  # Define multiple modifiers for this component. Modifiers control certain
   # rendering aspects of the component.
   #
-  # @param variant_names [Array[Symbol]] An array of the variant names you wish
+  # @param modifier_names [Array[Symbol]] An array of the modifier names you wish
   #   to define.
   #
-  def self.define_variants(*variant_names)
+  def self.define_modifiers(*modifier_names)
     # Note that since we're using Rails' class_attribute method for these, we
     # must take care not to alter the original object but rather use a setter
     # (the `+=` in this case) to set the new value so Rails knows not to
     # override the parent value.
     #
     # For example, we cannot use `<<` or `concat` here.
-    self.valid_variants ||= []
-    self.valid_variants += variant_names
+    self.valid_modifiers ||= []
+    self.valid_modifiers += modifier_names
   end
 
   #
@@ -166,17 +166,17 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     user_css = @config.get_part(part_name)[:user_css]
 
     base_css = nil
-    variant_css = nil
+    modifier_css = nil
     size_css = nil
 
-    # If we have a base component name, we can generate some variant / size CSS
+    # If we have a base component name, we can generate some modifier / size CSS
     if part_name == :component && self.component_name.present?
       base_css = self.component_name
-      variant_css = (@config.variants || []).map { |variant| "#{base_css}-#{variant}" }
+      modifier_css = (@config.modifiers || []).map { |modifier| "#{base_css}-#{modifier}" }
       size_css = "#{base_css}-#{@size}" if @config.size
     end
 
-    cssify([default_css, base_css, variant_css, size_css, user_css])
+    cssify([default_css, base_css, modifier_css, size_css, user_css])
   end
 
   #
@@ -282,7 +282,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     [
       "#<#{self.class.name}",
       "@component_name=#{(component_name || :unnamed).inspect}",
-      "@valid_variants=#{valid_variants.inspect}",
+      "@valid_modifiers=#{valid_modifiers.inspect}",
       "@valid_sizes=#{valid_sizes.inspect}",
       "@config=#{@config.inspect}",
       "@component_parts=#{parts.inspect}",

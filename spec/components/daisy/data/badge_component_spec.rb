@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe LocoMotion::Data::BadgeComponent, type: :component do
+RSpec.describe Daisy::Data::BadgeComponent, type: :component do
   context "with no options" do
     before do
       render_inline(described_class.new)
@@ -37,40 +37,40 @@ RSpec.describe LocoMotion::Data::BadgeComponent, type: :component do
     end
   end
 
-  context "with one valid variant" do
+  context "with one valid modifier" do
     before do
-      render_inline(described_class.new(variant: :primary))
+      render_inline(described_class.new(modifier: :primary))
     end
 
     it "renders the default css" do
       expect(page).to have_css "span.badge"
     end
 
-    it "renders the variant css" do
+    it "renders the modifier css" do
       expect(page).to have_css "span.badge-primary"
     end
   end
 
-  context "with multiple valid variants" do
+  context "with multiple valid modifiers" do
     before do
-      render_inline(described_class.new(variants: [:primary, :outline]))
+      render_inline(described_class.new(modifiers: [:primary, :outline]))
     end
 
     it "renders the default css" do
       expect(page).to have_css "span.badge"
     end
 
-    it "renders both variant's css" do
+    it "renders both modifier's css" do
       expect(page).to have_css "span.badge-primary"
       expect(page).to have_css "span.badge-outline"
     end
   end
 
-  context "with an invalid variant" do
+  context "with an invalid modifier" do
     it "raises an error" do
       expect {
-        render_inline(described_class.new(variant: :doesnotexist))
-      }.to raise_error(LocoMotion::InvalidVariantError)
+        render_inline(described_class.new(modifier: :doesnotexist))
+      }.to raise_error(LocoMotion::InvalidModifierError)
     end
   end
 end

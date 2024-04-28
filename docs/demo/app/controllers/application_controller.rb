@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
   def test
-    render html: 'test', layout: true
+    render html: 'This is a test!', layout: true
   end
 end
