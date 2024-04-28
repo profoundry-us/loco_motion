@@ -14,4 +14,10 @@
         Here is a non-component alert example using only Tailwind!
       = render(Daisy::Actions::ButtonComponent.new(css: 'btn-outline btn-sm', title: "Boom"))
     .my-2
+      = daisy_modal(css: "something") do |modal|
+        - modal.with_activator do
+          = daisy_button(css: 'btn-primary', html: { onclick: "document.getElementById('#{modal.dialog_id}').showModal()" }) do
+            Open Modal
+
+        Here is some modal content...
       = yield

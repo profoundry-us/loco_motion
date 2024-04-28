@@ -10,19 +10,12 @@ require "loco_motion/errors"
 require "loco_motion/component_config"
 require "loco_motion/base_component"
 
+require "daisy"
+
 #
 # Module containing all features related to the LocoMotion gem.
 #
 module LocoMotion
-  #
-  # Holds all Action-type components.
-  #
-  module Actions; end
-
-  #
-  # Holds all Data-type components.
-  #
-  module Data; end
 
   class << self
     def configure
@@ -39,6 +32,9 @@ module LocoMotion
         require file
       end
     end
+
+    def define_render_helper(name, component)
+    end
   end
 
   class Configuration
@@ -48,4 +44,5 @@ module LocoMotion
       @base_component_class = LocoMotion::BaseComponent
     end
   end
+
 end

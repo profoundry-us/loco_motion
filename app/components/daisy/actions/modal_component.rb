@@ -39,19 +39,22 @@ class Daisy::Actions::ModalComponent < LocoMotion.configuration.base_component_c
     @dialog_id ||= SecureRandom.uuid
     @closable = config_option(:closable, true)
     @simple_title = kws[:title]
+  end
 
-    init_component
-    init_box
+  def before_render
+    setup_component
+    setup_box
   end
 
   private
 
-  def init_component
+  def setup_component
     set_tag_name(:component, :dialog)
     add_html(:component, id: dialog_id)
+    # add_css(:component, "modal")
   end
 
-  def init_box
+  def setup_box
     add_css(:box, 'modal-box')
   end
 end
