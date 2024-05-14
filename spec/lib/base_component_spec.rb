@@ -75,66 +75,6 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
           expect(page).to have_css("div.some_name div div")
         end
       end
-
-      context "#rendered_css(:component)" do
-        let(:css) { named_component.rendered_css(:component) }
-
-        it "adds the component name to the CSS" do
-          expect(css).to include("some_name")
-        end
-      end
-
-      context "#rendered_css(:first)" do
-        let(:css) { named_component.rendered_css(:first) }
-
-        it "does not add the component name to the CSS" do
-          expect(css).not_to include("some_name")
-        end
-      end
-
-      context "#rendered_css(:second)" do
-        let(:css) { named_component.rendered_css(:second) }
-
-        it "does not add the component name to the CSS" do
-          expect(css).not_to include("some_name")
-        end
-      end
-    end
-
-    context "with modifiers" do
-      class ModifiersComponent < LocoMotion::BaseComponent
-        set_component_name :some_name
-
-        define_modifiers :cool, :beans
-
-        def call
-          part(:component) do
-            content
-          end
-        end
-      end
-
-      let(:modifier1) { ModifiersComponent.new(modifier: :cool) }
-      let(:modifier2) { ModifiersComponent.new(modifier: :beans) }
-
-      context "rendered_css(:component)" do
-        let(:css1) { modifier1.rendered_css(:component) }
-        let(:css2) { modifier2.rendered_css(:component) }
-
-        it "adds the component name + modifier to the CSS" do
-          expect(css1).to include("some_name-cool")
-          expect(css2).to include("some_name-beans")
-        end
-
-        it "does not add the other modifier's CSS" do
-          expect(css1).not_to include("some_name-beans")
-          expect(css2).not_to include("some_name-cool")
-        end
-
-        # TODO: Add a check for modifier names that have underscores (should translate to dashes)
-        # TODO: Component names with underscores should probably also use dashes? Not sure if there are any in DaisyUI.
-        # TODO: Allow multiple modifiers at once
-      end
     end
   end
 

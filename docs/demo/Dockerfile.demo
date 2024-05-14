@@ -6,9 +6,11 @@ ENV APP_HOME /home/loco_demo
 
 WORKDIR $APP_HOME
 
-COPY Gemfile $APP_HOME/Gemfile
-COPY Gemfile.lock $APP_HOME/Gemfile.lock
-RUN bundle install
+# TODO: Figure out how to fix this instead of commenting it out...
+#
+# COPY Gemfile $APP_HOME/Gemfile
+# COPY Gemfile.lock $APP_HOME/Gemfile.lock
+# RUN bundle install
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/

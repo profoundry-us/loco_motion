@@ -165,18 +165,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     default_css = @config.get_part(part_name)[:default_css]
     user_css = @config.get_part(part_name)[:user_css]
 
-    base_css = nil
-    modifier_css = nil
-    size_css = nil
-
-    # If we have a base component name, we can generate some modifier / size CSS
-    if part_name == :component && self.component_name.present?
-      base_css = self.component_name
-      modifier_css = (@config.modifiers || []).map { |modifier| "#{base_css}-#{modifier}" }
-      size_css = "#{base_css}-#{@size}" if @config.size
-    end
-
-    cssify([default_css, base_css, modifier_css, size_css, user_css])
+    cssify([default_css, user_css])
   end
 
   #

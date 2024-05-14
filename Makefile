@@ -78,7 +78,7 @@ demo-quick:
 # Open a Ruby console in the demo container
 .PHONY: demo-console
 demo-console:
-	docker compose exec -it demo /home/demo_motion/bin/console.sh
+	docker compose exec -it demo /home/loco_demo/bin/console.sh
 
 # Restart the demo app
 .PHONY: demo-restart
@@ -94,6 +94,11 @@ demo-shell:
 .PHONY: demo-test
 demo-test:
 	docker compose exec -it demo bundle exec rspec spec
+
+# Open a bash shell to debug problems
+.PHONY: demo-debug
+demo-debug:
+	docker compose run --rm demo /bin/bash
 
 ##############################
 # Yard commands
