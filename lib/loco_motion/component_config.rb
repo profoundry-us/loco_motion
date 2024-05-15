@@ -1,12 +1,12 @@
 class LocoMotion::ComponentConfig
-  attr_reader :component, :parts, :options, :variants, :size
+  attr_reader :component, :parts, :options, :modifiers, :size
 
   def initialize(component, **kws, &block)
     @component = component
     @options = kws
 
     @parts = {}
-    @variants = (kws[:variants] || [kws[:variant]]).compact
+    @modifiers = (kws[:modifiers] || [kws[:modifier]]).compact
     @size = kws[:size]
 
     build
@@ -74,10 +74,10 @@ class LocoMotion::ComponentConfig
   # Validate the component config and throw errors if there are issues.
   #
   def validate
-    # Check to make sure they have passed a valid / defined variant
-    (@variants || []).each do |variant|
-      if variant.present? && !@component.valid_variants.include?(variant)
-        raise LocoMotion::InvalidVariantError.new(variant, @component)
+    # Check to make sure they have passed a valid / defined modifier
+    (@modifiers || []).each do |modifier|
+      if modifier.present? && !@component.valid_modifiers.include?(modifier)
+        raise LocoMotion::InvalidModifierError.new(modifier, @component)
       end
     end
   end
@@ -89,7 +89,7 @@ class LocoMotion::ComponentConfig
     {
       options: @options,
       parts: @parts,
-      variants: @variants,
+      modifiers: @modifiers,
       size: @size
     }
   end
@@ -98,6 +98,12 @@ class LocoMotion::ComponentConfig
   # For now, just return the Hash version for inspect.
   #
   def inspect
-    to_h
+    [
+      "#<#{self.class.name}",
+      "@options=#{@options.inspect}",
+      "@parts=#{@parts.inspect}",
+      "@modifiers=#{@modifiers.inspect}",
+      "@size=#{@size.inspect}",
+    ].join(" ") + ">"
   end
 end

@@ -33,33 +33,72 @@ down:
 	docker compose down
 
 ##############################
-# App commands
+# loco commands
 ##############################
 
-# Run & build the app container
-.PHONY: app
-app:
-	docker compose up app --build
+# Run & build the loco container
+.PHONY: loco
+loco:
+	docker compose up loco --build
 
-# Run the app container without rebuilding
-.PHONY: app-quick
-app-quick:
-	docker compose up app
+# Run the loco container without rebuilding
+.PHONY: loco-quick
+loco-quick:
+	docker compose up loco
 
-# Open a Ruby console in the app container
-.PHONY: app-console
-app-console:
-	docker compose exec -it app /home/loco_motion/bin/console.sh
+# Open a Ruby console in the loco container
+.PHONY: loco-console
+loco-console:
+	docker compose exec -it loco /home/loco_motion/bin/console.sh
 
-# Open a shell to your app container
-.PHONY: app-shell
-app-shell:
-	docker compose exec -it app /bin/bash
+# Open a shell to your loco container
+.PHONY: loco-shell
+loco-shell:
+	docker compose exec -it loco /bin/bash
 
 # Run all of the Rspec tests
-.PHONY: app-test
-app-test:
-	docker compose exec -it app bundle exec rspec spec
+.PHONY: loco-test
+loco-test:
+	docker compose exec -it loco bundle exec rspec spec
+
+##############################
+# demo commands
+##############################
+
+# Run & build the demo container
+.PHONY: demo
+demo:
+	docker compose up demo --build
+
+# Run the demo container without rebuilding
+.PHONY: demo-quick
+demo-quick:
+	docker compose up demo
+
+# Open a Ruby console in the demo container
+.PHONY: demo-console
+demo-console:
+	docker compose exec -it demo /home/loco_demo/bin/console.sh
+
+# Restart the demo app
+.PHONY: demo-restart
+demo-restart:
+	touch docs/demo/tmp/restart.txt
+
+# Open a shell to your demo container
+.PHONY: demo-shell
+demo-shell:
+	docker compose exec -it demo /bin/bash
+
+# Run all of the Rspec tests
+.PHONY: demo-test
+demo-test:
+	docker compose exec -it demo bundle exec rspec spec
+
+# Open a bash shell to debug problems
+.PHONY: demo-debug
+demo-debug:
+	docker compose run --rm demo /bin/bash
 
 ##############################
 # Yard commands

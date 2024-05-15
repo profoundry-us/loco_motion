@@ -10,7 +10,7 @@ services:
     tty: true
     stdin_open: true
 
-  app:
+  loco:
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,10 +19,22 @@ services:
     tty: true
     stdin_open: true
 
+  demo:
+    build:
+      context: docs/demo
+      dockerfile: Dockerfile.demo
+    volumes:
+      - ./docs/demo:/home/loco_demo
+      - .:/home/loco_motion
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+
   yard:
     build:
       context: .
-      dockerfile: dev/Dockerfile.yard
+      dockerfile: docs/yard/Dockerfile.yard
     volumes:
       - .:/home/loco_motion
     ports:

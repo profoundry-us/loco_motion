@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title LocoDemo
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
+  %body
+    .flex.flex-row.justify-between.items-center.m-2.p-2.rounded.bg-red-600.text-white
+      %span
+        Here is a non-component alert example using only Tailwind!
+      = render(Daisy::Actions::ButtonComponent.new(css: 'btn-outline btn-sm', title: "Boom"))
+    .my-2
+      = daisy_modal(title: "Simple Modal", end_actions_css: "flex flex-row items-center gap-2") do |modal|
+        - modal.with_activator do
+          = daisy_button(css: 'btn-primary', html: { onclick: "document.getElementById('#{modal.dialog_id}').showModal()" }) do
+            Open Modal
+
+        Here is some really long modal content that should go well past the
+        spot where the close icon appears...
+
+        - # TODO: Make the slots pass info to the parts instead of using end_actions_css above?
+        - modal.with_end_actions(css: "flex and gap go here???") do
+          %form{ method: :dialog }
+            = daisy_button do
+              Cancel
+          %form{ action: "/" }
+            = daisy_button(css: "btn-primary") do
+              Submit
+
+    #page-body
+      = yield

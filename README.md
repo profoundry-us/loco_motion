@@ -1,29 +1,28 @@
+<!-- omit from toc -->
 # loco_motion
 
 Modern paradigms and tools to make Rails development crazy fast!
 
 <!-- toc -->
-
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
-    + [Install HAML (Optional)](#install-haml-optional)
-    + [Install DaisyUI (Optional)](#install-daisyui-optional)
-    + [Try Out Your Application](#try-out-your-application)
+  - [Install HAML (Optional)](#install-haml-optional)
+  - [Install DaisyUI (Optional)](#install-daisyui-optional)
+  - [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
 - [Authentication](#authentication)
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
 - [LocoMotion Components](#locomotion-components)
-    + [Install](#install)
-    + [Using Components](#using-components)
-    + [Setting a Base Component Class](#setting-a-base-component-class)
+  - [Install](#install)
+  - [Using Components](#using-components)
+  - [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
-
 <!-- tocstop -->
 
-# About
+## About
 
 loco_motion is both a set of philosophies and paradigms for developing robust
 web applications in Ruby on Rails, as well gems and tools to help you execute
@@ -41,7 +40,7 @@ It includes standards for your
 You can use as much or as little of the frameworks and philosophies provided,
 and you can customize it all to your heart's content.
 
-# Getting Started
+## Getting Started
 
 We recommend using Docker to get your project setup from the beginning. Even
 before you run the `rails new` command. This ensures that you have a stable
@@ -107,7 +106,7 @@ Once they have all built and started, in a separate terminal, you can run
 
 Congratulations! You're ready to create your Rails app!
 
-# Installing / Setting up Rails
+## Installing / Setting up Rails
 
 Once you're inside of the development container, everything should be setup and
 ready for you to install Ruby on Rails.
@@ -406,7 +405,7 @@ you hover and click on it!
 > Once you're done playing around with this, you should undo your changes to the
 > layout so that it doesn't cause confusion in later parts of this guide.
 
-# Debugging
+## Debugging
 
 The latest version of Rails makes it much easier to debug within a Docker
 container as it automatically starts a remote debugger for you.
@@ -418,7 +417,7 @@ then run `make app-debug` in a separate terminal.
 This will connect to the remote debugger instance which will be stopped at your
 `debugger` line.
 
-# Testing
+## Testing
 
 Before we start creating a bunch of models, controllers, and other pieces of
 code, it's good to get a solid testing foundation in place. Rails ships with
@@ -446,7 +445,7 @@ to see in real-time what is happening, including in-browser debugging!
 > project, and expand into using Cypress once you are comfortable learning a new
 > lanugage / framework.
 
-# Authentication
+## Authentication
 
 There are a **lot** of different ways to handle user authentication in Ruby on
 Rails. Because of this, many gems have popped up to help you handle this. The
@@ -546,7 +545,7 @@ When you're ready for it to work, just delete or comment out the
 However, this gives us an opportune time to get some better error management.
 So let's do that first!
 
-# Web Console
+## Web Console
 
 At this point, if you look in your Docker logs, you'll probably see a line like
 the following:
@@ -593,7 +592,7 @@ then refresh the page.
 This will stop the application where the `asdf` was found and allows you to
 interact with your application and see exactly what's going on.
 
-# BetterErrors (Optional)
+## BetterErrors (Optional)
 
 [BetterErrors](https://github.com/BetterErrors/better_errors) provides (in our
 humble opinion) a slightly better interface for the errors that sometimes happen
@@ -638,7 +637,7 @@ the IP address matches the one you used for the Web Console above):
 BetterErrors::Middleware.allow_ip! '172.23.0.1'
 ```
 
-# LocoMotion Components
+## LocoMotion Components
 
 In addition to the recommendations / suggestions above, LocoMotion also provides
 a full set of UI components to help you build robust and full-featured apps.
@@ -741,7 +740,7 @@ end
 > you want, so you could create a separate `CustomizedLocoMotionComponent` class
 > so that you don't have any conflicts with your `ApplicationComponent`.
 
-# Next Steps
+## Next Steps
 
 TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc

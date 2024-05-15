@@ -1,8 +1,10 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
+  include Heroicons::IconsHelper
+
   class_attribute :component_name
   class_attribute :component_parts, default: { component: {} }
-  class_attribute :valid_variants, default: []
+  class_attribute :valid_modifiers, default: []
   class_attribute :valid_sizes, default: []
 
   #
@@ -54,31 +56,42 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
-  # Defines a single variant of this component. Variants control certain
-  # rendering aspects of the component.
+  # Convenience method for defining multiple parts at once with no defaults.
   #
-  # @param variant_name [Symbol] The name of the variant.
+  # @param part_names [Array<Symbol>] The names of the parts you wish to define.
   #
-  def self.define_variant(variant_name)
-    define_variants(variant_name)
+  def self.define_parts(*part_names)
+    (part_names || []).each do |part_name|
+      define_part(part_name)
+    end
   end
 
   #
-  # Define multiple variants for this component. Variants control certain
+  # Defines a single modifier of this component. Modifiers control certain
   # rendering aspects of the component.
   #
-  # @param variant_names [Array[Symbol]] An array of the variant names you wish
+  # @param modifier_name [Symbol] The name of the modifier.
+  #
+  def self.define_modifier(modifier_name)
+    define_modifiers(modifier_name)
+  end
+
+  #
+  # Define multiple modifiers for this component. Modifiers control certain
+  # rendering aspects of the component.
+  #
+  # @param modifier_names [Array[Symbol]] An array of the modifier names you wish
   #   to define.
   #
-  def self.define_variants(*variant_names)
+  def self.define_modifiers(*modifier_names)
     # Note that since we're using Rails' class_attribute method for these, we
     # must take care not to alter the original object but rather use a setter
     # (the `+=` in this case) to set the new value so Rails knows not to
     # override the parent value.
     #
     # For example, we cannot use `<<` or `concat` here.
-    self.valid_variants ||= []
-    self.valid_variants += variant_names
+    self.valid_modifiers ||= []
+    self.valid_modifiers += modifier_names
   end
 
   #
@@ -152,17 +165,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     default_css = @config.get_part(part_name)[:default_css]
     user_css = @config.get_part(part_name)[:user_css]
 
-    base_css = self.component_name
-    variant_css = []
-    size_css = nil
-
-    # If we have a base component name, we can generate some variant / size CSS
-    if part_name == :component && base_css.present?
-      variant_css = (@config.variants || []).map { |variant| "#{base_css}-#{variant}" }
-      size_css = "#{base_css}-#{@size}" if @config.size
-    end
-
-    cssify([default_css, base_css, variant_css, size_css, user_css])
+    cssify([default_css, user_css])
   end
 
   #
@@ -239,22 +242,39 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
+  # Retrieve the requested component option, or the desired default if no option
+  # was provided.
+  #
+  # @param key [Symbol] The name of the keyword argument option you wish to
+  #   retrieve.
+  # @param default [Object] Any value that you wish to use as a default should
+  #   the option be undefined. Defaults to `nil`.
+  #
+  def config_option(key, default = nil)
+    value = @config.options[key]
+
+    value.nil? ? default : value
+  end
+
   # Provide some nice output for debugging or other purposes.
   #
   def inspect
-    {
-      component_name: component_name || :unnamed,
-      valid_variants: valid_variants,
-      valid_sizes: valid_sizes,
-      config: @config.inspect,
-      parts: component_parts.map do |part_name, part_defaults|
-        {
-          part_name: part_name,
-          tag_name: rendered_tag_name(part_name),
-          css: rendered_css(part_name),
-          html: rendered_html(part_name)
-        }
-      end
-    }
+    parts = component_parts.map do |part_name, part_defaults|
+      {
+        part_name: part_name,
+        tag_name: rendered_tag_name(part_name),
+        css: rendered_css(part_name),
+        html: rendered_html(part_name)
+      }
+    end
+
+    [
+      "#<#{self.class.name}",
+      "@component_name=#{(component_name || :unnamed).inspect}",
+      "@valid_modifiers=#{valid_modifiers.inspect}",
+      "@valid_sizes=#{valid_sizes.inspect}",
+      "@config=#{@config.inspect}",
+      "@component_parts=#{parts.inspect}",
+    ].join(" ") + ">"
   end
 end

@@ -1,0 +1,31 @@
+- if activator?
+  = part(:activator) do
+    = activator
+
+= part(:component) do
+  = part(:box) do
+    - if closable?
+      = part(:close_icon_wrapper) do
+        = part(:close_icon) do
+          - if close_icon?
+            = close_icon
+          - else
+            = heroicon_tag "x-mark"
+
+    - if title?
+      = title
+    - elsif @simple_title.present?
+      = part(:title) do
+        = @simple_title
+
+    = content
+
+    = part(:actions) do
+      = part(:start_actions) do
+        - if start_actions?
+          = start_actions
+      = part(:end_actions) do
+        - if end_actions?
+          = end_actions
+  = part(:backdrop) do
+    %button close

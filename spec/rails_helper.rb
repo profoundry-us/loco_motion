@@ -22,4 +22,10 @@ RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :component
   config.include ViewComponent::SystemTestHelpers, type: :component
   # config.include Capybara::RSpecMatchers, type: :component
+
+  # Some of the tests utilize various helpers such as tag, content_tag, and
+  # heroicon_tag (which users the raw helper)
+  config.include Heroicons::IconsHelper, type: :component
+  config.include ActionView::Helpers::TagHelper, type: :component
+  config.include ActionView::Helpers::OutputSafetyHelper, type: :component
 end
