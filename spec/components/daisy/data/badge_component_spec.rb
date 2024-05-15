@@ -37,9 +37,9 @@ RSpec.describe Daisy::Data::BadgeComponent, type: :component do
     end
   end
 
-  context "with one valid modifier" do
+  context "with one valid css modifier" do
     before do
-      render_inline(described_class.new(modifier: :primary))
+      render_inline(described_class.new(css: "badge-primary"))
     end
 
     it "renders the default css" do
@@ -51,9 +51,9 @@ RSpec.describe Daisy::Data::BadgeComponent, type: :component do
     end
   end
 
-  context "with multiple valid modifiers" do
+  context "with multiple valid css modifiers" do
     before do
-      render_inline(described_class.new(modifiers: [:primary, :outline]))
+      render_inline(described_class.new(css: ["badge-primary", "badge-outline"]))
     end
 
     it "renders the default css" do
@@ -63,14 +63,6 @@ RSpec.describe Daisy::Data::BadgeComponent, type: :component do
     it "renders both modifier's css" do
       expect(page).to have_css "span.badge-primary"
       expect(page).to have_css "span.badge-outline"
-    end
-  end
-
-  context "with an invalid modifier" do
-    it "raises an error" do
-      expect {
-        render_inline(described_class.new(modifier: :doesnotexist))
-      }.to raise_error(LocoMotion::InvalidModifierError)
     end
   end
 end

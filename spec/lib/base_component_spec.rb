@@ -42,8 +42,8 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         render_inline(NamedComponent.new)
       end
 
-      it "adds the component name to the component CSS" do
-        expect(page).to have_css("div.some_name")
+      it "does not add the component name to the component CSS" do
+        expect(page).not_to have_css("div.some_name")
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         end
       end
 
-      let(:named_component) { NamedComponent.new }
+      let(:named_component) { NamedComponent.new(css: "comp", first_css: "first", second_css: "second") }
 
       context "render" do
         before do
@@ -72,7 +72,7 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         end
 
         it "renders all three parts" do
-          expect(page).to have_css("div.some_name div div")
+          expect(page).to have_css("div.comp div.first div.second")
         end
       end
     end
