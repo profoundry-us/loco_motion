@@ -1,4 +1,4 @@
-FROM ruby:3.2.3
+FROM ruby:3.3.1
 
 # Install some relevant dependencies
 RUN apt-get update -qq && apt-get install -y tini vim
@@ -8,8 +8,7 @@ ENV APP_HOME /home/loco_motion
 WORKDIR $APP_HOME
 
 COPY loco_motion.gemspec $APP_HOME/loco_motion.gemspec
-COPY Gemfile $APP_HOME/Gemfile
-COPY Gemfile.lock $APP_HOME/Gemfile.lock
+COPY Gemfile Gemfile* $APP_HOME
 RUN bundle install
 
 # Add some aliases to our Bash shell for when we're messing around

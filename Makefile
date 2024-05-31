@@ -2,6 +2,11 @@
 # General commands
 ##############################
 
+# Rebuild everything without using the cache
+.PHONY: reset
+reset:
+	docker compose build --no-cache
+
 # Run and build all of the containers
 .PHONY: all
 all:
