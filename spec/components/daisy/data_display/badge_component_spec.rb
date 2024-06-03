@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Daisy::Data::BadgeComponent, type: :component do
+RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
   context "with no options" do
     before do
       render_inline(described_class.new)

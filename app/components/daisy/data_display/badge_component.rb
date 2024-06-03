@@ -1,6 +1,6 @@
 # This is the Badge component.
-# @!parse class Daisy::Data::BadgeComponent < LocoMotion::BaseComponent; end
-class Daisy::Data::BadgeComponent < LocoMotion.configuration.base_component_class
+# @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
+class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_component_class
   set_component_name :badge
 
   #

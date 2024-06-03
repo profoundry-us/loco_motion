@@ -3,7 +3,6 @@
 
 Modern paradigms and tools to make Rails development crazy fast!
 
-<!-- toc -->
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
@@ -20,7 +19,6 @@ Modern paradigms and tools to make Rails development crazy fast!
   - [Using Components](#using-components)
   - [Setting a Base Component Class](#setting-a-base-component-class)
 - [Next Steps](#next-steps)
-<!-- tocstop -->
 
 ## About
 
