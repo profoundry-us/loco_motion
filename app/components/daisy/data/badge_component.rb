@@ -3,12 +3,6 @@
 class Daisy::Data::BadgeComponent < LocoMotion.configuration.base_component_class
   set_component_name :badge
 
-  define_sizes :xs, :sm, :lg, :xl
-
-  define_modifiers :neutral, :primary, :secondary, :accent, :ghost
-  define_modifiers :info, :success, :warning, :error
-  define_modifier :outline
-
   #
   # Create a new Badge component.
   #
@@ -23,7 +17,6 @@ class Daisy::Data::BadgeComponent < LocoMotion.configuration.base_component_clas
   end
 
   private
-
 
   def setup_component
     add_css(:component, "badge")
