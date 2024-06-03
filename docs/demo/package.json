@@ -14,6 +14,7 @@
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.13",
     "daisyui": "^4.7.3"
   }
 }

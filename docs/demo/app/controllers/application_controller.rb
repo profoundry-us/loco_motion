@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  def test
-    render html: 'This is a test!', layout: true
+
+  def home
+    render html: "This is the home page! We'll move it into a template file soon...", layout: true
   end
+
 end
