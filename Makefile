@@ -2,9 +2,15 @@
 # General commands
 ##############################
 
+# Prune ALL of the docker things (WARNING - this will destroy other project
+# stuff too!!!)
+.PHONY: prune
+prune:
+	docker system prune --volumes -af
+
 # Rebuild everything without using the cache
-.PHONY: reset
-reset:
+.PHONY: rebuild
+rebuild:
 	docker compose build --no-cache
 
 # Run and build all of the containers
