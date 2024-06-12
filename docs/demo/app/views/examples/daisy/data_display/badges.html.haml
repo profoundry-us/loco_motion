@@ -1,0 +1,16 @@
+.prose.lg:prose-lg
+  %h2 Badges
+
+  %p Here are some simple badges.
+
+.my-2.flex.flex-row.gap-4
+  = daisy_badge do
+    Plain Badge
+  = daisy_badge(css: "badge-primary") do
+    Primary Badge
+  = daisy_badge(css: "badge-secondary") do
+    Secondary Badge
+  = daisy_badge(css: "badge-accent") do
+    Accent Badge
+  = daisy_badge(css: "badge-ghost") do
+    Ghost Badge
