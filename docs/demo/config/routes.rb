@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Dynamic route which shows various examples
+  get "/examples/:framework/:category/:component", to: "examples#discover"
+
   # Defines the root path route ("/")
-  root "application#test"
+  root "application#home"
 end

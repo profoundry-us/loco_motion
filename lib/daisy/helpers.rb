@@ -2,8 +2,10 @@ module Daisy
   COMPONENT_HELPERS = {
     # Actions
     button: 'Daisy::Actions::ButtonComponent',
-    fab: 'Daisy::Actions::FabComponent',
-    modal: 'Daisy::Actions::ModalComponent'
+    modal: 'Daisy::Actions::ModalComponent',
+
+    # Data
+    badge: 'Daisy::DataDisplay::BadgeComponent',
   }
 
   module Helpers

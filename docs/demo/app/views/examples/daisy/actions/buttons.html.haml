@@ -1,0 +1,31 @@
+.prose.lg:prose-lg
+  %h2 Buttons
+
+  %p Here are some simple buttons.
+
+.my-2.flex.flex-row.gap-4
+  = daisy_button do
+    Plain Button
+  = daisy_button(css: "btn-primary") do
+    Primary Button
+  = daisy_button(css: "btn-secondary") do
+    Secondary Button
+  = daisy_button(css: "btn-accent") do
+    Accent Button
+  = daisy_button(css: "btn-ghost") do
+    Ghost Button
+  = daisy_button(css: "btn-link") do
+    Link Button
+
+.mt-6.prose.lg:prose-lg
+  %p You can also use various sizes.
+
+.my-2.flex.flex-row.gap-4.items-center
+  = daisy_button(css: "btn-lg") do
+    Big Button
+  = daisy_button do
+    Default Button
+  = daisy_button(css: "btn-sm") do
+    Small Button
+  = daisy_button(css: "btn-xs") do
+    Tiny Button
