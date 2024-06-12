@@ -1,0 +1,21 @@
+.prose.lg:prose-lg 
+  %h2 Keyboard 
+
+  %p Here is a simple example of a single keyboard key.
+
+.my-2.flex.flex-row.gap-4
+  = daisy_kbd do 
+    A
+.prose.lg:prose-lg 
+
+  %p Here is a key in different sizes.
+
+.my-2.flex.flex-row.gap-4.items-center
+  = daisy_kbd(css: "kbd-lg") do 
+    Shift
+  = daisy_kbd(css: "kbd-md") do
+    Shift
+  = daisy_kbd(css: "kbd-sm") do
+    Shift
+  = daisy_kbd(css: "kbd-xs") do
+    Shift

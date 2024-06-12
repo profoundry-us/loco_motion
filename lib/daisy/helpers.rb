@@ -6,6 +6,7 @@ module Daisy
 
     # Data
     badge: 'Daisy::DataDisplay::BadgeComponent',
+    kbd: 'Daisy::DataDisplay::KbdComponent',
   }
 
   module Helpers
