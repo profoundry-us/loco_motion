@@ -5,6 +5,7 @@ module Daisy
     modal: 'Daisy::Actions::ModalComponent',
 
     # Data
+    avatar: 'Daisy::DataDisplay::AvatarComponent',
     badge: 'Daisy::DataDisplay::BadgeComponent',
     kbd: 'Daisy::DataDisplay::KbdComponent',
   }

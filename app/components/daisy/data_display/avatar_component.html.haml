@@ -1,0 +1,8 @@
+= part(:component) do
+  = part(:wrapper) do
+    - if @src.nil?
+      %span
+        = content
+    - else
+      = part(:img) do
+        %span.hidden TODO: fix parts without blocks
