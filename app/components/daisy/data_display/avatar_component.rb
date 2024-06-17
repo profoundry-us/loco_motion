@@ -2,14 +2,13 @@
 class Daisy::DataDisplay::AvatarComponent < LocoMotion.configuration.base_component_class
   set_component_name :avatar
 
-  define_parts :wrapper, :img, :span, :placeholder
+  define_parts :wrapper, :img, :placeholder
 
   # Create a new avatar component.
   def initialize(*args, **kws, &block)
     super
 
     @src = config_option(:src)
-    set_tag_name(:component, :div)
   end
 
   def before_render

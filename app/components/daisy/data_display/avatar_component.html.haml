@@ -1,7 +1,7 @@
 = part(:component) do
   = part(:wrapper) do
     - if @src.nil?
-      =part(:span) do
+      = part(:placeholder) do
         = content
     - else
       = part(:img) do
