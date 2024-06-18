@@ -1,0 +1,153 @@
+.prose.lg:prose-lg 
+  %h2 Keyboard 
+
+  %p Here is a simple example of a single keyboard key.
+
+.my-2.flex.flex-row.gap-4
+  = daisy_kbd do 
+    
+.prose.lg:prose-lg 
+
+  %p Keys in different sizes.
+
+.my-2.flex.flex-row.gap-4.items-center
+  = daisy_kbd(css: "kbd-lg") do 
+    Shift
+  = daisy_kbd(css: "kbd-md") do
+    Shift
+  = daisy_kbd(css: "kbd-sm") do
+    Shift
+  = daisy_kbd(css: "kbd-xs") do
+    Shift
+
+.prose.lg:prose-lg 
+
+  %p Key inside a sentence.
+
+.my-2.flex.flex-row.gap-2.items-center
+  %p Press 
+  = daisy_kbd do
+    F
+  %p to pay respects.
+
+.prose.lg:prose-lg 
+
+  %p Key Combination.
+
+.my-2.flex.flex-row.gap-2.items-center
+  = daisy_kbd do
+    Ctrl
+
+  +
+
+  = daisy_kbd do
+    Alt
+
+  +
+
+  = daisy_kbd do
+    Del 
+
+.prose.lg:prose-lg 
+
+  %p Function keys.
+
+.my-2.flex.flex-row.gap-4.items-center
+  = daisy_kbd do
+    ⌘
+
+  = daisy_kbd do
+    ⌥
+
+  = daisy_kbd do
+    ⇧
+
+  = daisy_kbd do
+    ⌃
+
+.prose.lg:prose-lg 
+
+  %p Full keyboard.
+
+.flex.justify-center.gap-1.my-1.w-full
+  = daisy_kbd do
+    tab
+  = daisy_kbd do
+    q
+  = daisy_kbd do
+    w
+  = daisy_kbd do
+    e
+  = daisy_kbd do
+    r
+  = daisy_kbd do
+    t
+  = daisy_kbd do
+    y
+  = daisy_kbd do
+    u
+  = daisy_kbd do
+    i
+  = daisy_kbd do
+    o
+  = daisy_kbd do
+    p
+  = daisy_kbd do
+    \[
+  = daisy_kbd do
+    \]
+  = daisy_kbd do
+    \\
+.flex.justify-center.gap-1.my-1.w-full
+  = daisy_kbd do
+    caps lock
+  = daisy_kbd do
+    a
+  = daisy_kbd do
+    s
+  = daisy_kbd do
+    d
+  = daisy_kbd do
+    f
+  = daisy_kbd do
+    g
+  = daisy_kbd do
+    h
+  = daisy_kbd do
+    j
+  = daisy_kbd do
+    k
+  = daisy_kbd do
+    l
+  = daisy_kbd do
+    \:
+  = daisy_kbd do
+    '
+  = daisy_kbd do
+    return
+
+.flex.justify-center.gap-1.my-1.w-full
+  = daisy_kbd do
+    shift
+  = daisy_kbd do
+    z
+  = daisy_kbd do
+    x
+  = daisy_kbd do
+    c
+  = daisy_kbd do
+    v
+  = daisy_kbd do
+    b
+  = daisy_kbd do
+    n
+  = daisy_kbd do
+    m
+  = daisy_kbd do
+    ,
+  = daisy_kbd do
+    \.
+  = daisy_kbd do
+    \/
+  = daisy_kbd do
+    shift
