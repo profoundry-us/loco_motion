@@ -8,6 +8,7 @@ module Daisy
     avatar: 'Daisy::DataDisplay::AvatarComponent',
     badge: 'Daisy::DataDisplay::BadgeComponent',
     kbd: 'Daisy::DataDisplay::KbdComponent',
+    stat: 'Daisy::DataDisplay::StatComponent',
   }
 
   module Helpers

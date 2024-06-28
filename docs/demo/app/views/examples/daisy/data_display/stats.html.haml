@@ -1,0 +1,23 @@
+.prose.lg:prose-lg 
+  %h2 Stats 
+
+  %p Here are some simple stats examples 
+
+.flex.flex-row.items-center.gap-x-4 
+  = daisy_stat do
+    1000
+
+  = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
+    1000
+
+  - #Example passing options as blocks. This allows you to pass in HTML.
+  = daisy_stat do |stat|
+    - stat.with_title do
+      %em Some word
+    1000
+
+    - stat.with_description do
+      %p.stat-desc This is a brief description of the number seen above.
+      - # %p.stat-desc is in-line CSS that will allow you to add your own styles if you wish to customize it to your preference.
+
+      

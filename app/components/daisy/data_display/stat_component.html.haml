@@ -1,0 +1,16 @@
+= part(:component) do
+  - if title?
+    = title
+  - elsif @simple_title.present?
+    = part(:title) do
+      = @simple_title    
+
+  = part(:value) do
+    = content
+
+  - if description?
+    = description
+  - elsif @simple_description.present?
+    = part(:description) do
+      = @simple_description  
+    
