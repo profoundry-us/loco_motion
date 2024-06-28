@@ -2,10 +2,11 @@
 class Daisy::DataDisplay::StatComponent < LocoMotion.configuration.base_component_class
   set_component_name :stat
 
-  define_parts :title, :value, :description
+  define_parts :title, :value, :description, :figure
 
   renders_one :title
   renders_one :description
+  renders_one :figure
 
   attr_reader :simple_title
   attr_reader :simple_description
