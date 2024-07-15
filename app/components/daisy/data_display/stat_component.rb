@@ -17,6 +17,8 @@ class Daisy::DataDisplay::StatComponent < LocoMotion.configuration.base_componen
 
     @simple_title = config_option(:title)
     @simple_description = config_option(:description)
+    @src = config_option(:src)
+    @icon = config_option(:icon)
   end
 
   def before_render
@@ -30,5 +32,10 @@ class Daisy::DataDisplay::StatComponent < LocoMotion.configuration.base_componen
     add_css(:title, "stat-title")
     add_css(:value, "stat-value")
     add_css(:description, "stat-desc")
+    add_css(:figure, "stat-figure")
+
+    if @src.nil?
+
+    end
   end
 end
