@@ -9,6 +9,7 @@ module Daisy
     badge: 'Daisy::DataDisplay::BadgeComponent',
     kbd: 'Daisy::DataDisplay::KbdComponent',
     stat: 'Daisy::DataDisplay::StatComponent',
+    table: 'Daisy::DataDisplay::TableComponent',
   }
 
   module Helpers
