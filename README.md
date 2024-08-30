@@ -742,3 +742,5 @@ end
 
 TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc
+
+- [ ] Get YARD docs rendering with Markdown

@@ -31,6 +31,24 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
+  # Override the default slot to render the BasicComponent if no component is
+  # provided.
+  #
+  def self.renders_one(*args)
+    # If they don't pass extra options, default to BasicComponent
+    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+  end
+
+  #
+  # Override the default slot to render the BasicComponent if no component is
+  # provided.
+  #
+  def self.renders_many(*args)
+    # If they don't pass extra options, default to BasicComponent
+    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+  end
+
+  #
   # Sets the component name used in CSS generation.
   #
   # @param component_name [Symbol,String] The name of the component.
