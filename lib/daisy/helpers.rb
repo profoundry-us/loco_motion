@@ -5,6 +5,7 @@ module Daisy
     modal: 'Daisy::Actions::ModalComponent',
 
     # Data
+    accordion: 'Daisy::DataDisplay::AccordionComponent',
     avatar: 'Daisy::DataDisplay::AvatarComponent',
     badge: 'Daisy::DataDisplay::BadgeComponent',
     kbd: 'Daisy::DataDisplay::KbdComponent',

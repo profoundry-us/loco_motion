@@ -155,7 +155,11 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   def part(part_name, &block)
     tag_name = rendered_tag_name(part_name)
 
-    content_tag(tag_name, **rendered_html(part_name), &block)
+    if block_given?
+      content_tag(tag_name, **rendered_html(part_name), &block)
+    else
+      tag(tag_name, **rendered_html(part_name))
+    end
   end
 
   #
