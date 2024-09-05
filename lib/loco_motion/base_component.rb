@@ -40,8 +40,8 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
-  # Override the default slot to render the BasicComponent if no component is
-  # provided.
+  # Override the default many slot to render the BasicComponent if no component
+  # is provided.
   #
   def self.renders_many(*args)
     # If they don't pass extra options, default to BasicComponent
