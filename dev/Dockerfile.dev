@@ -1,4 +1,4 @@
-FROM ruby:3.3.1
+FROM ruby:3.3.4
 
 # Install some relevant dependencies
 RUN apt-get update -qq && apt-get install -y tini vim

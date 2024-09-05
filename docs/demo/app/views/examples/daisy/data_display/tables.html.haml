@@ -1,0 +1,41 @@
+- data = [{col1: "foo", col2: "bar"}, {col1: "fizz", col2: "buzz"}]
+
+.prose.lg:prose-lg
+  %h2 Tables
+
+  %h3.heading-3 Basic Table
+
+.overflow-x-auto
+  = daisy_table do |table|
+    - table.with_head do |head|
+      - head.with_column do
+        Column 1
+      - head.with_column do
+        Column 2
+
+    - data.each do |d|
+      - table.with_row do |row|
+        - row.with_column do
+          = d[:col1]
+        - row.with_column do
+          = d[:col2]
+
+.prose.lg:prose-lg
+  %h3.heading-3 Pinning Rows (Using Sections)
+
+  %p
+    The following example shows how to have a table with multiple headers pinned
+    as you scroll.
+
+.mt-4.w-96.h-96.border.border-gray-400.rounded.overflow-y-auto
+  = daisy_table(css: "table-pin-rows") do |table|
+    - (0..100).step(10).with_index do |step, index|
+      - table.with_section do |section|
+        - section.with_head do |head|
+          - head.with_column(css: 'bg-blue-100') do
+            = "Section ##{index + 1}"
+        - section.with_body do |body|
+          - (1..10).each do |i|
+            - body.with_row do |row|
+              - row.with_column do
+                = step + i

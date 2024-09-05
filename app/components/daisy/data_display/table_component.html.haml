@@ -1,0 +1,14 @@
+= part(:component) do
+  -# If we have sections, show them
+  - if sections?
+    - sections.each do |section|
+      = section
+  - else
+    = head if head?
+
+    - if body?
+      = body
+    - else
+      %tbody
+        - rows.each do |row|
+          = row

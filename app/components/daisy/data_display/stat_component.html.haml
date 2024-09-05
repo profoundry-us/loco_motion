@@ -1,0 +1,27 @@
+= part(:component) do
+
+  - if figure? || @icon.present? || @src.present?
+    = part(:figure) do
+      - if figure?
+        = figure
+      - if @icon.present?
+        = heroicon_tag(@icon, class: "inline-block h-8 w-8 stroke-current")
+      - if @src.present?
+        = daisy_avatar(src: @src)
+        
+
+  - if title?
+    = title
+  - elsif @simple_title.present?
+    = part(:title) do
+      = @simple_title    
+
+  = part(:value) do
+    = content
+
+  - if description?
+    = description
+  - elsif @simple_description.present?
+    = part(:description) do
+      = @simple_description  
+    
