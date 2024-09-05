@@ -8,6 +8,7 @@ module Daisy
     accordion: 'Daisy::DataDisplay::AccordionComponent',
     avatar: 'Daisy::DataDisplay::AvatarComponent',
     badge: 'Daisy::DataDisplay::BadgeComponent',
+    diff: 'Daisy::DataDisplay::DiffComponent',
     kbd: 'Daisy::DataDisplay::KbdComponent',
     stat: 'Daisy::DataDisplay::StatComponent',
     table: 'Daisy::DataDisplay::TableComponent',

@@ -1,5 +1,7 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
+  SELF_CLOSING_TAGS = %i[area base br col embed hr img input keygen link meta param source track wbr].freeze
+
   include Heroicons::IconsHelper
 
   class_attribute :component_name
@@ -158,7 +160,20 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     if block_given?
       content_tag(tag_name, **rendered_html(part_name), &block)
     else
-      tag(tag_name, **rendered_html(part_name))
+      # The `tag()` helper will allow you to pass any tag without a block, but
+      # this isn't valid HTML. In particular, it will render a "self-closing"
+      # <div /> tag which doesn't actually close the div.
+      #
+      # Therefore, we need to pass some kind of block to ensure it closes. We've
+      # choosen a comment to keep the output as clean as possible while still
+      # informing a developer what is happening.
+      if SELF_CLOSING_TAGS.include?(tag_name.to_sym)
+        tag(tag_name, **rendered_html(part_name))
+      else
+        content_tag(tag_name, **rendered_html(part_name)) do
+          "<!-- Empty Part Block //-->".html_safe
+        end
+      end
     end
   end
 

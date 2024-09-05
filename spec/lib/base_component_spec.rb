@@ -102,6 +102,11 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         it "does not render the attributes as text" do
           expect(page).not_to have_text("{:class=>\"nonblock\", :data=>{}}")
         end
+
+        # If you pass a :div tag to the
+        it "renders a comment to force a closing HTML tag" do
+          expect(page).to have_xpath("//div[contains(@class,'nonblock')]//comment()[contains(.,'Empty Part Block')]")
+        end
       end
     end
   end

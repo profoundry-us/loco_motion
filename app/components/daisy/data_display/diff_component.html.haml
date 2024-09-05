@@ -1,0 +1,6 @@
+= part(:component) do
+  - items.each.with_index do |item, index|
+    - item.set_index(index + 1)
+    = item
+
+  = part(:resizer)
