@@ -48,7 +48,7 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
     end
 
     context "with some extra parts" do
-      class NamedComponent < LocoMotion::BaseComponent
+      class PartfulComponent < LocoMotion::BaseComponent
         set_component_name :some_name
 
         define_parts :first, :second
@@ -64,15 +64,43 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         end
       end
 
-      let(:named_component) { NamedComponent.new(css: "comp", first_css: "first", second_css: "second") }
+      let(:partful_component) { PartfulComponent.new(css: "comp", first_css: "first", second_css: "second") }
 
       context "render" do
         before do
-          render_inline(named_component)
+          render_inline(partful_component)
         end
 
         it "renders all three parts" do
           expect(page).to have_css("div.comp div.first div.second")
+        end
+      end
+    end
+
+    context "with parts that have no block" do
+      class NonBlockPartComponent < LocoMotion::BaseComponent
+        define_part :nonblock
+
+        def call
+          part(:component) do
+            part(:nonblock)
+          end
+        end
+      end
+
+      let(:nonblock_component) { NonBlockPartComponent.new(css: "comp", nonblock_css: "nonblock") }
+
+      context "render" do
+        before do
+          render_inline(nonblock_component)
+        end
+
+        it "renders the HTML attributes properly" do
+          expect(page).to have_css("div.comp div.nonblock")
+        end
+
+        it "does not render the attributes as text" do
+          expect(page).not_to have_text("{:class=>\"nonblock\", :data=>{}}")
         end
       end
     end
