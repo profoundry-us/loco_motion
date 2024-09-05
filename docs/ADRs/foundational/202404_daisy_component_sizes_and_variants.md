@@ -1,30 +1,39 @@
-# Skipping Sizes & Variants for DaisyUI Components
+<!-- omit from toc -->
+# Skipping Sizes & Variants (Modifiers) for DaisyUI Components
 
 When building custom components, LocoMotion provides a standardized way of
 defining sizes and variants. Utilizing these standards with DaisyUI components
 causes some difficulties in rendering the CSS properly and this ADR recommends
 that we skip defining these for DaisyUI components.
 
-- [Skipping Sizes \& Variants for DaisyUI Components](#skipping-sizes--variants-for-daisyui-components)
-  - [Current Status](#current-status)
-  - [Authors](#authors)
-  - [Context](#context)
-    - [Constraints](#constraints)
-    - [Resources](#resources)
-    - [Open Questions](#open-questions)
-  - [Proposed Solution](#proposed-solution)
-    - [Pros](#pros)
-    - [Cons](#cons)
-    - [Considerations](#considerations)
-    - [Code Changes](#code-changes)
-    - [Consequences](#consequences)
-  - [ADR Tasks](#adr-tasks)
+> [!NOTE]
+>
+> The term `variant` has been renamed to `modifier` in a later ADR to better
+> match the terminology DaisyUI uses as well as to avoid confusion with Rails'
+> own variants feature.
+>
+> See [ADRs/lightweight/202404_rename_variants_to_modifiers.md][1]
+> for more information.
+
+- [Current Status](#current-status)
+- [Authors](#authors)
+- [Context](#context)
+  - [Constraints](#constraints)
+  - [Resources](#resources)
+  - [Open Questions](#open-questions)
+- [Proposed Solution](#proposed-solution)
+  - [Pros](#pros)
+  - [Cons](#cons)
+  - [Considerations](#considerations)
+  - [Code Changes](#code-changes)
+  - [Consequences](#consequences)
+- [Updates - September 2024](#updates---september-2024)
+- [ADR Tasks](#adr-tasks)
 
 
 ## Current Status
 
-**Draft** - The authors are currently drafting this document and expect to have
-it completed within 1-2 weeks.
+**Accepted** - This ADR has been accepted and ratified in code.
 
 ## Authors
 
@@ -140,11 +149,55 @@ Ultimately, this may be the preferred approach for building any pre-defined
 component libraries as many of them will already have their own custom CSS for
 the components.
 
+## Updates - September 2024
+
+After building some more components, we have realized that there are cases where
+it makes sense to utlize variants (now named modifiers) in order to reduce code
+clutter.
+
+A good example of this is the Accordion component where each section needs the
+`collapse-arrow` or `collapse-plus` applied to render properly. In this case, it
+can be useful to set a modifier at the component level and each section can
+render based on the parent component's modifiers.
+
+That said, the same issues still apply with needing to list out the CSS classes
+that are used, so the Accordion component checks the parent modifiers and adds
+the appropriate classes as necessary.
+
+**Example**
+
+_Excerpt of the `AccordionSectionComponent` utilizing the parent
+`AccordionComponent`'s modifiers to render. Code omitted for brevity._
+
+```ruby
+class AccordionComponent < LocoMotion.configuration.base_component_class
+  # ...
+
+  define_modifiers :arrow, :plus
+
+  # ...
+end
+
+class AccordionSectionComponent < BasicComponent
+  # ...
+
+  def setup_component
+    add_css(:component, "collapse")
+    add_css(:component, "collapse-arrow") if @parent.config.modifiers.include?(:arrow)
+    add_css(:component, "collapse-plus") if @parent.config.modifiers.include?(:plus)
+  end
+
+  # ...
+end
+```
+
 ## ADR Tasks
 
 - [x] Draft the core ADR
 - [x] Refine various sections
-- [ ] Submit for review
-- [ ] Make code changes
-- [ ] Review after implementation to see if we can add additional context /
+- [x] Submit for review
+- [x] Make code changes
+- [x] Review after implementation to see if we can add additional context /
       learnings
+
+[1]: ../lightweight/202404_rename_variants_to_modifiers.md
