@@ -1,0 +1,60 @@
+.prose.lg:prose-lg
+  %h2 Swaps
+
+  %p
+    The Swap component allows you to quickly swap between two icons, images, or
+    HTML elements with a simple click.
+
+  %h4 Simple Emojis
+
+.mt-4.flex.gap-x-6.text-4xl.lg:text-6xl
+  = daisy_swap(off: "❤️", on: "💔")
+  = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate")
+  = daisy_swap(off: "🔇", on: "🔊", css: "swap-flip")
+
+.mt-8.prose.lg:prose-lg
+  %h4 Hero Icons
+
+.mt-2.flex.items-center.gap-x-4
+  - sizes = "w-16 h-16"
+  = daisy_swap(checked: true) do |swap|
+    - swap.with_on do
+      = heroicon_tag "pause-circle", class: sizes, variant: :outline
+    - swap.with_off do
+      = heroicon_tag "play-circle", class: sizes, variant: :outline
+
+  = daisy_swap(checked: true) do |swap|
+    - swap.with_on do
+      = heroicon_tag "bell-alert", class: sizes + " animate-bounce text-purple-600", variant: :outline
+    - swap.with_off do
+      = heroicon_tag "bell-slash", class: sizes + " text-gray-400", variant: :outline
+
+  - # The standard tooltip hover doesn't work with the swap element well, so we
+  - # force it open for this example.
+  - #
+  - # Also, the tooltip seems to change the spacing, so we add some top margin
+  - # to keep the icon centered vertically.
+  = daisy_swap(css: "text-blue-600 mt-1") do |swap|
+    - swap.with_on do
+      .tooltip.tooltip-right.tooltip-open{ data: { tip: "Dollar" }}
+        = heroicon_tag "currency-dollar", class: sizes, variant: :outline
+    - swap.with_off do
+      .tooltip.tooltip-right.tooltip-open{ data: { tip: "Euro" }}
+        = heroicon_tag "currency-euro", class: sizes, variant: :outline
+
+.mt-8.prose.lg:prose-lg
+  %h4 Custom HTML Elements
+
+- shared_classes = "p-8 mask text-white text-center font-bold"
+.w-56.mt-4.flex.flex-col.items-center
+  = daisy_swap(css: "swap-rotate", checkbox_html: { id: "stopsign" }) do |swap|
+    - swap.with_off do
+      .mask-hexagon.bg-red-600{ class: shared_classes } Stop
+    - swap.with_on do
+      .mask-circle.bg-green-500{ class: shared_classes } Go
+    - swap.with_indeterminate do
+      .mask-squircle.bg-yellow-500{ class: shared_classes.sub("white", "black") } Slow
+
+  .mt-2.btn.btn-sm.px-4.py-2{ onclick: "document.getElementById('stopsign').indeterminate = true" }
+    Make Indeterminate
+

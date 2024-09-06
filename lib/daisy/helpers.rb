@@ -3,6 +3,7 @@ module Daisy
     # Actions
     button: 'Daisy::Actions::ButtonComponent',
     modal: 'Daisy::Actions::ModalComponent',
+    swap: 'Daisy::Actions::SwapComponent',
 
     # Data
     accordion: 'Daisy::DataDisplay::AccordionComponent',
