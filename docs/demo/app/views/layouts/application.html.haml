@@ -11,7 +11,11 @@
   %body.relative
     .sticky.z-10.top-0.navbar.px-4.border-b.border-gray-200.backdrop-blur{ class: "bg-white/95 dark:bg-slate-800" }
       .navbar-start
-        = link_to "LOCO Logo TBD", root_path
+        = link_to root_path, class: "flex items-center text-xl" do
+          = image_tag("loco-logo.png", class: "h-8")
+          %span
+            %em> Loco
+            %span.font-bold Motion
       .navbar-end
         = link_to "https://github.com/profoundry-us/loco_motion", target: "_blank" do
           %svg.w-6.h-6{role: "img", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", class: "dark:fill-white"}

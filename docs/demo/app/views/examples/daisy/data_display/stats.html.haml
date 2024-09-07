@@ -1,9 +1,9 @@
-.prose.lg:prose-lg 
-  %h2 Stats 
+.prose.lg:prose-lg
+  %h2 Stats
 
-  %p Here are some simple stats examples 
+  %p Here are some simple stats examples
 
-.flex.flex-row.items-center.gap-x-4 
+.mt-4.flex.flex-row.items-center.gap-x-4.border.rounded-lg
   = daisy_stat do
     1000
 
@@ -19,14 +19,14 @@
     - stat.with_description do
       %p.stat-desc This is a brief description of the number seen above.
       - # %p.stat-desc is in-line CSS that will allow you to add your own styles if you wish to customize it to your preference.
-  
-.flex.flex-row.items-center.gap-x-4
-  = daisy_stat(title: "Tasks", description: "Completed this month.", src: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg") do
+
+.mt-8.flex.flex-row.items-center.gap-x-4.border.rounded-lg
+  = daisy_stat(title: "Tasks", description: "Completed this month.", src: image_path("lady-smiling-1")) do
     25
 
   = daisy_stat(title: "Tasks", description: "Completed this month.", icon: "academic-cap") do
     25
-  
+
   = daisy_stat do |stat|
     - stat.with_title do
       %p.stat-title Some word
