@@ -1,5 +1,5 @@
 class Daisy::DataDisplay::DiffComponent < LocoMotion.configuration.base_component_class
-  class ItemComponent < BasicComponent
+  class ItemComponent < LocoMotion::BasicComponent
     def set_index(index)
       @index = index
     end

@@ -1,17 +1,17 @@
 class Daisy::Actions::SwapComponent < LocoMotion.configuration.base_component_class
-  class SwapOn < BasicComponent
+  class SwapOn < LocoMotion::BasicComponent
     def before_render
       add_css(:component, "swap-on")
     end
   end
 
-  class SwapOff < BasicComponent
+  class SwapOff < LocoMotion::BasicComponent
     def before_render
       add_css(:component, "swap-off")
     end
   end
 
-  class SwapIndeterminate < BasicComponent
+  class SwapIndeterminate < LocoMotion::BasicComponent
     def before_render
       add_css(:component, "swap-indeterminate")
     end

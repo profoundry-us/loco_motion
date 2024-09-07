@@ -38,7 +38,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   def self.renders_one(*args)
     # If they don't pass extra options, default to BasicComponent
-    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+    args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
   end
 
   #
@@ -47,7 +47,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   def self.renders_many(*args)
     # If they don't pass extra options, default to BasicComponent
-    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+    args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
   end
 
   #
@@ -155,6 +155,11 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   # Renders the given part.
   #
   def part(part_name, &block)
+
+    # Validate the part_name
+    @config.validate_part(part_name)
+
+    # Grab the rendered tag name
     tag_name = rendered_tag_name(part_name)
 
     if block_given?

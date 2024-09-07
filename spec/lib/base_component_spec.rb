@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe LocoMotion::BaseComponent, type: :component do
-  context "with a very basic inherited class" do
-    class BasicComponent < LocoMotion::BaseComponent
+  context "with a very simple inherited class" do
+    class SimpleComponent1 < LocoMotion::BaseComponent
       def call
         part(:component) do
           content
@@ -11,7 +11,7 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
     end
 
     before do
-      render_inline(BasicComponent.new)
+      render_inline(SimpleComponent1.new)
     end
 
     it "renders a div with no css" do

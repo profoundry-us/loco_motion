@@ -4,13 +4,13 @@
 # @!parse class Daisy::DataDisplay::TableComponent < LocoMotion::BaseComponent; end
 class Daisy::DataDisplay::TableComponent < LocoMotion.configuration.base_component_class
 
-  class HeadColumnComponent < BasicComponent
+  class HeadColumnComponent < LocoMotion::BasicComponent
     def before_render
       set_tag_name :component, :th
     end
   end
 
-  class HeadComponent < BasicComponent
+  class HeadComponent < LocoMotion::BasicComponent
     renders_many :columns, HeadColumnComponent
 
     def before_render
@@ -28,13 +28,13 @@ class Daisy::DataDisplay::TableComponent < LocoMotion.configuration.base_compone
     end
   end
 
-  class BodyColumnComponent < BasicComponent
+  class BodyColumnComponent < LocoMotion::BasicComponent
     def before_render
       set_tag_name :component, :td
     end
   end
 
-  class BodyRowComponent < BasicComponent
+  class BodyRowComponent < LocoMotion::BasicComponent
     renders_many :columns, BodyColumnComponent
 
     def before_render
@@ -50,7 +50,7 @@ class Daisy::DataDisplay::TableComponent < LocoMotion.configuration.base_compone
     end
   end
 
-  class BodyComponent < BasicComponent
+  class BodyComponent < LocoMotion::BasicComponent
     renders_many :rows, BodyRowComponent
 
     def before_render
@@ -68,7 +68,7 @@ class Daisy::DataDisplay::TableComponent < LocoMotion.configuration.base_compone
     end
   end
 
-  class SectionComponent < BasicComponent
+  class SectionComponent < LocoMotion::BasicComponent
     renders_one :head, HeadComponent
     renders_one :body, BodyComponent
     renders_many :rows, BodyRowComponent

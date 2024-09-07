@@ -3,19 +3,20 @@
 
   %p Here are some simple avatar examples.
 
-- lady1 = image_path("lady-smiling-1.png")
+- # Lady 0 is skipped / unused because she looks kinda fake
+- ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.png") }
 
 .mt-4.flex.flex-row.items-center.gap-x-4
   - # Avatar without online indicator
-  = daisy_avatar(src: lady1) do
+  = daisy_avatar(src: ladies[1]) do
     Daisy
 
   - # Avatar with online indicator
-  = daisy_avatar(css: "online", src: lady1) do
+  = daisy_avatar(css: "online", src: ladies[2]) do
     Daisy
 
   - # Avatar with offline indicator
-  = daisy_avatar(css: "offline", src: lady1) do
+  = daisy_avatar(css: "offline", src: ladies[3]) do
     Daisy
 
   - # Placeholder avatar without online indicator
@@ -24,10 +25,10 @@
 
   - # Placeholder avatar with online indicator
   = daisy_avatar(css: "online") do
-    AB
+    DG
 
   - # Placeholder avatar with offline indicator
   = daisy_avatar(css: "offline") do
-    AB
+    TF
 
 .flex.flex-row.items-center.gap-x-4

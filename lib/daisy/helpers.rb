@@ -1,18 +1,19 @@
 module Daisy
   COMPONENT_HELPERS = {
     # Actions
-    button: 'Daisy::Actions::ButtonComponent',
-    modal: 'Daisy::Actions::ModalComponent',
-    swap: 'Daisy::Actions::SwapComponent',
+    button: "Daisy::Actions::ButtonComponent",
+    modal: "Daisy::Actions::ModalComponent",
+    swap: "Daisy::Actions::SwapComponent",
 
     # Data
-    accordion: 'Daisy::DataDisplay::AccordionComponent',
-    avatar: 'Daisy::DataDisplay::AvatarComponent',
-    badge: 'Daisy::DataDisplay::BadgeComponent',
-    diff: 'Daisy::DataDisplay::DiffComponent',
-    kbd: 'Daisy::DataDisplay::KbdComponent',
-    stat: 'Daisy::DataDisplay::StatComponent',
-    table: 'Daisy::DataDisplay::TableComponent',
+    accordion: "Daisy::DataDisplay::AccordionComponent",
+    avatar: "Daisy::DataDisplay::AvatarComponent",
+    badge: "Daisy::DataDisplay::BadgeComponent",
+    card: "Daisy::DataDisplay::CardComponent",
+    diff: "Daisy::DataDisplay::DiffComponent",
+    kbd: "Daisy::DataDisplay::KbdComponent",
+    stat: "Daisy::DataDisplay::StatComponent",
+    table: "Daisy::DataDisplay::TableComponent",
   }
 
   module Helpers

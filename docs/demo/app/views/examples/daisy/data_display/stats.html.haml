@@ -1,7 +1,7 @@
 .prose.lg:prose-lg
   %h2 Stats
 
-  %p Here are some simple stats examples
+  %p Here are some simple stats examples.
 
 .mt-4.flex.flex-row.items-center.gap-x-4.border.rounded-lg
   = daisy_stat do
@@ -21,7 +21,7 @@
       - # %p.stat-desc is in-line CSS that will allow you to add your own styles if you wish to customize it to your preference.
 
 .mt-8.flex.flex-row.items-center.gap-x-4.border.rounded-lg
-  = daisy_stat(title: "Tasks", description: "Completed this month.", src: image_path("lady-smiling-1")) do
+  = daisy_stat(title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1")) do
     25
 
   = daisy_stat(title: "Tasks", description: "Completed this month.", icon: "academic-cap") do

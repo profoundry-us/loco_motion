@@ -178,7 +178,7 @@ class AccordionComponent < LocoMotion.configuration.base_component_class
   # ...
 end
 
-class AccordionSectionComponent < BasicComponent
+class AccordionSectionComponent < LocoMotion::BasicComponent
   # ...
 
   def setup_component

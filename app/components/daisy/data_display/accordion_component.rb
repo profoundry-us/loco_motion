@@ -1,7 +1,7 @@
 # The Accordion component shows sections that can be expanded or collapsed.
 class Daisy::DataDisplay::AccordionComponent < LocoMotion.configuration.base_component_class
 
-  class AccordionSectionComponent < BasicComponent
+  class AccordionSectionComponent < LocoMotion::BasicComponent
     define_parts :radio_button, :title, :content
 
     renders_one :title
