@@ -8,7 +8,7 @@
 .mt-8.grid.grid-cols-1.gap-4.lg:grid-cols-2.xl:grid-cols-4
   - pics.each do |pic|
     = daisy_card(title: pic.titleize, css: "max-w-96 bg-base-100 shadow-xl") do |card|
-      - card.with_top_figure css: "aspect-video", src: image_path("landscapes/#{pic}.png")
+      - card.with_top_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpeg")
 
       %p Such a beautiful place!
 
