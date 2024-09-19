@@ -1,3 +1,4 @@
 .yardoc
 yardocs
 .byebug_history
+docs/demo/.env.local

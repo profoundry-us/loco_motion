@@ -1,0 +1,24 @@
+- photos = Rails.cache.fetch("unsplash_landscapes") { Unsplash::Photo.search("landscape") }
+- unsplash_link = "https://unsplash.com?#{Unsplash::Client.connection.utm_params.to_param}"
+
+.prose.lg:prose-lg
+  %h2 Carousels
+
+  %p Carousels are great for showing off a lot of images!
+
+.mt-4
+  = daisy_carousel(css: "h-96 gap-x-2 rounded-lg") do |carousel|
+    - if photos.empty?
+      %p No photos found.
+
+    - photos.each do |photo|
+      - carousel.with_item(css: "relative") do
+        = link_to photo.links.html, target: "_blank" do
+          = image_tag(photo.urls.regular, alt: photo.alt_description, class: "rounded-lg h-96")
+        .absolute.bottom-2.left-0.right-0.flex.justify-center
+          %span.rounded.text-slate-600.px-2.py-1{ class: "bg-white/90" }
+            Photo by
+            = link_to photo.user.name, photo.user.links.html, class: "link hover:text-black", target: "_blank"
+            on
+            = link_to "Unsplash", unsplash_link, class: "link hover:text-black", target: "_blank"
+

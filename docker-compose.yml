@@ -22,6 +22,9 @@ services:
     build:
       context: docs/demo
       dockerfile: Dockerfile.demo
+    env_file:
+      - path: docs/demo/.env.local
+        required: false
     volumes:
       - ./docs/demo:/home/loco_demo
       - .:/home/loco_motion

@@ -8,6 +8,11 @@
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
+
+    %link{ href: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css", rel: "stylesheet" }/
+    %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" }
+    %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
+
   %body.relative
     .sticky.z-10.top-0.navbar.px-4.border-b.border-gray-200.backdrop-blur{ class: "bg-white/95 dark:bg-slate-800" }
       .navbar-start
@@ -45,3 +50,6 @@
       .pl-64
         .p-4
           = yield
+
+:javascript
+  hljs.highlightAll();

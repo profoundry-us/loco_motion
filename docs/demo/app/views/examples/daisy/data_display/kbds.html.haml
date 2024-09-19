@@ -1,17 +1,19 @@
-.prose.lg:prose-lg 
-  %h2 Keyboard 
+.prose.lg:prose-lg
+  %h2 Keyboard
 
-  %p Here is a simple example of a single keyboard key.
+  %p The keyboard component is used to visually represent a key on a keyboard.
+
+  %h4 Basic Example
 
 .my-2.flex.flex-row.gap-4
-  = daisy_kbd do 
+  = daisy_kbd do
     
-.prose.lg:prose-lg 
 
-  %p Keys in different sizes.
+.mt-6.prose.lg:prose-lg
+  %h4 Various Sizes
 
 .my-2.flex.flex-row.gap-4.items-center
-  = daisy_kbd(css: "kbd-lg") do 
+  = daisy_kbd(css: "kbd-lg") do
     Shift
   = daisy_kbd(css: "kbd-md") do
     Shift
@@ -20,19 +22,17 @@
   = daisy_kbd(css: "kbd-xs") do
     Shift
 
-.prose.lg:prose-lg 
-
-  %p Key inside a sentence.
+.mt-6.prose.lg:prose-lg
+  %h4 Inside a Sentence
 
 .my-2.flex.flex-row.gap-2.items-center
-  %p Press 
+  %p Press
   = daisy_kbd do
     F
   %p to pay respects.
 
-.prose.lg:prose-lg 
-
-  %p Key Combination.
+.mt-6.prose.lg:prose-lg
+  %h4 Key Combination
 
 .my-2.flex.flex-row.gap-2.items-center
   = daisy_kbd do
@@ -46,11 +46,10 @@
   +
 
   = daisy_kbd do
-    Del 
+    Del
 
-.prose.lg:prose-lg 
-
-  %p Function keys.
+.mt-6.prose.lg:prose-lg
+  %h4 Function Keys
 
 .my-2.flex.flex-row.gap-4.items-center
   = daisy_kbd do
@@ -65,9 +64,8 @@
   = daisy_kbd do
     ⌃
 
-.prose.lg:prose-lg 
-
-  %p Full keyboard.
+.mt-6.prose.lg:prose-lg
+  %h4 Full Keyboard
 
 .flex.justify-center.gap-1.my-1.w-full
   = daisy_kbd do

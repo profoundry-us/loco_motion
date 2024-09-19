@@ -3,22 +3,23 @@
 
   %p Here are some simple stats examples.
 
-.mt-4.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
-  = daisy_stat do
-    = number_to_currency(8619.45)
+= doc_example do
+  .mt-4.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
+    = daisy_stat do
+      = number_to_currency(8619.45)
 
-  = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
-    = number_with_delimiter(1208)
+    = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
+      = number_with_delimiter(1208)
 
-  - # Example passing options as blocks. This allows you to pass in HTML.
-  = daisy_stat do |stat|
-    - stat.with_title do
-      %p.stat-title Average Cart Value
+    - # Example passing options as blocks. This allows you to pass in HTML.
+    = daisy_stat do |stat|
+      - stat.with_title do
+        %p.stat-title Average Cart Value
 
-    = number_to_currency(319, precision: 0)
+      = number_to_currency(319, precision: 0)
 
-    - stat.with_description do
-      %p.stat-desc You're doing quite well on your ACV!
+      - stat.with_description do
+        %p.stat-desc You're doing quite well on your ACV!
 
 .mt-8.lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
   = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do

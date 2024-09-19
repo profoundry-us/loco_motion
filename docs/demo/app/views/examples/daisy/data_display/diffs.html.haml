@@ -12,3 +12,12 @@
   - diff.with_item do
     .bg-base-200.grid.place-content-center.text-6xl.lg:text-8xl.font-black
       LocoMotion
+
+.mt-4.prose.lg:prose-lg
+  %h4 Image Diff
+
+= daisy_diff(css: "aspect-video max-w-[800px] max-h-[450px]") do |diff|
+  - diff.with_item do
+    = image_tag("landscapes/desert.jpg")
+  - diff.with_item do
+    = image_tag("landscapes/desert.jpg", class: "blur")
