@@ -29,16 +29,17 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
   end
 
   def call
-    content_tag(:div) do
-      concat(content_tag(:h1, class: "text-xl text-black font-bold") { @title })
+    part(:component) do
+      concat(content_tag(:h1, class: "mb-2 text-xl text-black font-bold") { @title })
       concat(content_tag(:div) { content })
       concat(
-        daisy_accordion do |accordion|
-          accordion.with_section(title: "See Code", title_css: "!font-normal !text-sm") do
-            content_tag(:pre) do
-              content_tag(:code, class: "language-haml") { @code.join }
-            end
-          end
+        # TODO: Use a very simple collapse instead of accordion
+        content_tag(:div, class: "mt-4 collapse collapse-arrow bg-gray-100") do
+          concat(tag(:input, type: "checkbox", class: ""))
+          concat(content_tag(:div, class: "collapse-title italic") { "View Code" })
+          concat(content_tag(:pre, class: "collapse-content overflow-x-auto") do
+            content_tag(:code, class: "rounded-lg language-haml") { @code.join }
+          end)
         end
       )
     end

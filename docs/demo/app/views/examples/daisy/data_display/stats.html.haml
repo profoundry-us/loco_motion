@@ -3,8 +3,8 @@
 
   %p Here are some simple stats examples.
 
-= doc_example do
-  .mt-4.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
+= doc_example(title: "Basic Stats", css: "mt-4") do
+  .lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
     = daisy_stat do
       = number_to_currency(8619.45)
 
@@ -21,22 +21,23 @@
       - stat.with_description do
         %p.stat-desc You're doing quite well on your ACV!
 
-.mt-8.lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
-  = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do
-    25
+= doc_example(title: "Complex Stats", css: "mt-8") do
+  .lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
+    = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do
+      25
 
-  = daisy_stat(css: "max-w-80", title: "Students", description: "Total enrollments.", icon: "academic-cap") do
-    = number_with_delimiter(1112)
+    = daisy_stat(css: "max-w-80", title: "Students", description: "Total enrollments.", icon: "academic-cap") do
+      = number_with_delimiter(1112)
 
-  = daisy_stat(css: "max-w-80") do |stat|
-    - stat.with_title do
-      %p.stat-title New Students
+    = daisy_stat(css: "max-w-80") do |stat|
+      - stat.with_title do
+        %p.stat-title New Students
 
-    42
+      42
 
-    - stat.with_description do
-      %p.stat-desc New students in July!
+      - stat.with_description do
+        %p.stat-desc New students in July!
 
-    - stat.with_figure do
-      = daisy_badge(css: "badge-primary") do
-        New!
+      - stat.with_figure do
+        = daisy_badge(css: "badge-primary") do
+          New!
