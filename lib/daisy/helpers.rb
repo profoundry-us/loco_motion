@@ -11,6 +11,7 @@ module Daisy
     badge: "Daisy::DataDisplay::BadgeComponent",
     carousel: "Daisy::DataDisplay::CarouselComponent",
     card: "Daisy::DataDisplay::CardComponent",
+    collapse: "Daisy::DataDisplay::CollapseComponent",
     diff: "Daisy::DataDisplay::DiffComponent",
     kbd: "Daisy::DataDisplay::KbdComponent",
     stat: "Daisy::DataDisplay::StatComponent",

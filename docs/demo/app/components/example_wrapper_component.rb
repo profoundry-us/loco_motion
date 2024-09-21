@@ -39,13 +39,15 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
     start_indent = @file_lines[start_line].match(/^\s*/)[0].length
     current_line = start_line
 
-    while current_line < @file_lines.length - 1
+    while current_line < @file_lines.length
       @code << @file_lines[current_line]
 
-      current_line += 1
+      # Break out early if we reach the end of the example (based on indentation
+      # which works because we're using HAML)
       current_indent = @file_lines[current_line].match(/^\s*/)[0].length
+      break if current_line > start_line && current_indent <= start_indent
 
-      break if current_indent <= start_indent
+      current_line += 1
     end
   end
 end
