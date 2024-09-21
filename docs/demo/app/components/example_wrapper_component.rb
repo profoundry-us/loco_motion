@@ -1,16 +1,37 @@
 class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
+  define_parts :title, :example, :pre, :code
+
+  attr_reader :simple_title, :code
+
   def initialize(*args, **kws)
     super
 
-    @title = config_option(:title, "Example")
+    @simple_title = config_option(:title, "Example")
 
     @calling_file, @line_number = caller_locations(3, 1).first.to_s.split(" ").first.split(":")
   end
 
   def before_render
-    File.open(@calling_file, 'r') do |file|
-      @file_lines = file.readlines
-    end
+    setup_title
+    setup_code_parts
+    setup_code_block
+  end
+
+  def setup_title
+    set_tag_name(:title, :h1)
+    add_css(:title, "mb-2 text-xl text-black font-bold")
+  end
+
+  def setup_code_parts
+    set_tag_name(:pre, :pre)
+    add_css(:pre, "overflow-x-auto")
+
+    set_tag_name(:code, :code)
+    add_css(:code, "mt-4 rounded-lg language-haml")
+  end
+
+  def setup_code_block
+    @file_lines = Rails.cache.fetch(@calling_file) { File.readlines(@calling_file) }
 
     @code = []
 
@@ -25,23 +46,6 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
       current_indent = @file_lines[current_line].match(/^\s*/)[0].length
 
       break if current_indent <= start_indent
-    end
-  end
-
-  def call
-    part(:component) do
-      concat(content_tag(:h1, class: "mb-2 text-xl text-black font-bold") { @title })
-      concat(content_tag(:div) { content })
-      concat(
-        # TODO: Use a very simple collapse instead of accordion
-        content_tag(:div, class: "mt-4 collapse collapse-arrow bg-gray-100") do
-          concat(tag(:input, type: "checkbox", class: ""))
-          concat(content_tag(:div, class: "collapse-title italic") { "View Code" })
-          concat(content_tag(:pre, class: "collapse-content overflow-x-auto") do
-            content_tag(:code, class: "rounded-lg language-haml") { @code.join }
-          end)
-        end
-      )
     end
   end
 end
