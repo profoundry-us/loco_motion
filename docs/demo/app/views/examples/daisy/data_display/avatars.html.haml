@@ -3,32 +3,31 @@
 
   %p Here are some simple avatar examples.
 
-- # Lady 0 is skipped / unused because she looks kinda fake
-- ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpeg") }
+= doc_example(title: "Basic Avatars") do
+  - # Lady 0 is skipped / unused because she looks kinda fake
+  - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpeg") }
 
-.mt-4.flex.flex-row.items-center.gap-x-4
-  - # Avatar without online indicator
-  = daisy_avatar(src: ladies[1]) do
-    Daisy
+  .mt-4.flex.flex-row.items-center.gap-x-4
+    - # Avatar without online indicator
+    = daisy_avatar(src: ladies[1]) do
+      Daisy
 
-  - # Avatar with online indicator
-  = daisy_avatar(css: "online", src: ladies[2]) do
-    Daisy
+    - # Avatar with online indicator
+    = daisy_avatar(css: "online", src: ladies[2]) do
+      Daisy
 
-  - # Avatar with offline indicator
-  = daisy_avatar(css: "offline", src: ladies[3]) do
-    Daisy
+    - # Avatar with offline indicator
+    = daisy_avatar(css: "offline", src: ladies[3]) do
+      Daisy
 
-  - # Placeholder avatar without online indicator
-  = daisy_avatar do
-    AB
+    - # Placeholder avatar without online indicator
+    = daisy_avatar do
+      AB
 
-  - # Placeholder avatar with online indicator
-  = daisy_avatar(css: "online") do
-    DG
+    - # Placeholder avatar with online indicator
+    = daisy_avatar(css: "online") do
+      DG
 
-  - # Placeholder avatar with offline indicator
-  = daisy_avatar(css: "offline") do
-    TF
-
-.flex.flex-row.items-center.gap-x-4
+    - # Placeholder avatar with offline indicator
+    = daisy_avatar(css: "offline") do
+      TF

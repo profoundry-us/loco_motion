@@ -3,7 +3,7 @@
 
   %p Here are some simple stats examples.
 
-= doc_example(title: "Basic Stats", css: "mt-4") do
+= doc_example(title: "Basic Stats") do
   .lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
     = daisy_stat do
       = number_to_currency(8619.45)
@@ -21,7 +21,7 @@
       - stat.with_description do
         %p.stat-desc You're doing quite well on your ACV!
 
-= doc_example(title: "Complex Stats", css: "mt-8") do
+= doc_example(title: "Complex Stats") do
   .lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
     = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do
       25

@@ -89,7 +89,7 @@ demo-quick:
 # Open a Ruby console in the demo container
 .PHONY: demo-console
 demo-console:
-	docker compose exec -it demo /home/loco_demo/bin/console.sh
+	docker compose exec -it demo rails console
 
 # Restart the demo app
 .PHONY: demo-restart

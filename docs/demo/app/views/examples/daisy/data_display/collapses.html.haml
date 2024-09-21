@@ -3,6 +3,27 @@
 
   %p Here are some simple collapse examples.
 
-= doc_example(title: "Basic Collapse", css: "mt-4") do
+= doc_example(title: "Basic Collapse") do
   = daisy_collapse(title: "Click to Open") do |collapse|
     This is the content of the collapse.
+
+= doc_example(title: "Arrow Collapse") do
+  = daisy_collapse(title: "Click to Open", css: "border border-gray-200 collapse-arrow") do |collapse|
+    This is the content of the collapse.
+
+= doc_example(title: "Plus Collapse") do
+  = daisy_collapse(title: "Click to Open", css: "border border-gray-200 collapse-plus") do |collapse|
+    This is the content of the collapse.
+
+= doc_example(title: "Advanced Collapse") do
+  = daisy_collapse(css: "collapse-arrow bg-gray-100") do |collapse|
+    - collapse.with_title do
+      .flex.gap-x-2.items-center
+        = heroicon_tag("user-circle", class: "h-6 w-6")
+        %strong User Profile
+
+    .flex.gap-x-4.items-center
+      = daisy_avatar(src: image_path("avatars/lady-smiling-1.jpeg"))
+      %div
+        .text-xl.font-bold Jane Oliver
+        .italic jane@oliver.test

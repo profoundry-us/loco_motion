@@ -1,7 +1,7 @@
 class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
   define_parts :title, :example, :pre, :code
 
-  attr_reader :simple_title, :code
+  attr_reader :simple_title, :skip_cache, :code
 
   def initialize(*args, **kws)
     super
@@ -12,9 +12,16 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
   end
 
   def before_render
+    @skip_cache = config_option(:skip_cache, params[:skip_cache].present? || false)
+
+    setup_component
     setup_title
     setup_code_parts
     setup_code_block
+  end
+
+  def setup_component
+    add_css(:component, "mt-8")
   end
 
   def setup_title
@@ -31,22 +38,24 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
   end
 
   def setup_code_block
-    @file_lines = Rails.cache.fetch(@calling_file) { File.readlines(@calling_file) }
+    file_lines = Rails.cache.fetch(@calling_file, force: @skip_cache) { File.readlines(@calling_file) }
 
     @code = []
 
     start_line = @line_number.to_i - 1
-    start_indent = @file_lines[start_line].match(/^\s*/)[0].length
+    start_indent = file_lines[start_line].match(/^\s*/)[0].length
     current_line = start_line
 
-    while current_line < @file_lines.length
-      @code << @file_lines[current_line]
-
+    while current_line < file_lines.length
       # Break out early if we reach the end of the example (based on indentation
       # which works because we're using HAML)
-      current_indent = @file_lines[current_line].match(/^\s*/)[0].length
+      current_indent = file_lines[current_line].match(/^\s*/)[0].length
       break if current_line > start_line && current_indent <= start_indent
 
+      # Otherwise we can add our line to the code block
+      @code << file_lines[current_line]
+
+      # And increment the line number
       current_line += 1
     end
   end
