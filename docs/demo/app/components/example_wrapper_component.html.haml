@@ -14,7 +14,7 @@
             = heroicon_tag("computer-desktop")
           %span.whitespace-nowrap Preview
 
-      - tab.with_custom_content(css: "#{example_css} px-6 py-10 bg-repeat", html: background_pattern) do
+      - tab.with_custom_content(css: "#{tab_content_css} px-6 py-10 bg-repeat", html: background_pattern) do
         = part(:example) do
           = content
 
@@ -22,10 +22,10 @@
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4
-            = heroicon_tag("code-bracket-square")
+            = heroicon_tag("code-bracket")
           %span.whitespace-nowrap Code
 
-      - tab.with_custom_content(css: "#{example_css}") do
+      - tab.with_custom_content(css: "#{tab_content_css} w-full") do
         = part(:pre) do
           = part(:code) do
             = code.join.strip

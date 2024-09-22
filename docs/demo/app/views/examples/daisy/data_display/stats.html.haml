@@ -1,10 +1,15 @@
 .prose.lg:prose-lg
   %h2 Stats
 
-  %p Here are some simple stats examples.
+  %p Here are some examples showcasing stats.
 
-= doc_example(title: "Basic Stats") do
-  .lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
+= doc_example(title: "Basic Stats") do |doc|
+  - doc.with_description do
+    %p
+      Stats are used to display simple data points. They can be used to display
+      a number (the main content), a title, and a description.
+
+  .w-full.bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
     = daisy_stat do
       = number_to_currency(8619.45)
 
@@ -21,8 +26,14 @@
       - stat.with_description do
         %p.stat-desc You're doing quite well on your ACV!
 
-= doc_example(title: "Complex Stats") do
-  .lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
+
+= doc_example(title: "Complex Stats") do |doc|
+  - doc.with_description do
+    %p
+      Stats can also be used to display more complex data points. You can pass
+      in an image, an icon, or any other content you'd like.
+
+  .w-full.bg-base-100.lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
     = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do
       25
 

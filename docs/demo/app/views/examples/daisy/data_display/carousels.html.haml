@@ -1,12 +1,16 @@
-- photos = Rails.cache.fetch("unsplash_landscapes") { Unsplash::Photo.search("landscape") }
-- unsplash_link = "https://unsplash.com?#{Unsplash::Client.connection.utm_params.to_param}"
-
 .prose.lg:prose-lg
   %h2 Carousels
 
   %p Carousels are great for showing off a lot of images!
 
-.mt-4
+= doc_example(title: "Basic Carousel") do |doc|
+  - doc.with_description do
+    %p
+      You can use the Carousel component to display a collection of images.
+
+  - photos = Rails.cache.fetch("unsplash_landscapes") { Unsplash::Photo.search("landscape") }
+  - unsplash_link = "https://unsplash.com?#{Unsplash::Client.connection.utm_params.to_param}"
+
   = daisy_carousel(css: "h-96 gap-x-2 rounded-lg") do |carousel|
     - if photos.empty?
       %p No photos found.

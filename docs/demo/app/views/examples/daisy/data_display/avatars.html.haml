@@ -3,11 +3,16 @@
 
   %p Here are some simple avatar examples.
 
-= doc_example(title: "Basic Avatars") do
+= doc_example(title: "Basic Avatars") do |doc|
+  - doc.with_description do
+    %p
+      You can use the Avatar component to display a user's profile picture or
+      initials. You can also add an online or offline indicator.
+
   - # Lady 0 is skipped / unused because she looks kinda fake
   - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpeg") }
 
-  .mt-4.flex.flex-row.items-center.gap-x-4
+  .mt-4.flex.flex-col.lg:flex-row.items-center.gap-4
     - # Avatar without online indicator
     = daisy_avatar(src: ladies[1]) do
       Daisy

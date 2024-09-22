@@ -1,16 +1,45 @@
 .prose.lg:prose-lg
   %h2 Badges
 
-  %p Here are some simple badges.
+  %p Here are some examples showcasing badges.
 
-.my-2.flex.flex-row.gap-4
-  = daisy_badge do
-    Plain Badge
-  = daisy_badge(css: "badge-primary") do
-    Primary Badge
-  = daisy_badge(css: "badge-secondary") do
-    Secondary Badge
-  = daisy_badge(css: "badge-accent") do
-    Accent Badge
-  = daisy_badge(css: "badge-ghost") do
-    Ghost Badge
+= doc_example(title: "Simple Badges") do |doc|
+  - doc.with_description do
+    %p
+      You can use the Badge component to display a small amount of information.
+      Badges can be used to indicate status, category, or other metadata.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_badge do
+      Plain Badge
+
+    = daisy_badge(css: "badge-primary") do
+      Primary Badge
+
+    = daisy_badge(css: "badge-secondary") do
+      Secondary Badge
+
+    = daisy_badge(css: "badge-accent") do
+      Accent Badge
+
+    = daisy_badge(css: "badge-ghost") do
+      Ghost Badge
+
+
+= doc_example(title: "Badge Sizes") do |doc|
+  - doc.with_description do
+    %p
+      Badges come in four sizes: large, medium, small, and extra small.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_badge(css: "lg") do
+      Large Badge
+
+    = daisy_badge(css: "md") do
+      Medium Badge
+
+    = daisy_badge(css: "sm") do
+      Small Badge
+
+    = daisy_badge(css: "xs") do
+      Extra Small Badge

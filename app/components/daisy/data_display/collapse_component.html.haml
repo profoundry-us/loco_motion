@@ -3,10 +3,10 @@
     %input{ type: "checkbox" }
 
   - if has_title?
-    = part(:title) do
-      - if title?
-        = title
-      - elsif @simple_title.present?
+    - if title?
+      = title
+    - elsif @simple_title.present?
+      = part(:title) do
         = @simple_title
 
   = part(:wrapper) do
