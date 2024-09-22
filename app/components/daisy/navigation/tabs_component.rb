@@ -18,6 +18,7 @@ class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component
 
       @active       = config_option(:active, false)
       @checked      = config_option(:checked, false)
+      @disabled     = config_option(:disabled, false)
       @href         = config_option(:href)
       @simple_title = config_option(:title)
       @target       = config_option(:target)
@@ -42,10 +43,12 @@ class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component
       add_css(:component, "tab")
       add_css(:component, "tab-active") if @active || @checked
       add_html(:component, { role: "tab", href: @href, target: @target, "aria-label": @simple_title })
+      add_html(:component, { disabled: @disabled }) if @disabled
     end
 
     def setup_radio_button
       set_tag_name(:component, :input)
+      add_css(:component, "tab")
       add_html(:component, {
         type: "radio",
         role: "tab",
@@ -54,7 +57,7 @@ class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component
         value: @value,
         checked: @active || @checked
       })
-      add_css(:component, "tab")
+      add_html(:component, { disabled: @disabled }) if @disabled
     end
 
     def setup_content_wrapper

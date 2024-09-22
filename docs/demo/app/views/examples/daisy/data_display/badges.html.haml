@@ -31,15 +31,15 @@
     %p
       Badges come in four sizes: large, medium, small, and extra small.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4
-    = daisy_badge(css: "lg") do
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-secondary badge-lg") do
       Large Badge
 
-    = daisy_badge(css: "md") do
+    = daisy_badge(css: "badge-success badge-md") do
       Medium Badge
 
-    = daisy_badge(css: "sm") do
+    = daisy_badge(css: "badge-error badge-sm") do
       Small Badge
 
-    = daisy_badge(css: "xs") do
+    = daisy_badge(css: "badge-warning badge-xs") do
       Extra Small Badge

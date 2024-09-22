@@ -24,6 +24,9 @@
       of icons or other HTML elements in the title.
 
   = daisy_tabs(css: "tabs-lifted w-[500px]", radio: true) do |tabs|
+    - # Add some space before the first tab
+    - tabs.with_tab(title: "", css: "!w-14 !cursor-auto", disabled: true)
+
     - (1..3).each do |i|
       - tabs.with_tab(title: "Tab #{i}", content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6", checked: i == 1) do
         %p Tab #{i} content
