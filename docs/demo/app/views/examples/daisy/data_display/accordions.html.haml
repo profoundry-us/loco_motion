@@ -1,0 +1,63 @@
+.prose.lg:prose-lg
+  %h2 Accordions
+
+  %p Here are some examples showcasing accordions.
+
+= doc_example(title: "Basic Accordion") do |doc|
+  - doc.with_description do
+    %p
+      You can apply the <code>collapse-arrow</code> or
+      <code>collapse-plus</code> CSS modifiers directly to each section.
+
+  = daisy_accordion(css: "mt-4 bg-gray-200 rounded-lg") do |accordion|
+    - accordion.with_section(css: "collapse-arrow", title: "Section 1", checked: true) do
+      This is a simple accordion. Click the sections to see more.
+
+    - accordion.with_section(css: "collapse-plus", title: "Section 2") do
+      It has three sections.
+
+    - accordion.with_section(title: "Section 3") do
+      You can open them independently.
+
+
+= doc_example(title: "Separated Accordion") do |doc|
+  - doc.with_description do
+    %p
+      You can also set the <code>:arrow</code> or <code>:plus</code> modifier to
+      the entire accordion to apply it to all sections.
+
+  = daisy_accordion(css: "mt-4", modifier: :arrow) do |accordion|
+    - accordion.with_section(title: "Section 1", checked: true) do
+      Sections can be combined...
+
+    - accordion.with_section(title: "Section 2") do
+      Like these two.
+
+    - accordion.with_section(title: "Section A", name: "ex2-lettered", checked: true) do
+      Or separated via the <code>name</code> attribute.
+
+    - accordion.with_section(title: "Section B", name: "ex2-lettered") do
+      Like these two.
+
+= doc_example(title: "Form Accordion") do |doc|
+  - doc.with_description do
+    %p
+      Because it uses <code>&lt;input type="radio"&gt;</code> elements, you can
+      even use it inside a form!
+
+  %turbo-frame#accordion-form
+    %form.mt-4.w-80{ action: "#" }
+      %label.block.mb-4.italic What is your favorite color?
+
+      = daisy_accordion(modifier: :plus, css: "flex flex-col gap-y-4", name: "favorite-color") do |accordion|
+        - accordion.with_section(css: "bg-red-300", title: "Red", value: "red", checked: params["favorite-color"] == "red") do
+          Rosy!
+        - accordion.with_section(css: "bg-blue-300", title: "Blue", value: "blue", checked: params["favorite-color"] == "blue") do
+          Solid!
+        - accordion.with_section(css: "bg-green-300", title: "Green", value: "green", checked: params["favorite-color"] == "green") do
+          Groovy!
+
+      .mt-4.flex.flex-row.items-center.gap-x-4
+        %input{ type: "submit", value: "Submit", class: "btn btn-secondary" }
+        - if params["favorite-color"]
+          %span.font-bold= "You chose #{params["favorite-color"]}!"

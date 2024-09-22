@@ -3,29 +3,36 @@
 
   %p Here are some simple avatar examples.
 
-.flex.flex-row.items-center.gap-x-4
-  - # Avatar without online indicator
-  = daisy_avatar( src: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg") do
-    Daisy
+= doc_example(title: "Basic Avatars") do |doc|
+  - doc.with_description do
+    %p
+      You can use the Avatar component to display a user's profile picture or
+      initials. You can also add an online or offline indicator.
 
-  - # Avatar with online indicator
-  = daisy_avatar(css: "online", src: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg") do
-    Daisy
-  
-  - # Avatar with offline indicator
-  = daisy_avatar(css: "offline", src: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg") do
-    Daisy
+  - # Lady 0 is skipped / unused because she looks kinda fake
+  - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpeg") }
 
-  - # Placeholder avatar without online indicator
-  = daisy_avatar do
-    AB
-  
-  - # Placeholder avatar with online indicator
-  = daisy_avatar(css: "online") do
-    AB
+  .mt-4.flex.flex-col.lg:flex-row.items-center.gap-4
+    - # Avatar without online indicator
+    = daisy_avatar(src: ladies[1]) do
+      Daisy
 
-  - # Placeholder avatar with offline indicator
-  = daisy_avatar(css: "offline") do
-    AB
+    - # Avatar with online indicator
+    = daisy_avatar(css: "online", src: ladies[2]) do
+      Daisy
 
-.flex.flex-row.items-center.gap-x-4
+    - # Avatar with offline indicator
+    = daisy_avatar(css: "offline", src: ladies[3]) do
+      Daisy
+
+    - # Placeholder avatar without online indicator
+    = daisy_avatar do
+      AB
+
+    - # Placeholder avatar with online indicator
+    = daisy_avatar(css: "online") do
+      DG
+
+    - # Placeholder avatar with offline indicator
+    = daisy_avatar(css: "offline") do
+      TF

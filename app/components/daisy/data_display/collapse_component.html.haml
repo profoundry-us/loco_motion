@@ -1,0 +1,13 @@
+= part(:component) do
+  - if @checkbox
+    %input{ type: "checkbox" }
+
+  - if has_title?
+    - if title?
+      = title
+    - elsif @simple_title.present?
+      = part(:title) do
+        = @simple_title
+
+  = part(:wrapper) do
+    = content

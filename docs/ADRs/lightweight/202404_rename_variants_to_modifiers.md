@@ -7,9 +7,19 @@ user-agent defined template that should be rendered.
 In order to avoid potential conflicts of both code and knowledge, we propose
 renaming the LocoMotion `variants` to `modifiers`.
 
+- [Current Status](#current-status)
+- [Authors / Stakeholders](#authors--stakeholders)
+- [Context](#context)
+  - [Constraints](#constraints)
+  - [Resources](#resources)
+- [Proposed Solution](#proposed-solution)
+  - [Code Changes](#code-changes)
+- [Updates - September 2024](#updates---september-2024)
+- [ADR Tasks](#adr-tasks)
+
 ## Current Status
 
-**Approved** - This decision is approved and ratified in this commit.
+**Accepted** - This decision is accepted and ratified in code.
 
 ## Authors / Stakeholders
 
@@ -52,10 +62,15 @@ In order to update the code, it should be a simple find / replace of everywhere
 that we use the word `Variant` or `variant` with the new word `Modifier` or
 `modifier`.
 
+## Updates - September 2024
+
+Modifiers appear to be working properly and without conflict to other DaisyUI or
+ViewComponent code.
+
 ## ADR Tasks
 
 - [x] Draft the core of the ADR
 - [x] Submit for review
 - [x] Approved
-- [ ] Review / update after finishing the solution with any new context /
+- [x] Review / update after finishing the solution with any new context /
       learnings

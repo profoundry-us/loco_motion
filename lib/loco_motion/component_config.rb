@@ -74,12 +74,33 @@ class LocoMotion::ComponentConfig
   # Validate the component config and throw errors if there are issues.
   #
   def validate
+    validate_modifiers
+  end
+
+  #
+  # Validate that all of the modifiers are correct.
+  #
+  def validate_modifiers
     # Check to make sure they have passed a valid / defined modifier
     (@modifiers || []).each do |modifier|
       if modifier.present? && !@component.valid_modifiers.include?(modifier)
         raise LocoMotion::InvalidModifierError.new(modifier, @component)
       end
     end
+  end
+
+  #
+  # Validates that the requested part is valid for the component.
+  #
+  def validate_part(part_name)
+    raise LocoMotion::UnknownPartError.new(part_name, @component) unless valid_parts.include?(part_name)
+  end
+
+  #
+  # Return a list of valid parts for the component.
+  #
+  def valid_parts
+    @parts.keys
   end
 
   #

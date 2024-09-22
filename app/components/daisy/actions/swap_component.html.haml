@@ -1,0 +1,17 @@
+= part(:component) do
+  = part(:checkbox)
+
+  - if on?
+    = on
+  - elsif @simple_on
+    = part(:on) do
+      = @simple_on
+
+  - if off?
+    = off
+  - elsif @simple_off
+    = part(:off) do
+      = @simple_off
+
+  - if indeterminate?
+    = indeterminate

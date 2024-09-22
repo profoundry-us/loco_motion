@@ -3,18 +3,32 @@
 
   %p Below is a very simple modal example!
 
-  = daisy_modal(title: "Simple Modal") do |modal|
-    - modal.with_activator do
-      = daisy_button(css: 'btn-primary', html: { onclick: "document.getElementById('#{modal.dialog_id}').showModal()" }) do
-        Open Modal
+%turbo-frame#simple-modal
+  = doc_example(title: "Simple Modal") do |doc|
+    - doc.with_description do
+      %p
+        Modals are used to display content that requires user interaction. They
+        are typically used to display forms, alerts, or other content that
+        requires user input.
 
-    Here is some really long modal content that should go well past the
-    spot where the close icon appears...
+    .flex.flex-col.items-center
+      = daisy_modal(title: "Simple Modal") do |modal|
+        - modal.with_activator do
+          = daisy_button(css: 'btn-primary', html: { onclick: "document.getElementById('#{modal.dialog_id}').showModal()" }) do
+            Open Modal
 
-    - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
-      %form{ method: :dialog }
-        = daisy_button do
-          Cancel
-      %form{ action: "/" }
-        = daisy_button(css: "btn-primary") do
-          Submit
+        Here is some really long modal content that should go well past the
+        spot where the close icon appears...
+
+        - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+          %form{ method: :dialog }
+            = daisy_button do
+              Cancel
+          %form{ action: "", method: :get }
+            %input{ type: "hidden", name: "submitted", value: "true" }
+            = daisy_button(css: "btn-primary") do
+              Submit
+
+      - if params[:submitted] == "true"
+        %p.my-2.font-bold.italic
+          You submitted the modal!

@@ -89,7 +89,7 @@ demo-quick:
 # Open a Ruby console in the demo container
 .PHONY: demo-console
 demo-console:
-	docker compose exec -it demo /home/loco_demo/bin/console.sh
+	docker compose exec -it demo rails console
 
 # Restart the demo app
 .PHONY: demo-restart
@@ -110,6 +110,16 @@ demo-test:
 .PHONY: demo-debug
 demo-debug:
 	docker compose run --rm demo /bin/bash
+
+# Turns on caching for the demo container
+.PHONY: demo-cache
+demo-cache:
+	touch docs/demo/tmp/caching-dev.txt
+
+# Turns off caching for the demo container
+.PHONY: demo-nocache
+demo-nocache:
+	rm -f docs/demo/tmp/caching-dev.txt
 
 ##############################
 # Yard commands

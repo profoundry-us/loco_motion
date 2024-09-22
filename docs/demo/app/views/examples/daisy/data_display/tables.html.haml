@@ -1,11 +1,11 @@
-- data = [{col1: "foo", col2: "bar"}, {col1: "fizz", col2: "buzz"}]
-
 .prose.lg:prose-lg
   %h2 Tables
 
-  %h3.heading-3 Basic Table
+  %p Here are some examples showcasing tables.
 
-.overflow-x-auto
+= doc_example(title: "Basic Table") do |doc|
+  - data = [{col1: "foo", col2: "bar"}, {col1: "fizz", col2: "buzz"}]
+
   = daisy_table do |table|
     - table.with_head do |head|
       - head.with_column do
@@ -20,22 +20,29 @@
         - row.with_column do
           = d[:col2]
 
-.prose.lg:prose-lg
-  %h3.heading-3 Pinning Rows (Using Sections)
 
-  %p
-    The following example shows how to have a table with multiple headers pinned
-    as you scroll.
+= doc_example(title: "Pinning Rows (Using Sections)") do |doc|
+  - doc.with_description do
+    %p
+      The following example shows how to have a table with multiple headers
+      pinned as you scroll.
 
-.mt-4.w-96.h-96.border.border-gray-400.rounded.overflow-y-auto
-  = daisy_table(css: "table-pin-rows") do |table|
-    - (0..100).step(10).with_index do |step, index|
-      - table.with_section do |section|
-        - section.with_head do |head|
-          - head.with_column(css: 'bg-blue-100') do
-            = "Section ##{index + 1}"
-        - section.with_body do |body|
-          - (1..10).each do |i|
-            - body.with_row do |row|
-              - row.with_column do
-                = step + i
+  .w-96.h-96.border.border-gray-400.rounded.overflow-y-auto
+    = daisy_table(css: "bg-base-100 table-pin-rows") do |table|
+      - (0..90).step(10).with_index do |step, index|
+        - table.with_section do |section|
+          - section.with_head do |head|
+            - head.with_column(css: 'bg-blue-100') do
+              - if step == 0
+                1900s
+              - else
+                = "19#{index * 10}s"
+
+          - section.with_body do |body|
+            - (0..9).each do |i|
+              - body.with_row do |row|
+                - row.with_column do
+                  - if step == 0
+                    = "190#{step + i}"
+                  - else
+                    = "19#{step + i}"

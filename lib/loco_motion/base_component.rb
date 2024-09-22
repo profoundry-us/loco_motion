@@ -1,5 +1,7 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
+  SELF_CLOSING_TAGS = %i[area base br col embed hr img input keygen link meta param source track wbr].freeze
+
   include Heroicons::IconsHelper
 
   class_attribute :component_name
@@ -36,7 +38,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   def self.renders_one(*args)
     # If they don't pass extra options, default to BasicComponent
-    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+    args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
   end
 
   #
@@ -45,7 +47,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   def self.renders_many(*args)
     # If they don't pass extra options, default to BasicComponent
-    args&.size == 1 ?  super(*args + [BasicComponent]) : super
+    args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
   end
 
   #
@@ -149,13 +151,45 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     self
   end
 
+
+  #
+  # Sets the parent component of this component. Enables child components to ask
+  # questions of their parent and access parent config.
+  #
+  def set_loco_parent(parent)
+    @loco_parent = parent
+  end
+  attr_reader :loco_parent
+
   #
   # Renders the given part.
   #
   def part(part_name, &block)
+
+    # Validate the part_name
+    @config.validate_part(part_name)
+
+    # Grab the rendered tag name
     tag_name = rendered_tag_name(part_name)
 
-    content_tag(tag_name, **rendered_html(part_name), &block)
+    if block_given?
+      content_tag(tag_name, **rendered_html(part_name), &block)
+    else
+      # The `tag()` helper will allow you to pass any tag without a block, but
+      # this isn't valid HTML. In particular, it will render a "self-closing"
+      # <div /> tag which doesn't actually close the div.
+      #
+      # Therefore, we need to pass some kind of block to ensure it closes. We've
+      # choosen a comment to keep the output as clean as possible while still
+      # informing a developer what is happening.
+      if SELF_CLOSING_TAGS.include?(tag_name.to_sym)
+        tag(tag_name, **rendered_html(part_name))
+      else
+        content_tag(tag_name, **rendered_html(part_name)) do
+          "<!-- Empty Part Block //-->".html_safe
+        end
+      end
+    end
   end
 
   #

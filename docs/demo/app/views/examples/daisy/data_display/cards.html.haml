@@ -1,0 +1,41 @@
+.prose.lg:prose-lg
+  %h2 Cards
+
+  %p Here are some examples showcasing cards.
+
+= doc_example(title: "Basic Card") do |doc|
+  - doc.with_description do
+    %p
+      Cards are used to display information in a structured way. They can contain
+      images, text, and actions.
+
+  = daisy_card(css: "max-w-96 bg-base-100 shadow-xl") do |card|
+    - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpeg")
+
+    %p Such a beautiful beach!
+
+    - card.with_actions(css: "mt-2 justify-end") do
+      = daisy_button(css: "btn-primary") do
+        Book Travel
+
+
+= doc_example(title: "Card Figures") do |doc|
+  - doc.with_description do
+    %p
+      The images (figures) can be on the top or the bottom!
+
+  - pics = ["beach", "forest", "mountain-river", "desert"]
+
+  .mt-8.grid.grid-cols-1.gap-4.lg:grid-cols-2.xl:grid-cols-4
+    - pics.each.with_index do |pic, i|
+      = daisy_card(title: pic.titleize, css: "max-w-96 bg-base-100 shadow-xl") do |card|
+        - if i % 2 == 0
+          - card.with_top_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpeg")
+        - else
+          - card.with_bottom_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpeg")
+
+        %p Such a beautiful place!
+
+        - card.with_actions(css: "mt-2 justify-end") do
+          = daisy_button(css: "btn-primary") do
+            Book Travel

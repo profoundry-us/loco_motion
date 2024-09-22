@@ -1,40 +1,54 @@
-.prose.lg:prose-lg 
-  %h2 Stats 
+.prose.lg:prose-lg
+  %h2 Stats
 
-  %p Here are some simple stats examples 
+  %p Here are some examples showcasing stats.
 
-.flex.flex-row.items-center.gap-x-4 
-  = daisy_stat do
-    1000
+= doc_example(title: "Basic Stats") do |doc|
+  - doc.with_description do
+    %p
+      Stats are used to display simple data points. They can be used to display
+      a number (the main content), a title, and a description.
 
-  = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
-    1000
+  .w-full.bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
+    = daisy_stat do
+      = number_to_currency(8619.45)
 
-  - #Example passing options as blocks. This allows you to pass in HTML.
-  = daisy_stat do |stat|
-    - stat.with_title do
-      %p.stat-title Some word
-    1000
+    = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
+      = number_with_delimiter(1208)
 
-    - stat.with_description do
-      %p.stat-desc This is a brief description of the number seen above.
-      - # %p.stat-desc is in-line CSS that will allow you to add your own styles if you wish to customize it to your preference.
-  
-.flex.flex-row.items-center.gap-x-4
-  = daisy_stat(title: "Tasks", description: "Completed this month.", src: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg") do
-    25
+    - # Example passing options as blocks. This allows you to pass in HTML.
+    = daisy_stat do |stat|
+      - stat.with_title do
+        %p.stat-title Average Cart Value
 
-  = daisy_stat(title: "Tasks", description: "Completed this month.", icon: "academic-cap") do
-    25
-  
-  = daisy_stat do |stat|
-    - stat.with_title do
-      %p.stat-title Some word
-    1000
+      = number_to_currency(319, precision: 0)
 
-    - stat.with_description do
-      %p.stat-desc This is a brief description of the number seen above.
+      - stat.with_description do
+        %p.stat-desc You're doing quite well on your ACV!
 
-    - stat.with_figure do
-      = daisy_badge(css: "badge-primary") do
-        Text
+
+= doc_example(title: "Complex Stats") do |doc|
+  - doc.with_description do
+    %p
+      Stats can also be used to display more complex data points. You can pass
+      in an image, an icon, or any other content you'd like.
+
+  .w-full.bg-base-100.lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
+    = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpeg")) do
+      25
+
+    = daisy_stat(css: "max-w-80", title: "Students", description: "Total enrollments.", icon: "academic-cap") do
+      = number_with_delimiter(1112)
+
+    = daisy_stat(css: "max-w-80") do |stat|
+      - stat.with_title do
+        %p.stat-title New Students
+
+      42
+
+      - stat.with_description do
+        %p.stat-desc New students in July!
+
+      - stat.with_figure do
+        = daisy_badge(css: "badge-primary") do
+          New!

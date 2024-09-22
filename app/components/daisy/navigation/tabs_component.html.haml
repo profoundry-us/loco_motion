@@ -1,0 +1,4 @@
+= part(:component) do
+  - tabs.each do |tab|
+    - tab.set_loco_parent(component_ref)
+    = tab
