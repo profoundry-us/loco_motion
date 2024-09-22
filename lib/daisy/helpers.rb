@@ -16,6 +16,9 @@ module Daisy
     kbd: "Daisy::DataDisplay::KbdComponent",
     stat: "Daisy::DataDisplay::StatComponent",
     table: "Daisy::DataDisplay::TableComponent",
+
+    # Navigation
+    tabs: "Daisy::Navigation::TabsComponent",
   }
 
   module Helpers

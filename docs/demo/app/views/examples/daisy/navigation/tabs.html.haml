@@ -1,0 +1,48 @@
+.prose.lg:prose-lg
+  %h2 Tabs
+
+  %p Here are some simple tabs examples.
+
+= doc_example(title: "Basic Tabs") do |doc|
+  - doc.with_description do
+    %p
+      Tabs are transparent by default and don't automatically do anything since
+      they are simple <code>&lt;a&gt;</code> (anchor) elements. You can set the
+      <code>href</code> attribute to make them link to another page.
+
+  = daisy_tabs(css: "tabs-bordered") do |tabs|
+    - tabs.with_tab(title: "I Do Nothing", active: true)
+    - tabs.with_tab(title: "Ditto", html: { onclick: "alert('Ha! Gotcha ;-)')" })
+    - tabs.with_tab(title: "Open Google", href: "https://google.com", target: "_blank")
+
+
+= doc_example(title: "Radio Button Tabs with Content") do |doc|
+  - doc.with_description do
+    %p
+      If you want the tabs to change their content, you can use the
+      <code>radio</code> option. Note that this does <em>not</em> allow the use
+      of icons or other HTML elements in the title.
+
+  = daisy_tabs(css: "tabs-lifted", radio: true) do |tabs|
+    - (1..3).each do |i|
+      - tabs.with_tab(title: "Tab #{i}", content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6", checked: i == 1) do
+        %p Tab #{i} content
+
+
+= doc_example(title: "Turbo Frame Tabs") do |doc|
+  - doc.with_description do
+    %p You can also use tabs with Turbo Frames to load content dynamically.
+
+  %turbo-frame#tabs--turob-tabs-example
+    = daisy_tabs(css: "tabs-lifted") do |tabs|
+      - (2..4).each do |i|
+        - is_checked = params[:custom_tab] ? params[:custom_tab] == i.to_s : i == 3
+        - tabs.with_tab(href: "?custom_tab=#{i}", checked: is_checked) do |tab|
+          - tab.with_title(css: "test-tab") do
+            .flex.gap-x-2.items-center
+              %span.w-4.h-4
+                = heroicon_tag("bars-#{i}")
+              %span.whitespace-nowrap #{i} Bars
+
+          - tab.with_custom_content(css: "tab-content bg-base-100 border-base-300 rounded-box p-6") do
+            %p #{i} bars content...

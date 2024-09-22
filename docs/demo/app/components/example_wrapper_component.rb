@@ -3,6 +3,8 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
 
   attr_reader :simple_title, :skip_cache, :code
 
+  renders_one :description
+
   def initialize(*args, **kws)
     super
 
@@ -21,6 +23,7 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
   end
 
   def setup_component
+    add_stimulus_controller(:component, "active-tab")
     add_css(:component, "mt-8")
   end
 
@@ -34,7 +37,8 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
     add_css(:pre, "overflow-x-auto")
 
     set_tag_name(:code, :code)
-    add_css(:code, "mt-4 rounded-lg language-haml")
+    add_css(:code, "rounded-lg language-haml")
+    add_stimulus_controller(:code, "highlight-code")
   end
 
   def setup_code_block
@@ -58,5 +62,15 @@ class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
       # And increment the line number
       current_line += 1
     end
+  end
+
+  def example_css
+    "tab-content border-base-300 rounded-box"
+  end
+
+  def background_pattern
+    {
+      style: "background-size: 8px 8px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAADxJREFUKFNjZCAOGDMSoc6YgYHhLCGFYEUgw/AphCvCpxBFES6FGIqwKcSqCF0hTkXICvEqgikkqAikEAC4pQk++Il8LgAAAABJRU5ErkJggg==)"
+    }
   end
 end

@@ -27,11 +27,12 @@ class LocoMotion::BasicComponent < LocoMotion.configuration.base_component_class
       old_before_render = instance_method(:before_render)
 
       define_method(:before_render) do
-        old_before_render.bind(self).call
-
         set_tag_name(:component, tag_name)
         add_css(:component, css)
         add_html(:component, html)
+
+        # Call their before_render after we have setup our defaults
+        old_before_render.bind(self).call
       end
     end
 

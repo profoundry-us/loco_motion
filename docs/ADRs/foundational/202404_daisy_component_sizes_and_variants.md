@@ -183,8 +183,8 @@ class AccordionSectionComponent < LocoMotion::BasicComponent
 
   def setup_component
     add_css(:component, "collapse")
-    add_css(:component, "collapse-arrow") if @parent.config.modifiers.include?(:arrow)
-    add_css(:component, "collapse-plus") if @parent.config.modifiers.include?(:plus)
+    add_css(:component, "collapse-arrow") if loco_parent.config.modifiers.include?(:arrow)
+    add_css(:component, "collapse-plus") if loco_parent.config.modifiers.include?(:plus)
   end
 
   # ...

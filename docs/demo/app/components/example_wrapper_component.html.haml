@@ -2,9 +2,30 @@
   = part(:title) do
     = simple_title
 
-  = part(:example) do
-    = content
+  - if description?
+    .prose
+      = description
 
-  = part(:pre) do
-    = part(:code) do
-      = code.join.strip
+  = daisy_tabs(css: "tabs-lifted") do |tabs|
+    - tabs.with_tab(active: true, html: { data: { "active-tab-target": "tab", action: "active-tab#activate" }}) do |tab|
+      - tab.with_title do
+        .flex.gap-x-2.items-center
+          %span.w-4.h-4
+            = heroicon_tag("computer-desktop")
+          %span.whitespace-nowrap Preview
+
+      - tab.with_custom_content(css: "#{example_css} px-6 py-10 bg-repeat", html: background_pattern) do
+        = part(:example) do
+          = content
+
+    - tabs.with_tab(css: "[&.tab-active]:![--tab-bg:#282c34] [&.tab-active]:!text-white", html: { data: { "active-tab-target": "tab", action: "active-tab#activate" }}) do |tab|
+      - tab.with_title do
+        .flex.gap-x-2.items-center
+          %span.w-4.h-4
+            = heroicon_tag("code-bracket-square")
+          %span.whitespace-nowrap Code
+
+      - tab.with_custom_content(css: "#{example_css}") do
+        = part(:pre) do
+          = part(:code) do
+            = code.join.strip

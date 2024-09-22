@@ -151,6 +151,16 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     self
   end
 
+
+  #
+  # Sets the parent component of this component. Enables child components to ask
+  # questions of their parent and access parent config.
+  #
+  def set_loco_parent(parent)
+    @loco_parent = parent
+  end
+  attr_reader :loco_parent
+
   #
   # Renders the given part.
   #

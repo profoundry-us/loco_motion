@@ -1,7 +1,7 @@
 # The Accordion component shows sections that can be expanded or collapsed.
 class Daisy::DataDisplay::AccordionComponent < LocoMotion.configuration.base_component_class
 
-  class AccordionSectionComponent < LocoMotion::BasicComponent
+  AccordionSectionComponent = LocoMotion::BasicComponent.build do
     define_parts :radio_button, :title, :content
 
     renders_one :title
@@ -19,13 +19,6 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion.configuration.base_com
       @name         = config_option(:name)
     end
 
-    def set_parent(parent)
-      @parent = parent
-
-      # Reset the name to the config option or the parent name if available
-      @name = config_option(:name, parent.name)
-    end
-
     def before_render
       setup_component
       setup_radio_button
@@ -34,9 +27,12 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion.configuration.base_com
     end
 
     def setup_component
+      # Reset the name to the config option or the parent name if available
+      @name = config_option(:name, loco_parent&.name)
+
       add_css(:component, "collapse")
-      add_css(:component, "collapse-arrow") if @parent.config.modifiers.include?(:arrow)
-      add_css(:component, "collapse-plus") if @parent.config.modifiers.include?(:plus)
+      add_css(:component, "collapse-arrow") if loco_parent.config.modifiers.include?(:arrow)
+      add_css(:component, "collapse-plus") if loco_parent.config.modifiers.include?(:plus)
     end
 
     def setup_radio_button

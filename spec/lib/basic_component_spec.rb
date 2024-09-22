@@ -53,6 +53,7 @@ RSpec.describe LocoMotion::BasicComponent, type: :component do
           renders_one :some_slot
 
           def before_render
+            set_tag_name(:component, :section)
             add_css(:component, "comp-class")
             add_css(:wrapper, "wrapper-class")
           end
@@ -76,7 +77,7 @@ RSpec.describe LocoMotion::BasicComponent, type: :component do
       end
 
       it "renders the component class from before_render" do
-        expect(page).to have_css("div.comp-class")
+        expect(page).to have_css("section.comp-class")
       end
 
       it "renders the wrapper part class from before_render" do
@@ -84,7 +85,7 @@ RSpec.describe LocoMotion::BasicComponent, type: :component do
       end
 
       it "renders the slot" do
-        expect(page).to have_css("div h2", text: "Slot")
+        expect(page).to have_css("section h2", text: "Slot")
       end
 
       it "renders the content" do

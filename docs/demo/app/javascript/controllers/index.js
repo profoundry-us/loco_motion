@@ -4,5 +4,11 @@
 
 import { application } from "./application"
 
+import ActiveTabController from "./active_tab_controller"
+application.register("active-tab", ActiveTabController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import HighlightCodeController from "./highlight_code_controller"
+application.register("highlight-code", HighlightCodeController)
