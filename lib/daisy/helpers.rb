@@ -2,8 +2,10 @@ module Daisy
   COMPONENT_HELPERS = {
     # Actions
     button: "Daisy::Actions::ButtonComponent",
+    dropdown: "Daisy::Actions::DropdownComponent",
     modal: "Daisy::Actions::ModalComponent",
     swap: "Daisy::Actions::SwapComponent",
+    theme_controller: "Daisy::Actions::ThemeControllerComponent",
 
     # Data
     accordion: "Daisy::DataDisplay::AccordionComponent",
