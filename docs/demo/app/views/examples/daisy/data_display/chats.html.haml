@@ -1,0 +1,36 @@
+= doc_title(title: "Chat Bubbles", comp: "Daisy::DataDisplay::Chat") do |title|
+  Here are some examples showcasing chat bubbles.
+
+= doc_example(title: "Advanced Chat") do |doc|
+  - doc.with_description do
+    %p
+      Chat bubbles are used to display messages in a structured way. They can
+      contain text, user images, a header, and a footer.
+
+  .w-full
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message do |message|
+        Hey Marcia! How are you doing?
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
+      - chat.with_message do |message|
+        I'm doing great! How about you?
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message do |message|
+        I'm doing great too! Thanks for asking.
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
+      - chat.with_message do |message|
+        That's great to hear!
+
+    = # Custom content messages
+    = daisy_chat(css: "chat-end") do |chat|
+      - chat.with_avatar(icon: "user", icon_css: "text-yellow-400")
+
+      .chat-bubble
+        Who dis? Why am I in this group chat?!

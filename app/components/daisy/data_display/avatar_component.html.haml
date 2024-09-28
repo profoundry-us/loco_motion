@@ -1,7 +1,9 @@
 = part(:component) do
   = part(:wrapper) do
-    - if @src.nil?
+    - if @src.present?
+      = part(:img)
+    - elsif @icon.present?
+      = heroicon_tag(@icon, **rendered_html(:icon))
+    - else
       = part(:placeholder) do
         = content
-    - else
-      = part(:img)

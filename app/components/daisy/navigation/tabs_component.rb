@@ -1,7 +1,7 @@
 # This is the Tabs component.
 class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component_class
 
-  TabComponent = LocoMotion::BasicComponent.build do
+  class TabComponent < LocoMotion::BasicComponent
     define_parts :content_wrapper
 
     renders_one :title

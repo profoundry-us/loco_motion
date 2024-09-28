@@ -1,0 +1,9 @@
+= part(:component) do
+  = part(:title) do
+    = @simple_title
+
+    = daisy_button(href: api_url, target: "_blank", css: "btn-xs btn-info btn-outline px-5 rounded-full",
+        right_icon: "arrow-top-right-on-square", right_icon_css: "w-4 h-4", title: "API Docs")
+
+  = part(:description) do
+    = content

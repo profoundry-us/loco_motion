@@ -1,0 +1,14 @@
+= part(:component) do
+  - if avatar?
+    = avatar
+
+  - if header?
+    = header
+
+  - messages.each do |message|
+    = message
+
+  = content
+
+  - if footer?
+    = footer

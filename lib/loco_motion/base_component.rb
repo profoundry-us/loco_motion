@@ -142,6 +142,47 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   end
 
   #
+  # Allows you to bulid a customized version of this component without having to
+  # define a new class.
+  #
+  def self.build(*build_args, **build_kws, &build_block)
+    klass = Class.new(self)
+
+    # Unless already defined, delegate the name method to the superclass so
+    # ViewComponent can find the sidecar partials and render them when no call
+    # method is defined.
+    unless klass.method_defined?(:name)
+      klass.instance_eval do
+        def name
+          superclass.name
+        end
+      end
+    end
+
+    # Override the initialize method to combine the build and instance args
+    klass.class_eval do
+      original_initialize = method_defined?(:initialize) ? instance_method(:initialize) : nil
+
+      define_method(:initialize) do |*instance_args, **instance_kws, &instance_block|
+        if original_initialize
+          original_initialize.bind(self).call
+        else
+          super(*instance_args, **instance_kws, &instance_block)
+        end
+
+        @config.smart_merge!(**build_kws)
+
+        # asdf if klass.superclass == Daisy::DataDisplay::AvatarComponent
+      end
+    end
+
+    # Finally, execute any block they passed in to allow for customizations
+    klass.class_eval(&build_block) if block_given?
+
+    klass
+  end
+
+  #
   # Returns a reference to this component. Useful for passing a parent component
   # into child components.
   #

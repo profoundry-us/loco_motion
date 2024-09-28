@@ -7,7 +7,7 @@ ENV APP_HOME /home/loco_motion
 
 WORKDIR $APP_HOME
 
-COPY Gemfile Gemfile.* loco_motion.gemspec $APP_HOME
+COPY Gemfile Gemfile.* loco_motion.gemspec .yardopts $APP_HOME
 
 RUN bundle install
 

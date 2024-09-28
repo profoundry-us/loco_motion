@@ -176,6 +176,7 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
     rake (13.2.1)
+    redcarpet (3.6.0)
     regexp_parser (2.9.2)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -239,6 +240,7 @@ DEPENDENCIES
   heroicons-rails (~> 1.2)
   loco_motion!
   rails (~> 6.1)
+  redcarpet (~> 3.6)
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.1)
   webrick (~> 1.8.1)

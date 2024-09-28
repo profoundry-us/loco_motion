@@ -766,4 +766,9 @@ TailwindCSS Intellisense working properly.
 TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc
 
-- [ ] Get YARD docs rendering with Markdown
+- [ ] Get YARD docs rendering with (better) Markdown
+- [ ] Extract relevant pieces into a yard-loco_motion plugin
+
+```haml
+= testing_this "thing"
+```

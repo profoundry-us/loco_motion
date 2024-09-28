@@ -5,8 +5,11 @@ class Daisy::Actions::ButtonComponent < LocoMotion.configuration.base_component_
   def initialize(*args, **kws, &block)
     super
 
+    @href = config_option(:href)
+    @target = config_option(:target)
+
     @icon = config_option(:icon)
-    @icon_css = config_option(:icon_css, "w-5 h-5")
+    @icon_css = config_option(:icon_css, "[:where(&)]:w-5 [:where(&)]:h-5")
     @icon_html = config_option(:icon_html, {})
 
     @left_icon = config_option(:left_icon, @icon)
@@ -27,7 +30,13 @@ class Daisy::Actions::ButtonComponent < LocoMotion.configuration.base_component_
   private
 
   def setup_component
-    set_tag_name(:component, :button)
+    if @href
+      set_tag_name(:component, :a)
+      add_html(:component, { href: @href, target: @target })
+    else
+      set_tag_name(:component, :button)
+    end
+
     add_css(:component, "btn")
 
     add_css(:component, "items-center gap-2") if @icon
