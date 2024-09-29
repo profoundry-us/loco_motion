@@ -74,6 +74,10 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Add some things that are no longer part of the standard Ruby distribution
+gem 'ostruct'
+gem 'fiddle'
+
 # App-Specific Gems
 gem "haml-rails", "~> 2.0"
 gem "loco_motion", path: "/home/loco_motion"

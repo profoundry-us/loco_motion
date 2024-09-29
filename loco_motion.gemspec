@@ -15,7 +15,16 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml-rails', '~> 2.1'
   s.add_dependency 'heroicons-rails', '~> 1.2'
   s.add_dependency 'rails', '>= 6.1'
-  s.add_dependency 'view_component', '~> 3.10'
+  s.add_dependency 'view_component', '~> 3.14'
+
+  # Add some things that are no longer part of the standard Ruby distribution
+  s.add_dependency 'base64'
+  s.add_dependency 'bigdecimal'
+  s.add_dependency 'fiddle'
+  s.add_dependency 'logger'
+  s.add_dependency 'mutex_m'
+  s.add_dependency 'ostruct'
+  s.add_dependency 'rdoc'
 
   # Add our development dependencies
   s.add_development_dependency 'capybara', '~> 3.40'

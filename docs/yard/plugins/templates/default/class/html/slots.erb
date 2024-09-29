@@ -4,13 +4,19 @@
   </div>
 
   <p class="docstring">
-    The <%= object.name %> component accepts the following slots.
+    The <%= object.name %> accepts the following slots.
   </p>
 
   <ul>
     <% object.tags(:slot).each do |slot| %>
       <li class="slots docstring">
         <strong>with_<%= slot.name %></strong>
+
+        <% if slot.types %>
+          <% types_str = slot.types.map{ |t| "{#{t}}" }.join(', ') %>
+          <span><%= htmlify_inline("(#{types_str})") %></span>
+        <% end %>
+
         <strong style="padding: 0 4px;">&mdash;</strong>
         <span><%= htmlify_inline(slot.text) %></span>
 
@@ -19,7 +25,8 @@
           <ul>
             <% options.each do |opt| %>
               <li>
-                <em><%= opt.pair.name %>:</em>
+                <em><%= opt.pair.name %></em>
+                <span><%= htmlify_inline("({#{opt.pair.type}})") %></span>
                 <%= htmlify_inline(opt.pair.text) %>
               </li>
             <% end %>

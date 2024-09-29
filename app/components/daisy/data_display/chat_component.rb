@@ -6,9 +6,9 @@
 # @option avatar [String] src The URL of the image to display.
 # @option avatar [String] icon A heroicon to be displayed instead of an image.
 #
-# @slot   header   Renders a single {LocoMotion::BasicComponent} header.
-# @slot   footer   Renders a {LocoMotion::BasicComponent} footer.
-# @slot   message  Renders one more more {LocoMotion::BasicComponent} message.
+# @slot header [LocoMotion::BasicComponent] Renders a single header.
+# @slot footer [LocoMotion::BasicComponent] Renders a single footer.
+# @slot message [LocoMotion::BasicComponent] Renders one or more messages.
 #
 # @example Basic Chat
 #    !!!ruby

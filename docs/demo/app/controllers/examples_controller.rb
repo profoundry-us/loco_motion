@@ -1,7 +1,8 @@
 class ExamplesController < ApplicationController
 
   def discover
-    render "examples/#{params[:framework]}/#{params[:category]}/#{params[:component]}", layout: true
+    @comp = "#{params[:framework]}/#{params[:category]}/#{params[:component]}"
+    render "examples/#{@comp}", layout: true
 
     #render html: params.inspect, layout: true
   end

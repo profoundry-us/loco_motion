@@ -60,7 +60,7 @@ loco-quick:
 # Open a Ruby console in the loco container
 .PHONY: loco-console
 loco-console:
-	docker compose exec -it loco /home/loco_motion/bin/console.sh
+	docker compose exec -it loco /home/loco_motion/bin/console
 
 # Open a shell to your loco container
 .PHONY: loco-shell
