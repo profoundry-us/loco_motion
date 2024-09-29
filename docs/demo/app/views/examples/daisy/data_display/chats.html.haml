@@ -10,27 +10,79 @@
   .w-full
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
-      - chat.with_message do |message|
+      - chat.with_message do
         Hey Marcia! How are you doing?
 
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
-      - chat.with_message do |message|
+      - chat.with_message do
         I'm doing great! How about you?
 
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
-      - chat.with_message do |message|
+      - chat.with_message do
         I'm doing great too! Thanks for asking.
 
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
-      - chat.with_message do |message|
+      - chat.with_message do
         That's great to hear!
+      - chat.with_footer do
+        Read 10:45 AM
 
     = # Custom content messages
     = daisy_chat(css: "chat-end") do |chat|
       - chat.with_avatar(icon: "user", icon_css: "text-yellow-400")
+      - chat.with_header do
+        Unknown Number (555) 883-1234
+      - chat.with_footer(css: "text-red-600 mt-1 flex items-center gap-x-2") do
+        = heroicon_tag("exclamation-triangle", variant: :outline, class: "h-4 w-4")
+        %span
+          Failed to send
 
       .chat-bubble
         Who dis? Why am I in this group chat?!
+
+
+= doc_example(title: "Colored Chat") do |doc|
+  - doc.with_description do
+    %p
+      Chat bubbles can be colored to differentiate between different users or
+      types of messages.
+
+  .w-full
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message(css: "chat-bubble-accent flex items-center gap-x-1") do
+        = heroicon_tag "map-pin", class: "w-5 h-5"
+        %strong
+          Jill
+        %span
+          Started sharing her location.
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message(css: "bg-base-300 text-base-content") do
+        Hey Marcia! How are you doing?
+
+    = daisy_chat(css: "chat-end") do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-4"))
+      - chat.with_message(css: "chat-bubble-primary") do
+        I'm blue da ba dee da ba daa
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message(css: "bg-base-300 text-base-content") do
+        Maybe this will help!
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_message(css: "chat-bubble-success text-base-200") do
+        .flex.justify-center
+          = heroicon_tag "currency-dollar", class: "w-12 h-12"
+        Jill sent you <strong>$50</strong>.
+
+    = daisy_chat(css: "chat-end") do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-4"))
+      - chat.with_message(css: "chat-bubble-primary") do
+        Wow, thanks! ❤️

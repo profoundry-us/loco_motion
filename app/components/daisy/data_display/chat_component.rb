@@ -18,8 +18,8 @@
 #
 class Daisy::DataDisplay::ChatComponent < LocoMotion.configuration.base_component_class
   renders_one :avatar, Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100", wrapper_css: "w-10 rounded-full")
-  renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header")
-  renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer")
+  renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header [:where(&)]:text-neutral-500")
+  renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer [:where(&)]:text-neutral-500")
 
   renders_many :messages, LocoMotion::BasicComponent.build(css: "chat-bubble")
 
