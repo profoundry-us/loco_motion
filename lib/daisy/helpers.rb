@@ -1,5 +1,10 @@
 module Daisy
   COMPONENT_HELPERS = {
+    ### Hero Icons
+    icon: "Hero::IconComponent",
+
+    ### Daisy Components
+
     # Actions
     button: "Daisy::Actions::ButtonComponent",
     dropdown: "Daisy::Actions::DropdownComponent",
@@ -26,7 +31,9 @@ module Daisy
 
   module Helpers
     COMPONENT_HELPERS.each do |method_name, component_klass|
-      ActionView::Helpers.define_method("daisy_#{method_name}") do |*args, **kws, &block|
+      framework = component_klass.split("::").first.downcase
+
+      ActionView::Helpers.define_method("#{framework}_#{method_name}") do |*args, **kws, &block|
         render(component_klass.constantize.new(*args, **kws), &block)
       end
     end

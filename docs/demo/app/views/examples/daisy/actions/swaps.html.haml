@@ -23,11 +23,16 @@
       You can also use the Swap component with Hero Icons. The following example
       toggles between various icons.
 
+    %p
+      You can also use our special <code>hero_icon</code> helper which accepts
+      the <code>css</code> property and all other options that our custom
+      components accept.
+
   .mt-2.flex.items-center.gap-x-4
-    - sizes = "w-16 h-16"
+    - sizes = "size-16"
     = daisy_swap(checked: true) do |swap|
       - swap.with_on do
-        = heroicon_tag "pause-circle", class: sizes, variant: :outline
+        = hero_icon "pause-circle", css: sizes, variant: :outline
       - swap.with_off do
         = heroicon_tag "play-circle", class: sizes, variant: :outline
 

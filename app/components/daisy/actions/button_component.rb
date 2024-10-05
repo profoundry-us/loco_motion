@@ -9,7 +9,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion.configuration.base_component_
     @target = config_option(:target)
 
     @icon = config_option(:icon)
-    @icon_css = config_option(:icon_css, "[:where(&)]:w-5 [:where(&)]:h-5")
+    @icon_css = config_option(:icon_css, "[:where(&)]:size-5")
     @icon_html = config_option(:icon_html, {})
 
     @left_icon = config_option(:left_icon, @icon)

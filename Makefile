@@ -130,6 +130,12 @@ demo-nocache:
 yard:
 	docker compose up yard --build
 
+# Cleanup all cached / generated yard files
+.PHONY: yard-clean
+yard-clean:
+	rm -rf docs/yard/generated
+	rm -rf .yardoc
+
 # Run the yard container without building
 .PHONY: yard-quick
 yard-quick:

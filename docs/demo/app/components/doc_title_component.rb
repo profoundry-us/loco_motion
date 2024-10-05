@@ -30,7 +30,6 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def setup_description
-    set_tag_name(:description, :p)
     add_css(:description, "prose lg:prose-lg")
   end
 

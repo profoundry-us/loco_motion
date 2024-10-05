@@ -10,11 +10,11 @@
 # @slot footer [LocoMotion::BasicComponent] Renders a single footer.
 # @slot message [LocoMotion::BasicComponent] Renders one or more messages.
 #
-# @example Basic Chat
-#    !!!ruby
-#    = daisy_chat do |chat|
-#      - chat.with_message do
-#        I can't believe it's not the weekend yet!
+# ```language-haml
+# = daisy_chat(css: "test this", html: { boom: 34 }) do |chat|
+#   - chat.with_message do
+#     I can't believe it's not the weekend yet!
+# ```
 #
 class Daisy::DataDisplay::ChatComponent < LocoMotion.configuration.base_component_class
   renders_one :avatar, Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100", wrapper_css: "w-10 rounded-full")
