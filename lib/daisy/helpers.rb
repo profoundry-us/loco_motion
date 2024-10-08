@@ -1,5 +1,8 @@
 module Daisy
   COMPONENT_HELPERS = {
+    # TODO: The hero icons be in a different helper? Or maybe this whole thing
+    # should be in the Loco module?
+
     ### Hero Icons
     icon: "Hero::IconComponent",
 
@@ -24,6 +27,7 @@ module Daisy
     kbd: "Daisy::DataDisplay::KbdComponent",
     stat: "Daisy::DataDisplay::StatComponent",
     table: "Daisy::DataDisplay::TableComponent",
+    timeline: "Daisy::DataDisplay::TimelineComponent",
 
     # Navigation
     tabs: "Daisy::Navigation::TabsComponent",

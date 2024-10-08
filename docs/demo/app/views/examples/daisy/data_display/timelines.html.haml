@@ -9,7 +9,7 @@
 
   = daisy_timeline do |timeline|
     - timeline.with_event(start: "1985", middle_icon: "user-circle", end: "Topher Born")
-    - timeline.with_event(start: "College", middle_icon: "graduation-cap", end: "2006")
+    - timeline.with_event(start: "College", middle_icon: "academic-cap", end: "2006")
     - timeline.with_event(start: "2010", middle_icon: "cake", end: "Married Marnie")
     - timeline.with_event(start: "Built LocoMotion", middle_icon: "code-bracket", end: "2024")
 
@@ -25,22 +25,22 @@
       - event.with_start(css: "font-bold") do
         1985
       - event.with_middle do
-        Middle
-      - event.with_end do
-        End
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Born
 
     - timeline.with_event do |event|
       - event.with_start(css: "font-bold") do
-        1985
+        2006
       - event.with_middle do
-        Middle
-      - event.with_end do
-        End
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Graduated College
 
     - timeline.with_event do |event|
       - event.with_start(css: "font-bold") do
-        1985
+        2010
       - event.with_middle do
-        Middle
-      - event.with_end do
-        End
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Married

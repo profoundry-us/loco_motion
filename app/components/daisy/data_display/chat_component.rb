@@ -8,11 +8,11 @@
 #
 # @slot header [LocoMotion::BasicComponent] Renders a single header.
 # @slot footer [LocoMotion::BasicComponent] Renders a single footer.
-# @slot message [LocoMotion::BasicComponent] Renders one or more messages.
+# @slot bubble [LocoMotion::BasicComponent] Renders one or more bubbles.
 #
 # ```language-haml
-# = daisy_chat(css: "test this", html: { boom: 34 }) do |chat|
-#   - chat.with_message do
+# = daisy_chat(css: "border rounded-lg", html: { title: message.short_desc }) do |chat|
+#   - chat.with_bubble do
 #     I can't believe it's not the weekend yet!
 # ```
 #
@@ -21,7 +21,7 @@ class Daisy::DataDisplay::ChatComponent < LocoMotion.configuration.base_componen
   renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header [:where(&)]:text-neutral-500")
   renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer [:where(&)]:text-neutral-500")
 
-  renders_many :messages, LocoMotion::BasicComponent.build(css: "chat-bubble")
+  renders_many :bubbles, LocoMotion::BasicComponent.build(css: "chat-bubble")
 
   #
   # Sets up the component with various CSS classes and HTML attributes.

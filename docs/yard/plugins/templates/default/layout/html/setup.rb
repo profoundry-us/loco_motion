@@ -1,6 +1,7 @@
 def stylesheets
   super + [
-    "css/highlight-11.9.0.min.css"
+    "css/highlight-11.9.0.min.css",
+    "css/loco-overrides.css"
   ]
 end
 
