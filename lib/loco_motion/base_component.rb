@@ -19,7 +19,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   # Allow users to alter the config through the component itself
   #
-  delegate :set_tag_name, :add_css, :add_html, :add_stimulus_controller,
+  delegate :set_tag_name, :add_css, :add_html, :add_stimulus_controller, :modifiers,
     to: :config
 
   #

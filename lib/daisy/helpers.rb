@@ -23,6 +23,7 @@ module Daisy
     carousel: "Daisy::DataDisplay::CarouselComponent",
     chat: "Daisy::DataDisplay::ChatComponent",
     collapse: "Daisy::DataDisplay::CollapseComponent",
+    countdown: "Daisy::DataDisplay::CountdownComponent",
     diff: "Daisy::DataDisplay::DiffComponent",
     kbd: "Daisy::DataDisplay::KbdComponent",
     stat: "Daisy::DataDisplay::StatComponent",
