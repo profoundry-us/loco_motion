@@ -30,12 +30,47 @@ class LocoMotion::ComponentConfig
     end
 
     # Allow useres to pass some shortened attributes for the component part
-    @parts[:component][:user_tag_name] = @options[:tag_name] if @options[:tag_name]
-    @parts[:component][:user_css].push(@options[:css]) if @options[:css]
-    @parts[:component][:user_html].deep_merge!(@options[:html]) if @options[:html]
-    @parts[:component][:user_stimulus_controllers].push(@options[:controllers]) if @options[:controllers]
+    merge_user_options!(**@options)
   end
 
+  #
+  # Add specific component user options if they pass shortened attributes.
+  #
+  def merge_user_options!(**kws)
+    @parts[:component][:user_tag_name] = kws[:tag_name] if kws[:tag_name]
+    @parts[:component][:user_css].push(kws[:css]) if kws[:css]
+    @parts[:component][:user_html].deep_merge!(kws[:html]) if kws[:html]
+    @parts[:component][:user_stimulus_controllers].push(kws[:controllers]) if kws[:controllers]
+  end
+
+  #
+  # Merge additional options into the defaults config by combining the new
+  # options with the existing options, rather than overwriting (where possible).
+  #
+  # HTML will be deep merged, CSS will be appended, and tag_name will be
+  # overwritten.
+  #
+  def smart_merge!(**kws)
+    @component.component_parts.each do |part, defaults|
+      set_tag_name(part, kws["#{part}_tag_name".to_sym])
+      add_css(part, kws["#{part}_css".to_sym])
+      add_html(part, kws["#{part}_html".to_sym])
+
+      controllers = kws["#{part}_controllers".to_sym] || []
+
+      controllers.each do |controller_name|
+        add_stimulus_controller(part, controller_name)
+      end
+    end
+
+    # Make sure to merge any user-provided options as well
+    merge_user_options!(**kws)
+  end
+
+  #
+  # Returns the part for the reqeust part name or an empty hash if none was
+  # found.
+  #
   def get_part(part_name)
     @parts[part_name] || {}
   end
@@ -44,21 +79,21 @@ class LocoMotion::ComponentConfig
   # Sets the default tag name for the requested component part.
   #
   def set_tag_name(part_name, tag_name)
-    @parts[part_name][:default_tag_name] = tag_name
+    @parts[part_name][:default_tag_name] = tag_name if tag_name
   end
 
   #
   # Adds default CSS to the requested component part.
   #
   def add_css(part_name, css)
-    @parts[part_name][:default_css] << css
+    @parts[part_name][:default_css] << css if css
   end
 
   #
   # Adds default HTML to the requested component part.
   #
   def add_html(part_name, html)
-    @parts[part_name][:default_html] = @parts[part_name][:default_html].merge(html)
+    @parts[part_name][:default_html] = @parts[part_name][:default_html].deep_merge(html) if html
   end
 
   #

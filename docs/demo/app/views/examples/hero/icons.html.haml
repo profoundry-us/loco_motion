@@ -1,0 +1,47 @@
+= doc_title(title: "Icons", comp: @comp) do |title|
+  %p
+    Icons are a great way to add visual elements to your page. They can be used
+    to represent actions, objects, or even just to add some flair to your
+    design.
+
+  %p
+    Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to
+    use in your web projects. You can find them at
+
+    %a.inline-flex.items-center.gap-x-1{ href: "https://heroicons.com", target: "_blank" }
+      %span heroicons.com
+      = hero_icon("arrow-top-right-on-square", css: "w-4 h-4")
+
+    = "."
+
+= doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
+  - doc.with_description do
+    %p
+      By default, icons are displayed with the <code>size-5</code> Tailwind
+      class to set the width and height. This can be overridden without using
+      the <code>!</code> Tailwind modifier because we utilize the
+      <code>:where()</code> pseudo-class to ensure that our default classes have
+      the lowest CSS specificity possible.
+
+    %p
+      The icon color will inherit the text color of the parent element.
+
+    %p
+      Additionally, if it's more convenient for your purposes, you can pass the
+      icon as a keyword argument using the <code>icon:</code> option instead of
+      the first positional argument.
+
+  = hero_icon("academic-cap")
+  = hero_icon(icon: "adjustments-horizontal")
+  %span.text-blue-500
+    = hero_icon("archive-box")
+
+= doc_example(title: "Customized Icons", example_css: "gap-x-2") do |doc|
+  - doc.with_description do
+    %p
+      You can customize the size, color, and other properties of the icons using
+      standard Tailwind classes.
+
+  = hero_icon("no-symbol", css: "size-4 text-red-600")
+  = hero_icon("arrow-trending-up", css: "size-10 text-green-600")
+  = hero_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")

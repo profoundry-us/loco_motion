@@ -1,0 +1,24 @@
+= part(:component) do
+  - if dparts[:days]
+    = part(:days) do
+      %span{style: "--value: #{dparts[:days]}"}
+
+      = days_separator
+
+  - if dparts[:hours]
+    = part(:hours) do
+      %span{style: "--value: #{dparts[:hours]}"}
+
+      = hours_separator
+
+  - if dparts[:minutes]
+    = part(:minutes) do
+      %span{style: "--value: #{dparts[:minutes]}"}
+
+      = minutes_separator
+
+  - if dparts[:seconds]
+    = part(:seconds) do
+      %span{style: "--value: #{dparts[:seconds]}"}
+
+      = seconds_separator

@@ -29,6 +29,19 @@
     = daisy_button(css: "btn-link") do
       Link Button
 
+
+= doc_example(title: "Icon Buttons") do |doc|
+  - doc.with_description do
+    %p Buttons can also have an icon on the left or right side.
+
+  .flex.flex-col.md:flex-row.items-center.justify-center.gap-4
+    = daisy_button(icon: "plus", css: "btn-circle")
+    = daisy_button(icon: "minus", css: "btn-circle")
+    = daisy_button(css: "hover:btn-secondary", icon: "heart", title: "Favorites")
+    = daisy_button(css: "btn-accent", left_icon: "cloud", right_icon: "folder", title: "Cloud Files")
+    = daisy_button(css: "btn-primary btn-lg", right_icon: "chevron-right", right_icon_css: "w-8 h-8", title: "Go")
+
+
 = doc_example(title: "Multiple Sizes") do |doc|
   - doc.with_description do
     %p You can also use various sizes.
@@ -45,3 +58,13 @@
 
     = daisy_button(css: "btn-xs") do
       Tiny Button
+
+
+= doc_example(title: "Custom Buttons") do |doc|
+  - doc.with_description do
+    %p You can also create custom buttons.
+
+  = daisy_button(css: "bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full") do
+    .loading.loading-spinner.mr-1
+    %span
+      Gradient Button

@@ -8,5 +8,8 @@ module.exports = {
     './app/assets/stylesheets/**/*.css',
     './app/javascript/**/*.js'
   ],
+  daisyui: {
+    themes: ["light", "dark", "synthwave", "retro", "cyberpunk", "wireframe"],
+  },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 }

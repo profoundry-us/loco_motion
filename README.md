@@ -18,6 +18,7 @@ Modern paradigms and tools to make Rails development crazy fast!
   - [Install](#install)
   - [Using Components](#using-components)
   - [Setting a Base Component Class](#setting-a-base-component-class)
+- [Tooling](#tooling)
 - [Next Steps](#next-steps)
 
 ## About
@@ -738,9 +739,36 @@ end
 > you want, so you could create a separate `CustomizedLocoMotionComponent` class
 > so that you don't have any conflicts with your `ApplicationComponent`.
 
+## Tooling
+
+For VSCode, you may want to add the following to your settings to get
+TailwindCSS Intellisense working properly.
+
+```json
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "haml": "html",
+    "ruby": "html",
+  },
+  "files.associations": {
+    "*.html.haml": "haml"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    [ "add_css\\(:[a-z]+, ?\"([^\"]*)\"", "([a-zA-Z0-9\\-:]+)" ],
+    [ "css: ?\"([^\"]*)\"", "([a-zA-Z0-9\\-:]+)" ],
+    [ "class: ?\"([^\"]*)\"", "([a-zA-Z0-9\\-:]+)" ],
+    [ "(\\.[\\w\\-.]+)[\\n\\=\\{\\s]", "([\\w\\-]+)" ],
+  ],
+```
+
 ## Next Steps
 
 TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc
 
-- [ ] Get YARD docs rendering with Markdown
+- [ ] Get YARD docs rendering with (better) Markdown
+- [ ] Extract relevant pieces into a yard-loco_motion plugin
+
+```haml
+= testing_this "thing"
+```

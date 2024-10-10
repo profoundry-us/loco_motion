@@ -8,6 +8,10 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
+  # Reload the LocoMotion gem that we are building when changes are made
+  config.autoload_paths += %W(/home/loco_motion/app/**/*)
+  config.autoload_paths += %W(/home/loco_motion/lib/**/*)
+
   # Do not eager load code on boot.
   config.eager_load = false
 

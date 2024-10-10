@@ -1,0 +1,6 @@
+--debug
+--no-cache
+--output-dir docs/yard/generated
+--markup markdown
+--markup-provider redcarpet
+--load docs/yard/plugins/loco_motion.rb

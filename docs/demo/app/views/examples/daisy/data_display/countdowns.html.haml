@@ -1,0 +1,67 @@
+= doc_title(title: "Countdowns", comp: @comp) do |title|
+  %p
+    Countdowns display an anmiated countdown to a specific date.
+
+.alert.my-4{ class: "bg-warning/20" }
+  = hero_icon("code-bracket", css: "w-6 h-6", variant: :outline)
+
+  .italic
+    %strong TODO
+    This component still needs a Stimulus controller to actually handle the
+    countdown.
+
+= doc_example(title: "Basic Countdown") do |doc|
+  - doc.with_description do
+    %p
+      A basic countdown accepts an ActiveSupport::Duration object as either the
+      first positional argument or as the value of the <code>:duration</code>
+      keyword argument.
+
+  .flex.flex-col.gap-y-4.font-mono
+    = daisy_countdown(60.seconds)
+    = daisy_countdown(duration: 60.seconds, modifier: :letters)
+
+
+= doc_example(title: "Longer Countdown") do |doc|
+  - doc.with_description do
+    %p
+      If you want to display a countdown with multiple parts, you can build one
+      using the
+      = link_to "https://api.rubyonrails.org/classes/ActiveSupport/Duration.html", target: "_blank" do
+        ActiveSupport::Duration#build
+      method.
+
+  .flex.flex-col.items-center.gap-y-4.font-mono
+    = daisy_countdown(ActiveSupport::Duration.build(3725))
+    = daisy_countdown(ActiveSupport::Duration.build(3725), separator: "-")
+    = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :letters)
+    = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :words)
+
+
+= doc_example(title: "Boxed Countdown") do |doc|
+  - doc.with_description do
+    %p
+      You can also display the countdowns in a box by customizing each part of
+      the countdown.
+    %p
+      Note that the wrapper <code>text-sm</code> class applies to the words
+      ("hours", "minutes", and "seconds") and the global <code>parts_css</code>
+      sets the size of the numbers.
+    %p
+      You can also customize each part individually by using the
+      <code>days_css</code>, <code>hours_css</code>, <code>minutes_css</code>,
+      and <code>seconds_css</code> options.
+    %p
+      And you can add custom HTML using either the global
+      <code>parts_html</code> or the individual <code>days_html</code>,
+      <code>hours_html</code>, <code>minutes_html</code>, and
+      <code>seconds_html</code> options.
+
+  .flex.flex-col.items-center.gap-y-4.text-sm
+    - box_css = "[:where(&)]:bg-neutral [:where(&)]:text-neutral-content rounded-box flex flex-col items-center p-2 [&_span]:font-mono [&_span]:text-5xl"
+    = daisy_countdown(ActiveSupport::Duration.build(3725),
+        modifier: :words,
+        css: "gap-x-8",
+        parts_css: box_css,
+        seconds_css: "bg-red-600 text-white",
+        seconds_html: { title: "You better hurry!" })

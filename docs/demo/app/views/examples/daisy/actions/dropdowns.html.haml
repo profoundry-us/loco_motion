@@ -1,0 +1,74 @@
+.prose.lg:prose-lg
+  %h2 Dropdowns
+
+  %p
+    Dropdowns are a great way to display a list of items in a compact manner.
+
+= doc_example(title: "Basic Dropdown", example_css: "pt-5 pb-24") do |doc|
+  - doc.with_description do
+    %p
+      A basic dropdown has an icon or a title and a list of items (actions).
+
+  = daisy_dropdown(title: "Click to Open") do |dropdown|
+    - dropdown.with_item do
+      = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
+    - dropdown.with_item do
+      = link_to "Rails", "http://www.rubyonrails.org", target: "_blank"
+    - dropdown.with_item do
+      = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
+
+
+= doc_example(title: "Custom Title", example_css: "pb-32") do |doc|
+  - doc.with_description do
+    %p
+      You can pass in your own title element to the dropdown.  The
+      <code>role</code> and <code>tabindex</code> attributes are automatically
+      added to the <code>title</code> element for you.
+
+  = daisy_dropdown do |dropdown|
+    - dropdown.with_title do
+      = daisy_button(icon: "heart", title: "Favorites", css: "btn-primary")
+
+    - dropdown.with_item do
+      = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
+    - dropdown.with_item do
+      = link_to "Rails", "http://www.rubyonrails.org", target: "_blank"
+    - dropdown.with_item do
+      = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
+
+
+= doc_example(title: "Fully Custom Dropdown", example_css: "flex-col pb-80") do |doc|
+  - doc.with_description do
+    %p
+      If no items are provided, the dropdown will simply output any content you
+      provide, meaning you can completely customize the dropdown content.
+
+    %p
+      Note that you'll need to add the <code>dropdown-content</code> class to
+      the content.
+
+  .flex.flex-col.items-end{ class: "max-w-[500px]" }
+    = daisy_dropdown(css: "dropdown-end dropdown-hover") do |dropdown|
+      - dropdown.with_title(css: "group") do
+        = daisy_stat(css: "w-60 bg-base-100 border border-base-300 group-focus:border-info rounded-lg",
+            title: "Places to Visit", description: "Hover to see more.") do
+          = number_with_delimiter(1208)
+
+      = daisy_card(css: "mt-2 w-72 dropdown-content bg-base-100 shadow-xl") do |card|
+        - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpeg")
+
+        %p Such a beautiful beach!
+
+        - card.with_actions(css: "mt-2 justify-end") do
+          = daisy_button(css: "btn-primary") do
+            Book Travel
+
+    .mt-4.flex.flex-col.gap-4
+      %p
+        Here is some text which will be hidden by the dropdown. We have a lot of
+        extra space below this so you can see the dropdown in action.
+
+      %p
+        You can also click on the Stat item (or focus it using your keyboard) to
+        keep the dropdown open.
+

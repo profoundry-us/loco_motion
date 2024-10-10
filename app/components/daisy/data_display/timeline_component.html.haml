@@ -1,0 +1,7 @@
+= part(:component) do
+  - events.each.with_index do |event, index|
+    - event.set_event_index(index)
+    - event.set_events_length(events.length)
+    = event
+
+  = content

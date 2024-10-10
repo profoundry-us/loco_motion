@@ -10,5 +10,10 @@ module Daisy
   #
   # Holds all Data-type components.
   #
-  module Data; end
+  module DataDisplay; end
+
+  #
+  # Holds all Navigation-type components.
+  #
+  module Navigation; end
 end

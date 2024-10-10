@@ -23,11 +23,16 @@
       You can also use the Swap component with Hero Icons. The following example
       toggles between various icons.
 
+    %p
+      You can also use our special <code>hero_icon</code> helper which accepts
+      the <code>css</code> property and all other options that our custom
+      components accept.
+
   .mt-2.flex.items-center.gap-x-4
-    - sizes = "w-16 h-16"
+    - sizes = "size-16"
     = daisy_swap(checked: true) do |swap|
       - swap.with_on do
-        = heroicon_tag "pause-circle", class: sizes, variant: :outline
+        = hero_icon "pause-circle", css: sizes, variant: :outline
       - swap.with_off do
         = heroicon_tag "play-circle", class: sizes, variant: :outline
 
@@ -58,15 +63,15 @@
       following example toggles between a stop sign, a go sign, and a slow sign
       (when you click the <code>Make Indeterminate</code> button).
 
-  - shared_classes = "p-8 mask text-white text-center font-bold"
+  - shared_classes = "p-8 mask text-center font-bold"
   .w-56.mt-4.flex.flex-col.items-center
     = daisy_swap(css: "swap-rotate", checkbox_html: { id: "stopsign" }) do |swap|
       - swap.with_off do
-        .mask-hexagon.bg-red-600{ class: shared_classes } Stop
+        .mask-hexagon.bg-red-600.text-white{ class: shared_classes } Stop
       - swap.with_on do
-        .mask-circle.bg-green-500{ class: shared_classes } Go
+        .mask-circle.bg-green-500.text-white{ class: shared_classes } Go
       - swap.with_indeterminate do
-        .mask-squircle.bg-yellow-500{ class: shared_classes.sub("white", "black") } Slow
+        .mask-squircle.bg-yellow-500.text-black{ class: shared_classes } Slow
 
     .mt-2.btn.btn-sm.px-4.py-2{ onclick: "document.getElementById('stopsign').indeterminate = true" }
       Make Indeterminate

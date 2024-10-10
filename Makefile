@@ -60,7 +60,7 @@ loco-quick:
 # Open a Ruby console in the loco container
 .PHONY: loco-console
 loco-console:
-	docker compose exec -it loco /home/loco_motion/bin/console.sh
+	docker compose exec -it loco /home/loco_motion/bin/console
 
 # Open a shell to your loco container
 .PHONY: loco-shell
@@ -129,6 +129,12 @@ demo-nocache:
 .PHONY: yard
 yard:
 	docker compose up yard --build
+
+# Cleanup all cached / generated yard files
+.PHONY: yard-clean
+yard-clean:
+	rm -rf docs/yard/generated
+	rm -rf .yardoc
 
 # Run the yard container without building
 .PHONY: yard-quick

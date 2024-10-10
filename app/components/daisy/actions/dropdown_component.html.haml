@@ -1,0 +1,13 @@
+= part(:component) do
+  - if title?
+    = title
+  - else
+    = part(:title) do
+      = @simple_title
+
+  - if items.any?
+    = part(:menu) do
+      - items.each do |item|
+        = item
+  - else
+    = content
