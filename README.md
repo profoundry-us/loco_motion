@@ -1,7 +1,32 @@
 <!-- omit from toc -->
 # loco_motion
 
-Modern paradigms and tools to make Rails development crazy fast!
+Crazy fast Rails development with modern tools and components leveraging
+ViewComponent, TailwindCSS, DaisyUI and more!
+
+![image](./docs/assets/images/loco-chats.png)
+
+_**DISCLAIMER**_
+
+This project is in active development and many changes occur with every release!
+In particular, new Daisy components are being added frequently and older
+components are being updated with new features meaning the APIs are very likely
+to change!
+
+We plan to publish the docs site to a publicly available URL soon, but until
+then, you can run the docs by cloning the repository and running `make all` (or
+`make all-quick` if you've already run `make all` or `make rebuild` previously)
+and visiting http://localhost:3000/ in your browser.
+
+Please reach out by opening an
+[Issue](https://github.com/profoundry-us/loco_motion/issues) if you've found a
+bug or starting a
+[Discussion](https://github.com/profoundry-us/loco_motion/discussions) if you
+have a question!
+
+Please open a Discussion / Issue **before** starting a Pull Request to make sure
+we aren't already working on the suggested feature / bug, and to ensure that
+your solution is aligned with our goals.
 
 - [About](#about)
 - [Getting Started](#getting-started)
