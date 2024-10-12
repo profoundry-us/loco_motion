@@ -767,11 +767,8 @@ TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
 gems, etc
 
 - [ ] Get YARD docs rendering with (better) Markdown
-- [ ] Extract relevant pieces into a yard-loco_motion plugin
-
-```haml
-= testing_this "thing"
-```
+- [x] Extract relevant pieces into a yard-loco_motion plugin
+- [ ] Publish Gem and NPM packages with only the files those need
 
 # Developing
 

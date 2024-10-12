@@ -13,22 +13,16 @@
 # - Background: +bg-neutral+
 # - Text Color: `text-neutral-content`
 #
-# ```ruby
+# ## Examples
+#
+# ```language-haml
+# - # Display an avatar with an image
 # = daisy_avatar src: "https://example.com/avatar.jpg"
-# # Test
+#
+# - # Display an avatar with an icon
+# = daisy_avatar icon: "user", icon_css: "text-yellow-400"
 # ```
 #
-# @example Something here
-#   !!!ruby
-#   = daisy_avatar src: "https://example.com/avatar.jpg"
-#   # Test
-#
-# @example Something else
-#
-# ```haml
-# = daisy_avatar src: "https://example.com/avatar.jpg"
-# # Test
-# ```
 class Daisy::DataDisplay::AvatarComponent < LocoMotion.configuration.base_component_class
   set_component_name :avatar
 

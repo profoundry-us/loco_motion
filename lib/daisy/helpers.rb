@@ -1,7 +1,7 @@
 module Daisy
   COMPONENT_HELPERS = {
-    # TODO: The hero icons be in a different helper? Or maybe this whole thing
-    # should be in the Loco module?
+    # TODO: The hero icons should be in a different helper? Or maybe this whole
+    # thing should be in a Loco module instead of Daisy?
 
     ### Hero Icons
     icon: "Hero::IconComponent",

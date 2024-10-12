@@ -10,6 +10,8 @@
 # @slot footer [LocoMotion::BasicComponent] Renders a single footer.
 # @slot bubble [LocoMotion::BasicComponent] Renders one or more bubbles.
 #
+# ## Examples
+#
 # ```language-haml
 # = daisy_chat(css: "border rounded-lg", html: { title: message.short_desc }) do |chat|
 #   - chat.with_bubble do

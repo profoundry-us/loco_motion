@@ -6,8 +6,8 @@
 = doc_example(title: "Basic Avatars") do |doc|
   - doc.with_description do
     %p
-      You can use the Avatar component to display a user's profile picture or
-      initials. You can also add an online or offline indicator.
+      You can use the Avatar component to display a user's profile picture,
+      icon, or initials. You can also add an online or offline indicator.
 
   - # Lady 0 is skipped / unused because she looks kinda fake
   - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpeg") }
@@ -29,9 +29,8 @@
     = daisy_avatar do
       AB
 
-    - # Placeholder avatar with online indicator
-    = daisy_avatar(css: "online") do
-      DG
+    - # Placeholder avatar with icon & online indicator
+    = daisy_avatar(css: "online", icon: "user", icon_css: "w-14 h-14 text-sky-400")
 
     - # Placeholder avatar with offline indicator
     = daisy_avatar(css: "offline") do

@@ -1,13 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
-console.log("CountdownController loaded!")
-
 export default class extends Controller {
   static targets = ["days", "hours", "minutes", "seconds"]
 
   connect() {
-    console.log("CountdownController#connected")
-
     this.days = this.getPartValue("days")
     this.hours = this.getPartValue("hours")
     this.minutes = this.getPartValue("minutes")
@@ -22,7 +18,6 @@ export default class extends Controller {
     this.totalSeconds = this.initialSeconds
 
     this.startCountdown()
-    console.log("Countdown Settings: ", this.days, this.hours, this.minutes, this.seconds, this.totalSeconds)
   }
 
   getPartValue(part) {

@@ -3,9 +3,7 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
 
   define_parts :title, :title_wrapper, :description, :actions
 
-  # TODO: See if we can do something similar here, but define a button component?
-  # Can we use slot somehow with a default slot?
-  # https://viewcomponent.org/guide/slots.html#default_slot_name
+  # Utilizes the new slot defaults API (below) to render a default API button
   renders_one :api_button, Daisy::Actions::ButtonComponent
 
   attr_reader :simple_title
@@ -47,6 +45,7 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   def api_url
     comp_path = @comp.singularize.titleize.gsub(" ", "")
 
+    # TODO: Pull the base URL into an ENV or config variable
     "http://localhost:8808/docs/yard/#{comp_path}Component"
   end
 end

@@ -1,10 +1,5 @@
 class Daisy::DataDisplay::CountdownComponent < LocoMotion.configuration.base_component_class
 
-  # renders_one :days, LocoMotion::BasicComponent.build(tag_name: :span)
-  # renders_one :hours
-  # renders_one :minutes
-  # renders_one :seconds
-
   define_parts :days, :hours, :minutes, :seconds
   define_modifiers :words, :letters
 

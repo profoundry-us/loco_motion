@@ -145,3 +145,14 @@ yard-quick:
 .PHONY: yard-shell
 yard-shell:
 	docker compose exec -it yard /bin/bash
+
+##############################
+# Gem commands
+##############################
+
+version=$(shell cat VERSION)
+
+# Builds a new version of the gem in the gem_builds directory
+.PHONY: gem-build
+gem-build:
+	gem build loco_motion.gemspec -o gem_builds/loco_motion-$(version).gem
