@@ -1,5 +1,7 @@
 = part(:component) do
   - if content?
     = content
-  - elsif @simple_title
-    = @simple_title
+  - else
+    = heroicon_tag(@left_icon, **left_icon_html) if @left_icon
+    = @simple_title if @simple_title
+    = heroicon_tag(@right_icon, **right_icon_html) if @right_icon

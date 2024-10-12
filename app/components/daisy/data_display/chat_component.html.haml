@@ -1,0 +1,14 @@
+= part(:component) do
+  - if avatar?
+    = avatar
+
+  - if header?
+    = header
+
+  - bubbles.each do |bubble|
+    = bubble
+
+  = content
+
+  - if footer?
+    = footer

@@ -1,0 +1,46 @@
+= doc_title(title: "Timelines", comp: @comp) do |title|
+  %p
+    Here are some examples showcasing timelines.
+
+= doc_example(title: "Basic Timeline") do |doc|
+  - doc.with_description do
+    %p
+      Timelines are used to display a series of events in chronological order.
+
+  = daisy_timeline do |timeline|
+    - timeline.with_event(start: "1985", middle_icon: "user-circle", end: "Topher Born")
+    - timeline.with_event(start: "College", middle_icon: "academic-cap", end: "2006")
+    - timeline.with_event(start: "2010", middle_icon: "cake", end: "Married Marnie")
+    - timeline.with_event(start: "Built LocoMotion", middle_icon: "code-bracket", end: "2024")
+
+= doc_example(title: "Custom Timeline") do |doc|
+  - doc.with_description do
+    %p
+      The <code>start</code>, <code>middle_icon</code>, and <code>end</code>
+      properties can be customized. Or you can provide a completely custom
+      <code>middle</code> block.
+
+  = daisy_timeline do |timeline|
+    - timeline.with_event do |event|
+      - event.with_start(css: "font-bold") do
+        1985
+      - event.with_middle do
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Born
+
+    - timeline.with_event do |event|
+      - event.with_start(css: "font-bold") do
+        2006
+      - event.with_middle do
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Graduated College
+
+    - timeline.with_event do |event|
+      - event.with_start(css: "font-bold") do
+        2010
+      - event.with_middle do
+        = hero_icon("check-circle", variant: :solid)
+      - event.with_end(css: "timeline-box") do
+        Married

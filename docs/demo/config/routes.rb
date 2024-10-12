@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Dynamic route which shows various examples
   get "/examples/:framework/:category/:component", to: "examples#discover"
+  get "/examples/:framework/:component", to: "examples#discover"
 
   # Defines the root path route ("/")
   root "application#home"

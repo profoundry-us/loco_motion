@@ -15,28 +15,4 @@ class LocoMotion::BasicComponent < LocoMotion.configuration.base_component_class
     "BasicComponent"
   end
 
-  #
-  # You can also build a BasicComponent that just adds some default CSS classes.
-  #
-  def self.build(tag_name: :div, css: "", html: {}, &block)
-    klass = Class.new(LocoMotion::BasicComponent)
-
-    klass.class_eval(&block) if block_given?
-
-    klass.class_eval do
-      old_before_render = instance_method(:before_render)
-
-      define_method(:before_render) do
-        set_tag_name(:component, tag_name)
-        add_css(:component, css)
-        add_html(:component, html)
-
-        # Call their before_render after we have setup our defaults
-        old_before_render.bind(self).call
-      end
-    end
-
-    klass
-  end
-
 end
