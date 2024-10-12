@@ -1,0 +1,12 @@
+{
+  "name": "loco_motion",
+  "version": "0.0.5",
+  "description": "Crazy fast Rails development!",
+  "main": "index.js",
+  "repository": "https://github.com/profoundry-us/loco_motion",
+  "author": "Topher Fangio",
+  "license": "MIT",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2"
+  }
+}

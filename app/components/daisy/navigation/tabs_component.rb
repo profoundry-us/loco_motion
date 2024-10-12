@@ -75,7 +75,6 @@ class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component
         if loco_parent&.radio?
           concat(part(:component))
         else
-          # asdf if title?
           concat(part(:component) { concat(title? ? title : @simple_title) })
         end
 

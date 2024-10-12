@@ -6,6 +6,7 @@
     "@hotwired/turbo-rails": "^8.0.4",
     "autoprefixer": "^10.4.18",
     "esbuild": "^0.20.2",
+    "loco_motion": "/home/loco_motion",
     "postcss": "^8.4.36",
     "tailwindcss": "^3.4.10"
   },

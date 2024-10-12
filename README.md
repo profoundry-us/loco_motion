@@ -772,3 +772,14 @@ gems, etc
 ```haml
 = testing_this "thing"
 ```
+
+# Developing
+
+Might need to `make demo-shell` and then `cd /home/loco_motion` and `yard link`.
+
+Then, `cd /home/loco_demo` and run `yarn link "loco_motion"` so that you can
+more easily do development on the various parts without having to re-run `yarn`
+every time.
+
+Also may need to run `yarn` on the top level directory. Maybe we can move this
+into the Docker install / setup?

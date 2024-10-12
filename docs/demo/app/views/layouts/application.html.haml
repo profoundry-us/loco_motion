@@ -56,9 +56,9 @@
         .flex.items-center.justify-center.py-4.text-sm.whitespace-nowrap
           %span
             Made with
-          %span.relative.w-4.h-4.mx-1
-            = heroicon_tag("heart", class: "absolute w-4 h-4 text-red-600")
-            = heroicon_tag("heart", class: "absolute w-4 h-4 text-base-content/70 hover:text-red-600 hover:animate-ping")
+          %span.relative.w-4.h-4.mx-1.group.cursor-none
+            = heroicon_tag("heart", class: "absolute w-4 h-4 transition-colors text-slate-800 group-hover:text-red-600 duration-300")
+            = heroicon_tag("heart", class: "absolute w-4 h-4 text-red-600 opacity-0 transition-opacity group-hover:opacity-100 group-hover:animate-ping duration-300")
           %span
             by
           %span.ml-1

@@ -3,3 +3,4 @@ yardocs
 .byebug_history
 docs/demo/.env.local
 docs/yard/generated
+node_modules

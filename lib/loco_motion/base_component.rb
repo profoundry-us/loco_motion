@@ -171,8 +171,6 @@ class LocoMotion::BaseComponent < ViewComponent::Base
         end
 
         @config.smart_merge!(**build_kws)
-
-        # asdf if klass.superclass == Daisy::DataDisplay::AvatarComponent
       end
     end
 

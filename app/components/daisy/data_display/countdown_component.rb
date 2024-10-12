@@ -18,13 +18,25 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion.configuration.base_com
   end
 
   def before_render
+    add_stimulus_controller(:component, "countdown")
+
     add_css(:component, "flex")
     add_css(:component, "[:where(&)]:gap-x-2") if modifiers.include?(:words)
 
     %i(days hours minutes seconds).each do |part|
+      default_html = {
+        data: {
+          # Note: We can't use nested hashes here because the Rails content_tag
+          # helper is stupid and won't traverse them.
+          "countdown-target": part
+        }
+      }
+
       add_css(part, "countdown")
       add_css(part, "[:where(&)]:gap-x-1") if modifiers.include?(:words)
       add_css(part, @parts_css) if @parts_css
+
+      add_html(part, default_html)
       add_html(part, @parts_html) if @parts_html
     end
   end
