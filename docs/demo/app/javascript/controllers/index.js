@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import HighlightCodeController from "./highlight_code_controller"
 application.register("highlight-code", HighlightCodeController)
+
+import NavController from "./nav_controller"
+application.register("nav", NavController)
