@@ -794,6 +794,7 @@ gems, etc
 - [ ] Get YARD docs rendering with (better) Markdown
 - [x] Extract relevant pieces into a yard-loco_motion plugin
 - [ ] Publish Gem and NPM packages with only the files those need
+- [ ] Create a new YARD plugin to document `@part`s
 
 # Developing
 
