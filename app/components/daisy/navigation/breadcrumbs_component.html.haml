@@ -1,0 +1,7 @@
+= part(:component) do
+  = part(:list_wrapper) do
+    - items.each do |item|
+      - item.set_loco_parent(component_ref)
+      = item
+
+  = content

@@ -31,6 +31,7 @@ module Daisy
     timeline: "Daisy::DataDisplay::TimelineComponent",
 
     # Navigation
+    breadcrumbs: "Daisy::Navigation::BreadcrumbsComponent",
     tabs: "Daisy::Navigation::TabsComponent",
   }
 

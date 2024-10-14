@@ -1,0 +1,37 @@
+= doc_title(title: "Breadcrumbs", comp: @comp) do |title|
+  %p
+    Breadcrumbs are used to show the user's location within a website or app.
+
+= doc_example(title: "Basic Breadcrumbs") do |doc|
+  - doc.with_description do
+    %p
+      Basic breadcrumbs use only text and a separator to show the user's
+      location.
+
+  = daisy_breadcrumbs do |breadcrumbs|
+    - breadcrumbs.with_item do
+      = link_to "Home", "#"
+    - breadcrumbs.with_item do
+      = link_to "Docs", "#"
+    - breadcrumbs.with_item do
+      = link_to "Components", "#"
+    - breadcrumbs.with_item do
+      = link_to "Breadcrumbs", "#"
+
+
+= doc_example(title: "Breadcrumbs with Icons") do |doc|
+  - doc.with_description do
+    %p
+      Breadcrumbs can also utilize icons to help users quickly identify
+      different pages.
+
+  - icon_options = { css: "size-4 mr-1 text-slate-600", variant: :mini }
+  - links = [ ["Home", "home"], ["Docs", "document"], ["Components", "cube"], ["Breadcrumbs", "squares-2x2"] ]
+
+  = daisy_breadcrumbs do |breadcrumbs|
+    - links.each do |link|
+      - breadcrumbs.with_item do
+        = link_to "#" do
+          = hero_icon(link[1], **icon_options)
+          = link[0]
+
