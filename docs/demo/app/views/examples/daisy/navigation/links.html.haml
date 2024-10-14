@@ -1,0 +1,20 @@
+= doc_title(title: "Links", comp: @comp) do |title|
+  %p
+    Tailwind removes the styling on standard links so we provide an easy way to
+    re-add them. This works very similarly to the
+    = link_to "link_to", "https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to", class: "font-mono"
+    helper in Rails.
+
+
+= doc_example(title: "Basic Links") do |doc|
+  - doc.with_description do
+    %p
+      Basic links are styled with the <code>.link</code> class. The
+      <code>text</code> and <code>href</code> options can be passed as keyword
+      arguments, or as the first two positional arguments.
+
+  .flex.items-end.space-x-4
+    = daisy_link "Home", "#"
+    = daisy_link "Docs", "#", css: "link-primary text-xl"
+    = daisy_link "Components", "#", css: "link-secondary text-2xl"
+    = daisy_link "#", css: "link-success link-hover text-3xl" do
