@@ -1,0 +1,24 @@
+= doc_title(title: "Pagination") do |title|
+  %p
+    Pagination can be implemented by utilizing the existing
+    = daisy_button(css: "btn-sm", title: "Joins", right_icon: "cube", right_icon_css: "size-4", href: "/examples/daisy/layout/joins", html: { data: { turbo: "false" }})
+    component.
+
+
+= doc_example(title: "Basic Pagination") do |doc|
+  - doc.with_description do
+    %p
+      Pagination is used to navigate between pages of content. It is typically
+      used in conjunction with a list of items that are paginated.
+
+  = daisy_join do |join|
+    - join.with_item do
+      = daisy_button(title: "1", css: "btn-primary join-item")
+    - join.with_item do
+      = daisy_button(title: "2", css: "join-item")
+    - join.with_item do
+      = daisy_button(title: "...", css: "join-item")
+    - join.with_item do
+      = daisy_button(title: "9", css: "join-item")
+    - join.with_item do
+      = daisy_button(title: "10", css: "join-item")

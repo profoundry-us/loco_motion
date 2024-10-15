@@ -35,7 +35,11 @@ module Daisy
     link: "Daisy::Navigation::LinkComponent",
     menu: "Daisy::Navigation::MenuComponent",
     navbar: "Daisy::Navigation::NavbarComponent",
+    pagination: "Daisy::Navigation::PaginationComponent", # TODO: This doesn't exist
     tabs: "Daisy::Navigation::TabsComponent",
+
+    # Layout
+    join: "Daisy::Layout::JoinComponent",
   }
 
   module Helpers

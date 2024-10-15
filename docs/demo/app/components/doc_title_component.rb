@@ -32,6 +32,8 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def default_api_button
+    return nil unless api_url
+
     Daisy::Actions::ButtonComponent.new(
       title: "API Docs",
       href: api_url,
@@ -43,6 +45,8 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def api_url
+    return nil unless @comp
+
     comp_path = @comp.singularize.titleize.gsub(" ", "")
 
     # TODO: Pull the base URL into an ENV or config variable
