@@ -1,0 +1,66 @@
+= doc_title(title: "Steps", comp: @comp) do |title|
+  %p
+    Steps allow you to create a series of steps that users can follow to
+    complete a task. This is useful for onboarding, form completion, and many
+    more.
+
+
+= doc_example(title: "Basic Steps") do |doc|
+  - doc.with_description do
+    %p
+      Steps are automatically numbered and connected with lines. You can utilize
+      colors to indicate progress through the steps.
+
+  = daisy_steps do |steps|
+    - steps.with_step(title: "Write Code", css: "step-primary")
+    - steps.with_step(title: "Release Code", css: "step-primary")
+    - steps.with_step(title: "Profit", css: "step-secondary")
+    - steps.with_step(title: "Rule the World")
+
+
+= doc_example(title: "Vertical Steps") do |doc|
+  - doc.with_description do
+    %p
+      You can also display steps vertically.
+
+  = daisy_steps(css: "steps-vertical") do |steps|
+    - steps.with_step(title: "Write Code", css: "step-primary")
+    - steps.with_step(title: "Release Code", css: "step-primary")
+    - steps.with_step(title: "Profit", css: "step-secondary")
+    - steps.with_step(title: "Rule the World")
+
+
+= doc_example(title: "Custom Content") do |doc|
+  - doc.with_description do
+    %p
+      You can customize the content of each step to include any (short) content
+      you want by using the <code>number</code> option.
+
+    - # TODO: Extract this into a doc component
+    .alert.mb-8.border.border-info.items-start{ class: "bg-info/10" }
+      %div
+        .flex.items-center.space-x-2
+          = hero_icon("information-circle", css: "size-7 text-info")
+          .text-xl.font-bold
+            Note
+
+        %p
+          You can also supply this via the <code>data-content</code> attribute
+          in the html.
+
+        %pre
+          \= daisy_steps do |steps|
+          \  - steps.with_step(html: { data: { content: "❤️" } })
+
+    %p
+      And you can alter the colors by supplying CSS for the <code>after</code>
+      pseudo-element. Note that you may need to use the <code>!important</code>
+      modifier to override the default styles.
+
+  = daisy_steps do |steps|
+    - steps.with_step(number: "AB")
+    - steps.with_step(number: "CD")
+    - steps.with_step(number: "EF")
+    - steps.with_step(number: "★")
+    - steps.with_step(number: "✓")
+    - steps.with_step(number: "✕", css: "after:!bg-black after:!text-green-500")

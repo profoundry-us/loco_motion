@@ -35,7 +35,12 @@ module Daisy
     link: "Daisy::Navigation::LinkComponent",
     menu: "Daisy::Navigation::MenuComponent",
     navbar: "Daisy::Navigation::NavbarComponent",
-    pagination: "Daisy::Navigation::PaginationComponent", # TODO: This doesn't exist
+
+    # TODO: This doesn't exist, so it feels weird to have it here; but it makes
+    # the navigation work properly.
+    pagination: "Daisy::Navigation::PaginationComponent",
+
+    steps: "Daisy::Navigation::StepsComponent",
     tabs: "Daisy::Navigation::TabsComponent",
 
     # Layout
