@@ -34,6 +34,7 @@ module Daisy
     breadcrumbs: "Daisy::Navigation::BreadcrumbsComponent",
     link: "Daisy::Navigation::LinkComponent",
     menu: "Daisy::Navigation::MenuComponent",
+    navbar: "Daisy::Navigation::NavbarComponent",
     tabs: "Daisy::Navigation::TabsComponent",
   }
 
