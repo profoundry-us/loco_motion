@@ -1,0 +1,21 @@
+= doc_title(title: "Bottom Navigation", comp: @comp) do |title|
+  %p
+    Bottom Navigation is typically used in mobile-friendly applications to
+    provide the user with quick access to the most important parts of the app.
+
+
+= doc_example(title: "Basic Bottom Nav") do |doc|
+  - doc.with_description do
+    %p
+      A basic bottom navigation has multiple sections with icons. Typically only
+      one section is set to <code>active</code> at a time.
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      We have to add the <code>relative</code> class to ensure that it shows up
+      in our example rather than the default of being fixed to the bottom of the
+      screen.
+
+  = daisy_bottom_nav(css: "relative") do |nav|
+    - nav.with_section(icon: "home", href: "#")
+    - nav.with_section(icon: "information-circle", href: "#", active: true)
+    - nav.with_section(icon: "chart-bar", href: "#")
