@@ -1,4 +1,4 @@
-class DocTitleComponent < LocoMotion.configuration.base_component_class
+class DocTitleComponent < ApplicationComponent
   include ViewComponent::SlotableDefault
 
   define_parts :title, :title_wrapper, :description, :actions

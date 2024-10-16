@@ -1,0 +1,12 @@
+= part(:component) do
+  = part(:content_wrapper) do
+    .flex.items-center.space-x-2
+      - if @icon
+        = hero_icon(@icon, variant: :outline, html: { **rendered_html(:icon) })
+      - elsif @default_icon
+        = hero_icon(@default_icon, variant: :outline, html: { **rendered_html(:icon) })
+      .text-xl.font-bold
+        = @title || @default_title
+
+    .mt-3
+      = content

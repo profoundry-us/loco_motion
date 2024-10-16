@@ -11,19 +11,11 @@
       Buttons can be joined with other components to create a single, cohesive
       element.
 
-    - # TODO: Extract this into a doc component
-    .alert.mb-8.border.border-info.items-start{ class: "bg-info/10" }
-      %div
-        .flex.items-center.space-x-2
-          = hero_icon("information-circle", css: "size-7 text-info")
-          .text-xl.font-bold
-            Note
-
-        %p
-          You <strong>must</strong> manually add the <code>.join-item</code> CSS
-          class to the items you want to be joined since this could be
-          complicated to do automatically in many use-cases and would
-          almost certainly cause rendering issues.
+    = doc_note(css: "mb-8") do
+      You <strong>must</strong> manually add the <code>.join-item</code> CSS
+      class to the items you want to be joined since this could be complicated
+      to do automatically in many use-cases and would almost certainly cause
+      rendering issues.
 
   = daisy_join do |join|
     - join.with_item do

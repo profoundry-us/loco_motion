@@ -36,19 +36,12 @@
       You can customize the content of each step to include any (short) content
       you want by using the <code>number</code> option.
 
-    - # TODO: Extract this into a doc component
-    .alert.mb-8.border.border-info.items-start{ class: "bg-info/10" }
-      %div
-        .flex.items-center.space-x-2
-          = hero_icon("information-circle", css: "size-7 text-info")
-          .text-xl.font-bold
-            Note
+    = doc_note do
+      You can also supply this via the <code>data-content</code> attribute
+      in the html.
 
-        %p
-          You can also supply this via the <code>data-content</code> attribute
-          in the html.
-
-        %pre
+      %pre.p-0
+        %code{ class: "language-haml", data: { controller: "highlight-code" } }
           \= daisy_steps do |steps|
           \  - steps.with_step(html: { data: { content: "❤️" } })
 
