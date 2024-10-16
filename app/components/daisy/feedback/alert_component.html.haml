@@ -1,0 +1,8 @@
+= part(:component) do
+  - # If we have an icon, assume we want to wrap the content
+  - if @icon.present?
+    = hero_icon(@icon, **rendered_html(:icon))
+    = part(:content_wrapper) do
+      = content
+  - else
+    = content

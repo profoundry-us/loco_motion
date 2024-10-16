@@ -1,0 +1,61 @@
+= doc_title(title: "Alerts", comp: @comp) do |title|
+  %p
+    Alerts inform the user about important information or changes to the system.
+
+
+= doc_example(title: "Basic Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    %p
+      Alerts come in a variety of flavors and generally have an icon at the
+      start to indicate the type of alert.
+
+  = daisy_alert(icon: "information-circle", icon_html: { variant: :outline }) do |alert|
+    Standard alerts are gray-t! 😉
+
+  = daisy_alert(icon: "information-circle", css: "alert-info", icon_html: { variant: :outline }) do |alert|
+    Here is some important information!
+
+  = daisy_alert(icon: "check-circle", css: "alert-success", icon_html: { variant: :outline }) do |alert|
+    Success! You did it!
+
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", icon_html: { variant: :outline }) do |alert|
+    Ooh, be careful here!
+
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error", icon_html: { variant: :outline }) do |alert|
+    Uh oh, something went wrong!
+
+
+= doc_example(title: "No-Icon Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    %p
+      If you don't want an icon, you can simply omit it.
+
+  = daisy_alert(css: "alert-info") do |alert|
+    Here is some important information!
+
+  = daisy_alert(css: "alert-success") do |alert|
+    Success! You did it!
+
+  = daisy_alert(css: "alert-warning") do |alert|
+    Ooh, be careful here!
+
+  = daisy_alert(css: "alert-error") do |alert|
+    Uh oh, something went wrong!
+
+
+= doc_example(title: "Custom Icon Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    %p
+      You can also use a custom icon (or any HTML) if you prefer.
+
+  = daisy_alert do |alert|
+    = hero_icon("star", css: "text-yellow-500")
+    Custom icon alert!
+
+  = daisy_alert do |alert|
+    %span ❤️
+    %span Custom emoji alert!
+
+  = daisy_alert do |alert|
+    = daisy_avatar(css: "size-10", src: image_path("avatars/lady-smiling-3.jpeg"))
+    %span Or even Daisy avatars / other elements!
