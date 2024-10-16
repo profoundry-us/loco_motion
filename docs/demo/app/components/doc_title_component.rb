@@ -1,4 +1,4 @@
-class DocTitleComponent < LocoMotion.configuration.base_component_class
+class DocTitleComponent < ApplicationComponent
   include ViewComponent::SlotableDefault
 
   define_parts :title, :title_wrapper, :description, :actions
@@ -16,6 +16,8 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def before_render
+    add_stimulus_controller(:component, "doc-title")
+
     setup_title
     setup_description
   end
@@ -32,6 +34,8 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def default_api_button
+    return nil unless api_url
+
     Daisy::Actions::ButtonComponent.new(
       title: "API Docs",
       href: api_url,
@@ -43,6 +47,8 @@ class DocTitleComponent < LocoMotion.configuration.base_component_class
   end
 
   def api_url
+    return nil unless @comp
+
     comp_path = @comp.singularize.titleize.gsub(" ", "")
 
     # TODO: Pull the base URL into an ENV or config variable

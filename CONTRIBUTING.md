@@ -26,8 +26,8 @@ terminal in the project directory and type `make all`. This should build all of
 the Docker containers, install all relevant dependencies, install Rails and all
 of the necessary gems, and start all of the different services.
 
-If everything is successfull, you should see some output from each of the
-running containers with information on how to connect.
+If everything is successful, you should see some output from each of the running
+containers with information on how to connect.
 
 You can view the YARD Docs at http://localhost:8808 and the demo app should be
 running at http://localhost:3000.
@@ -67,8 +67,9 @@ components only available through loco_motion.
 
 In order to create a new component, you'll need to create the appropriate
 `*_component.rb` file in the relevant directory inside of the
-`app/components/daisy` folder. You'll also need to create a new `*_component`
-sidecar directory to store the relevant HAML, JS, and CSS files.
+`app/components/daisy` folder. You'll also need to create a new
+`*_component.html.haml` file and potentially a `*_controller.js` file if the
+component requires Javascript.
 
 For example, if you wanted to add the Alert component
 (https://daisyui.com/components/alert/), you would need to
@@ -77,12 +78,12 @@ For example, if you wanted to add the Alert component
    because we don't currently have that section).
 2. Create a new file called `alert_component.rb` inside the
    `app/components/daisy/feedback` folder.
-3. Create a new folder called `alert_component` inside the
+3. Create a new file called `alert_component.html.haml` inside the
    `app/components/daisy/feedback` folder.
 
 You can look at any of the other components to help you get started. One of the
 main things to remember is that all setup needs to happen in the `before_render`
-method rather than the `initializer` method as some of the typical component
+method rather than the `initialize` method as some of the typical component
 setup will require the component to be initialized before you can call those
 methods.
 

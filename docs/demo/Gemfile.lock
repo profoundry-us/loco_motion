@@ -1,7 +1,7 @@
 PATH
   remote: /home/loco_motion
   specs:
-    loco_motion (0.0.4)
+    loco_motion (0.0.5)
       base64
       bigdecimal
       fiddle

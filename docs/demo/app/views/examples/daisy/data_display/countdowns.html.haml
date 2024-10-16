@@ -2,13 +2,9 @@
   %p
     Countdowns display an anmiated countdown to a specific date.
 
-.alert.my-4{ class: "bg-warning/20" }
-  = hero_icon("code-bracket", css: "w-6 h-6", variant: :outline)
-
-  .italic
-    %strong TODO
-    We should consider allowing a specific date to be passed in as an argument
-    so that the countdown can be more accurate.
+= doc_note(modifier: :todo, css: "mt-4") do
+  We should consider allowing a specific date to be passed in as an argument so
+  that the countdown can be more accurate.
 
 = doc_example(title: "Basic Countdown") do |doc|
   - doc.with_description do

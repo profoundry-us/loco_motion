@@ -31,7 +31,22 @@ module Daisy
     timeline: "Daisy::DataDisplay::TimelineComponent",
 
     # Navigation
+    breadcrumbs: "Daisy::Navigation::BreadcrumbsComponent",
+    bottom_nav: "Daisy::Navigation::BottomNavComponent",
+    link: "Daisy::Navigation::LinkComponent",
+    menu: "Daisy::Navigation::MenuComponent",
+    navbar: "Daisy::Navigation::NavbarComponent",
+    # TODO: This doesn't exist as a component, so it feels weird to have it
+    # here; but it makes the navigation work properly.
+    pagination: "Daisy::Navigation::PaginationComponent",
+    steps: "Daisy::Navigation::StepsComponent",
     tabs: "Daisy::Navigation::TabsComponent",
+
+    # Feedback
+    alert: "Daisy::Feedback::AlertComponent",
+
+    # Layout
+    join: "Daisy::Layout::JoinComponent",
   }
 
   module Helpers

@@ -1,0 +1,48 @@
+= doc_title(title: "Joins", comp: @comp) do |title|
+  %p
+    Joins allow you to combine multiple components into a singular, joined,
+    element. This is useful for components like buttons, inputs with symbols,
+    and many more.
+
+
+= doc_example(title: "Button Joins", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    %p
+      Buttons can be joined with other components to create a single, cohesive
+      element.
+
+    = doc_note(css: "mb-8") do
+      You <strong>must</strong> manually add the <code>.join-item</code> CSS
+      class to the items you want to be joined since this could be complicated
+      to do automatically in many use-cases and would almost certainly cause
+      rendering issues.
+
+  = daisy_join do |join|
+    - join.with_item do
+      = daisy_button(title: "Start", css: "join-item")
+    - join.with_item do
+      = daisy_button(title: "Center", css: "join-item")
+    - join.with_item do
+      = daisy_button(title: "End", css: "join-item")
+
+  = daisy_join do |join|
+    - join.with_item do
+      = daisy_button(icon: "bars-3-bottom-left", css: "join-item")
+    - join.with_item do
+      = daisy_button(icon: "bars-3", css: "join-item")
+    - join.with_item do
+      = daisy_button(icon: "bars-3-bottom-right", css: "join-item")
+
+
+= doc_example(title: "Vertical Joins") do |doc|
+  - doc.with_description do
+    %p
+      You can also join elements vertically.
+
+  = daisy_join(css: "join-vertical min-w-32") do |join|
+    - join.with_item do
+      = daisy_button(title: "Top", css: "w-full join-item")
+    - join.with_item do
+      = daisy_button(title: "Middle", css: "w-full join-item btn-primary")
+    - join.with_item do
+      = daisy_button(title: "Bottom", css: "w-full join-item")

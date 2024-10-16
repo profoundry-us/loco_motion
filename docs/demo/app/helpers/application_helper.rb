@@ -6,4 +6,8 @@ module ApplicationHelper
   def doc_example(*args, **kws, &block)
     render(ExampleWrapperComponent.new(*args, **kws), &block)
   end
+
+  def doc_note(*args, **kws, &block)
+    render(DocNoteComponent.new(*args, **kws), &block)
+  end
 end

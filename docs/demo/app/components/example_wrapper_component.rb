@@ -1,4 +1,4 @@
-class ExampleWrapperComponent < LocoMotion.configuration.base_component_class
+class ExampleWrapperComponent < ApplicationComponent
   define_parts :title, :example, :pre, :code
 
   attr_reader :simple_title, :skip_cache, :code
