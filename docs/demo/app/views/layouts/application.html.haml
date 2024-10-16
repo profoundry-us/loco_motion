@@ -14,7 +14,7 @@
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
 
   %body.relative
-    .sticky.z-10.top-0.px-4.border-b.border-gray-200.backdrop-blur{ class: "bg-base-100/95 dark:bg-slate-800" }
+    .sticky.z-10.top-0.px-4.border-b.border-gray-200.backdrop-blur{ class: "bg-base-100/90 dark:bg-slate-800" }
       .navbar.mx-auto{ class: "max-w-[1440px]" }
         .navbar-start
           = link_to root_path, class: "flex items-center text-xl" do
@@ -51,8 +51,8 @@
                 - comp_path = "/examples/#{comp.underscore.sub('_component', '').pluralize}"
                 = link_to name.to_s.pluralize.titleize, comp_path, class: request.original_url.match(comp_path) ? "active" : "", data: { action: "click->nav#activate", "turbo-action": "replace" }
 
-      .pl-64.pr-8
-        %turbo-frame#content.p-4
+      .pl-64.pr-4
+        %turbo-frame#content.block.p-4
           = yield
 
         .flex.items-center.justify-center.py-4.text-sm.whitespace-nowrap
