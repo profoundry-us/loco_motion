@@ -4,7 +4,7 @@
     provide the user with quick access to the most important parts of the app.
 
 
-= doc_example(title: "Basic Bottom Nav") do |doc|
+= doc_example(title: "Basic Bottom Nav", example_css: "mx-auto max-w-[400px]") do |doc|
   - doc.with_description do
     %p
       A basic bottom navigation has multiple sections with icons. Typically only
@@ -15,7 +15,35 @@
       in our example rather than the default of being fixed to the bottom of the
       screen.
 
-  = daisy_bottom_nav(css: "relative") do |nav|
+  = daisy_bottom_nav(css: "relative border border-base-200") do |nav|
     - nav.with_section(icon: "home", href: "#")
     - nav.with_section(icon: "information-circle", href: "#", active: true)
     - nav.with_section(icon: "chart-bar", href: "#")
+
+
+= doc_example(title: "Custom Nav with Titles", example_css: "mx-auto max-w-[400px]") do |doc|
+  - doc.with_description do
+    %p
+      The Bottom Nav sections can also have a simple title passed via the
+      <code>title</code> attribute, or a more complex title by passing a block
+      to the section.
+
+  = daisy_bottom_nav(css: "relative border border-base-200") do |nav|
+    - nav.with_section(icon: "home", href: "#", title: "Home")
+    - nav.with_section(icon: "information-circle", icon_css: "text-blue-600 -rotate-45", href: "#", active: true, title: "Info")
+    - nav.with_section(icon: "chart-bar", href: "#") do
+      .font-bold.italic.text-xs.text-red-600.animate-bounce
+        Stats
+
+
+= doc_example(title: "Colored Bottom Nav", example_css: "flex-col space-y-8 mx-auto max-w-[400px]") do |doc|
+  - doc.with_description do
+    %p
+      You can also use any of the built-in Daisy, Tailwind, or custom colors.
+
+  - colors = ["text-primary", "text-secondary", "text-accent", "text-info", "text-success", "text-warning", "text-error", "text-cyan-400", "text-[#449944]"]
+  - colors.each_with_index do |color, index|
+    = daisy_bottom_nav(css: "relative border border-base-200") do |nav|
+      - nav.with_section(icon: "home", href: "#", active: index % 3 == 0, css: color)
+      - nav.with_section(icon: "information-circle", href: "#", active: index % 3 == 1, css: color)
+      - nav.with_section(icon: "chart-bar", href: "#", active: index % 3 == 2, css: color)

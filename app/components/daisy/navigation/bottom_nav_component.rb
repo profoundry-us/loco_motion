@@ -10,10 +10,18 @@ class Daisy::Navigation::BottomNavComponent < LocoMotion.configuration.base_comp
       @icon = config_option(:icon)
       @icon_variant = config_option(:icon_variant, :outline)
       @title = config_option(:title)
+      @href = config_option(:href)
       @active = config_option(:active, false)
     end
 
     def before_render
+      if @href
+        set_tag_name(:component, :a)
+        add_html(:component, href: @href)
+      else
+        set_tag_name(:component, :button)
+      end
+
       add_css(:component, "active") if @active
 
       add_css(:icon, "[:where(&)]:size-6")

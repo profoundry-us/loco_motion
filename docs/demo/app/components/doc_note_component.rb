@@ -33,7 +33,7 @@ class DocNoteComponent < ApplicationComponent
   end
 
   def setup_tip
-    @default_icon = "check-circle"
+    @default_icon = "chat-bubble-oval-left-ellipsis"
     @default_title = "Tip"
 
     add_css(:component, "border-success bg-success/10")
