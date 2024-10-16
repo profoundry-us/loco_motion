@@ -7,6 +7,9 @@ import { application } from "./application"
 import ActiveTabController from "./active_tab_controller"
 application.register("active-tab", ActiveTabController)
 
+import DocTitleController from "./doc_title_controller"
+application.register("doc-title", DocTitleController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

@@ -16,6 +16,8 @@ class DocTitleComponent < ApplicationComponent
   end
 
   def before_render
+    add_stimulus_controller(:component, "doc-title")
+
     setup_title
     setup_description
   end
