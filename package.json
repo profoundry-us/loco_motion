@@ -1,12 +1,19 @@
 {
-  "name": "loco_motion",
+  "name": "@profoundry-us/loco_motion",
   "version": "0.0.5",
   "description": "Crazy fast Rails development!",
   "main": "index.js",
-  "repository": "https://github.com/profoundry-us/loco_motion",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/profoundry-us/loco_motion.git"
+  },
   "author": "Topher Fangio",
   "license": "MIT",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2"
-  }
+  },
+  "files": [
+    "index.js",
+    "app/components/daisy/data_display/countdown_controller.js"
+  ]
 }

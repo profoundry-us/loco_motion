@@ -1,6 +1,6 @@
 import { Application } from "@hotwired/stimulus"
 
-import { CountdownController } from "loco_motion"
+import { CountdownController } from "@profoundry-us/loco_motion"
 
 const application = Application.start()
 

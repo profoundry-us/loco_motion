@@ -1,8 +1,14 @@
 # syntax = docker/dockerfile:1
 
+# TODO: See if we still need this specific Ruby versioning or if we can somehow
+# add Node to this image.
+#
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.3.5
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+# ARG RUBY_VERSION=3.3.5
+# FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+
+# For now, just use timbru31 image which has Node.js and Ruby
+FROM timbru31/ruby-node:3.3-slim-18 as base
 
 # Rails app lives here
 WORKDIR /rails

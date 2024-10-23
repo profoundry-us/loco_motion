@@ -43,8 +43,10 @@ your solution is aligned with our goals.
   - [Install](#install)
   - [Using Components](#using-components)
   - [Setting a Base Component Class](#setting-a-base-component-class)
-- [Tooling](#tooling)
-- [Next Steps](#next-steps)
+- [Developing](#developing)
+  - [Tooling](#tooling)
+- [TODO / Next Steps](#todo--next-steps)
+
 
 ## About
 
@@ -699,6 +701,35 @@ you install):
 > directory, so your CSS may stop working if you update the gem and forget to
 > update this setting.
 
+Next, if you're using any of the components that require JavaScript (like the
+Countdown component), you'll need to add the library as a dependency and include
+those controllers in your `application.js` file.
+
+```sh
+npm add @profoundry-us/loco_motion
+```
+
+or
+
+```sh
+yarn add @profoundry-us/loco_motion
+```
+
+Then inside your `application.js` file, make sure to import and register the
+relevant controllers.
+
+```js
+import { Application } from "@hotwired/stimulus"
+
+import { CountdownController } from "@profoundry-us/loco_motion"
+
+const application = Application.start()
+
+application.register("countdown", CountdownController)
+
+export { application }
+```
+
 ### Using Components
 
 Back in the `app/layouts/application.html.haml` file, replace the `body` with
@@ -707,24 +738,20 @@ the following code and refresh your page.
 ```haml
   %body
     .m-2.p-2.rounded.bg-red-400
-      = yield
-
-    .btn
-      = LocoMotion.hello_world
-
-    %div
-      = render(LocoMotion::Buttons::ButtonComponent.new)
-
-    %div
-      = render(LocoMotion::Buttons::FabComponent.new)
-
-    %div
       = session[:user_info].inspect
+
+    %div
+      = render(Daisy::Actions::ButtonComponent.new(title: "Click Me"))
+
+    %div
+      = daisy_button(css: "btn-primary") do
+        Click Me Too
+
+    = yield
 ```
 
-You should see a gray button that says "Hello World!" and the user info that
-we saved from OmniAuth represented as a Ruby hash! You should also see the
-example Button and Fab components.
+You should see a few buttons and the user info that we saved from OmniAuth
+represented as a Ruby hash! Any other content you have will be rendered below.
 
 ### Setting a Base Component Class
 
@@ -764,7 +791,39 @@ end
 > you want, so you could create a separate `CustomizedLocoMotionComponent` class
 > so that you don't have any conflicts with your `ApplicationComponent`.
 
-## Tooling
+## Developing
+
+To work on LocoMotion, first clone the repository and make sure you have Docker
+installed and running on your machine.
+
+You should then be able to run `make rebuild` in the project directory and then
+`make all-quick` to start the services.
+
+> [!NOTE]
+>
+> We use `npm link` within the `docs/demo/bin/dev` script to enable quick
+> editing of the JavaScript library files so you don't have to publish a new
+> package during testing.
+
+From here, you can access the demo site at http://localhost:3000 and the YARD
+docs at http://localhost:8808/docs/yard
+
+You can type `make demo-shell` to open a shell inside the demo Docker container,
+or `make loco-shell` to get a shell inside the gem's Docker container.
+
+See the `Makefile` for all available commands.
+
+> [!WARNING]
+>
+> Right now, Rails doesn't auto-reload the LocoMotion library files when they
+> change, so you might have to restart your server to get it to pickup the
+> changes.
+>
+> ```sh
+> make demo-restart
+> ```
+
+### Tooling
 
 For VSCode, you may want to add the following to your settings to get
 TailwindCSS Intellisense working properly.
@@ -786,24 +845,26 @@ TailwindCSS Intellisense working properly.
   ],
 ```
 
-## Next Steps
+## TODO / Next Steps
 
-TODO: Expand upon loco_motion components, Daisy-rails gems, icons, pagination
-gems, etc
+There is a LOT left to be done. We're not currently seeking assistance, but if
+you feel very strongly that you'd like to contribute, please reach out through
+the GitHub Discussions feature and let us know!
 
+- [x] Basic versions of DaisyUI Actions
+- [x] Basic versions of DaisyUI Data Display
+- [x] Basic versions of DaisyUI Navigation
+- [ ] Basic versions of DaisyUI Feedback
+- [ ] Basic versions of DaisyUI Data Input
+- [ ] Basic versions of DaisyUI Layout
+- [ ] Basic versions of DaisyUI Mockup
 - [ ] Get YARD docs rendering with (better) Markdown
 - [x] Extract relevant pieces into a yard-loco_motion plugin
-- [ ] Publish Gem and NPM packages with only the files those need
-- [ ] Create a new YARD plugin to document `@part`s
-- [ ] Extract alerts into a doc component (and / or the Daisy component)
-
-# Developing
-
-Might need to `make demo-shell` and then `cd /home/loco_motion` and `yard link`.
-
-Then, `cd /home/loco_demo` and run `yarn link "loco_motion"` so that you can
-more easily do development on the various parts without having to re-run `yarn`
-every time.
-
-Also may need to run `yarn` on the top level directory. Maybe we can move this
-into the Docker install / setup?
+- [ ] Publish Gem
+- [x] Publish NPM package
+- [ ] Update YARD plugin to add `@part`s
+- [x] Extract doc callouts into a doc component (and / or the Daisy component)
+- [ ] Choose and recommend / document a pagination gem
+- [ ] Discuss caching techniques / setup
+- [ ] Create / publish a production version of the demo site
+- [ ] Create / publish a production version of the docs site
