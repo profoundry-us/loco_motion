@@ -80,5 +80,5 @@ gem 'fiddle'
 
 # App-Specific Gems
 gem "haml-rails", "~> 2.0"
-gem "loco_motion", path: "/home/loco_motion"
+gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 gem 'unsplash'

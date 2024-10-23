@@ -1,7 +1,7 @@
 FROM ruby:3.3.5
 
 # Install some relevant dependencies
-RUN apt-get update -qq && apt-get install -y tini vim
+RUN apt-get update -qq && apt-get install -y build-essential git tini vim
 
 ENV APP_HOME /home/loco_motion
 

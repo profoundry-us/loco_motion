@@ -1,6 +1,6 @@
 FROM timbru31/ruby-node:3.3-slim-18
 
-RUN apt-get update -qq && apt-get install -y tini build-essential vim
+RUN apt-get update -qq && apt-get install -y build-essential git tini vim
 
 ENV APP_HOME /home/loco_demo
 

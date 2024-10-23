@@ -8,6 +8,7 @@ fi
 # Make sure our dev environment is setup to use our local version of loco_motion
 (cd /home/loco_motion; yarn link)
 (cd /home/loco_demo; yarn link "@profoundry-us/loco_motion")
+(cd /home/loco_demo; bundle config local.loco_motion /home/loco_motion)
 
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
