@@ -10,7 +10,7 @@
       images, text, and actions.
 
   = daisy_card(css: "max-w-96 bg-base-100 shadow-xl") do |card|
-    - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpeg")
+    - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpg")
 
     %p Such a beautiful beach!
 
@@ -30,9 +30,9 @@
     - pics.each.with_index do |pic, i|
       = daisy_card(title: pic.titleize, css: "max-w-96 bg-base-100 shadow-xl") do |card|
         - if i % 2 == 0
-          - card.with_top_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpeg")
+          - card.with_top_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpg")
         - else
-          - card.with_bottom_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpeg")
+          - card.with_bottom_figure css: "aspect-video", src: image_path("landscapes/#{pic}.jpg")
 
         %p Such a beautiful place!
 

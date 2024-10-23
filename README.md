@@ -684,16 +684,21 @@ Add the following to your `Gemfile` and re-run `bundle`:
 gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 ```
 
-Next add the following line to the `contents` section of your
-`tailwind.config.js` file (make sure to change the version number to the one
-you install):
+Next add the following lines to the `contents` section of your
+`tailwind.config.js` to import / build the proper files:
 
 ```js
-  content:[
-    `${process.env.GEM_HOME}/loco_motion-0.0.4/app/components/**/*.{rb,js,html.haml}`,
+  const { execSync } = require('child_process');
 
-    // ...
-  ]
+  let locoBundlePath = execSync('bundle show loco_motion').toString().trim();
+
+  module.exports = {
+    content:[
+      `${locoBundlePath}/app/components/**/*.{rb,js,html.haml}`,
+
+      // ...
+    ]
+  }
 ```
 
 > [!WARNING]

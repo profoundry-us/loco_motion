@@ -1,6 +1,6 @@
 class Daisy::DataDisplay::CardComponent < LocoMotion.configuration.base_component_class
 
-  Figure = LocoMotion::BasicComponent.build(tag_name: :figure) do
+  Figure = LocoMotion::BasicComponent.build do
     define_part :image, tag_name: :img, css: "card-image"
 
     def initialize(*args, **kws, &block)
@@ -10,6 +10,7 @@ class Daisy::DataDisplay::CardComponent < LocoMotion.configuration.base_componen
     end
 
     def before_render
+      set_tag_name(:component, :figure)
       add_html(:image, src: @src) if @src
     end
 

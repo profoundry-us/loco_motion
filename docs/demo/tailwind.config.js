@@ -1,6 +1,12 @@
+const { execSync } = require('child_process');
+
+let locoBundlePath = execSync('bundle show loco_motion').toString().trim();
+
+console.log(" *** Importing TailwindCSS config from loco_motion gem: ", locoBundlePath);
+
 module.exports = {
   content: [
-    '/home/loco_motion/app/components/**/*.{rb,js,html.haml}',
+    `${locoBundlePath}/app/components/**/*.{rb,js,html.haml}`,
     './app/components/**/*.{rb,js,html.haml}',
     './app/views/**/*.{rb,js,html.haml}',
     './app/views/**/*.html.haml',
