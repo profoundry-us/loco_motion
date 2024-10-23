@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/profoundry-us/loco_motion.git
-  revision: e344570d0e260ca14621b94cf58de8caab553177
+  revision: 98b225050a060c1b9c7fe3e07fd617bc6a1fe911
   branch: main
   specs:
     loco_motion (0.0.5)
@@ -122,6 +122,7 @@ GEM
     cssbundling-rails (1.4.0)
       railties (>= 6.0.0)
     csv (3.3.0)
+    dalli (3.2.8)
     date (3.3.4)
     debug (1.9.2)
       irb (~> 1.10)
@@ -356,6 +357,7 @@ DEPENDENCIES
   bootsnap
   capybara
   cssbundling-rails
+  dalli
   debug
   fiddle
   haml-rails (~> 2.0)

@@ -79,6 +79,7 @@ gem 'ostruct'
 gem 'fiddle'
 
 # App-Specific Gems
+gem "dalli" # For use on Heroku
 gem "haml-rails", "~> 2.0"
 gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 gem 'unsplash'
