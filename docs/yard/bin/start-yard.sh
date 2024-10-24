@@ -10,4 +10,4 @@ bundle
 #
 # Note that some options are defined in .yardopts because they can't be passed
 # on the command line.
-bundle exec yard server --reload --bind 0.0.0.0 -m yard
+bundle exec yard server --reload --bind 0.0.0.0

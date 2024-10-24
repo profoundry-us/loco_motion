@@ -50,8 +50,8 @@ class DocTitleComponent < ApplicationComponent
     return nil unless @comp
 
     comp_path = @comp.singularize.titleize.gsub(" ", "")
+    host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
 
-    # TODO: Pull the base URL into an ENV or config variable
-    "http://localhost:8808/docs/yard/#{comp_path}Component"
+    "#{host}/#{comp_path}Component"
   end
 end

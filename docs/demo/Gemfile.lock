@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/profoundry-us/loco_motion.git
-  revision: a6bfdb6387771069314b19fc866f6ebabe72a15d
+  revision: 8ab921ecfdae4696b1789db8710e42d26575bbb6
   branch: main
   specs:
     loco_motion (0.0.5)

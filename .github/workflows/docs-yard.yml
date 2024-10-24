@@ -1,0 +1,40 @@
+name: Publish Yard Docs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Netlify
+        run: npm install netlify-cli -g
+
+      - name: Generate Docs
+        run: yard
+
+      - name: "Deploy to SiteGround"
+        uses: milanmk/actions-file-deployer@master
+        with:
+          remote-protocol: "ftp"
+          remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
+          remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-path: "docs/yard/generated"
+          remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.sha }}"
