@@ -4,7 +4,7 @@
 Crazy fast Rails development with modern tools and components leveraging
 ViewComponent, TailwindCSS, DaisyUI and more!
 
-![image](./docs/assets/images/loco-chats.png)
+<img src="//loco-motion-docs.profoundry.us/images/loco-chats.png" width="500px" style="border: 1px solid #bbb; padding: 2px; border-radius: 10px;">
 
 _**DISCLAIMER**_
 
