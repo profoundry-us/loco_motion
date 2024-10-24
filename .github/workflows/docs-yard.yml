@@ -22,18 +22,18 @@ jobs:
       - name: Generate Docs
         run: bundle exec yard
 
-      - name: List Docs
-        run: ls -la ./docs/yard/generated
+      # - name: List Docs
+      #   run: ls -la ./docs/yard/generated
 
-      # - name: "Deploy to SiteGround"
-      #   uses: milanmk/actions-file-deployer@master
-      #   with:
-      #     debug: true
-      #     artifacts: true
-      #     remote-protocol: "ftp"
-      #     remote-port: 21
-      #     remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
-      #     remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
-      #     remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-      #     local-path: "./docs/yard/generated"
-      #     remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.sha }}"
+      - name: "Deploy to SiteGround"
+        uses: milanmk/actions-file-deployer@master
+        with:
+          debug: true
+          artifacts: true
+          remote-protocol: "ftp"
+          remote-port: 21
+          remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
+          remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-path: "./docs/yard/generated/*"
+          remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.sha }}"
