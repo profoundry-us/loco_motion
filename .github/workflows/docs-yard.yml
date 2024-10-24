@@ -17,17 +17,8 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install Netlify
-        run: npm install netlify-cli -g
-
       - name: Generate Docs
-        run: yard
+        run: bundle exec yard
 
       - name: "Deploy to SiteGround"
         uses: milanmk/actions-file-deployer@master
