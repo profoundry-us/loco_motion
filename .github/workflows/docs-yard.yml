@@ -30,26 +30,20 @@ jobs:
       - name: List Files
         run: ls -la ./docs/yard/generated
 
-      - name: "📂 Deploy Generated to SiteGround"
-        uses: milanmk/actions-file-deployer@master
+      - name: 📂 Sync Generated Files to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          artifacts: true
-          remote-protocol: "ftp"
-          remote-port: 21
-          remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
-          remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
-          remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          local-path: "./docs/yard/generated/"
-          remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/"
+          server: ${{ secrets.SITEGROUND_FTP_HOST }}
+          username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-dir: "./docs/yard/generated/"
+          server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/"
 
-      - name: "📂 Deploy Assets to SiteGround"
-        uses: milanmk/actions-file-deployer@master
+      - name: 📂 Sync Assets to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          artifacts: true
-          remote-protocol: "ftp"
-          remote-port: 21
-          remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
-          remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
-          remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          local-path: "./docs/assets/"
-          remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/docs/assets"
+          server: ${{ secrets.SITEGROUND_FTP_HOST }}
+          username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-dir: "./docs/assets/"
+          server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/docs/assets/"
