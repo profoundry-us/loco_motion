@@ -38,12 +38,3 @@ jobs:
           password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
           local-dir: "./docs/yard/generated/"
           server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/"
-
-      - name: 📂 Sync Assets to SiteGround
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.SITEGROUND_FTP_HOST }}
-          username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
-          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          local-dir: "./docs/assets/"
-          server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/docs/assets/"
