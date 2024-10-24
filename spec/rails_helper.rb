@@ -4,6 +4,8 @@ require "view_component/test_helpers"
 require "view_component/system_test_helpers"
 # require "capybara/rspec"
 
+require 'loco_motion'
+
 Bundler.require :default, :development
 
 # If you're using all parts of Rails:
