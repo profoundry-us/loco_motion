@@ -28,6 +28,7 @@ jobs:
           debug: true
           artifacts: true
           remote-protocol: "ftp"
+          remote-port: 21
           remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
           remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
           remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
