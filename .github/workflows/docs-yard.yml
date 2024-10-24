@@ -35,6 +35,6 @@ jobs:
           remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
           remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
           remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          local-path: "./docs/yard/generated"
+          # local-path: "./docs/yard/generated"
           remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.sha }}"
           ftp-options: "--recursive --verbose"
