@@ -81,5 +81,10 @@ gem 'fiddle'
 # App-Specific Gems
 gem "dalli" # For use on Heroku
 gem "haml-rails", "~> 2.0"
-gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
 gem 'unsplash'
+
+
+#############################################
+# We use git config local.loco_motion-rails inside of bin/setup to override this
+#############################################
+gem "loco_motion-rails", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"

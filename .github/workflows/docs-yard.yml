@@ -4,6 +4,11 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version_name:
+        type: string
+        required: false
+        description: 'The new version / directory to be created'
 
 jobs:
   build-and-deploy:
@@ -11,30 +16,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install Netlify
-        run: npm install netlify-cli -g
-
       - name: Generate Docs
-        run: yard
+        run: bundle exec yard
 
-      - name: "Deploy to SiteGround"
-        uses: milanmk/actions-file-deployer@master
+      - name: List Files
+        run: ls -la ./docs/yard/generated
+
+      - name: 📂 Sync Generated Files to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          remote-protocol: "ftp"
-          remote-host: ${{ secrets.SITEGROUND_FTP_HOST }}
-          remote-user: ${{ secrets.SITEGROUND_FTP_USERNAME }}
-          remote-password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          local-path: "docs/yard/generated"
-          remote-path: "/loco-motion-docs.profoundry.us/public_html/${{ github.sha }}"
+          server: ${{ secrets.SITEGROUND_FTP_HOST }}
+          username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-dir: "./docs/yard/generated/"
+          server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/"
+
+      - name: 📂 Sync Assets to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.SITEGROUND_FTP_HOST }}
+          username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
+          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          local-dir: "./docs/assets/"
+          server-dir: "/loco-motion-docs.profoundry.us/public_html/${{ github.event.inputs.version_name || github.event.release.tag_name || github.sha }}/docs/assets/"

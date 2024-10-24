@@ -4,7 +4,7 @@
 Crazy fast Rails development with modern tools and components leveraging
 ViewComponent, TailwindCSS, DaisyUI and more!
 
-![image](./docs/assets/images/loco-chats.png)
+<img src="//loco-motion-docs.profoundry.us/images/loco-chats.png" width="500px" style="border: 1px solid #bbb; padding: 2px; border-radius: 10px;">
 
 _**DISCLAIMER**_
 
@@ -681,7 +681,11 @@ Add the following to your `Gemfile` and re-run `bundle`:
 ```Gemfile
 # Gemfile
 
-gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main"
+gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
+
+# or
+
+gem "loco_motion-rails", "0.0.6", require: "loco_motion"
 ```
 
 Next add the following lines to the `contents` section of your
@@ -801,14 +805,24 @@ end
 To work on LocoMotion, first clone the repository and make sure you have Docker
 installed and running on your machine.
 
+Next, create a `.env.local` file with the following contents, making sure to
+replace the Unsplash keys with real ones (you can create your own account or ask
+Topher for his keys).
+
+```.env
+# .env.local
+UNSPLASH_ACCESS_KEY="<< INSERT ACCESS KEY >>"
+UNSPLASH_SECRET_KEY="<< INSERT SECRET KEY >>"
+```
+
 You should then be able to run `make rebuild` in the project directory and then
 `make all-quick` to start the services.
 
 > [!NOTE]
 >
-> We use `npm link` within the `docs/demo/bin/dev` script to enable quick
-> editing of the JavaScript library files so you don't have to publish a new
-> package during testing.
+> We use `yarn link` and `bundle config local.loco_motion-rails` within the
+> `docs/demo/bin/setup` script to enable quick editing of the library files so
+> you don't have to publish new packages during testing.
 
 From here, you can access the demo site at http://localhost:3000 and the YARD
 docs at http://localhost:8808/docs/yard

@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
-  s.name        = "loco_motion"
-  s.version     = "0.0.5"
+  s.name        = "loco_motion-rails"
+  s.version     = "0.0.6"
   s.summary     = "Ruby on Rails, loco fast!"
   s.description = "Advanced components and Rails management with LocoMotion."
   s.authors     = ["Topher Fangio"]
   s.email       = "topher@profoundry.us"
-  s.homepage    = "https://rubygems.org/gems/loco_motion"
+  s.homepage    = "https://rubygems.org/gems/loco_motion-rails"
   s.license     = "MIT"
 
   s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
@@ -18,13 +18,14 @@ Gem::Specification.new do |s|
   s.add_dependency 'view_component', '~> 3.14'
 
   # Add some things that are no longer part of the standard Ruby distribution
-  s.add_dependency 'base64'
-  s.add_dependency 'bigdecimal'
-  s.add_dependency 'fiddle'
-  s.add_dependency 'logger'
-  s.add_dependency 'mutex_m'
-  s.add_dependency 'ostruct'
-  s.add_dependency 'rdoc'
+  s.add_dependency 'base64', '~> 0.2.0'
+  s.add_dependency 'bigdecimal', '~> 3.1.8'
+  s.add_dependency 'drb', '~> 2.2.1'
+  s.add_dependency 'fiddle', '~> 1.1.4'
+  s.add_dependency 'logger', '~> 1.6.1'
+  s.add_dependency 'mutex_m', '~> 0.2.0'
+  s.add_dependency 'ostruct', '~> 0.6.0'
+  s.add_dependency 'rdoc', '~> 6.7.0'
 
   # Add our development dependencies
   s.add_development_dependency 'capybara', '~> 3.40'
