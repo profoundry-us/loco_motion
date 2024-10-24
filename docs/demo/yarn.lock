@@ -210,10 +210,10 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@profoundry-us/loco_motion@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.0.5.tgz#a15a2cd9fb78aaecbbc563df7a3aa39c098566d6"
-  integrity sha512-pZOXh0YWNRx+SD/Oer83bI00tMD65Cw6FuE2eUFQB8T4EOQM3e4FuyCWXJaqPl7993fPBPRYsvUz3NDvbR2pLQ==
+"@profoundry-us/loco_motion@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.0.6.tgz#64d892ff771b3ac2c9291580f5fc2b25333a9ee7"
+  integrity sha512-OtwO3RvECbetAgtOPcIhgoc1mtN2AOWkoc3BuK3L5f2mjv7jayRLlkC3ffPsr0Nw+cMcqJTFC2S1Zu42KwYhkw==
   dependencies:
     "@hotwired/stimulus" "^3.2.2"
 

@@ -147,7 +147,7 @@ yard-shell:
 	docker compose exec -it yard /bin/bash
 
 ##############################
-# Gem commands
+# Publish commands
 ##############################
 
 version=$(shell cat VERSION)
@@ -155,4 +155,14 @@ version=$(shell cat VERSION)
 # Builds a new version of the gem in the gem_builds directory
 .PHONY: gem-build
 gem-build:
-	gem build loco_motion.gemspec -o gem_builds/loco_motion-$(version).gem
+	gem build loco_motion-rails.gemspec -o gem_builds/loco_motion-rails-$(version).gem
+
+# Publishes the RubyGem to RubyGems.org
+.PHONY: gem-publish
+gem-publish:
+	gem push gem_builds/loco_motion-rails-$(version).gem
+
+# Publishes the NPM Package to NPM Registry
+.PHONY: npm-publish
+npm-publish:
+	npm publish --access public

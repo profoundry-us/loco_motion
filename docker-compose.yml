@@ -23,6 +23,8 @@ services:
       context: docs/demo
       dockerfile: Dockerfile.demo
     env_file:
+      - path: docs/demo/.env
+        required: true
       - path: docs/demo/.env.local
         required: false
     volumes:

@@ -49,9 +49,9 @@ class DocTitleComponent < ApplicationComponent
   def api_url
     return nil unless @comp
 
-    comp_path = @comp.singularize.titleize.gsub(" ", "")
+    comp_path = @comp.titleize.gsub(" ", "")
     host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
 
-    "#{host}/#{comp_path}Component"
+    "#{host}/#{comp_path}Component.html"
   end
 end

@@ -13,6 +13,14 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
+  # Make sure our dev environment is setup to use our local version of loco_motion
+  puts "== Linking Local Packages =="
+  system!('cd /home/loco_motion; yarn link')
+  system!('cd /home/loco_demo; yarn link "@profoundry-us/loco_motion"')
+  puts " !!! WARNING - Disabling local gem branch check !!!"
+  system!('cd /home/loco_demo; bundle config disable_local_branch_check true')
+  system!('cd /home/loco_demo; bundle config local.loco_motion-rails /home/loco_motion')
+
   puts "== Installing dependencies =="
   system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")

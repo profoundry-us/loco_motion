@@ -48,7 +48,7 @@
                   = section.titleize
 
               %li.pl-4
-                - comp_path = "/examples/#{comp.underscore.sub('_component', '').pluralize}"
+                - comp_path = "/examples/#{comp.underscore.sub('_component', '')}"
                 = link_to name.to_s.pluralize.titleize, comp_path, class: request.original_url.match(comp_path) ? "active" : "", data: { action: "click->nav#activate", "turbo-action": "replace" }
 
       .pl-64.pr-4

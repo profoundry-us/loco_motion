@@ -1,6 +1,6 @@
 {
   "name": "@profoundry-us/loco_motion",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Crazy fast Rails development!",
   "main": "index.js",
   "repository": {

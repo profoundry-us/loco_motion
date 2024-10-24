@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
 
+// Get the path to the loco_motion gem
 let locoBundlePath = execSync('bundle show loco_motion').toString().trim();
 
 console.log(" *** Importing TailwindCSS config from loco_motion gem: ", locoBundlePath);

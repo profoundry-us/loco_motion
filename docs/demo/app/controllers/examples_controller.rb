@@ -7,7 +7,7 @@ class ExamplesController < ApplicationController
       @comp = "#{params[:framework]}/#{params[:component]}"
     end
 
-    render "examples/#{@comp}", layout: "application"
+    render "examples/#{@comp.pluralize}", layout: "application"
   end
 
 end
