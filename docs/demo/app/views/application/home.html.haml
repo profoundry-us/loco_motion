@@ -1,0 +1,25 @@
+%h1.text-center.text-5xl.font-black.tracking-wide
+  Components, Guides, and Paradigms<br />
+  for <i><b>CraZy</b></i>-Fast Development</br />
+  in Ruby on Rails!
+
+.my-16.lg:flex.lg:space-x-4.items-center
+  %div{ class: "md:basis-2/5" }
+    %h3.text-3xl.font-bold
+      Easy, Flexible Components
+
+    %p.mt-2
+      Powered by the fabulous
+      = daisy_link "ViewComponent", "https://viewcomponent.org", target: "_blank"
+      library, and built with some extra flair, our components are designed to be
+      fast, flexible, and easy to use directy in Rails!
+
+    .mt-8.flex.justify-center.space-x-4
+      = daisy_button "Click Me"
+      = daisy_button "Click Me", css: "btn-primary"
+      = daisy_button "Click Me", icon: "heart", css: "btn-secondary"
+
+  = doc_code(css: "mt-8 lg:mt-0 lg:basis-3/5") do
+    \= daisy_button "Click Me"
+    \= daisy_button "Click Me", css: "btn-primary"
+    \= daisy_button "Click Me", icon: "heart", css: "btn-secondary"

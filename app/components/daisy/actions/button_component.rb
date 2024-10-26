@@ -20,7 +20,8 @@ class Daisy::Actions::ButtonComponent < LocoMotion.configuration.base_component_
     @right_icon_css = config_option(:right_icon_css, @icon_css)
     @right_icon_html = config_option(:right_icon_html, @icon_html)
 
-    @simple_title = config_option(:title, @left_icon || @right_icon ? nil : "Submit")
+    default_title = @left_icon || @right_icon ? nil : "Submit"
+    @simple_title = config_option(:title, args[0].presence || default_title)
   end
 
   def before_render

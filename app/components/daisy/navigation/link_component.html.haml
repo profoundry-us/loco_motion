@@ -1,4 +1,1 @@
-= part(:component) do
-  = @text if @text
-
-  = content
+= part(:component) { @text || content }

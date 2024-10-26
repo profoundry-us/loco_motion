@@ -19,6 +19,7 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
 
     @text = config_option(:text, args.size == 2 ? args[0] : nil)
     @href = config_option(:href, args.size == 2 ? args[1] : args[0])
+    @target = config_option(:target)
   end
 
   #
