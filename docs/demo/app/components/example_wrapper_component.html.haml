@@ -1,6 +1,7 @@
 = part(:component) do
-  = part(:title) do
-    = simple_title
+  - if @simple_title.present?
+    = part(:title) do
+      = simple_title
 
   - if description?
     .prose

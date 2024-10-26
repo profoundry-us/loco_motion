@@ -3,6 +3,10 @@ module ApplicationHelper
     render(DocCodeComponent.new(*args, **kws), &block)
   end
 
+  def doc_code_tab(*args, **kws, &block)
+    render(DocCodeTabComponent.new(*args, **kws), &block)
+  end
+
   def doc_example(*args, **kws, &block)
     render(ExampleWrapperComponent.new(*args, **kws), &block)
   end

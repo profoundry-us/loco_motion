@@ -12,6 +12,13 @@ class Hero::IconComponent < LocoMotion.configuration.base_component_class
     add_css(:component, "[:where(&)]:size-5")
   end
 
+  #
+  # Renders the icon component.
+  #
+  # Because this is an inline component which might be utlized alongside text,
+  # we utilize the `call` method instead of a template to ensure that no
+  # additional whitespace gets added to the output.
+  #
   def call
     heroicon_tag(@icon, **rendered_html(:component))
   end

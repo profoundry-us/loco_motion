@@ -864,6 +864,37 @@ TailwindCSS Intellisense working properly.
   ],
 ```
 
+And because whitespace is important when developing inline components, you
+should also add the following which prevents VSCode from adding a newline to the
+bottom of your HAML files. This helps ensure that inline components don't have
+trailing whitespace when using something like the `succeed` helper.
+
+```json
+  "[haml]": {
+      "editor.formatOnSave": false
+  }
+```
+
+Alternatively, if your component is simple enough, moving the template inside
+the `_component.rb` file's `call` method can also alleviate this problem.
+
+So instead of
+
+```haml
+- # This file has a newline at the bottom which can cause problems
+= part(:component) do
+  = content
+
+```
+
+you could do something like this:
+
+```ruby
+def call
+  part(:component) { content }
+end
+```
+
 ## TODO / Next Steps
 
 There is a LOT left to be done. We're not currently seeking assistance, but if
