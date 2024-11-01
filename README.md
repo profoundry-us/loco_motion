@@ -670,9 +670,9 @@ a full set of UI components to help you build robust and full-featured apps.
 
 > [!CAUTION]
 > The LocoMotion components are being actively developed and are NOT ready for
-> production / public use (currently they are just some example components while
-> I get everything setup). I'm mainly adding the docs here so that I remember
-> how to set them up properly when they are ready for release.
+> production / public use! We have finished basic versions of the DaisyUI
+> Actions, DataDisplay, and Navigation components, but we expect these to change
+> (possibly quite a bit) as we begin to use them in projects.
 
 ### Install
 
@@ -707,8 +707,8 @@ Next add the following lines to the `contents` section of your
 
 > [!WARNING]
 > Note that this will not output anything if it fails to find the right
-> directory, so your CSS may stop working if you update the gem and forget to
-> update this setting.
+> directory, so your CSS may not compile properly if this command fails or finds
+> the wrong gem or an older gem.
 
 Next, if you're using any of the components that require JavaScript (like the
 Countdown component), you'll need to add the library as a dependency and include
