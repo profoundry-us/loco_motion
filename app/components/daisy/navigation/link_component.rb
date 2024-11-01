@@ -19,6 +19,7 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
 
     @text = config_option(:text, args.size == 2 ? args[0] : nil)
     @href = config_option(:href, args.size == 2 ? args[1] : args[0])
+    @target = config_option(:target)
   end
 
   #
@@ -30,5 +31,16 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
     add_css(:component, "link")
     add_html(:component, { href: @href }) if @href
     add_html(:component, { target: @target }) if @target
+  end
+
+  #
+  # Renders the link component.
+  #
+  # Because this is an inline component which might be utlized alongside text,
+  # we utilize the `call` method instead of a template to ensure that no
+  # additional whitespace gets added to the output.
+  #
+  def call
+    part(:component) { @text || content }
   end
 end

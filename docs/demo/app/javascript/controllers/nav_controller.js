@@ -1,6 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["sidenavCheckbox"]
+
   // Only on first init (not on each connect), scroll the active item into view.
   initialize() {
     this.scrollActiveIntoView()
@@ -33,5 +35,10 @@ export default class extends Controller {
     // This allows the user to click the <li> or the <a> elements and have the
     // same effect.
     event.target.closest("li").querySelector('a').classList.add("active")
+
+    // Close the sidenav
+    if (this.hasSidenavCheckboxTarget) {
+      this.sidenavCheckboxTarget.checked = false
+    }
   }
 }

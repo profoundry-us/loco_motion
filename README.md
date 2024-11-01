@@ -670,9 +670,9 @@ a full set of UI components to help you build robust and full-featured apps.
 
 > [!CAUTION]
 > The LocoMotion components are being actively developed and are NOT ready for
-> production / public use (currently they are just some example components while
-> I get everything setup). I'm mainly adding the docs here so that I remember
-> how to set them up properly when they are ready for release.
+> production / public use! We have finished basic versions of the DaisyUI
+> Actions, DataDisplay, and Navigation components, but we expect these to change
+> (possibly quite a bit) as we begin to use them in projects.
 
 ### Install
 
@@ -707,8 +707,8 @@ Next add the following lines to the `contents` section of your
 
 > [!WARNING]
 > Note that this will not output anything if it fails to find the right
-> directory, so your CSS may stop working if you update the gem and forget to
-> update this setting.
+> directory, so your CSS may not compile properly if this command fails or finds
+> the wrong gem or an older gem.
 
 Next, if you're using any of the components that require JavaScript (like the
 Countdown component), you'll need to add the library as a dependency and include
@@ -862,6 +862,37 @@ TailwindCSS Intellisense working properly.
     [ "class: ?\"([^\"]*)\"", "([a-zA-Z0-9\\-:]+)" ],
     [ "(\\.[\\w\\-.]+)[\\n\\=\\{\\s]", "([\\w\\-]+)" ],
   ],
+```
+
+And because whitespace is important when developing inline components, you
+should also add the following which prevents VSCode from adding a newline to the
+bottom of your HAML files. This helps ensure that inline components don't have
+trailing whitespace when using something like the `succeed` helper.
+
+```json
+  "[haml]": {
+      "editor.formatOnSave": false
+  }
+```
+
+Alternatively, if your component is simple enough, moving the template inside
+the `_component.rb` file's `call` method can also alleviate this problem.
+
+So instead of
+
+```haml
+- # This file has a newline at the bottom which can cause problems
+= part(:component) do
+  = content
+
+```
+
+you could do something like this:
+
+```ruby
+def call
+  part(:component) { content }
+end
 ```
 
 ## TODO / Next Steps

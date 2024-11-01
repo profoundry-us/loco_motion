@@ -1,0 +1,10 @@
+= part(:component) do
+  = daisy_tabs(css: "tabs-lifted") do |tabs|
+    - tabs.with_tab(css: "[--tab-bg:#282c34] text-white #{@tabs_css}", content_wrapper_css: "overflow-x-auto bg-[#282c34] border border-base-300 rounded-lg px-4 py-2", active: true) do |tab|
+      - tab.with_title do
+        .flex.gap-x-2.items-center
+          %span.w-4.h-4
+            = heroicon_tag("code-bracket")
+          %span.whitespace-nowrap= @title
+
+      = part(:pre) { part(:code) { content } }

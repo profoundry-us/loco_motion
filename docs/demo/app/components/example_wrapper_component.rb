@@ -8,7 +8,7 @@ class ExampleWrapperComponent < ApplicationComponent
   def initialize(*args, **kws)
     super
 
-    @simple_title = config_option(:title, "Example")
+    @simple_title = config_option(:title, nil)
 
     @calling_file, @line_number = caller_locations(3, 1).first.to_s.split(" ").first.split(":")
   end
