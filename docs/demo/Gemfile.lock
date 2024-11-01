@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/profoundry-us/loco_motion.git
-  revision: 106a97c6cd7b77deb8f7b61c2d4d6631fa830d75
+  revision: b2aae9c05aca46cb3f1c38f4da9740df1b312028
   branch: main
   specs:
     loco_motion-rails (0.0.6)
@@ -326,7 +326,7 @@ GEM
       oauth2 (>= 2.0.8)
     uri (0.13.1)
     version_gem (1.1.4)
-    view_component (3.19.0)
+    view_component (3.20.0)
       activesupport (>= 5.2.0, < 8.1)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
