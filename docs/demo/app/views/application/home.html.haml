@@ -3,7 +3,7 @@
   for <i><b>CraZy</b></i>-Fast Development</br />
   in Ruby on Rails!
 
-.mt-16.lg:flex.lg:space-x-8.items-start
+.mt-32.lg:flex.lg:space-x-8
   %div{ class: "md:basis-2/5" }
     %h3.text-3xl.font-bold
       Easy, Flexible Components
@@ -20,10 +20,11 @@
 
   = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44", example_css: "space-x-4") do
     = daisy_button "Primary Button", css: "btn-primary"
-    = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate text-4xl")
-    = daisy_badge("Large Badge", css: "badge-secondary badge-lg")
+    = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
+    = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
-.mt-16.xl:flex.xl:flex-row-reverse
+
+.mt-32.xl:flex.xl:flex-row-reverse
   .text-xl.xl:ml-8
     %h3.text-3xl.font-bold
       Simple, Concise Views
@@ -34,7 +35,7 @@
       so your views are simple, concise, and easy to understand.
 
     %p.mt-2
-      No more messy ERB files with all of their closing tags and embedded Ruby.
+      No more messy ERB files with all of their closing tags and Ruby wrappers.
       HAML feels more natural to write and reduces file sizes, making your
       views easier to read and maintain.
 
@@ -61,3 +62,49 @@
               %p.odd Number \#{i}
             - else
               %p.even Numero \#{i}
+
+
+%h3.mt-32.text-3xl.font-bold
+  Build Your <i>OWN</i> Components
+
+%p.mt-2.text-xl
+  Can't find exactly what you need? No problem! Build your own components
+  with ease using our simple, flexible, and powerful DSL.
+
+.mt-8.xl:flex.xl:space-x-8
+  %div
+    = doc_code(language: "ruby") do
+      :escaped
+        # app/components/application_component.rb
+        class ApplicationComponent < LocoMotion::BaseComponent
+          # Add your custom / shared component logic here!
+        end
+
+    = doc_code(language: "haml", css: "mt-8") do
+      :escaped
+        - # app/components/character_component.html.haml
+        = part(:component) do
+          = part(:head)
+          = part(:body) do
+            = content
+          = part(:legs)
+
+  %div.mt-8.xl:mt-0
+    = doc_code(language: "ruby") do
+      :escaped
+        # app/components/character_component.rb
+        class CharacterComponent < ApplicationComponent
+          define_parts :head, :body, :legs
+
+          def before_render
+            set_tag_name(:head, :h1)
+            add_css(:head, "text-3xl font-bold")
+
+            set_tag_name(:body, :p)
+            add_stimulus_controller(:body, "character-body")
+            add_css(:body, "text-lg")
+
+            set_tag_name(:legs, :footer)
+            add_css(:legs, "text-sm")
+          end
+        end
