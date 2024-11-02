@@ -1,5 +1,5 @@
 - star_styles = "size-[800px] mask mask-star bg-gradient-to-r from-secondary via-cyan-400 to-lime-400"
-- crazy_text_styles = "italic font-black bg-gradient-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block p-2"
+- crazy_text_styles = "italic font-black bg-gradient-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
 
 .relative
   - # Blurred background star
@@ -12,7 +12,7 @@
       %div
         Components, Guides, and Paradigms
       .md:inline-flex.md:items-center.justify-center
-        %span.mr-1
+        %span.-mr-2
           for
         %span.relative.-rotate-3
           %span{ class: crazy_text_styles + " absolute blur-xl" }
@@ -43,10 +43,11 @@
           libraries, our components are designed to be fast, flexible, and easy to
           use <i>directy</i> in Ruby on Rails!
 
-      = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44", example_css: "space-x-4") do
-        = daisy_button "Accent Button", css: "btn-accent"
-        = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
-        = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
+      = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44") do
+        .flex.flex-col.sm:flex-row.items-center.gap-4
+          = daisy_button "Accent Button", css: "btn-accent"
+          = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
+          = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
 
     .mt-32.xl:flex.xl:flex-row-reverse
@@ -137,7 +138,8 @@
     %h3.mt-24.text-center.text-4xl.font-bold.italic
       More Coming Soon!
     %p.mt-2.text-xl.text-center
-      Keen an eye out as we'll be adding more components, guides, and <br />
+      Keen an eye out as we'll be adding more components, guides, and
+      %br.max-sm:hidden
       suggested gems for you to build amazing Rails apps!
     .mt-4.text-center
       = daisy_button "😉 Get Started", css: "btn-primary text-xl",

@@ -14,7 +14,7 @@
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/erb.min.js" }
 
-  - header_classes = "sticky z-20 top-0 px-4 border-b border-gray-200 backdrop-blur bg-base-100/90 dark:bg-slate-800"
+  - header_classes = "sticky z-30 top-0 px-4 border-b border-gray-200 backdrop-blur bg-base-100/90 dark:bg-slate-800"
   - nav_classes = "min-w-64 mt-12 xl:mt-0 xl:fixed xl:left-[max(0px,calc(50%-734px))] xl:inset-0 xl:top-12 xl:w-64 xl:overflow-y-auto bg-base-100"
   - footer_classes = "md:flex md:items-center md:justify-center md:space-x-1 mt-8 py-4 text-sm whitespace-nowrap"
 
@@ -34,7 +34,7 @@
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
-      .drawer-side
+      .drawer-side.z-20
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
         %div{ class: nav_classes }
