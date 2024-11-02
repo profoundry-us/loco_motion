@@ -842,6 +842,12 @@ See the `Makefile` for all available commands.
 > make demo-restart
 > ```
 
+
+The last commit of your PR should be to run `make demo-shell` and then
+`bundle update loco_motion-rails` to ensure that the live site will use the
+latest version of LocoMotion which includes your changes. You should also
+thoroughly test the demo site after making this change.
+
 ### Tooling
 
 For VSCode, you may want to add the following to your settings to get
@@ -910,7 +916,7 @@ the GitHub Discussions feature and let us know!
 - [ ] Basic versions of DaisyUI Mockup
 - [ ] Get YARD docs rendering with (better) Markdown
 - [x] Extract relevant pieces into a yard-loco_motion plugin
-- [ ] Publish Gem
+- [x] Publish Gem
 - [x] Publish NPM package
 - [ ] Update YARD plugin to add `@part`s
 - [x] Extract doc callouts into a doc component (and / or the Daisy component)
@@ -918,4 +924,4 @@ the GitHub Discussions feature and let us know!
 - [ ] Discuss caching techniques / setup
 - [ ] Create / publish a production version of the demo site
 - [ ] Create / publish a production version of the docs site
-- [ ] Update demo site to allow for a different docs site using ENV var
+- [x] Update demo site to allow for a different docs site using ENV var
