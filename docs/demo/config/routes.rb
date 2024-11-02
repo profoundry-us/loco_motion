@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get "/examples/:framework/:category/:component", to: "examples#discover"
   get "/examples/:framework/:component", to: "examples#discover"
 
+  get "/api-docs", to: "api_docs#index"
+
   # Defines the root path route ("/")
   root "application#home"
 end

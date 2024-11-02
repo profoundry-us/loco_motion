@@ -13,10 +13,12 @@ In particular, new Daisy components are being added frequently and older
 components are being updated with new features meaning the APIs are very likely
 to change!
 
-We plan to publish the docs site to a publicly available URL soon, but until
-then, you can run the docs by cloning the repository and running `make all` (or
-`make all-quick` if you've already run `make all` or `make rebuild` previously)
-and visiting http://localhost:3000/ in your browser.
+We expect to settle on and purchase a real domain name in the near future, but
+for the time being, the latest documentation is available at the links below.
+
+ - [Docs / Demo (Latest Release)](https://loco-motion.profoundry.us/)
+ - [API Docs (Latest Release)](https://loco-motion.profoundry.us/api-docs)
+ - [Docs / Demo (Main Branch / Staging)](https://loco-motion-demo-staging.profoundry.us/)
 
 Please reach out by opening an
 [Issue](https://github.com/profoundry-us/loco_motion/issues) if you've found a
@@ -843,10 +845,9 @@ See the `Makefile` for all available commands.
 > ```
 
 
-The last commit of your PR should be to run `make demo-shell` and then
-`bundle update loco_motion-rails` to ensure that the live site will use the
-latest version of LocoMotion which includes your changes. You should also
-thoroughly test the demo site after making this change.
+The final commit of your PR should be to run `make pr-ready` to ensure that the
+live demo site will use the latest version of LocoMotion which includes your
+changes. You should also thoroughly test the demo site after making this change.
 
 ### Tooling
 
