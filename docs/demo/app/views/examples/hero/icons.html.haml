@@ -8,20 +8,18 @@
     Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to
     use in your web projects. You can find them at
 
-    %a.inline-flex.items-center.gap-x-1{ href: "https://heroicons.com", target: "_blank" }
-      %span heroicons.com
-      = hero_icon("arrow-top-right-on-square", css: "w-4 h-4")
+    = succeed "." do
+      = daisy_link("https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4")
 
-    = "."
 
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
   - doc.with_description do
     %p
       By default, icons are displayed with the <code>size-5</code> Tailwind
-      class to set the width and height. This can be overridden without using
-      the <code>!</code> Tailwind modifier because we utilize the
-      <code>:where()</code> pseudo-class to ensure that our default classes have
-      the lowest CSS specificity possible.
+      class to set the width and height. This can be overridden
+      <strong>without</strong> using the <code>!</code> Tailwind modifier
+      because we utilize the <code>:where()</code> pseudo-class to ensure that
+      our default classes have the lowest CSS specificity possible.
 
     %p
       The icon color will inherit the text color of the parent element.

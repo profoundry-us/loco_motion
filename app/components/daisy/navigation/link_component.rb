@@ -9,7 +9,8 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
   # If passed **two** positional arguments, the first is considered the `text`
   # and the second is considered the `href`. If passed only **one** positional
   # argument, it is treated as the `href` and we assume the `text` will be
-  # provided in the block. `target` is always a keyword argument.
+  # provided in the block. If no text is passed, we will use the href as the
+  # text `target` is always a keyword argument.
   #
   # @param text [String] The text to display in the link.
   # @param href [String] The URL to visit when the link is clicked.
@@ -17,8 +18,24 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
   def initialize(*args, **kws, &block)
     super
 
-    @text = config_option(:text, args.size == 2 ? args[0] : nil)
-    @href = config_option(:href, args.size == 2 ? args[1] : args[0])
+    if args.size == 1
+      # If given one arg, assume it's the href and / or the text (if no block is given)
+      if block_given?
+        @href = args[0]
+      else
+        @text = args[0]
+        @href = args[0]
+      end
+    elsif args.size == 2
+      # If given two args, assume the first is the text and the second is the href
+      @text = args[0]
+      @href = args[1]
+    else
+      # Otherwise, assume they pass everything as keyword arguments
+      @text = config_option(:text)
+      @href = config_option(:href)
+    end
+
     @target = config_option(:target)
   end
 

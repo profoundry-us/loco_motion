@@ -1,5 +1,5 @@
 !!!
-%html.overflow-hidden
+%html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title LocoMotion
@@ -26,9 +26,9 @@
     .drawer.xl:drawer-open
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
-      .drawer-content
+      .drawer-content.overflow-hidden
         .mx-auto.px-4.xl:pl-64.xl:pr-0{ class: "max-w-[1440px]" }
-          %turbo-frame#content.block
+          %turbo-frame#content.block.pt-4
             = yield
 
           %div{ class: footer_classes }
