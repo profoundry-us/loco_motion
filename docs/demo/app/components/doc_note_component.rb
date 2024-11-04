@@ -20,8 +20,6 @@ class DocNoteComponent < ApplicationComponent
     setup_tip if @config.modifiers.include?(:tip)
     setup_todo if @config.modifiers.include?(:todo)
     setup_warning if @config.modifiers.include?(:warning)
-
-    # asdf
   end
 
   def setup_note

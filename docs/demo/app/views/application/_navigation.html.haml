@@ -11,13 +11,10 @@
 
     - # Iterate over all of the framework examples
     - last_framework, last_section = nil
-    - LocoMotion::COMPONENTS.each do |component|
-      - comp_split = component[:component].underscore.split('/')
+    - LocoMotion::COMPONENTS.each do |name, config|
+      - comp_split = name.split('::')
       - framework = comp_split.first
-      - comp = comp_split.last
-      - section = component[:group]
-
-      / Stuff: #{framework} (framework) #{section} (section) #{comp} (comp)
+      - section = config[:group]
 
       - if framework != last_framework
         - last_framework = framework
@@ -25,13 +22,12 @@
           = framework.titleize
 
       - # Don't show a section heading if it matches the framework
-      - if section != last_section && section.downcase != framework.downcase
+      - if section != last_section && section.underscore != framework.underscore
         - last_section = section
         %li.pl-4.menu-title{ class: "text-base-content/50" }
           = section.titleize
 
       %li.pl-4
-        - comp_path = "/examples/#{component[:component].underscore.sub('_component', '')}"
-        = link_to component[:title], comp_path,
-          class: request.original_url.match(comp_path) ? "active" : "",
+        = link_to config[:title], "/examples/#{name}",
+          class: request.original_url.match("/examples/#{name}") ? "active" : "",
           data: { action: "click->nav#activate", "turbo-action": "replace" }

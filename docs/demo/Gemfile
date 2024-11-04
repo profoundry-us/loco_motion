@@ -82,6 +82,7 @@ gem 'fiddle'
 gem "dalli" # For use on Heroku
 gem "haml-rails", "~> 2.0"
 gem 'unsplash'
+gem 'redcarpet', '~> 3.6'
 
 
 #############################################

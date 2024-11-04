@@ -5,11 +5,10 @@
 
 = doc_example(title: "Basic Navbar") do |doc|
   - doc.with_description do
-    %p
-      Navbars are simple elemnts which typically contain start and end sections,
-      and sometimes a center section. Since the word <code>end</code> is a
-      reserved word in Ruby, we have replaced it with <code>tail</code> for this
-      component.
+    :markdown
+      Navbars are simple elements which typically contain start and end
+      sections, and sometimes a center section. Since the word `end` is a
+      reserved word in Ruby, we have replaced it with `tail` for this component.
 
   = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow") do |navbar|
     - navbar.with_start do
@@ -30,10 +29,9 @@
 
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Navbars items can also contain center sections and dropdowns with menus.
 
-    %p
       Note that the size of the elements inside the navbar will affect the size
       of the navbar itself. The navbar will grow to fit the largest element
       inside it.

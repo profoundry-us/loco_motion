@@ -52,6 +52,6 @@ class DocTitleComponent < ApplicationComponent
     comp_path = @comp.titleize.gsub(" ", "")
     host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
 
-    "#{host}/#{comp_path}Component.html"
+    "#{host}/#{comp_path}.html"
   end
 end

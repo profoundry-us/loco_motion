@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Dynamic route which shows various examples
-  get "/examples/:framework/:category/:component", to: "examples#discover"
-  get "/examples/:framework/:component", to: "examples#discover"
+  get "/examples/:id", to: "examples#discover"
 
   get "/api-docs", to: "api_docs#index"
 
