@@ -11,22 +11,27 @@
 
     - # Iterate over all of the framework examples
     - last_framework, last_section = nil
-    - Daisy::COMPONENT_HELPERS.each do |name, comp|
-      - framework, section, component = comp.underscore.split('/')
+    - LocoMotion::COMPONENTS.each do |component|
+      - comp_split = component[:component].underscore.split('/')
+      - framework = comp_split.first
+      - comp = comp_split.last
+      - section = component[:group]
+
+      / Stuff: #{framework} (framework) #{section} (section) #{comp} (comp)
 
       - if framework != last_framework
         - last_framework = framework
         %li.menu-title.text-lg.text-base-content
           = framework.titleize
 
-      - # Don't show a section heading if the component doesn't have one
-      - if section != last_section && component.present?
+      - # Don't show a section heading if it matches the framework
+      - if section != last_section && section.downcase != framework.downcase
         - last_section = section
         %li.pl-4.menu-title{ class: "text-base-content/50" }
           = section.titleize
 
       %li.pl-4
-        - comp_path = "/examples/#{comp.underscore.sub('_component', '')}"
-        = link_to name.to_s.pluralize.titleize, comp_path,
+        - comp_path = "/examples/#{component[:component].underscore.sub('_component', '')}"
+        = link_to component[:title], comp_path,
           class: request.original_url.match(comp_path) ? "active" : "",
           data: { action: "click->nav#activate", "turbo-action": "replace" }

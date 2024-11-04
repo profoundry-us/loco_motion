@@ -1,4 +1,3 @@
-require "daisy/helpers"
 require "heroicons-rails"
 
 module Daisy
