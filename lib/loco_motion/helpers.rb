@@ -42,6 +42,7 @@ module LocoMotion
     "Daisy::Feedback::AlertComponent" => { names: "alert", group: "Feedback", title: "Alerts", example: "alerts" },
     "Daisy::Feedback::LoadingComponent" => { names: ["loading", "loader"], group: "Feedback", title: "Loaders", example: "loaders" },
     "Daisy::Feedback::ProgressComponent" => { names: ["progress"], group: "Feedback", title: "Progress Bars", example: "progress_bars" },
+    "Daisy::Feedback::RadialProgressComponent" => { names: ["radial"], group: "Feedback", title: "Radial Progress", example: "radials" },
 
     # Layout
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
