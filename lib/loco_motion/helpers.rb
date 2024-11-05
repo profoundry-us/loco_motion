@@ -44,6 +44,7 @@ module LocoMotion
     "Daisy::Feedback::ProgressComponent" => { names: ["progress"], group: "Feedback", title: "Progress Bars", example: "progress_bars" },
     "Daisy::Feedback::RadialProgressComponent" => { names: "radial", group: "Feedback", title: "Radial Progress", example: "radials" },
     "Daisy::Feedback::SkeletonComponent" => { names: "skeleton", group: "Feedback", title: "Skeletons", example: "skeletons" },
+    "Daisy::Feedback::ToastComponent" => { names: "toast", group: "Feedback", title: "Toasts", example: "toasts" },
 
     # Layout
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
