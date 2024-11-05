@@ -1,0 +1,32 @@
+= doc_title(title: "Progress Bars", comp: @comp) do |title|
+  %p
+    Progress bars are used to indicate the progress of a process.
+
+
+= doc_example(title: "Basic Bars") do |doc|
+  - doc.with_description do
+    :markdown
+      Progress bars utilize `value` and a `max` attributes to set the progress
+      and can have various colors. By default, they take up the full width of
+      their parent container.
+
+      - `value` defaults to `nil` if not provided (for indeterminate bars)
+      - `max` defaults to `100` if not provided to mimic percentages
+
+  .flex.flex-col.gap-4.w-56
+    = daisy_progress(value: 25)
+    = daisy_progress(css: "progress-primary", value: 50, max: 100)
+    = daisy_progress(css: "progress-secondary", value: 75, max: 100)
+    = daisy_progress(css: "progress-accent", value: 100, max: 100)
+
+= doc_example(title: "Indeterminate Bars") do |doc|
+  - doc.with_description do
+    :markdown
+      Indeterminate progress bars are used when the progress is unknown. They
+      animate to indicate that a process is currently happening.
+
+  .flex.flex-col.gap-4.w-56
+    = daisy_progress(css: "progress-info")
+    = daisy_progress(css: "progress-success ![animation-delay:250ms]")
+    = daisy_progress(css: "progress-warning ![animation-delay:500ms]")
+    = daisy_progress(css: "progress-error ![animation-delay:750ms]")
