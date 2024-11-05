@@ -1,16 +1,22 @@
-= doc_title(title: "Tooltips") do |title|
+= doc_title(title: "Tooltips", comp: @comp) do |title|
   :markdown
-    Tooltips can be utilized with many existing components by addin the
+    Tooltips can be utilized with many existing components by adding the
     `tooltip` class, and using the `data-tip` attribute to set the text of the
     tooltip.
+
+    Additionally, we offer the `daisy_tooltip` component to wrap an entire
+    component, or any block of HTML, in a tooltip. This is also aliases as
+    `daisy_tip` for convenience.
+
+    - `tip` - The text to display in the tooltip. Can either be a keyword
+      argument or the first positional argument.
 
 
 = doc_example(title: "Component Tooltips") do |doc|
   - doc.with_description do
     :markdown
-      Tooltips can also be added to many components by adding the `tooltip`
-      class and setting the `data-tip` attribute to the text you want to
-      display.
+      Tooltips can be added to many components by adding the `tooltip` class and
+      setting the `data-tip` attribute to the text you want to display.
 
   .flex.flex-col.gap-8
     .flex.items-center.justify-center.gap-4
@@ -32,17 +38,17 @@
     :markdown
       Sometimes, you may need to wrap the entire component in a tooltip.
 
-      For this, we offer the very basic `daisy_tooltip` component which has a
-      `tip` argument to simplify your code a bit.
+      For this, we offer the very basic `daisy_tooltip` (or `daisy_tip`)
+      component which has a `tip` argument to simplify your code a bit.
 
   .flex.flex-col.gap-8
     - # Manual-style HAML tootlip
     .tooltip{ data: { tip: "This is a progress tooltip!" } }
       = daisy_progress(value: 42, css: "w-56")
 
-    = daisy_tooltip(tip: "This is a radial tooltip!") do
+    = daisy_tooltip("This is a radial tooltip!") do
       = daisy_radial(value: 58) do
         58%
 
-    = daisy_tooltip(css: "tooltip-bottom tooltip-info", tip: "We're loading a skeleton tooltip!") do
+    = daisy_tip(css: "tooltip-bottom tooltip-info", tip: "We're loading a skeleton tooltip!") do
       = daisy_skeleton(css: "w-56 h-24")

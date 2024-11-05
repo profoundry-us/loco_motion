@@ -46,11 +46,12 @@
       = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44") do
         .flex.flex-col.sm:flex-row.items-center.gap-4
           = daisy_button "Accent Button", css: "btn-accent"
-          = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
+          = daisy_tip("Click to Swap") do
+            = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
           = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
 
-    .mt-32.xl:flex.xl:flex-row-reverse
+    .mt-32.xl:flex.xl:flex-row-reverse.xl:items-center
       .text-xl.xl:ml-8
         %h3.text-4xl.font-bold
           Simple, Concise Views

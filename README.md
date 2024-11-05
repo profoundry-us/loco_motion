@@ -462,16 +462,23 @@ recommned Rspec with [factory_bot](https://github.com/thoughtbot/factory_bot)
 and [Shoulda Matchers](https://github.com/thoughtbot/shoulda-matchers).
 
 Finally, although both libraries offer some functionality for testing your user
-interface, we recommend utilizing [Cypress](https://www.cypress.io/) instead as
-it more closely mimics the real user experience in a browser and it allows you
-to see in real-time what is happening, including in-browser debugging!
+interface, we recommend utilizing [Playwright](https://playwright.dev/) instead
+as it more closely mimics the real user experience in a browser and it allows
+you to see in real-time what is happening, including in-browser debugging!
+
+Although the common setup is to write your specs in JavaScript or TypeScript,
+you can actually write your End to End tests in Ruby / Rspec by utilizing the
+[playwright-ruby-client](https://playwright-ruby-client.vercel.app/)!
+
+We'll have some guides and examples for this coming soon!
 
 > [!NOTE]
-> One thing to note about Cypress, however, is that it is Javascript-based and
-> thus requires you to write tests in Javascript. If you are only famililar with
-> Ruby, you might want to stick with Rspec or Minitest when you first start your
-> project, and expand into using Cypress once you are comfortable learning a new
-> lanugage / framework.
+> We used to recommend [Cypress](https://www.cypress.io) for End-to-End tests,
+> but it's reliance on JavaScript and sometimes flakey tests caused us to search
+> out a new solution / recommendation.
+>
+> We plan to have a writeup soon (an ADR specifically) on exactly why we made
+> the switch.
 
 ## Authentication
 
@@ -673,8 +680,8 @@ a full set of UI components to help you build robust and full-featured apps.
 > [!CAUTION]
 > The LocoMotion components are being actively developed and are NOT ready for
 > production / public use! We have finished basic versions of the DaisyUI
-> Actions, DataDisplay, and Navigation components, but we expect these to change
-> (possibly quite a bit) as we begin to use them in projects.
+> Actions, DataDisplay, Navigation, and Feedback components, but we expect these
+> to change (possibly quite a bit) as we begin to use them in projects.
 
 ### Install
 
@@ -911,7 +918,7 @@ the GitHub Discussions feature and let us know!
 - [x] Basic versions of DaisyUI Actions
 - [x] Basic versions of DaisyUI Data Display
 - [x] Basic versions of DaisyUI Navigation
-- [ ] Basic versions of DaisyUI Feedback
+- [x] Basic versions of DaisyUI Feedback
 - [ ] Basic versions of DaisyUI Data Input
 - [ ] Basic versions of DaisyUI Layout
 - [ ] Basic versions of DaisyUI Mockup
@@ -926,3 +933,5 @@ the GitHub Discussions feature and let us know!
 - [ ] Create / publish a production version of the demo site
 - [ ] Create / publish a production version of the docs site
 - [x] Update demo site to allow for a different docs site using ENV var
+- [x] Update README to suggest Playwright
+- [ ] Build some have docs / guides / examples for using playwright-ruby-client
