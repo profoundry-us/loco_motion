@@ -34,7 +34,7 @@ module LocoMotion
     "Daisy::Navigation::LinkComponent" => { names: "link", group: "Navigation", title: "Links", example: "links" },
     "Daisy::Navigation::MenuComponent" => { names: "menu", group: "Navigation", title: "Menus", example: "menus" },
     "Daisy::Navigation::NavbarComponent" => { names: "navbar", group: "Navigation", title: "Navbars", example: "navbars" },
-    "Daisy::Navigation::PaginationComponent" => { names: "pagination", group: "Navigation", title: "Pagination", example: "pagination" },
+    "Daisy::Navigation::PaginationComponent" => { names: nil, group: "Navigation", title: "Pagination", example: "pagination" },
     "Daisy::Navigation::StepsComponent" => { names: "steps", group: "Navigation", title: "Steps", example: "steps" },
     "Daisy::Navigation::TabsComponent" => { names: "tabs", group: "Navigation", title: "Tabs", example: "tabs" },
 
@@ -45,6 +45,7 @@ module LocoMotion
     "Daisy::Feedback::RadialProgressComponent" => { names: "radial", group: "Feedback", title: "Radial Progress", example: "radials" },
     "Daisy::Feedback::SkeletonComponent" => { names: "skeleton", group: "Feedback", title: "Skeletons", example: "skeletons" },
     "Daisy::Feedback::ToastComponent" => { names: "toast", group: "Feedback", title: "Toasts", example: "toasts" },
+    "Daisy::Feedback::TooltipComponent" => { names: "tooltip", group: "Feedback", title: "Tooltips", example: "tooltips" },
 
     # Layout
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
