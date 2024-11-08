@@ -11,22 +11,22 @@
 
   .w-full
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble do
         Hey Marcia! How are you doing?
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-3.jpg"))
       - chat.with_bubble do
         I'm doing great! How about you?
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble do
         I'm doing great too! Thanks for asking.
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-3"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-3.jpg"))
       - chat.with_bubble do
         That's great to hear!
       - chat.with_footer do
@@ -54,7 +54,7 @@
 
   .w-full
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "chat-bubble-accent flex items-center gap-x-1") do
         = heroicon_tag "map-pin", class: "w-5 h-5"
         %strong
@@ -63,28 +63,28 @@
           Started sharing her location.
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "bg-base-300 text-base-content") do
         Hey Marcia! How are you doing?
 
     = daisy_chat(css: "chat-end") do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-4"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-4.jpg"))
       - chat.with_bubble(css: "chat-bubble-primary") do
         I'm blue da ba dee da ba daa
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "bg-base-300 text-base-content") do
         Maybe this will help!
 
     = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "chat-bubble-success text-base-200") do
         .flex.justify-center
           = heroicon_tag "currency-dollar", class: "w-12 h-12"
         Jill sent you <strong>$50</strong>.
 
     = daisy_chat(css: "chat-end") do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-4"))
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-4.jpg"))
       - chat.with_bubble(css: "chat-bubble-primary") do
         Wow, thanks! ❤️
