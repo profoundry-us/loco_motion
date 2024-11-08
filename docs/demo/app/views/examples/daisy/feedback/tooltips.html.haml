@@ -5,7 +5,7 @@
     tooltip.
 
     Additionally, we offer the `daisy_tooltip` component to wrap an entire
-    component, or any block of HTML, in a tooltip. This is also aliases as
+    component, or any block of HTML, in a tooltip. This is also aliased as
     `daisy_tip` for convenience.
 
     - `tip` - The text to display in the tooltip. Can either be a keyword
@@ -46,9 +46,11 @@
     .tooltip{ data: { tip: "This is a progress tooltip!" } }
       = daisy_progress(value: 42, css: "w-56")
 
+    - # Standard helper method
     = daisy_tooltip("This is a radial tooltip!") do
       = daisy_radial(value: 58) do
         58%
 
+    - # Aliased helper method
     = daisy_tip(css: "tooltip-bottom tooltip-info", tip: "We're loading a skeleton tooltip!") do
       = daisy_skeleton(css: "w-56 h-24")

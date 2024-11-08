@@ -936,3 +936,5 @@ the GitHub Discussions feature and let us know!
 - [x] Update demo site to allow for a different docs site using ENV var
 - [x] Update README to suggest Playwright
 - [ ] Build some have docs / guides / examples for using playwright-ruby-client
+- [ ] See if we can build a `Tippable` concern that relevant components can
+      include to automatically add the tooltip param and classes where possible
