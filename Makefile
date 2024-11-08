@@ -166,17 +166,3 @@ gem-publish:
 .PHONY: npm-publish
 npm-publish:
 	npm publish --access public
-
-#
-# TODO: I don't think this is the right solution...
-#
-# Locks the demo site to the PRs SHA after changes
-current_sha = $(shell git rev-parse --short HEAD)
-search_line = gem \"loco_motion-rails\"
-replaced_line = gem \"loco_motion-rails\", github: \"profoundry-us/loco_motion\", ref: \"${current_sha}\", require: \"loco_motion\"
-.PHONY: demo-lock-sha
-demo-lock-sha:
-	echo ${replaced_line}
-	docker compose exec -it demo sed -i "/${search_line}/c\${replaced_line}" /home/loco_demo/Gemfile
-# echo "Hello ${current_sha}"
-# docker compose exec -it demo bundle

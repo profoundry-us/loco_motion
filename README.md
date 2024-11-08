@@ -829,9 +829,15 @@ You should then be able to run `make rebuild` in the project directory and then
 
 > [!NOTE]
 >
-> We use `yarn link` and `bundle config local.loco_motion-rails` within the
-> `docs/demo/bin/setup` script to enable quick editing of the library files so
-> you don't have to publish new packages during testing.
+> We use `yarn link` in the `docs/demo/bin/setup` script to enable quick editing
+> of the Javascript files so you don't have to publish new packages during
+> testing.
+>
+> For the Ruby gem, we point directly to it via the `:path` option in the
+> `Gemfile`. This means that we have a custom Heroku buildpack when we publish
+> the demo site to move the files into the appropriate places.
+>
+> See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 
 From here, you can access the demo site at http://localhost:3000 and the YARD
 docs at http://localhost:8808/docs/yard
@@ -850,11 +856,6 @@ See the `Makefile` for all available commands.
 > ```sh
 > make demo-restart
 > ```
-
-
-The final commit of your PR should be to run `make demo-lock-sha` to ensure that
-the live demo site will use the latest version of LocoMotion which includes your
-changes. You should also thoroughly test the demo site after making this change.
 
 ### Tooling
 
