@@ -27,6 +27,7 @@ services:
         required: false
     volumes:
       - ./docs/demo:/home/loco_demo
+      - .:/home/loco_demo/vendor/loco_motion-rails
       - .:/home/loco_motion
     ports:
       - 3000:3000

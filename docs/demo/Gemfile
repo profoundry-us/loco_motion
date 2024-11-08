@@ -88,4 +88,4 @@ gem 'redcarpet', '~> 3.6'
 #############################################
 # We use git config local.loco_motion-rails inside of bin/setup to override this
 #############################################
-gem "loco_motion-rails", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
+gem "loco_motion-rails", path: "vendor/loco_motion-rails", require: "loco_motion"

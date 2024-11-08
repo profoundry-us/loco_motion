@@ -852,8 +852,8 @@ See the `Makefile` for all available commands.
 > ```
 
 
-The final commit of your PR should be to run `make pr-ready` to ensure that the
-live demo site will use the latest version of LocoMotion which includes your
+The final commit of your PR should be to run `make demo-lock-sha` to ensure that
+the live demo site will use the latest version of LocoMotion which includes your
 changes. You should also thoroughly test the demo site after making this change.
 
 ### Tooling
