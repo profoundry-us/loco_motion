@@ -1,13 +1,9 @@
 class ExamplesController < ApplicationController
 
   def discover
-    if params[:category].present?
-      @comp = "#{params[:framework]}/#{params[:category]}/#{params[:component]}"
-    else
-      @comp = "#{params[:framework]}/#{params[:component]}"
-    end
+    @comp = params[:id]
 
-    render "examples/#{@comp.pluralize}", layout: "application"
+    render LocoMotion::Helpers.component_example_path(@comp), layout: "application"
   end
 
 end

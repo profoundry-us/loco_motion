@@ -82,9 +82,19 @@ gem 'fiddle'
 gem "dalli" # For use on Heroku
 gem "haml-rails", "~> 2.0"
 gem 'unsplash'
+gem 'redcarpet', '~> 3.6'
 
 
 #############################################
-# We use git config local.loco_motion-rails inside of bin/setup to override this
+#
+# Point directly to our gem. The `docker-compose.yml` file mounts it in the
+# vendor directory, and we have a custom Heroku buildpack that copies the
+# relevant files into that directory for release.
+#
+# See https://github.com/profoundry-us/loco_motion-buildpack for more info.
+#
+# This ensures that our demo site always uses the latest version of the gem (or
+# whatever branch you are developing on).
+#
 #############################################
-gem "loco_motion-rails", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
+gem "loco_motion-rails", path: "vendor/loco_motion-rails", require: "loco_motion"

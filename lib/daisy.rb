@@ -1,4 +1,3 @@
-require "daisy/helpers"
 require "heroicons-rails"
 
 module Daisy
@@ -16,4 +15,14 @@ module Daisy
   # Holds all Navigation-type components.
   #
   module Navigation; end
+
+  #
+  # Holds all Feedback-type components.
+  #
+  module Feedback; end
+
+  #
+  # Holds all Layout-type components.
+  #
+  module Layout; end
 end

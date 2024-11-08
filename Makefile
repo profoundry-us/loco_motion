@@ -166,8 +166,3 @@ gem-publish:
 .PHONY: npm-publish
 npm-publish:
 	npm publish --access public
-
-# Readies the project for a PR after changes
-.PHONY: pr-ready
-pr-ready:
-	docker compose exec -it demo bundle update --conservative loco_motion-rails

@@ -1,0 +1,46 @@
+= doc_title(title: "Radial Progress Bars", comp: @comp) do |title|
+  %p
+    Radial progress bars are used to indicate the progress of a process, in a
+    circular fasion.
+
+
+= doc_example(title: "Basic Radials") do |doc|
+  - doc.with_description do
+    :markdown
+      Radial progress bars utilize a `value` attribute to set the progress and
+      can have various colors / sizes, along with content inside.
+
+      The max is always set to 100 due to the way they are rendered, so `value`
+      should always be a percentage of the bar that is filled.
+
+  = daisy_radial(value: 66) do
+    66%
+
+
+= doc_example(title: "Fancy Radials", example_css: "gap-4") do |doc|
+  - doc.with_description do
+    :markdown
+      The content doesn't have to be just text!
+
+  = daisy_radial(value: 68) do
+    = hero_icon("beaker", css: "size-8 text-purple-500")
+
+  = daisy_radial(value: 52, css: "text-success") do
+    52%
+
+  = daisy_radial(value: 13, css: "text-error text-3xl") do
+    😢
+
+
+= doc_example(title: "Controlling Size & Color", example_css: "gap-4") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also control the size, thickness, and color of the radial
+      progress.
+
+      - `size` defaults to `5rem` and **must** include units
+      - `thickness` defaults to `calc(size / 10)` and **must** include units
+
+  = daisy_radial(value: 19, size: "15rem", thickness: "4px",
+    css: "bg-primary text-primary-content text-3xl border-slate-800 border-8") do
+    19%

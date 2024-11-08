@@ -1,7 +1,5 @@
-GIT
-  remote: https://github.com/profoundry-us/loco_motion.git
-  revision: b596d9ea9b15d9699e69bdd52e3e5ac0357e2b92
-  branch: main
+PATH
+  remote: vendor/loco_motion-rails
   specs:
     loco_motion-rails (0.0.6)
       base64 (~> 0.2.0)
@@ -278,6 +276,7 @@ GEM
     rake (13.2.1)
     rdoc (6.7.0)
       psych (>= 4.0.0)
+    redcarpet (3.6.0)
     regexp_parser (2.9.2)
     reline (0.5.10)
       io-console (~> 0.5)
@@ -374,6 +373,7 @@ DEPENDENCIES
   ostruct
   puma (>= 5.0)
   rails (~> 7.1.3)
+  redcarpet (~> 3.6)
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)

@@ -1,0 +1,24 @@
+= doc_title(title: "Loaders", comp: @comp) do |title|
+  %p
+    Loaders are used to indicate that a process is happening in the background.
+
+
+= doc_example(title: "Basic Loaders", example_css: "gap-4") do |doc|
+  - doc.with_description do
+    %p
+      Loaders come in a variety of flavors!
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        This component's helper method is also aliased as `daisy_loader`
+        because we think it sounds better 😄
+
+        However, you **must** use the `loading` class names for the CSS to work
+        properly.
+
+  = daisy_loading(css: "loading-spinner text-primary")
+  = daisy_loading(css: "loading-dots text-secondary")
+  = daisy_loading(css: "loading-ring text-accent")
+  = daisy_loader(css: "loading-ball text-info")
+  = daisy_loader(css: "loading-bars text-success")
+  = daisy_loader(css: "loading-infinity text-error")

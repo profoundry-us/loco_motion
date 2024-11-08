@@ -37,13 +37,12 @@
       you want by using the <code>number</code> option.
 
     = doc_note do
-      You can also supply this via the <code>data-content</code> attribute
-      in the html.
+      :markdown
+        You can also supply this via the `data-content` attribute in the html.
 
-      %pre.p-0
-        %code{ class: "language-haml", data: { controller: "highlight-code" } }
-          \= daisy_steps do |steps|
-          \  - steps.with_step(html: { data: { content: "❤️" } })
+      = doc_code(language: "haml") do
+        \= daisy_steps do |steps|
+        \  - steps.with_step(html: { data: { content: "❤️" } })
 
     %p
       And you can alter the colors by supplying CSS for the <code>after</code>

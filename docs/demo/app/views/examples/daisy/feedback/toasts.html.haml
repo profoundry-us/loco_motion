@@ -1,0 +1,27 @@
+= doc_title(title: "Toasts", comp: @comp) do |title|
+  %p
+    Toasts are used to show a message to the user that is not critical, but
+    important. They are often used to show a message that is not part of the
+    main content flow and can be dismissed by the user.
+
+= doc_note(modifier: :todo, css: "mt-4") do
+  :markdown
+    Currently, the Toast component does **not** include any JavaScript to handle
+    showing / hiding the toast. We plan to implement a basic Stimulus
+    ToastController in the future.
+
+= doc_example(title: "Basic Toasts", example_css: "h-48") do |doc|
+  - doc.with_description do
+    :markdown
+      The Toast component is a simple wrapper that positions it's contents at
+      various spots on the page, usually in the bottom right corner.
+
+  :markdown
+    These toasts will appear at the bottom right of the entire page.
+
+  = daisy_toast do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white") do
+      Yay! Something went well!
+
+    = daisy_alert(icon: "exclamation-circle", css: "alert-error text-white") do
+      Uh oh! Something went wrong...

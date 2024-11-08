@@ -20,12 +20,8 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
 
     if args.size == 1
       # If given one arg, assume it's the href and / or the text (if no block is given)
-      if block_given?
-        @href = args[0]
-      else
-        @text = args[0]
-        @href = args[0]
-      end
+      @text = args[0]
+      @href = args[0]
     elsif args.size == 2
       # If given two args, assume the first is the text and the second is the href
       @text = args[0]
@@ -58,6 +54,6 @@ class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { @text || content }
+    part(:component) { content || @text }
   end
 end

@@ -1,0 +1,58 @@
+= doc_title(title: "Skeletons", comp: @comp) do |title|
+  %p
+    Skeletons are used to show a placeholder for content that is loading or
+    being fetched. They are often used to give the user an idea of what the
+    content will look like before it is loaded.
+
+
+= doc_example(title: "Basic Skeletons") do |doc|
+  - doc.with_description do
+    :markdown
+      Skeletons can take on various shapes and sizes that you define.
+
+  .flex.flex-col.gap-4.w-72
+    .flex.items-center.gap-4
+      = daisy_skeleton(css: "w-24 h-24 rounded-full")
+
+      = daisy_skeleton(css: "w-36 h-20")
+
+    - 3.times do |i|
+      - width = i.even? ? "w-36" : "w-48"
+      = daisy_skeleton(css: "#{width} h-5")
+
+
+= doc_example(title: "Component Skeletons") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use skeletons to show placeholders for components by adding
+      the `skeleton` class to many existing components.
+
+  .flex.flex-col.gap-8
+    .flex.items-center.gap-8
+      = daisy_badge(css: "badge-lg skeleton text-slate-400") do
+        Loading...
+
+      .w-12.md:w-48
+
+      = daisy_button(css: "skeleton text-transparent") do
+        Loading...
+
+      = daisy_button(css: "skeleton text-transparent") do
+        Loading...
+
+    = daisy_alert(css: "skeleton")
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(wrapper_css: "skeleton")
+      - chat.with_bubble(css: "skeleton text-transparent") do
+        Here is text that won't be displayed...
+
+    = daisy_chat do |chat|
+      - chat.with_avatar(wrapper_css: "skeleton")
+      - chat.with_bubble(css: "skeleton text-transparent") do
+        Here is a lot more text that won't be displayed and people can't see...
+
+    = daisy_chat(css: "chat-end") do |chat|
+      - chat.with_avatar(wrapper_css: "skeleton")
+      - chat.with_bubble(css: "skeleton text-transparent") do
+        Here is some more text that won't be displayed...
