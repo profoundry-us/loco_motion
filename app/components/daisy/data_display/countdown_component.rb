@@ -1,4 +1,5 @@
 class Daisy::DataDisplay::CountdownComponent < LocoMotion.configuration.base_component_class
+  prepend LocoMotion::Concerns::TippableComponent
 
   define_parts :days, :hours, :minutes, :seconds
   define_modifiers :words, :letters

@@ -4,6 +4,8 @@
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
 class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_component_class
+  prepend LocoMotion::Concerns::TippableComponent
+
   set_component_name :badge
 
   #

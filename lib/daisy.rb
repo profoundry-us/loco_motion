@@ -1,5 +1,6 @@
-require "heroicons-rails"
-
+#
+# Parent module for all Daisy components.
+#
 module Daisy
   #
   # Holds all Action-type components.

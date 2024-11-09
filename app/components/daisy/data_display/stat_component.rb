@@ -1,5 +1,7 @@
 # This is the stats component.
 class Daisy::DataDisplay::StatComponent < LocoMotion.configuration.base_component_class
+  prepend LocoMotion::Concerns::TippableComponent
+
   set_component_name :stat
 
   define_parts :title, :value, :description, :figure

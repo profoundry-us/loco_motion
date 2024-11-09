@@ -23,5 +23,8 @@ module LocoDemo
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Setup our demo app configuration options
+    config.api_docs_host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
   end
 end

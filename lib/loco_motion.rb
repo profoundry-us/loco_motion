@@ -14,4 +14,5 @@ require "loco_motion/basic_component"
 require "loco_motion/engine"
 require "loco_motion/helpers"
 
+require "hero"
 require "daisy"

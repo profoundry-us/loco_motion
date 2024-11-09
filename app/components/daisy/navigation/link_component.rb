@@ -3,6 +3,7 @@
 # anchor tag.
 #
 class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component_class
+  prepend LocoMotion::Concerns::TippableComponent
 
   # Create a new instance of the LinkComponent.
   #

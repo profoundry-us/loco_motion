@@ -24,6 +24,8 @@
 # ```
 #
 class Daisy::DataDisplay::AvatarComponent < LocoMotion.configuration.base_component_class
+  prepend LocoMotion::Concerns::TippableComponent
+
   set_component_name :avatar
 
   define_parts :wrapper, :img, :icon, :placeholder
