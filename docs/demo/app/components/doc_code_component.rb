@@ -10,10 +10,12 @@ class DocCodeComponent < ApplicationComponent
 
   def before_render
     add_stimulus_controller(:code, "highlight-code")
-    add_css(:code, "hljs rounded-lg language-#{@language}")
 
-    set_tag_name(:code, :code)
     set_tag_name(:pre, :pre)
+    set_tag_name(:code, :code)
+
+    add_css(:pre, "!p-0")
+    add_css(:code, "hljs rounded-lg language-#{@language}")
   end
 
   #

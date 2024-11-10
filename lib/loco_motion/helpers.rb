@@ -48,6 +48,7 @@ module LocoMotion
     "Daisy::Feedback::TooltipComponent" => { names: ["tooltip", "tip"], group: "Feedback", title: "Tooltips", example: "tooltips" },
 
     # Layout
+    "Daisy::Layout::ArtboardComponent" => { names: "artboard", group: "Layout", title: "Artboards", example: "artboards" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
   }
 
