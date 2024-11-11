@@ -1,4 +1,4 @@
-class Hero::IconComponent < LocoMotion.configuration.base_component_class
+class Hero::IconComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   def initialize(*args, **kws, &block)

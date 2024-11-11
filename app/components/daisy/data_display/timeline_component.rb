@@ -1,4 +1,4 @@
-class Daisy::DataDisplay::TimelineComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::TimelineComponent < LocoMotion::BaseComponent
   renders_many :events, Daisy::DataDisplay::TimelineEventComponent
 
   def before_render

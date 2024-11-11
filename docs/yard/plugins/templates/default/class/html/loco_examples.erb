@@ -1,0 +1,28 @@
+<% if object.has_tag?(:loco_example) %>
+  <div id="loco_examples">
+    <h2>Examples</h2>
+  </div>
+
+  <% object.tags(:loco_example).each do |example| %>
+    <%
+      # Split only the first newline so we can extract the language / title
+      split = example.text.split("\n", 2)
+      firstline = split[0]
+      code_block = split[1]
+
+      if firstline.match(/\A\[(\w+)\]\s*(.*)/)
+        language = $1  # captures the language inside brackets
+        title = $2     # captures the rest of the string as the title
+      else
+        language = "haml"
+        title = firstline
+      end
+    %>
+
+    <h3 style="margin-left: 14px; margin-top: 24px"><%= title.strip %></h3>
+
+    <div class="example docstring">
+      <pre><code class="hljs language-<%= language.strip %>" style="border-radius: 10px"><%= code_block.strip %></code></pre>
+    </div>
+  <% end %>
+<% end %>

@@ -10,12 +10,15 @@
       The styling is very minimal, just adding a hover effect.
 
   = daisy_menu do |menu|
+    - # Menu Item Group with a title keyword argument
+    - menu.with_item(title: "Group 1") do
+      = link_to "Item 1 - 1", "#"
+
+    - # Menu Item Group with a title as the first positional argument
+    - menu.with_item("Group 2") do
+      = link_to "Item 2 - 1", "#"
     - menu.with_item do
-      = link_to "Item 1", "#"
-    - menu.with_item do
-      = link_to "Item 2", "#"
-    - menu.with_item do
-      = link_to "Item 3", "#"
+      = link_to "Item 2 - 2", "#"
 
 
 = doc_example(title: "Horizontal Menu") do |doc|

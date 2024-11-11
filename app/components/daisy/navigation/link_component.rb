@@ -2,20 +2,22 @@
 # The Daisy::Navigation::LinkComponent is a simple component that renders an
 # anchor tag.
 #
-class Daisy::Navigation::LinkComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   # Create a new instance of the LinkComponent.
   #
-  # If passed **two** positional arguments, the first is considered the `text`
-  # and the second is considered the `href`. If passed only **one** positional
-  # argument, it is treated as the `href` and we assume the `text` will be
-  # provided in the block. If no text is passed, we will use the href as the
-  # text `target` is always a keyword argument.
+  # @param args [Array] Looks for **one** or **two** positional arguments.
+  #   - If passed **two** positional arguments, the first is considered the `text`
+  #   and the second is considered the `href`.
+  #   - If passed only **one** positional argument, it is treated as the `href`
+  #   and we assume the `text` will be provided in the block.
+  #   - If no text is passed in the block, we will use the `href` as the text
+  # @param kws [Hash] The keyword arguments for the component.
   #
-  # @param text [String] The text to display in the link.
-  # @param href [String] The URL to visit when the link is clicked.
-  # @param target [String] The target attribute for the anchor tag.
+  # @option kws text [String] The text to display in the link.
+  # @option kws href [String] The URL to visit when the link is clicked.
+  # @option kws target [String] The target attribute for the anchor tag.
   def initialize(*args, **kws, &block)
     super
 

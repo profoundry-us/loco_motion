@@ -1,5 +1,5 @@
 # This is the Kbd (Keyboard) component.
-class Daisy::DataDisplay::KbdComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   set_component_name :kbd

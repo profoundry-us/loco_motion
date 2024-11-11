@@ -49,6 +49,7 @@ module LocoMotion
 
     # Layout
     "Daisy::Layout::ArtboardComponent" => { names: "artboard", group: "Layout", title: "Artboards", example: "artboards" },
+    "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
   }
 

@@ -3,36 +3,39 @@
     <h2>View Component Slots</h2>
   </div>
 
-  <p class="docstring">
-    The <%= object.name %> accepts the following slots.
-  </p>
+  <div class="tags">
+    <p class="docstring">
+      The <%= object.name %> accepts the following slots enabling you to pass
+      custom content.
+    </p>
 
-  <ul>
-    <% object.tags(:slot).each do |slot| %>
-      <li class="slots docstring">
-        <strong>with_<%= slot.name %></strong>
+    <ul>
+      <% object.tags(:slot).each do |slot| %>
+        <li class="slots docstring">
+          <span class="name">with_<%= slot.name %></span>
 
-        <% if slot.types %>
-          <% types_str = slot.types.map{ |t| "{#{t}}" }.join(', ') %>
-          <span><%= htmlify_inline("(#{types_str})") %></span>
-        <% end %>
+          <% if slot.types %>
+            <% types_str = slot.types.map{ |t| "{#{t}}" }.join(', ') %>
+            <span><%= htmlify_inline("(#{types_str})") %></span>
+          <% end %>
 
-        <strong style="padding: 0 4px;">&mdash;</strong>
-        <span><%= htmlify_inline(slot.text) %></span>
+          <strong style="padding: 0 4px;">&mdash;</strong>
+          <span><%= htmlify_inline(slot.text) %></span>
 
-        <% options = object.tags(:option).select { |opt| opt.name == slot.name } %>
-        <% if options.any? %>
-          <ul>
-            <% options.each do |opt| %>
-              <li>
-                <em><%= opt.pair.name %></em>
-                <span><%= htmlify_inline("({#{opt.pair.type}})") %></span>
-                <%= htmlify_inline(opt.pair.text) %>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+          <% options = object.tags(:option).select { |opt| opt.name == slot.name } %>
+          <% if options.any? %>
+            <ul>
+              <% options.each do |opt| %>
+                <li>
+                  <em><%= opt.pair.name %></em>
+                  <span><%= htmlify_inline("({#{opt.pair.type}})") %></span>
+                  <%= htmlify_inline(opt.pair.text) %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>

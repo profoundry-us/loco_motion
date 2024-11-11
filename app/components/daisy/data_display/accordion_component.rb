@@ -1,5 +1,5 @@
 # The Accordion component shows sections that can be expanded or collapsed.
-class Daisy::DataDisplay::AccordionComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   # Renders a single section of the accordion.

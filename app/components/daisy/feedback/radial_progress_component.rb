@@ -1,4 +1,4 @@
-class Daisy::Feedback::RadialProgressComponent < LocoMotion.configuration.base_component_class
+class Daisy::Feedback::RadialProgressComponent < LocoMotion::BaseComponent
 
   def initialize(*args, **kws, &block)
     super

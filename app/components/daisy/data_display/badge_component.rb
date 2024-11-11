@@ -3,7 +3,7 @@
 # background colors.
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
-class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   set_component_name :badge

@@ -1,7 +1,7 @@
 #
 # The AlertComponent displays an important message to users.
 #
-class Daisy::Feedback::AlertComponent < LocoMotion.configuration.base_component_class
+class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
   define_parts :icon, :content_wrapper
 
   def initialize(*args, **kws, &block)

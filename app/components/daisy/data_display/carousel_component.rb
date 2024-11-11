@@ -1,4 +1,4 @@
-class Daisy::DataDisplay::CarouselComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::CarouselComponent < LocoMotion::BaseComponent
   class ItemComponent < LocoMotion::BasicComponent
     def before_render
       add_css(:component, "carousel-item")

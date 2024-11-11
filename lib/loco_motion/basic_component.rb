@@ -3,7 +3,7 @@
 # so that users can pass in all of the same CSS and HTML options that a standard
 # component would have.
 #
-class LocoMotion::BasicComponent < LocoMotion.configuration.base_component_class
+class LocoMotion::BasicComponent < LocoMotion::BaseComponent
 
   def call
     part(:component) do

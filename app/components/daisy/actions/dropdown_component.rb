@@ -1,5 +1,5 @@
 # Here are the Button docs!
-class Daisy::Actions::DropdownComponent < LocoMotion.configuration.base_component_class
+class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
 
   TitleComponent = LocoMotion::BasicComponent.build do
     def before_render

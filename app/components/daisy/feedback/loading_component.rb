@@ -1,4 +1,4 @@
-class Daisy::Feedback::LoadingComponent < LocoMotion.configuration.base_component_class
+class Daisy::Feedback::LoadingComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   def before_render

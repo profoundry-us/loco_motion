@@ -2,7 +2,7 @@
 # The Table component is used to render HTML tables with rows, columns, and headers.
 #
 # @!parse class Daisy::DataDisplay::TableComponent < LocoMotion::BaseComponent; end
-class Daisy::DataDisplay::TableComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::TableComponent < LocoMotion::BaseComponent
 
   class HeadColumnComponent < LocoMotion::BasicComponent
     def before_render

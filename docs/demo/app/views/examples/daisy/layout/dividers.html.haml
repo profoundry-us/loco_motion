@@ -1,0 +1,64 @@
+= doc_title(title: "Dividers", comp: @comp) do |title|
+  :markdown
+    Dividers are used to separate content in a meaningful way. They can be used to
+    separate different sections of a page or to highlight a specific piece of
+    content.
+
+    They can be used both horizontally and vertically, and can include content
+    if desired.
+
+
+= doc_example(title: "Basic Dividers", example_css: "flex-col gap-8") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic divider is a simple horizontal or vertical line that can be used
+      to separate content.
+
+  .w-full{ class: "md:w-1/3" }
+    - card_css = "border border-base-300 bg-base-100 shadow-xl text-center"
+    = daisy_card(css: card_css) do
+      Top Card
+
+    = daisy_divider do
+      OR
+
+    = daisy_card(css: card_css) do
+      Bottom Card
+
+  .flex.grow
+    - card_css = "h-48 border border-base-300 bg-base-100 shadow-xl"
+    = daisy_card(css: card_css, body_css: "justify-center") do
+      Left Card
+
+    = daisy_divider(css: "divider-horizontal") do
+      OR
+
+    = daisy_card(css: card_css, body_css: "justify-center") do
+      Right Card
+
+
+= doc_example(title: "Colored Dividers") do |doc|
+  - doc.with_description do
+    :markdown
+      Dividers can be colored to match the theme of the page or to highlight
+      specific content.
+
+  .w-full{ class: "md:w-1/2" }
+    = daisy_divider do
+      Default Divider
+    = daisy_divider(css: "divider-neutral") do
+      Neutral
+    = daisy_divider(css: "divider-primary") do
+      Primary
+    = daisy_divider(css: "divider-secondary") do
+      Secondary
+    = daisy_divider(css: "divider-accent") do
+      Accent
+    = daisy_divider(css: "divider-success") do
+      Success
+    = daisy_divider(css: "divider-warning") do
+      Warning
+    = daisy_divider(css: "divider-info") do
+      Info
+    = daisy_divider(css: "divider-error") do
+      Error

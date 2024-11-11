@@ -1,4 +1,4 @@
-class Daisy::Layout::ArtboardComponent < LocoMotion.configuration.base_component_class
+class Daisy::Layout::ArtboardComponent < LocoMotion::BaseComponent
 
   def before_render
     add_css(:component, "artboard")
