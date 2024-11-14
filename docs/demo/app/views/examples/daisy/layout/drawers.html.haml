@@ -1,0 +1,67 @@
+= doc_title(title: "Drawers", comp: @comp) do |title|
+  :markdown
+    Drawers can be used to slide in a menu or other content from the side of the
+    screen. They can be used to provide additional navigation or to display
+    additional information.
+
+  = doc_note(css: "mb-8") do
+    :markdown
+      The `relative / absolute` and the `h-48` classes allow the drawer to
+      render properly inside the example preview box instead of the whole
+      screen.
+
+
+= doc_example(title: "Basic Drawer", tab_content_css: "!p-0") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic drawer slides in from the left side of the screen.
+
+  .relative.w-full.h-48
+    = daisy_drawer do |drawer|
+      - drawer.with_sidebar(css: "absolute h-48") do
+        .bg-base-100.p-4.w-40.h-48
+          Hello sidebar!
+
+      = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
+
+
+= doc_example(title: "Right Drawer", tab_content_css: "!p-0") do |doc|
+  - doc.with_description do
+    :markdown
+      The right drawer slides in from the right side of the screen.
+
+  .relative.w-full.h-48
+    = daisy_drawer(css: "drawer-end") do |drawer|
+      - # The `ms-[-100rem] w-[stretch]` CSS is only used to fix the example and isn't normally needed
+      - drawer.with_sidebar(css: "absolute ms-[-100rem] w-[stretch] h-48") do
+        .bg-base-100.p-4.w-40.h-48
+          Right sidebar!
+
+      = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
+
+
+= doc_example(title: "Advanced Drawer", tab_content_css: "!p-0") do |doc|
+  - doc.with_description do
+    :markdown
+      The advanced drawer slides in from the left side of the screen and has
+      multiple ways to close it, along with some extra styling.
+
+  .relative.w-full.h-48
+    = daisy_drawer do |drawer|
+      - drawer.with_sidebar(css: "absolute h-48") do
+        .bg-base-100.p-4.h-48
+          .flex.items-center.justify-between.gap-8
+            %h1.text-lg
+              Sidenav Menu
+            = daisy_button(tag_name: "label", css: "btn-sm btn-ghost", html: { for: drawer.id }) do
+              = hero_icon(icon: "x-circle", css: "size-4")
+          %ul.mt-4
+            %li= link_to "Home", "/", class: "link-hover"
+            %li= link_to "API Docs", "/api-docs", class: "link-hover", target: "_blank"
+            %li= link_to "GitHub", "https://github.com/profoundry-us/loco_motion", class: "link-hover", target: "_blank"
+
+      .flex.items-center.justify-center.h-48
+        %div
+          %p.my-4
+            Click the button below to open the drawer!
+          = daisy_button(tag_name: "label", css: "btn btn-primary", title: "Open Drawer", html: { for: drawer.id })

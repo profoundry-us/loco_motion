@@ -10,9 +10,17 @@
 
   <div class="tags">
     <ul>
-      <% object.tags(:part).each do |slot| %>
+      <% object.tags(:part).each do |part| %>
         <li class="docstring">
-          <span class="name"><%= slot.name %></span> &mdash; <%= htmlify_inline(slot.text) %>
+          <span class="name"><%= part.name %></span>
+
+          <% if part.types %>
+            <% types_str = part.types.map{ |t| "{#{t}}" }.join(', ') %>
+            <span><%= htmlify_inline("(#{types_str})") %></span>
+          <% end %>
+
+          <strong style="padding: 0 4px;">&mdash;</strong>
+          <span><%= htmlify_inline(part.text) %></span>
         </li>
       <% end %>
     </ul>

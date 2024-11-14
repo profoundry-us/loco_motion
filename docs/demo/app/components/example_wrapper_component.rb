@@ -9,6 +9,7 @@ class ExampleWrapperComponent < ApplicationComponent
     super
 
     @simple_title = config_option(:title, nil)
+    @tab_content_css = config_option(:tab_content_css, "")
 
     @calling_file, @line_number = caller_locations(3, 1).first.to_s.split(" ").first.split(":")
   end
@@ -118,7 +119,7 @@ class ExampleWrapperComponent < ApplicationComponent
   end
 
   def tab_content_css
-    "tab-content border-base-300 rounded-box overflow-x-auto"
+    "tab-content border-base-300 rounded-box overflow-x-auto #{@tab_content_css}"
   end
 
   def background_pattern
