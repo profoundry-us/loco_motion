@@ -1,0 +1,33 @@
+= doc_title(title: "Footers", comp: @comp) do |title|
+  :markdown
+    Footers are used to provide additional information about a page or site.
+    They are responsive by default and will stack on smaller screens.
+
+
+= doc_example(title: "Basic Nav Footer") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic nav footer is a simple footer with multiple sections of links
+      to various parts of your site.
+
+  = daisy_footer(css: "bg-neutral text-neutral-content p-10") do
+    %nav
+      %h6.footer-title
+        LocoMotion
+      = link_to "Home", "/", class: "link-hover"
+      = link_to "API Docs", "/api-docs", class: "link-hover", target: "_blank"
+      = link_to "GitHub", "https://github.com/profoundry-us/loco_motion", class: "link-hover", target: "_blank"
+
+    %nav
+      %h6.footer-title
+        My Neat Stuff
+      = link_to "Abilene Smalltalk", "https://abilenesmalltalk.com/", class: "link-hover", target: "_blank"
+      = link_to "Create. Connect. Heal.", "https://profoundry.us", class: "link-hover", target: "_blank"
+      = link_to "Social Marketplace Secrets", "https://sm-secrets.com/", class: "link-hover", target: "_blank"
+
+    %nav
+      %h6.footer-title
+        Other Neat Stuff
+      = link_to "Ruby", "https://ruby-lang.org", class: "link-hover", target: "_blank"
+      = link_to "Rails", "https://rubyonrails.org/", class: "link-hover", target: "_blank"
+      = link_to "EGS", "https://www.egscomics.com/", class: "link-hover", target: "_blank"
