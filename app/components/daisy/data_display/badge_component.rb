@@ -14,7 +14,7 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   def initialize(*args, **kws, &block)
     super
 
-    @text = config_option(:text, args[0])
+    @title = config_option(:title, args[0])
   end
 
   def before_render
@@ -29,7 +29,7 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { @text || content }
+    part(:component) { @title || content }
   end
 
   private

@@ -4,16 +4,15 @@
 
 = doc_example(title: "Simple Badges") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       You can use the Badge component to display a small amount of information.
       Badges can be used to indicate status, category, or other metadata.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4
-    = daisy_badge do
-      Plain Badge
+      The `title` can be passed through keyword arguments or as a block.
 
-    = daisy_badge(css: "badge-primary") do
-      Primary Badge
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_badge(title: "Plain Badge")
+    = daisy_badge(title: "Primary Badge", css: "badge-primary")
 
     = daisy_badge(css: "badge-secondary") do
       Secondary Badge
