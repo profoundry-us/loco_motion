@@ -1,0 +1,46 @@
+= doc_title(title: "Indicators", comp: @comp) do |title|
+  :markdown
+    Indicators wrap other elements and provide a visual cue that something
+    requires the user's attention.
+
+
+= doc_example(title: "Basic Indicator", example_css: "gap-8") do |doc|
+  - doc.with_description do
+    :markdown
+      By default, the indicator is positioned in the top right corner.
+
+  = daisy_indicator do |indicator|
+    - indicator.with_item do
+      = daisy_badge(title: "8", css: "badge-secondary text-xl")
+
+    = daisy_avatar(wrapper_css: "rounded-xl", src: image_path("avatars/lady-smiling-2.jpg"))
+
+  = daisy_indicator do |indicator|
+    - indicator.with_item do
+      = daisy_badge(title: "New!", css: "badge-accent")
+
+    = daisy_button(title: "Checkout", left_icon: "shopping-cart")
+
+
+= doc_example(title: "Different Positions") do |doc|
+  - doc.with_description do
+    :markdown
+      You can position the indicator in all of the usual places, and indicators
+      can contain multiple items.
+
+      Additionally, you can apply many of the DaisyUI classes directly to the
+      indicator items, which might be required for the positioning to work
+      correctly.
+
+  - vertical = ["indicator-top", "indicator-middle", "indicator-bottom"]
+  - horizontal = ["indicator-start", "indicator-center", "indicator-end"]
+
+  = daisy_indicator do |indicator|
+    - vertical.each do |v|
+      - horizontal.each do |h|
+        - title = "#{v.split("-").last.capitalize} #{h.split("-").last.capitalize}"
+
+        - indicator.with_item(css: "badge badge-secondary #{v} #{h}") do
+          = title
+
+    .w-96.h-48.bg-base-200

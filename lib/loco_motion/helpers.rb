@@ -52,6 +52,7 @@ module LocoMotion
     "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
     "Daisy::Layout::HeroComponent" => { names: "hero", group: "Layout", title: "Heroes", example: "heroes" },
+    "Daisy::Layout::IndicatorComponent" => { names: "indicator", group: "Layout", title: "Indicators", example: "indicators" },
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
   }
