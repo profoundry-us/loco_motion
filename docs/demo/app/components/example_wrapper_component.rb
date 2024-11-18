@@ -1,7 +1,7 @@
 class ExampleWrapperComponent < ApplicationComponent
-  define_parts :title, :example, :pre, :code
+  define_parts :title, :template, :example, :pre, :code
 
-  attr_reader :simple_title, :skip_cache, :code
+  attr_reader :simple_title, :skip_cache, :code, :allow_reset
 
   renders_one :description
 
@@ -10,6 +10,7 @@ class ExampleWrapperComponent < ApplicationComponent
 
     @simple_title = config_option(:title, nil)
     @tab_content_css = config_option(:tab_content_css, "")
+    @allow_reset = config_option(:allow_reset, false)
 
     @calling_file, @line_number = caller_locations(3, 1).first.to_s.split(" ").first.split(":")
   end
@@ -19,12 +20,14 @@ class ExampleWrapperComponent < ApplicationComponent
 
     setup_component
     setup_title
+    setup_template
     setup_example
     setup_code_parts
     setup_code_block
   end
 
   def setup_component
+    add_stimulus_controller(:component, "example-wrapper")
     add_stimulus_controller(:component, "active-tab")
     add_css(:component, "mt-8")
   end
@@ -34,8 +37,14 @@ class ExampleWrapperComponent < ApplicationComponent
     add_css(:title, "mb-2 text-xl text-base font-bold")
   end
 
+  def setup_template
+    set_tag_name(:template, :template)
+    add_html(:template, { data: { "example-wrapper-target": "template" } })
+  end
+
   def setup_example
     add_css(:example, "flex items-center justify-center")
+    add_html(:example, { data: { "example-wrapper-target": "preview" } })
   end
 
   def setup_code_parts
@@ -155,4 +164,13 @@ class ExampleWrapperComponent < ApplicationComponent
       # style: %()
     }
   end
+
+  def active_tab_html
+    { data: { "active-tab-target": "tab", action: "active-tab#activate" }}
+  end
+
+  def reset_html
+    { data: { action: "example-wrapper#reset" } }
+  end
+
 end

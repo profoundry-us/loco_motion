@@ -7,8 +7,11 @@
     .prose
       = description
 
-  = daisy_tabs(css: "tabs-lifted") do |tabs|
-    - tabs.with_tab(active: true, html: { data: { "active-tab-target": "tab", action: "active-tab#activate" }}) do |tab|
+  = part(:template) do
+    = content
+
+  = daisy_tabs(css: "tabs-lifted relative") do |tabs|
+    - tabs.with_tab(active: true, html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4
@@ -19,7 +22,7 @@
         = part(:example) do
           = content
 
-    - tabs.with_tab(css: "[&.tab-active]:![--tab-bg:#282c34] [&.tab-active]:!text-white", html: { data: { "active-tab-target": "tab", action: "active-tab#activate" }}) do |tab|
+    - tabs.with_tab(css: "[&.tab-active]:![--tab-bg:#282c34] [&.tab-active]:!text-white", html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4
@@ -30,3 +33,11 @@
         = part(:pre) do
           = part(:code) do
             = code.join.strip
+
+    - if allow_reset
+      - tabs.with_tab(css: "absolute top-0 right-0 !border-0", html: reset_html) do |tab|
+        - tab.with_title do
+          .flex.gap-x-2.items-center.text-xs
+            %span.w-3.h-3
+              = heroicon_tag("arrow-path")
+            %span.whitespace-nowrap Reset

@@ -6,7 +6,7 @@
   We should consider allowing a specific date to be passed in as an argument so
   that the countdown can be more accurate.
 
-= doc_example(title: "Basic Countdown") do |doc|
+= doc_example(title: "Basic Countdown", allow_reset: true) do |doc|
   - doc.with_description do
     %p
       A basic countdown accepts an ActiveSupport::Duration object as either the
@@ -18,7 +18,7 @@
     = daisy_countdown(duration: 60.seconds, modifier: :letters)
 
 
-= doc_example(title: "Longer Countdown") do |doc|
+= doc_example(title: "Longer Countdown", allow_reset: true) do |doc|
   - doc.with_description do
     %p
       If you want to display a countdown with multiple parts, you can build one
@@ -34,7 +34,7 @@
     = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :words)
 
 
-= doc_example(title: "Boxed Countdown") do |doc|
+= doc_example(title: "Boxed Countdown", allow_reset: true) do |doc|
   - doc.with_description do
     %p
       You can also display the countdowns in a box by customizing each part of
