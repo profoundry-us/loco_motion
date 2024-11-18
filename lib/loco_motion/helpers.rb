@@ -56,6 +56,7 @@ module LocoMotion
     "Daisy::Layout::IndicatorComponent" => { names: "indicator", group: "Layout", title: "Indicators", example: "indicators" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
     "Daisy::Layout::MaskComponent" => { names: nil, group: "Layout", title: "Masks", example: "masks" },
+    "Daisy::Layout::StackComponent" => { names: "stack", group: "Layout", title: "Stacks", example: "stacks" },
   }
 
   module Helpers

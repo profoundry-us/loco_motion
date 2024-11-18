@@ -1,0 +1,60 @@
+= doc_title(title: "Stacks", comp: @comp) do |title|
+  :markdown
+    Stacks provide a 3 dimensional effect to your content. This can be helpful
+    for displaying lots of notifications or other content in a small space.
+
+
+= doc_example(title: "Basic Stack") do |doc|
+  - doc.with_description do
+    :markdown
+      A Stack is a wrapper around other elements, making it's children appear on
+      top of each other.
+
+      This example uses a slightly transparent background and some clever
+      padding to show the effect.
+
+  - card_css = "bg-base-100/80 border-base-300 border shadow-lg text-center"
+  = daisy_stack do
+    = daisy_card(css: card_css + " pb-2") do
+      Top Stack
+    = daisy_card(css: card_css + " py-1") do
+      Middle Stack
+    = daisy_card(css: card_css + " pt-2") do
+      Bottom Stack
+
+= doc_example(title: "Animated Stack") do |doc|
+  - doc.with_description do
+    %p
+      You can also do some slick effects with a library like
+      = succeed '!' do
+        = link_to "Anime.js", "https://animejs.com/", target: "_blank"
+
+  %div
+    %p.my-4
+      Click to remove and see the cards underneath.
+
+    .flex.justify-center.items-center
+      - card_css = "bg-base-100 border-base-300 border shadow-lg cursor-pointer text-center transition-transform"
+      - card_html = { onclick: "(function(el) { anime({ targets: el, duration: 400, easing: \"easeInQuad\", translateY: \"-100%\", opacity: 0, complete: function() { el.remove() } }) })(this)" }
+
+      = daisy_stack do
+        = daisy_card(css: card_css + " bg-primary text-white", html: card_html) do
+          Stack 1
+        = daisy_card(css: card_css + " bg-secondary text-white", html: card_html) do
+          Stack 2
+        = daisy_card(css: card_css + " bg-accent text-white", html: card_html) do
+          Stack 3
+        = daisy_card(css: card_css + " bg-neutral text-neutral-content !cursor-default") do
+          Can't Remove Me!
+
+
+= doc_example(title: "CSS Stack") do |doc|
+  - doc.with_description do
+    :markdown
+      The Stack component simply applies the `stack` CSS class, which you can
+      also use directly.
+
+  .stack.w-96
+    %img{ src: image_path("landscapes/beach.jpg") }
+    %img{ src: image_path("landscapes/desert.jpg") }
+    %img{ src: image_path("landscapes/forest.jpg") }
