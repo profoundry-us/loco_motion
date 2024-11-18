@@ -35,9 +35,8 @@
             = code.join.strip
 
     - if allow_reset
-      - tabs.with_tab(css: "absolute top-0 right-0 !border-0", html: reset_html) do |tab|
-        - tab.with_title do
-          .flex.gap-x-2.items-center.text-xs
-            %span.w-3.h-3
-              = heroicon_tag("arrow-path")
-            %span.whitespace-nowrap Reset
+      - tabs.with_tab(css: reset_css, html: reset_html) do |tab|
+        - tab.with_title(css: "flex gap-x-2 items-center text-xs") do
+          %span.w-3.h-3
+            = heroicon_tag("arrow-path")
+          %span.whitespace-nowrap Reset

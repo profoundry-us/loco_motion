@@ -169,8 +169,16 @@ class ExampleWrapperComponent < ApplicationComponent
     { data: { "active-tab-target": "tab", action: "active-tab#activate" }}
   end
 
+  def reset_css
+    cssify([
+      "absolute top-1.5 right-4 h-5 !border-0 flex items-center justify-center",
+      "hover:bg-base-200 active:bg-base-300 rounded !ps-2 !pe-2",
+      "tooltip tooltip-left before:text-xs",
+    ])
+  end
+
   def reset_html
-    { data: { action: "example-wrapper#reset" } }
+    { data: { action: "example-wrapper#reset", tip: "Reset example" } }
   end
 
 end
