@@ -10,15 +10,12 @@
 # @slot footer [LocoMotion::BasicComponent] Renders a single footer.
 # @slot bubble [LocoMotion::BasicComponent] Renders one or more bubbles.
 #
-# ## Examples
+# @loco_example Basic Usage
+#   = daisy_chat(css: "border rounded-lg", html: { title: message.short_desc }) do |chat|
+#     - chat.with_bubble do
+#       I can't believe it's not the weekend yet!
 #
-# ```language-haml
-# = daisy_chat(css: "border rounded-lg", html: { title: message.short_desc }) do |chat|
-#   - chat.with_bubble do
-#     I can't believe it's not the weekend yet!
-# ```
-#
-class Daisy::DataDisplay::ChatComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::ChatComponent < LocoMotion::BaseComponent
   renders_one :avatar, Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100", wrapper_css: "w-10 rounded-full")
   renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header [:where(&)]:text-neutral-500")
   renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer [:where(&)]:text-neutral-500")

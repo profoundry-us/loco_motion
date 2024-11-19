@@ -48,7 +48,15 @@ module LocoMotion
     "Daisy::Feedback::TooltipComponent" => { names: ["tooltip", "tip"], group: "Feedback", title: "Tooltips", example: "tooltips" },
 
     # Layout
+    "Daisy::Layout::ArtboardComponent" => { names: "artboard", group: "Layout", title: "Artboards", example: "artboards" },
+    "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
+    "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
+    "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
+    "Daisy::Layout::HeroComponent" => { names: "hero", group: "Layout", title: "Heroes", example: "heroes" },
+    "Daisy::Layout::IndicatorComponent" => { names: "indicator", group: "Layout", title: "Indicators", example: "indicators" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
+    "Daisy::Layout::MaskComponent" => { names: nil, group: "Layout", title: "Masks", example: "masks" },
+    "Daisy::Layout::StackComponent" => { names: "stack", group: "Layout", title: "Stacks", example: "stacks" },
   }
 
   module Helpers

@@ -1,6 +1,6 @@
-class Daisy::Navigation::BottomNavComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::BottomNavComponent < LocoMotion::BaseComponent
 
-  class Daisy::Navigation::BottomNavSectionComponent < LocoMotion.configuration.base_component_class
+  class Daisy::Navigation::BottomNavSectionComponent < LocoMotion::BaseComponent
 
     define_parts :icon, :title
 

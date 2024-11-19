@@ -1,4 +1,4 @@
-class Daisy::Layout::JoinComponent < LocoMotion.configuration.base_component_class
+class Daisy::Layout::JoinComponent < LocoMotion::BaseComponent
   renders_many :items
 
   def before_render

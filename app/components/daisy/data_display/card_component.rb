@@ -1,4 +1,5 @@
-class Daisy::DataDisplay::CardComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
+  prepend LocoMotion::Concerns::TippableComponent
 
   Figure = LocoMotion::BasicComponent.build do
     define_part :image, tag_name: :img, css: "card-image"

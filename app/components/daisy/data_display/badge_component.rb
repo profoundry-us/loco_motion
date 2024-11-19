@@ -3,7 +3,9 @@
 # background colors.
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
-class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
+  prepend LocoMotion::Concerns::TippableComponent
+
   set_component_name :badge
 
   #
@@ -12,7 +14,7 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_compone
   def initialize(*args, **kws, &block)
     super
 
-    @text = config_option(:text, args[0])
+    @title = config_option(:title, args[0])
   end
 
   def before_render
@@ -27,7 +29,7 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion.configuration.base_compone
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { @text || content }
+    part(:component) { @title || content }
   end
 
   private

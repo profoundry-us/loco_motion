@@ -1,0 +1,34 @@
+= doc_title(title: "Masks") do |title|
+  :markdown
+    Masks allow you to create a variety of shapes and patterns!
+
+    Masks are **NOT** a full component, but rather a set of CSS classes that
+    can be applied to many existing elements.
+
+
+= doc_example(title: "Basic Masks") do |doc|
+  - doc.with_description do
+    :markdown
+      Masks can be applied to many elements, and can be combined with other
+      classes to create interesting effects.
+
+  - masks = ["mask-squircle", "mask-heart", "mask-hexagon", "mask-hexagon-2",
+    "mask-decagon", "mask-pentagon", "mask-diamond", "mask-square", "mask-circle",
+    "mask-parallelogram", "mask-parallelogram-2", "mask-parallelogram-3", "mask-parallelogram-4",
+    "mask-star", "mask-star-2", "mask-triangle", "mask-triangle-2", "mask-triangle-3", "mask-triangle-4"]
+
+  .grid.grid-cols-4.gap-4
+    - masks.each do |mask|
+      = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "rounded-none mask #{mask}")
+
+
+= doc_example(title: "Masked Text") do |doc|
+  - doc.with_description do
+    :markdown
+      Masks can also be applied to HTML elements.
+
+  .flex.flex-col.justify-center.gap-8
+    = daisy_button(left_icon: "shopping-bag", css: "btn-primary mask mask-diamond animate-pulse")
+
+    .flex.items-center.justify-center.size-20.bg-red-600.hover:bg-green-600.text-white.mask.mask-decagon
+      STOP

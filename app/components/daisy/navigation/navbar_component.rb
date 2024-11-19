@@ -1,4 +1,4 @@
-class Daisy::Navigation::NavbarComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
   renders_one :start, LocoMotion::BasicComponent.build(css: "navbar-start")
 
   renders_one :center, LocoMotion::BasicComponent.build(css: "navbar-center")

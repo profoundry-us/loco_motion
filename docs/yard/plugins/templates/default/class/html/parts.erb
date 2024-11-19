@@ -1,0 +1,28 @@
+<% if object.has_tag?(:part) %>
+  <div id="component_parts">
+    <h2>Component Parts</h2>
+    <p class="docstring">
+      The <%= object.name %> allows for customization of the following parts by
+      passing the <code><strong>{part_name}</strong>_css</code> and
+      <code><strong>{part_name}</strong>_html</code> options to the component.
+    </p>
+  </div>
+
+  <div class="tags">
+    <ul>
+      <% object.tags(:part).each do |part| %>
+        <li class="docstring">
+          <span class="name"><%= part.name %></span>
+
+          <% if part.types %>
+            <% types_str = part.types.map{ |t| "{#{t}}" }.join(', ') %>
+            <span><%= htmlify_inline("(#{types_str})") %></span>
+          <% end %>
+
+          <strong style="padding: 0 4px;">&mdash;</strong>
+          <span><%= htmlify_inline(part.text) %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

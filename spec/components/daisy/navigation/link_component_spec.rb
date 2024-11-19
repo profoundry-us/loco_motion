@@ -42,7 +42,7 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
   end
 
   context "with two keyword arguments" do
-    let(:link) { described_class.new(text: "Some Text", href: "https://example.com") }
+    let(:link) { described_class.new(title: "Some Text", href: "https://example.com") }
 
     before do
       render_inline(link)

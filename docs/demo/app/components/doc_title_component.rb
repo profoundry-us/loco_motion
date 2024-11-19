@@ -50,8 +50,7 @@ class DocTitleComponent < ApplicationComponent
     return nil unless @comp
 
     comp_path = @comp.titleize.gsub(" ", "")
-    host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
 
-    "#{host}/#{comp_path}.html"
+    "#{Rails.configuration.api_docs_host}/#{comp_path}.html"
   end
 end

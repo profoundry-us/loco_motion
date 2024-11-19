@@ -1,4 +1,6 @@
 def init
   super
-  sections.place(:slots).before(:method_summary)
+  sections.place(:loco_examples).before(:constant_summary)
+  sections.place(:slots).before(:loco_examples)
+  sections.place(:parts).before(:slots)
 end

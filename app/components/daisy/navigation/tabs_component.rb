@@ -1,5 +1,5 @@
 # This is the Tabs component.
-class Daisy::Navigation::TabsComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
 
   class TabComponent < LocoMotion::BasicComponent
     define_parts :content_wrapper

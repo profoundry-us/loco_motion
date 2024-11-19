@@ -16,9 +16,9 @@ to change!
 We expect to settle on and purchase a real domain name in the near future, but
 for the time being, the latest documentation is available at the links below.
 
- - [Docs / Demo (Latest Release)](https://loco-motion.profoundry.us/)
- - [API Docs (Latest Release)](https://loco-motion.profoundry.us/api-docs)
- - [Docs / Demo (Main Branch / Staging)](https://loco-motion-demo-staging.profoundry.us/)
+ - [Docs / Demo (Latest Release)][1]
+ - [API Docs (Latest Release)][2]
+ - [Docs / Demo (Main Branch / Staging)][3]
 
 Please reach out by opening an
 [Issue](https://github.com/profoundry-us/loco_motion/issues) if you've found a
@@ -44,7 +44,6 @@ your solution is aligned with our goals.
 - [LocoMotion Components](#locomotion-components)
   - [Install](#install)
   - [Using Components](#using-components)
-  - [Setting a Base Component Class](#setting-a-base-component-class)
 - [Developing](#developing)
   - [Tooling](#tooling)
 - [TODO / Next Steps](#todo--next-steps)
@@ -771,44 +770,6 @@ the following code and refresh your page.
 You should see a few buttons and the user info that we saved from OmniAuth
 represented as a Ruby hash! Any other content you have will be rendered below.
 
-### Setting a Base Component Class
-
-Sometimes, you may want to override the way that LocoMotion handles things, or
-provide some functionality yourself in a sub-class of our components. Since you
-can't have a class inherit from two classes, we give you a way to override the
-base class that all of our components inherit from.
-
-This allows you to define a class that inherits from `LocoMotion::BaseComponent`
-and then adds any special methods or overrides to our default components.
-
-Create a file called `app/components/application_component.rb` with the following
-contents:
-
-```ruby
-class ApplicationComponent < LocoMotion::BaseComponent
-end
-```
-
-Then add the following to `config/initializers/loco_motion.rb`.
-
-
-```ruby
-LocoMotion.configure do |config|
-
-  # Override the base component class to inherit from our ApplicationComponent
-  # so that we can add our own overrides / methods.
-  Rails.application.config.after_initialize do
-    config.base_component_class = ApplicationComponent
-  end
-
-end
-```
-
-> [!NOTE]
-> It doesn't have to inherit from `ApplicationComponent`, you can use any class
-> you want, so you could create a separate `CustomizedLocoMotionComponent` class
-> so that you don't have any conflicts with your `ApplicationComponent`.
-
 ## Developing
 
 To work on LocoMotion, first clone the repository and make sure you have Docker
@@ -923,18 +884,25 @@ the GitHub Discussions feature and let us know!
 - [ ] Basic versions of DaisyUI Data Input
 - [ ] Basic versions of DaisyUI Layout
 - [ ] Basic versions of DaisyUI Mockup
-- [ ] Get YARD docs rendering with (better) Markdown
+- [ ] ~~Get YARD docs rendering with (better) Markdown~~ _**Working for now**_
 - [x] Extract relevant pieces into a yard-loco_motion plugin
 - [x] Publish Gem
 - [x] Publish NPM package
-- [ ] Update YARD plugin to add `@part`s
+- [x] Update YARD plugin to add `@part`s
+- [x] Update YARD plugin to add `@loco_example`s with language support
 - [x] Extract doc callouts into a doc component (and / or the Daisy component)
-- [ ] Choose and recommend / document a pagination gem
+- [ ] Choose, recommend, and document a pagination gem
 - [ ] Discuss caching techniques / setup
+- [x] Create / publish a staging version of the demo site ([Demo Staging][2])
+- [ ] Create / publish a staging version of the docs site
 - [ ] Create / publish a production version of the demo site
 - [ ] Create / publish a production version of the docs site
 - [x] Update demo site to allow for a different docs site using ENV var
 - [x] Update README to suggest Playwright
 - [ ] Build some have docs / guides / examples for using playwright-ruby-client
-- [ ] See if we can build a `Tippable` concern that relevant components can
+- [x] See if we can build a `Tippable` concern that relevant components can
       include to automatically add the tooltip param and classes where possible
+
+[1]: https://loco-motion.profoundry.us/
+[2]: https://loco-motion-demo-staging.profoundry.us/
+[3]: https://loco-motion-demo-staging.profoundry.us/api-docs

@@ -1,4 +1,6 @@
-class Daisy::DataDisplay::CollapseComponent < LocoMotion.configuration.base_component_class
+class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
+  prepend LocoMotion::Concerns::TippableComponent
+
   define_parts :title, :wrapper
 
   renders_one :title

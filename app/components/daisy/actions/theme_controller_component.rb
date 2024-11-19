@@ -1,5 +1,5 @@
 # Renders a very basic radio-button theme controller.
-class Daisy::Actions::ThemeControllerComponent < LocoMotion.configuration.base_component_class
+class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   SOME_THEMES = ["light", "dark", "synthwave", "retro", "cyberpunk", "wireframe"].freeze
 
   def before_render

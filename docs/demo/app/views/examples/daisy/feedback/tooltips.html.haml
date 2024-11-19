@@ -1,9 +1,19 @@
+- tippable_docs_url = "#{Rails.configuration.api_docs_host}/LocoMotion/Concerns/TippableComponent"
+- tippable_docs_button = daisy_button(css: "px-4 rounded-full btn-sm btn-info btn-outline hover:!text-base-100",
+  title: "TippableComponent Docs",
+  right_icon: "arrow-top-right-on-square", right_icon_css: "size-4",
+  href: tippable_docs_url, target: "_blank", html: { data: { turbo: "false" }})
+
 = doc_title(title: "Tooltips", comp: @comp) do |title|
   :markdown
-    Tooltips can be utilized with many existing components by adding the
-    `tooltip` class, and using the `data-tip` attribute to set the text of the
-    tooltip.
+    Tooltips can be utilized with many existing components by passing the `tip`
+    attribute. This automatically adds the `tooltip` CSS class and sets the
+    `data-tip` attribute to the text you provide.
 
+  .block.sm:flex.sm:items-center.sm:gap-2
+    See the #{tippable_docs_button} for a full list of components.
+
+  :markdown
     Additionally, we offer the `daisy_tooltip` component to wrap an entire
     component, or any block of HTML, in a tooltip. This is also aliased as
     `daisy_tip` for convenience.
@@ -15,21 +25,27 @@
 = doc_example(title: "Component Tooltips") do |doc|
   - doc.with_description do
     :markdown
-      Tooltips can be added to many components by adding the `tooltip` class and
-      setting the `data-tip` attribute to the text you want to display.
+      Tooltips can be added to many components by setting the `tip` attribute or
+      by adding the `tooltip` class and setting the `data-tip` attribute to the
+      text you want to display.
 
-  .flex.flex-col.gap-8
-    .flex.items-center.justify-center.gap-4
-      = daisy_button(title: "Hover Me", css: "btn-primary tooltip", html: { data: { tip: "This is a tooltip!" }})
-      = daisy_badge(text: "Hover Me", css: "badge-secondary tooltip", html: { data: { tip: "This is a badge tooltip!" }})
+  .flex.flex-col.gap-12
+    .flex.items-center.justify-center.gap-8
+      - # Just pass the `tip` argument to any component that supports it!
+      = daisy_button(title: "Hover Me", css: "btn-primary", tip: "This is a tooltip!")
+      = daisy_badge(text: "Hover Me", css: "badge-secondary", tip: "This is a badge tooltip!")
 
+    - # You can also use the `tooltip` class / `data-tip` attribute directly
     = daisy_alert(css: "tooltip tooltip-bottom tooltip-success", html: { data: { tip: "This is an alert tooltip!" }}) do
       Here is an alert with a bottom tooltip!
 
     = daisy_chat do |chat|
-      - chat.with_avatar(css: "tooltip tooltip-left tooltip-info", html: { data: { tip: "This is a left avatar tooltip!" } }, src: image_path("avatars/lady-smiling-3.jpg"))
+      - chat.with_avatar(css: "tooltip-left tooltip-info", tip: "This is a left avatar tooltip!", src: image_path("avatars/lady-smiling-3.jpg"))
       - chat.with_bubble do
-        .tooltip.tooltip-right.tooltip-primary{ data: { tip: "This is a right chat bubble tooltip!" } }
+        - # Note that we can't add it directly to the bubble because it won't
+        - # render properly. So we render it on the text instead and add some
+        - # margin to make sure it's not inside of the bubble.
+        .tooltip.tooltip-right.tooltip-primary.before:ml-4.after:ml-4{ data: { tip: "This is a right chat bubble tooltip!" } }
           Here is some text that also has a tooltip!
 
 

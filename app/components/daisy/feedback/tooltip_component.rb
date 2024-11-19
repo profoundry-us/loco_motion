@@ -1,20 +1,20 @@
 #
 # A component that displays a tooltip when the user hovers over it.
 #
-# # Examples
+# @loco_example Basic Usage
+#   = daisy_tooltip "This is a tooltip" do
+#     %span Hover over me
 #
-# ```language-haml
-# = daisy_tooltip "This is a tooltip" do
-#   %span Hover over me
-# ```
-#
-class Daisy::Feedback::TooltipComponent < LocoMotion.configuration.base_component_class
+class Daisy::Feedback::TooltipComponent < LocoMotion::BaseComponent
 
   #
   # Create a new instance of the Tooltip.
   #
-  # @param tip [String] The text to display in the tooltip. Can be passed as
-  #   the first positional argument, or as a keyword argument.
+  # @param args [Array] If provided, the first argument is considered the `tip`.
+  # @param kws [Hash] The keyword arguments for the component.
+  #
+  # @option kws tip [String] The text to display in the tooltip. Can be passed
+  #   as the first positional argument, or as a keyword argument.
   #
   def initialize(*args, **kws, &block)
     super

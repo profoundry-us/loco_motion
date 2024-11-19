@@ -1,7 +1,3 @@
-
-#
-# Module containing all features related to the LocoMotion gem.
-#
 module LocoMotion
 
   class << self
@@ -9,11 +5,17 @@ module LocoMotion
       yield(configuration)
     end
 
+    #
+    # Return the current instance of the LocoMotion::Configuration or create a
+    # new one.
+    #
     def configuration
       @configuration ||= Configuration.new
     end
 
+    #
     # Mostly used for internal testing; not needed in Rails
+    #
     def require_components
       comp_files = Dir.glob(File.dirname(__FILE__) + '/../../app/components/**/*.rb')
 
@@ -21,17 +23,13 @@ module LocoMotion
         require file
       end
     end
-
-    def define_render_helper(name, component)
-    end
   end
 
+  #
+  # Unused for now. Was previously using to setup a base class for all
+  # LocoMotion components to inherit from.
+  #
   class Configuration
-    attr_accessor :base_component_class
-
-    def initialize
-      @base_component_class = LocoMotion::BaseComponent
-    end
   end
 
 end

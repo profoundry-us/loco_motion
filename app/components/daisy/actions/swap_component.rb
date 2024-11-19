@@ -1,4 +1,6 @@
-class Daisy::Actions::SwapComponent < LocoMotion.configuration.base_component_class
+class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
+  prepend LocoMotion::Concerns::TippableComponent
+
   class SwapOn < LocoMotion::BasicComponent
     def before_render
       add_css(:component, "swap-on")

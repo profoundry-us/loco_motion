@@ -1,6 +1,6 @@
-class Daisy::Navigation::StepsComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::StepsComponent < LocoMotion::BaseComponent
 
-  class Daisy::Navigation::StepComponent < LocoMotion.configuration.base_component_class
+  class Daisy::Navigation::StepComponent < LocoMotion::BaseComponent
     attr_reader :simple
     def initialize(*args, **kws, &block)
       super

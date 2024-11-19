@@ -1,4 +1,4 @@
-class Daisy::Navigation::BreadcrumbsComponent < LocoMotion.configuration.base_component_class
+class Daisy::Navigation::BreadcrumbsComponent < LocoMotion::BaseComponent
   define_parts :list_wrapper
 
   renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li)

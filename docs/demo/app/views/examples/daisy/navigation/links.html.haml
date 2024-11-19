@@ -8,13 +8,15 @@
 
 = doc_example(title: "Basic Links") do |doc|
   - doc.with_description do
-    %p
-      Basic links are styled with the <code>.link</code> class. The
-      <code>text</code> and <code>href</code> options can be passed as keyword
-      arguments, or as the first two positional arguments.
+    :markdown
+      Basic links are styled with the `.link` class. The `title` and `href`
+      options can be passed as keyword arguments, or as the first two positional
+      arguments.
+
+      The `title` can also be passed as a block.
 
   .flex.items-end.space-x-4
-    = daisy_link "Home", "#"
+    = daisy_link title: "Home", href: "#"
     = daisy_link "Docs", "#", css: "link-primary text-xl"
     = daisy_link "Components", "#", css: "link-secondary text-2xl"
     = daisy_link "#", css: "link-success link-hover text-3xl" do

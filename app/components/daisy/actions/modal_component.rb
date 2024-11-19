@@ -1,12 +1,49 @@
-# This is a Modal component.
-# @!parse class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent; end
-class Daisy::Actions::ModalComponent < LocoMotion.configuration.base_component_class
+#
+# The Modal component renders a modal dialog that can be opened and closed. It
+# includes a backdrop, a close icon, a title, and actions.
+#
+# @part dialog The main `<dialog>` container.
+# @part box The container for the modal content.
+# @part activator The container for the activator which opens the modal.
+# @part close_icon_wrapper The container for the close icon.
+# @part close_icon The default close icon.
+# @part backdrop The backdrop that covers the rest of the screen.
+# @part title Container for the default title for the modal.
+# @part actions Container for all modal actions.
+# @part start_actions Container for the left (start) aligned actions for the modal.
+# @part end_actions The end actions for the modal.
+#
+# @slot activator The activator for the modal.
+# @slot close_icon A custom close icon for the modal.
+# @slot title A custom title for the modal.
+# @slot start_actions Left (or start) aligned actions for the modal.
+# @slot end_actions Right (or end) aligned actions for the modal.
+#
+# @loco_example Basic Usage
+#   = daisy_modal(title: "Simple Modal") do |modal|
+#     - modal.with_activator do
+#       - onclick = "document.getElementById('#{modal.dialog_id}').showModal()"
+#       = daisy_button(css: 'btn-primary', html: { onclick: onclick }) do
+#         Open Modal
+#
+#     Here is some really long modal content that should go well past the
+#     spot where the close icon appears...
+#
+#     - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+#       %form{ method: :dialog }
+#         = daisy_button do
+#           Cancel
+#       %form{ action: "", method: :get }
+#         %input{ type: "hidden", name: "submitted", value: "true" }
+#         = daisy_button(css: "btn-primary") do
+#           Submit
+#
+class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   set_component_name :modal
 
   define_parts :dialog, :box, :actions,
     :activator, :close_icon_wrapper, :close_icon,
-    :backdrop,
-    :title, :start_actions, :end_actions
+    :backdrop, :title, :start_actions, :end_actions
 
   renders_one :activator
   renders_one :close_icon
@@ -29,24 +66,29 @@ class Daisy::Actions::ModalComponent < LocoMotion.configuration.base_component_c
   # Instantiate a new Modal component. All options are expected to be passed as
   # keyword arguments.
   #
-  # @overload initialize(dialog_id: nil, closable: true, title: nil)
-  #   @param dialog_id [String] A specific ID you would like the dialog to use.
-  #     Auto-generates a random ID using `SecureRandom.uuid` if not provided.
+  # @param args [Array] Currently unused and passed through to the
+  #   BaseComponent.
+  # @param kws [Hash] The keyword arguments for the component.
   #
-  #   @param closable [Boolean] Whether or not the modal should allow closing.
-  #
-  #   @param title [String] A simple title that you would like the component to
-  #     render above the main content of the modal. Accessible through the
-  #     {simple_title} accessor.
+  # @option kws dialog_id [String] A specific ID you would like the dialog to
+  #   use. Auto-generates a random ID using `SecureRandom.uuid` if not provided.
+  # @option kws closable [Boolean] Whether or not the modal should allow
+  #   closing.
+  # @option kws title [String] A simple title that you would like the
+  #   component to render above the main content of the modal (see
+  #   {simple_title}).
   #
   def initialize(*args, **kws, &block)
     super
 
-    @dialog_id ||= SecureRandom.uuid
+    @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
     @closable = config_option(:closable, true)
     @simple_title = config_option(:title)
   end
 
+  #
+  # Sets up the component with various CSS classes and HTML attributes.
+  #
   def before_render
     setup_component
     setup_backdrop

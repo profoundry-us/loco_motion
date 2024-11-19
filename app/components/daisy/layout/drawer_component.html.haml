@@ -1,0 +1,9 @@
+= part(:component) do
+  = part(:input)
+
+  = part(:content_wrapper) do
+    = content
+
+  - if sidebar?
+    - sidebar.set_loco_parent(component_ref)
+    = sidebar

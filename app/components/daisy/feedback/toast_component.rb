@@ -1,4 +1,4 @@
-class Daisy::Feedback::ToastComponent < LocoMotion.configuration.base_component_class
+class Daisy::Feedback::ToastComponent < LocoMotion::BaseComponent
   def before_render
     add_css(:component, "toast")
   end

@@ -1,5 +1,7 @@
 # Here are the Button docs!
-class Daisy::Actions::ButtonComponent < LocoMotion.configuration.base_component_class
+class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
+  prepend LocoMotion::Concerns::TippableComponent
+
   set_component_name :btn
 
   def initialize(*args, **kws, &block)

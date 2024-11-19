@@ -170,7 +170,7 @@ _Excerpt of the `AccordionSectionComponent` utilizing the parent
 `AccordionComponent`'s modifiers to render. Code omitted for brevity._
 
 ```ruby
-class AccordionComponent < LocoMotion.configuration.base_component_class
+class AccordionComponent < LocoMotion::BaseComponent
   # ...
 
   define_modifiers :arrow, :plus
