@@ -34,7 +34,7 @@
       Click to remove and see the cards underneath.
 
     .flex.justify-center.items-center
-      - card_css = "bg-base-100 border-base-300 border shadow-lg cursor-pointer text-center transition-transform"
+      - card_css = "border-base-300 border shadow-lg cursor-pointer text-center transition-transform"
       - card_html = { onclick: "(function(el) { anime({ targets: el, duration: 400, easing: \"easeInQuad\", translateY: \"-100%\", opacity: 0, complete: function() { el.remove() } }) })(this)" }
 
       = daisy_stack do
