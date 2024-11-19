@@ -693,7 +693,7 @@ gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require:
 
 # or
 
-gem "loco_motion-rails", "0.0.6", require: "loco_motion"
+gem "loco_motion-rails", "0.0.7", require: "loco_motion"
 ```
 
 Next add the following lines to the `contents` section of your
