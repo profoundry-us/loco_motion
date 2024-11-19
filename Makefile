@@ -155,12 +155,12 @@ version=$(shell cat VERSION)
 # Builds a new version of the gem in the gem_builds directory
 .PHONY: gem-build
 gem-build:
-	gem build loco_motion-rails.gemspec -o gem_builds/loco_motion-rails-$(version).gem
+	docker compose exec -it loco gem build loco_motion-rails.gemspec -o gem_builds/loco_motion-rails-$(version).gem
 
 # Publishes the RubyGem to RubyGems.org
 .PHONY: gem-publish
 gem-publish:
-	gem push gem_builds/loco_motion-rails-$(version).gem
+	docker compose exec -it loco gem push gem_builds/loco_motion-rails-$(version).gem
 
 # Publishes the NPM Package to NPM Registry
 .PHONY: npm-publish
