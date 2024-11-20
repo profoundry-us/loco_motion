@@ -40,27 +40,3 @@
 
         %div{ class: nav_classes }
           = render partial: "application/navigation"
-
-
-:javascript
-  fetch('/taas/generate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/html'
-    },
-    body: document.documentElement.outerHTML
-  })
-  .then(response => {
-    if (!response.ok) {
-      return response.text().then(errorText => {
-        throw new Error(`Error: ${response.status} ${response.statusText}\n${errorText}`);
-      });
-    }
-    return response.text();
-  })
-  .then(css => {
-    console.log('Generated CSS:', css);
-  })
-  .catch(error => {
-    console.error('AJAX Request Error:', error.message);
-  });
