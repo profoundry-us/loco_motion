@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get "/api-docs", to: "api_docs#index"
 
+  post "/taas/generate", to: "tailwind_as_a_service#generate"
+
   # Defines the root path route ("/")
   root "application#home"
 end
