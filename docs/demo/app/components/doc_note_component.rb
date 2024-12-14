@@ -42,16 +42,16 @@ class DocNoteComponent < ApplicationComponent
     @default_icon = "ellipsis-horizontal-circle"
     @default_title = "Todo"
 
-    add_css(:component, "border-warning bg-warning/10")
-    add_css(:icon, "text-warning")
+    add_css(:component, "border-purple-600 bg-purple-100")
+    add_css(:icon, "text-purple-600")
   end
 
   def setup_warning
     @default_icon = "exclamation-triangle"
     @default_title = "Warning"
 
-    add_css(:component, "border-error bg-error/10")
-    add_css(:icon, "text-error")
+    add_css(:component, "border-warning bg-warning/10")
+    add_css(:icon, "text-warning")
   end
 
 end

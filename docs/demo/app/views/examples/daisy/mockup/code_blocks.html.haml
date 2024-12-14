@@ -1,0 +1,68 @@
+= doc_title(title: "Code Blocks", comp: @comp) do |title|
+  %p
+    Code blocks are a great way to display code snippets in your site or
+    documentation.  They can be used to show examples, provide context, or call
+    out something important.
+
+
+= doc_example(title: "Basic Code Block") do |doc|
+  - doc.with_description do
+    :markdown
+      A basic code block is just a simple block of code with no additional
+      styling. You can pass the `prefix` attribute to add a prefix to the code
+      block.
+
+  = daisy_code(xprefix: "$") do
+    echo "Hello, world!"
+
+
+= doc_example(title: "Multi-line Code Block") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also create multi-line code blocks by calling the `with_line`
+      slot multiple times.
+
+  = daisy_code do |code|
+    - code.with_line(prefix: "$") do
+      yarn add @profoundry-us/loco_motion
+    - code.with_line(prefix: ">", css: "text-warning") do
+      Installing...
+    - code.with_line(prefix: ">", css: "text-success") do
+      Done!
+
+
+= doc_example(title: "Code Block with Language") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also pass full code blocks by utilizing the `:plain` filter
+      provided by HAML.
+
+    = doc_note(modifier: :warning, css: "mb-8") do
+      :markdown
+        You cannot use the `prefix` option and the `:plain` filter at the same
+        time as we have to apply some special styling
+
+  = daisy_code do
+    :plain
+      def hello_world
+        puts "Hello, world!"
+      end
+
+
+= doc_example(title: "Numbered / Highlighted Lines") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also highlight specific lines in your code block by utilizing
+      standard Tailwind classes.
+
+  = daisy_code do |code|
+    - code.with_line(prefix: "1") do
+      Here is the first line
+    - code.with_line(prefix: "2") do
+      Here is the second line
+    - code.with_line(prefix: "3", css: "bg-warning text-warning-content") do
+      Here is the third line
+    - code.with_line(prefix: "4") do
+      Here is the fourth line
+    - code.with_line(prefix: "5", css: "bg-green-400 text-purple-600") do
+      Here is the fifth line
