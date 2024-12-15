@@ -61,7 +61,7 @@ module LocoMotion
     # Mockup
     "Daisy::Mockup::BrowserComponent" => { names: "browser", group: "Mockup", title: "Browsers", example: "browsers" },
     "Daisy::Mockup::CodeComponent" => { names: "code", group: "Mockup", title: "Code Blocks", example: "code_blocks" },
-    # "Daisy::Mockup::DeviceComponent" => { names: "device", group: "Mockup", title: "Devices", example: "devices" },
+    "Daisy::Mockup::DeviceComponent" => { names: "device", group: "Mockup", title: "Devices", example: "devices" },
     # "Daisy::Mockup::FrameComponent" => { names: "frame", group: "Mockup", title: "Frames", example: "frames" },
   }
 
