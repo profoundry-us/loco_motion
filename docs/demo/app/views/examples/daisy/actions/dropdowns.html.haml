@@ -9,9 +9,6 @@
       A basic dropdown has an icon or a title and a list of items (actions).
 
   = daisy_dropdown(title: "Click to Open") do |dropdown|
-    - dropdown.with_button do
-      Test Button Title
-
     - dropdown.with_item do
       = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
     - dropdown.with_item do
