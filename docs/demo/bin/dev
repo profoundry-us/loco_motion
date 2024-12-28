@@ -8,5 +8,8 @@ fi
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
+# Set the trusted IP for better_errors / web console
+export BETTER_ERRORS_TRUSTED_IP="$(hostname -I)"
+
 # Start the server
 exec foreman start -f Procfile.dev "$@"

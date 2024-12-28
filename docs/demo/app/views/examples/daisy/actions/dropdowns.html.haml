@@ -1,14 +1,17 @@
 = doc_title(title: "Dropdowns", comp: @comp) do |title|
-  %p
+  :markdown
     Dropdowns are a great way to display a list of items in a compact manner.
 
 
 = doc_example(title: "Basic Dropdown", example_css: "pt-5 pb-24") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       A basic dropdown has an icon or a title and a list of items (actions).
 
   = daisy_dropdown(title: "Click to Open") do |dropdown|
+    - dropdown.with_button do
+      Test Button Title
+
     - dropdown.with_item do
       = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
     - dropdown.with_item do
@@ -17,16 +20,13 @@
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 
 
-= doc_example(title: "Custom Title", example_css: "pb-32") do |doc|
+= doc_example(title: "Custom Button", example_css: "pb-32") do |doc|
   - doc.with_description do
-    %p
-      You can pass in your own title element to the dropdown.  The
-      <code>role</code> and <code>tabindex</code> attributes are automatically
-      added to the <code>title</code> element for you.
+    :markdown
+      You can pass in your own button element to the dropdown.
 
   = daisy_dropdown do |dropdown|
-    - dropdown.with_title do
-      = daisy_button(icon: "heart", title: "Favorites", css: "btn-primary")
+    - dropdown.with_button(icon: "heart", title: "Favorites", css: "btn-primary")
 
     - dropdown.with_item do
       = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
@@ -36,19 +36,27 @@
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 
 
-= doc_example(title: "Fully Custom Dropdown", example_css: "flex-col pb-80") do |doc|
+= doc_example(title: "Fully Custom Dropdown", example_css: "flex-col pb-52") do |doc|
   - doc.with_description do
-    %p
-      If no items are provided, the dropdown will simply output any content you
-      provide, meaning you can completely customize the dropdown content.
+    :markdown
+      You can also pass a custom `activator` allowing you to use any content
+      instead of just a button to open the dropdown.
 
-    %p
-      Note that you'll need to add the <code>dropdown-content</code> class to
-      the content.
+      Additionally, if no items are setup, the dropdown will simply output any
+      content you provide, meaning you can completely customize the dropdown
+      content as well.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        You'll need to manually add the `dropdown-content` CSS class to the
+        content wrapper.
+
+        We automatically add the `role="button"` and `tabindex="0"` attributes
+        to the custom activator to make it keyboard accessible.
 
   .flex.flex-col.items-end{ class: "max-w-[500px]" }
     = daisy_dropdown(css: "dropdown-end dropdown-hover") do |dropdown|
-      - dropdown.with_title(css: "group") do
+      - dropdown.with_activator(css: "group") do
         = daisy_stat(css: "w-60 bg-base-100 border border-base-300 group-focus:border-info rounded-lg",
             title: "Places to Visit", description: "Hover to see more.") do
           = number_with_delimiter(1208)
@@ -63,11 +71,9 @@
             Book Travel
 
     .mt-4.flex.flex-col.gap-4
-      %p
+      :markdown
         Here is some text which will be hidden by the dropdown. We have a lot of
         extra space below this so you can see the dropdown in action.
 
-      %p
         You can also click on the Stat item (or focus it using your keyboard) to
         keep the dropdown open.
-

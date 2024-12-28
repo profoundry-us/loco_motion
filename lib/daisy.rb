@@ -26,4 +26,9 @@ module Daisy
   # Holds all Layout-type components.
   #
   module Layout; end
+
+  #
+  # Holds all Mockup-type components.
+  #
+  module Mockup; end
 end

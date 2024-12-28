@@ -1,13 +1,13 @@
 = part(:component) do
-  - if title?
-    = title
+  - if activator?
+    = activator
   - else
-    = part(:title) do
-      = @simple_title
+    = button
 
   - if items.any?
     = part(:menu) do
       - items.each do |item|
-        = item
+        = part(:menu_item) do
+          = item
   - else
     = content
