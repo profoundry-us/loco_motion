@@ -33,7 +33,7 @@
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 
 
-= doc_example(title: "Fully Custom Dropdown", example_css: "flex-col pb-52") do |doc|
+= doc_example(title: "Fully Custom Dropdown", example_css: "flex-col") do |doc|
   - doc.with_description do
     :markdown
       You can also pass a custom `activator` allowing you to use any content
@@ -53,11 +53,14 @@
 
   .flex.flex-col.items-end{ class: "max-w-[500px]" }
     = daisy_dropdown(css: "dropdown-end dropdown-hover") do |dropdown|
+      - # This is the custom activator that will open the dropdown
       - dropdown.with_activator(css: "group") do
         = daisy_stat(css: "w-60 bg-base-100 border border-base-300 group-focus:border-info rounded-lg",
             title: "Places to Visit", description: "Hover to see more.") do
           = number_with_delimiter(1208)
 
+      - # This is the custom content that will be displayed in the dropdown
+      - # Note that we manually add the `dropdown-content` class to the wrapper
       = daisy_card(css: "mt-2 w-72 dropdown-content bg-base-100 shadow-xl") do |card|
         - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpg")
 
@@ -67,7 +70,8 @@
           = daisy_button(css: "btn-primary") do
             Book Travel
 
-    .mt-4.flex.flex-col.gap-4
+    - # Extra content / space to show the dropdown in action
+    .mt-4.pb-52.flex.flex-col.gap-4
       :markdown
         Here is some text which will be hidden by the dropdown. We have a lot of
         extra space below this so you can see the dropdown in action.
