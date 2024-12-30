@@ -3,12 +3,12 @@
 # hovering menu that opens on click (or hover).
 #
 # @part menu The default / styled menu rendered by the dropdown.
-# @part menu_item Rendered for every item in the dropdown.
+# @part menu_item The syles for every item in the dropdown.
 #
 # @slot button The button that triggers the dropdown.
 # @slot activator A custom (i.e. non-button) activator for the dropdown.
 #   Automatically adds the `role="button"` and `tabindex="0"` attributes.
-# @slot items The items in the dropdown.
+# @slot item+ The items in the dropdown.
 #
 # @loco_example Basic Usage
 #  = daisy_dropdown do |dropdown|
@@ -32,16 +32,16 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
   #
   # Creates a new instance of the DropdownComponent.
   #
-  # @param args [Array] If provided, the first argument is considered the title
-  #   of the dropdown.
+  # @param title If provided, the first argument is considered the title of the
+  #   dropdown.
   # @param kws [Hash] The keyword arguments for the component.
   #
   # @option kws title [String] The title of the dropdown.
   #
-  def initialize(*args, **kws, &block)
+  def initialize(title = nil, **kws, &block)
     super
 
-    @simple_title = config_option(:title, "Submit")
+    @simple_title = config_option(:title, title)
   end
 
   #

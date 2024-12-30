@@ -3,7 +3,11 @@
 # that are styled to look like a clickable element.
 #
 # Note we do **not** use component parts for the icons since we're calling
-# `heroicon_tag` within the component.
+# `heroicon_tag` within the component. But we do provide custom CSS & HTML
+# options to allow overriding.
+#
+# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+# tooltip addition.
 #
 # @loco_example Basic Usage
 #   = daisy_button("Click Me")
@@ -11,9 +15,9 @@
 #   = daisy_button do
 #     Click Me Too
 #
-#   = daisy_button(icon: "heart")
+#   = daisy_button(icon: "heart", tip: "Love")
 #
-#   = daisy_button(title: "Button with Two Icons", left_icon: "heart", right_icon: "heart")
+#   = daisy_button(title: "Button with Two Icons", left_icon: "heart", right_icon: "plus")
 #
 class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
@@ -23,10 +27,9 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   #
   # Instantiate a new Button component.
   #
-  # @param args [Array] Allows passing of the title as the first argument.
+  # @param title [String] The title of the button. Defaults to `Submit` if none
+  #   of title, left icon, or right icon is provided.
   # @param kws  [Hash] The keyword arguments for the component.
-  #
-  # @option args title [String] The title of the button.
   #
   # @option kws href            [String] A path or URL to which the user will be
   #   directed when the button is clicked. Forces the Button to use an `<a>` tag.
@@ -51,7 +54,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # @option kws title           [String] The title of the button. You can also
   #   pass the title, icons, or any other HTML content as a block.
   #
-  def initialize(*args, **kws, &block)
+  def initialize(title = nil, **kws, &block)
     super
 
     @href = config_option(:href)
@@ -70,7 +73,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
     @right_icon_html = config_option(:right_icon_html, @icon_html)
 
     default_title = @left_icon || @right_icon ? nil : "Submit"
-    @simple_title = config_option(:title, args[0] || default_title)
+    @simple_title = config_option(:title, title || default_title)
   end
 
   #
