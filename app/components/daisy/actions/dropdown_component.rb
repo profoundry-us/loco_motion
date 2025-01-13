@@ -25,8 +25,8 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
 
   define_parts :menu, :menu_item
 
-  renders_one :button, Daisy::Actions::ButtonComponent
   renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
+  renders_one :button, Daisy::Actions::ButtonComponent
   renders_many :items
 
   #
