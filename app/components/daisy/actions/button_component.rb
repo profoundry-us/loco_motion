@@ -136,6 +136,8 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
     if @icon || @left_icon || @right_icon
       add_css(:component, "[:where(&)]:items-center [:where(&)]:gap-2")
     end
+
+      add_html(:component, { "data-action": @action }) if @action
   end
 
   #
