@@ -12,9 +12,8 @@
 
     .flex.flex-col.items-center
       = daisy_modal(title: "Simple Modal") do |modal|
-        - modal.with_activator do
-          = daisy_button(css: 'btn-primary', html: { onclick: "document.getElementById('#{modal.dialog_id}').showModal()" }) do
-            Open Modal
+        - modal.with_button(css: 'btn-primary') do
+          Open Modal
 
         Here is some really long modal content that should go well past the
         spot where the close icon appears...
@@ -31,3 +30,29 @@
       - if params[:submitted] == "true"
         %p.my-2.font-bold.italic
           You submitted the modal!
+
+%turbo-frame#custom-activator-modal
+  = doc_example(title: "Custom Activator") do |doc|
+    - doc.with_description do
+      %p
+        Sometimes you want to use something other than a button to trigger the
+        modal. You can use the activator slot to specify any custom HTML
+        element as the trigger.
+
+    .flex.flex-col.items-center
+      = daisy_modal(title: "Custom Activator Modal") do |modal|
+        - modal.with_activator do
+          = daisy_card(css: "cursor-pointer border border-base-300 hover:border-primary bg-base-100 transition-colors w-64") do |card|
+            - card.with_top_figure css: "aspect-video", src: image_path("landscapes/mountain-river.jpg")
+            
+            .flex.items-center.gap-2.text-primary.p-4
+              = hero_icon(:bell, css: "w-6 h-6")
+              %span Click me to open the modal!
+
+        This modal was opened using a custom activator instead of a button.
+        You can use any HTML element as an activator!
+
+        - modal.with_start_actions(css: "flex flex-row items-center gap-2") do
+          %form{ method: :dialog }
+            = daisy_button do
+              I'm Done
