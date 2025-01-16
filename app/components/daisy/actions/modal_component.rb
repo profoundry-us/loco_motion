@@ -109,7 +109,7 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
     element = if activator?
       activator
     else
-      button || with_button(simple_title)
+      button || default_button
     end
 
     element.add_html(:component, { onclick: onclick })
@@ -147,5 +147,10 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
 
   def setup_actions
     add_css(:actions, "mt-2 flex flex-row items-center justify-between")
+  end
+
+  # Provide a default button if no button is supplied.
+  def default_button
+    with_button(simple_title)
   end
 end
