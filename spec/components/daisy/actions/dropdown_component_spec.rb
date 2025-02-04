@@ -48,9 +48,21 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
         expect(page).to have_css ".menu"
       end
 
+      it "renders menu as unordered list" do
+        expect(page).to have_css "ul.dropdown-content"
+      end
+
+      it "renders items as list items" do
+        expect(page).to have_css "li", count: 2
+      end
+
       it "renders item content" do
         expect(page).to have_content "Item 1"
         expect(page).to have_content "Item 2"
+      end
+
+      it "applies default menu styles" do
+        expect(page).to have_css ".menu.bg-base-100.rounded-box.shadow.w-52.p-2.z-\\[1\\]"
       end
     end
   end
@@ -72,6 +84,10 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
       it "adds accessibility attributes to activator" do
         expect(page).to have_css "[role='button'][tabindex='0']"
       end
+
+      it "does not render default button" do
+        expect(page).not_to have_css "button.btn"
+      end
     end
   end
 
@@ -91,6 +107,91 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
 
       it "applies custom button classes" do
         expect(page).to have_css "button.btn.btn-primary"
+      end
+
+      it "does not render default button" do
+        expect(page).to have_css "button.btn", count: 1
+      end
+    end
+  end
+
+  context "with custom content and no items" do
+    let(:content) { "Custom dropdown content" }
+
+    before do
+      render_inline(described_class.new) { content }
+    end
+
+    describe "rendering" do
+      it "renders custom content" do
+        expect(page).to have_content content
+      end
+
+      it "does not render menu structure" do
+        expect(page).not_to have_css "ul.menu"
+        expect(page).not_to have_css "li"
+      end
+    end
+  end
+
+  context "with custom dropdown position" do
+    let(:position_class) { "dropdown-end" }
+
+    before do
+      render_inline(described_class.new(css: position_class))
+    end
+
+    describe "rendering" do
+      it "applies position class" do
+        expect(page).to have_css ".dropdown.#{position_class}"
+      end
+    end
+  end
+
+  context "with hover trigger" do
+    before do
+      render_inline(described_class.new(css: "dropdown-hover"))
+    end
+
+    describe "rendering" do
+      it "applies hover class" do
+        expect(page).to have_css ".dropdown.dropdown-hover"
+      end
+    end
+  end
+
+  context "with complex configuration" do
+    let(:title) { "Complex Dropdown" }
+    let(:custom_class) { "custom-dropdown" }
+    let(:items) { ["Item 1", "Item 2", "Item 3"] }
+
+    before do
+      render_inline(described_class.new(title, css: custom_class)) do |d|
+        d.with_button(css: "btn-primary", icon: "menu") { title }
+        items.each { |item| d.with_item { item } }
+      end
+    end
+
+    describe "rendering" do
+      it "applies custom classes" do
+        expect(page).to have_css ".dropdown.#{custom_class}"
+      end
+
+      it "renders custom button" do
+        expect(page).to have_css "button.btn.btn-primary"
+        expect(page).to have_button title
+      end
+
+      it "renders all items" do
+        items.each { |item| expect(page).to have_content item }
+      end
+
+      it "maintains correct structure" do
+        dropdown_html = page.find(".dropdown").native.inner_html
+        button_pos = dropdown_html.index("button")
+        menu_pos = dropdown_html.index("dropdown-content")
+
+        expect(button_pos).to be < menu_pos
       end
     end
   end
