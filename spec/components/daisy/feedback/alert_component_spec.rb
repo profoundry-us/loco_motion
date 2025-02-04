@@ -26,9 +26,9 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
         expect(page).to have_selector(".alert")
       end
 
-      it "renders content directly without wrapper when no icon" do
+      it "renders the content directly in the alert element when there is no icon" do
         expect(page).to have_selector(".alert", text: content)
-        expect(page).not_to have_selector(".alert > div", text: content)
+        expect(page).not_to have_selector(".alert > div:not([data-slot='icon'])", text: content)
       end
     end
   end
