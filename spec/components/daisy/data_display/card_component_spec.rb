@@ -157,4 +157,121 @@ RSpec.describe Daisy::DataDisplay::CardComponent, type: :component do
       end
     end
   end
+
+  context "with tooltip" do
+    let(:tip) { "Card tooltip" }
+    let(:card) { described_class.new(tip: tip) }
+
+    before do
+      render_inline(card)
+    end
+
+    describe "rendering" do
+      it "includes tooltip class" do
+        expect(page).to have_selector(".card.tooltip")
+      end
+
+      it "sets data-tip attribute" do
+        expect(page).to have_css("[data-tip=\"#{tip}\"]")
+      end
+    end
+  end
+
+  context "with figure content instead of image" do
+    let(:figure_content) { "Custom figure content" }
+    let(:card) { described_class.new }
+
+    before do
+      render_inline(card) do |c|
+        c.with_top_figure { figure_content }
+      end
+    end
+
+    describe "rendering" do
+      it "renders the figure content" do
+        expect(page).to have_selector(".card figure", text: figure_content)
+      end
+
+      it "does not render an image" do
+        expect(page).not_to have_selector(".card figure img")
+      end
+    end
+  end
+
+  context "with title precedence" do
+    let(:simple_title) { "Simple Title" }
+    let(:custom_title) { "Custom Title" }
+    let(:card) { described_class.new(title: simple_title) }
+
+    before do
+      render_inline(card) do |c|
+        c.with_title { custom_title }
+      end
+    end
+
+    describe "rendering" do
+      it "uses the custom title" do
+        expect(page).to have_selector(".card-title", text: custom_title)
+      end
+
+      it "does not render the simple title" do
+        expect(page).not_to have_content(simple_title)
+      end
+    end
+  end
+
+  context "with complex configuration" do
+    let(:title) { "Complex Card" }
+    let(:content) { "Card content" }
+    let(:action_text) { "Action Button" }
+    let(:top_image) { "/images/top.jpg" }
+    let(:bottom_image) { "/images/bottom.jpg" }
+    let(:tip) { "Complex card tooltip" }
+    let(:card) { described_class.new(title: title, tip: tip, css: "bg-base-100 shadow-xl") }
+
+    before do
+      render_inline(card) do |c|
+        c.with_top_figure(src: top_image)
+        c.with_title { title }
+        c.with_actions { content_tag(:button, action_text) }
+        c.with_bottom_figure(src: bottom_image)
+        content
+      end
+    end
+
+    describe "rendering" do
+      it "renders all components in correct order" do
+        elements = page.all(".card > *")
+        expect(elements[0].tag_name).to eq("figure")
+        expect(elements[1][:class]).to include("card-body")
+        expect(elements[2].tag_name).to eq("figure")
+      end
+
+      it "renders the title" do
+        expect(page).to have_selector(".card-title", text: title)
+      end
+
+      it "renders the content" do
+        expect(page).to have_content(content)
+      end
+
+      it "renders the actions" do
+        expect(page).to have_selector(".card-actions button", text: action_text)
+      end
+
+      it "renders both figures" do
+        expect(page).to have_selector("figure img[src='#{top_image}']")
+        expect(page).to have_selector("figure img[src='#{bottom_image}']")
+      end
+
+      it "includes tooltip" do
+        expect(page).to have_selector(".card.tooltip")
+        expect(page).to have_css("[data-tip=\"#{tip}\"]")
+      end
+
+      it "includes custom classes" do
+        expect(page).to have_selector(".card.bg-base-100.shadow-xl")
+      end
+    end
+  end
 end
