@@ -29,7 +29,7 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { @title || content }
+    part(:component) { content || @title }
   end
 
   private

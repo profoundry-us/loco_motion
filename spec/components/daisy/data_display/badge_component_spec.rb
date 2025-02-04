@@ -27,13 +27,107 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
 
   context "with custom content" do
     before do
-      render_inline(described_class.new) do |badge|
-        "Hello world!"
-      end
+      render_inline(described_class.new) { "Hello world!" }
     end
 
     it "renders the custom content" do
       expect(page).to have_text "Hello world!"
+    end
+  end
+
+  context "with title argument" do
+    let(:title) { "Badge Title" }
+    before do
+      render_inline(described_class.new(title: title))
+    end
+
+    it "renders the title" do
+      expect(page).to have_text title
+    end
+  end
+
+  context "with title and block" do
+    let(:title) { "Title Argument" }
+    let(:content) { "Block Content" }
+
+    before do
+      render_inline(described_class.new(title: title)) { content }
+    end
+
+    it "prioritizes block content over title" do
+      expect(page).to have_text content
+      expect(page).not_to have_text title
+    end
+  end
+
+  context "with variants" do
+    variants = %w[primary secondary accent ghost success error warning]
+
+    variants.each do |variant|
+      context "with #{variant} variant" do
+        before do
+          render_inline(described_class.new(css: "badge-#{variant}"))
+        end
+
+        it "renders with #{variant} class" do
+          expect(page).to have_css "span.badge.badge-#{variant}"
+        end
+      end
+    end
+  end
+
+  context "with sizes" do
+    sizes = {
+      "lg" => "large",
+      "md" => "medium",
+      "sm" => "small",
+      "xs" => "extra small"
+    }
+
+    sizes.each do |size_class, size_name|
+      context "with #{size_name} size" do
+        before do
+          render_inline(described_class.new(css: "badge-#{size_class}"))
+        end
+
+        it "renders with #{size_class} class" do
+          expect(page).to have_css "span.badge.badge-#{size_class}"
+        end
+      end
+    end
+  end
+
+  context "with tooltip" do
+    let(:tip) { "Badge tooltip" }
+    before do
+      render_inline(described_class.new(tip: tip))
+    end
+
+    it "includes tooltip class" do
+      expect(page).to have_css "span.badge.tooltip"
+    end
+
+    it "sets data-tip attribute" do
+      expect(page).to have_css "[data-tip=\"#{tip}\"]"
+    end
+  end
+
+  context "with complex configuration" do
+    let(:title) { "Complex Badge" }
+    let(:tip) { "Complex tooltip" }
+
+    before do
+      render_inline(described_class.new(
+        title: title,
+        tip: tip,
+        css: "badge-primary badge-lg"
+      ))
+    end
+
+    it "renders with all configurations" do
+      expect(page).to have_text title
+      expect(page).to have_css "span.badge.badge-primary.badge-lg.tooltip"
+      expect(page).to have_css "[data-tip=\"#{tip}\"]"
     end
   end
 
@@ -66,4 +160,3 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     end
   end
 end
-
