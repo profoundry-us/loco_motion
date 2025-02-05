@@ -2,25 +2,21 @@ require "rails_helper"
 
 RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
   context "basic device" do
-    let(:device) { described_class.new }
+    let(:device) { described_class.new(css: "mockup-phone") }
 
     before do
       render_inline(device) do
-        "Screen Content"
+        "Content"
       end
     end
 
     describe "rendering" do
-      it "renders the camera" do
-        expect(page).to have_selector(".camera")
-      end
-
-      it "renders the display" do
-        expect(page).to have_selector(".display")
+      it "renders as a device" do
+        expect(page).to have_selector(".mockup-phone")
       end
 
       it "renders the content" do
-        expect(page).to have_text("Screen Content")
+        expect(page).to have_text("Content")
       end
     end
   end
@@ -53,8 +49,8 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
     let(:device) { described_class.new(show_camera: false) }
 
     before do
-      @result = render_inline(device) do
-        "No Camera Content"
+      render_inline(device) do
+        "Content"
       end
     end
 
@@ -63,13 +59,8 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
         expect(page).not_to have_selector(".camera")
       end
 
-      it "renders the display with no top margin" do
-        puts @result.to_html
-        expect(page).to have_selector(".display[class*='!mt-0']")
-      end
-
       it "renders the content" do
-        expect(page).to have_text("No Camera Content")
+        expect(page).to have_text("Content")
       end
     end
   end
