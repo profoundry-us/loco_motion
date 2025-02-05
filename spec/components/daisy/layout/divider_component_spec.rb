@@ -50,4 +50,44 @@ RSpec.describe Daisy::Layout::DividerComponent, type: :component do
       end
     end
   end
+
+  context "with horizontal orientation" do
+    let(:divider) { described_class.new(css: "divider-horizontal") }
+
+    before do
+      render_inline(divider) do
+        "OR"
+      end
+    end
+
+    describe "rendering" do
+      it "includes the horizontal class" do
+        expect(page).to have_selector(".divider.divider-horizontal")
+      end
+
+      it "renders the content" do
+        expect(page).to have_text("OR")
+      end
+    end
+  end
+
+  context "with colors" do
+    let(:divider) { described_class.new(css: "divider-primary") }
+
+    before do
+      render_inline(divider) do
+        "Primary"
+      end
+    end
+
+    describe "rendering" do
+      it "includes the color class" do
+        expect(page).to have_selector(".divider.divider-primary")
+      end
+
+      it "renders the content" do
+        expect(page).to have_text("Primary")
+      end
+    end
+  end
 end

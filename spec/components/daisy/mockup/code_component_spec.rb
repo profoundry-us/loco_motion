@@ -65,4 +65,44 @@ RSpec.describe Daisy::Mockup::CodeComponent, type: :component do
       end
     end
   end
+
+  context "with line CSS styling" do
+    let(:code) { described_class.new }
+
+    before do
+      render_inline(code) do |c|
+        c.with_line(css: "text-warning") { "Installing..." }
+        c.with_line(css: "text-success") { "Done!" }
+      end
+    end
+
+    describe "rendering" do
+      it "applies the CSS classes to the lines" do
+        expect(page).to have_selector("pre[class*='text-warning']", text: "Installing...")
+        expect(page).to have_selector("pre[class*='text-success']", text: "Done!")
+      end
+    end
+  end
+
+  context "with language block" do
+    let(:code) { described_class.new }
+
+    before do
+      render_inline(code) do
+        <<~RUBY
+          def hello_world
+            puts "Hello, world!"
+          end
+        RUBY
+      end
+    end
+
+    describe "rendering" do
+      it "renders the code block" do
+        expect(page).to have_text("def hello_world")
+        expect(page).to have_text('puts "Hello, world!"')
+        expect(page).to have_text("end")
+      end
+    end
+  end
 end

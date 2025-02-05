@@ -48,4 +48,40 @@ RSpec.describe Daisy::Layout::HeroComponent, type: :component do
       end
     end
   end
+
+  context "with custom content wrapper CSS" do
+    let(:hero) { described_class.new(content_wrapper_css: "flex-col md:flex-row") }
+
+    before do
+      render_inline(hero) do
+        "Hero Content"
+      end
+    end
+
+    describe "rendering" do
+      it "applies the custom CSS to the content wrapper" do
+        expect(page).to have_selector(".hero-content.flex-col.md\\:flex-row")
+      end
+
+      it "renders the content" do
+        expect(page).to have_selector(".hero-content", text: "Hero Content")
+      end
+    end
+  end
+
+  context "with background color" do
+    let(:hero) { described_class.new(css: "bg-base-200") }
+
+    before do
+      render_inline(hero) do
+        "Hero Content"
+      end
+    end
+
+    describe "rendering" do
+      it "applies the background color class" do
+        expect(page).to have_selector(".hero.bg-base-200")
+      end
+    end
+  end
 end
