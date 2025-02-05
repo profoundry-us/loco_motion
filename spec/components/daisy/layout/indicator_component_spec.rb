@@ -71,4 +71,45 @@ RSpec.describe Daisy::Layout::IndicatorComponent, type: :component do
       end
     end
   end
+
+  context "with positioned items" do
+    let(:indicator) { described_class.new }
+    let(:positions) do
+      {
+        vertical: ["indicator-top", "indicator-middle", "indicator-bottom"],
+        horizontal: ["indicator-start", "indicator-center", "indicator-end"]
+      }
+    end
+
+    before do
+      render_inline(indicator) do |i|
+        positions[:vertical].each do |v|
+          positions[:horizontal].each do |h|
+            i.with_item(css: "#{v} #{h}") { "#{v} #{h}" }
+          end
+        end
+
+        "Content"
+      end
+    end
+
+    describe "rendering" do
+      it "renders items with correct positions" do
+        positions[:vertical].each do |v|
+          positions[:horizontal].each do |h|
+            expect(page).to have_selector(".indicator-item.#{v}.#{h}")
+          end
+        end
+      end
+
+      it "renders all items" do
+        total_positions = positions[:vertical].length * positions[:horizontal].length
+        expect(page).to have_selector(".indicator-item", count: total_positions)
+      end
+
+      it "renders the content" do
+        expect(page).to have_text("Content")
+      end
+    end
+  end
 end
