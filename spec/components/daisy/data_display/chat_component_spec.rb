@@ -167,6 +167,90 @@ RSpec.describe Daisy::DataDisplay::ChatComponent, type: :component do
     end
   end
 
+  context "with colored chat" do
+    let(:chat) { described_class.new }
+
+    context "with primary color" do
+      before do
+        render_inline(chat) do |c|
+          c.with_bubble(css: "chat-bubble-primary") do
+            "Primary message"
+          end
+        end
+      end
+
+      describe "rendering" do
+        it "applies primary color class" do
+          expect(page).to have_selector(".chat-bubble.chat-bubble-primary")
+        end
+
+        it "renders the message" do
+          expect(page).to have_text("Primary message")
+        end
+      end
+    end
+
+    context "with secondary color" do
+      before do
+        render_inline(chat) do |c|
+          c.with_bubble(css: "chat-bubble-secondary") do
+            "Secondary message"
+          end
+        end
+      end
+
+      describe "rendering" do
+        it "applies secondary color class" do
+          expect(page).to have_selector(".chat-bubble.chat-bubble-secondary")
+        end
+
+        it "renders the message" do
+          expect(page).to have_text("Secondary message")
+        end
+      end
+    end
+
+    context "with accent color" do
+      before do
+        render_inline(chat) do |c|
+          c.with_bubble(css: "chat-bubble-accent") do
+            "Accent message"
+          end
+        end
+      end
+
+      describe "rendering" do
+        it "applies accent color class" do
+          expect(page).to have_selector(".chat-bubble.chat-bubble-accent")
+        end
+
+        it "renders the message" do
+          expect(page).to have_text("Accent message")
+        end
+      end
+    end
+
+    context "with custom color" do
+      before do
+        render_inline(chat) do |c|
+          c.with_bubble(css: "chat-bubble-info bg-blue-500 text-blue-50") do
+            "Info message"
+          end
+        end
+      end
+
+      describe "rendering" do
+        it "applies custom color classes" do
+          expect(page).to have_selector(".chat-bubble.chat-bubble-info.bg-blue-500.text-blue-50")
+        end
+
+        it "renders the message" do
+          expect(page).to have_text("Info message")
+        end
+      end
+    end
+  end
+
   context "with complex configuration" do
     let(:header_text) { "John Doe" }
     let(:bubble_text) { "Hey there!" }
