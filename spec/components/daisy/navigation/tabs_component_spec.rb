@@ -192,4 +192,116 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
       end
     end
   end
+
+  context "with event handling" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "Click Me", html: { onclick: "alert('clicked')" })
+      end
+    end
+
+    describe "rendering" do
+      it "includes event handler attributes" do
+        expect(page).to have_selector(".tab[onclick=\"alert('clicked')\"]")
+      end
+    end
+  end
+
+  context "with content wrapper customization" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "Tab", content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6") do
+          "Content"
+        end
+      end
+    end
+
+    describe "rendering" do
+      it "applies custom CSS to content wrapper" do
+        expect(page).to have_selector(".tab-content.bg-base-100.border-base-300.rounded-box.p-6")
+      end
+    end
+  end
+
+  context "with icons in title" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab do |tab|
+          tab.with_title(css: "test-tab") do
+            '<div class="flex gap-x-2 items-center"><span class="w-4 h-4">icon</span><span class="whitespace-nowrap">Title</span></div>'.html_safe
+          end
+        end
+      end
+    end
+
+    describe "rendering" do
+      it "renders title with icon and proper layout" do
+        expect(page).to have_selector(".tab .test-tab .flex.gap-x-2.items-center")
+        expect(page).to have_selector(".tab .test-tab .w-4.h-4", text: "icon")
+        expect(page).to have_selector(".tab .test-tab .whitespace-nowrap", text: "Title")
+      end
+    end
+  end
+
+  context "with spacer tab" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "", css: "!w-14 !cursor-auto", disabled: true)
+        t.with_tab(title: "Real Tab")
+      end
+    end
+
+    describe "rendering" do
+      it "renders spacer tab with custom width" do
+        tab = page.find(".tab[disabled]")
+        expect(tab[:class]).to include("!w-14")
+        expect(tab[:class]).to include("!cursor-auto")
+      end
+
+      it "renders actual tab after spacer" do
+        expect(page).to have_selector(".tab", text: "Real Tab")
+      end
+    end
+  end
+
+  context "with turbo frame integration" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(href: "?custom_tab=1", checked: true) do |tab|
+          tab.with_title { "Tab 1" }
+          tab.with_custom_content(css: "tab-content") { "Content 1" }
+        end
+        t.with_tab(href: "?custom_tab=2") do |tab|
+          tab.with_title { "Tab 2" }
+          tab.with_custom_content(css: "tab-content") { "Content 2" }
+        end
+      end
+    end
+
+    describe "rendering" do
+      it "sets href for turbo navigation" do
+        expect(page).to have_selector(".tab[href='?custom_tab=1']")
+        expect(page).to have_selector(".tab[href='?custom_tab=2']")
+      end
+
+      it "marks the active tab" do
+        expect(page).to have_selector(".tab.tab-active[href='?custom_tab=1']")
+      end
+
+      it "renders custom content with proper classes" do
+        expect(page).to have_selector(".tab-content", text: "Content 1")
+        expect(page).to have_selector(".tab-content", text: "Content 2")
+      end
+    end
+  end
 end
