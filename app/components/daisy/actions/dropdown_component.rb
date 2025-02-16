@@ -36,7 +36,8 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
   #   dropdown.
   # @param kws [Hash] The keyword arguments for the component.
   #
-  # @option kws title [String] The title of the dropdown.
+  # @option kws title [String] The title of the dropdown. Will also be used as
+  #   the name of the button if no button or custom activator is provided.
   #
   def initialize(title = nil, **kws, &block)
     super

@@ -1,11 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::ModalComponent, type: :component do
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::CaptureHelper
   include ActionView::Context
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::FormOptionsHelper
 
   context "with no options" do
     let(:modal) { described_class.new }

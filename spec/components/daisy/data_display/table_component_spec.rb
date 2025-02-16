@@ -7,30 +7,18 @@ RSpec.describe Daisy::DataDisplay::TableComponent, type: :component do
     before do
       render_inline(table) do |t|
         t.with_head do |head|
-          head.with_column do
-            "Column 1"
-          end
-          head.with_column do
-            "Column 2"
-          end
+          head.with_column { "Column 1" }
+          head.with_column { "Column 2" }
         end
 
         t.with_row do |row|
-          row.with_column do
-            "foo"
-          end
-          row.with_column do
-            "bar"
-          end
+          row.with_column { "foo" }
+          row.with_column { "bar" }
         end
 
         t.with_row do |row|
-          row.with_column do
-            "fizz"
-          end
-          row.with_column do
-            "buzz"
-          end
+          row.with_column { "fizz" }
+          row.with_column { "buzz" }
         end
       end
     end
@@ -62,42 +50,30 @@ RSpec.describe Daisy::DataDisplay::TableComponent, type: :component do
       render_inline(table) do |t|
         t.with_section do |section|
           section.with_head do |head|
-            head.with_column(css: "bg-blue-100") do
-              "1900s"
-            end
+            head.with_column(css: "bg-blue-100") { "1900s" }
           end
 
           section.with_body do |body|
             body.with_row do |row|
-              row.with_column do
-                "1901"
-              end
+              row.with_column { "1901" }
             end
             body.with_row do |row|
-              row.with_column do
-                "1902"
-              end
+              row.with_column { "1902" }
             end
           end
         end
 
         t.with_section do |section|
           section.with_head do |head|
-            head.with_column(css: "bg-blue-100") do
-              "1910s"
-            end
+            head.with_column(css: "bg-blue-100") { "1910s" }
           end
 
           section.with_body do |body|
             body.with_row do |row|
-              row.with_column do
-                "1911"
-              end
+              row.with_column { "1911" }
             end
             body.with_row do |row|
-              row.with_column do
-                "1912"
-              end
+              row.with_column { "1912" }
             end
           end
         end

@@ -1,11 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::ChatComponent, type: :component do
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::CaptureHelper
-  include ActionView::Context
-  include ActionView::Helpers::AssetTagHelper
-
   context "with no options" do
     before do
       render_inline(described_class.new)

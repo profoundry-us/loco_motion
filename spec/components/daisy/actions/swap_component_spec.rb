@@ -77,6 +77,42 @@ RSpec.describe Daisy::Actions::SwapComponent, type: :component do
     end
   end
 
+  context "with args-based initialization" do
+    let(:swap) { described_class.new("✅ On", "❌ Off", true) }
+
+    before do
+      render_inline(swap)
+    end
+
+    describe "setup" do
+      it "sets the simple_on text from args" do
+        expect(swap.simple_on).to eq("✅ On")
+      end
+
+      it "sets the simple_off text from args" do
+        expect(swap.simple_off).to eq("❌ Off")
+      end
+
+      it "sets checked to true from args" do
+        expect(swap.instance_variable_get(:@checked)).to eq(true)
+      end
+    end
+
+    describe "rendering" do
+      it "renders a checked checkbox" do
+        expect(page).to have_css "input[type='checkbox'][checked]"
+      end
+
+      it "renders the on text" do
+        expect(page).to have_content "✅ On"
+      end
+
+      it "renders the off text" do
+        expect(page).to have_content "❌ Off"
+      end
+    end
+  end
+
   context "with custom content" do
     let(:swap) { described_class.new }
 

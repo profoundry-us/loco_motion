@@ -4,18 +4,21 @@
 # button.
 #
 # @part checkbox The checkbox input element that handles the toggle state.
-# @part on The component displayed when the swap is in the "on" state.
-# @part off The component displayed when the swap is in the "off" state.
-# @part indeterminate The component displayed when the swap is in an
+# @part on Wraps the HTML content displayed when the swap is in the "on" state.
+# @part off Wraps the HTML content displayed when the swap is in the "off" state.
+# @part indeterminate Wraps the HTML content displayed when the swap is in an
 #   indeterminate state.
 #
-# @slot on The content to be displayed when the swap is in the "on" state.
-# @slot off The content to be displayed when the swap is in the "off" state.
-# @slot indeterminate The content to be displayed when the swap is in an
+# @slot on The HTML content to be displayed when the swap is in the "on" state.
+# @slot off The HTML content to be displayed when the swap is in the "off" state.
+# @slot indeterminate The HTML content to be displayed when the swap is in an
 #   indeterminate state.
 #
 # @loco_example Basic Usage
 #   = daisy_swap(checked: true, on: "✅ On", off: "❌ Off", css: "swap-rotate")
+#
+# @loco_example Basic Usage with Args
+#   = daisy_swap("✅ On", "❌ Off", true, css: "swap-rotate")
 #
 # @loco_example Custom Swap with Indeterminate State
 #   = daisy_swap(tip: "I'm special") do |swap|
@@ -56,30 +59,40 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   # @return [String] The value of the `on` option. Usually text or emoji.
   attr_reader :simple_on
 
-  # @return [String] The value of the `on` option. Usually text or emoji.
+  # @return [String] The value of the `off` option. Usually text or emoji.
   attr_reader :simple_off
 
   #
-  # Instantiate a new Swap component. All options are expected to be passed as
-  # keyword arguments.
+  # Instantiate a new Swap component. The component can be initialized either with
+  # positional arguments or keyword arguments.
   #
-  # @param args [Array] Currently unused and passed through to the
-  #   BaseComponent.
-  # @param kwargs [Hash] The keyword arguments for the component.
+  # @param on      [String] A simple text or emoji to display when the swap is in
+  #   the "on" state.
+  #
+  # @param off     [String] A simple text or emoji to display when the swap is in
+  #   the "off" state.
+  #
+  # @param checked [Boolean] Whether the swap should start in the checked state.
+  #   Defaults to false.
+  #
+  # @param kwargs  [Hash] The keyword arguments for the component.
   #
   # @option kwargs checked [Boolean] Whether the swap should start in the
   #   checked state. Defaults to false.
+  #
   # @option kwargs on [String] A simple text or emoji to display when the swap
   #   is in the "on" state (see {simple_on}).
+  #
   # @option kwargs off [String] A simple text or emoji to display when the swap
   #   is in the "off" state (see {simple_off}).
   #
   def initialize(*args, **kwargs, &block)
     super
 
-    @checked = config_option(:checked, false)
-    @simple_on = config_option(:on)
-    @simple_off = config_option(:off)
+    on, off, checked = args
+    @checked = config_option(:checked, checked || false)
+    @simple_on = config_option(:on, on)
+    @simple_off = config_option(:off, off)
   end
 
   #

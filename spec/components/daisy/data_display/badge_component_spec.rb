@@ -35,7 +35,17 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     end
   end
 
-  context "with title argument" do
+  context "with title as positional argument" do
+    before do
+      render_inline(described_class.new("Badge Title"))
+    end
+
+    it "renders the title" do
+      expect(page).to have_text "Badge Title"
+    end
+  end
+
+  context "with title as keyword argument" do
     let(:title) { "Badge Title" }
     before do
       render_inline(described_class.new(title: title))
@@ -60,17 +70,17 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     end
   end
 
-  context "with variants" do
-    variants = %w[primary secondary accent ghost success error warning]
+  context "with modifiers" do
+    modifiers = %w[primary secondary accent ghost success error warning]
 
-    variants.each do |variant|
-      context "with #{variant} variant" do
+    modifiers.each do |modifier|
+      context "with #{modifier} modifier" do
         before do
-          render_inline(described_class.new(css: "badge-#{variant}"))
+          render_inline(described_class.new(css: "badge-#{modifier}"))
         end
 
-        it "renders with #{variant} class" do
-          expect(page).to have_css "span.badge.badge-#{variant}"
+        it "renders with #{modifier} class" do
+          expect(page).to have_css "span.badge.badge-#{modifier}"
         end
       end
     end

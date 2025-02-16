@@ -1,10 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::CardComponent, type: :component do
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::CaptureHelper
-  include ActionView::Context
-
   context "with simple title" do
     let(:title) { "Simple Card Title" }
     let(:card) { described_class.new(title: title) }

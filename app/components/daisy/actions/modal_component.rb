@@ -119,8 +119,6 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
     set_tag_name(:component, :dialog)
     add_html(:component, id: dialog_id)
     add_css(:component, "modal")
-
-    add_stimulus_controller(:component, "modal")
   end
 
   def setup_backdrop

@@ -1,12 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::CarouselComponent, type: :component do
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::CaptureHelper
-  include ActionView::Context
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::AssetTagHelper
-
   context "with no items" do
     before do
       render_inline(described_class.new)
@@ -104,10 +98,10 @@ RSpec.describe Daisy::DataDisplay::CarouselComponent, type: :component do
   context "with complex items" do
     before do
       render_inline(described_class.new(css: "h-96 gap-x-2")) do |c|
-        c.with_item(css: "relative") do
-          content_tag(:div, class: "image-container") do
-            image_tag("test.jpg", alt: "Test Image", class: "rounded-lg h-96") +
-            content_tag(:div, "Caption", class: "caption")
+        c.with_item(css: "relative") do |item|
+          item.tag.div(class: "image-container") do
+            item.tag.img(src: "test.jpg", alt: "Test Image", class: "rounded-lg h-96") +
+            item.tag.div("Caption", class: "caption")
           end
         end
       end
@@ -137,8 +131,8 @@ RSpec.describe Daisy::DataDisplay::CarouselComponent, type: :component do
 
     before do
       render_inline(described_class.new) do |c|
-        c.with_item do
-          link_to(link_text, link_url, target: "_blank")
+        c.with_item do |item|
+          item.tag.a(link_text, href: link_url, target: "_blank")
         end
       end
     end
