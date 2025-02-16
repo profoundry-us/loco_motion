@@ -1,0 +1,36 @@
+= doc_title(title: "Devices", comp: @comp) do |title|
+  :markdown
+    Device mockups are a great way to showcase your designs in a realistic way!
+
+
+= doc_example(title: "Phone") do |doc|
+  - doc.with_description do
+    :markdown
+      You can use the `daisy_device` component to display a phone mockup.
+
+  = daisy_device(css: "mockup-phone") do
+    = daisy_artboard(css: "phone-2 bg-white overflow-auto") do
+      .flex.flex-col.gap-4.p-4
+        .mt-4.text-center.text-2xl.font-bold
+          Beautiful Landscapes
+        = image_tag("landscapes/beach.jpg", class: "rounded-lg")
+        = image_tag("landscapes/desert.jpg", class: "rounded-lg")
+        = image_tag("landscapes/forest.jpg", class: "rounded-lg")
+        = image_tag("landscapes/mountain-river.jpg", class: "rounded-lg")
+
+
+= doc_example(title: "Tablet") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also hide the camera by passing `show_camera: false` to the
+      component and add any colors you want to the device.
+
+  = daisy_device(css: "mockup-phone border-red-600", show_camera: false) do
+    = daisy_artboard(css: "artboard-horizontal phone-3 overflow-auto") do
+      .bg-white.flex.flex-col.gap-4.p-4
+        .text-center.text-2xl.font-bold
+          Beautiful Landscapes
+        = image_tag("landscapes/beach.jpg", class: "rounded-xl")
+        = image_tag("landscapes/desert.jpg", class: "rounded-xl")
+        = image_tag("landscapes/forest.jpg", class: "rounded-xl")
+        = image_tag("landscapes/mountain-river.jpg", class: "rounded-xl")

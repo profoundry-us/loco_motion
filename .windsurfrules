@@ -1,0 +1,23 @@
+<communication>
+
+1. Always speak to me in English.
+2. Start our sessions by asking clarifying questions to gain additional context.
+3. If relevant, suggest adding the context to this Rules file for future runs.
+
+</communication>
+
+<coding>
+
+1. When writing new code, follow the conventions of existing code such as components.
+2. When writing docs, follow the conventions of existing docs such as the Button component.
+3. When writing tests, follow the conventions of existing tests such as the `button_component_spec.rb`.
+4. All code should be tested and have proper documentation.
+5. Assume that you are a mid-level software engineer when creating new code.
+6. Follow the principles of KISS (Keep It Stupid Simple).
+7. Follow the principles of DRY (Don't Repeat Yourself).
+8. Remember that we run everything with Docker, so some commands may need to change.
+9. Utilize the Makefile as a resource when learning how to run commands.
+10. After making a change, re-run all tests to ensure they remain passing.
+11. When writing documentation or tests, reference the files in `docs/demo/app/views/examples` as a usage guide.
+
+</coding>

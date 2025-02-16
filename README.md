@@ -33,11 +33,13 @@ your solution is aligned with our goals.
 - [About](#about)
 - [Getting Started](#getting-started)
 - [Installing / Setting up Rails](#installing--setting-up-rails)
+  - [Using UUIDs by Default](#using-uuids-by-default)
   - [Install HAML (Optional)](#install-haml-optional)
   - [Install DaisyUI (Optional)](#install-daisyui-optional)
   - [Try Out Your Application](#try-out-your-application)
 - [Debugging](#debugging)
 - [Testing](#testing)
+- [Services / Service Objects](#services--service-objects)
 - [Authentication](#authentication)
 - [Web Console](#web-console)
 - [BetterErrors (Optional)](#bettererrors-optional)
@@ -202,6 +204,20 @@ Congratulations!
 
 You can now visit [http://localhost:3000](http://localhost:3000) in your web
 browser and see your running Rails application!
+
+### Using UUIDs by Default
+
+We believe strongly in migrating all of your primary keys to UUIDs to increase
+security as well as avoiding potential scaling issues in the future.
+
+To enable this by default, create the following file:
+
+```ruby
+# config/initializers/generators.rb
+Rails.application.config.generators do |generator|
+  generator.orm :active_record, primary_key_type: :uuid
+end
+```
 
 ### Install HAML (Optional)
 
@@ -478,6 +494,28 @@ We'll have some guides and examples for this coming soon!
 >
 > We plan to have a writeup soon (an ADR specifically) on exactly why we made
 > the switch.
+
+## Services / Service Objects
+
+It is best practice to separate your logic into Service Objects rather than
+shoving all of it into your Controllers and Models.
+
+One solution we really like is
+[ActiveInteraction](https://github.com/AaronLasseigne/active_interaction).
+
+It is very stable, has wonderful documentation, and gives you a clean way to
+build your service objects with support for things like composed interactions
+and even ActiveModel validations.
+
+Add `gem 'active_interaction', '~> 5.3'` to your `Gemfile` and create a new
+class called `ApplicationInteraction` if you want to give it a try!
+
+```
+# app/interactions/application_interaction.rb
+class ApplicationInteraction < ActiveInteraction::Base
+  # Your interactions will inherit from this class!
+end
+```
 
 ## Authentication
 

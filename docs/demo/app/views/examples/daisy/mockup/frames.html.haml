@@ -1,0 +1,36 @@
+= doc_title(title: "Frames", comp: @comp) do |title|
+  %p
+    Frames showcase your work as if they were displayed in a window. This is
+    very similar to the existing
+    = daisy_button(css: "btn-sm", title: "Browser", right_icon: "cube", right_icon_css: "size-4", href: "/examples/Daisy::Mockup::BrowserComponent", html: { data: { turbo: "false" }})
+    component but without some of the additional styling such as the browser
+    toolbar.
+
+
+= doc_example(title: "Basic Frame") do |doc|
+  - doc.with_description do
+    :markdown
+      A basic frame is just a simple frame with no additional styling.
+
+  = daisy_frame(css: "w-full max-w-4xl border border-base-300") do |frame|
+    .border-t.border-base-300.px-4.py-16.text-center
+      This is the content of the browser. You can put anything you want here.
+
+      .mt-4
+        = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")
+
+
+= doc_example(title: "Styled Frame") do |doc|
+  - doc.with_description do
+    :markdown
+      You can style the frames however you like!
+
+  = daisy_frame(css: "w-full max-w-4xl bg-purple-200 border border-purple-600") do |frame|
+    .bg-base-100.border-t.border-purple-300.px-4.py-16.text-center
+      = image_tag("loco-logo.png", class: "max-w-xs mx-auto")
+
+      %p
+        This is the content of the browser. You can put anything you want here.
+
+      .mt-4
+        = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")

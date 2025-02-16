@@ -4,16 +4,18 @@
 #
 # @part dialog The main `<dialog>` container.
 # @part box The container for the modal content.
-# @part activator The container for the activator which opens the modal.
 # @part close_icon_wrapper The container for the close icon.
 # @part close_icon The default close icon.
 # @part backdrop The backdrop that covers the rest of the screen.
 # @part title Container for the default title for the modal.
 # @part actions Container for all modal actions.
-# @part start_actions Container for the left (start) aligned actions for the modal.
+# @part start_actions Container for the left (start) aligned actions for the
+#   modal.
 # @part end_actions The end actions for the modal.
 #
-# @slot activator The activator for the modal.
+# @slot activator A custom (non-button) activator for the modal.
+# @slot button The button that triggers the modal. Defaults to a standard Daisy
+#   button whose title matches the modal title.
 # @slot close_icon A custom close icon for the modal.
 # @slot title A custom title for the modal.
 # @slot start_actions Left (or start) aligned actions for the modal.
@@ -41,11 +43,11 @@
 class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   set_component_name :modal
 
-  define_parts :dialog, :box, :actions,
-    :activator, :close_icon_wrapper, :close_icon,
+  define_parts :dialog, :box, :actions, :close_icon_wrapper, :close_icon,
     :backdrop, :title, :start_actions, :end_actions
 
-  renders_one :activator
+  renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
+  renders_one :button, Daisy::Actions::ButtonComponent
   renders_one :close_icon
   renders_one :title
   renders_one :start_actions
@@ -90,6 +92,7 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   # Sets up the component with various CSS classes and HTML attributes.
   #
   def before_render
+    setup_activator_or_button
     setup_component
     setup_backdrop
     setup_box
@@ -99,6 +102,18 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   end
 
   private
+
+  def setup_activator_or_button
+    onclick = "document.getElementById('#{dialog_id}').showModal()"
+
+    element = if activator?
+      activator
+    else
+      button || default_button
+    end
+
+    element.add_html(:component, { onclick: onclick })
+  end
 
   def setup_component
     set_tag_name(:component, :dialog)
@@ -130,5 +145,10 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
 
   def setup_actions
     add_css(:actions, "mt-2 flex flex-row items-center justify-between")
+  end
+
+  # Provide a default button if no button is supplied.
+  def default_button
+    with_button(simple_title)
   end
 end

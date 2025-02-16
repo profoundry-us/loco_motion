@@ -9,7 +9,6 @@ class Daisy::Navigation::BreadcrumbsComponent < LocoMotion::BaseComponent
 
   def before_render
     add_css(:component, "breadcrumbs")
-
     set_tag_name(:list_wrapper, :ul)
   end
 end

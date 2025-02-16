@@ -23,17 +23,18 @@
 
 = doc_example(title: "Horizontal Menu") do |doc|
   - doc.with_description do
-    %p
-      Menus can be displayed horizontally by adding the
-      <code>.menu-horizontal</code> class to the menu. They can also have icons,
-      disabled / active items, and many other options.
+    :markdown
+      Menus can be displayed horizontally by adding the `.menu-horizontal` class
+      to the menu. They can also have icons, disabled / active items, and many
+      other options.
 
     = doc_note(css: "mb-4") do
-      We can't actually disable the link since the HTML spec does not allow that
-      (instead you should generally just make it text). However, we can disable
-      the link with CSS and use <code>.pointer-events-none</code> to ensure it
-      cannot be clicked. You may also want to add <code>tabindex: -1</code> to
-      your link to ensure it cannot be focused with the keyboard.
+      :markdown
+        We can't actually disable the link since the HTML spec does not allow
+        that (instead you should generally just make it text). However, we can
+        disable the link with CSS and use `.pointer-events-none` to ensure it
+        cannot be clicked. You may also want to add `tabindex: -1` to your link
+        to ensure it cannot be focused with the keyboard.
 
   = daisy_menu(css: "menu-horizontal") do |menu|
     - menu.with_item do

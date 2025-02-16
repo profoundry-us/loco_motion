@@ -6,13 +6,19 @@
   <div class="tags">
     <p class="docstring">
       The <%= object.name %> accepts the following slots enabling you to pass
-      custom content.
+      custom content (<code>+</code> denotes that you can render multiple).
     </p>
 
     <ul>
       <% object.tags(:slot).each do |slot| %>
+        <% is_multiple = (slot.name.end_with?("+")) %>
+
         <li class="slots docstring">
-          <span class="name">with_<%= slot.name %></span>
+          <% if is_multiple %>
+            <span class="name">with_<%= slot.name.sub("+", "") %><span class="slot-multiple">+</span></span>
+          <% else %>
+            <span class="name">with_<%= slot.name %></span>
+          <% end %>
 
           <% if slot.types %>
             <% types_str = slot.types.map{ |t| "{#{t}}" }.join(', ') %>

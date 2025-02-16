@@ -3,6 +3,7 @@ require "loco_motion"
 require "rails"
 require "view_component/test_helpers"
 require "view_component/system_test_helpers"
+require "heroicons/icons_helper"
 # require "capybara/rspec"
 
 class ApplicationController < ActionController::Base
@@ -13,5 +14,6 @@ RSpec.configure do |config|
 
   config.include ViewComponent::TestHelpers, type: :component
   config.include ViewComponent::SystemTestHelpers, type: :component
+  config.include Heroicons::IconsHelper, type: :component
   # config.include Capybara::RSpecMatchers, type: :component
 end

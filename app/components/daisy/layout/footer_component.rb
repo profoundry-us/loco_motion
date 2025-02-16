@@ -14,10 +14,11 @@
 #
 class Daisy::Layout::FooterComponent < LocoMotion::BaseComponent
   #
-  # Add the `footer` CSS class to the component.
+  # Add the `footer` CSS class to the component and set the tag name to `footer`.
   #
   def before_render
     add_css(:component, "footer")
+    set_tag_name(:component, :footer)
   end
 
   #
