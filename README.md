@@ -942,6 +942,7 @@ the GitHub Discussions feature and let us know!
       include to automatically add the tooltip param and classes where possible
 - [ ] Rename `tail` methods to `end` since we use that in other places
 - [ ] Update CardComponent Figure to be a proper class like other components
+- [ ] Create a GitHub pull request template to standardize PR submissions
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/
