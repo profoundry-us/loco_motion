@@ -941,10 +941,11 @@ the GitHub Discussions feature and let us know!
 - [x] See if we can build a `Tippable` concern that relevant components can
       include to automatically add the tooltip param and classes where possible
 - [x] Rename `tail` methods to `end` since we use that in other places
-- [ ] Update CardComponent Figure to be a proper class like other components
+- [x] Update CardComponent Figure to be a proper class like other components
 - [x] Create a GitHub pull request template to standardize PR submissions
 - [ ] See if we can update the Join component to auto-add the `join-item` CSS
-under certain conditions
+      under certain conditions
+- [ ] Add title and description content_for blocks to all examples for SEO purposes
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/

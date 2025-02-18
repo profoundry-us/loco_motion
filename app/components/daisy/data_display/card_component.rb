@@ -9,10 +9,10 @@
 # @part title The title text container when using the simple title option.
 #
 # @slot title A custom title section, typically rendered as an `h2` element.
-# @slot top_figure An optional figure (usually an image) to display at the top
-#   of the card.
-# @slot bottom_figure An optional figure (usually an image) to display at the
-#   bottom of the card.
+# @slot top_figure {Daisy::DataDisplay::FigureComponent} An optional figure
+#   (usually an image) to display at the top of the card.
+# @slot bottom_figure {Daisy::DataDisplay::FigureComponent} An optional figure
+#   (usually an image) to display at the bottom of the card.
 # @slot actions A container for action buttons or links, typically displayed at
 #   the bottom of the card.
 #
@@ -53,46 +53,9 @@
 class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
-  # A component for rendering figures (usually images) within the card.
-  #
-  # @part image The image element when a source URL is provided.
-  #
-  Figure = LocoMotion::BasicComponent.build do
-    define_part :image, tag_name: :img, css: "card-image"
-
-    # Creates a new figure component.
-    #
-    # @param kws [Hash] The keyword arguments for the component.
-    #
-    # @option kws src [String] URL of the image to display in the figure.
-    #
-    def initialize(**kws, &block)
-      super
-
-      @src = kws[:src]
-    end
-
-    def before_render
-      set_tag_name(:component, :figure)
-      add_html(:image, src: @src) if @src
-    end
-
-    def call
-      part(:component) do
-        if @src
-          part(:image)
-        else
-          content
-        end
-      end
-    end
-  end
-
-  define_parts :body, :title
-
   renders_one :title, LocoMotion::BasicComponent.build(tag_name: :h2, css: "card-title")
-  renders_one :top_figure, Figure
-  renders_one :bottom_figure, Figure
+  renders_one :top_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
+  renders_one :bottom_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
   renders_one :actions, LocoMotion::BasicComponent.build(css: "card-actions")
 
   # @return [String] The title text when using the simple title option.
@@ -102,25 +65,25 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   #
   # @param kws [Hash] The keyword arguments for the component.
   #
-  # @option kws title [String] The text to display in the card's title section.
-  #   You can also provide custom title content using the title slot.
+  # @option kws title [String] Optional simple title text. For more complex
+  #   titles, use the `with_title` method instead.
+  #
+  # @option kws css [String] Additional CSS classes for styling. Common
+  #   options include:
+  #   - Image Side: `image-full` (image becomes background)
+  #   - Borders: `bordered`
+  #   - Compact: `compact` (less padding)
+  #   - Colors: `bg-base-100`, `bg-primary`, `bg-secondary`
   #
   def initialize(**kws, &block)
     super
 
     @simple_title = kws[:title]
-  end
 
-  def before_render
-    setup_component
-    setup_body
-  end
-
-  def setup_component
     add_css(:component, "card")
   end
 
-  def setup_body
-    add_css(:body, "card-body")
+  def before_render
+    with_title { simple_title } if simple_title && !title?
   end
 end

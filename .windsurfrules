@@ -26,11 +26,13 @@
   c. Parts
   d. Slots
   e. Examples
+13. We use `@loco_example` to document our examples.
 
 </documentation>
 
 <coding>
 
+0. When making a plan, only show me the steps you will take and ask to move forward.
 1. When writing new code, follow the conventions of existing code such as components.
 2. When writing docs, follow the conventions of existing docs such as the Button component.
 3. When writing tests, follow the conventions of existing tests such as the `button_component_spec.rb`.
