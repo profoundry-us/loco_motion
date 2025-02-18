@@ -1,44 +1,72 @@
 #
 # The Modal component renders a modal dialog that can be opened and closed. It
-# includes a backdrop, a close icon, a title, and actions.
+# provides a structured way to display content that requires user attention or
+# interaction, such as forms, confirmations, or detailed information.
 #
-# @part dialog The main `<dialog>` container.
-# @part box The container for the modal content.
-# @part close_icon_wrapper The container for the close icon.
-# @part close_icon The default close icon.
-# @part backdrop The backdrop that covers the rest of the screen.
-# @part title Container for the default title for the modal.
-# @part actions Container for all modal actions.
-# @part start_actions Container for the left (start) aligned actions for the
-#   modal.
-# @part end_actions The end actions for the modal.
+# Note that the modal uses the HTML `<dialog>` element and its native methods
+# (`showModal()` and `close()`). This provides better accessibility and keyboard
+# navigation compared to div-based modals.
 #
-# @slot activator A custom (non-button) activator for the modal.
-# @slot button The button that triggers the modal. Defaults to a standard Daisy
-#   button whose title matches the modal title.
-# @slot close_icon A custom close icon for the modal.
-# @slot title A custom title for the modal.
-# @slot start_actions Left (or start) aligned actions for the modal.
-# @slot end_actions Right (or end) aligned actions for the modal.
+# @part dialog The main `<dialog>` container that wraps the modal content.
+# @part box The container for the modal content, providing padding and layout.
+# @part close_icon_wrapper The container for the close icon, positioned in the
+#   top-right corner.
+# @part close_icon The default close icon button.
+# @part backdrop The semi-transparent backdrop that covers and dims the main
+# content.
+# @part title Container for the modal title, styled for prominence.
+# @part actions Container for all modal action buttons.
+# @part start_actions Container for left (start) aligned action buttons.
+# @part end_actions Container for right (end) aligned action buttons.
 #
-# @loco_example Basic Usage
+# @slot activator A custom element that opens the modal. Automatically adds
+#   `role="button"` and `tabindex="0"` attributes for accessibility.
+# @slot button The button that opens the modal. Defaults to a standard Daisy
+#   button with the modal's title.
+# @slot close_icon A custom close button to replace the default 'X' icon.
+# @slot title Custom title content, replacing the default text title.
+# @slot start_actions Left (start) aligned buttons, typically for secondary actions
+#   like "Cancel".
+# @slot end_actions Right (end) aligned buttons, typically for primary actions
+#   like "Submit" or "Save".
+#
+# @loco_example Basic Modal
 #   = daisy_modal(title: "Simple Modal") do |modal|
-#     - modal.with_activator do
-#       - onclick = "document.getElementById('#{modal.dialog_id}').showModal()"
-#       = daisy_button(css: 'btn-primary', html: { onclick: onclick }) do
-#         Open Modal
-#
-#     Here is some really long modal content that should go well past the
-#     spot where the close icon appears...
-#
-#     - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+#     - modal.with_button(css: "btn-primary") { "Open Modal" }
+#     %p This is a basic modal with some content.
+#     - modal.with_end_actions do
 #       %form{ method: :dialog }
-#         = daisy_button do
-#           Cancel
-#       %form{ action: "", method: :get }
-#         %input{ type: "hidden", name: "submitted", value: "true" }
-#         = daisy_button(css: "btn-primary") do
-#           Submit
+#         = daisy_button { "Close" }
+#
+# @loco_example Form Modal
+#   = daisy_modal(title: "Edit Profile") do |modal|
+#     - modal.with_button { "Edit Profile" }
+#     = form_with(model: @user) do |f|
+#       .space-y-4
+#         = f.text_field :name, class: "input input-bordered w-full"
+#         = f.email_field :email, class: "input input-bordered w-full"
+#     - modal.with_start_actions do
+#       %form{ method: :dialog }
+#         = daisy_button { "Cancel" }
+#     - modal.with_end_actions do
+#       = daisy_button(css: "btn-primary", type: "submit") { "Save Changes" }
+#
+# @loco_example Custom Activator
+#   = daisy_modal(title: "User Details") do |modal|
+#     - modal.with_activator do
+#       .flex.items-center.gap-2.cursor-pointer
+#         = heroicon_tag "user-circle"
+#         %span View Details
+#
+#     %dl.space-y-2
+#       %dt Name
+#       %dd John Doe
+#       %dt Email
+#       %dd john@example.com
+#
+#     - modal.with_end_actions do
+#       %form{ method: :dialog }
+#         = daisy_button { "Close" }
 #
 class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   set_component_name :modal
@@ -65,27 +93,28 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   attr_reader :simple_title
 
   #
-  # Instantiate a new Modal component. All options are expected to be passed as
-  # keyword arguments.
+  # Creates a new instance of the ModalComponent.
   #
-  # @param args [Array] Currently unused and passed through to the
-  #   BaseComponent.
+  # @param title [String] The title of the modal. Used in both the modal header
+  #   and the default trigger button.
+  #
   # @param kws [Hash] The keyword arguments for the component.
   #
-  # @option kws dialog_id [String] A specific ID you would like the dialog to
-  #   use. Auto-generates a random ID using `SecureRandom.uuid` if not provided.
-  # @option kws closable [Boolean] Whether or not the modal should allow
-  #   closing.
-  # @option kws title [String] A simple title that you would like the
-  #   component to render above the main content of the modal (see
-  #   {simple_title}).
+  # @option kws title [String] The title of the modal. You can also pass this as
+  #   the first argument.
   #
-  def initialize(*args, **kws, &block)
+  # @option kws closable [Boolean] If true (default), shows a close icon in the
+  #   top-right corner.
+  #
+  # @option kws dialog_id [String] A custom ID for the dialog element. If not
+  #   provided, a unique ID will be generated.
+  #
+  def initialize(title = nil, **kws, &block)
     super
 
     @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
     @closable = config_option(:closable, true)
-    @simple_title = config_option(:title)
+    @simple_title = config_option(:title, title)
   end
 
   #

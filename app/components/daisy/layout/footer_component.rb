@@ -1,20 +1,59 @@
 #
-# The footer component is a simple container for the footer of a page. It can be
-# used to hold copyright information, links to other pages, or any other
-# information that should be displayed at the bottom of a page.
+# The FooterComponent creates a responsive container for page footer content.
+# Common use cases include:
+# - Site navigation and sitemap links.
+# - Copyright and legal information.
+# - Contact details and social media links.
+# - Newsletter signup forms.
 #
-# @loco_example Basic Usage
-#   = daisy_footer(css: "bg-neutral text-neutral-content") do
+# The component is responsive by default and will stack content on smaller
+# screens.
+#
+# @loco_example Basic Navigation Footer
+#   = daisy_footer(css: "bg-neutral text-neutral-content p-10") do
 #     %nav
-#       = link_to "Home", root_path
+#       %h6.footer-title Company
+#       = link_to "About", "/about", class: "link-hover"
+#       = link_to "Contact", "/contact", class: "link-hover"
+#       = link_to "Jobs", "/careers", class: "link-hover"
 #
-# @loco_example With Text
-#   = daisy_footer(css: "bg-neutral text-neutral-content p-10 text-center text-sm") do
-#     Copyright &copy; 2024
+# @loco_example Multi-Column Footer
+#   = daisy_footer(css: "bg-base-200 text-base-content p-10") do
+#     %nav
+#       %h6.footer-title Products
+#       = link_to "Features", "#", class: "link-hover"
+#       = link_to "Pricing", "#", class: "link-hover"
+#
+#     %nav
+#       %h6.footer-title Support
+#       = link_to "Documentation", "#", class: "link-hover"
+#       = link_to "Help Center", "#", class: "link-hover"
+#
+# @loco_example Copyright Footer
+#   = daisy_footer(css: "bg-neutral text-neutral-content p-4 text-center") do
+#     %small
+#       Copyright &copy; 2024 Company Name.
+#       All rights reserved.
 #
 class Daisy::Layout::FooterComponent < LocoMotion::BaseComponent
   #
-  # Add the `footer` CSS class to the component and set the tag name to `footer`.
+  # Creates a new Footer component.
+  #
+  # @param kws [Hash] Keyword arguments for customizing the footer.
+  #
+  # @option kws css [String] Additional CSS classes for styling. Common
+  #   options include:
+  #   - Background: `bg-neutral`, `bg-base-200`
+  #   - Text color: `text-neutral-content`, `text-base-content`
+  #   - Spacing: `p-4`, `p-10`
+  #   - Layout: `text-center`, `grid grid-cols-2 gap-4`
+  #
+  def initialize(**kws)
+    super
+  end
+
+  #
+  # Sets up the component's CSS classes and HTML tag.
   #
   def before_render
     add_css(:component, "footer")
@@ -22,7 +61,7 @@ class Daisy::Layout::FooterComponent < LocoMotion::BaseComponent
   end
 
   #
-  # Render the component and it's content (inline).
+  # Renders the component and its content.
   #
   def call
     part(:component) { content }

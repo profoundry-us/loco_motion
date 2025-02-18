@@ -23,6 +23,7 @@ module LocoMotion
     "Daisy::DataDisplay::CollapseComponent" => { names: "collapse", group: "Data", title: "Collapses", example: "collapses" },
     "Daisy::DataDisplay::CountdownComponent" => { names: "countdown", group: "Data", title: "Countdowns", example: "countdowns" },
     "Daisy::DataDisplay::DiffComponent" => { names: "diff", group: "Data", title: "Diffs", example: "diffs" },
+    "Daisy::DataDisplay::FigureComponent" => { names: "figure", group: "Data", title: "Figures", example: "figures" },
     "Daisy::DataDisplay::KbdComponent" => { names: "kbd", group: "Data", title: "Keyboard (KBD)", example: "kbds" },
     "Daisy::DataDisplay::StatComponent" => { names: "stat", group: "Data", title: "Stats", example: "stats" },
     "Daisy::DataDisplay::TableComponent" => { names: "table", group: "Data", title: "Tables", example: "tables" },

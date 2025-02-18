@@ -3,6 +3,7 @@
 
 # Allow running and testing through Docker
 allow_command "make loco-test"
+allow_command "make demo-restart"
 
 # Allow Git status and diff commands
 allow_command "git status"

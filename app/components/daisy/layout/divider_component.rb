@@ -1,29 +1,69 @@
 #
-# The divider component is a simple horizontal or vertical line that separates
-# content. It can be colored and have a label.
+# The DividerComponent creates a visual separator between content sections,
+# either horizontally or vertically. It can include optional text or content
+# in the center and supports various colors to match your theme.
 #
-# @loco_example Basic Usage
+# Common use cases include:
+# - Separating sections of a page.
+# - Creating visual breaks between cards or content blocks.
+# - Providing alternative options with "OR" text.
+# - Organizing form sections.
+#
+# @loco_example Basic Dividers
 #   = daisy_divider
 #
-# @loco_example With Text
 #   = daisy_divider do
-#     Hello Dividers!
+#     OR
 #
-# @loco_example Horizontal Accented With Text
-#   = daisy_divider(css: "divider-horizontal divider-accent") do
-#     Accent Divider
+# @loco_example Vertical Dividers
+#   .flex.grow
+#     = daisy_card(css: "h-48") do
+#       Left Content
+#
+#     = daisy_divider(css: "divider-horizontal") do
+#       OR
+#
+#     = daisy_card(css: "h-48") do
+#       Right Content
+#
+# @loco_example Colored Dividers
+#   = daisy_divider(css: "divider-primary") do
+#     Primary
+#
+#   = daisy_divider(css: "divider-accent") do
+#     Accent
+#
+#   = daisy_divider(css: "divider-success") do
+#     Success
 #
 class Daisy::Layout::DividerComponent < LocoMotion::BaseComponent
 
   #
-  # Add the `divider` CSS class to the component.
+  # Creates a new Divider component.
+  #
+  # @param args [Array] Positional arguments passed to the parent class.
+  # @param kws  [Hash]  Keyword arguments for customizing the divider.
+  #
+  # @option kws css [String] Additional CSS classes for styling. Common
+  #   options include:
+  #   - Orientation: `divider-horizontal` for vertical divider
+  #   - Colors: `divider-neutral`, `divider-primary`, `divider-secondary`,
+  #     `divider-accent`, `divider-info`, `divider-success`,
+  #     `divider-warning`, `divider-error`
+  #
+  def initialize(*args, **kws, &block)
+    super
+  end
+
+  #
+  # Sets up the component's CSS classes.
   #
   def before_render
     add_css(:component, "divider")
   end
 
   #
-  # Render the component and it's content.
+  # Renders the component and its content.
   #
   def call
     part(:component) { content }

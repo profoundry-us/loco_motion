@@ -1,23 +1,60 @@
 #
-# The DrawerComponent shows a sidebar that can be toggled open and closed.
+# The DrawerComponent provides a sliding sidebar panel that can be toggled
+# open and closed. It's commonly used for:
+# - Navigation menus
+# - Filter panels
+# - Additional information panels
+# - Mobile-friendly navigation
 #
-# @part input [LocoMotion::BaseComponent] The input checkbox that toggles the
-#   sidebar.
-# @part content_wrapper [LocoMotion::BaseComponent] The wrapper for the page
-#   content.
-# @part overlay [LocoMotion::BaseComponent] The overlay that covers the page
-#   when the sidebar is open.
+# The drawer includes an overlay that covers the main content when open and
+# can be configured to slide in from either the left or right side.
 #
-# @slot sidebar [Daisy::Layout::DrawerSidebarComponent] The sidebar that is
-#   shown when the drawer is toggled open. Renders the overlay inside of itself.
+# @part input            [LocoMotion::BaseComponent] The input checkbox that
+#   toggles the sidebar visibility.
 #
-# @loco_example Basic Usage
+# @part content_wrapper  [LocoMotion::BaseComponent] The wrapper for the main
+#   page content that remains visible when the drawer is closed.
+#
+# @part overlay         [LocoMotion::BaseComponent] The semi-transparent
+#   overlay that covers the main content when the drawer is open. Clicking it
+#   closes the drawer.
+#
+# @slot sidebar        [Daisy::Layout::DrawerSidebarComponent] The sidebar
+#   panel that slides in when the drawer is opened. Contains the overlay
+#   within itself.
+#
+# @loco_example Basic Left Drawer
 #   = daisy_drawer do |drawer|
 #     - drawer.with_sidebar do
 #       .bg-base-100.p-4.w-40
-#         Hello sidebar!
+#         Menu Items
 #
-#     = daisy_button(tag_name: "label", css: "btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
+#     = daisy_button(tag_name: "label",
+#       css: "btn btn-primary",
+#       title: "Open Menu",
+#       html: { for: drawer.id })
+#
+# @loco_example Right Drawer
+#   = daisy_drawer(css: "drawer-end") do |drawer|
+#     - drawer.with_sidebar do
+#       .bg-base-100.p-4.w-40
+#         Filter Options
+#
+#     = daisy_button(tag_name: "label",
+#       css: "btn btn-secondary",
+#       title: "Show Filters",
+#       html: { for: drawer.id })
+#
+# @loco_example Styled Drawer
+#   = daisy_drawer do |drawer|
+#     - drawer.with_sidebar do
+#       .bg-base-200.p-4.w-80.h-full
+#         .flex.justify-between.items-center.mb-4
+#           %h2.text-xl Settings
+#           = daisy_button(tag_name: "label",
+#             css: "btn btn-ghost btn-circle",
+#             icon: "x-mark",
+#             html: { for: drawer.id })
 #
 class Daisy::Layout::DrawerComponent < LocoMotion::BaseComponent
   #
@@ -26,14 +63,14 @@ class Daisy::Layout::DrawerComponent < LocoMotion::BaseComponent
   #
   class Daisy::Layout::DrawerSidebarComponent < LocoMotion::BaseComponent
     #
-    # Add the `drawer-side` CSS class to the component.
+    # Sets up the component's CSS classes.
     #
     def before_render
       add_css(:component, "drawer-side")
     end
 
     #
-    # Render the sidebar, the overlay, and the content.
+    # Renders the sidebar, the overlay, and its content.
     #
     def call
       part(:component) do
@@ -55,10 +92,18 @@ class Daisy::Layout::DrawerComponent < LocoMotion::BaseComponent
   attr_reader :id
 
   #
-  # Create a new instance of the DrawerComponent.
+  # Creates a new Drawer component.
   #
-  # @param kws [Hash] The keyword arguments passed to the component.
-  # @option kws [String] :id The ID of the drawer. Defaults to a random UUID.
+  # @param kws [Hash] Keyword arguments for customizing the drawer.
+  #
+  # @option kws id  [String] The ID of the drawer. Defaults to a random UUID.
+  #   This is used to connect the toggle button with the drawer.
+  #
+  # @option kws css [String] Additional CSS classes for styling. Common
+  #   options include:
+  #   - Position: `drawer-end` to slide from right instead of left
+  #   - Responsive: `lg:drawer-open` to keep drawer open on large screens
+  #   - Z-index: `z-[100]` to control stacking order
   #
   def initialize(**kws)
     super

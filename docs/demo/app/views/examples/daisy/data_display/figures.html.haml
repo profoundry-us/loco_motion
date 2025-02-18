@@ -1,0 +1,31 @@
+= doc_title(title: "Figures", comp: @comp) do |title|
+  %p Here are some examples showcasing figures.
+
+
+= doc_example(title: "Basic Figure") do |doc|
+  - doc.with_description do
+    %p
+      Figures are used to display images with optional captions. They are commonly
+      used within cards and other content containers.
+
+  = daisy_figure(css: "max-w-96", src: image_path("landscapes/beach.jpg"))
+
+
+= doc_example(title: "Figure with Caption") do |doc|
+  - doc.with_description do
+    %p
+      You can add a caption to your figure by providing content to the component.
+
+  = daisy_figure(css: "max-w-96", src: image_path("landscapes/mountain-river.jpg")) do
+    %p.text-center.italic A beautiful mountain river landscape
+
+
+= doc_example(title: "Custom Content") do |doc|
+  - doc.with_description do
+    %p
+      Figures can also be used without an image to display custom content.
+
+  = daisy_figure(css: "max-w-96 bg-base-100 p-4 rounded-lg") do
+    .flex.flex-col.items-center.gap-4
+      = hero_icon("photo", css: "size-16 text-base-content/50")
+      %p.text-center.italic Custom content without an image

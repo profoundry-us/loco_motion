@@ -922,7 +922,7 @@ the GitHub Discussions feature and let us know!
 - [ ] Basic versions of DaisyUI Data Input
 - [ ] Basic versions of DaisyUI Layout
 - [ ] Basic versions of DaisyUI Mockup
-- [ ] ~~Get YARD docs rendering with (better) Markdown~~ _**Working for now**_
+- [x] ~~Get YARD docs rendering with (better) Markdown~~ _**Working for now**_
 - [x] Extract relevant pieces into a yard-loco_motion plugin
 - [x] Publish Gem
 - [x] Publish NPM package
@@ -940,6 +940,12 @@ the GitHub Discussions feature and let us know!
 - [ ] Build some have docs / guides / examples for using playwright-ruby-client
 - [x] See if we can build a `Tippable` concern that relevant components can
       include to automatically add the tooltip param and classes where possible
+- [x] Rename `tail` methods to `end` since we use that in other places
+- [x] Update CardComponent Figure to be a proper class like other components
+- [x] Create a GitHub pull request template to standardize PR submissions
+- [ ] See if we can update the Join component to auto-add the `join-item` CSS
+      under certain conditions
+- [ ] Add title and description content_for blocks to all examples for SEO purposes
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/

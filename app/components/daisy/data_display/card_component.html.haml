@@ -1,17 +1,9 @@
 = part(:component) do
-  - if top_figure?
-    = top_figure
+  = top_figure if top_figure?
 
-  = part(:body) do
-    - if title?
-      = title
-    - elsif @simple_title
-      %h2.card-title= @simple_title
-
+  .card-body
+    = title if title?
     = content
+    = actions if actions?
 
-    - if actions?
-      = actions
-
-  - if bottom_figure?
-    = bottom_figure
+  = bottom_figure if bottom_figure?
