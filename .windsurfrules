@@ -43,6 +43,7 @@
 10. After making a change, re-run all tests to ensure they remain passing.
 11. When writing documentation or tests, reference the files in `docs/demo/app/views/examples` as a usage guide.
 12. Part customizations such as `resizer_css` or `header_html` are handled by the parent class and do NOT need special code in the child components.
+13. When completing a TODO in the README, mark it off instead of deleting it.
 
 </coding>
 

@@ -55,17 +55,17 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
     end
   end
 
-  context "with tail section" do
+  context "with end section" do
     let(:navbar) { described_class.new }
 
     before do
       render_inline(navbar) do |n|
-        n.with_tail { "End Content" }
+        n.with_end { "End Content" }
       end
     end
 
     describe "rendering" do
-      it "renders the tail section" do
+      it "renders the end section" do
         expect(page).to have_selector(".navbar-end", text: "End Content")
       end
 
@@ -82,7 +82,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
       render_inline(navbar) do |n|
         n.with_start { "Start Content" }
         n.with_center { "Center Content" }
-        n.with_tail { "End Content" }
+        n.with_end { "End Content" }
       end
     end
 
@@ -133,7 +133,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
           '<div class="form-control"><input type="text" placeholder="Search..." class="input input-bordered"></div>'.html_safe
         end
 
-        n.with_tail do
+        n.with_end do
           '<button class="btn btn-primary">Login</button>'.html_safe
         end
       end
@@ -149,7 +149,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
         expect(page).to have_selector(".navbar-center input[type='text'].input.input-bordered[placeholder='Search...']")
       end
 
-      it "renders complex tail content" do
+      it "renders complex end content" do
         expect(page).to have_selector(".navbar-end .btn.btn-primary", text: "Login")
       end
 

@@ -21,8 +21,7 @@
         %em> Loco
         %span.font-bold Motion
 
-    - # end is a reserved word in Ruby, so we use tail instead
-    - navbar.with_tail do
+    - navbar.with_end do
       = link_to "https://github.com/profoundry-us/loco_motion", target: "_blank", class: "flex items-center space-x-2" do
         %svg.w-6.h-6{role: "img", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", class: "dark:fill-base-100"}
           %title GitHub
@@ -48,7 +47,7 @@
     - navbar.with_center do
       = hero_icon("code-bracket-square", css: "size-14 text-green-600 -rotate-12")
 
-    - navbar.with_tail do
+    - navbar.with_end do
       = daisy_dropdown(css: "dropdown-end") do |dropdown|
         - dropdown.with_button(css: "btn-ghost", title: "Languages", right_icon: "chevron-down")
 

@@ -2,16 +2,13 @@
 # Creates a navigation bar component typically used at the top of a page to
 # organize navigation links and branding elements.
 #
-# @note Since `end` is a reserved word in Ruby, we use `tail` instead to
-#   represent the end section of the navbar.
-#
 # @slot start {LocoMotion::BasicComponent} The left section of the navbar.
 #   Automatically gets the `navbar-start` CSS class.
 #
 # @slot center {LocoMotion::BasicComponent} The center section of the navbar.
 #   Automatically gets the `navbar-center` CSS class.
 #
-# @slot tail {LocoMotion::BasicComponent} The right section of the navbar.
+# @slot end {LocoMotion::BasicComponent} The right section of the navbar.
 #   Automatically gets the `navbar-end` CSS class.
 #
 # @example Basic navbar with logo and GitHub link
@@ -20,7 +17,7 @@
 #       = image_tag("logo.png", class: "h-8")
 #       %span.font-bold Company Name
 #
-#     - navbar.with_tail do
+#     - navbar.with_end do
 #       = link_to "GitHub", "https://github.com", target: "_blank"
 #
 # @example Navbar with all sections and dropdown
@@ -31,10 +28,9 @@
 #     - navbar.with_center do
 #       = hero_icon("code-bracket", css: "size-14")
 #
-#     - navbar.with_tail do
+#     - navbar.with_end do
 #       = daisy_dropdown do |dropdown|
-#         - dropdown.with_title do
-#           = daisy_button(title: "Menu")
+#         - dropdown.with_button(title: "Menu")
 #         - dropdown.with_item do
 #           = link_to "Item 1", "#"
 #
@@ -43,8 +39,7 @@ class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
 
   renders_one :center, LocoMotion::BasicComponent.build(css: "navbar-center")
 
-  # End is a reserved word in Ruby
-  renders_one :tail, LocoMotion::BasicComponent.build(css: "navbar-end")
+  renders_one :end, LocoMotion::BasicComponent.build(css: "navbar-end")
 
   # Create a new instance of the NavbarComponent.
   #
@@ -63,5 +58,16 @@ class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
 
   def before_render
     add_css(:component, "navbar")
+  end
+
+  private
+
+  # Returns the end section content.
+  #
+  # Since `end` is a reserved word in Ruby, we need to use a different method
+  # name in the template.
+  #
+  def end_content
+    self.end
   end
 end
