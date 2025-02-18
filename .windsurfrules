@@ -16,6 +16,7 @@
 5. When documenting a component, we use `@param` only for positional arguments and `@option` for all other keyword arguments.
 6. All loco_examples in the YARD documentation should use proper HAML syntax.
 7. When adding a TODO item, it should be appended to the bottom of the list in the README.md file.
+8. Documentation should utilize proper punctuation, including for list items.
 
 </documentation>
 
