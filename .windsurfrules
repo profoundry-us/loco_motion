@@ -6,6 +6,18 @@
 
 </communication>
 
+<documentation>
+
+0. We utilize YARD to generate our documentation.
+1. When documenting new components,utilize existing components as a guide.
+2. If a component uses `define_part` or `define_parts`, use the `@part` macro to document it.
+3. If a component uses `renders_one` or `renders_many`, use the `@slot` macro to document it.
+4. If a component uses `renders_many`, use the `+` symbol after the name to indicate that it allows multiple calls.
+5. When documenting a component, we use `@param` only for positional arguments and `@option` for all other keyword arguments.
+6. All loco_examples in the YARD documentation should use proper HAML syntax.
+
+</documentation>
+
 <coding>
 
 1. When writing new code, follow the conventions of existing code such as components.
@@ -19,5 +31,18 @@
 9. Utilize the Makefile as a resource when learning how to run commands.
 10. After making a change, re-run all tests to ensure they remain passing.
 11. When writing documentation or tests, reference the files in `docs/demo/app/views/examples` as a usage guide.
+12. Part customizations such as `resizer_css` or `header_html` are handled by the parent class and do NOT need special code in the child components.
 
 </coding>
+
+<committing>
+
+1. When committing code, follow these steps:
+  1. Run a `git status` to see what files changed.
+  2. Run `git add .` to add all changed files to the index.
+  3. Run `git diff --staged` to see what files changed.
+  4. Iterate over every file and generate a brief description of the changes for that file.
+  5. Compile all changes into a singular commit message.
+  5. Commit the changes.
+
+</committing>

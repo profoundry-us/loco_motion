@@ -5,7 +5,8 @@
 = doc_example(title: "Basic Carousel") do |doc|
   - doc.with_description do
     %p
-      You can use the Carousel component to display a collection of images.
+      You can use the Carousel component to display a collection of images or
+      other content.
 
   - photos = Rails.cache.fetch("unsplash_landscapes") { Unsplash::Photo.search("landscape") }
   - unsplash_link = "https://unsplash.com?#{Unsplash::Client.connection.utm_params.to_param}"
@@ -25,3 +26,46 @@
             on
             = link_to "Unsplash", unsplash_link, class: "link hover:text-black", target: "_blank"
 
+
+= doc_example(title: "Card Carousel") do |doc|
+  - doc.with_description do
+    %p
+      The Carousel component can also be used to display other components, such
+      as Cards. This is great for showcasing related content in a compact way.
+
+  = daisy_carousel(css: "h-96 gap-x-4 rounded-lg") do |carousel|
+    - carousel.with_item(css: "w-96") do
+      = daisy_card(css: "h-full bg-base-100 border border-base-200") do |card|
+        - card.with_top_figure(src: image_path("landscapes/mountain-river.jpg"))
+        - card.with_title { "Mountain River" }
+        %p{ class: "text-base-content/70" }
+          Experience breathtaking views of pristine rivers winding through majestic peaks.
+        - card.with_actions do
+          = daisy_button("Learn More")
+
+    - carousel.with_item(css: "w-96") do
+      = daisy_card(css: "h-full bg-base-100 border border-base-200") do |card|
+        - card.with_top_figure(src: image_path("landscapes/desert.jpg"))
+        - card.with_title { "Desert Vista" }
+        %p{ class: "text-base-content/70" }
+          Witness the stunning beauty of endless desert landscapes under vast skies.
+        - card.with_actions do
+          = daisy_button("Learn More")
+
+    - carousel.with_item(css: "w-96") do
+      = daisy_card(css: "h-full bg-base-100 border border-base-200") do |card|
+        - card.with_top_figure(src: image_path("landscapes/forest.jpg"))
+        - card.with_title { "Forest Path" }
+        %p{ class: "text-base-content/70" }
+          Explore winding paths through ancient forests filled with natural wonders.
+        - card.with_actions do
+          = daisy_button("Learn More")
+
+    - carousel.with_item(css: "w-96") do
+      = daisy_card(css: "h-full bg-base-100 border border-base-200") do |card|
+        - card.with_top_figure(src: image_path("landscapes/beach.jpg"))
+        - card.with_title { "Coastal Paradise" }
+        %p{ class: "text-base-content/70" }
+          Marvel at pristine beaches where turquoise waters meet golden sands.
+        - card.with_actions do
+          = daisy_button("Learn More")
