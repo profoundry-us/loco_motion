@@ -45,6 +45,10 @@
   d. Iterate over every modified file and generate a brief description of the changes for that file.
   e. Compile all changes into a singular commit message utilizing Markdown headers, lists, and code blocks.
   f. Commit the changes.
+  g. Push the changes to the remote repository.
+  h. Check to see if a Pull Request already exists.
+  i. If not, create a new Pull Request provide a clickable link to the PR.
+  j. If so, just link to the existing PR.
 
 2. When providing links for Pull Requests, ensure I can click on the link.
 
