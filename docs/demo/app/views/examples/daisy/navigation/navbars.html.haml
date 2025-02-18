@@ -50,8 +50,7 @@
 
     - navbar.with_tail do
       = daisy_dropdown(css: "dropdown-end") do |dropdown|
-        - dropdown.with_title do
-          = daisy_button(css: "btn-ghost", title: "Languages", right_icon: "chevron-down")
+        - dropdown.with_button(css: "btn-ghost", title: "Languages", right_icon: "chevron-down")
 
         - dropdown.with_item do
           = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
