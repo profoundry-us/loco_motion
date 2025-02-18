@@ -18,6 +18,14 @@
 7. When adding a TODO item, it should be appended to the bottom of the list in the README.md file.
 8. Documentation should utilize proper punctuation, including for list items.
 9. If an `initialize` method does not utilize the positional arguments, do not include them in the `@param` documentation.
+10. All `@param` and `@option` documentation should be on the `initialize` method.
+11. All `@param` and `@option` documentation should have newlines between them.
+12. Follow this order when writing component documentation:
+  a. Description
+  b. Notes (Optional)
+  c. Parts
+  d. Slots
+  e. Examples
 
 </documentation>
 
