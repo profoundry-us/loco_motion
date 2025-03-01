@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email       = "topher@profoundry.us"
   s.homepage    = "https://rubygems.org/gems/loco_motion-rails"
   s.license     = "MIT"
+  s.required_ruby_version = ">= 3.0"
 
   s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
   s.require_paths = ["lib", "app"]
@@ -16,7 +17,7 @@ Gem::Specification.new do |s|
   # Add our few dependencies
   s.add_dependency 'haml-rails', '~> 2.1'
   s.add_dependency 'heroicons-rails', '~> 1.2'
-  s.add_dependency 'rails', '>= 6.1'
+  s.add_dependency 'rails', '~> 6.1'
   s.add_dependency 'view_component', '~> 3.14'
 
   # Add some things that are no longer part of the standard Ruby distribution

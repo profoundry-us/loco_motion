@@ -27,7 +27,19 @@ Before releasing a new version, ensure:
 
 ## Version Update
 
-Update the version across all files using the version update script:
+Update the version across all files using one of the following methods:
+
+### Using Makefile Commands (Recommended)
+
+```bash
+# Interactive mode - will prompt for new version
+make version-bump
+
+# Specify version directly
+make version-set NEW_VERSION=1.0.0
+```
+
+### Using the Script Directly
 
 ```bash
 bin/update_version          # Interactive mode
@@ -48,11 +60,11 @@ This will automatically update:
    make gem-build
    ```
 
-   This will create a new gem file in the `gem_builds` directory with the
+   This will create a new gem file in the `builds/rubygems` directory with the
    current version number.
 
 2. Verify the gem build looks correct by checking the contents of
-   `gem_builds/loco_motion-rails-[VERSION].gem`.
+   `builds/rubygems/loco_motion-rails-[VERSION].gem`.
 
 3. Build the NPM package:
 
@@ -60,10 +72,10 @@ This will automatically update:
    make npm-build
    ```
 
-   This will create a new tarball in the `npm_builds` directory.
+   This will create a new tarball in the `builds/npm` directory.
 
 4. Verify the NPM package looks correct by checking the contents of
-   `npm_builds/profoundry-us-loco_motion-[VERSION].tgz`.
+   `builds/npm/profoundry-us-loco_motion-[VERSION].tgz`.
 
 ## Publishing
 
