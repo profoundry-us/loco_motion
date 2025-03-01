@@ -83,5 +83,6 @@
 
 2. When providing links for Pull Requests, always format it so I can click on
    the link.
+3. We have a GitHub Pull Request template available in `.github/pull_request_template.md`.
 
 </committing>
