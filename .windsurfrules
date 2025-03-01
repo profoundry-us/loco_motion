@@ -89,3 +89,8 @@
    use Markdown and backticks in the message.
 
 </committing>
+
+<commands>
+1. When removing a file with `rm`, make sure to use `/bin/rm` so that it doesn't
+   prompt you for confirmation.
+</commands>
