@@ -47,6 +47,8 @@ your solution is aligned with our goals.
   - [Install](#install)
   - [Using Components](#using-components)
 - [Developing](#developing)
+  - [Contributing](#contributing)
+  - [Releasing](#releasing)
   - [Tooling](#tooling)
 - [TODO / Next Steps](#todo--next-steps)
 
@@ -855,6 +857,14 @@ See the `Makefile` for all available commands.
 > ```sh
 > make demo-restart
 > ```
+
+### Contributing
+
+If you're interested in contributing to LocoMotion, please check out our [CONTRIBUTING guide](docs/dev_guides/CONTRIBUTING.md) which provides detailed information about the contribution process, code standards, documentation requirements, and testing procedures.
+
+### Releasing
+
+For core team members who need to release new versions of LocoMotion, please refer to our [RELEASING guide](docs/dev_guides/RELEASING.md) for step-by-step instructions on version updates, building, testing, and publishing both the Ruby gem and NPM package.
 
 ### Tooling
 
