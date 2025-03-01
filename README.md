@@ -920,8 +920,8 @@ the GitHub Discussions feature and let us know!
 - [x] Basic versions of DaisyUI Navigation
 - [x] Basic versions of DaisyUI Feedback
 - [ ] Basic versions of DaisyUI Data Input
-- [ ] Basic versions of DaisyUI Layout
-- [ ] Basic versions of DaisyUI Mockup
+- [x] Basic versions of DaisyUI Layout
+- [x] Basic versions of DaisyUI Mockup
 - [x] ~~Get YARD docs rendering with (better) Markdown~~ _**Working for now**_
 - [x] Extract relevant pieces into a yard-loco_motion plugin
 - [x] Publish Gem
@@ -932,9 +932,9 @@ the GitHub Discussions feature and let us know!
 - [ ] Choose, recommend, and document a pagination gem
 - [ ] Discuss caching techniques / setup
 - [x] Create / publish a staging version of the demo site ([Demo Staging][2])
-- [ ] Create / publish a staging version of the docs site
-- [ ] Create / publish a production version of the demo site
-- [ ] Create / publish a production version of the docs site
+- [x] Create / publish a staging version of the docs site
+- [x] Create / publish a production version of the demo site
+- [x] Create / publish a production version of the docs site
 - [x] Update demo site to allow for a different docs site using ENV var
 - [x] Update README to suggest Playwright
 - [ ] Build some have docs / guides / examples for using playwright-ruby-client

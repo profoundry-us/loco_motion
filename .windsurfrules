@@ -66,6 +66,7 @@
 
 <committing>
 
+0. Wait until I ask you to commit before following the rest of these steps.
 1. When committing code, follow these steps:
   a. Run `make loco-test` to ensure all tests pass.
   b. Run a `git status --porcelain` to see what files changed.
@@ -91,7 +92,7 @@
 </committing>
 
 <releasing>
-1. When releasing, follow the protocol outlined in the docs/dev_guides/releasing.md file.
+1. When releasing, follow the protocol outlined in the docs/dev_guides/RELEASING.md file.
 </releasing>
 
 <commands>
