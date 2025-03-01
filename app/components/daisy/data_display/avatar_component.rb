@@ -1,27 +1,37 @@
-# The Avatar Component displays in image, icon, or placeholder text to represent
-# a user.
+# The Avatar component displays an image, icon, or placeholder text to represent
+# a user or entity. It provides a consistent, circular display with fallback
+# options when an image is not available.
+#
+# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+# tooltip addition.
 #
 # It utilizes the CSS `where()` pseudo-class to reduce the specificity to 0 to
 # allow for easy overriding while giving you some sane defaults.
 #
-# - Width: <code>w-24</code> (can override with w-10, h-10, etc.)
-# - Corners: `rounded-full`
+# @part wrapper The outer container that maintains the avatar's shape and size.
+# @part img The image element when an image source is provided.
+# @part icon The icon element when an icon is specified.
+# @part placeholder The container for placeholder content when no image or icon
+#   is provided.
 #
-# If no image is provided, these additional classes will be added so that any
-# text or icons are visible.
+# @loco_example Basic Usage with Image
+#   = daisy_avatar(src: "https://example.com/avatar.jpg")
 #
-# - Background: +bg-neutral+
-# - Text Color: `text-neutral-content`
+# @loco_example With Icon
+#   = daisy_avatar(icon: "user")
 #
-# ## Examples
+# @loco_example With Custom Icon Styling
+#   = daisy_avatar(icon: "user", icon_css: "text-yellow-400")
 #
-# ```language-haml
-# - # Display an avatar with an image
-# = daisy_avatar src: "https://example.com/avatar.jpg"
+# @loco_example With Placeholder Text
+#   = daisy_avatar do
+#     JD
 #
-# - # Display an avatar with an icon
-# = daisy_avatar icon: "user", icon_css: "text-yellow-400"
-# ```
+# @loco_example With Custom Size
+#   = daisy_avatar(src: "avatar.jpg", css: "w-16 h-16")
+#
+# @loco_example With Tooltip
+#   = daisy_avatar(src: "avatar.jpg", tip: "John Doe")
 #
 class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
@@ -31,7 +41,17 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   define_parts :wrapper, :img, :icon, :placeholder
 
   # Create a new avatar component.
-  def initialize(*args, **kws, &block)
+  #
+  # @param kws [Hash] The keyword arguments for the component.
+  #
+  # @option kws src [String] URL to the avatar image. If not provided, the
+  #   component will display an icon or placeholder content.
+  #
+  # @option kws icon [String] Name of the Heroicon to display when no image is
+  #   provided. If neither src nor icon is provided, placeholder content from
+  #   the block will be shown.
+  #
+  def initialize(**kws, &block)
     super
 
     @src = config_option(:src)

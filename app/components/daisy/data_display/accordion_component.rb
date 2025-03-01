@@ -1,8 +1,55 @@
-# The Accordion component shows sections that can be expanded or collapsed.
+#
+# The Accordion component shows collapsible sections of content, with only one
+# section open at a time. Each section has a title that can be clicked to show
+# or hide its content.
+#
+# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+# tooltip addition.
+#
+# @slot section+ Multiple sections that can be expanded or collapsed. Each
+#   section can have a title and content.
+#
+# @loco_example Basic Usage
+#   = daisy_accordion do |accordion|
+#     - accordion.with_section(title: "Section 1") do
+#       This is the content of section 1
+#     - accordion.with_section(title: "Section 2") do
+#       This is the content of section 2
+#
+# @loco_example With Arrow Icons
+#   = daisy_accordion(:arrow) do |accordion|
+#     - accordion.with_section(title: "Section 1") do
+#       This is the content of section 1
+#     - accordion.with_section(title: "Section 2") do
+#       This is the content of section 2
+#
+# @loco_example With Plus Icons
+#   = daisy_accordion(:plus) do |accordion|
+#     - accordion.with_section(title: "Section 1") do
+#       This is the content of section 1
+#     - accordion.with_section(title: "Section 2") do
+#       This is the content of section 2
+#
+# @loco_example With Custom Title Content
+#   = daisy_accordion do |accordion|
+#     - accordion.with_section do |section|
+#       - section.with_title do
+#         .flex.items-center.gap-2
+#           = heroicon_tag "star"
+#           Featured Section
+#       This is the content of the featured section
+#
 class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
 
   # Renders a single section of the accordion.
+  #
+  # @part radio_button The radio input that controls the section's state.
+  # @part title The title bar that can be clicked to expand/collapse the section.
+  # @part content The container for the section's content.
+  #
+  # @slot title Custom content for the section's title bar.
+  #
   class AccordionSectionComponent < LocoMotion::BasicComponent
     define_parts :radio_button, :title, :content
 
@@ -12,7 +59,23 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
     #   config.
     attr_reader :simple_title
 
-    def initialize(*args, **kws, &block)
+    # Creates a new accordion section.
+    #
+    # @param kws [Hash] The keyword arguments for the component.
+    #
+    # @option kws title [String] The text to display in the section's title bar.
+    #   You can also provide a custom title content using the title slot.
+    #
+    # @option kws value [String] The value for the radio button that controls
+    #   this section. Defaults to a random string.
+    #
+    # @option kws checked [Boolean] Whether this section should start expanded.
+    #   Defaults to false.
+    #
+    # @option kws name [String] The name attribute for the radio button group.
+    #   Usually provided by the parent accordion.
+    #
+    def initialize(**kws, &block)
       super
 
       @value        = config_option(:value)
@@ -73,9 +136,22 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
 
   renders_many :sections, AccordionSectionComponent
 
+  # @return [String] The name attribute for all radio buttons in this accordion.
   attr_reader :name
 
-  def initialize(*args, **kws, &block)
+  #
+  # Creates a new accordion component.
+  #
+  # @param kws [Hash] The keyword arguments for the component.
+  #
+  # @option kws name [String] The name attribute for all radio buttons in this
+  #   accordion. Defaults to a random string.
+  #
+  # @option kws modifier [Symbol] Optional modifier for the accordion's appearance.
+  #   Use `:arrow` to show arrow indicators, or `:plus` to show plus/minus
+  #   indicators.
+  #
+  def initialize(**kws, &block)
     super
 
     @name = config_option(:name, "accordion-#{SecureRandom.uuid}")

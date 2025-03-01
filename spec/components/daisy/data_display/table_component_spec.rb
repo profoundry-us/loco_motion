@@ -96,13 +96,13 @@ RSpec.describe Daisy::DataDisplay::TableComponent, type: :component do
 
       it "renders bodies" do
         # First section
-        expect(page).to have_selector("tbody:first-of-type tr", count: 3) # Including the empty tr
-        expect(page).to have_selector("tbody:first-of-type tr:nth-child(2) td", text: "1901")
+        expect(page).to have_selector("tbody:first-of-type tr", count: 2)
+        expect(page).to have_selector("tbody:first-of-type tr:first-child td", text: "1901")
         expect(page).to have_selector("tbody:first-of-type tr:last-child td", text: "1902")
 
         # Second section
-        expect(page).to have_selector("tbody:last-of-type tr", count: 3) # Including the empty tr
-        expect(page).to have_selector("tbody:last-of-type tr:nth-child(2) td", text: "1911")
+        expect(page).to have_selector("tbody:last-of-type tr", count: 2)
+        expect(page).to have_selector("tbody:last-of-type tr:first-child td", text: "1911")
         expect(page).to have_selector("tbody:last-of-type tr:last-child td", text: "1912")
       end
     end

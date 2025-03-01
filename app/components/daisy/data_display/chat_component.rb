@@ -1,19 +1,49 @@
 #
-# The {ChatComponent} renders a bubble-like chat interface with an optional
-# avatar, header, and footer.
+# The Chat component renders a messaging interface with support for avatars,
+# message bubbles, and optional header and footer content. It's perfect for
+# displaying conversations, comments, or any message-based interactions.
 #
-# @slot   avatar Renders an {AvatarComponent}. Common options include:
-# @option avatar [String] src The URL of the image to display.
-# @option avatar [String] icon A heroicon to be displayed instead of an image.
+# @slot avatar An optional avatar for the message sender. Uses the
+#   {AvatarComponent} with preset styling for chat messages.
 #
-# @slot header [LocoMotion::BasicComponent] Renders a single header.
-# @slot footer [LocoMotion::BasicComponent] Renders a single footer.
-# @slot bubble [LocoMotion::BasicComponent] Renders one or more bubbles.
+# @slot header A header section above the message bubbles, typically used for
+#   sender name or timestamp.
+#
+# @slot footer A footer section below the message bubbles, often used for
+#   message status or metadata.
+#
+# @slot bubble+ One or more message bubbles containing the actual message
+#   content.
 #
 # @loco_example Basic Usage
-#   = daisy_chat(css: "border rounded-lg", html: { title: message.short_desc }) do |chat|
+#   = daisy_chat do |chat|
 #     - chat.with_bubble do
-#       I can't believe it's not the weekend yet!
+#       Hello! How can I help you today?
+#
+# @loco_example With Avatar
+#   = daisy_chat do |chat|
+#     - chat.with_avatar(src: "avatar.jpg")
+#     - chat.with_bubble do
+#       Hi there! I'm your assistant.
+#
+# @loco_example Complete Message
+#   = daisy_chat do |chat|
+#     - chat.with_avatar(icon: "user")
+#     - chat.with_header do
+#       .font-bold John Doe
+#       .text-xs 2 minutes ago
+#     - chat.with_bubble do
+#       Can you help me with my account?
+#     - chat.with_bubble do
+#       I can't seem to find the settings page.
+#     - chat.with_footer do
+#       .text-xs Sent from Web App
+#
+# @loco_example End-aligned Chat
+#   = daisy_chat(css: "chat-end") do |chat|
+#     - chat.with_avatar(src: "user.jpg")
+#     - chat.with_bubble do
+#       Sure! The settings page is under your profile menu.
 #
 class Daisy::DataDisplay::ChatComponent < LocoMotion::BaseComponent
   renders_one :avatar, Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100", wrapper_css: "w-10 rounded-full")
