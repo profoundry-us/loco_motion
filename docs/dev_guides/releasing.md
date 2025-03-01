@@ -51,6 +51,19 @@ This will automatically update:
 
 - `lib/loco_motion/version.rb` (primary source of truth)
 - `package.json`
+- `docs/demo/package.json` (updates the dependency on `@profoundry-us/loco_motion`)
+
+After updating the version, you should update the demo app's bundle to ensure it's using the new version:
+
+```bash
+make demo-update
+# OR
+make demo-restart
+# OR
+docker compose exec -it demo bundle
+```
+
+This ensures that the demo app is using the latest version of the gem from the vendor directory.
 
 ## Building and Testing
 

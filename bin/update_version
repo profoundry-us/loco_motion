@@ -48,6 +48,17 @@ def update_version(new_version = nil)
       puts "✓ Updated package.json"
     end
 
+    # Update docs/demo/package.json
+    demo_package_json_path = File.join(root_dir, 'docs', 'demo', 'package.json')
+    if File.exist?(demo_package_json_path)
+      demo_package_json = JSON.parse(File.read(demo_package_json_path))
+      if demo_package_json['dependencies'] && demo_package_json['dependencies']['@profoundry-us/loco_motion']
+        demo_package_json['dependencies']['@profoundry-us/loco_motion'] = "^#{new_version}"
+        File.write(demo_package_json_path, JSON.pretty_generate(demo_package_json) + "\n")
+        puts "✓ Updated docs/demo/package.json"
+      end
+    end
+
     puts "\nSuccessfully updated version to #{new_version}"
     puts "\nNext steps:"
     puts "1. Review the changes: git diff"

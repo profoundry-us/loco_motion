@@ -166,6 +166,11 @@ version-set:
 		docker compose exec -it loco bin/update_version $(NEW_VERSION); \
 	fi
 
+# Update the demo app to use the new version
+.PHONY: demo-update
+demo-update:
+	docker compose exec -it demo bundle
+
 # Builds a new version of the gem in the builds/rubygems directory
 .PHONY: gem-build
 gem-build:

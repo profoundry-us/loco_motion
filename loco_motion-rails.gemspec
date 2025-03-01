@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   # Add our few dependencies
   s.add_dependency 'haml-rails', '~> 2.1'
   s.add_dependency 'heroicons-rails', '~> 1.2'
-  s.add_dependency 'rails', '~> 6.1'
+  s.add_dependency 'rails', '>= 6.1', '< 8.0'
   s.add_dependency 'view_component', '~> 3.14'
 
   # Add some things that are no longer part of the standard Ruby distribution
@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'combustion', '~> 1.3'
   s.add_development_dependency 'heroicons-rails', '~> 1.2'
   s.add_development_dependency 'pry', '~> 0.15.0'
-  s.add_development_dependency 'rails', '~> 6.1'
+  s.add_development_dependency 'rails', '>= 6.1', '< 8.0'
   s.add_development_dependency 'redcarpet', '~> 3.6'
   s.add_development_dependency 'rspec', '~> 3.13.0'
   s.add_development_dependency 'rspec-rails', '~> 6.1.1'

@@ -11,7 +11,7 @@ PATH
       logger (~> 1.6.1)
       mutex_m (~> 0.2.0)
       ostruct (~> 0.6.0)
-      rails (~> 6.1)
+      rails (>= 6.1, < 8.0)
       rdoc (~> 6.7.0)
       view_component (~> 3.14)
 
@@ -264,7 +264,7 @@ DEPENDENCIES
   heroicons-rails (~> 1.2)
   loco_motion-rails!
   pry (~> 0.15.0)
-  rails (~> 6.1)
+  rails (>= 6.1, < 8.0)
   redcarpet (~> 3.6)
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.1)
