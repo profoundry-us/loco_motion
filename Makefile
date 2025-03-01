@@ -101,11 +101,6 @@ demo-restart:
 demo-shell:
 	docker compose exec -it demo /bin/bash
 
-# Run all of the Rspec tests
-.PHONY: demo-test
-demo-test:
-	docker compose exec -it demo bundle exec rspec spec
-
 # Open a bash shell to debug problems
 .PHONY: demo-debug
 demo-debug:
@@ -147,10 +142,15 @@ yard-shell:
 	docker compose exec -it yard /bin/bash
 
 ##############################
-# Publish commands
+# Build/Publish commands
 ##############################
 
-version=$(shell cat VERSION)
+version=$(shell grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
+
+# Print the current version
+.PHONY: version
+version:
+	@echo $(version)
 
 # Builds a new version of the gem in the gem_builds directory
 .PHONY: gem-build
@@ -161,6 +161,12 @@ gem-build:
 .PHONY: gem-publish
 gem-publish:
 	docker compose exec -it loco gem push gem_builds/loco_motion-rails-$(version).gem
+
+# Builds a new version of the NPM package in the npm_builds directory
+.PHONY: npm-build
+npm-build:
+	mkdir -p npm_builds
+	npm pack --pack-destination npm_builds
 
 # Publishes the NPM Package to NPM Registry
 .PHONY: npm-publish

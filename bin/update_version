@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'json'
+require 'fileutils'
+
+def update_version(new_version = nil)
+  root_dir = File.expand_path('../..', __FILE__)
+  version_rb_path = File.join(root_dir, 'lib', 'loco_motion', 'version.rb')
+  
+  # Get current version if no new version provided
+  current_version = File.read(version_rb_path).match(/VERSION\s*=\s*["'](.+?)["']/)[1]
+  
+  if new_version.nil?
+    puts "Current version: #{current_version}"
+    print "Enter new version (or press enter to cancel): "
+    new_version = gets.strip
+    exit if new_version.empty?
+  end
+
+  # Validate version format (simple check for x.y.z format)
+  unless new_version.match?(/^\d+\.\d+\.\d+$/)
+    puts "Error: Version must be in format x.y.z (e.g., 1.0.0)"
+    exit 1
+  end
+
+  begin
+    # Update version.rb
+    version_dir = File.join(root_dir, 'lib', 'loco_motion')
+    FileUtils.mkdir_p(version_dir)
+
+    version_content = <<~RUBY
+      # frozen_string_literal: true
+
+      module LocoMotion
+        VERSION = "#{new_version}"
+      end
+    RUBY
+    File.write(version_rb_path, version_content)
+    puts "✓ Updated version.rb"
+
+    # Update package.json
+    package_json_path = File.join(root_dir, 'package.json')
+    if File.exist?(package_json_path)
+      package_json = JSON.parse(File.read(package_json_path))
+      package_json['version'] = new_version
+      File.write(package_json_path, JSON.pretty_generate(package_json) + "\n")
+      puts "✓ Updated package.json"
+    end
+
+    puts "\nSuccessfully updated version to #{new_version}"
+    puts "\nNext steps:"
+    puts "1. Review the changes: git diff"
+    puts "2. Commit the changes: git commit -am 'Bump version to #{new_version}'"
+    puts "3. Create a git tag: git tag v#{new_version}"
+    puts "4. Push changes: git push && git push --tags"
+
+  rescue StandardError => e
+    puts "Error updating version: #{e.message}"
+    exit 1
+  end
+end
+
+if ARGV.empty?
+  update_version
+else
+  update_version(ARGV[0])
+end

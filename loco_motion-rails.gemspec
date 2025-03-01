@@ -1,6 +1,8 @@
+require_relative "lib/loco_motion/version"
+
 Gem::Specification.new do |s|
   s.name        = "loco_motion-rails"
-  s.version     = "0.0.7"
+  s.version     = LocoMotion::VERSION
   s.summary     = "Ruby on Rails, loco fast!"
   s.description = "Advanced components and Rails management with LocoMotion."
   s.authors     = ["Topher Fangio"]
