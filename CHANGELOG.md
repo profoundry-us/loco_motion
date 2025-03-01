@@ -14,9 +14,9 @@ All notable changes to LocoMotion will be documented in this file.
 - Version management improvements
 - Enhanced commit message formatting for Windsurf
 - Updated Rails dependency to support both Rails 6.1 and 7.1 (`>= 6.1, < 8.0`)
+- Added Windsurf rule for file removal operations
 
 ### Fixed
-- Added Windsurf rule for file removal operations
 - Fixed Button component bug where styles were not always applied with icon options
 - Fixed compatibility issues between the gem and the demo app
 - Fixed Gemfile.lock not getting saved properly during version updates
