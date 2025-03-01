@@ -3,6 +3,8 @@
 1. Always speak to me in English.
 2. Start our sessions by asking clarifying questions to gain additional context.
 3. If relevant, suggest adding the context to this Rules file for future runs.
+4. If I type what appears to be a git command, attempt to run it and do nothing
+   else.
 
 </communication>
 
@@ -10,14 +12,20 @@
 
 0. We utilize YARD to generate our documentation.
 1. When documenting new components,utilize existing components as a guide.
-2. If a component uses `define_part` or `define_parts`, use the `@part` macro to document it.
-3. If a component uses `renders_one` or `renders_many`, use the `@slot` macro to document it.
-4. If a component uses `renders_many`, use the `+` symbol after the name to indicate that it allows multiple calls.
-5. When documenting a component, we use `@param` only for positional arguments and `@option` for all other keyword arguments.
+2. If a component uses `define_part` or `define_parts`, use the `@part` macro to
+   document it.
+3. If a component uses `renders_one` or `renders_many`, use the `@slot` macro to
+   document it.
+4. If a component uses `renders_many`, use the `+` symbol after the name to
+   indicate that it allows multiple calls.
+5. When documenting a component, we use `@param` only for positional arguments
+   and `@option` for all other keyword arguments.
 6. All loco_examples in the YARD documentation should use proper HAML syntax.
-7. When adding a TODO item, it should be appended to the bottom of the list in the README.md file.
+7. When adding a TODO item, it should be appended to the bottom of the list in
+   the README.md file.
 8. Documentation should utilize proper punctuation, including for list items.
-9. If an `initialize` method does not utilize the positional arguments, do not include them in the `@param` documentation.
+9. If an `initialize` method does not utilize the positional arguments, do not
+   include them in the `@param` documentation.
 10. All `@param` and `@option` documentation should be on the `initialize` method.
 11. All `@param` and `@option` documentation should have newlines between them.
 12. Follow this order when writing component documentation:
@@ -32,19 +40,26 @@
 
 <coding>
 
-0. When making a plan, only show me the steps you will take and ask to move forward.
-1. When writing new code, follow the conventions of existing code such as components.
-2. When writing docs, follow the conventions of existing docs such as the Button component.
-3. When writing tests, follow the conventions of existing tests such as the `button_component_spec.rb`.
+0. When making a plan, only show me the steps you will take and ask to move
+   forward.
+1. When writing new code, follow the conventions of existing code such as
+   components.
+2. When writing docs, follow the conventions of existing docs such as the Button
+  component.
+3. When writing tests, follow the conventions of existing tests such as the
+   `button_component_spec.rb`.
 4. All code should be tested and have proper documentation.
 5. Assume that you are a mid-level software engineer when creating new code.
 6. Follow the principles of KISS (Keep It Stupid Simple).
 7. Follow the principles of DRY (Don't Repeat Yourself).
-8. Remember that we run everything with Docker, so some commands may need to change.
+8. Remember that we run everything with Docker, so some commands may need to
+   change.
 9. Utilize the Makefile as a resource when learning how to run commands.
 10. After making a change, re-run all tests to ensure they remain passing.
-11. When writing documentation or tests, reference the files in `docs/demo/app/views/examples` as a usage guide.
-12. Part customizations such as `resizer_css` or `header_html` are handled by the parent class and do NOT need special code in the child components.
+11. When writing documentation or tests, reference the files in
+    `docs/demo/app/views/examples` as a usage guide.
+12. Part customizations such as `resizer_css` or `header_html` are handled by
+    the parent class and do NOT need special code in the child components.
 13. When completing a TODO in the README, mark it off instead of deleting it.
 
 </coding>
@@ -52,17 +67,23 @@
 <committing>
 
 1. When committing code, follow these steps:
-  a. Run a `git status --porcelain` to see what files changed.
-  b. Run `git add .` to add all changed files to the index.
-  c. Run `git diff` on all of the modified files to see what has changed.
-  d. Iterate over every modified file and generate a brief description of the changes for that file.
-  e. Compile all changes into a singular commit message utilizing Markdown headers, lists, and code blocks.
-  f. Commit the changes.
-  g. Push the changes to the remote repository.
-  h. Check to see if a Pull Request already exists.
-  i. If not, create a new Pull Request provide a clickable link to the PR.
-  j. If so, just link to the existing PR.
+  a. Run `make loco-test` to ensure all tests pass.
+  b. Run a `git status --porcelain` to see what files changed.
+  c. Run `git add .` to add all changed files to the index.
+  d. Run `git diff` on all of the modified files to see what has changed.
+  e. Iterate over every modified file and generate a brief description of the
+     changes for that file.
+  f. Compile all changes into a singular commit message utilizing Markdown
+     headers, lists, and code blocks.
+  g. Commit the changes.
+  h. Push the changes to the remote repository.
+  i. If the push created a new branch on the remote, provide a clickable link to
+     create a PR on GitHub.
+  j. If the push did not create a new branch on the remote, provide a clickable
+     link to the existing GitHub PR.
 
-2. When providing links for Pull Requests, ensure I can click on the link.
+2. When providing links for Pull Requests, always format it so I can click on
+   the link.
+3. We have a GitHub Pull Request template available in `.github/pull_request_template.md`.
 
 </committing>

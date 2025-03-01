@@ -101,11 +101,6 @@ demo-restart:
 demo-shell:
 	docker compose exec -it demo /bin/bash
 
-# Run all of the Rspec tests
-.PHONY: demo-test
-demo-test:
-	docker compose exec -it demo bundle exec rspec spec
-
 # Open a bash shell to debug problems
 .PHONY: demo-debug
 demo-debug:
@@ -147,20 +142,46 @@ yard-shell:
 	docker compose exec -it yard /bin/bash
 
 ##############################
-# Publish commands
+# Build/Publish commands
 ##############################
 
-version=$(shell cat VERSION)
+version=$(shell grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
 
-# Builds a new version of the gem in the gem_builds directory
+# Print the current version
+.PHONY: version
+version:
+	@echo $(version)
+
+# Bump the version using the update_version script
+.PHONY: version-bump
+version-bump:
+	docker compose exec -it loco bin/update_version
+
+# Bump the version to a specific version
+.PHONY: version-set
+version-set:
+	@if [ -z "$(NEW_VERSION)" ]; then \
+		echo "Usage: make version-set NEW_VERSION=x.y.z"; \
+	else \
+		docker compose exec -it loco bin/update_version $(NEW_VERSION); \
+	fi
+
+# Builds a new version of the gem in the builds/rubygems directory
 .PHONY: gem-build
 gem-build:
-	docker compose exec -it loco gem build loco_motion-rails.gemspec -o gem_builds/loco_motion-rails-$(version).gem
+	mkdir -p builds/rubygems
+	docker compose exec -it loco gem build loco_motion-rails.gemspec -o builds/rubygems/loco_motion-rails-$(version).gem
 
 # Publishes the RubyGem to RubyGems.org
 .PHONY: gem-publish
 gem-publish:
-	docker compose exec -it loco gem push gem_builds/loco_motion-rails-$(version).gem
+	docker compose exec -it loco gem push builds/rubygems/loco_motion-rails-$(version).gem
+
+# Builds a new version of the NPM package in the builds/npm directory
+.PHONY: npm-build
+npm-build:
+	mkdir -p builds/npm
+	npm pack --pack-destination builds/npm
 
 # Publishes the NPM Package to NPM Registry
 .PHONY: npm-publish
