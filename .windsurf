@@ -8,6 +8,7 @@ allow_command "make demo-restart"
 # Allow Git status and diff commands
 allow_command "git status"
 allow_command "git diff *"
+allow_command "git log *"
 
 # Allow listing files and directories
 allow_command "ls *"

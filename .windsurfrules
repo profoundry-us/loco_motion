@@ -90,6 +90,10 @@
 
 </committing>
 
+<releasing>
+1. When releasing, follow the protocol outlined in the docs/dev_guides/releasing.md file.
+</releasing>
+
 <commands>
 1. When removing a file with `rm`, make sure to use `/bin/rm` so that it doesn't
    prompt you for confirmation.

@@ -22,8 +22,13 @@ Before releasing a new version, ensure:
    ```
 
 2. All documentation is up to date and properly formatted.
-3. All changes are committed and pushed to the main branch.
-4. You have the necessary credentials for both RubyGems.org and NPM.
+3. Update the CHANGELOG.md file with all notable changes in this release:
+   - Add a new section with the new version number and release date
+   - Categorize changes under "Added", "Changed", "Fixed", and "Removed" headings
+   - Include a brief description of each significant change
+   - Reference relevant PR numbers where applicable
+4. All changes are committed and pushed to the main branch.
+5. You have the necessary credentials for both RubyGems.org and NPM.
 
 ## Version Update
 
@@ -138,9 +143,9 @@ After both packages are published, create a new release on GitHub:
 1. Go to the [releases page][github-releases]
 2. Click "Draft a new release"
 3. Select the version tag you created
-4. Add release notes describing the changes
+4. Add release notes describing the changes (you can copy the relevant section from CHANGELOG.md)
 5. Publish the release
 
 [rubygems]: https://rubygems.org/gems/loco_motion-rails
-[npm]: https://www.npmjs.com/package/@profoundry/loco_motion
+[npm]: https://www.npmjs.com/package/@profoundry-us/loco_motion
 [github-releases]: https://github.com/profoundry-us/loco_motion/releases
