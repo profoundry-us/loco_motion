@@ -29,6 +29,10 @@ module LocoMotion
     "Daisy::DataDisplay::TableComponent" => { names: "table", group: "Data", title: "Tables", example: "tables" },
     "Daisy::DataDisplay::TimelineComponent" => { names: "timeline", group: "Data", title: "Timelines", example: "timelines" },
 
+    # Data Input
+    "Daisy::DataInput::CheckboxComponent" => { names: "checkbox", group: "Data Input", title: "Checkboxes", example: "checkboxes" },
+    "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
+
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },
     "Daisy::Navigation::BottomNavComponent" => { names: "bottom_nav", group: "Navigation", title: "Bottom Navs", example: "bottom_navs" },

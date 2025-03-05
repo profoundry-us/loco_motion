@@ -1,0 +1,40 @@
+= doc_title(title: "Labels", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing label components.
+
+
+= doc_example(title: "Basic Labels") do |doc|
+  - doc.with_description do
+    :markdown
+      Labels are used to provide text descriptions for form inputs. They can be
+      used with any form input component.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "input1", title: "Standard Label")
+
+    = daisy_label(for: "input2") do
+      Content Block Label
+
+
+= doc_example(title: "With Form Inputs") do |doc|
+  - doc.with_description do
+    :markdown
+      Labels can be used with form inputs to provide a description for the input.
+      Here's an example with a checkbox.
+
+  .my-2.flex.flex-col.gap-4
+    .flex.items-center.space-x-2
+      = daisy_checkbox(name: "accept", id: "accept")
+      = daisy_label(for: "accept", title: "I accept the terms and conditions")
+
+
+= doc_example(title: "Form Builder Example") do |doc|
+  - doc.with_description do
+    :markdown
+      Labels can also be used with the form builder to create form inputs with
+      labels that are automatically associated with the inputs.
+
+  = form_with(url: "#", method: :post) do |form|
+    .flex.items-center.space-x-2
+      = form.daisy_checkbox("newsletter")
+      = form.daisy_label("newsletter", "Subscribe to our newsletter")

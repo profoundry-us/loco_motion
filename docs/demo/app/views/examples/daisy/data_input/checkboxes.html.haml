@@ -1,0 +1,136 @@
+= doc_title(title: "Checkboxes", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing checkbox components.
+
+
+= doc_example(title: "Basic Checkboxes") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes are used to select one or more options from a set.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "checkbox1") do
+      = daisy_checkbox(name: "checkbox1", id: "checkbox1")
+      Default Checkbox
+
+    = daisy_label(for: "checkbox2") do
+      = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true)
+      Checked Checkbox
+
+
+= doc_example(title: "Checkboxes with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes can be styled with different colors using the `color` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "checkbox3") do
+      = daisy_checkbox(name: "checkbox3", color: "primary", id: "checkbox3")
+      Primary Checkbox
+
+    = daisy_label(for: "checkbox4") do
+      = daisy_checkbox(name: "checkbox4", color: "secondary", id: "checkbox4")
+      Secondary Checkbox
+
+    = daisy_label(for: "checkbox5") do
+      = daisy_checkbox(name: "checkbox5", color: "accent", id: "checkbox5")
+      Accent Checkbox
+
+
+= doc_example(title: "Checkbox Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes come in different sizes using the `size` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "standard") do
+      = daisy_checkbox(name: "standard", id: "standard")
+      Standard Checkbox
+
+    = daisy_label(for: "checked") do
+      = daisy_checkbox(name: "checked", id: "checked", checked: true)
+      Checked Checkbox
+
+    = daisy_label(for: "disabled", css: "cursor-not-allowed") do
+      = daisy_checkbox(name: "disabled", id: "disabled", disabled: true)
+      Disabled Checkbox
+
+    = daisy_label(for: "required") do
+      = daisy_checkbox(name: "required", id: "required", required: true)
+      Required Checkbox
+
+
+= doc_example(title: "Indeterminate State") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes can be set to an indeterminate state to indicate that the value
+      is neither checked nor unchecked. This is commonly used for "Select All"
+      checkboxes where some items are selected and others are not.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        You must set the `indeterminate` attribute through JavaScript.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "checkbox10") do
+      = daisy_checkbox(name: "checkbox10", id: "checkbox10")
+      Indeterminate Checkbox
+
+    :javascript
+      document.getElementById("checkbox10").indeterminate = true;
+
+
+= doc_example(title: "Disabled Checkbox") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes can be disabled using the `disabled` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "checkbox11", css: "cursor-not-allowed") do
+      = daisy_checkbox(name: "checkbox11", id: "checkbox11", disabled: true)
+      Disabled Checkbox
+
+
+= doc_example(title: "Custom ID") do |doc|
+  - doc.with_description do
+    :markdown
+      Checkboxes can be given a custom ID using the `id` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "custom-id") do
+      = daisy_checkbox(name: "checkbox12", id: "custom-id")
+      Checkbox with Custom ID
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      checkboxes in your pages by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user) do |form|
+    = form.daisy_label(:terms) do
+      = form.daisy_checkbox(:terms)
+      I accept the terms and conditions
+
+    = form.daisy_label(:newsletter) do
+      = form.daisy_checkbox(:newsletter, toggle: true)
+      Subscribe to newsletter
+
+
+= doc_example(title: "Using Label Component") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use the Label component directly with checkboxes for fully
+      custom approach.
+
+  .my-2.flex.flex-col.gap-4
+    .flex.items-center.space-x-2
+      = daisy_checkbox(name: "agree", id: "agree")
+      = daisy_label(for: "agree", title: "I agree to the terms of service")
+
+    .flex.items-center.space-x-2.mt-4
+      = daisy_checkbox(name: "updates", id: "updates", toggle: true)
+      = daisy_label(for: "updates") do
+        Receive product updates
