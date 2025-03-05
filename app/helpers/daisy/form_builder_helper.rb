@@ -11,13 +11,16 @@ module Daisy
           # Create a unique ID if not provided
           options[:id] ||= "#{object_name}_#{name}"
 
+          # Set the name attribute
+          options[:name] = "#{object_name}[#{name}]"
+
           # Pass the form builder's object to the component if it exists
           if @object && @object.respond_to?(name) && !options.key?(:checked)
             options[:checked] = @object.send(name)
           end
 
           # Render the checkbox component
-          @template.daisy_checkbox(name: "#{object_name}[#{name}]", **options)
+          @template.daisy_checkbox(**options)
         end
 
         # Add the daisy_radio method to FormBuilder
@@ -29,13 +32,16 @@ module Daisy
           value = options[:value].to_s
           options[:id] ||= "#{object_name}_#{name}_#{value}"
 
+          # Set the name attribute
+          options[:name] = "#{object_name}[#{name}]"
+
           # Pass the form builder's object to the component if it exists
           if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = (@object.send(name).to_s == value)
+            options[:checked] = @object.send(name).to_s == value
           end
 
           # Render the radio button component
-          @template.daisy_radio(name: "#{object_name}[#{name}]", **options)
+          @template.daisy_radio(**options)
         end
 
         # Add the daisy_label method to FormBuilder
@@ -51,6 +57,24 @@ module Daisy
 
           # Render the label component
           @template.daisy_label(**options, &block)
+        end
+
+        # Add the daisy_range method to FormBuilder
+        def daisy_range(name, **options)
+          # Get the object name from the form builder
+          object_name = @object_name.to_s
+
+          # Create a unique ID if not provided
+          options[:id] ||= "#{object_name}_#{name}"
+
+          # Set the name attribute
+          options[:name] ||= "#{object_name}[#{name}]"
+
+          # Pass the form builder's object to the component if it exists
+          options[:value] ||= object.try(name)
+
+          # Render the range component
+          @template.render Daisy::DataInput::RangeComponent.new(**options)
         end
       end
     end

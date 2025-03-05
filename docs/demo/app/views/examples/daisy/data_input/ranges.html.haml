@@ -1,0 +1,102 @@
+= doc_title(title: "Range Inputs", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing range input components.
+
+
+= doc_example(title: "Basic Range") do |doc|
+  - doc.with_description do
+    :markdown
+      Range inputs allow users to select a value within a specific range by sliding
+      a handle along a track.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "volume", title: "Volume")
+    = daisy_range(name: "volume", id: "volume", min: 0, max: 100, value: 50)
+
+
+= doc_example(title: "Range with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Range inputs can be styled with different colors using DaisyUI utility classes.
+
+  .w-full.max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "primary_range", title: "Primary Range")
+      = daisy_range(name: "primary_range", id: "primary_range", value: 60, css: "range-primary")
+
+    .space-y-2
+      = daisy_label(for: "secondary_range", title: "Secondary Range")
+      = daisy_range(name: "secondary_range", id: "secondary_range", value: 70, css: "range-secondary")
+
+    .space-y-2
+      = daisy_label(for: "accent_range", title: "Accent Range")
+      = daisy_range(name: "accent_range", id: "accent_range", value: 80, css: "range-accent")
+
+    .space-y-2
+      = daisy_label(for: "success_range", title: "Success Range")
+      = daisy_range(name: "success_range", id: "success_range", value: 90, css: "range-success")
+
+    .space-y-2
+      = daisy_label(for: "warning_range", title: "Warning Range")
+      = daisy_range(name: "warning_range", id: "warning_range", value: 30, css: "range-warning")
+
+    .space-y-2
+      = daisy_label(for: "error_range", title: "Error Range")
+      = daisy_range(name: "error_range", id: "error_range", value: 10, css: "range-error")
+
+
+= doc_example(title: "Range with Steps") do |doc|
+  - doc.with_description do
+    :markdown
+      Range inputs can be configured with specific step values and visual indicators
+      to help users select precise values.
+
+  .w-full.max-w-sm
+    = daisy_label(for: "step_range", title: "Satisfaction Level")
+    = daisy_range(name: "step_range", id: "step_range", min: 0, max: 100, step: 25, value: 50)
+    .flex.justify-between.px-2.mt-2.text-xs
+      %span= "|"
+      %span= "|"
+      %span= "|"
+      %span= "|"
+      %span= "|"
+    .flex.justify-between.px-2.mt-2.text-xs
+      %span 1
+      %span 2
+      %span 3
+      %span 4
+      %span 5
+
+
+= doc_example(title: "Range States") do |doc|
+  - doc.with_description do
+    :markdown
+      Range inputs can be in different states such as disabled or required.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "disabled_range", title: "Disabled Range", css: "cursor-not-allowed")
+    = daisy_range(name: "disabled_range", id: "disabled_range", value: 50, disabled: true)
+
+    = daisy_label(for: "required_range", title: "Required Range")
+    = daisy_range(name: "required_range", id: "required_range", value: 75, required: true)
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      range inputs in your pages by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user, html: { class: "w-full max-w-xs space-y-2" }) do |form|
+    = form.daisy_label(:volume, "Volume Control") do
+      .flex.items-center.gap-2
+        = hero_icon("speaker-wave", class: "w-4 h-4 inline-block")
+        Volume Control
+    = form.daisy_range(:volume, min: 0, max: 100, step: 5, value: 65)
+
+    = form.daisy_label(:brightness, "Brightness") do
+      .flex.items-center.gap-2
+        = hero_icon("sun", class: "w-4 h-4 inline-block")
+        Brightness
+    = form.daisy_range(:brightness, css: "range-primary", value: 80)

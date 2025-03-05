@@ -16,32 +16,32 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
     describe "#daisy_checkbox" do
       it "delegates to the daisy_checkbox helper with the correct object name prefix" do
         expect(template).to receive(:daisy_checkbox).with(
-          name: "user[terms]", 
+          name: "user[terms]",
           id: "user_terms",
           checked: true
         )
-        
+
         builder.daisy_checkbox("terms")
       end
 
       it "allows overriding the checked state" do
         expect(template).to receive(:daisy_checkbox).with(
-          name: "user[terms]", 
+          name: "user[terms]",
           id: "user_terms",
           checked: false
         )
-        
+
         builder.daisy_checkbox("terms", checked: false)
       end
 
       it "passes additional options to the component" do
         expect(template).to receive(:daisy_checkbox).with(
-          name: "user[newsletter]", 
+          name: "user[newsletter]",
           id: "user_newsletter",
           toggle: true,
           checked: false
         )
-        
+
         builder.daisy_checkbox("newsletter", toggle: true)
       end
     end
@@ -49,58 +49,64 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
     describe "#daisy_radio" do
       it "delegates to the daisy_radio helper with the correct object name prefix" do
         expect(template).to receive(:daisy_radio).with(
-          name: "user[gender]", 
+          name: "user[gender]",
           id: "user_gender_male",
           value: "male",
           checked: true
         )
-        
+
         builder.daisy_radio("gender", value: "male")
       end
 
       it "sets checked to false when the object value doesn't match" do
         expect(template).to receive(:daisy_radio).with(
-          name: "user[gender]", 
+          name: "user[gender]",
           id: "user_gender_female",
           value: "female",
           checked: false
         )
-        
+
         builder.daisy_radio("gender", value: "female")
       end
 
       it "allows overriding the checked state" do
         expect(template).to receive(:daisy_radio).with(
-          name: "user[gender]", 
+          name: "user[gender]",
           id: "user_gender_female",
           value: "female",
           checked: true
         )
-        
+
         builder.daisy_radio("gender", value: "female", checked: true)
       end
 
       it "allows overriding the id" do
         expect(template).to receive(:daisy_radio).with(
-          name: "user[gender]", 
+          name: "user[gender]",
           id: "custom_id",
           value: "male",
           checked: true
         )
-        
+
         builder.daisy_radio("gender", value: "male", id: "custom_id")
       end
 
       it "passes additional options to the component" do
         expect(template).to receive(:daisy_radio).with(
-          name: "user[gender]", 
+          name: "user[gender]",
           id: "user_gender_other",
           value: "other",
           checked: false,
           disabled: true
         )
-        
+
         builder.daisy_radio("gender", value: "other", disabled: true)
+      end
+
+      it "renders a radio button component" do
+        expect(template).to receive(:daisy_radio).with(value: "test", id: "user_gender_test", name: "user[gender]", checked: false)
+
+        builder.daisy_radio("gender", value: "test")
       end
     end
 
@@ -110,7 +116,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           for: "user_terms",
           title: "Terms"
         )
-        
+
         builder.daisy_label("terms")
       end
 
@@ -119,7 +125,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           for: "user_terms",
           title: "Accept Terms"
         )
-        
+
         builder.daisy_label("terms", "Accept Terms")
       end
 
@@ -128,7 +134,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           for: "custom_id",
           title: "Terms"
         )
-        
+
         builder.daisy_label("terms", for: "custom_id")
       end
 
@@ -137,7 +143,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           for: "user_terms",
           title: "Accept Terms and Conditions"
         )
-        
+
         builder.daisy_label("terms", title: "Accept Terms and Conditions")
       end
 
@@ -147,7 +153,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           title: "Newsletter",
           required: true
         )
-        
+
         builder.daisy_label("newsletter", required: true)
       end
 
@@ -157,8 +163,44 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
           for: "user_terms",
           title: "Terms"
         ).and_yield
-        
+
         builder.daisy_label("terms", &block)
+      end
+    end
+
+    describe "#daisy_range" do
+      it "renders a range component" do
+        expect(template).to receive(:render).with(an_instance_of(Daisy::DataInput::RangeComponent))
+        expect(builder).to receive(:object).and_return(nil)
+
+        builder.daisy_range("volume")
+      end
+
+      it "sets the correct name attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.name).to eq("user[volume]")
+        end
+
+        builder.daisy_range("volume")
+      end
+
+      it "sets the correct id attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.id).to eq("user_volume")
+        end
+
+        builder.daisy_range("volume")
+      end
+
+      it "uses the object value when available" do
+        expect(builder).to receive(:object).and_return(double(volume: 75))
+        expect(template).to receive(:render) do |component|
+          expect(component.value).to eq(75)
+        end
+
+        builder.daisy_range("volume")
       end
     end
   end

@@ -37,6 +37,15 @@
     particularly with regard to the lines wrapping at 80 characters (or very close).
 </documentation>
 
+<planning>
+1. Plans live in `docs/plans`.
+2. Utilize existing plans as a guide for building new plans.
+3. If provided a link to a website for additional information, utilize only that
+   link and refrain from visiting other sites.
+4. Refrain from adding component variants unless explicitly requested.
+5. List out specific files that you will use as resources for each new file.
+</planning>
+
 <coding>
 1. When making a plan, only show me the steps you will take and ask to move
    forward.
@@ -59,6 +68,7 @@
 10. Part customizations such as `resizer_css` or `header_html` are handled by
     the parent class and do NOT need special code in the child components.
 11. When completing a TODO in the README, mark it off instead of deleting it.
+12. If you alter any files in `lib/loco_motion`, you need to restart the demo app.
 </coding>
 
 <committing>
