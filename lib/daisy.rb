@@ -23,6 +23,11 @@ module Daisy
   module Feedback; end
 
   #
+  # Holds all Data Input-type components.
+  #
+  module DataInput; end
+
+  #
   # Holds all Layout-type components.
   #
   module Layout; end

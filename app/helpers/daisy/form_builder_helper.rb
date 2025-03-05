@@ -20,6 +20,24 @@ module Daisy
           @template.daisy_checkbox(name: "#{object_name}[#{name}]", **options)
         end
 
+        # Add the daisy_radio method to FormBuilder
+        def daisy_radio(name, **options)
+          # Get the object name from the form builder
+          object_name = @object_name.to_s
+
+          # Create a unique ID if not provided
+          value = options[:value].to_s
+          options[:id] ||= "#{object_name}_#{name}_#{value}"
+
+          # Pass the form builder's object to the component if it exists
+          if @object && @object.respond_to?(name) && !options.key?(:checked)
+            options[:checked] = (@object.send(name).to_s == value)
+          end
+
+          # Render the radio button component
+          @template.daisy_radio(name: "#{object_name}[#{name}]", **options)
+        end
+
         # Add the daisy_label method to FormBuilder
         def daisy_label(name, text = nil, **options, &block)
           # Get the object name from the form builder

@@ -4,11 +4,12 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
   describe "form builder extensions" do
     let(:template) { ActionView::Base.new(ActionView::LookupContext.new([]), {}, nil) }
     let(:object_name) { :user }
-    let(:object) { double("User", terms: true, newsletter: false) }
+    let(:object) { double("User", terms: true, newsletter: false, gender: "male") }
     let(:builder) { ActionView::Helpers::FormBuilder.new(object_name, object, template, {}) }
 
     before do
       allow(template).to receive(:daisy_checkbox).and_return("checkbox_html")
+      allow(template).to receive(:daisy_radio).and_return("radio_html")
       allow(template).to receive(:daisy_label).and_return("label_html")
     end
 
@@ -42,6 +43,64 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         )
         
         builder.daisy_checkbox("newsletter", toggle: true)
+      end
+    end
+
+    describe "#daisy_radio" do
+      it "delegates to the daisy_radio helper with the correct object name prefix" do
+        expect(template).to receive(:daisy_radio).with(
+          name: "user[gender]", 
+          id: "user_gender_male",
+          value: "male",
+          checked: true
+        )
+        
+        builder.daisy_radio("gender", value: "male")
+      end
+
+      it "sets checked to false when the object value doesn't match" do
+        expect(template).to receive(:daisy_radio).with(
+          name: "user[gender]", 
+          id: "user_gender_female",
+          value: "female",
+          checked: false
+        )
+        
+        builder.daisy_radio("gender", value: "female")
+      end
+
+      it "allows overriding the checked state" do
+        expect(template).to receive(:daisy_radio).with(
+          name: "user[gender]", 
+          id: "user_gender_female",
+          value: "female",
+          checked: true
+        )
+        
+        builder.daisy_radio("gender", value: "female", checked: true)
+      end
+
+      it "allows overriding the id" do
+        expect(template).to receive(:daisy_radio).with(
+          name: "user[gender]", 
+          id: "custom_id",
+          value: "male",
+          checked: true
+        )
+        
+        builder.daisy_radio("gender", value: "male", id: "custom_id")
+      end
+
+      it "passes additional options to the component" do
+        expect(template).to receive(:daisy_radio).with(
+          name: "user[gender]", 
+          id: "user_gender_other",
+          value: "other",
+          checked: false,
+          disabled: true
+        )
+        
+        builder.daisy_radio("gender", value: "other", disabled: true)
       end
     end
 

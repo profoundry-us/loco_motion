@@ -32,6 +32,7 @@ module LocoMotion
     # Data Input
     "Daisy::DataInput::CheckboxComponent" => { names: "checkbox", group: "Data Input", title: "Checkboxes", example: "checkboxes" },
     "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
+    "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons", example: "radio_buttons" },
 
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },
