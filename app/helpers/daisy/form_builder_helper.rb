@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Daisy
   module FormBuilderHelper
     # Extends ActionView::Helpers::FormBuilder with Daisy UI component methods
@@ -60,21 +62,32 @@ module Daisy
         end
 
         # Add the daisy_range method to FormBuilder
-        def daisy_range(name, **options)
+        def daisy_range(method, **options)
+          render_daisy_component(Daisy::DataInput::RangeComponent, method, **options)
+        end
+
+        # Add the daisy_rating method to FormBuilder
+        def daisy_rating(method, **options)
+          render_daisy_component(Daisy::DataInput::RatingComponent, method, **options)
+        end
+
+        private
+
+        def render_daisy_component(component_class, method, **options)
           # Get the object name from the form builder
           object_name = @object_name.to_s
 
           # Create a unique ID if not provided
-          options[:id] ||= "#{object_name}_#{name}"
+          options[:id] ||= "#{object_name}_#{method}"
 
           # Set the name attribute
-          options[:name] ||= "#{object_name}[#{name}]"
+          options[:name] ||= "#{object_name}[#{method}]"
 
           # Pass the form builder's object to the component if it exists
-          options[:value] ||= object.try(name)
+          options[:value] ||= object.try(method)
 
-          # Render the range component
-          @template.render Daisy::DataInput::RangeComponent.new(**options)
+          # Render the component
+          @template.render component_class.new(**options)
         end
       end
     end

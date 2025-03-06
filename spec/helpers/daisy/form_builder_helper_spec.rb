@@ -203,5 +203,41 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         builder.daisy_range("volume")
       end
     end
+
+    describe "#daisy_rating" do
+      it "renders a rating component" do
+        expect(template).to receive(:render).with(an_instance_of(Daisy::DataInput::RatingComponent))
+        expect(builder).to receive(:object).and_return(nil)
+
+        builder.daisy_rating("rating")
+      end
+
+      it "sets the correct name attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.name).to eq("user[rating]")
+        end
+
+        builder.daisy_rating("rating")
+      end
+
+      it "sets the correct id attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.id).to eq("user_rating")
+        end
+
+        builder.daisy_rating("rating")
+      end
+
+      it "uses the object value when available" do
+        expect(builder).to receive(:object).and_return(double(rating: 4))
+        expect(template).to receive(:render) do |component|
+          expect(component.value).to eq(4)
+        end
+
+        builder.daisy_rating("rating")
+      end
+    end
   end
 end

@@ -1,0 +1,145 @@
+= doc_title(title: "Rating Inputs", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing rating input components.
+
+
+= doc_example(title: "Basic Rating") do |doc|
+  - doc.with_description do
+    :markdown
+      Rating inputs allow users to provide a rating by selecting from a set of
+      stars. They are implemented using radio buttons styled with DaisyUI's mask
+      classes.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "basic_rating", title: "Basic Rating")
+    = daisy_rating(name: "basic_rating", id: "basic_rating")
+
+
+= doc_example(title: "Rating with Heart Style") do |doc|
+  - doc.with_description do
+    :markdown
+      The rating style can be customized using DaisyUI's mask classes. Here we use
+      the `mask-heart` class for a heart-shaped rating.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "heart_rating", title: "Heart Rating")
+    = daisy_rating(name: "heart_rating", id: "heart_rating", css: "space-x-1", inputs_css: "mask-heart bg-red-500", value: 2)
+
+
+= doc_example(title: "Rating with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Rating inputs can be styled with different colors using DaisyUI utility
+      classes.
+
+  .w-full.max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "primary_rating", title: "Primary Color Rating")
+      = daisy_rating(name: "primary_rating", id: "primary_rating", value: 2, inputs_css: "bg-primary")
+
+    .space-y-2
+      = daisy_label(for: "warning_rating", title: "Warning Color Rating")
+      = daisy_rating(name: "warning_rating", id: "warning_rating", value: 3, inputs_css: "bg-warning")
+
+    .space-y-2
+      = daisy_label(for: "success_rating", title: "Success Color Rating")
+      = daisy_rating(name: "success_rating", id: "success_rating", value: 4, inputs_css: "bg-success")
+
+
+= doc_example(title: "Rating with Different Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Rating inputs can be rendered in different sizes using DaisyUI's size
+      classes.
+
+  .w-full.max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "rating_xs", title: "Extra Small Rating")
+      = daisy_rating(name: "rating_xs", id: "rating_xs", css: "rating-xs")
+
+    .space-y-2
+      = daisy_label(for: "rating_sm", title: "Small Rating")
+      = daisy_rating(name: "rating_sm", id: "rating_sm", css: "rating-sm")
+
+    .space-y-2
+      = daisy_label(for: "rating_md", title: "Medium Rating (Default)")
+      = daisy_rating(name: "rating_md", id: "rating_md")
+
+    .space-y-2
+      = daisy_label(for: "rating_lg", title: "Large Rating")
+      = daisy_rating(name: "rating_lg", id: "rating_lg", css: "rating-lg")
+
+
+= doc_example(title: "Half-Star Rating") do |doc|
+  - doc.with_description do
+    :markdown
+      Half-star ratings can be achieved by using the `mask-half-1` and
+      `mask-half-2` classes along with a higher max value. Each star is made up of
+      two inputs, one for each half.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "half_star_rating", title: "Half-Star Rating")
+    = daisy_rating(name: "half_star_rating", id: "half_star_rating", css: "rating-half rating-lg") do |rating|
+      - (1..10).each do |i|
+        - rating.with_item(css: "mask mask-star mask-half-#{i.even? ? 2 : 1}")
+
+
+= doc_example(title: "Read-Only Rating") do |doc|
+  - doc.with_description do
+    :markdown
+      Rating inputs can be set to read-only / disdbled mode to display a static
+      rating that cannot be changed.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        You may also want to add the `cursor-not-allowed` class to the rating's
+        `inputs_css` to make each radio button appear disabled.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "disabled_rating", title: "Disabled Rating (3/5)")
+    = daisy_rating(name: "disabled_rating", id: "disabled_rating", inputs_css: "cursor-not-allowed", value: 3, disabled: true)
+
+
+= doc_example(title: "Custom Content Rating") do |doc|
+  - doc.with_description do
+    :markdown
+      You can provide custom content to the Rating component using ViewComponent's
+      standard `content` feature. This gives you full control over the input
+      elements while still maintaining the component's structure and behavior.
+
+      Note that you'll need to set the proper attributes on your inputs to ensure
+      they work correctly with the component.
+
+  .w-full.max-w-xs.my-2.space-y-2
+    = daisy_label(for: "custom_rating", title: "Custom Rating")
+    = daisy_rating(name: "custom_rating", id: "custom_rating", css: "gap-4") do
+      %input.mask.mask-triangle.bg-accent{type: "radio", name: "custom_rating", value: "1"}
+      %input.mask.mask-square.scale-90.bg-info{type: "radio", name: "custom_rating", value: "2"}
+      %input.mask.mask-pentagon.-translate-y-px.bg-success{type: "radio", name: "custom_rating", value: "3"}
+      %input.mask.mask-decagon.bg-primary{type: "radio", name: "custom_rating", value: "4"}
+      %input.mask.mask-circle.bg-secondary{type: "radio", name: "custom_rating", value: "5"}
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      rating inputs in your pages by extracting the name and ID attributes from
+      the form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :review, html: { class: "w-full max-w-xs space-y-4" }) do |form|
+    .space-y-2
+      = form.daisy_label(:rating) do
+        .flex.items-center.gap-2
+          = hero_icon("star", class: "w-4 h-4 inline-block")
+          Your Rating
+      = form.daisy_rating(:rating, inputs_css: "mask-star-2")
+
+    .space-y-2
+      = form.daisy_label(:comment) do
+        .flex.items-center.gap-2
+          = hero_icon("chat-bubble-bottom-center-text", class: "w-4 h-4 inline-block")
+          Your Comment
+      = form.text_area(:comment, class: "textarea textarea-bordered h-24")
+
+    = form.submit "Submit Review", class: "btn btn-primary"
