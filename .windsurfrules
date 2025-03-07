@@ -1,12 +1,13 @@
-<communication>
+# Communication
+
 1. Always speak to me in English.
 2. Start our sessions by asking clarifying questions to gain additional context.
 3. If relevant, suggest adding the context to this Rules file for future runs.
 4. If I type what appears to be a git, Makefile, shell or other command, simply
    attempt to run it and do nothing else.
-</communication>
 
-<documentation>
+# Documenatation
+
 0. We utilize YARD to generate our documentation.
 1. When documenting new components,utilize existing components as a guide.
 2. If a component uses `define_part` or `define_parts`, use the `@part` macro to
@@ -35,18 +36,20 @@
 14. We have many guides in our `docs/dev_guides` directory.
 15. When working on .md files, please ensure they are formatted properly;
     particularly with regard to the lines wrapping at 80 characters (or very close).
-</documentation>
 
-<planning>
+# Planning
+
 1. Plans live in `docs/plans`.
-2. Utilize existing plans as a guide for building new plans.
-3. If provided a link to a website for additional information, utilize only that
+2. When asked for a plan, create a Markdown file in the docs/plans directory for
+   me to review.
+3. Utilize existing plans as a guide for building new plans.
+4. If provided a link to a website for additional information, utilize only that
    link and refrain from visiting other sites.
-4. Refrain from adding component variants unless explicitly requested.
-5. List out specific files that you will use as resources for each new file.
-</planning>
+5. Refrain from adding component variants unless explicitly requested.
+6. List out specific files that you will use as resources for each new file.
 
-<coding>
+# Coding
+
 1. When making a plan, only show me the steps you will take and ask to move
    forward.
 2. When writing new code, follow the conventions of existing code such as
@@ -69,9 +72,9 @@
     the parent class and do NOT need special code in the child components.
 11. When completing a TODO in the README, mark it off instead of deleting it.
 12. If you alter any files in `lib/loco_motion`, you need to restart the demo app.
-</coding>
 
-<committing>
+# Committing
+
 0. Wait until I ask you to commit before following the rest of these steps.
 1. When committing code, follow these steps:
   a. Run `make loco-test` to ensure all tests pass.
@@ -94,17 +97,16 @@
 3. We have a GitHub Pull Request template available in `.github/pull_request_template.md`.
 4. When creating a commmit message, surround it in single quotes so that we can
    use Markdown and backticks in the message.
-</committing>
 
-<releasing>
+# Releasing
+
 1. When releasing, follow the protocol outlined in the docs/dev_guides/RELEASING.md file.
-</releasing>
 
-<commands>
+# Commands
+
 1. When removing a file with `rm`, make sure to use `/bin/rm` so that it doesn't
    prompt you for confirmation.
 2. All commands should be run from the root of the project (which is the default).
 3. In general, you should NOT need to use `cd` to run commands.
 4. We should only need to restart the demo app (`make demo-restart`) when we make
    changes to the helpers, not the components / examples.
-</commands>

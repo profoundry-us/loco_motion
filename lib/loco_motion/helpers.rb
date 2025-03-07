@@ -35,6 +35,7 @@ module LocoMotion
     "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons", example: "radio_buttons" },
     "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
     "Daisy::DataInput::RatingComponent" => { names: "rating", group: "Data Input", title: "Ratings", example: "ratings" },
+    "Daisy::DataInput::SelectComponent" => { names: "select", group: "Data Input", title: "Selects", example: "selects" },
 
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },

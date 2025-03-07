@@ -71,6 +71,32 @@ module Daisy
           render_daisy_component(Daisy::DataInput::RatingComponent, method, **options)
         end
 
+        # Add the daisy_select method to FormBuilder
+        def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
+                          options_css: nil, options_html: {}, **args, &block)
+          # Extract the name from the form builder's object_name and method
+          name = "#{object_name}[#{method}]"
+
+          # Get the current value from the object
+          value = object.try(method)
+
+          # Generate a default ID if not provided
+          id = args[:id] || "#{object_name}_#{method}"
+
+          # Build the component with the extracted form values and any additional options
+          @template.daisy_select(
+            name: name,
+            id: id,
+            value: value,
+            options: options,
+            options_css: options_css,
+            options_html: options_html,
+            placeholder: placeholder,
+            **args,
+            &block
+          )
+        end
+
         private
 
         def render_daisy_component(component_class, method, **options)

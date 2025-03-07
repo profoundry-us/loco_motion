@@ -1,0 +1,174 @@
+= doc_title(title: "Select Inputs", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing select input components.
+
+
+= doc_example(title: "Basic Select") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs allow users to choose an option from a dropdown list. They are
+      implemented using the native HTML select element styled with DaisyUI classes.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "basic_select", title: "Basic Select")
+    = daisy_select(name: "basic_select", id: "basic_select", placeholder: "Select a country") do |select|
+      - select.with_option(value: "us", label: "United States")
+      - select.with_option(value: "ca", label: "Canada")
+      - select.with_option(value: "mx", label: "Mexico")
+
+
+= doc_example(title: "Select with Simple Options") do |doc|
+  - doc.with_description do
+    :markdown
+      For simpler cases, you can pass a list of strings as options. The value and
+      label will both be set to the string value.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "simple_select", title: "Choose a Size")
+    = daisy_select(name: "simple_select", id: "simple_select", css: "select-bordered", placeholder: "Select a size") do |select|
+      - select.with_option(value: "Small", label: "Small")
+      - select.with_option(value: "Medium", label: "Medium")
+      - select.with_option(value: "Large", label: "Large")
+      - select.with_option(value: "X-Large", label: "X-Large")
+
+
+= doc_example(title: "Select Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can be rendered in different sizes using DaisyUI's size
+      classes.
+
+  .max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "select_xs", title: "Extra Small Select")
+      = daisy_select(name: "select_xs", id: "select_xs", css: "select-xs select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_sm", title: "Small Select")
+      = daisy_select(name: "select_sm", id: "select_sm", css: "select-sm select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_md", title: "Medium Select (Default)")
+      = daisy_select(name: "select_md", id: "select_md", css: "select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_lg", title: "Large Select")
+      = daisy_select(name: "select_lg", id: "select_lg", css: "select-lg select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+
+= doc_example(title: "Select with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can be styled with different colors using DaisyUI's color
+      classes.
+
+  .max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "select_primary", title: "Primary Select")
+      = daisy_select(name: "select_primary", id: "select_primary", css: "select-primary select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_secondary", title: "Secondary Select")
+      = daisy_select(name: "select_secondary", id: "select_secondary", css: "select-secondary select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_accent", title: "Accent Select")
+      = daisy_select(name: "select_accent", id: "select_accent", css: "select-accent select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_warning", title: "Warning Select")
+      = daisy_select(name: "select_warning", id: "select_warning", css: "select-warning select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+
+= doc_example(title: "Bordered and Ghost Selects") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can be styled with borders or as ghost elements using
+      DaisyUI's variant classes.
+
+  .max-w-xs.my-2.space-y-6
+    .space-y-2
+      = daisy_label(for: "select_bordered", title: "Bordered Select")
+      = daisy_select(name: "select_bordered", id: "select_bordered", css: "select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+    .space-y-2
+      = daisy_label(for: "select_ghost", title: "Ghost Select")
+      = daisy_select(name: "select_ghost", id: "select_ghost", css: "select-ghost", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
+
+
+= doc_example(title: "Disabled Select") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can be disabled using the `disabled` attribute.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "disabled_select", title: "Disabled Select", css: "cursor-not-allowed")
+    = daisy_select(name: "disabled_select", id: "disabled_select", css: "select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option", disabled: true)
+
+
+= doc_example(title: "Required Select") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can be marked as required using the `required` attribute.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "required_select", title: "Required Select *")
+    = daisy_select(name: "required_select", id: "required_select", css: "select-bordered", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option", required: true)
+
+
+= doc_example(title: "Pre-Selected Value") do |doc|
+  - doc.with_description do
+    :markdown
+      Select inputs can have a pre-selected value by setting the `value` attribute.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "preselected_select", title: "Pre-Selected Select")
+    = daisy_select(name: "preselected_select", id: "preselected_select", css: "select-bordered", placeholder: "Select a country") do |select|
+      - select.with_option(value: "us", label: "United States")
+      - select.with_option(value: "ca", label: "Canada")
+      - select.with_option(value: "mx", label: "Mexico")
+      - select.with_option(value: "ca", label: "Canada", selected: true)
+
+
+= doc_example(title: "Block Syntax for Options") do |doc|
+  - doc.with_description do
+    :markdown
+      You can use block syntax to define options for more control over each option.
+
+  .max-w-xs.my-2.space-y-2
+    = daisy_label(for: "block_select", title: "Block Syntax Select")
+    = daisy_select(name: "block_select", id: "block_select", css: "select-primary select-bordered") do |select|
+      - select.with_option(value: "red", label: "Red")
+      - select.with_option(value: "green", label: "Green")
+      - select.with_option(value: "blue", label: "Blue")
+      - select.with_option(value: "disabled_option", label: "Disabled Option", disabled: true)
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      select inputs in your pages by extracting the name and ID attributes from
+      the form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :product, html: { class: "max-w-xs space-y-4" }) do |form|
+    .space-y-2
+      = form.daisy_label(:category) do
+        .flex.items-center.gap-2
+          = hero_icon("tag", class: "w-4 h-4 inline-block")
+          Product Category
+      = form.daisy_select(:category, css: "select-bordered", placeholder: "Select a category") do |select|
+        - select.with_option(value: "electronics", label: "Electronics")
+        - select.with_option(value: "clothing", label: "Clothing")
+        - select.with_option(value: "home", label: "Home & Kitchen")
+        - select.with_option(value: "books", label: "Books")
+
+    .space-y-2
+      - options = [ "Under $25", "$25 - $50", "$50 - $100", "$100 - $200", "Over $200" ]
+      = form.daisy_label(:price_range) do
+        .flex.items-center.gap-2
+          = hero_icon("currency-dollar", class: "w-4 h-4 inline-block")
+          Price Range
+      = form.daisy_select(:price_range, css: "select-secondary select-bordered", options: options, placeholder: "Select a price range")
+
+    = form.submit "Filter Results", class: "btn btn-primary w-full"

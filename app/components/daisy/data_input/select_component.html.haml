@@ -1,0 +1,15 @@
+= part(:component) do
+  - if @placeholder_text
+    = part(:placeholder) do
+      = @placeholder_text
+
+  - if options?
+    - options.each do |option|
+      - option.set_loco_parent(component_ref)
+      = option.call
+  - elsif default_options.present?
+    - default_options.each do |option|
+      - option.set_loco_parent(component_ref)
+      = render(option)
+  - elsif content?
+    = content
