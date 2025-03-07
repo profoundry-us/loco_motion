@@ -91,6 +91,11 @@ module Daisy
           render_daisy_component(Daisy::DataInput::RatingComponent, method, **options)
         end
 
+        # Add the daisy_file_input method to FormBuilder
+        def daisy_file_input(method, **options)
+          render_daisy_component(Daisy::DataInput::FileInputComponent, method, **options)
+        end
+
         # Add the daisy_select method to FormBuilder
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
                           options_css: nil, options_html: {}, **args, &block)

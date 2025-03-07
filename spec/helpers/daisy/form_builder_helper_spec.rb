@@ -239,5 +239,42 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         builder.daisy_rating("rating")
       end
     end
+
+    describe "#daisy_file_input" do
+      it "renders a file input component" do
+        expect(template).to receive(:render).with(an_instance_of(Daisy::DataInput::FileInputComponent))
+        expect(builder).to receive(:object).and_return(nil)
+
+        builder.daisy_file_input("document")
+      end
+
+      it "sets the correct name attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.name).to eq("user[document]")
+        end
+
+        builder.daisy_file_input("document")
+      end
+
+      it "sets the correct id attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.id).to eq("user_document")
+        end
+
+        builder.daisy_file_input("document")
+      end
+
+      it "passes additional options to the component" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.accept).to eq("image/*")
+          expect(component.multiple).to be true
+        end
+
+        builder.daisy_file_input("avatar", accept: "image/*", multiple: true)
+      end
+    end
   end
 end
