@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Checkbox component renders a DaisyUI styled checkbox input.
 # It can be used standalone or with a form builder, and supports various styling

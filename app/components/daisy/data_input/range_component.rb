@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Range component renders a DaisyUI styled range input slider.
 # It can be used standalone or with a form builder, and supports customization

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Radio Button component renders a DaisyUI styled radio button input.
 # It can be used standalone or with a form builder, and is ideal for creating
@@ -56,7 +58,7 @@ class Daisy::DataInput::RadioButtonComponent < LocoMotion::BaseComponent
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML
   # attributes. Sets the tag to input with type 'radio' and adds the 'radio' CSS class.
-  # 
+  #
   # This configures the name, id, value, disabled state, required state, and
   # checked state of the radio button.
   #

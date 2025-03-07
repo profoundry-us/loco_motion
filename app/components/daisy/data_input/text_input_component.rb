@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The TextInput component renders a DaisyUI styled text input field.
 # It can be used standalone or with a form builder, and supports

@@ -11,7 +11,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   class_attribute :valid_sizes, default: []
 
   #
-  # Return the current configruation of this component.
+  # Return the current configuration of this component.
   #
   # @return LocoMotion::ComponentConfig
   #

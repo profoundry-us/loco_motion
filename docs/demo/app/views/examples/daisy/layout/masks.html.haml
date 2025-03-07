@@ -19,7 +19,8 @@
 
   .grid.grid-cols-4.gap-4
     - masks.each do |mask|
-      = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "rounded-none mask #{mask}")
+      = daisy_tip(mask) do
+        = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "rounded-none mask #{mask}")
 
 
 = doc_example(title: "Masked Text") do |doc|

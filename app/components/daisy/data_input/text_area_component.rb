@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The TextArea component renders a DaisyUI styled textarea field.
 # It can be used standalone or with a form builder, and supports

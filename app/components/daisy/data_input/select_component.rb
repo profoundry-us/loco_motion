@@ -146,7 +146,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   # Converts the options array into SelectOptionComponent instances.
   # Handles both hash options (with value/label keys) and simple string options.
   #
-  # @return [Array<SelectOptionComponent>] Array of option components or empty array if no options.
+  # @return [Array<SelectOptionComponent>] Array of option components or empty array if @options_list is nil.
   #
   def default_options
     return [] unless @options_list

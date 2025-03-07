@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Label component renders a DaisyUI styled label for form inputs.
 # It can be used with any form input component and provides visual styling
