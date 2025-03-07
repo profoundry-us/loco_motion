@@ -1,0 +1,124 @@
+= doc_title(title: "Text Areas", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing textarea components.
+
+
+= doc_example(title: "Basic Text Area") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas allow users to enter multiple lines of text.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "message1", title: "Message")
+    = daisy_text_area(name: "message1", id: "message1")
+
+
+= doc_example(title: "Text Area with Placeholder") do |doc|
+  - doc.with_description do
+    :markdown
+      You can add placeholder text to guide users on what to enter.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "feedback", title: "Feedback")
+    = daisy_text_area(name: "feedback", id: "feedback", placeholder: "Tell us what you think...", css: "textarea-bordered")
+
+
+= doc_example(title: "Text Area with Initial Value") do |doc|
+  - doc.with_description do
+    :markdown
+      You can pre-populate a text area with an initial value.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "bio", title: "Biography")
+    = daisy_text_area(name: "bio", id: "bio", value: "I am a software developer with expertise in Ruby on Rails and JavaScript.", css: "textarea-bordered")
+
+
+= doc_example(title: "Custom Rows") do |doc|
+  - doc.with_description do
+    :markdown
+      You can customize the height of the text area by specifying the number of rows.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "short_note", title: "Short Note (2 rows)")
+    = daisy_text_area(name: "short_note", id: "short_note", rows: 2, css: "textarea-bordered")
+
+    = daisy_label(for: "long_note", title: "Long Note (8 rows)", css: "mt-4")
+    = daisy_text_area(name: "long_note", id: "long_note", rows: 8, css: "textarea-bordered")
+
+
+= doc_example(title: "Text Area with Different Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas can be styled with additional CSS classes to change their appearance.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "textarea_primary", title: "Primary Text Area")
+    = daisy_text_area(name: "textarea_primary", id: "textarea_primary", css: "textarea-primary textarea-bordered")
+
+    = daisy_label(for: "textarea_secondary", title: "Secondary Text Area", css: "mt-4")
+    = daisy_text_area(name: "textarea_secondary", id: "textarea_secondary", css: "textarea-secondary textarea-bordered")
+
+    = daisy_label(for: "textarea_accent", title: "Accent Text Area", css: "mt-4")
+    = daisy_text_area(name: "textarea_accent", id: "textarea_accent", css: "textarea-accent textarea-bordered")
+
+
+= doc_example(title: "Ghost Style Text Area") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas can use the `textarea-ghost` class for a minimalist appearance
+      that only shows borders on hover.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "textarea_ghost", title: "Ghost Style Text Area")
+    = daisy_text_area(name: "textarea_ghost", id: "textarea_ghost", css: "textarea-ghost")
+
+    .mt-4.p-4.border.rounded-lg.bg-teal-200
+      %p.text-sm.mb-2 Ghost style with background container:
+      = daisy_label(for: "textarea_ghost_bg", title: "Your Message")
+      = daisy_text_area(name: "textarea_ghost_bg", id: "textarea_ghost_bg", css: "textarea-ghost")
+
+
+= doc_example(title: "Disabled Text Area") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas can be disabled using the `disabled` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "textarea_disabled", title: "Disabled Text Area", css: "cursor-not-allowed")
+    = daisy_text_area(name: "textarea_disabled", id: "textarea_disabled", disabled: true, value: "This text area is disabled and cannot be edited.", css: "textarea-bordered")
+
+
+= doc_example(title: "Read-only Text Area") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas can be set to read-only using the `readonly` attribute, allowing users to see but not edit the content.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "textarea_readonly", title: "Read-only Text Area")
+    = daisy_text_area(name: "textarea_readonly", id: "textarea_readonly", readonly: true, value: "This text area is read-only. You can select the text but cannot edit it.", css: "textarea-bordered")
+
+
+= doc_example(title: "Required Text Area") do |doc|
+  - doc.with_description do
+    :markdown
+      Text areas can be marked as required using the `required` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "textarea_required", title: "Required Text Area")
+    = daisy_text_area(name: "textarea_required", id: "textarea_required", required: true, css: "textarea-bordered")
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an easy way to use
+      text areas in your forms by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user) do |form|
+    .my-2.flex.flex-col.gap-4
+      = form.daisy_label(:bio)
+      = form.daisy_text_area(:bio, css: "textarea-bordered")
+
+      = form.daisy_label(:comments, "Additional Comments", css: "mt-4")
+      = form.daisy_text_area(:comments, rows: 6, placeholder: "Share your thoughts...", css: "textarea-bordered")

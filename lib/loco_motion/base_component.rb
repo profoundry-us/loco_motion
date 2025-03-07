@@ -1,6 +1,7 @@
 class LocoMotion::BaseComponent < ViewComponent::Base
 
   SELF_CLOSING_TAGS = %i[area base br col embed hr img input keygen link meta param source track wbr].freeze
+  EMPTY_PART_IGNORED_TAGS = %i[textarea].freeze
 
   include Heroicons::IconsHelper
 
@@ -225,9 +226,15 @@ class LocoMotion::BaseComponent < ViewComponent::Base
         tag(tag_name, **rendered_html(part_name))
       else
         content_tag(tag_name, **rendered_html(part_name)) do
-          "<!-- Empty Part Block //-->".html_safe
+          empty_part_content(tag_name)
         end
       end
+    end
+  end
+
+  def empty_part_content(tag_name)
+    unless EMPTY_PART_IGNORED_TAGS.include?(tag_name.to_sym)
+      "<!-- Empty Part Block //-->".html_safe
     end
   end
 

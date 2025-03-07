@@ -313,5 +313,42 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         builder.daisy_text_input("email", type: "email", placeholder: "Enter your email")
       end
     end
+
+    describe "#daisy_text_area" do
+      it "renders a text area component" do
+        expect(template).to receive(:render).with(an_instance_of(Daisy::DataInput::TextAreaComponent))
+        expect(builder).to receive(:object).and_return(nil)
+
+        builder.daisy_text_area("bio")
+      end
+
+      it "sets the correct name attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.name).to eq("user[bio]")
+        end
+
+        builder.daisy_text_area("bio")
+      end
+
+      it "sets the correct id attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.id).to eq("user_bio")
+        end
+
+        builder.daisy_text_area("bio")
+      end
+
+      it "passes additional options to the component" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.rows).to eq(6)
+          expect(component.placeholder).to eq("Enter your biography")
+        end
+
+        builder.daisy_text_area("bio", rows: 6, placeholder: "Enter your biography")
+      end
+    end
   end
 end

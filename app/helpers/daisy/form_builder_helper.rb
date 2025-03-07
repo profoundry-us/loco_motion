@@ -101,6 +101,11 @@ module Daisy
           render_daisy_component(Daisy::DataInput::TextInputComponent, method, **options)
         end
 
+        # Add the daisy_text_area method to FormBuilder
+        def daisy_text_area(method, **options)
+          render_daisy_component(Daisy::DataInput::TextAreaComponent, method, **options)
+        end
+
         # Add the daisy_select method to FormBuilder
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
                           options_css: nil, options_html: {}, **args, &block)
