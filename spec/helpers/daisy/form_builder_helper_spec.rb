@@ -276,5 +276,42 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         builder.daisy_file_input("avatar", accept: "image/*", multiple: true)
       end
     end
+
+    describe "#daisy_text_input" do
+      it "renders a text input component" do
+        expect(template).to receive(:render).with(an_instance_of(Daisy::DataInput::TextInputComponent))
+        expect(builder).to receive(:object).and_return(nil)
+
+        builder.daisy_text_input("username")
+      end
+
+      it "sets the correct name attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.name).to eq("user[username]")
+        end
+
+        builder.daisy_text_input("username")
+      end
+
+      it "sets the correct id attribute" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.id).to eq("user_username")
+        end
+
+        builder.daisy_text_input("username")
+      end
+
+      it "passes additional options to the component" do
+        expect(builder).to receive(:object).and_return(nil)
+        expect(template).to receive(:render) do |component|
+          expect(component.type).to eq("email")
+          expect(component.placeholder).to eq("Enter your email")
+        end
+
+        builder.daisy_text_input("email", type: "email", placeholder: "Enter your email")
+      end
+    end
   end
 end
