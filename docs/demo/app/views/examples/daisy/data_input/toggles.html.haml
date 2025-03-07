@@ -1,0 +1,140 @@
+= doc_title(title: "Toggles", comp: @comp) do |title|
+  %p
+    The Toggle component is a wrapper around the
+    = daisy_button(css: "btn-sm", title: "Checkbox", right_icon: "cube", right_icon_css: "size-4", href: "/examples/Daisy::DataInput::CheckboxComponent", html: { data: { turbo: "false" }})
+    component that sets the <code>toggle</code> property to <code>true</code> by default, providing a switch-like appearance.
+
+
+= doc_example(title: "Basic Toggles") do |doc|
+  - doc.with_description do
+    :markdown
+      Toggles are switches that allow users to turn options on or off. They're a visual
+      alternative to checkboxes, ideal for settings and preferences.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "toggle1") do
+      = daisy_toggle(name: "toggle1", id: "toggle1")
+      Default Toggle
+
+    = daisy_label(for: "toggle2") do
+      = daisy_toggle(name: "toggle2", id: "toggle2", checked: true)
+      Checked Toggle
+
+
+= doc_example(title: "Toggles with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Toggles can be styled with different colors using CSS classes like `toggle-primary`.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "toggle3") do
+      = daisy_toggle(name: "toggle3", css: "toggle-primary", id: "toggle3", checked: true)
+      Primary Toggle
+
+    = daisy_label(for: "toggle4") do
+      = daisy_toggle(name: "toggle4", css: "toggle-secondary", id: "toggle4", checked: true)
+      Secondary Toggle
+
+    = daisy_label(for: "toggle5") do
+      = daisy_toggle(name: "toggle5", css: "toggle-accent", id: "toggle5", checked: true)
+      Accent Toggle
+
+    = daisy_label(for: "toggle6") do
+      = daisy_toggle(name: "toggle6", css: "toggle-success", id: "toggle6", checked: true)
+      Success Toggle
+
+    = daisy_label(for: "toggle7") do
+      = daisy_toggle(name: "toggle7", css: "toggle-warning", id: "toggle7", checked: true)
+      Warning Toggle
+
+    = daisy_label(for: "toggle8") do
+      = daisy_toggle(name: "toggle8", css: "toggle-error", id: "toggle8", checked: true)
+      Error Toggle
+
+
+= doc_example(title: "Toggle Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Toggles come in different sizes by applying CSS classes.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "toggle_small") do
+      = daisy_toggle(name: "toggle_small", id: "toggle_small", css: "toggle-sm")
+      Small Toggle
+
+    = daisy_label(for: "toggle_default") do
+      = daisy_toggle(name: "toggle_default", id: "toggle_default")
+      Default Size Toggle
+
+    = daisy_label(for: "toggle_large") do
+      = daisy_toggle(name: "toggle_large", id: "toggle_large", css: "toggle-lg")
+      Large Toggle
+
+
+= doc_example(title: "Toggle States") do |doc|
+  - doc.with_description do
+    :markdown
+      Toggles can be in different states such as checked, disabled, or required.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "toggle_unchecked") do
+      = daisy_toggle(name: "toggle_unchecked", id: "toggle_unchecked")
+      Unchecked Toggle
+
+    = daisy_label(for: "toggle_checked") do
+      = daisy_toggle(name: "toggle_checked", id: "toggle_checked", checked: true)
+      Checked Toggle
+
+    = daisy_label(for: "toggle_disabled", css: "cursor-not-allowed") do
+      = daisy_toggle(name: "toggle_disabled", id: "toggle_disabled", disabled: true)
+      Disabled Toggle
+
+    = daisy_label(for: "toggle_required") do
+      = daisy_toggle(name: "toggle_required", id: "toggle_required", required: true)
+      Required Toggle
+
+
+= doc_example(title: "Custom ID") do |doc|
+  - doc.with_description do
+    :markdown
+      Toggles can be given a custom ID using the `id` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "custom-toggle-id") do
+      = daisy_toggle(name: "toggle_custom", id: "custom-toggle-id")
+      Toggle with Custom ID
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      toggles in your pages by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user) do |form|
+    .flex.flex-col.gap-4
+      = form.daisy_label(:notifications) do
+        = form.daisy_toggle(:notifications)
+        Enable notifications
+
+      = form.daisy_label(:dark_mode) do
+        = form.daisy_toggle(:dark_mode, css: "toggle-primary")
+        Enable dark mode
+
+
+= doc_example(title: "Using Label Component") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use the Label component directly with toggles for a fully
+      custom approach.
+
+  .my-2.flex.flex-col.gap-4
+    .flex.items-center.space-x-2
+      = daisy_toggle(name: "location", id: "location")
+      = daisy_label(for: "location", title: "Enable location services")
+
+    .flex.items-center.space-x-2.mt-4
+      = daisy_toggle(name: "marketing", id: "marketing", css: "toggle-primary")
+      = daisy_label(for: "marketing") do
+        Receive marketing emails

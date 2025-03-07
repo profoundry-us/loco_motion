@@ -36,6 +36,7 @@ module LocoMotion
     "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
     "Daisy::DataInput::RatingComponent" => { names: "rating", group: "Data Input", title: "Ratings", example: "ratings" },
     "Daisy::DataInput::SelectComponent" => { names: "select", group: "Data Input", title: "Selects", example: "selects" },
+    "Daisy::DataInput::ToggleComponent" => { names: "toggle", group: "Data Input", title: "Toggles", example: "toggles" },
 
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },

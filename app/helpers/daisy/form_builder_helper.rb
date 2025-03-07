@@ -25,6 +25,26 @@ module Daisy
           @template.daisy_checkbox(**options)
         end
 
+        # Add the daisy_toggle method to FormBuilder
+        def daisy_toggle(name, **options)
+          # Get the object name from the form builder
+          object_name = @object_name.to_s
+
+          # Create a unique ID if not provided
+          options[:id] ||= "#{object_name}_#{name}"
+
+          # Set the name attribute
+          options[:name] = "#{object_name}[#{name}]"
+
+          # Pass the form builder's object to the component if it exists
+          if @object && @object.respond_to?(name) && !options.key?(:checked)
+            options[:checked] = @object.send(name)
+          end
+
+          # Render the toggle component
+          @template.daisy_toggle(**options)
+        end
+
         # Add the daisy_radio method to FormBuilder
         def daisy_radio(name, **options)
           # Get the object name from the form builder
