@@ -1,76 +1,66 @@
-<communication>
+# Communication
 
-1. Always speak to me in English.
-2. Start our sessions by asking clarifying questions to gain additional context.
-3. If relevant, suggest adding the context to this Rules file for future runs.
-4. If I type what appears to be a git command, attempt to run it and do nothing
-   else.
+When communicating with me, follow these proceedures.
 
-</communication>
+1. MUST speak to me in English.
 
-<documentation>
+2. When provided a prompt that looks like a git or shell command:
+   a. MUST attempt to execute the command exactly as prompted
 
-0. We utilize YARD to generate our documentation.
-1. When documenting new components,utilize existing components as a guide.
-2. If a component uses `define_part` or `define_parts`, use the `@part` macro to
-   document it.
-3. If a component uses `renders_one` or `renders_many`, use the `@slot` macro to
-   document it.
-4. If a component uses `renders_many`, use the `+` symbol after the name to
-   indicate that it allows multiple calls.
-5. When documenting a component, we use `@param` only for positional arguments
-   and `@option` for all other keyword arguments.
-6. All loco_examples in the YARD documentation should use proper HAML syntax.
-7. When adding a TODO item, it should be appended to the bottom of the list in
-   the README.md file.
-8. Documentation should utilize proper punctuation, including for list items.
-9. If an `initialize` method does not utilize the positional arguments, do not
-   include them in the `@param` documentation.
-10. All `@param` and `@option` documentation should be on the `initialize` method.
-11. All `@param` and `@option` documentation should have newlines between them.
-12. Follow this order when writing component documentation:
-  a. Description
-  b. Notes (Optional)
-  c. Parts
-  d. Slots
-  e. Examples
-13. We use `@loco_example` to document our examples.
-14. We have many guides in our `docs/dev_guides` directory.
-15. When working on .md files, please ensure they are formatted properly;
-    particularly with regard to the lines wrapping at 80 characters (or very close).
 
-</documentation>
+# Planning
 
-<coding>
+When asked to create a plan, follow these proceedures.
 
-1. When making a plan, only show me the steps you will take and ask to move
-   forward.
-2. When writing new code, follow the conventions of existing code such as
-   components.
-3. When writing docs, follow the conventions of existing docs such as the Button
-  component.
-1. When writing tests, follow the conventions of existing tests such as the
-   `button_component_spec.rb`.
-2. All code should be tested and have proper documentation.
-3. Assume that you are a mid-level software engineer when creating new code.
-4. Follow the principles of KISS (Keep It Stupid Simple).
-5. Follow the principles of DRY (Don't Repeat Yourself).
-6. Remember that we run everything with Docker, so some commands may need to
-   change.
-7. Utilize the Makefile as a resource when learning how to run commands.
-8.  After making a change, re-run all tests to ensure they remain passing.
-9.  When writing documentation or tests, reference the files in
-    `docs/demo/app/views/examples` as a usage guide.
-10. Part customizations such as `resizer_css` or `header_html` are handled by
-    the parent class and do NOT need special code in the child components.
-11. When completing a TODO in the README, mark it off instead of deleting it.
+1. MUST review the relevant template in the `docs/plans/templates` directory.
 
-</coding>
+2. MUST create a Markdown file in the `docs/plans` directory.
 
-<committing>
+3. MUST utilize existing plans as a guide for building new plans.
 
-0. Wait until I ask you to commit before following the rest of these steps.
-1. When committing code, follow these steps:
+4. MUST include exact links provided by the user.
+
+5. NEVER add component variants unless explicitly requested.
+
+6. MUST pause after creating the plan so user can review.
+
+
+# Coding
+
+When writing new code, follow these proceedures.
+
+1. MUST follow the plan as outlined.
+
+2. MUST test all Ruby code.
+
+3. MUST document all public Ruby classes and methods.
+
+4. MUST follow the principles of KISS (Keep It Stupid Simple).
+
+5. MUST follow the principles of DRY (Don't Repeat Yourself).
+
+6. MUST regularly run ALL tests during coding sessions.
+
+7. When a component class has parts:
+  a. NEVER include a part for the component itself (this is provided by default).
+  b. NEVER include properties for their `_css` and `_html` customizations (they
+     are handled by the parent BaseComponent).
+
+8. MUST mark off todo items in the README.
+
+9. NEVER delete todo items in the README.
+
+10. If you alter any files in `lib/loco_motion`:
+  a. MUST restart the demo app.
+
+
+# Committing
+
+When committing code changes, follow these proceedures.
+
+1. NEVER attempt to commit unless requested.
+
+2. MUST follow these commit steps in series:
   a. Run `make loco-test` to ensure all tests pass.
   b. Run a `git status --porcelain` to see what files changed.
   c. Run `git add .` to add all changed files to the index.
@@ -86,19 +76,96 @@
   j. If the push did not create a new branch on the remote, provide a clickable
      link to the existing GitHub PR.
 
-2. When providing links for Pull Requests, always format it so I can click on
-   the link.
-3. We have a GitHub Pull Request template available in `.github/pull_request_template.md`.
-4. When creating a commmit message, surround it in single quotes so that we can
-   use Markdown and backticks in the message.
+2. MUST format links for Pull Requests as a clickable link.
 
-</committing>
+4. MUST surround commmit messages in single quotes so that we can use Markdown
+   and backticks in the message.
 
-<releasing>
-1. When releasing, follow the protocol outlined in the docs/dev_guides/RELEASING.md file.
-</releasing>
 
-<commands>
-1. When removing a file with `rm`, make sure to use `/bin/rm` so that it doesn't
-   prompt you for confirmation.
-</commands>
+# Documenting Code
+
+When documenting code, follow these proceedures.
+
+1. MUST utilize YARD documentation for Ruby files.
+
+2. When documenting new components, MUST utilize existing components as a guide.
+
+2. If a component uses `define_part` or `define_parts`, MUST use the `@part` macro to
+   document it.
+
+3. If a component uses `renders_one` or `renders_many`:
+   a. MUST use the `@slot` macro to document it.
+
+4. If a component uses `renders_many`:
+   a. MUST use the `+` symbol after the name to indicate that it allows multiple calls.
+
+6. When documenting a component:
+   a. ONLY use `@param` for positional arguments and `@option` for all other
+   keyword arguments.
+
+7. All loco_examples in the YARD documentation MUST use proper HAML syntax.
+
+8. When adding a TODO item:
+   a. MUST append it to the bottom of the list in the README.md file
+
+9. MUST utilize proper punctuation, including for list items.
+
+10. If an `initialize` method does not utilize the positional arguments, NEVER
+   include them in the `@param` YARD documentation.
+
+11. All `@param` and `@option` YARD documentation MUST be on the `initialize` method.
+
+12. All `@param` and `@option` YARD documentation MUST have newlines between them.
+
+13. Follow this order when writing component YARD documentation:
+  a. Description
+  b. Notes (Optional)
+  c. Parts
+  d. Slots
+  e. Examples
+
+14. MUST use `@loco_example` to document our YARD examples.
+
+
+# Creating Guides
+
+When writing / creating guides, follow these proceedures.
+
+1. We have many guides in our `docs/dev_guides` directory.
+
+2. When working on .md files:
+   a. MUST ensure they are formatted properly.
+   b. MUST wrap lines at 85 characters.
+
+
+# Creating PR Descriptions
+
+When asked to create a PR description, follow these proceedures.
+
+1. MUST utilize existing template in `.github/pull_request_template.md`.
+
+2. MUST format the PR using Markdown.
+
+3. MUST provide a code snippet that I can easily copy / paste into GitHub.
+
+
+# Releasing Code
+
+When releasing code, follow the protocol outlined in the `docs/dev_guides/RELEASING.md` file.
+
+
+# Running Commands
+
+When running commands, follow these proceedures.
+
+1. MUST review the Makefile to see if a relevant command already exists.
+
+2. When removing a file with `rm` or moving a file with `mv`:
+   a. MUST use `/bin/rm` or `/bin/mv` so that it doesn't prompt you for confirmation.
+
+3. MUST run commands from the root of the project (which is the default).
+
+4. NEVER use `cd` before running commands.
+
+5. ONLY restart the demo app (`make demo-restart`) when we make changes to the
+helpers, not the components / examples.

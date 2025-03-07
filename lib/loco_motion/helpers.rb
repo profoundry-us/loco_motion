@@ -29,6 +29,18 @@ module LocoMotion
     "Daisy::DataDisplay::TableComponent" => { names: "table", group: "Data", title: "Tables", example: "tables" },
     "Daisy::DataDisplay::TimelineComponent" => { names: "timeline", group: "Data", title: "Timelines", example: "timelines" },
 
+    # Data Input
+    "Daisy::DataInput::CheckboxComponent" => { names: "checkbox", group: "Data Input", title: "Checkboxes", example: "checkboxes" },
+    "Daisy::DataInput::FileInputComponent" => { names: "file_input", group: "Data Input", title: "File Inputs", example: "file_inputs" },
+    "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
+    "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons", example: "radio_buttons" },
+    "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
+    "Daisy::DataInput::RatingComponent" => { names: "rating", group: "Data Input", title: "Ratings", example: "ratings" },
+    "Daisy::DataInput::SelectComponent" => { names: "select", group: "Data Input", title: "Selects", example: "selects" },
+    "Daisy::DataInput::TextInputComponent" => { names: "text_input", group: "Data Input", title: "Text Inputs", example: "text_inputs" },
+    "Daisy::DataInput::TextAreaComponent" => { names: "text_area", group: "Data Input", title: "Text Areas", example: "text_areas" },
+    "Daisy::DataInput::ToggleComponent" => { names: "toggle", group: "Data Input", title: "Toggles", example: "toggles" },
+
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },
     "Daisy::Navigation::BottomNavComponent" => { names: "bottom_nav", group: "Navigation", title: "Bottom Navs", example: "bottom_navs" },

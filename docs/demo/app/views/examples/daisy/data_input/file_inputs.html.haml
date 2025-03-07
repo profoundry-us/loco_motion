@@ -1,0 +1,104 @@
+= doc_title(title: "File Inputs", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing file input components.
+
+
+= doc_example(title: "Basic File Input") do |doc|
+  - doc.with_description do
+    :markdown
+      File inputs allow users to select and upload files.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "file1", title: "Upload Document")
+    = daisy_file_input(name: "file1", id: "file1")
+
+
+= doc_example(title: "File Input with Accept Attribute") do |doc|
+  - doc.with_description do
+    :markdown
+      You can restrict the file types that can be selected using the `accept` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "image", title: "Upload Image")
+    = daisy_file_input(name: "image", id: "image", accept: "image/*", css: "file-input-bordered")
+
+    = daisy_label(for: "pdf", title: "Upload PDF", css: "mt-4")
+    = daisy_file_input(name: "pdf", id: "pdf", accept: ".pdf", css: "file-input-bordered")
+
+
+= doc_example(title: "Multiple File Selection") do |doc|
+  - doc.with_description do
+    :markdown
+      Enable multiple file selection with the `multiple` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "documents", title: "Upload Documents")
+    = daisy_file_input(name: "documents[]", id: "documents", multiple: true, css: "file-input-bordered")
+
+
+= doc_example(title: "File Input with Different Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      File inputs can be styled with additional CSS classes to change their appearance.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "file_primary", title: "Primary File Input")
+    = daisy_file_input(name: "file_primary", id: "file_primary", css: "file-input-primary file-input-bordered")
+
+    = daisy_label(for: "file_secondary", title: "Secondary File Input", css: "mt-4")
+    = daisy_file_input(name: "file_secondary", id: "file_secondary", css: "file-input-secondary file-input-bordered")
+
+    = daisy_label(for: "file_accent", title: "Accent File Input", css: "mt-4")
+    = daisy_file_input(name: "file_accent", id: "file_accent", css: "file-input-accent file-input-bordered")
+
+
+= doc_example(title: "Ghost Style File Input") do |doc|
+  - doc.with_description do
+    :markdown
+      File inputs can use the `file-input-ghost` class for a minimalist appearance
+      that only shows borders on hover.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "file_ghost", title: "Ghost Style File Input")
+    = daisy_file_input(name: "file_ghost", id: "file_ghost", css: "file-input-ghost")
+
+    .mt-4.p-4.border.rounded-lg.bg-teal-200
+      %p.text-sm.mb-2 Ghost style with background container:
+      = daisy_label(for: "file_ghost_bg", title: "Upload Files")
+      = daisy_file_input(name: "file_ghost_bg", id: "file_ghost_bg", css: "file-input-ghost")
+
+
+= doc_example(title: "Disabled File Input") do |doc|
+  - doc.with_description do
+    :markdown
+      File inputs can be disabled using the `disabled` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "file_disabled", title: "Disabled File Input", css: "cursor-not-allowed")
+    = daisy_file_input(name: "file_disabled", id: "file_disabled", disabled: true, css: "file-input-bordered")
+
+
+= doc_example(title: "Required File Input") do |doc|
+  - doc.with_description do
+    :markdown
+      File inputs can be marked as required using the `required` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "file_required", title: "Required File Input")
+    = daisy_file_input(name: "file_required", id: "file_required", required: true, css: "file-input-bordered")
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an easy way to use
+      file inputs in your forms by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user, html: { multipart: true }) do |form|
+    .my-2.flex.flex-col.gap-4
+      = form.daisy_label(:avatar)
+      = form.daisy_file_input(:avatar, css: "file-input-bordered")
+
+      = form.daisy_label(:documents, "Upload Documents", css: "mt-4")
+      = form.daisy_file_input(:documents, multiple: true, css: "file-input-bordered")

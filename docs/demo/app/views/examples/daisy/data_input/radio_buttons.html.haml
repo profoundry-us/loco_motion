@@ -1,0 +1,129 @@
+= doc_title(title: "Radio Buttons", comp: @comp) do |title|
+  :markdown
+    Here are some examples showcasing radio button components.
+
+
+= doc_example(title: "Basic Radio Buttons") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons are used to select a single option from a set of options.
+      Radio buttons with the same name attribute are automatically grouped together.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "radio1") do
+      = daisy_radio(name: "radio_group1", id: "radio1", value: "1")
+      Option 1
+
+    = daisy_label(for: "radio2") do
+      = daisy_radio(name: "radio_group1", id: "radio2", value: "2", checked: true)
+      Option 2
+
+    = daisy_label(for: "radio3") do
+      = daisy_radio(name: "radio_group1", id: "radio3", value: "3")
+      Option 3
+
+
+= doc_example(title: "Radio Buttons with Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can be styled with different colors using DaisyUI utility classes.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "radio4") do
+      = daisy_radio(name: "radio_group2", id: "radio4", value: "1", css: "radio-primary")
+      Primary Radio Button
+
+    = daisy_label(for: "radio5") do
+      = daisy_radio(name: "radio_group2", id: "radio5", value: "2", css: "radio-secondary")
+      Secondary Radio Button
+
+    = daisy_label(for: "radio6") do
+      = daisy_radio(name: "radio_group2", id: "radio6", value: "3", css: "radio-accent")
+      Accent Radio Button
+
+
+= doc_example(title: "Radio Button States") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can be in different states such as checked, disabled, or required.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "radio7") do
+      = daisy_radio(name: "radio_group3", id: "radio7", value: "1")
+      Standard Radio Button
+
+    = daisy_label(for: "radio8") do
+      = daisy_radio(name: "radio_group3", id: "radio8", value: "2", checked: true)
+      Checked Radio Button
+
+    = daisy_label(for: "radio9", css: "cursor-not-allowed") do
+      = daisy_radio(name: "radio_group3", id: "radio9", value: "3", disabled: true)
+      Disabled Radio Button
+
+    = daisy_label(for: "radio10") do
+      = daisy_radio(name: "radio_group3", id: "radio10", value: "4", required: true)
+      Required Radio Button
+
+
+= doc_example(title: "Disabled Radio Button") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can be disabled using the `disabled` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "radio11", css: "cursor-not-allowed") do
+      = daisy_radio(name: "radio_group4", id: "radio11", value: "1", disabled: true)
+      Disabled Radio Button
+
+
+= doc_example(title: "Custom ID") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can be given a custom ID using the `id` attribute.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_label(for: "custom-radio-id") do
+      = daisy_radio(name: "radio_group5", id: "custom-radio-id", value: "1")
+      Radio Button with Custom ID
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension provides an even easier way to use
+      radio buttons in your pages by extracting the name and ID attributes from the
+      form object and attributes.
+
+  = form_with(url: "#", method: :post, scope: :user) do |form|
+    .flex.flex-col.gap-4
+      = form.daisy_label(:gender_male) do
+        = form.daisy_radio(:gender, value: "male")
+        Male
+
+      = form.daisy_label(:gender_female) do
+        = form.daisy_radio(:gender, value: "female")
+        Female
+
+      = form.daisy_label(:gender_other) do
+        = form.daisy_radio(:gender, value: "other")
+        Other
+
+
+= doc_example(title: "Using Label Component") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use the Label component directly with radio buttons for a fully
+      custom approach.
+
+  .my-2.flex.flex-col.gap-4
+    .flex.items-center.space-x-2
+      = daisy_radio(name: "contact_preference", id: "email", value: "email")
+      = daisy_label(for: "email", title: "Email")
+
+    .flex.items-center.space-x-2.mt-4
+      = daisy_radio(name: "contact_preference", id: "phone", value: "phone")
+      = daisy_label(for: "phone", title: "Phone")
+
+    .flex.items-center.space-x-2.mt-4
+      = daisy_radio(name: "contact_preference", id: "mail", value: "mail")
+      = daisy_label(for: "mail", title: "Mail")
