@@ -1,6 +1,7 @@
 #
 # The Label component renders a DaisyUI styled label for form inputs.
-# It can be used with any form input component.
+# It can be used with any form input component and provides visual styling
+# consistent with other Daisy UI elements.
 #
 # @loco_example Basic Usage
 #   = daisy_label(for: "input_id") do
@@ -19,9 +20,10 @@ class Daisy::DataInput::LabelComponent < LocoMotion::BaseComponent
   #
   # Instantiate a new Label component.
   #
-  # @param for [String] The ID of the input element this label is for.
-  #
   # @param kws [Hash] The keyword arguments for the component.
+  #
+  # @option kws for [String] The ID of the input element this label is for.
+  #   This connects the label to its associated form control for accessibility.
   #
   # @option kws title [String] The text content of the label. If not provided,
   #   the content block will be used. If a content block is provided, it will
@@ -47,7 +49,10 @@ class Daisy::DataInput::LabelComponent < LocoMotion::BaseComponent
 
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes.
+  # attributes. Sets the tag to 'label' and adds the 'label' CSS class.
+  #
+  # This configures the 'for' attribute to connect the label to its input and
+  # adds appropriate styling for required inputs when needed.
   #
   def setup_component
     set_tag_name(:component, :label)

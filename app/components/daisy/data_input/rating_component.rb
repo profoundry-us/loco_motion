@@ -2,7 +2,9 @@
 
 #
 # The Rating component renders a DaisyUI styled rating input using radio buttons.
-# It can be used standalone or with a form builder.
+# It can be used standalone or with a form builder, allowing users to select a
+# rating from 1 to a configurable maximum value. Supports customization of size,
+# colors, and initial value.
 #
 # @loco_example Basic Usage
 #   = daisy_rating(name: "product_rating", id: "product_rating")
@@ -19,13 +21,25 @@
 #   = daisy_rating(name: "large_rating", css: "rating-lg")
 #
 class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
+  #
+  # Inner component for rendering individual rating items as radio inputs.
+  #
   class RatingItemComponent < LocoMotion::BasicComponent
+    #
+    # Sets up the component before rendering.
+    #
     def before_render
       set_tag_name(:component, :input)
+      add_html(:component, { name: loco_parent&.name, type: "radio" })
     end
 
+    #
+    # Renders the component with the appropriate attributes.
+    # Takes the name from the parent component and sets the type to radio.
+    #
+    # @return [String] The rendered HTML for the rating item.
+    #
     def call
-      add_html(:component, { name: loco_parent&.name, type: "radio" })
       part(:component)
     end
   end
@@ -47,11 +61,11 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
   #
   # @option kws max [Integer] The maximum rating value (default: 5).
   #
-  # @option kws disabled [Boolean] Whether the rating is disabled (default:
-  #   false).
+  # @option kws disabled [Boolean] Whether the rating is disabled. Defaults to
+  #   false. When disabled, users cannot interact with the rating control.
   #
-  # @option kws required [Boolean] Whether the rating input is required (default:
-  #   false).
+  # @option kws required [Boolean] Whether the rating input is required for form
+  #   validation. Defaults to false.
   #
   # @option kws id [String] The ID for the first radio input.
   #
@@ -73,7 +87,9 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
   end
 
   #
-  # Calls the {setup_component} method before rendering the component.
+  # Calls the {setup_component} and {setup_hidden_input} methods before rendering
+  # the component. This prepares the rating container and creates a hidden input
+  # if needed.
   #
   def before_render
     setup_component

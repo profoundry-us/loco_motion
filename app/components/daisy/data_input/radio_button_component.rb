@@ -1,6 +1,7 @@
 #
 # The Radio Button component renders a DaisyUI styled radio button input.
-# It can be used standalone or with a form builder.
+# It can be used standalone or with a form builder, and is ideal for creating
+# option groups where users must select exactly one choice.
 #
 # @loco_example Basic Usage
 #   = daisy_radio(name: "option", id: "option1", value: "1")
@@ -31,8 +32,8 @@ class Daisy::DataInput::RadioButtonComponent < LocoMotion::BaseComponent
   # @option kws disabled [Boolean] Whether the radio button is disabled. Defaults to
   #   false.
   #
-  # @option kws required [Boolean] Whether the radio button is required. Defaults to
-  #   false.
+  # @option kws required [Boolean] Whether the radio button is required for form
+  #   validation. Defaults to false.
   #
   def initialize(**kws)
     super
@@ -54,7 +55,10 @@ class Daisy::DataInput::RadioButtonComponent < LocoMotion::BaseComponent
 
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes.
+  # attributes. Sets the tag to input with type 'radio' and adds the 'radio' CSS class.
+  # 
+  # This configures the name, id, value, disabled state, required state, and
+  # checked state of the radio button.
   #
   def setup_component
     set_tag_name(:component, :input)

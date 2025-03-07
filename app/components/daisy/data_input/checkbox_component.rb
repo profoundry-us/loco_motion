@@ -1,6 +1,7 @@
 #
 # The Checkbox component renders a DaisyUI styled checkbox input.
-# It can be used standalone or with a form builder.
+# It can be used standalone or with a form builder, and supports various styling
+# options including toggle mode for switch-like appearance.
 #
 # @loco_example Basic Usage
 #   = daisy_checkbox(name: "accept", id: "accept")
@@ -38,8 +39,8 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   # @option kws disabled [Boolean] Whether the checkbox is disabled. Defaults to
   #   false.
   #
-  # @option kws required [Boolean] Whether the checkbox is required. Defaults to
-  #   false.
+  # @option kws required [Boolean] Whether the checkbox is required for form
+  #   validation. Defaults to false.
   #
   def initialize(**kws)
     super

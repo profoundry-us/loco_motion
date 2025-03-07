@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+#
 # The Select component provides a styled dropdown select input for forms.
+# It supports various styling options, including sizes, colors, bordered and ghost variants.
 #
 # @part placeholder The placeholder option element that is shown when no option is selected.
 #
@@ -18,15 +20,16 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   class SelectOptionComponent < LocoMotion::BasicComponent
     attr_reader :value, :label, :selected, :disabled
 
+    #
     # Initialize a new select option component.
     #
     # @param value [String, Symbol, Integer] The value of the option.
     #
     # @param label [String] The label to display for the option.
     #
-    # @param selected [Boolean] Whether the option is selected.
+    # @param selected [Boolean] Whether the option is selected. Defaults to false.
     #
-    # @param disabled [Boolean] Whether the option is disabled.
+    # @param disabled [Boolean] Whether the option is disabled. Defaults to false.
     #
     # @param css [String] CSS classes to apply to the option.
     #
@@ -42,6 +45,11 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
       super(**kws)
     end
 
+    #
+    # Renders the option element with the appropriate attributes.
+    #
+    # @return [String] The rendered HTML for the option element.
+    #
     def call
       content_tag(:option, label, {
         value: value,
@@ -58,29 +66,33 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
 
   attr_reader :name, :id, :value, :placeholder_text, :disabled, :required, :options_css, :options_html
 
+  #
   # Initialize a new select component.
   #
-  # @param name [String] The name attribute for the select input.
+  # @param kws [Hash] The keyword arguments for the component.
   #
-  # @param id [String] The id attribute for the select input.
+  # @option kws name [String] The name attribute for the select input.
   #
-  # @param value [String, Symbol, Integer] The current value of the select input.
+  # @option kws id [String] The id attribute for the select input.
   #
-  # @param placeholder [String] Optional placeholder text to display when no option is selected.
+  # @option kws value [String, Symbol, Integer] The current value of the select input.
+  #   Determines which option is selected on initial render.
   #
-  # @param disabled [Boolean] Whether the select input is disabled.
+  # @option kws placeholder [String] Optional placeholder text to display when no
+  #   option is selected. Appears as a disabled option at the top of the list.
   #
-  # @param required [Boolean] Whether the select input is required.
+  # @option kws disabled [Boolean] Whether the select input is disabled. Defaults to
+  #   false.
   #
-  # @param options [Array] An array of options to display in the select input.
+  # @option kws required [Boolean] Whether the select input is required for form
+  #   validation. Defaults to false.
   #
-  # @option options [String, Symbol, Integer] :value The value of the option.
+  # @option kws options [Array] An array of options to display in the select input.
+  #   Can be an array of strings or hashes with :value and :label keys.
   #
-  # @option options [String] :label The label to display for the option.
+  # @option kws options_css [String] CSS classes to apply to each option.
   #
-  # @param options_css [String] CSS classes to apply to each option.
-  #
-  # @param options_html [Hash] HTML attributes to apply to each option.
+  # @option kws options_html [Hash] HTML attributes to apply to each option.
   #
   def initialize(**kws)
     super(**kws)
@@ -96,13 +108,18 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     @options_html = config_option(:options_html, {})
   end
 
-  # Sets up the component before rendering
+  #
+  # Sets up the component before rendering.
+  #
   def before_render
     setup_component
     setup_placeholder
   end
 
-  # Sets up the component by configuring the tag name, CSS classes, and HTML attributes
+  #
+  # Sets up the component by configuring the tag name, CSS classes, and HTML attributes.
+  # Sets the tag to 'select' and adds the 'select' CSS class.
+  #
   def setup_component
     set_tag_name(:component, :select)
     add_css(:component, "select")
@@ -116,11 +133,21 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     )
   end
 
+  #
+  # Sets up the placeholder option that appears when no option is selected.
+  # Adds a disabled option with an empty value.
+  #
   def setup_placeholder
     set_tag_name(:placeholder, :option)
     add_html(:placeholder, value: "", disabled: true, selected: @value.blank?)
   end
 
+  #
+  # Converts the options array into SelectOptionComponent instances.
+  # Handles both hash options (with value/label keys) and simple string options.
+  #
+  # @return [Array<SelectOptionComponent>] Array of option components or empty array if no options.
+  #
   def default_options
     return [] unless @options_list
 
@@ -140,6 +167,11 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
 
   private
 
+  #
+  # Ensures the options list is always an array, even if a single option is provided.
+  #
+  # @return [Array] The list of options as an array.
+  #
   def options_list
     @options_list.is_a?(Array) ? @options_list : [@options_list]
   end

@@ -1,6 +1,7 @@
 #
-# The Range component renders a DaisyUI styled range input.
-# It can be used standalone or with a form builder.
+# The Range component renders a DaisyUI styled range input slider.
+# It can be used standalone or with a form builder, and supports customization
+# of min/max values, step increments, and color variants.
 #
 # @loco_example Basic Usage
 #   = daisy_range(name: "volume", id: "volume", min: 0, max: 100, value: 50)
@@ -35,8 +36,8 @@ class Daisy::DataInput::RangeComponent < LocoMotion::BaseComponent
   # @option kws disabled [Boolean] Whether the range input is disabled. Defaults to
   #   false.
   #
-  # @option kws required [Boolean] Whether the range input is required. Defaults to
-  #   false.
+  # @option kws required [Boolean] Whether the range input is required for form
+  #   validation. Defaults to false.
   #
   def initialize(**kws)
     super
@@ -60,7 +61,10 @@ class Daisy::DataInput::RangeComponent < LocoMotion::BaseComponent
 
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes.
+  # attributes. Sets the tag to input with type 'range' and adds the 'range' CSS class.
+  #
+  # This configures the min, max, step values along with name, id, value, disabled state, 
+  # and required state of the range input.
   #
   def setup_component
     set_tag_name(:component, :input)
