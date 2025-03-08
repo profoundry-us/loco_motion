@@ -57,17 +57,19 @@ This will automatically update:
 - `package.json`
 - `docs/demo/package.json` (updates the dependency on `@profoundry-us/loco_motion`)
 
-After updating the version, you should update both the loco and demo app bundles to ensure they're using the new version:
+After updating the version, you should update both the loco and demo app bundles
+to ensure they're using the new version:
 
 ```bash
-# Update the loco container's bundle
-make loco-update
-
-# Update the demo app's bundle
-make demo-update
+# Update LocoMotion and the demo app to lock the version to this new one
+make version-lock
 ```
 
-This ensures that both the loco container and demo app are using the latest version of the gem from the vendor directory.
+> [!NOTE]
+> We may want to update the version set script to run this automatically.
+
+This ensures that both the loco container and demo app are using the latest
+version of the gem from the vendor directory.
 
 ## Step 2 - Building and Testing
 
@@ -109,6 +111,14 @@ git commands to build a relevant changelog update.
 ```
 
 ## Step 4 - Publishing
+
+> [!WARNING]
+> The order of these steps may need to be changed, it seems that we should
+> publish the packages before we attempt to deploy to the server, which happens
+> when we create / merge the PR.
+>
+> For now, we can login to Heroku and click the Deploy button to manually re-run
+> the deploy after publishing the packages.
 
 Before publishing the packages, ensure your changes are merged to the main
 branch:

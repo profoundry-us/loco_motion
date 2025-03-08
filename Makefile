@@ -72,11 +72,6 @@ loco-shell:
 loco-test:
 	docker compose exec -it loco bundle exec rspec spec
 
-# Update the loco container's bundle
-.PHONY: loco-update
-loco-update:
-	docker compose exec -it loco bundle update
-
 ##############################
 # demo commands
 ##############################
@@ -171,10 +166,12 @@ version-set:
 		docker compose exec -it loco bin/update_version $(NEW_VERSION); \
 	fi
 
-# Update the demo app to use the new version
-.PHONY: demo-update
-demo-update:
+# Update the demo app to use the new versions
+.PHONY: version-lock
+version-lock:
+	docker compose exec -it loco bundle
 	docker compose exec -it demo bundle
+	docker compose exec -it demo yarn
 
 # Builds a new version of the gem in the builds/rubygems directory
 .PHONY: gem-build
