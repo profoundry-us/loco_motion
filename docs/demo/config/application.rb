@@ -25,6 +25,9 @@ module LocoDemo
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Setup our demo app configuration options
-    config.api_docs_host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808/docs")
+    docs_host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808")
+    docs_path = docs_host.include?("localhost") ? "docs" : "v#{LocoMotion::VERSION}"
+
+    config.api_docs_host = "#{docs_host}/#{docs_path}"
   end
 end
