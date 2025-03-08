@@ -5,3 +5,4 @@ docs/demo/.env.local
 docs/yard/generated
 node_modules
 builds/
+**/*/.DS_Store
