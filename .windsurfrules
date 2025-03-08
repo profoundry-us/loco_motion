@@ -144,9 +144,11 @@ When asked to create a PR description, follow these proceedures.
 
 1. MUST utilize existing template in `.github/pull_request_template.md`.
 
-2. MUST format the PR using Markdown.
+2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
 
-3. MUST provide a code snippet that I can easily copy / paste into GitHub.
+3. MUST format the PR using Markdown.
+
+4. MUST provide a code snippet that I can easily copy / paste into GitHub.
 
 
 # Releasing Code

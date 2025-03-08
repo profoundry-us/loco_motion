@@ -72,6 +72,11 @@ loco-shell:
 loco-test:
 	docker compose exec -it loco bundle exec rspec spec
 
+# Update the loco container's bundle
+.PHONY: loco-update
+loco-update:
+	docker compose exec -it loco bundle update
+
 ##############################
 # demo commands
 ##############################

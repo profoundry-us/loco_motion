@@ -2,6 +2,45 @@
 
 All notable changes to LocoMotion will be documented in this file.
 
+## [0.4.0] - 2025-03-07
+
+This version is a major milestone as it finishes out a basic version of all of
+the DaisyUI 4 components!
+
+While this gives us a solid foundation to start using the components, we feel
+that our time will best be spent upgrading the configuration and components to
+utilize the new DaisyUI 5 framework that was recently released.
+
+We will be migrating to the new version and all bug fixes / improvements will be
+made in a new LocoMotion 0.5.0 branch / release.
+
+### Added
+- Complete set of DataInput components:
+  - Checkbox Component: With toggle mode and indeterminate state support
+  - Label Component: For form input labels with required state
+  - Radio Button Component: For option group selections
+  - Range Component: Slider input with min/max/step support
+  - Rating Component: Star-based rating with customizable options
+  - Select Component: Dropdown with option groups and custom rendering
+  - Toggle Component: Stylized toggle switch extending checkbox
+  - FileInput Component: For file uploads with multiple file support
+  - TextInput Component: With start/end slots for icons and buttons
+  - TextArea Component: Multi-line input with rows/cols support
+- Form builder integration for all DataInput components
+- Comprehensive documentation and examples for each component
+
+### Changed
+- Updated README with current status and future plans
+- Improved release documentation process
+- Added `loco-update` command to Makefile for bundle management
+- Optimized component code with frozen_string_literal directives
+- Updated Windsurf rules for better AI interactions
+
+### Fixed
+- Fixed component documentation typos and inconsistencies
+- Fixed masks example by adding tooltips for better UX
+- Improved empty part rendering in textarea elements
+
 ## [0.0.8] - 2025-03-01
 
 ### Added

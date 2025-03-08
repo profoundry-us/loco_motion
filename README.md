@@ -6,19 +6,45 @@ ViewComponent, TailwindCSS, DaisyUI and more!
 
 <img src="//loco-motion-docs.profoundry.us/images/loco-chats.png" width="500px" style="border: 1px solid #bbb; padding: 2px; border-radius: 10px;">
 
-_**DISCLAIMER**_
+<!-- omit from toc -->
+## DISCLAIMER / CURRENT STATUS
 
 This project is in active development and many changes occur with every release!
-In particular, new Daisy components are being added frequently and older
-components are being updated with new features meaning the APIs are very likely
-to change!
+
+We've added a very basic / untested version of all DaisyUI 4 components. While
+we originally intended to take some time to flesh out and attempt to use these
+components, with the recent release of Tailwind 4 and DaisyUI 5, we feel our
+time is best spent updating all of the components and dependencies for these
+new releases.
+
+This means that we will **NOT** be making any bug fixes to the current branch
+(0.4.0), and will instead include any bug fixes / improvements into the 0.5.0
+branch which will also upgrade to Tailwind 4 and DaisyUI 5.
+
+ - Current Release **(0.4.0)** - Works with DaisyUI 4 and Tailwind 3
+ - Next Release **(0.5.0)** - Will work with DaisyUI 5 and Tailwind 4
+
+<!-- omit from toc -->
+## Additional Notes
+
+### DataInput Components
+
+Many of the DataInput elements (file input, text input, select dropdown, etc)
+were built rather hastily so that we would have a base version to start from.
+
+However, the new DaisyUI 5 components are implemented in a much cleaner way and
+we didn't want to invest too much time building these out and making them more
+ideal since we're about to change them.
+
+### Hosting / Sites
 
 We expect to settle on and purchase a real domain name in the near future, but
 for the time being, the latest documentation is available at the links below.
 
- - [Docs / Demo (Latest Release)][1]
- - [API Docs (Latest Release)][2]
- - [Docs / Demo (Main Branch / Staging)][3]
+ - [Latest Release][1]
+ - [Main / Staging][3]
+
+### Getting Help
 
 Please reach out by opening an
 [Issue](https://github.com/profoundry-us/loco_motion/issues) if you've found a
@@ -935,7 +961,7 @@ the GitHub Discussions feature and let us know!
 - [x] Basic versions of DaisyUI Data Display
 - [x] Basic versions of DaisyUI Navigation
 - [x] Basic versions of DaisyUI Feedback
-- [ ] Basic versions of DaisyUI Data Input
+- [x] Basic versions of DaisyUI Data Input
 - [x] Basic versions of DaisyUI Layout
 - [x] Basic versions of DaisyUI Mockup
 - [x] ~~Get YARD docs rendering with (better) Markdown~~ _**Working for now**_
@@ -962,6 +988,7 @@ the GitHub Discussions feature and let us know!
 - [ ] See if we can update the Join component to auto-add the `join-item` CSS
       under certain conditions
 - [ ] Add title and description content_for blocks to all examples for SEO purposes
+- [ ] Update to Tailwind 4 and DaisyUI 5
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/
