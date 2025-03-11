@@ -224,10 +224,8 @@
     "@parcel/watcher-win32-ia32" "2.5.1"
     "@parcel/watcher-win32-x64" "2.5.1"
 
-"@profoundry-us/loco_motion@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.4.0.tgz#5d5fc5351777f29d37389621319873d0be0a10f0"
-  integrity sha512-fPNSnec6k6XK4AxLRsAAWTeqx8tYCXfAYl2UAkCLmlstFlPy3bH/E+t/p+B62k6xO/ioNFO7M3ZCu0fi7Xi7JA==
+"@profoundry-us/loco_motion@./vendor/loco_motion-rails/":
+  version "0.5.0"
   dependencies:
     "@hotwired/stimulus" "^3.2.2"
 

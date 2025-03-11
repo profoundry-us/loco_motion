@@ -8,7 +8,7 @@
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.4",
-    "@profoundry-us/loco_motion": "^0.5.0",
+    "@profoundry-us/loco_motion": "./vendor/loco_motion-rails/",
     "@tailwindcss/cli": "0.0.0-insiders.7005ad7",
     "@tailwindcss/typography": "^0.0.0-insiders.632970e",
     "autoprefixer": "^10.4.18",
