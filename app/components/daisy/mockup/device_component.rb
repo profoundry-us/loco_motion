@@ -13,24 +13,23 @@
 # @part display The main display area of the device.
 #
 # @loco_example Phone with Camera
-#   = daisy_device(css: "mockup-phone") do
-#     .phone-2.p-4
-#       .flex.flex-col
-#         .text-2xl.font-bold
-#           My App
-#         = image_tag("screenshot.jpg",
-#           class: "rounded-lg")
+#   = daisy_device(css: "mockup-phone", display_css: "overflow-auto") do
+#     .flex.flex-col.gap-4.p-4.pt-12.pb-8.bg-white
+#       .text-2xl.font-bold
+#         My App
+#       = image_tag("screenshot.jpg",
+#         class: "rounded-lg")
 #
 # @loco_example Tablet without Camera
 #   = daisy_device(css: "mockup-phone border-primary",
-#     show_camera: false) do
-#     .phone-3.p-4.bg-base-100
+#     display_css: "overflow-auto w-[736px] h-[414px]", show_camera: false) do
+#     .flex.flex-col.gap-4.p-4.bg-white
 #       Tablet Content Here
 #
 # @loco_example Styled Device
 #   = daisy_device(css: "mockup-phone border-4
-#     border-accent shadow-xl") do
-#     .phone-1.p-4.bg-gradient-to-br.from-primary.to-accent
+#     border-accent shadow-xl", display_css: "w-[320px] h-[568px]") do
+#     .flex.flex-col.p-4.bg-gradient-to-br.from-primary.to-accent
 #       Premium App Design
 #
 class Daisy::Mockup::DeviceComponent < LocoMotion::BaseComponent
