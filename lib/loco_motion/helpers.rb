@@ -61,7 +61,6 @@ module LocoMotion
     "Daisy::Feedback::TooltipComponent" => { names: ["tooltip", "tip"], group: "Feedback", title: "Tooltips", example: "tooltips" },
 
     # Layout
-    "Daisy::Layout::ArtboardComponent" => { names: "artboard", group: "Layout", title: "Artboards", example: "artboards" },
     "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },

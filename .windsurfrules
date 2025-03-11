@@ -71,10 +71,11 @@ When committing code changes, follow these proceedures.
      headers, lists, and code blocks.
   g. Commit the changes.
   h. Push the changes to the remote repository.
-  i. If the push created a new branch on the remote, provide a clickable link to
-     create a PR on GitHub.
-  j. If the push did not create a new branch on the remote, provide a clickable
-     link to the existing GitHub PR.
+  i. Prompt for a PR URL
+  j. Utilize the PR URL to add a line to the `Unreleased` section of the CHANGELOG.
+  k. Run `git add .` to add the changes.
+  l. Commit the code with a simple message about updating the CHANGELOG.
+  m. Push the changes again.
 
 2. MUST format links for Pull Requests as a clickable link.
 

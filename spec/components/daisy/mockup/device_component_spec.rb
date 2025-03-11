@@ -15,6 +15,10 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
         expect(page).to have_selector(".mockup-phone")
       end
 
+      it "renders the display area" do
+        expect(page).to have_selector(".mockup-phone-display")
+      end
+
       it "renders the content" do
         expect(page).to have_text("Content")
       end
@@ -36,7 +40,11 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
       end
 
       it "renders the camera by default" do
-        expect(page).to have_selector(".camera")
+        expect(page).to have_selector(".mockup-phone-camera")
+      end
+
+      it "renders the display area" do
+        expect(page).to have_selector(".mockup-phone-display")
       end
 
       it "renders the content" do
@@ -56,7 +64,11 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
 
     describe "rendering" do
       it "does not render the camera" do
-        expect(page).not_to have_selector(".camera")
+        expect(page).not_to have_selector(".mockup-phone-camera")
+      end
+
+      it "renders the display area" do
+        expect(page).to have_selector(".mockup-phone-display")
       end
 
       it "renders the content" do
@@ -77,6 +89,10 @@ RSpec.describe Daisy::Mockup::DeviceComponent, type: :component do
     describe "rendering" do
       it "applies custom CSS classes" do
         expect(page).to have_selector(".mockup-phone.border-red-600")
+      end
+
+      it "renders the display area" do
+        expect(page).to have_selector(".mockup-phone-display")
       end
     end
   end
