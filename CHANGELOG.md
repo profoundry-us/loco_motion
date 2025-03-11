@@ -16,6 +16,7 @@ releases should be considered breaking!
 ### Changed
 
 - Run migration tool for TailwindCSS 4 and DaisyUI 5 ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
+- Remove ArtboardComponent and update DeviceComponent for DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
 
 ## [0.4.0] - 2025-03-07
 
