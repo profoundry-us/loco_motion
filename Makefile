@@ -8,6 +8,11 @@
 prune:
 	docker system prune --volumes -af
 
+# Build everything but don't run the containers
+.PHONY: build
+build:
+	docker compose build
+
 # Rebuild everything without using the cache
 .PHONY: rebuild
 rebuild:

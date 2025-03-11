@@ -19,7 +19,7 @@
       = daisy_button(css: "btn btn-primary", title: "Get Started", href: "/")
 
 
-= doc_example(title: "Heroes with Images", example_css: "!flex-col gap-8") do |doc|
+= doc_example(title: "Heroes with Images", example_css: "flex-col! gap-8") do |doc|
   - doc.with_description do
     :markdown
       You can add an image to the hero by making it the first or last child.
@@ -57,7 +57,7 @@
 
   - image = image_path("landscapes/mountain-river.jpg")
   = daisy_hero(css: "bg-base-200 min-h-96", html: { style: "background-image: url('#{image}')" }) do |hero|
-    - hero.with_overlay(css: "bg-black bg-opacity-50 backdrop-blur")
+    - hero.with_overlay(css: "bg-black bg-opacity-50 backdrop-blur-xs")
 
     %div.text-white
       %h1.text-5xl.font-bold

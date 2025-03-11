@@ -9,7 +9,7 @@
       Navbars are simple elements which typically contain start and end
       sections, and sometimes a center section.
 
-  = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow") do |navbar|
+  = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
     - navbar.with_start do
       = image_tag("loco-logo.png", class: "h-8")
       %span
@@ -35,7 +35,7 @@
       of the navbar itself. The navbar will grow to fit the largest element
       inside it.
 
-  = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow") do |navbar|
+  = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
     - navbar.with_start(css: "text-lg italic") do
       Code-<strong>Fur</strong>-Life
 
