@@ -989,6 +989,7 @@ the GitHub Discussions feature and let us know!
       under certain conditions
 - [ ] Add title and description content_for blocks to all examples for SEO purposes
 - [ ] Update to Tailwind 4 and DaisyUI 5
+- [ ] Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/

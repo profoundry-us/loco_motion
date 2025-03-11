@@ -1,6 +1,20 @@
-FROM timbru31/ruby-node:3.3-slim-18
+FROM ruby:3.3.5
 
-RUN apt-get update -qq && apt-get install -y build-essential git tini vim
+# Update and install basic dependencies
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    tini \
+    vim \
+    gnupg
+
+# Install Node.js 20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest \
+    && npm install -g yarn@latest \
+    && yarn install
 
 ENV APP_HOME /home/loco_demo
 
@@ -17,6 +31,9 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
+
+# Add some aliases to our Bash shell for when we're messing around
+RUN echo 'alias be="bundle exec"\nalias la="ls -al"' >> ~/.bashrc
 
 # Configure the main process to run when running the image
 # CMD ["/usr/bin/tini", "--", "rails", "server", "-b", "0.0.0.0"]

@@ -1,14 +1,24 @@
 FROM ruby:3.3.5
 
-RUN apt-get update -qq && apt-get install -y build-essential git tini vim
-RUN gem update --system
+# Update and install basic dependencies
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    tini \
+    vim \
+    gnupg
 
 ENV APP_HOME /home/loco_motion
 
 WORKDIR $APP_HOME
 
-COPY Gemfile Gemfile.* loco_motion.gemspec .yardopts $APP_HOME
+COPY Gemfile Gemfile.* loco_motion-rails.gemspec .yardopts $APP_HOME
+COPY lib/loco_motion/version.rb $APP_HOME/lib/loco_motion/
 
 RUN bundle install
+
+# Add some aliases to our Bash shell for when we're messing around
+RUN echo 'alias be="bundle exec"\nalias la="ls -al"' >> ~/.bashrc
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "docs/yard/bin/start-yard.sh" ]

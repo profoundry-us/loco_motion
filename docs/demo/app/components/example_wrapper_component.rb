@@ -171,8 +171,8 @@ class ExampleWrapperComponent < ApplicationComponent
 
   def reset_css
     cssify([
-      "absolute top-1.5 right-4 h-5 !border-0 flex items-center justify-center",
-      "hover:bg-base-200 active:bg-base-300 rounded !ps-2 !pe-2",
+      "absolute top-1.5 right-4 h-5 border-0! flex items-center justify-center",
+      "hover:bg-base-200 active:bg-base-300 rounded-xs ps-2! pe-2!",
       "tooltip tooltip-left before:text-xs",
     ])
   end

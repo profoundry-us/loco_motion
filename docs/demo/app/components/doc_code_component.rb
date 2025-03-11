@@ -14,7 +14,7 @@ class DocCodeComponent < ApplicationComponent
     set_tag_name(:pre, :pre)
     set_tag_name(:code, :code)
 
-    add_css(:pre, "!p-0")
+    add_css(:pre, "p-0!")
     add_css(:code, "hljs rounded-lg language-#{@language}")
   end
 

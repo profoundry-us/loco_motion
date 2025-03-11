@@ -1,7 +1,7 @@
 PATH
   remote: vendor/loco_motion-rails
   specs:
-    loco_motion-rails (0.4.0)
+    loco_motion-rails (0.5.0)
       base64 (~> 0.2.0)
       bigdecimal (~> 3.1.8)
       drb (~> 2.2.1)

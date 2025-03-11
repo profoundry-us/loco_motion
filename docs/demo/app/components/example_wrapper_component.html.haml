@@ -22,7 +22,7 @@
         = part(:example) do
           = content
 
-    - tabs.with_tab(css: "[&.tab-active]:![--tab-bg:#282c34] [&.tab-active]:!text-white", html: active_tab_html) do |tab|
+    - tabs.with_tab(css: "[&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!", html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4

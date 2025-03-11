@@ -14,7 +14,7 @@ class DocCodeTabComponent < ApplicationComponent
 
   def before_render
     add_stimulus_controller(:code, "highlight-code")
-    add_css(:code, "hljs !px-0 !py-2 language-#{@language}")
+    add_css(:code, "hljs px-0! py-2! language-#{@language}")
 
     set_tag_name(:code, :code)
     set_tag_name(:pre, :pre)

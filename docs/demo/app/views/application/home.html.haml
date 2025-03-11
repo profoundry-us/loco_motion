@@ -1,5 +1,5 @@
-- star_styles = "size-[800px] mask mask-star bg-gradient-to-r from-secondary via-cyan-400 to-lime-400"
-- crazy_text_styles = "italic font-black bg-gradient-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
+- star_styles = "size-[800px] mask mask-star bg-linear-to-r from-secondary via-cyan-400 to-lime-400"
+- crazy_text_styles = "italic font-black bg-linear-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
 
 .relative
   - # Blurred background star
@@ -25,7 +25,7 @@
         in Ruby on Rails!
 
     .mt-16.text-center
-      = daisy_button "😃 Get Started", css: "btn-primary text-xl",
+      = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-xl",
         right_icon: "arrow-right", target: "_blank",
         href: "https://github.com/profoundry-us/loco_motion#locomotion-components"
 
@@ -141,13 +141,16 @@
               end
             end
 
+    - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
     %h3.mt-24.text-center.text-4xl.font-bold.italic
       More Coming Soon!
+
     %p.mt-2.text-xl.text-center
       Keen an eye out as we'll be adding more components, guides, and
       %br.max-sm:hidden
       suggested gems for you to build amazing Rails apps!
-    .mt-4.text-center
-      = daisy_button "😉 Get Started", css: "btn-primary text-xl",
+
+    .mt-4.mb-16.text-center
+      = daisy_button "😉 Get Started", css: "btn-primary btn-lg text-xl",
         right_icon: "arrow-right", target: "_blank",
         href: "https://github.com/profoundry-us/loco_motion#locomotion-components"

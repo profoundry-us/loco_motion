@@ -1,5 +1,5 @@
 = daisy_navbar(css: "justify-between") do |bar|
-  - bar.with_start(css: "!w-auto") do
+  - bar.with_start(css: "w-auto!") do
     %label.-ml-2.mr-4.btn.btn-ghost.xl:hidden{ for: "sidenav-drawer" }
       = heroicon_tag("bars-3", class: "w-6 h-6")
 
@@ -10,9 +10,9 @@
           %em> Loco
           %span.font-bold Motion
       = link_to "https://github.com/profoundry-us/loco_motion/releases/tag/v#{LocoMotion::VERSION}", target: "_blank", class: "flex items-center" do
-        = daisy_badge("v#{LocoMotion::VERSION}", css: "badge-primary [&:not(:hover)]:badge-outline")
+        = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-dash btn-primary btn-xs rounded-full", tip: "beta")
 
-  - bar.with_end(css: "!w-auto space-x-2") do
+  - bar.with_end(css: "w-auto! space-x-2") do
     = daisy_button "API Docs", href: "/api-docs", target: "_blank", left_icon: "document-text", css: "btn-ghost btn-sm"
 
     = daisy_button href: "https://github.com/profoundry-us/loco_motion", target: "_blank", css: "btn-ghost btn-sm" do
