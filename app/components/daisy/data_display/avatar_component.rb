@@ -69,14 +69,14 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
 
     # The where pseudo class reduces the specificity of the CSS selector to 0 so
     # that other Tailwind classes provided by the user will take presedence.
-    add_css(:wrapper, "[:where(&)]:w-24 [:where(&)]:rounded-full")
+    add_css(:wrapper, "where:w-24 where:rounded-full")
 
     if @src.present?
       set_tag_name(:img, :img)
       add_html(:img, { src: @src, title: @content })
     else
-      add_css(:component, "placeholder")
-      add_css(:wrapper, "[:where(&)]:bg-neutral [:where(&)]:text-neutral-content")
+      add_css(:component, "avatar-placeholder")
+      add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
     end
   end
 end

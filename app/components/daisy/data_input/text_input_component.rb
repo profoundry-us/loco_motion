@@ -103,7 +103,7 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :label)
 
-    add_css(:component, "input [:where(&)]:flex [:where(&)]:items-center [:where(&)]:gap-2")
+    add_css(:component, "input where:flex where:items-center where:gap-2")
   end
 
   #
@@ -116,7 +116,7 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   #
   def setup_input
     set_tag_name(:input, :input)
-    add_css(:input, "[:where(&)]:grow")
+    add_css(:input, "where:grow")
     add_html(:input, {
       type: @type,
       name: @name,

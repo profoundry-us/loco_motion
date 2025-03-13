@@ -89,7 +89,7 @@ class Daisy::Navigation::BottomNavComponent < LocoMotion::BaseComponent
 
       add_css(:component, "active") if @active
 
-      add_css(:icon, "[:where(&)]:size-6")
+      add_css(:icon, "where:size-6")
 
       set_tag_name(:title, :span)
       add_css(:title, "btm-nav-label")

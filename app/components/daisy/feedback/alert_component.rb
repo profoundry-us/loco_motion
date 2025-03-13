@@ -59,6 +59,6 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
     add_css(:component, "alert")
     add_html(:component, { role: "alert" })
 
-    add_css(:icon, "[:where(&)]:size-8")
+    add_css(:icon, "where:size-8")
   end
 end

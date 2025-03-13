@@ -120,7 +120,7 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
   def star_items
     (1..@max).map do |rating|
       input_attrs = {
-        css: ["[:where(&)]:mask [:where(&)]:mask-star", @inputs_css].compact.join(" "),
+        css: ["where:mask where:mask-star", @inputs_css].compact.join(" "),
         html: {
           name: @name,
           value: rating,

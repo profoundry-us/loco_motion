@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant where (:where(&));
+
 @plugin '@tailwindcss/typography';
 
 @plugin 'daisyui' {
