@@ -1,6 +1,7 @@
 = doc_title(title: "Text Inputs", comp: @comp) do |title|
   :markdown
-    Here are some examples showcasing text input components.
+    Here are some examples showcasing text input components. Text inputs have a
+    border by default and a width of 20rem.
 
 
 = doc_example(title: "Basic Text Input") do |doc|
@@ -20,13 +21,13 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "password", title: "Password")
-    = daisy_text_input(name: "password", id: "password", type: "password", css: "input-bordered")
+    = daisy_text_input(name: "password", id: "password", type: "password")
 
     = daisy_label(for: "email", title: "Email", css: "mt-4")
-    = daisy_text_input(name: "email", id: "email", type: "email", css: "input-bordered")
+    = daisy_text_input(name: "email", id: "email", type: "email")
 
     = daisy_label(for: "number", title: "Number", css: "mt-4")
-    = daisy_text_input(name: "number", id: "number", type: "number", css: "input-bordered")
+    = daisy_text_input(name: "number", id: "number", type: "number")
 
 
 = doc_example(title: "Text Inputs with Placeholder") do |doc|
@@ -36,10 +37,10 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "search", title: "Search")
-    = daisy_text_input(name: "search", id: "search", placeholder: "Type here to search...", css: "input-bordered")
+    = daisy_text_input(name: "search", id: "search", placeholder: "Type here to search...")
 
     = daisy_label(for: "email-placeholder", title: "Email", css: "mt-4")
-    = daisy_text_input(name: "email-placeholder", id: "email-placeholder", type: "email", placeholder: "example@mail.com", css: "input-bordered")
+    = daisy_text_input(name: "email-placeholder", id: "email-placeholder", type: "email", placeholder: "example@mail.com")
 
 
 = doc_example(title: "Text Input Sizes") do |doc|
@@ -49,16 +50,16 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input-lg", title: "Large Input")
-    = daisy_text_input(name: "input-lg", id: "input-lg", placeholder: "Large input", css: "input-bordered input-lg")
+    = daisy_text_input(name: "input-lg", id: "input-lg", placeholder: "Large input", css: "input-lg")
 
     = daisy_label(for: "input-md", title: "Medium Input (default)", css: "mt-4")
-    = daisy_text_input(name: "input-md", id: "input-md", placeholder: "Medium input", css: "input-bordered input-md")
+    = daisy_text_input(name: "input-md", id: "input-md", placeholder: "Medium input", css: "input-md")
 
     = daisy_label(for: "input-sm", title: "Small Input", css: "mt-4")
-    = daisy_text_input(name: "input-sm", id: "input-sm", placeholder: "Small input", css: "input-bordered input-sm")
+    = daisy_text_input(name: "input-sm", id: "input-sm", placeholder: "Small input", css: "input-sm")
 
     = daisy_label(for: "input-xs", title: "Extra Small Input", css: "mt-4")
-    = daisy_text_input(name: "input-xs", id: "input-xs", placeholder: "Extra small input", css: "input-bordered input-xs")
+    = daisy_text_input(name: "input-xs", id: "input-xs", placeholder: "Extra small input", css: "input-xs")
 
 
 = doc_example(title: "Text Input with Different Colors") do |doc|
@@ -68,20 +69,20 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_primary", title: "Primary Text Input")
-    = daisy_text_input(name: "input_primary", id: "input_primary", css: "input-primary input-bordered")
+    = daisy_text_input(name: "input_primary", id: "input_primary", css: "input-primary")
 
     = daisy_label(for: "input_secondary", title: "Secondary Text Input", css: "mt-4")
-    = daisy_text_input(name: "input_secondary", id: "input_secondary", css: "input-secondary input-bordered")
+    = daisy_text_input(name: "input_secondary", id: "input_secondary", css: "input-secondary")
 
     = daisy_label(for: "input_accent", title: "Accent Text Input", css: "mt-4")
-    = daisy_text_input(name: "input_accent", id: "input_accent", css: "input-accent input-bordered")
+    = daisy_text_input(name: "input_accent", id: "input_accent", css: "input-accent")
 
 
 = doc_example(title: "Ghost Style Text Input") do |doc|
   - doc.with_description do
     :markdown
-      Text inputs can use the `input-ghost` class for a minimalist appearance
-      that only shows borders on hover.
+      Text inputs can use the `input-ghost` class to remove the border. The border
+      will appear on focus.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_ghost", title: "Ghost Style Text Input")
@@ -100,7 +101,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_disabled", title: "Disabled Text Input", css: "cursor-not-allowed")
-    = daisy_text_input(name: "input_disabled", id: "input_disabled", disabled: true, css: "input-bordered")
+    = daisy_text_input(name: "input_disabled", id: "input_disabled", disabled: true)
 
 
 = doc_example(title: "Required Text Input") do |doc|
@@ -110,7 +111,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_required", title: "Required Text Input")
-    = daisy_text_input(name: "input_required", id: "input_required", required: true, css: "input-bordered")
+    = daisy_text_input(name: "input_required", id: "input_required", required: true)
 
 
 = doc_example(title: "Text Input with Icons") do |doc|
@@ -121,17 +122,17 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_icon_prefix", title: "Search with Icon Prefix")
-    = daisy_text_input(name: "input_icon_prefix", id: "input_icon_prefix", placeholder: "Search...", css: "input-bordered") do |text_input|
+    = daisy_text_input(name: "input_icon_prefix", id: "input_icon_prefix", placeholder: "Search...") do |text_input|
       - text_input.with_start do
         = hero_icon("magnifying-glass", size: 5, css: "text-gray-400")
 
     = daisy_label(for: "input_icon_suffix", title: "Email with Icon Suffix", css: "mt-4")
-    = daisy_text_input(name: "input_icon_suffix", id: "input_icon_suffix", type: "email", placeholder: "Enter your email", css: "input-bordered") do |text_input|
+    = daisy_text_input(name: "input_icon_suffix", id: "input_icon_suffix", type: "email", placeholder: "Enter your email") do |text_input|
       - text_input.with_end do
         = hero_icon("envelope", size: 5, css: "text-gray-400")
 
     = daisy_label(for: "input_icon_both", title: "Input with Both Icons", css: "mt-4")
-    = daisy_text_input(name: "input_icon_both", id: "input_icon_both", placeholder: "Username", css: "input-bordered") do |text_input|
+    = daisy_text_input(name: "input_icon_both", id: "input_icon_both", placeholder: "Username") do |text_input|
       - text_input.with_start do
         = hero_icon("user", size: 5, css: "text-gray-400")
       - text_input.with_end do
@@ -148,10 +149,10 @@
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:username)
-      = form.daisy_text_input(:username, css: "input-bordered")
+      = form.daisy_text_input(:username)
 
       = form.daisy_label(:email, "Email Address", css: "mt-4")
-      = form.daisy_text_input(:email, type: "email", placeholder: "example@mail.com", css: "input-bordered")
+      = form.daisy_text_input(:email, type: "email", placeholder: "example@mail.com")
 
       = form.daisy_label(:password, css: "mt-4")
-      = form.daisy_text_input(:password, type: "password", css: "input-bordered")
+      = form.daisy_text_input(:password, type: "password")

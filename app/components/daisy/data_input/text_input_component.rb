@@ -5,6 +5,9 @@
 # It can be used standalone or with a form builder, and supports
 # various styling options including different types, sizes and variants.
 #
+# @note Input fields have a border by default and a width of 20rem. Use
+#   `input-ghost` to remove the border.
+#
 # The component provides slots to add content before and after the input field,
 # making it easy to add icons, buttons, or other elements.
 #
@@ -18,6 +21,9 @@
 #
 # @loco_example With Placeholder
 #   = daisy_text_input(name: "email", id: "email", placeholder: "Enter your email")
+#
+# @loco_example Ghost Style (No Border)
+#   = daisy_text_input(name: "search", id: "search", css: "input-ghost")
 #
 # @loco_example Different Types
 #   = daisy_text_input(name: "password", id: "password", type: "password")
