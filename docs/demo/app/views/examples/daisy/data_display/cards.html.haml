@@ -38,3 +38,38 @@
         - card.with_actions(css: "mt-2 justify-end") do
           = daisy_button(css: "btn-primary") do
             Book Travel
+
+
+= doc_example(title: "Card Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Cards can be rendered in different sizes. Use the `card-sm` class for a
+      more condensed layout.
+
+  .mt-8.space-y-6.md:space-y-0.md:flex.md:flex-row.md:gap-6
+    = daisy_card(title: "Large Card", css: "max-w-96 bg-base-100 shadow-xl card-lg") do |card|
+      :markdown
+        This is a large card with larger text / padding. It provides extra space
+        for content and is great for highlighting important information.
+
+      - card.with_actions(css: "mt-2 justify-end") do
+        = daisy_button(css: "btn-primary") do
+          Learn More
+
+    = daisy_card(title: "Normal Card", css: "max-w-96 bg-base-100 shadow-xl") do |card|
+      :markdown
+        This is a normal card with default padding. It provides ample space for
+        content and is great for detailed information.
+
+      - card.with_actions(css: "mt-2 justify-end") do
+        = daisy_button(css: "btn-primary") do
+          Learn More
+
+    = daisy_card(title: "Small Card", css: "max-w-96 bg-base-100 shadow-xl card-sm") do |card|
+      :markdown
+        This is a small card with reduced padding. It's perfect for displaying
+        information in a more condensed format.
+
+      - card.with_actions(css: "mt-2 justify-end") do
+        = daisy_button(css: "btn-primary btn-sm") do
+          Learn More
