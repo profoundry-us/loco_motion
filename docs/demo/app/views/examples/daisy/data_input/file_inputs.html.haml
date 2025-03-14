@@ -20,10 +20,10 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "image", title: "Upload Image")
-    = daisy_file_input(name: "image", id: "image", accept: "image/*", css: "file-input-bordered")
+    = daisy_file_input(name: "image", id: "image", accept: "image/*")
 
     = daisy_label(for: "pdf", title: "Upload PDF", css: "mt-4")
-    = daisy_file_input(name: "pdf", id: "pdf", accept: ".pdf", css: "file-input-bordered")
+    = daisy_file_input(name: "pdf", id: "pdf", accept: ".pdf")
 
 
 = doc_example(title: "Multiple File Selection") do |doc|
@@ -33,7 +33,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "documents", title: "Upload Documents")
-    = daisy_file_input(name: "documents[]", id: "documents", multiple: true, css: "file-input-bordered")
+    = daisy_file_input(name: "documents[]", id: "documents", multiple: true)
 
 
 = doc_example(title: "File Input with Different Colors") do |doc|
@@ -43,20 +43,20 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_primary", title: "Primary File Input")
-    = daisy_file_input(name: "file_primary", id: "file_primary", css: "file-input-primary file-input-bordered")
+    = daisy_file_input(name: "file_primary", id: "file_primary", css: "file-input-primary")
 
     = daisy_label(for: "file_secondary", title: "Secondary File Input", css: "mt-4")
-    = daisy_file_input(name: "file_secondary", id: "file_secondary", css: "file-input-secondary file-input-bordered")
+    = daisy_file_input(name: "file_secondary", id: "file_secondary", css: "file-input-secondary")
 
     = daisy_label(for: "file_accent", title: "Accent File Input", css: "mt-4")
-    = daisy_file_input(name: "file_accent", id: "file_accent", css: "file-input-accent file-input-bordered")
+    = daisy_file_input(name: "file_accent", id: "file_accent", css: "file-input-accent")
 
 
 = doc_example(title: "Ghost Style File Input") do |doc|
   - doc.with_description do
     :markdown
       File inputs can use the `file-input-ghost` class for a minimalist appearance
-      that only shows borders on hover.
+      that only shows borders on focus.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_ghost", title: "Ghost Style File Input")
@@ -75,7 +75,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_disabled", title: "Disabled File Input", css: "cursor-not-allowed")
-    = daisy_file_input(name: "file_disabled", id: "file_disabled", disabled: true, css: "file-input-bordered")
+    = daisy_file_input(name: "file_disabled", id: "file_disabled", disabled: true)
 
 
 = doc_example(title: "Required File Input") do |doc|
@@ -85,7 +85,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_required", title: "Required File Input")
-    = daisy_file_input(name: "file_required", id: "file_required", required: true, css: "file-input-bordered")
+    = daisy_file_input(name: "file_required", id: "file_required", required: true)
 
 
 = doc_example(title: "Rails Form Example") do |doc|
@@ -98,7 +98,7 @@
   = form_with(url: "#", method: :post, scope: :user, html: { multipart: true }) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:avatar)
-      = form.daisy_file_input(:avatar, css: "file-input-bordered")
+      = form.daisy_file_input(:avatar)
 
       = form.daisy_label(:documents, "Upload Documents", css: "mt-4")
-      = form.daisy_file_input(:documents, multiple: true, css: "file-input-bordered")
+      = form.daisy_file_input(:documents, multiple: true)

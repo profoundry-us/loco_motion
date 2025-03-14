@@ -5,6 +5,9 @@
 # It can be used standalone or with a form builder, and supports
 # various styling options including different sizes and variants.
 #
+# @note File inputs have a border by default. Use `file-input-ghost` to remove
+#   the border.
+#
 # @loco_example Basic Usage
 #   = daisy_file_input(name: "document", id: "document")
 #
@@ -13,6 +16,9 @@
 #
 # @loco_example With Multiple Files
 #   = daisy_file_input(name: "documents[]", id: "documents", multiple: true)
+#
+# @loco_example Ghost Style (No Border)
+#   = daisy_file_input(name: "document", id: "document", css: "file-input-ghost")
 #
 # @loco_example Disabled File Input
 #   = daisy_file_input(name: "document", id: "document", disabled: true)
