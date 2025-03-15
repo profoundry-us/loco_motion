@@ -378,10 +378,10 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-daisyui@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-5.0.0.tgz#562d8a0de86c109daa355e9371537421a53953a5"
-  integrity sha512-U0K9Bac3Bi3zZGm6ojrw12F0vBHTpEgf46zv/BYxLe07hF0Xnx7emIQliwaRBgJuYhY0BhwQ6wSnq5cJXHA2yA==
+daisyui@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-5.0.4.tgz#afac841df7ddfe6173501e22d0bfd2a677f736b9"
+  integrity sha512-9X3oX/k9hPBCslAECk8kYfvwgrz6Grs0lN7VI0/ZTM/hUfq1uFREHxCcBCCq0QROpN183N19B1hTNRWGipO2Eg==
 
 detect-libc@^1.0.3:
   version "1.0.3"

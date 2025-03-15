@@ -64,12 +64,12 @@
   - shared_classes = "p-8 mask text-center font-bold"
   .w-56.mt-4.flex.flex-col.items-center
     = daisy_swap(css: "swap-rotate", checkbox_html: { id: "stopsign" }) do |swap|
-      - swap.with_off do
-        .mask-hexagon.bg-red-600.text-white{ class: shared_classes } Stop
-      - swap.with_on do
-        .mask-circle.bg-green-500.text-white{ class: shared_classes } Go
-      - swap.with_indeterminate do
-        .mask-squircle.bg-yellow-500.text-black{ class: shared_classes } Slow
+      - swap.with_off(css: "mask-hexagon bg-red-600 text-white #{shared_classes}") do
+        Stop
+      - swap.with_on(css: "mask-circle bg-green-500 text-white #{shared_classes}") do
+        Go
+      - swap.with_indeterminate(css: "mask-squircle bg-yellow-500 text-black #{shared_classes}") do
+        Slow
 
     .mt-2.btn.btn-sm.px-4.py-2{ onclick: "document.getElementById('stopsign').indeterminate = true" }
       Make Indeterminate
