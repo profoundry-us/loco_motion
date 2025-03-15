@@ -7,8 +7,9 @@
     %p
       Collapses are transparent by default and add additional padding.
 
-  = daisy_collapse(title: "Click to Open") do |collapse|
-    This is the content of the collapse.
+  .mx-auto{ class: "w-[400px]" }
+    = daisy_collapse(title: "Click to Open") do |collapse|
+      This is the content of the collapse.
 
 
 = doc_example(title: "Arrow & Plus Collapses") do |doc|
@@ -30,14 +31,15 @@
     %p
       You can also customize the collapse with any HTML you desire!
 
-  = daisy_collapse(css: "collapse-arrow bg-gray-100") do |collapse|
-    - collapse.with_title(css: "collapse-title bg-gray-300") do
-      .flex.gap-x-2.items-center
-        = heroicon_tag("user-circle", class: "h-6 w-6")
-        %strong User Profile
+  .mx-auto{ class: "w-[400px]" }
+    = daisy_collapse(css: "collapse-arrow bg-gray-100") do |collapse|
+      - collapse.with_title(css: "collapse-title bg-gray-300") do
+        .flex.gap-x-2.items-center
+          = heroicon_tag("user-circle", class: "h-6 w-6")
+          %strong User Profile
 
-    .mt-4.flex.gap-x-4.items-center
-      = daisy_avatar(src: image_path("avatars/lady-smiling-1.jpg"))
-      %div
-        .text-xl.font-bold Jane Oliver
-        .italic jane@oliver.test
+      .mt-4.flex.gap-x-4.items-center
+        = daisy_avatar(src: image_path("avatars/lady-smiling-1.jpg"))
+        %div
+          .text-xl.font-bold Jane Oliver
+          .italic jane@oliver.test
