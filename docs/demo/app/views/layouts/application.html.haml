@@ -24,17 +24,18 @@
       .mx-auto{ class: "max-w-[1440px]" }
         = render partial: "application/header"
 
-    .drawer.xl:drawer-open.mx-auto{ class: "max-w-[1440px]" }
+    .drawer.xl:drawer-open
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
-      .drawer-content.overflow-hidden.xl:pl-64
-        %turbo-frame#content.block.p-4
-          = yield
+      .drawer-content.overflow-hidden
+        .xl:pl-64.mx-auto{ class: "max-w-[1440px]" }
+          %turbo-frame#content.block.p-4
+            = yield
 
-        %div{ class: footer_classes }
-          = render partial: "application/footer"
+          %div{ class: footer_classes }
+            = render partial: "application/footer"
 
-      .drawer-side.z-20{ class: "mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[calc(50vw-720px)] h-[calc(100vh-65px)]" }
+      .drawer-side.z-20{ class: "mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-734px))] h-[calc(100vh-65px)]" }
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
         %div{ class: nav_classes }
