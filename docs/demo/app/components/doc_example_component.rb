@@ -27,7 +27,7 @@ class DocExampleComponent < ApplicationComponent
   end
 
   def setup_component
-    add_stimulus_controller(:component, "example-wrapper")
+    add_stimulus_controller(:component, "doc-example")
     add_stimulus_controller(:component, "active-tab")
     add_css(:component, "mt-8")
   end
