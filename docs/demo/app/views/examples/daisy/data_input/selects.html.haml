@@ -126,9 +126,8 @@
     = daisy_label(for: "preselected_select", title: "Pre-Selected Select")
     = daisy_select(name: "preselected_select", id: "preselected_select", placeholder: "Select a country") do |select|
       - select.with_option(value: "us", label: "United States")
-      - select.with_option(value: "ca", label: "Canada")
-      - select.with_option(value: "mx", label: "Mexico")
       - select.with_option(value: "ca", label: "Canada", selected: true)
+      - select.with_option(value: "mx", label: "Mexico")
 
 
 = doc_example(title: "Block Syntax for Options") do |doc|
@@ -152,7 +151,7 @@
       select inputs in your pages by extracting the name and ID attributes from
       the form object and attributes.
 
-  = form_with(url: "#", method: :post, scope: :product, html: { class: "space-y-4" }) do |form|
+  = form_with(url: "#", method: :get, scope: :product, html: { class: "space-y-4" }) do |form|
     .space-y-2
       = form.daisy_label(:category) do
         .flex.items-center.gap-2
@@ -170,6 +169,6 @@
         .flex.items-center.gap-2
           = hero_icon("currency-dollar", class: "w-4 h-4 inline-block")
           Price Range
-      = form.daisy_select(:price_range, css: "select-secondary", options: options, placeholder: "Select a price range")
+      = form.daisy_select(:price_range, options: options, placeholder: "Select a price range")
 
-    = form.submit "Filter Results", class: "btn btn-primary w-full"
+    = form.submit "Filter Results", class: "mt-2 btn btn-primary w-full"
