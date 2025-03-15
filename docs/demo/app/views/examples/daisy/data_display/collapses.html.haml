@@ -13,9 +13,9 @@
 
 = doc_example(title: "Arrow & Plus Collapses") do |doc|
   - doc.with_description do
-    %p
-      You can apply the <code>collapse-arrow</code> or
-      <code>collapse-plus</code> CSS modifiers directly to each collapse.
+    :markdown
+      You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers
+      directly to each collapse.
 
   .flex.flex-col.gap-4{ class: "w-[400px]" }
     = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-arrow") do |collapse|
