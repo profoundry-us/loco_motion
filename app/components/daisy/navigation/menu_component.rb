@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
 #
 # Creates a menu component for displaying a list of items, optionally with group titles.
+#
+# @note Vertical menus no longer have a default width. Use `w-full` or other width
+#   classes if you want to control the width.
 #
 # @slot items+ {Daisy::Navigation::MenuItemComponent} The menu items to display.
 #
@@ -22,7 +27,7 @@
 # @example Menu with disabled items
 #   = daisy_menu do |menu|
 #     - menu.with_item do
-#       = link_to "Active Item", "#"
+#       = link_to "Active Item", "#", class: "menu-active"
 #     - menu.with_item(disabled: true) do
 #       Disabled Item
 #
@@ -63,6 +68,7 @@ class Daisy::Navigation::MenuComponent < LocoMotion::BaseComponent
     #   options include:
     #   - Text: `text-sm`, `text-base-content`
     #   - Spacing: `mt-4`, `mb-2`
+    #   - State: `menu-active`, `menu-focus`, `menu-disabled`
     #
     def initialize(*args, **kws)
       super(**kws)
@@ -77,7 +83,7 @@ class Daisy::Navigation::MenuComponent < LocoMotion::BaseComponent
     #
     def before_render
       set_tag_name(:component, :li)
-      add_css(:component, "disabled pointer-events-none") if @disabled
+      add_css(:component, "menu-disabled pointer-events-none") if @disabled
 
       set_tag_name(:title, :h2)
       add_css(:title, "menu-title")
@@ -102,7 +108,7 @@ class Daisy::Navigation::MenuComponent < LocoMotion::BaseComponent
   #
   # @option kws css [String] Additional CSS classes for styling. Common
   #   options include:
-  #   - Size: `w-56`, `max-w-xs`
+  #   - Layout: `menu-horizontal`, `w-full`, `w-56`
   #   - Background: `bg-base-100`, `bg-neutral`
   #   - Border: `border`, `rounded-box`
   #   - Shadow: `shadow`, `shadow-lg`
