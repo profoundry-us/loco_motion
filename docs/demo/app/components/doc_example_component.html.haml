@@ -11,18 +11,18 @@
     = content
 
   = daisy_tabs(css: "tabs-lift tabs-sm relative") do |tabs|
-    - tabs.with_tab(active: true, html: active_tab_html) do |tab|
+    - tabs.with_tab(active: true, html: active_tab_html, css: "px-6! rounded-t-lg!") do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4
             = heroicon_tag("computer-desktop")
           %span.whitespace-nowrap Preview
 
-      - tab.with_custom_content(css: "#{tab_content_css} px-6 py-10 bg-repeat", html: background_pattern) do
+      - tab.with_custom_content(css: "#{tab_content_css} py-10 bg-repeat", html: background_pattern) do
         = part(:example) do
           = content
 
-    - tabs.with_tab(css: "[&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!", html: active_tab_html) do |tab|
+    - tabs.with_tab(css: "px-6! rounded-t-lg! [&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!", html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4

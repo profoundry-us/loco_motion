@@ -1,4 +1,4 @@
-class ExampleWrapperComponent < ApplicationComponent
+class DocExampleComponent < ApplicationComponent
   define_parts :title, :template, :example, :pre, :code
 
   attr_reader :simple_title, :skip_cache, :code, :allow_reset
