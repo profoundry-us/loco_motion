@@ -1,10 +1,16 @@
 = doc_title(title: "Stats", comp: @comp) do |title|
-  %p Here are some examples showcasing stats.
+  :markdown
+    Here are some examples showcasing stats.
+
+  = doc_note do
+    :markdown
+      Stats have a transparent background by default. Use `bg-base-100` if you
+      need a background color.
 
 
 = doc_example(title: "Basic Stats") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Stats are used to display simple data points. They can be used to display
       a number (the main content), a title, and a description.
 
@@ -12,7 +18,7 @@
     = daisy_stat do
       = number_to_currency(8619.45)
 
-    = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
+    = daisy_stat(title: "Views", description: "Views in the last 24 hours.") do
       = number_with_delimiter(1208)
 
     - # Example passing options as blocks. This allows you to pass in HTML.
@@ -28,7 +34,7 @@
 
 = doc_example(title: "Complex Stats") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Stats can also be used to display more complex data points. You can pass
       in an image, an icon, or any other content you'd like.
 
