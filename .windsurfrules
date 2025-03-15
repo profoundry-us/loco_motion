@@ -188,5 +188,5 @@ When running commands, follow these proceedures.
 
 4. NEVER use `cd` before running commands.
 
-5. ONLY restart the demo app (`make demo-restart`) when we make changes to the
-helpers, not the components / examples.
+5. NEVER restart the demo app (`make demo-restart`) unless we make changes in
+   the `lib/loco_motion` directory.
