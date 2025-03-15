@@ -1,12 +1,12 @@
 %turbo-frame#navmenu{ target: "content" }
-  %ul.menu.p-4
+  %ul.menu.w-full.p-4
     - # Hard-coded pages
     %li.menu-title.text-lg.text-base-content
       Pages
 
     %li.pl-4
       = link_to "Home", root_path,
-        class: (request.original_url == root_url) ? "active" : "",
+        class: (request.original_url == root_url) ? "menu-active" : "",
         data: { action: "click->nav#activate", "turbo-action": "replace" }
 
     - # Iterate over all of the framework examples
@@ -29,5 +29,5 @@
 
       %li.pl-4
         = link_to config[:title], "/examples/#{name}",
-          class: request.original_url.match("/examples/#{name}") ? "active" : "",
+          class: request.original_url.match("/examples/#{name}") ? "menu-active" : "",
           data: { action: "click->nav#activate", "turbo-action": "replace" }

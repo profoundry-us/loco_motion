@@ -6,10 +6,10 @@
 # - Contact details and social media links.
 # - Newsletter signup forms.
 #
-# The component is responsive by default and will stack content on smaller
-# screens.
+# @note Footers are vertical by default. Use `footer-horizontal` to make it
+#   horizontal at your desired screen size (e.g., `lg:footer-horizontal`).
 #
-# @loco_example Basic Navigation Footer
+# @loco_example Basic Navigation Footer (Vertical)
 #   = daisy_footer(css: "bg-neutral text-neutral-content p-10") do
 #     %nav
 #       %h6.footer-title Company
@@ -17,8 +17,8 @@
 #       = link_to "Contact", "/contact", class: "link-hover"
 #       = link_to "Jobs", "/careers", class: "link-hover"
 #
-# @loco_example Multi-Column Footer
-#   = daisy_footer(css: "bg-base-200 text-base-content p-10") do
+# @loco_example Horizontal Footer
+#   = daisy_footer(css: "bg-base-200 text-base-content p-10 lg:footer-horizontal") do
 #     %nav
 #       %h6.footer-title Products
 #       = link_to "Features", "#", class: "link-hover"
@@ -46,7 +46,7 @@ class Daisy::Layout::FooterComponent < LocoMotion::BaseComponent
   #   - Background: `bg-neutral`, `bg-base-200`
   #   - Text color: `text-neutral-content`, `text-base-content`
   #   - Spacing: `p-4`, `p-10`
-  #   - Layout: `text-center`, `grid grid-cols-2 gap-4`
+  #   - Layout: `text-center`, `footer-horizontal` (or `lg:footer-horizontal` for large screens)
   #
   def initialize(**kws)
     super

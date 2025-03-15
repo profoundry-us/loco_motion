@@ -14,7 +14,7 @@ class DocNoteComponent < ApplicationComponent
   def before_render
     add_css(:component, "alert border")
 
-    add_css(:icon, "[:where(&)]:size-6")
+    add_css(:icon, "where:size-6")
 
     setup_note if @config.modifiers.include?(:note) || @config.modifiers.blank?
     setup_tip if @config.modifiers.include?(:tip)

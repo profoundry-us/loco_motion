@@ -4,9 +4,9 @@
 
 = doc_example(title: "Basic Accordion") do |doc|
   - doc.with_description do
-    %p
-      You can apply the <code>collapse-arrow</code> or
-      <code>collapse-plus</code> CSS modifiers directly to each section.
+    :markdown
+      You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers
+      directly to each section.
 
   = daisy_accordion(css: "mt-4 bg-gray-200 rounded-lg") do |accordion|
     - accordion.with_section(css: "collapse-arrow", title: "Section 1", checked: true) do
@@ -21,12 +21,11 @@
 
 = doc_example(title: "Separated Accordion") do |doc|
   - doc.with_description do
-    %p
-      Sections can be combined or separated by specifying the <code>name</code>
-      attribute.
-    %p
-      You can also set the <code>:arrow</code> or <code>:plus</code> modifier to
-      the entire accordion to apply it to all sections.
+    :markdown
+      Sections can be combined or separated by specifying the `name` attribute.
+
+      You can also set the `:arrow` or `:plus` modifier to the entire accordion
+      to apply it to all sections.
 
   = daisy_accordion(css: "mt-4", modifier: :arrow) do |accordion|
     - accordion.with_section(title: "Section 1", checked: true) do
@@ -43,9 +42,9 @@
 
 = doc_example(title: "Form Accordion") do |doc|
   - doc.with_description do
-    %p
-      Because it uses <code>&lt;input type="radio"&gt;</code> elements, you can
-      even use it inside a form!
+    :markdown
+      Because it uses `<input type="radio">` elements, you can even use it
+      inside a form!
 
   %turbo-frame#accordion-form
     %form.mt-4.w-80{ action: "#" }

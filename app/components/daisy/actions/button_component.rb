@@ -96,7 +96,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
     @target = config_option(:target)
 
     @icon = config_option(:icon)
-    @icon_css = config_option(:icon_css, "[:where(&)]:size-5")
+    @icon_css = config_option(:icon_css, "where:size-5")
     @icon_html = config_option(:icon_html, {})
 
     @left_icon = config_option(:left_icon, @icon)
@@ -134,7 +134,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
     add_css(:component, "btn")
 
     if @icon || @left_icon || @right_icon
-      add_css(:component, "[:where(&)]:items-center [:where(&)]:gap-2")
+      add_css(:component, "where:items-center where:gap-2")
     end
 
       add_html(:component, { "data-action": @action }) if @action

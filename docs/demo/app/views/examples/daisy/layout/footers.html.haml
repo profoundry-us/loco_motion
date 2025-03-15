@@ -1,14 +1,15 @@
 = doc_title(title: "Footers", comp: @comp) do |title|
   :markdown
     Footers are used to provide additional information about a page or site.
-    They are responsive by default and will stack on smaller screens.
+    They are vertical by default, but can be made horizontal using the
+    `footer-horizontal` class.
 
 
-= doc_example(title: "Basic Nav Footer") do |doc|
+= doc_example(title: "Basic Nav Footer (Vertical)") do |doc|
   - doc.with_description do
     :markdown
-      The basic nav footer is a simple footer with multiple sections of links
-      to various parts of your site.
+      The basic nav footer is vertical by default, which works well for most
+      mobile-first designs.
 
   = daisy_footer(css: "bg-neutral text-neutral-content p-10") do
     %nav
@@ -31,3 +32,45 @@
       = link_to "Ruby", "https://ruby-lang.org", class: "link-hover", target: "_blank"
       = link_to "Rails", "https://rubyonrails.org/", class: "link-hover", target: "_blank"
       = link_to "EGS", "https://www.egscomics.com/", class: "link-hover", target: "_blank"
+
+
+= doc_example(title: "Horizontal Footer") do |doc|
+  - doc.with_description do
+    :markdown
+      Use the `footer-horizontal` class to make the footer horizontal. You can also
+      use responsive variants like `lg:footer-horizontal` to make it horizontal
+      only on larger screens.
+
+  = daisy_footer(css: "bg-base-200 text-base-content p-10 lg:footer-horizontal") do
+    %nav
+      %h6.footer-title
+        Products
+      = link_to "Features", "#", class: "link-hover"
+      = link_to "Pricing", "#", class: "link-hover"
+      = link_to "Enterprise", "#", class: "link-hover"
+
+    %nav
+      %h6.footer-title
+        Support
+      = link_to "Documentation", "#", class: "link-hover"
+      = link_to "Help Center", "#", class: "link-hover"
+      = link_to "Contact", "#", class: "link-hover"
+
+    %nav
+      %h6.footer-title
+        Legal
+      = link_to "Privacy", "#", class: "link-hover"
+      = link_to "Terms", "#", class: "link-hover"
+      = link_to "Cookie Policy", "#", class: "link-hover"
+
+
+= doc_example(title: "Center-Aligned Footer") do |doc|
+  - doc.with_description do
+    :markdown
+      A simple footer with centered content, perfect for copyright notices or
+      minimal information.
+
+  = daisy_footer(css: "justify-center p-4 bg-neutral text-neutral-content") do
+    .text-xs
+      Copyright &copy; 2024 LocoMotion.
+      All rights reserved.

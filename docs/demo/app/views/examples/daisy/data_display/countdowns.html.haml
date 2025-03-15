@@ -8,10 +8,10 @@
 
 = doc_example(title: "Basic Countdown", allow_reset: true) do |doc|
   - doc.with_description do
-    %p
+    :markdown
       A basic countdown accepts an ActiveSupport::Duration object as either the
-      first positional argument or as the value of the <code>:duration</code>
-      keyword argument.
+      first positional argument or as the value of the `:duration` keyword
+      argument.
 
   .flex.flex-col.gap-y-4.font-mono
     = daisy_countdown(60.seconds)
@@ -36,25 +36,23 @@
 
 = doc_example(title: "Boxed Countdown", allow_reset: true) do |doc|
   - doc.with_description do
-    %p
+    :markdown
       You can also display the countdowns in a box by customizing each part of
       the countdown.
-    %p
-      Note that the wrapper <code>text-sm</code> class applies to the words
-      ("hours", "minutes", and "seconds") and the global <code>parts_css</code>
-      sets the size of the numbers.
-    %p
-      You can also customize each part individually by using the
-      <code>days_css</code>, <code>hours_css</code>, <code>minutes_css</code>,
-      and <code>seconds_css</code> options.
-    %p
-      And you can add custom HTML using either the global
-      <code>parts_html</code> or the individual <code>days_html</code>,
-      <code>hours_html</code>, <code>minutes_html</code>, and
-      <code>seconds_html</code> options.
+
+      Note that the wrapper `text-sm` class applies to the words ("hours",
+      "minutes", and "seconds") and the global `parts_css` sets the size of the
+      numbers.
+
+      You can also customize each part individually by using the `days_css`,
+      `hours_css`, `minutes_css`, and `seconds_css` options.
+
+      And you can add custom HTML using either the global `parts_html` or the
+      individual `days_html`, `hours_html`, `minutes_html`, and `seconds_html`
+      options.
 
   .flex.flex-col.items-center.gap-y-4.text-sm
-    - box_css = "[:where(&)]:bg-neutral [:where(&)]:text-neutral-content rounded-box flex flex-col items-center p-2 [&_span]:font-mono [&_span]:text-5xl"
+    - box_css = "where:bg-neutral where:text-neutral-content rounded-box flex flex-col items-center justify-center size-24 font-bold [&_span]:font-mono [&_span]:text-5xl"
     = daisy_countdown(ActiveSupport::Duration.build(3725),
         modifier: :words,
         css: "gap-x-8",

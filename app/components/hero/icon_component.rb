@@ -51,7 +51,7 @@ class Hero::IconComponent < LocoMotion::BaseComponent
 
   def before_render
     add_html(:component, { variant: @variant }) if @variant
-    add_css(:component, "[:where(&)]:size-5")
+    add_css(:component, "where:size-5")
   end
 
   #

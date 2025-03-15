@@ -2,6 +2,11 @@
   :markdown
     Here are some examples showcasing textarea components.
 
+  = doc_note do
+    :markdown
+      Text areas have a border by default. Use `textarea-ghost` to remove the
+      border.
+
 
 = doc_example(title: "Basic Text Area") do |doc|
   - doc.with_description do
@@ -20,7 +25,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "feedback", title: "Feedback")
-    = daisy_text_area(name: "feedback", id: "feedback", placeholder: "Tell us what you think...", css: "textarea-bordered")
+    = daisy_text_area(name: "feedback", id: "feedback", placeholder: "Tell us what you think...")
 
 
 = doc_example(title: "Text Area with Initial Value") do |doc|
@@ -30,7 +35,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "bio", title: "Biography")
-    = daisy_text_area(name: "bio", id: "bio", value: "I am a software developer with expertise in Ruby on Rails and JavaScript.", css: "textarea-bordered")
+    = daisy_text_area(name: "bio", id: "bio", value: "I am a software developer with expertise in Ruby on Rails and JavaScript.")
 
 
 = doc_example(title: "Custom Rows") do |doc|
@@ -40,10 +45,10 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "short_note", title: "Short Note (2 rows)")
-    = daisy_text_area(name: "short_note", id: "short_note", rows: 2, css: "textarea-bordered")
+    = daisy_text_area(name: "short_note", id: "short_note", rows: 2)
 
     = daisy_label(for: "long_note", title: "Long Note (8 rows)", css: "mt-4")
-    = daisy_text_area(name: "long_note", id: "long_note", rows: 8, css: "textarea-bordered")
+    = daisy_text_area(name: "long_note", id: "long_note", rows: 8)
 
 
 = doc_example(title: "Text Area with Different Colors") do |doc|
@@ -53,20 +58,20 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_primary", title: "Primary Text Area")
-    = daisy_text_area(name: "textarea_primary", id: "textarea_primary", css: "textarea-primary textarea-bordered")
+    = daisy_text_area(name: "textarea_primary", id: "textarea_primary", css: "textarea-primary")
 
     = daisy_label(for: "textarea_secondary", title: "Secondary Text Area", css: "mt-4")
-    = daisy_text_area(name: "textarea_secondary", id: "textarea_secondary", css: "textarea-secondary textarea-bordered")
+    = daisy_text_area(name: "textarea_secondary", id: "textarea_secondary", css: "textarea-secondary")
 
     = daisy_label(for: "textarea_accent", title: "Accent Text Area", css: "mt-4")
-    = daisy_text_area(name: "textarea_accent", id: "textarea_accent", css: "textarea-accent textarea-bordered")
+    = daisy_text_area(name: "textarea_accent", id: "textarea_accent", css: "textarea-accent")
 
 
-= doc_example(title: "Ghost Style Text Area") do |doc|
+= doc_example(title: "Borderless (Ghost) Text Area") do |doc|
   - doc.with_description do
     :markdown
-      Text areas can use the `textarea-ghost` class for a minimalist appearance
-      that only shows borders on hover.
+      Use `textarea-ghost` to remove the border from a text area. This creates a
+      minimalist appearance that only shows borders on hover.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_ghost", title: "Ghost Style Text Area")
@@ -85,7 +90,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_disabled", title: "Disabled Text Area", css: "cursor-not-allowed")
-    = daisy_text_area(name: "textarea_disabled", id: "textarea_disabled", disabled: true, value: "This text area is disabled and cannot be edited.", css: "textarea-bordered")
+    = daisy_text_area(name: "textarea_disabled", id: "textarea_disabled", disabled: true, value: "This text area is disabled and cannot be edited.")
 
 
 = doc_example(title: "Read-only Text Area") do |doc|
@@ -95,7 +100,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_readonly", title: "Read-only Text Area")
-    = daisy_text_area(name: "textarea_readonly", id: "textarea_readonly", readonly: true, value: "This text area is read-only. You can select the text but cannot edit it.", css: "textarea-bordered")
+    = daisy_text_area(name: "textarea_readonly", id: "textarea_readonly", readonly: true, value: "This text area is read-only. You can select the text but cannot edit it.")
 
 
 = doc_example(title: "Required Text Area") do |doc|
@@ -105,7 +110,7 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_required", title: "Required Text Area")
-    = daisy_text_area(name: "textarea_required", id: "textarea_required", required: true, css: "textarea-bordered")
+    = daisy_text_area(name: "textarea_required", id: "textarea_required", required: true)
 
 
 = doc_example(title: "Rails Form Example") do |doc|
@@ -118,7 +123,7 @@
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:bio)
-      = form.daisy_text_area(:bio, css: "textarea-bordered")
+      = form.daisy_text_area(:bio)
 
       = form.daisy_label(:comments, "Additional Comments", css: "mt-4")
-      = form.daisy_text_area(:comments, rows: 6, placeholder: "Share your thoughts...", css: "textarea-bordered")
+      = form.daisy_text_area(:comments, rows: 6, placeholder: "Share your thoughts...")

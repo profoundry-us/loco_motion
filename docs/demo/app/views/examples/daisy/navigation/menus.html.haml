@@ -1,6 +1,11 @@
 = doc_title(title: "Menus", comp: @comp) do |title|
-  %p
+  :markdown
     Menus are used to display a list of options for users to choose from.
+
+  = doc_note do
+    :markdown
+      Vertical menus no longer have a default width. Use `w-full` or other width
+      classes if you want to control the width.
 
 
 = doc_example(title: "Basic Menu") do |doc|
@@ -9,7 +14,7 @@
       Menus typically contain a list of links or buttons that users can click.
       The styling is very minimal, just adding a hover effect.
 
-  = daisy_menu do |menu|
+  = daisy_menu(css: "w-56") do |menu|
     - # Menu Item Group with a title keyword argument
     - menu.with_item(title: "Group 1") do
       = link_to "Item 1 - 1", "#"
@@ -28,6 +33,9 @@
       to the menu. They can also have icons, disabled / active items, and many
       other options.
 
+      Use `menu-active`, `menu-focus`, and `menu-disabled` classes to style menu
+      items in different states.
+
     = doc_note(css: "mb-4") do
       :markdown
         We can't actually disable the link since the HTML spec does not allow
@@ -42,7 +50,8 @@
     - menu.with_item(disabled: true) do
       = link_to "Item 2", "#", tabindex: -1
     - menu.with_item do
-      = link_to "Item 3", "#", class: "active"
+      = link_to "Item 3", "#", class: "menu-active"
+
 
 = doc_example(title: "Nested Menus") do |doc|
   - doc.with_description do
@@ -51,7 +60,7 @@
       number of options.
 
   - icon_options = { css: "size-4 mr-1 text-slate-600", variant: :mini }
-  = daisy_menu(css: "bg-base-100 border border-base-300 rounded-lg shadow-md") do |menu|
+  = daisy_menu(css: "w-56 bg-base-100 border border-base-300 rounded-lg shadow-md") do |menu|
     - menu.with_item do
       = link_to "#" do
         = hero_icon("home", **icon_options)
@@ -61,7 +70,7 @@
         = hero_icon("bell-alert", **icon_options)
         Notifications
     - menu.with_item(title: "Parent") do
-      = daisy_menu do |menu|
+      = daisy_menu(css: "w-full") do |menu|
         - menu.with_item do
           = link_to "Child 1", "#"
         - menu.with_item do
@@ -71,4 +80,3 @@
           = link_to "#" do
             Child 3
             = hero_icon("bolt", **icon_options)
-

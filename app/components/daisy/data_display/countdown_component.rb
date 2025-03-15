@@ -66,7 +66,7 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
     add_stimulus_controller(:component, "countdown")
 
     add_css(:component, "flex")
-    add_css(:component, "[:where(&)]:gap-x-2") if modifiers.include?(:words)
+    add_css(:component, "where:gap-x-2") if modifiers.include?(:words)
 
     %i(days hours minutes seconds).each do |part|
       default_html = {
@@ -78,7 +78,7 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
       }
 
       add_css(part, "countdown")
-      add_css(part, "[:where(&)]:gap-x-1") if modifiers.include?(:words)
+      add_css(part, "where:gap-x-1") if modifiers.include?(:words)
       add_css(part, @parts_css) if @parts_css
 
       add_html(part, default_html)

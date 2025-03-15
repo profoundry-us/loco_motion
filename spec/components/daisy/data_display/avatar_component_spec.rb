@@ -18,7 +18,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "has placeholder classes when no image is provided" do
-        expect(page).to have_selector(".avatar.placeholder")
+        expect(page).to have_selector(".avatar.avatar-placeholder")
         expect(page).to have_selector("[class*=':bg-neutral'][class*=':text-neutral-content']")
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "does not have placeholder classes" do
-        expect(page).not_to have_selector(".avatar.placeholder")
+        expect(page).not_to have_selector(".avatar.avatar-placeholder")
         expect(page).not_to have_selector("[class*=':bg-neutral']")
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "has placeholder classes" do
-        expect(page).to have_selector(".avatar.placeholder")
+        expect(page).to have_selector(".avatar.avatar-placeholder")
       end
     end
   end
@@ -82,13 +82,13 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "has placeholder classes" do
-        expect(page).to have_selector(".avatar.placeholder")
+        expect(page).to have_selector(".avatar.avatar-placeholder")
       end
     end
   end
 
   context "with online status" do
-    let(:avatar) { described_class.new(css: "online") }
+    let(:avatar) { described_class.new(css: "avatar-online") }
 
     before do
       render_inline(avatar)
@@ -96,7 +96,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
 
     describe "rendering" do
       it "includes online class" do
-        expect(page).to have_selector(".avatar.online")
+        expect(page).to have_selector(".avatar.avatar-online")
       end
 
       it "maintains default classes" do
@@ -106,7 +106,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
   end
 
   context "with offline status" do
-    let(:avatar) { described_class.new(css: "offline") }
+    let(:avatar) { described_class.new(css: "avatar-offline") }
 
     before do
       render_inline(avatar)
@@ -114,7 +114,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
 
     describe "rendering" do
       it "includes offline class" do
-        expect(page).to have_selector(".avatar.offline")
+        expect(page).to have_selector(".avatar.avatar-offline")
       end
 
       it "maintains default classes" do
@@ -169,7 +169,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
     let(:src) { "https://example.com/avatar.jpg" }
     let(:alt_text) { "User Avatar" }
     let(:size_classes) { "w-16 h-16" }
-    let(:avatar) { described_class.new(src: src, css: "#{size_classes} online", tip: "Online User") { alt_text } }
+    let(:avatar) { described_class.new(src: src, css: "#{size_classes} avatar-online", tip: "Online User") { alt_text } }
 
     before do
       render_inline(avatar)
@@ -181,7 +181,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "includes all classes" do
-        expect(page).to have_selector(".avatar.w-16.h-16.online.tooltip")
+        expect(page).to have_selector(".avatar.w-16.h-16.avatar-online.tooltip")
       end
 
       it "sets the tooltip" do

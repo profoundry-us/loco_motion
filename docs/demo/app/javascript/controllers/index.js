@@ -10,8 +10,8 @@ application.register("active-tab", ActiveTabController)
 import DocTitleController from "./doc_title_controller"
 application.register("doc-title", DocTitleController)
 
-import ExampleWrapperController from "./example_wrapper_controller"
-application.register("example-wrapper", ExampleWrapperController)
+import DocExampleController from "./doc_example_controller"
+application.register("doc-example", DocExampleController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)

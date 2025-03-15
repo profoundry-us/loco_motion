@@ -9,20 +9,20 @@
 #   tabs to display.
 #
 # @example Basic tabs with links
-#   = daisy_tabs(css: "tabs-bordered") do |tabs|
+#   = daisy_tabs(css: "tabs-border") do |tabs|
 #     - tabs.with_tab(title: "Home", active: true)
 #     - tabs.with_tab(title: "Click Me", html: { onclick: "alert('Clicked!')" })
 #     - tabs.with_tab(title: "Google", href: "https://google.com", target: "_blank")
 #
 # @example Radio button tabs with content
-#   = daisy_tabs(css: "tabs-lifted", radio: true) do |tabs|
+#   = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
 #     - tabs.with_tab(title: "Tab 1", checked: true) do
 #       %p Tab 1 content
 #     - tabs.with_tab(title: "Tab 2") do
 #       %p Tab 2 content
 #
 # @example Tabs with custom titles and content
-#   = daisy_tabs(css: "tabs-lifted") do |tabs|
+#   = daisy_tabs(css: "tabs-lift") do |tabs|
 #     - tabs.with_tab do |tab|
 #       - tab.with_title do
 #         .flex.gap-2
@@ -30,6 +30,16 @@
 #           Home
 #       - tab.with_custom_content(css: "tab-content p-4") do
 #         %p Welcome home!
+#
+# @example Tabs with different sizes
+#   = daisy_tabs(css: "tabs-border tabs-xl") do |tabs|
+#     - tabs.with_tab(title: "Extra Large Tab", active: true)
+#     - tabs.with_tab(title: "Another Tab")
+#
+# @example Tabs with different sizes
+#   = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
+#     - tabs.with_tab(title: "Large Tab", active: true)
+#     - tabs.with_tab(title: "Another Tab")
 #
 class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
 
@@ -94,7 +104,7 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
     #
     # @option kws css [String] Additional CSS classes for styling. Common
     #   options include:
-    #   - Size: `tab-lg`, `tab-md`, `tab-sm`, `tab-xs`
+    #   - Size: `tab-lg`, `tab-md` (default), `tab-sm`, `tab-xs`
     #   - Width: `w-full`, `!w-14`
     #   - Cursor: `cursor-pointer`, `!cursor-auto`
     #
@@ -187,8 +197,8 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
   #
   # @option kws css [String] Additional CSS classes for styling. Common
   #   options include:
-  #   - Style: `tabs-bordered`, `tabs-lifted`
-  #   - Size: `tabs-lg`, `tabs-md`, `tabs-sm`, `tabs-xs`
+  #   - Style: `tabs-border`, `tabs-lift`
+  #   - Size: `tabs-xl`, `tabs-lg`, `tabs-md` (default), `tabs-sm`, `tabs-xs`
   #   - Width: `w-full`, `w-[500px]`
   #
   def initialize(*args, **kws, &block)

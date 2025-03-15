@@ -1,18 +1,24 @@
 = doc_title(title: "Stats", comp: @comp) do |title|
-  %p Here are some examples showcasing stats.
+  :markdown
+    Here are some examples showcasing stats.
+
+  = doc_note do
+    :markdown
+      Stats have a transparent background by default. Use `bg-base-100` if you
+      need a background color.
 
 
 = doc_example(title: "Basic Stats") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Stats are used to display simple data points. They can be used to display
       a number (the main content), a title, and a description.
 
-  .w-full.bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg
+  .bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg{ class: "w-[300px] lg:w-[800px]" }
     = daisy_stat do
       = number_to_currency(8619.45)
 
-    = daisy_stat( title: "Views", description: "Views in the last 24 hours.") do
+    = daisy_stat(title: "Views", description: "Views in the last 24 hours.") do
       = number_with_delimiter(1208)
 
     - # Example passing options as blocks. This allows you to pass in HTML.
@@ -28,11 +34,11 @@
 
 = doc_example(title: "Complex Stats") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Stats can also be used to display more complex data points. You can pass
       in an image, an icon, or any other content you'd like.
 
-  .w-full.bg-base-100.lg:flex.lg:flex-wrap.justify-between.items-center.gap-x-4.border.rounded-lg
+  .bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg{ class: "w-[300px] lg:w-[900px]" }
     = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpg")) do
       25
 

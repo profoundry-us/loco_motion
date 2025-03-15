@@ -130,7 +130,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
         end
 
         n.with_center do
-          '<div class="form-control"><input type="text" placeholder="Search..." class="input input-bordered"></div>'.html_safe
+          '<div class="some-class"><input type="text" placeholder="Search..." class="input input-bordered"></div>'.html_safe
         end
 
         n.with_end do
@@ -155,7 +155,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
       it "maintains proper structure with complex content" do
         expect(page).to have_selector(".navbar > .navbar-start > .flex.items-center")
-        expect(page).to have_selector(".navbar > .navbar-center > .form-control")
+        expect(page).to have_selector(".navbar > .navbar-center > .some-class")
         expect(page).to have_selector(".navbar > .navbar-end > .btn.btn-primary")
       end
     end

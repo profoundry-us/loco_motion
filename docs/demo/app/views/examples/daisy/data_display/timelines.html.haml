@@ -16,10 +16,9 @@
 
 = doc_example(title: "Custom Timeline") do |doc|
   - doc.with_description do
-    %p
-      The <code>start</code>, <code>middle_icon</code>, and <code>end</code>
-      properties can be customized. Or you can provide a completely custom
-      <code>middle</code> block.
+    :markdown
+      The `start`, `middle_icon`, and `end` properties can be customized. Or you
+      can provide a completely custom `middle` block.
 
   = daisy_timeline do |timeline|
     - timeline.with_event do |event|

@@ -2,14 +2,17 @@
 
 #
 # The Select component provides a styled dropdown select input for forms.
-# It supports various styling options, including sizes, colors, bordered and ghost variants.
+# It supports various styling options, including sizes, colors, and variants.
+#
+# @note Select inputs have a border by default and a width of 20rem. Use
+#   `select-ghost` to remove the border.
 #
 # @part placeholder The placeholder option element that is shown when no option is selected.
 #
 # @slot options+ Custom options to be rendered in the select.
 #
 # @loco_example Using simple strings for options
-#   = daisy_select(name: "size", css: "select-sm select-bordered", options: ["Small", "Medium", "Large"])
+#   = daisy_select(name: "size", css: "select-sm", options: ["Small", "Medium", "Large"])
 #
 # @loco_example Using a block to define options
 #   = daisy_select(name: "color", css: "select-primary") do |select|
