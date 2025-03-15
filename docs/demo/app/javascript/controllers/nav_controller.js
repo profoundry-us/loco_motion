@@ -10,7 +10,7 @@ export default class extends Controller {
 
   // Scroll the active item into view.
   scrollActiveIntoView() {
-    let activeItem = this.element.querySelector("li a.active")
+    let activeItem = this.element.querySelector("li a.menu-active")
 
     if (activeItem) {
       let method = activeItem.scrollIntoViewIfNeeded ? "scrollIntoViewIfNeeded" : "scrollIntoView";
@@ -22,7 +22,7 @@ export default class extends Controller {
   // Reset all items to inactive.
   reset() {
     this.element.querySelectorAll("li a").forEach((link) => {
-      link.classList.remove("active")
+      link.classList.remove("menu-active")
     })
   }
 
@@ -34,7 +34,7 @@ export default class extends Controller {
     //
     // This allows the user to click the <li> or the <a> elements and have the
     // same effect.
-    event.target.closest("li").querySelector('a').classList.add("active")
+    event.target.closest("li").querySelector('a').classList.add("menu-active")
 
     // Close the sidenav
     if (this.hasSidenavCheckboxTarget) {
