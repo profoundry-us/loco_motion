@@ -11,7 +11,7 @@
       The basic nav footer is vertical by default, which works well for most
       mobile-first designs.
 
-  = daisy_footer(css: "bg-neutral text-neutral-content p-10") do
+  = daisy_footer(css: "max-w-64 bg-neutral text-neutral-content p-10") do
     %nav
       %h6.footer-title
         LocoMotion
@@ -41,7 +41,7 @@
       use responsive variants like `lg:footer-horizontal` to make it horizontal
       only on larger screens.
 
-  = daisy_footer(css: "bg-base-200 text-base-content p-10 lg:footer-horizontal") do
+  = daisy_footer(css: "max-w-[1000px] bg-base-200 text-base-content p-10 lg:footer-horizontal") do
     %nav
       %h6.footer-title
         Products
@@ -70,7 +70,7 @@
       A simple footer with centered content, perfect for copyright notices or
       minimal information.
 
-  = daisy_footer(css: "justify-center p-4 bg-neutral text-neutral-content") do
+  = daisy_footer(css: "max-w-[1000px] justify-center p-4 bg-neutral text-neutral-content") do
     .text-xs
       Copyright &copy; 2024 LocoMotion.
       All rights reserved.
