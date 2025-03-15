@@ -21,43 +21,107 @@
 = doc_example(title: "Checkboxes with Colors") do |doc|
   - doc.with_description do
     :markdown
-      Checkboxes can be styled with different colors using the expected classes.
+      Checkboxes can be styled with different colors using DaisyUI's color classes.
 
-  .my-2.flex.flex-col.gap-4
+    = doc_note(css: "mb-8") do
+      :markdown
+        Uses `checkbox-neutral` with dark backgrounds for dark mode compatibility.
+
+  .my-2.grid.grid-cols-1.md:grid-cols-2.gap-4
+    = daisy_label(for: "checkbox-dark") do
+      = daisy_checkbox(name: "checkbox-dark", id: "checkbox-dark", css: "checkbox-neutral theme-controller", value: "dark", checked: false)
+      Enable Dark Mode
+
     = daisy_label(for: "checkbox3") do
-      = daisy_checkbox(name: "checkbox3", css: "checkbox-primary", id: "checkbox3")
-      Primary Checkbox
+      = daisy_checkbox(name: "checkbox3", css: "checkbox-primary", id: "checkbox3", checked: true)
+      Primary
 
     = daisy_label(for: "checkbox4") do
-      = daisy_checkbox(name: "checkbox4", css: "checkbox-secondary", id: "checkbox4")
-      Secondary Checkbox
+      = daisy_checkbox(name: "checkbox4", css: "checkbox-secondary", id: "checkbox4", checked: true)
+      Secondary
 
     = daisy_label(for: "checkbox5") do
-      = daisy_checkbox(name: "checkbox5", css: "checkbox-accent", id: "checkbox5")
-      Accent Checkbox
+      = daisy_checkbox(name: "checkbox5", css: "checkbox-accent", id: "checkbox5", checked: true)
+      Accent
+
+    = daisy_label(for: "checkbox6") do
+      = daisy_checkbox(name: "checkbox6", css: "checkbox-success", id: "checkbox6", checked: true)
+      Success
+
+    = daisy_label(for: "checkbox7") do
+      = daisy_checkbox(name: "checkbox7", css: "checkbox-warning", id: "checkbox7", checked: true)
+      Warning
+
+    = daisy_label(for: "checkbox8") do
+      = daisy_checkbox(name: "checkbox8", css: "checkbox-error", id: "checkbox8", checked: true)
+      Error
+
+    = daisy_label(for: "checkbox9") do
+      = daisy_checkbox(name: "checkbox9", css: "checkbox-info", id: "checkbox9", checked: true)
+      Info
 
 
 = doc_example(title: "Checkbox Sizes") do |doc|
   - doc.with_description do
     :markdown
-      Checkboxes come in different sizes using the `size` attribute.
+      Checkboxes come in different sizes using DaisyUI's size classes.
 
-  .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "standard") do
-      = daisy_checkbox(name: "standard", id: "standard")
-      Standard Checkbox
+  .my-2.flex.flex-col.gap-8
+    .flex.items-center.gap-4
+      = daisy_label(for: "checkbox-xs") do
+        = daisy_checkbox(name: "checkbox-xs", id: "checkbox-xs", css: "checkbox-xs", checked: true)
+        Extra Small
 
-    = daisy_label(for: "checked") do
-      = daisy_checkbox(name: "checked", id: "checked", checked: true)
-      Checked Checkbox
+    .flex.items-center.gap-4
+      = daisy_label(for: "checkbox-sm") do
+        = daisy_checkbox(name: "checkbox-sm", id: "checkbox-sm", css: "checkbox-sm", checked: true)
+        Small
 
-    = daisy_label(for: "disabled", css: "cursor-not-allowed") do
-      = daisy_checkbox(name: "disabled", id: "disabled", disabled: true)
-      Disabled Checkbox
+    .flex.items-center.gap-4
+      = daisy_label(for: "checkbox-md") do
+        = daisy_checkbox(name: "checkbox-md", id: "checkbox-md", css: "checkbox-md", checked: true)
+        Medium (Default)
 
-    = daisy_label(for: "required") do
-      = daisy_checkbox(name: "required", id: "required", required: true)
-      Required Checkbox
+    .flex.items-center.gap-4
+      = daisy_label(for: "checkbox-lg") do
+        = daisy_checkbox(name: "checkbox-lg", id: "checkbox-lg", css: "checkbox-lg", checked: true)
+        Large
+
+    .flex.items-center.gap-4
+      = daisy_label(for: "checkbox-xl") do
+        = daisy_checkbox(name: "checkbox-xl", id: "checkbox-xl", css: "checkbox-xl", checked: true)
+        Extra Large
+
+
+= doc_example(title: "Combining Colors and Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      You can combine both color and size classes to create different variations.
+
+  .my-2.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
+    = daisy_label(for: "checkbox-primary-sm") do
+      = daisy_checkbox(name: "checkbox-primary-sm", id: "checkbox-primary-sm", css: "checkbox-primary checkbox-sm", checked: true)
+      Primary Small
+
+    = daisy_label(for: "checkbox-secondary-md") do
+      = daisy_checkbox(name: "checkbox-secondary-md", id: "checkbox-secondary-md", css: "checkbox-secondary checkbox-md", checked: true)
+      Secondary Medium
+
+    = daisy_label(for: "checkbox-accent-lg") do
+      = daisy_checkbox(name: "checkbox-accent-lg", id: "checkbox-accent-lg", css: "checkbox-accent checkbox-lg", checked: true)
+      Accent Large
+
+    = daisy_label(for: "checkbox-info-sm") do
+      = daisy_checkbox(name: "checkbox-info-sm", id: "checkbox-info-sm", css: "checkbox-info checkbox-sm", checked: true)
+      Info Small
+
+    = daisy_label(for: "checkbox-success-md") do
+      = daisy_checkbox(name: "checkbox-success-md", id: "checkbox-success-md", css: "checkbox-success checkbox-md", checked: true)
+      Success Medium
+
+    = daisy_label(for: "checkbox-warning-lg") do
+      = daisy_checkbox(name: "checkbox-warning-lg", id: "checkbox-warning-lg", css: "checkbox-warning checkbox-lg", checked: true)
+      Warning Large
 
 
 = doc_example(title: "Indeterminate State") do |doc|
