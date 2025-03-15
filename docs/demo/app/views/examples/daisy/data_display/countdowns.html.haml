@@ -52,7 +52,7 @@
       options.
 
   .flex.flex-col.items-center.gap-y-4.text-sm
-    - box_css = "where:bg-neutral where:text-neutral-content rounded-box flex flex-col items-center p-2 [&_span]:font-mono [&_span]:text-5xl"
+    - box_css = "where:bg-neutral where:text-neutral-content rounded-box flex flex-col items-center justify-center size-24 font-bold [&_span]:font-mono [&_span]:text-5xl"
     = daisy_countdown(ActiveSupport::Duration.build(3725),
         modifier: :words,
         css: "gap-x-8",
