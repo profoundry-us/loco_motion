@@ -21,19 +21,19 @@
 = doc_example(title: "Checkboxes with Colors") do |doc|
   - doc.with_description do
     :markdown
-      Checkboxes can be styled with different colors using the `color` attribute.
+      Checkboxes can be styled with different colors using the expected classes.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "checkbox3") do
-      = daisy_checkbox(name: "checkbox3", color: "primary", id: "checkbox3")
+      = daisy_checkbox(name: "checkbox3", css: "checkbox-primary", id: "checkbox3")
       Primary Checkbox
 
     = daisy_label(for: "checkbox4") do
-      = daisy_checkbox(name: "checkbox4", color: "secondary", id: "checkbox4")
+      = daisy_checkbox(name: "checkbox4", css: "checkbox-secondary", id: "checkbox4")
       Secondary Checkbox
 
     = daisy_label(for: "checkbox5") do
-      = daisy_checkbox(name: "checkbox5", color: "accent", id: "checkbox5")
+      = daisy_checkbox(name: "checkbox5", css: "checkbox-accent", id: "checkbox5")
       Accent Checkbox
 
 
@@ -109,7 +109,7 @@
       checkboxes in your pages by extracting the name and ID attributes from the
       form object and attributes.
 
-  = form_with(url: "#", method: :post, scope: :user) do |form|
+  = form_with(url: "#", method: :post, scope: :user, class: "flex flex-col gap-8") do |form|
     = form.daisy_label(:terms) do
       = form.daisy_checkbox(:terms)
       I accept the terms and conditions
