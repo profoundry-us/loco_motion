@@ -10,7 +10,7 @@
   = part(:template) do
     = content
 
-  = daisy_tabs(css: "tabs-lifted relative") do |tabs|
+  = daisy_tabs(css: "tabs-lift tabs-sm relative") do |tabs|
     - tabs.with_tab(active: true, html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center

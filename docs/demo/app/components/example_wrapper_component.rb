@@ -128,7 +128,7 @@ class ExampleWrapperComponent < ApplicationComponent
   end
 
   def tab_content_css
-    "tab-content border-base-300 rounded-box overflow-x-auto #{@tab_content_css}"
+    "tab-content border-base-300 overflow-x-auto #{@tab_content_css}"
   end
 
   def background_pattern
