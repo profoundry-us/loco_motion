@@ -39,12 +39,12 @@ class DocExampleComponent < ApplicationComponent
 
   def setup_template
     set_tag_name(:template, :template)
-    add_html(:template, { data: { "example-wrapper-target": "template" } })
+    add_html(:template, { data: { "doc-example-target": "template" } })
   end
 
   def setup_example
     add_css(:example, "flex items-center justify-center")
-    add_html(:example, { data: { "example-wrapper-target": "preview" } })
+    add_html(:example, { data: { "doc-example-target": "preview" } })
   end
 
   def setup_code_parts
@@ -178,7 +178,7 @@ class DocExampleComponent < ApplicationComponent
   end
 
   def reset_html
-    { data: { action: "example-wrapper#reset", tip: "Reset example" } }
+    { data: { action: "doc-example#reset", tip: "Reset example" } }
   end
 
 end

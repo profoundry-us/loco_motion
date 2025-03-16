@@ -13,11 +13,11 @@ application.register("doc-title", DocTitleController)
 import DocExampleController from "./doc_example_controller"
 application.register("doc-example", DocExampleController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
 import HighlightCodeController from "./highlight_code_controller"
 application.register("highlight-code", HighlightCodeController)
 
 import NavController from "./nav_controller"
 application.register("nav", NavController)
+
+import StackGapController from "./stack_gap_controller"
+application.register("stack-gap", StackGapController)
