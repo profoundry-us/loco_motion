@@ -9,7 +9,7 @@
       You can use the `daisy_device` component to display a phone mockup.
 
   = daisy_device(css: "mockup-phone", display_css: "overflow-auto") do
-    .flex.flex-col.gap-4.p-4.pt-12.pb-8.bg-white
+    .flex.flex-col.gap-4.p-4.pt-12.pb-8.bg-base-100
       .text-center.text-2xl.font-bold
         Beautiful Landscapes
       = image_tag("landscapes/beach.jpg", class: "rounded-lg")
@@ -25,7 +25,7 @@
       component and add any colors you want to the device.
 
   = daisy_device(css: "mockup-phone border-red-600", display_css: "overflow-auto w-[736px] h-[414px]", show_camera: false) do
-    .flex.flex-col.gap-4.p-4.bg-white
+    .flex.flex-col.gap-4.p-4.bg-base-100
       .text-center.text-2xl.font-bold
         Beautiful Landscapes
       = image_tag("landscapes/beach.jpg", class: "rounded-xl")
