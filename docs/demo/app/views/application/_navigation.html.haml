@@ -31,3 +31,6 @@
         = link_to config[:title], "/examples/#{name}",
           class: request.original_url.match("/examples/#{name}") ? "menu-active" : "",
           data: { action: "click->nav#activate", "turbo-action": "replace" }
+
+    .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
+      <em>That's all folks!</em> 😉
