@@ -165,9 +165,22 @@ When asked to create a PR description, follow these proceedures.
 
 2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
 
-3. MUST format the PR using Markdown.
+3. MUST include relevant lines for every commit in the branch.
 
-4. MUST provide a code snippet that I can easily copy / paste into GitHub.
+4. MUST format the PR using Markdown.
+
+5. MUST provide a code snippet that I can easily copy / paste into GitHub.
+
+
+# Updating the CHANGELOG
+
+When asked to update the changelog, follow these rules.
+
+1. MUST review existing CHANGELOG.
+
+2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
+
+3. MUST include relevant lines for every commit in the branch.
 
 
 # Releasing Code

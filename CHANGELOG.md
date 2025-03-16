@@ -17,6 +17,62 @@ releases should be considered breaking!
 
 - Run migration tool for TailwindCSS 4 and DaisyUI 5 ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - Remove ArtboardComponent and update DeviceComponent for DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
+- Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
+- Renamed ExampleWrapper component to DocExample for better semantics
+- Converted most uses of code blocks to markdown backticks for improved readability
+
+### Fixed
+
+#### Component Updates for DaisyUI 5
+- Fixed Avatar component and added custom `where` variant
+- Fixed Card component for DaisyUI 5
+- Fixed File Inputs component for DaisyUI 5
+- Fixed Footer component for DaisyUI 5
+- Fixed TextInput component for DaisyUI 5
+- Fixed Masks component for DaisyUI 5
+- Fixed Menu component for DaisyUI 5
+- Fixed Select component for DaisyUI 5
+- Fixed Stats component for DaisyUI 5
+- Fixed Tabs component for DaisyUI 5 and added five different size options (xs, sm, md, lg, xl)
+- Fixed TextArea component for DaisyUI 5 styling (borders now default)
+- Fixed reference in specs to removed form-control class in DaisyUI 5
+
+#### Demo Application Fixes
+- Fixed issues with the side navigation
+- Fixed navigation drawer issues and dark mode configuration
+- Fixed broken DocExample JavaScript
+- Fixed padding issue with ThemeController
+- Fixed issues with swaps (rotation issue remains)
+- Fixed navigation not updating active state on selection
+- Fixed padding issue on Dropdowns example by upgrading to latest Tailwind insiders
+- Fixed dark mode toggle functionality
+- Fixed device mockups in dark mode
+- Fixed header and buttons in dark mode
+- Fixed doc example tab roundness
+- Fixed margin in chat bubble examples
+- Fixed hero layouts and patched DaisyUI 5 bug
+- Fixed maximum width for footers
+- Fixed Alert widths and tooltip example layout
+- Fixed Navbar examples with container and height adjustments
+- Fixed select examples by removing duplicate Canada option
+- Fixed form example issues
+- Fixed rating examples with containers
+- Fixed range example with w-full class
+- Fixed footer heart icon color on different themes
+- Fixed layout issues across multiple components
+- Fixed checkbox examples with colors and sizes
+- Fixed Rails form builder example for checkboxes
+- Fixed stats layouts
+- Fixed issues with reset functionality for examples
+- Fixed stack demos
+- Fixed size of countdown boxes example
+- Fixed width of collapses
+- Added border to bottom figure example
+
+### Added
+
+- Enhanced demo navigation with icons, colors, and improved padding
+- Added custom `where` variant to Avatar component
 
 ## [0.4.0] - 2025-03-07
 
