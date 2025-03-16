@@ -5,7 +5,7 @@
 @plugin '@tailwindcss/typography';
 @plugin 'daisyui' {
   themes: light --default, dark --prefersdark, synthwave, retro, cyberpunk, wireframe;
-};
+}
 
 /* Setup custom variant to reduce selector specificity for component defaults */
 @custom-variant where (:where(&));
