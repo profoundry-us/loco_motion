@@ -1,9 +1,17 @@
+/* Import the base Tailwind theme */
 @import 'tailwindcss';
 
+/* Include our custom plugins */
 @plugin '@tailwindcss/typography';
-
 @plugin 'daisyui' {
   themes: light --default, dark --prefersdark, synthwave, retro, cyberpunk, wireframe;
-}
+};
 
+/* Setup custom variant to reduce selector specificity for component defaults */
+@custom-variant where (:where(&));
+
+/* Setup standard dark: variant to work for both System-based & DaisyUI Theme-based dark mode */
+@custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+
+/* Point to our custom config which pulls in some of the LocoMotion files */
 @config "../../../tailwind.config.js";

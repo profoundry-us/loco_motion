@@ -5,6 +5,9 @@
 # It can be used standalone or with a form builder, and supports
 # various styling options and states.
 #
+# @note Text areas have a border by default. Use `textarea-ghost` to remove the
+#   border.
+#
 # @part component The main textarea element that users can type into.
 #
 # @loco_example Basic Usage
@@ -19,23 +22,23 @@
 # @loco_example With Specified Rows
 #   = daisy_text_area(name: "message", rows: 6)
 #
-# @loco_example With Border Style
-#   = daisy_text_area(name: "message", css: "textarea-bordered")
+# @loco_example Borderless Style
+#   = daisy_text_area(name: "message", css: "textarea-ghost")
 #
 # @loco_example Different Colors
 #   .flex.flex-col.gap-4
-#     = daisy_text_area(name: "primary", placeholder: "Primary", css: "textarea-primary textarea-bordered")
-#     = daisy_text_area(name: "secondary", placeholder: "Secondary", css: "textarea-secondary textarea-bordered")
-#     = daisy_text_area(name: "accent", placeholder: "Accent", css: "textarea-accent textarea-bordered")
+#     = daisy_text_area(name: "primary", placeholder: "Primary", css: "textarea-primary")
+#     = daisy_text_area(name: "secondary", placeholder: "Secondary", css: "textarea-secondary")
+#     = daisy_text_area(name: "accent", placeholder: "Accent", css: "textarea-accent")
 #
 # @loco_example Disabled TextArea
-#   = daisy_text_area(name: "message", disabled: true, css: "textarea-bordered")
+#   = daisy_text_area(name: "message", disabled: true)
 #
 # @loco_example Required TextArea
-#   = daisy_text_area(name: "message", required: true, css: "textarea-bordered")
+#   = daisy_text_area(name: "message", required: true)
 #
 # @loco_example Readonly TextArea
-#   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.", css: "textarea-bordered")
+#   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
 #
 class Daisy::DataInput::TextAreaComponent < LocoMotion::BaseComponent
   attr_reader :name, :id, :value, :placeholder, :rows, :cols, :disabled, :required, :readonly

@@ -1,13 +1,16 @@
-%turbo-frame#navmenu{ target: "content" }
-  %ul.menu.p-4
-    - # Hard-coded pages
-    %li.menu-title.text-lg.text-base-content
-      Pages
+- icons = { guides: "document-text", hero: "shield-check", daisy: "square-3-stack-3d" }
 
-    %li.pl-4
-      = link_to "Home", root_path,
-        class: (request.original_url == root_url) ? "active" : "",
-        data: { action: "click->nav#activate", "turbo-action": "replace" }
+%turbo-frame#navmenu{ target: "content" }
+  %ul.menu.w-full.px-4.py-0
+    - # Hard-coded guides
+    %li.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1
+      = hero_icon(icons[:guides], variant: :outline)
+      Guides
+
+    %li.pl-6
+      = link_to "Get Started", root_path,
+      class: (request.original_url == root_url) ? "menu-active" : "",
+      data: { action: "click->nav#activate", "turbo-action": "replace" }
 
     - # Iterate over all of the framework examples
     - last_framework, last_section = nil
@@ -18,16 +21,21 @@
 
       - if framework != last_framework
         - last_framework = framework
-        %li.menu-title.text-lg.text-base-content
+        - icon = icons[framework.downcase.to_sym]
+        %li.menu-title.text-lg.text-base-content.flex-row.items-center.gap-1
+          = hero_icon(icon, variant: :outline)
           = framework.titleize
 
       - # Don't show a section heading if it matches the framework
       - if section != last_section && section.underscore != framework.underscore
         - last_section = section
-        %li.pl-4.menu-title{ class: "text-base-content/50" }
-          = section.titleize
+        %li.pl-9.menu-title{ class: "text-secondary #{ section != "Actions" ? 'pt-6' : ''}" }
+          = section.upcase
 
-      %li.pl-4
+      %li.pl-6
         = link_to config[:title], "/examples/#{name}",
-          class: request.original_url.match("/examples/#{name}") ? "active" : "",
+          class: request.original_url.match("/examples/#{name}") ? "menu-active" : "",
           data: { action: "click->nav#activate", "turbo-action": "replace" }
+
+    .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
+      <em>That's all folks!</em> 😉

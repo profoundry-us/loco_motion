@@ -7,6 +7,10 @@ When communicating with me, follow these proceedures.
 2. When provided a prompt that looks like a git or shell command:
    a. MUST attempt to execute the command exactly as prompted
 
+3. MUST interpret `ta` as `try again`
+
+4. MUST interpret `cont` as `continue`
+
 
 # Planning
 
@@ -71,10 +75,14 @@ When committing code changes, follow these proceedures.
      headers, lists, and code blocks.
   g. Commit the changes.
   h. Push the changes to the remote repository.
-  i. If the push created a new branch on the remote, provide a clickable link to
-     create a PR on GitHub.
-  j. If the push did not create a new branch on the remote, provide a clickable
-     link to the existing GitHub PR.
+  i. If the push output contains `Create a pull request`, output a message to the
+     user with a clickable link to the URL.
+  j. Utilize the existing PR description template to output a description for this PR.
+  k. Prompt for a PR URL
+  l. Utilize the PR URL to add a line to the `Unreleased` section of the CHANGELOG.
+  m. Run `git add .` to add the changes.
+  n. Commit the code with a simple message about updating the CHANGELOG.
+  o. Push the changes again.
 
 2. MUST format links for Pull Requests as a clickable link.
 
@@ -157,9 +165,22 @@ When asked to create a PR description, follow these proceedures.
 
 2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
 
-3. MUST format the PR using Markdown.
+3. MUST include relevant lines for every commit in the branch.
 
-4. MUST provide a code snippet that I can easily copy / paste into GitHub.
+4. MUST format the PR using Markdown.
+
+5. MUST provide a code snippet that I can easily copy / paste into GitHub.
+
+
+# Updating the CHANGELOG
+
+When asked to update the changelog, follow these rules.
+
+1. MUST review existing CHANGELOG.
+
+2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
+
+3. MUST include relevant lines for every commit in the branch.
 
 
 # Releasing Code
@@ -180,5 +201,5 @@ When running commands, follow these proceedures.
 
 4. NEVER use `cd` before running commands.
 
-5. ONLY restart the demo app (`make demo-restart`) when we make changes to the
-helpers, not the components / examples.
+5. NEVER restart the demo app (`make demo-restart`) unless we make changes in
+   the `lib/loco_motion` directory.

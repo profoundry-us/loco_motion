@@ -1,28 +1,72 @@
 = doc_title(title: "Tabs", comp: @comp) do |title|
-  %p Here are some examples showcasing tabs.
+  :markdown
+    Here are some examples showcasing tabs.
 
 
 = doc_example(title: "Basic Tabs") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Tabs are transparent by default and don't automatically do anything since
-      they are simple <code>&lt;a&gt;</code> (anchor) elements. You can set the
-      <code>href</code> attribute to make them link to another page.
+      they are simple `<a>` (anchor) elements. You can set the `href` attribute
+      to make them link to another page.
 
-  = daisy_tabs(css: "tabs-bordered") do |tabs|
+  = daisy_tabs(css: "tabs-border") do |tabs|
     - tabs.with_tab(title: "I Do Nothing", active: true)
     - tabs.with_tab(title: "Ditto", html: { onclick: "alert('Ha! Gotcha ;-)')" })
     - tabs.with_tab(title: "Open Google", href: "https://google.com", target: "_blank")
 
 
+= doc_example(title: "Tab Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Tabs come in five different sizes: `tabs-xs`, `tabs-sm`, `tabs-md` (default),
+      `tabs-lg`, and `tabs-xl`. Each size can be combined with any tab style.
+
+  .space-y-8
+    .space-y-2
+      %p.text-sm Extra Small
+      = daisy_tabs(css: "tabs-border tabs-xs") do |tabs|
+        - tabs.with_tab(title: "Tab 1", active: true)
+        - tabs.with_tab(title: "Tab 2")
+        - tabs.with_tab(title: "Tab 3")
+
+    .space-y-2
+      %p.text-sm Small
+      = daisy_tabs(css: "tabs-border tabs-sm") do |tabs|
+        - tabs.with_tab(title: "Tab 1", active: true)
+        - tabs.with_tab(title: "Tab 2")
+        - tabs.with_tab(title: "Tab 3")
+
+    .space-y-2
+      %p.text-sm Medium (Default)
+      = daisy_tabs(css: "tabs-border") do |tabs|
+        - tabs.with_tab(title: "Tab 1", active: true)
+        - tabs.with_tab(title: "Tab 2")
+        - tabs.with_tab(title: "Tab 3")
+
+    .space-y-2
+      %p.text-sm Large
+      = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
+        - tabs.with_tab(title: "Tab 1", active: true)
+        - tabs.with_tab(title: "Tab 2")
+        - tabs.with_tab(title: "Tab 3")
+
+    .space-y-2
+      %p.text-sm Extra Large
+      = daisy_tabs(css: "tabs-border tabs-xl") do |tabs|
+        - tabs.with_tab(title: "Tab 1", active: true)
+        - tabs.with_tab(title: "Tab 2")
+        - tabs.with_tab(title: "Tab 3")
+
+
 = doc_example(title: "Radio Button Tabs with Content") do |doc|
   - doc.with_description do
-    %p
-      If you want the tabs to change their content, you can use the
-      <code>radio</code> option. Note that this does <em>not</em> allow the use
-      of icons or other HTML elements in the title.
+    :markdown
+      If you want the tabs to change their content, you can use the `radio`
+      option. Note that this does *not* allow the use of icons or other HTML
+      elements in the title.
 
-  = daisy_tabs(css: "tabs-lifted w-[500px]", radio: true) do |tabs|
+  = daisy_tabs(css: "tabs-lift w-[500px]", radio: true) do |tabs|
     - # Add some space before the first tab
     - tabs.with_tab(title: "", css: "w-14! cursor-auto!", disabled: true)
 
@@ -33,10 +77,11 @@
 
 = doc_example(title: "Turbo Frame Tabs") do |doc|
   - doc.with_description do
-    %p You can also use tabs with Turbo Frames to load content dynamically.
+    :markdown
+      You can also use tabs with Turbo Frames to load content dynamically.
 
   %turbo-frame#tabs--turob-tabs-example
-    = daisy_tabs(css: "tabs-lifted w-[500px]") do |tabs|
+    = daisy_tabs(css: "tabs-lift w-[500px]") do |tabs|
       - (2..4).each do |i|
         - is_checked = params[:custom_tab] ? params[:custom_tab] == i.to_s : i == 3
         - tabs.with_tab(href: "?custom_tab=#{i}", checked: is_checked) do |tab|

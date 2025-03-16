@@ -24,10 +24,10 @@
 
 = doc_example(title: "Custom Nav with Titles", example_css: "mx-auto max-w-[400px]") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       The Bottom Nav sections can also have a simple title passed via the
-      <code>title</code> attribute, or a more complex title by passing a block
-      to the section.
+      `title` attribute, or a more complex title by passing a block to the
+      section.
 
   = daisy_bottom_nav(css: "relative border border-base-200") do |nav|
     - nav.with_section(icon: "home", href: "#", title: "Home")

@@ -1,4 +1,4 @@
-class ExampleWrapperComponent < ApplicationComponent
+class DocExampleComponent < ApplicationComponent
   define_parts :title, :template, :example, :pre, :code
 
   attr_reader :simple_title, :skip_cache, :code, :allow_reset
@@ -27,7 +27,7 @@ class ExampleWrapperComponent < ApplicationComponent
   end
 
   def setup_component
-    add_stimulus_controller(:component, "example-wrapper")
+    add_stimulus_controller(:component, "doc-example")
     add_stimulus_controller(:component, "active-tab")
     add_css(:component, "mt-8")
   end
@@ -39,12 +39,12 @@ class ExampleWrapperComponent < ApplicationComponent
 
   def setup_template
     set_tag_name(:template, :template)
-    add_html(:template, { data: { "example-wrapper-target": "template" } })
+    add_html(:template, { data: { "doc-example-target": "template" } })
   end
 
   def setup_example
     add_css(:example, "flex items-center justify-center")
-    add_html(:example, { data: { "example-wrapper-target": "preview" } })
+    add_html(:example, { data: { "doc-example-target": "preview" } })
   end
 
   def setup_code_parts
@@ -128,7 +128,7 @@ class ExampleWrapperComponent < ApplicationComponent
   end
 
   def tab_content_css
-    "tab-content border-base-300 rounded-box overflow-x-auto #{@tab_content_css}"
+    "tab-content border-base-300 overflow-x-auto #{@tab_content_css}"
   end
 
   def background_pattern
@@ -178,7 +178,7 @@ class ExampleWrapperComponent < ApplicationComponent
   end
 
   def reset_html
-    { data: { action: "example-wrapper#reset", tip: "Reset example" } }
+    { data: { action: "doc-example#reset", tip: "Reset example" } }
   end
 
 end

@@ -47,6 +47,58 @@
         = daisy_card(css: card_css + " bg-neutral text-neutral-content cursor-default!") do
           Can't Remove Me!
 
+= doc_example(title: "Stack Positions") do |doc|
+  - doc.with_description do
+    :markdown
+      DaisyUI 5 introduces directional stacking with `stack-top`, `stack-bottom`, `stack-start`,
+      and `stack-end` CSS classes. These allow you to position the stacked elements in
+      different directions.
+
+  .grid.grid-cols-2.gap-6
+    .space-y-2
+      %p.font-medium.text-center stack-top
+      .stack.stack-top.size-28
+        - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
+        = daisy_card(css: card_css + " bg-primary text-white") do
+          1
+        = daisy_card(css: card_css + " bg-secondary text-white") do
+          2
+        = daisy_card(css: card_css + " bg-accent text-white") do
+          3
+
+    .space-y-2
+      %p.font-medium.text-center stack-bottom
+      .stack.stack-bottom.size-28
+        - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
+        = daisy_card(css: card_css + " bg-primary text-white") do
+          1
+        = daisy_card(css: card_css + " bg-secondary text-white") do
+          2
+        = daisy_card(css: card_css + " bg-accent text-white") do
+          3
+
+    .space-y-2
+      %p.font-medium.text-center stack-start
+      .stack.stack-start.size-28
+        - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
+        = daisy_card(css: card_css + " bg-primary text-white") do
+          1
+        = daisy_card(css: card_css + " bg-secondary text-white") do
+          2
+        = daisy_card(css: card_css + " bg-accent text-white") do
+          3
+
+    .space-y-2
+      %p.font-medium.text-center stack-end
+      .stack.stack-end.size-28
+        - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
+        = daisy_card(css: card_css + " bg-primary text-white") do
+          1
+        = daisy_card(css: card_css + " bg-secondary text-white") do
+          2
+        = daisy_card(css: card_css + " bg-accent text-white") do
+          3
+
 
 = doc_example(title: "CSS Stack") do |doc|
   - doc.with_description do
@@ -54,7 +106,23 @@
       The Stack component simply applies the `stack` CSS class, which you can
       also use directly.
 
-  .stack.w-96
-    %img{ src: image_path("landscapes/beach.jpg") }
-    %img{ src: image_path("landscapes/desert.jpg") }
-    %img{ src: image_path("landscapes/forest.jpg") }
+      You can also add spacing between stacked elements using gap utilities like
+      `gap-3`. Adjust the slider below to see how different gap values affect
+      the stack.
+
+  .space-y-4{ data: { controller: "stack-gap" } }
+    .flex.items-center.gap-4
+      %span.text-sm.min-w-16 Gap size:
+      %span.badge.badge-primary{ data: { stack_gap_target: "label" } } 3
+      %input.range.range-primary{
+        type: "range",
+        min: "1",
+        max: "5",
+        value: "3",
+        data: { stack_gap_target: "slider", action: "input->stack-gap#updateGap" }
+      }
+
+    .stack.w-96{ data: { stack_gap_target: "stack", class: "gap-3" } }
+      %img{ src: image_path("landscapes/beach.jpg") }
+      %img{ src: image_path("landscapes/desert.jpg") }
+      %img{ src: image_path("landscapes/forest.jpg") }

@@ -9,7 +9,7 @@
       Chat bubbles are used to display messages in a structured way. They can
       contain text, user images, a header, and a footer.
 
-  .w-full
+  .w-full.mx-4
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble do
@@ -52,7 +52,7 @@
       Chat bubbles can be colored to differentiate between different users or
       types of messages.
 
-  .w-full
+  .w-full.mx-4
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "chat-bubble-accent flex items-center gap-x-1") do

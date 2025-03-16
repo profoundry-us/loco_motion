@@ -87,11 +87,11 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
       end
 
       it "adds gap class" do
-        expect(page).to have_selector(".\\[\\:where\\(\\&\\)\\]\\:gap-x-2")
+        expect(page).to have_selector(".where\\:gap-x-2")
       end
 
       it "adds gap class to parts" do
-        expect(page).to have_selector(".countdown.\\[\\:where\\(\\&\\)\\]\\:gap-x-1")
+        expect(page).to have_selector(".countdown.where\\:gap-x-1")
       end
     end
   end

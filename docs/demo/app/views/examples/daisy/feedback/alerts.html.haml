@@ -9,37 +9,37 @@
       Alerts come in a variety of flavors and generally have an icon at the
       start to indicate the type of alert.
 
-  = daisy_alert(icon: "information-circle", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "archive-box", icon_html: { variant: :outline }, css: "w-100") do |alert|
     Standard alerts are gray-t! 😉
 
-  = daisy_alert(icon: "information-circle", css: "alert-info", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", icon_html: { variant: :outline }) do |alert|
     Here is some important information!
 
-  = daisy_alert(icon: "check-circle", css: "alert-success", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", icon_html: { variant: :outline }) do |alert|
     Success! You did it!
 
-  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning w-100", icon_html: { variant: :outline }) do |alert|
     Ooh, be careful here!
 
-  = daisy_alert(icon: "exclamation-circle", css: "alert-error", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error w-100", icon_html: { variant: :outline }) do |alert|
     Uh oh, something went wrong!
 
 
-= doc_example(title: "No-Icon Alerts", example_css: "flex-col space-y-8") do |doc|
+= doc_example(title: "Alerts Without Icons", example_css: "flex-col space-y-8") do |doc|
   - doc.with_description do
     %p
       If you don't want an icon, you can simply omit it.
 
-  = daisy_alert(css: "alert-info") do |alert|
+  = daisy_alert(css: "alert-info w-100") do |alert|
     Here is some important information!
 
-  = daisy_alert(css: "alert-success") do |alert|
+  = daisy_alert(css: "alert-success w-100") do |alert|
     Success! You did it!
 
-  = daisy_alert(css: "alert-warning") do |alert|
+  = daisy_alert(css: "alert-warning w-100") do |alert|
     Ooh, be careful here!
 
-  = daisy_alert(css: "alert-error") do |alert|
+  = daisy_alert(css: "alert-error w-100") do |alert|
     Uh oh, something went wrong!
 
 

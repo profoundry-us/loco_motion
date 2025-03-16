@@ -9,7 +9,7 @@
     :markdown
       The basic hero is a simple hero with a title and a subtitle.
 
-  = daisy_hero(css: "bg-base-200 text-center") do
+  = daisy_hero(css: "max-w-[1000px] mx-16 lg:mx-32 bg-base-200 text-center") do
     - # Heroes display their children in a flex column by default
     %div
       %h1.text-5xl.font-bold
@@ -27,7 +27,7 @@
       You can also change the layout of the hero by passing a
       `content_wrapper_css` to make it responsive or add other styling.
 
-  = daisy_hero(css: "bg-base-200", content_wrapper_css: "flex-col md:flex-row") do
+  = daisy_hero(css: "block max-w-[1000px] mx-16 py-8 lg:mx-32 bg-base-200") do
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 
     %div
@@ -37,7 +37,7 @@
         Welcome to the world of LocoMotion.
       = daisy_button(css: "btn btn-primary", title: "Get Started", href: "/")
 
-  = daisy_hero(css: "bg-base-200", content_wrapper_css: "flex-col md:flex-row") do
+  = daisy_hero(css: "block max-w-[1000px] mx-16 py-8 lg:mx-32 bg-base-200") do
     %div
       %h1.text-5xl.font-bold
         Hello, World!
@@ -48,7 +48,7 @@
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 
 
-= doc_example(title: "Hero with Overlay") do |doc|
+= doc_example(title: "Hero with Overlay", example_css: "px-16!") do |doc|
   - doc.with_description do
     :markdown
       The Hero component provides an `overlay` slot allowing you to add a
@@ -56,8 +56,9 @@
       blur).
 
   - image = image_path("landscapes/mountain-river.jpg")
-  = daisy_hero(css: "bg-base-200 min-h-96", html: { style: "background-image: url('#{image}')" }) do |hero|
-    - hero.with_overlay(css: "bg-black bg-opacity-50 backdrop-blur-xs")
+  - fix_for_v5_bug = "z-0"
+  = daisy_hero(css: "max-w-[1000px] mx-16 lg:mx-32 bg-base-200 min-h-96", content_wrapper_css: fix_for_v5_bug, html: { style: "background-image: url('#{image}')" }) do |hero|
+    - hero.with_overlay(css: "bg-black/50 backdrop-blur-xs")
 
     %div.text-white
       %h1.text-5xl.font-bold

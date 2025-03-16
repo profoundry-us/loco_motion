@@ -44,10 +44,10 @@
         \= daisy_steps do |steps|
         \  - steps.with_step(html: { data: { content: "❤️" } })
 
-    %p
-      And you can alter the colors by supplying CSS for the <code>after</code>
-      pseudo-element. Note that you may need to use the <code>!important</code>
-      modifier to override the default styles.
+    :markdown
+      And you can alter the colors by supplying CSS for the `after`
+      pseudo-element. Note that you may need to use the `!important` modifier to
+      override the default styles.
 
   = daisy_steps do |steps|
     - steps.with_step(number: "AB")

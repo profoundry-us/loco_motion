@@ -71,8 +71,8 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   # @option kws css [String] Additional CSS classes for styling. Common
   #   options include:
   #   - Image Side: `image-full` (image becomes background)
-  #   - Borders: `bordered`
-  #   - Compact: `compact` (less padding)
+  #   - Borders: `card-border`
+  #   - Sizes: `card-sm` (less padding)
   #   - Colors: `bg-base-100`, `bg-primary`, `bg-secondary`
   #
   def initialize(**kws, &block)

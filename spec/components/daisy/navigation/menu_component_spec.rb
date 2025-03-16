@@ -148,9 +148,9 @@ RSpec.describe Daisy::Navigation::MenuComponent, type: :component do
     end
 
     describe "rendering" do
-      it "applies disabled class to disabled items" do
-        expect(page).to have_selector("li.disabled", text: "Disabled Item")
-        expect(page).to have_selector("li.disabled", text: /Disabled Group Item/)
+      it "applies menu-disabled class to disabled items" do
+        expect(page).to have_selector("li.menu-disabled", text: "Disabled Item")
+        expect(page).to have_selector("li.menu-disabled", text: /Disabled Group Item/)
       end
 
       it "applies pointer-events-none to disabled items" do
@@ -159,11 +159,11 @@ RSpec.describe Daisy::Navigation::MenuComponent, type: :component do
       end
 
       it "sets tabindex to -1 on disabled links" do
-        expect(page).to have_selector("li.disabled a[tabindex='-1']")
+        expect(page).to have_selector("li.menu-disabled a[tabindex='-1']")
       end
 
       it "does not apply disabled classes to enabled items" do
-        expect(page).not_to have_selector("li.disabled", text: "Enabled Item")
+        expect(page).not_to have_selector("li.menu-disabled", text: "Enabled Item")
         expect(page).not_to have_selector("li.pointer-events-none", text: "Enabled Item")
       end
     end

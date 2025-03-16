@@ -3,6 +3,9 @@
 # description, and figure. It's perfect for dashboards, summaries, or any
 # situation where you need to highlight important numbers or metrics.
 #
+# @note Stats have a transparent background by default. Use `bg-base-100` if you
+#   need a background color.
+#
 # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
 # tooltip addition.
 #
@@ -21,13 +24,13 @@
 #   image via the src option or an icon via the icon option.
 #
 # @loco_example Basic Usage
-#   = daisy_stat(title: "Downloads", value: "31K", css: "bg-base-200")
+#   = daisy_stat(title: "Downloads", value: "31K")
 #
 # @loco_example With Description
-#   = daisy_stat(title: "New Users", value: "2.6K", description: "↗︎ 400 (22%)", css: "bg-base-200")
+#   = daisy_stat(title: "New Users", value: "2.6K", description: "↗︎ 400 (22%)")
 #
 # @loco_example With Icon
-#   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye", css: "bg-base-200") do |stat|
+#   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
 #     = stat.with_description do
 #       .flex.items-center.gap-1
 #         = heroicon_tag "arrow-up", class: "size-4 text-success"
@@ -35,7 +38,7 @@
 #         from last month
 #
 # @loco_example With Custom Figure
-#   = daisy_stat(title: "Success Rate", value: "98%", css: "bg-base-200") do |stat|
+#   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
 #     = stat.with_figure do
 #       .text-success
 #         = heroicon_tag "check-circle", class: "size-10"
