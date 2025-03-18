@@ -55,6 +55,9 @@ search.addWidgets([
         //  1. Fix padding around items
         //  2. Make them stand out a bit more when highlighted
         //  3. Extract functionality into a stimulus controller
+        //  4. Add Algolia logo to ensure compliance
+        //  5. Write a JSON generator or Ruby API to send the proper data to Algolia
+        //  6. See if we can utilize the pre-built docsearch if we send better data
         return html`
           <a href="javascript:visitDoc('${hit.path}')" class="space-y-2 cursor-pointer hover:bg-base-200">
             <h2 class="font-bold text-2xl">${components.Highlight({ attribute: 'title', hit })}</h2>
