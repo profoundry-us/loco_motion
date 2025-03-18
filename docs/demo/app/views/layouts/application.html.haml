@@ -10,6 +10,8 @@
     = javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
 
     %link{ href: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css", rel: "stylesheet" }/
+    %link{ crossorigin: "anonymous", href: "https://cdn.jsdelivr.net/npm/instantsearch.css@8.5.1/themes/satellite-min.css", integrity: "sha256-woeV7a4SRDsjDc395qjBJ4+ZhDdFn8AqswN1rlTO64E=", rel: "stylesheet" }/
+
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/erb.min.js" }
@@ -35,9 +37,14 @@
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
+
       .drawer-side.z-20{ class: "mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-734px))] h-[calc(100vh-65px)]" }
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
         %div{ class: nav_classes }
           = render partial: "application/navigation"
 
+    = daisy_modal(title: "Search Docs", dialog_id: "al-search-modal", html: { "data-turbo-permanent": true }) do |modal|
+      #al-searchbox
+      #al-hits.mt-4.max-h-48.overflow-auto.border.border-base-300.rounded-lg
+      #al-pagination

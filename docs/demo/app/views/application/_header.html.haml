@@ -14,6 +14,11 @@
         = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-dash btn-primary btn-xs rounded-full", tip: "alpha")
 
   - bar.with_end(css: "w-auto! space-x-2") do
+    = daisy_button(css: "btn-sm px-5 rounded-full", html: { onclick: "javascript:document.getElementById('al-search-modal').showModal()" }) do
+      = daisy_kbd "⌘", css: "kbd-sm"
+      = daisy_kbd "k", css: "kbd-sm"
+      Search
+
     = daisy_button "API Docs", href: "/api-docs", target: "_blank", left_icon: "document-text", css: "btn-ghost btn-sm"
 
     = daisy_button href: "https://github.com/profoundry-us/loco_motion", target: "_blank", css: "btn-ghost btn-sm" do
