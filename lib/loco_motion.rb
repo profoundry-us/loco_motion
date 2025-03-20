@@ -16,3 +16,5 @@ require "loco_motion/helpers"
 
 require "hero"
 require "daisy"
+
+require "pry" if Rails.env.development?

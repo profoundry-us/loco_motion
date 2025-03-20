@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+require 'loco_motion/algolia/haml_parser_service'
+require 'pp'
+
+# Check if debug mode is requested
+debug = ARGV.include?('--debug')
+ARGV.delete('--debug')
+
+# Get the file path from command line arguments
+file_path = ARGV[0]
+
+unless file_path
+  puts "Usage: #{$PROGRAM_NAME} <haml_file_path> [--debug]"
+  exit 1
+end
+
+# Set debug environment variable if requested
+ENV['DEBUG'] = 'true' if debug
+
+# Parse the HAML file
+if debug
+  puts "Starting to parse HAML file: #{file_path}"
+  puts ""
+  puts "File contents:"
+  puts File.read(file_path) if File.exist?(file_path)
+  puts "End of file contents"
+  puts ""
+end
+
+# Create the parser and parse the file
+parser = LocoMotion::Algolia::HamlParserService.new(file_path)
+result = parser.parse
+
+# Print the result
+if debug
+  puts "# Result from parsing #{file_path}:\n"
+  pp result
+else
+  # Output as a Ruby hash string
+  puts result.inspect
+end

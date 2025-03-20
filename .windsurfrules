@@ -192,14 +192,18 @@ When releasing code, follow the protocol outlined in the `docs/dev_guides/RELEAS
 
 When running commands, follow these proceedures.
 
-1. MUST review the Makefile to see if a relevant command already exists.
+1. MUST run Ruby-related commands through Docker.
 
-2. When removing a file with `rm` or moving a file with `mv`:
+2. NEVER change the Ruby version.
+
+3. MUST review the Makefile to see if a relevant command already exists.
+
+4. When removing a file with `rm` or moving a file with `mv`:
    a. MUST use `/bin/rm` or `/bin/mv` so that it doesn't prompt you for confirmation.
 
-3. MUST run commands from the root of the project (which is the default).
+5. MUST run commands from the root of the project (which is the default).
 
-4. NEVER use `cd` before running commands.
+6. NEVER use `cd` before running commands.
 
-5. NEVER restart the demo app (`make demo-restart`) unless we make changes in
+7. NEVER restart the demo app (`make demo-restart`) unless we make changes in
    the `lib/loco_motion` directory.
