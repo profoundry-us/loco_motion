@@ -147,6 +147,20 @@ yard-shell:
 	docker compose exec -it yard /bin/bash
 
 ##############################
+# Algolia commands
+##############################
+
+# Run the algolia_index binary
+.PHONY: algolia-index
+algolia-index:
+	docker compose exec -it loco /home/loco_motion/bin/algolia_index $(ARGS)
+
+# Run the algolia_clear binary
+.PHONY: algolia-clear
+algolia-clear:
+	docker compose exec -it loco /home/loco_motion/bin/algolia_clear $(ARGS)
+
+##############################
 # Build/Publish commands
 ##############################
 

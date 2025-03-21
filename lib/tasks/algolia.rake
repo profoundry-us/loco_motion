@@ -2,8 +2,13 @@
 
 namespace :loco do
   namespace :algolia do
-    desc "Parse and output Algolia search data (auto-indexes if credentials available)"
+    desc "Parse and output Algolia search data (auto-indexes if credentials available) (DEPRECATED: Use bin/algolia_index instead)"
     task :index => :environment do
+      # Display deprecation warning
+      puts "\e[31mDEPRECATED:\e[0m This rake task is deprecated and will be removed in a future version."
+      puts "Please use the \e[1mbin/algolia_index\e[0m binary instead."
+      puts
+      
       require 'loco_motion/algolia/client'
       require 'loco_motion/algolia/component_indexer'
       require 'loco_motion/algolia/documentation_extractor'
@@ -98,8 +103,13 @@ namespace :loco do
       exit 1
     end
 
-    desc "Clear Algolia search index"
+    desc "Clear Algolia search index (DEPRECATED: Use bin/algolia_clear instead)"
     task :clear => :environment do
+      # Display deprecation warning
+      puts "\e[31mDEPRECATED:\e[0m This rake task is deprecated and will be removed in a future version."
+      puts "Please use the \e[1mbin/algolia_clear\e[0m binary instead."
+      puts
+      
       require 'loco_motion/algolia/client'
 
       puts "Clearing Algolia index..."
@@ -127,8 +137,13 @@ namespace :loco do
       exit 1
     end
 
-    desc "Parse and return data for a specific HAML file"
+    desc "Parse and return data for a specific HAML file (DEPRECATED: Use bin/algolia_index <file_path> instead)"
     task :parse_file => :environment do
+      # Display deprecation warning
+      puts "\e[31mDEPRECATED:\e[0m This rake task is deprecated and will be removed in a future version."
+      puts "Please use the \e[1mbin/algolia_index <file_path>\e[0m binary instead."
+      puts
+      
       require 'loco_motion/algolia/haml_parser_service'
       require 'json'
       
