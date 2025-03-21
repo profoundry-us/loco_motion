@@ -7,9 +7,8 @@ namespace :loco do
       require 'loco_motion/algolia/client'
       require 'loco_motion/algolia/component_indexer'
       require 'loco_motion/algolia/documentation_extractor'
-      require 'loco_motion/algolia/example_extractor'
-      require 'loco_motion/algolia/search_record_builder'
       require 'loco_motion/algolia/haml_parser_service'
+      require 'loco_motion/algolia/search_record_builder'
       require 'json'
       require 'fileutils'
 
