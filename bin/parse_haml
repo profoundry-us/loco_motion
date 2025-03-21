@@ -1,44 +1,57 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'bundler/setup'
+# Parse a HAML file and optionally send the results to Algolia
+
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'loco_motion/algolia/haml_parser_service'
-require 'pp'
+require 'loco_motion/algolia/algolia_import_service'
 
 # Check if debug mode is requested
 debug = ARGV.include?('--debug')
-ARGV.delete('--debug')
+ARGV.delete('--debug') if debug
 
 # Get the file path from command line arguments
 file_path = ARGV[0]
 
-unless file_path
-  puts "Usage: #{$PROGRAM_NAME} <haml_file_path> [--debug]"
+if file_path.nil?
+  puts "Error: Please provide a file path as the first argument"
+  puts "Usage: bin/parse_haml path/to/file.html.haml [--debug]"
+  exit 1
+end
+
+unless File.exist?(file_path)
+  puts "Error: File not found: #{file_path}"
   exit 1
 end
 
 # Set debug environment variable if requested
 ENV['DEBUG'] = 'true' if debug
 
-# Parse the HAML file
 if debug
   puts "Starting to parse HAML file: #{file_path}"
   puts ""
   puts "File contents:"
-  puts File.read(file_path) if File.exist?(file_path)
+  puts File.read(file_path)
   puts "End of file contents"
   puts ""
 end
 
 # Create the parser and parse the file
-parser = LocoMotion::Algolia::HamlParserService.new(file_path)
+parser = LocoMotion::Algolia::HamlParserService.new(file_path, debug)
 result = parser.parse
+
+# Create the import service and process the result
+import_service = LocoMotion::Algolia::AlgoliaImportService.new(debug: debug)
+import_service.process(result, file_path)
 
 # Print the result
 if debug
-  puts "# Result from parsing #{file_path}:\n"
+  puts "\n# Result from parsing #{file_path}:\n"
+  require 'pp'
   pp result
 else
-  # Output as a Ruby hash string
-  puts result.inspect
+  require 'json'
+  # Output as a pretty-formatted JSON string
+  puts JSON.pretty_generate(result)
 end

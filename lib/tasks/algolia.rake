@@ -2,29 +2,32 @@
 
 namespace :loco do
   namespace :algolia do
-    desc "Build and upload Algolia search index"
+    desc "Parse and output Algolia search data (auto-indexes if credentials available)"
     task :index => :environment do
       require 'loco_motion/algolia/client'
       require 'loco_motion/algolia/component_indexer'
       require 'loco_motion/algolia/documentation_extractor'
       require 'loco_motion/algolia/example_extractor'
       require 'loco_motion/algolia/search_record_builder'
+      require 'loco_motion/algolia/haml_parser_service'
+      require 'json'
+      require 'fileutils'
 
-      puts "Starting Algolia indexing process..."
+      puts "Starting Algolia data processing..."
 
       # Check for Algolia credentials
       application_id = ENV['ALGOLIA_APPLICATION_ID']
       api_key = ENV['ALGOLIA_API_KEY']
-
-      if application_id.nil? || api_key.nil?
-        puts "Error: Algolia credentials not configured!"
-        puts "Please set ALGOLIA_APPLICATION_ID and ALGOLIA_API_KEY environment variables."
-        exit 1
+      has_credentials = application_id.present? && api_key.present?
+      
+      if has_credentials
+        puts "Algolia credentials found. Will upload data to Algolia."
+        # Initialize Algolia client
+        client = LocoMotion::Algolia::Client.new
+        index = client.index('components')
+      else
+        puts "No Algolia credentials found. Will generate JSON file only."
       end
-
-      # Initialize Algolia client
-      client = LocoMotion::Algolia::Client.new
-      index = client.index('components')
 
       # Check if LocoMotion::COMPONENTS is defined
       if !defined?(LocoMotion) || !defined?(LocoMotion::COMPONENTS)
@@ -34,32 +37,65 @@ namespace :loco do
 
       # Build component records
       puts "Building component records..."
+      start_time = Time.now
       builder = LocoMotion::Algolia::SearchRecordBuilder.new(
         root_path: Rails.root.to_s,
         demo_path: ENV['DEMO_PATH'] || Rails.root.to_s
       )
       records = builder.build_records
+      end_time = Time.now
+      processing_time = (end_time - start_time).round(2)
 
-      # Upload to Algolia
-      puts "Uploading #{records.size} components to Algolia..."
-      response = index.add_objects(records)
+      # If we have credentials, upload to Algolia
+      if has_credentials
+        puts "Uploading #{records.size} components to Algolia..."
+        response = index.add_objects(records)
+        puts "Indexing complete! Response: #{response}"
+      end
+
+      # Regardless of credentials, write to a JSON file for reference
+      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+      tmp_dir = File.join(Rails.root, 'tmp')
+      FileUtils.mkdir_p(tmp_dir) unless Dir.exist?(tmp_dir)
+      filename = File.join(tmp_dir, "algolia_data_#{timestamp}.json")
+      
+      # Create summary data for the file
+      summary = {
+        metadata: {
+          timestamp: Time.now.iso8601,
+          total_components: records.size,
+          processing_time_seconds: processing_time,
+          frameworks: records.group_by { |r| r[:framework] }.transform_values(&:size),
+          groups: records.group_by { |r| r[:group] }.transform_values(&:size),
+          uploaded_to_algolia: has_credentials
+        },
+        records: records
+      }
+      
+      # Write the data to a pretty-formatted JSON file
+      File.open(filename, 'w') do |file|
+        file.write(JSON.pretty_generate(summary))
+      end
 
       # Output summary statistics
-      puts "Indexing complete! Response: #{response}"
-      puts "Indexed #{records.size} components."
+      puts "Processing complete! File saved to: #{filename}"
+      puts "Processing time: #{processing_time} seconds"
+      puts "Processed #{records.size} components."
       puts "Components by framework:"
-      records.group_by { |r| r[:framework] }.each do |framework, comps|
+      records.group_by { |r| r[:framework] }.sort_by { |framework, _| framework }.each do |framework, comps|
         puts "  #{framework}: #{comps.size} components"
       end
 
       puts "Components by group:"
-      records.group_by { |r| r[:group] }.each do |group, comps|
-        puts "  #{group}: #{comps.size} components"
+      records.group_by { |r| r[:group] }.sort_by { |group, _| group || '' }.each do |group, comps|
+        puts "  #{group || 'No Group'}: #{comps.size} components"
       end
 
-      puts "\nDone! The index is now available for searching."
+      puts "\nDone! #{has_credentials ? 'Data uploaded to Algolia and saved locally.' : 'Data saved to JSON file.'}"
+      puts "File path: #{filename}"
     rescue StandardError => e
       puts "Error: #{e.message}"
+      puts e.backtrace.join("\n") if ENV['DEBUG']
       exit 1
     end
 
@@ -92,81 +128,48 @@ namespace :loco do
       exit 1
     end
 
-    desc "Generate a JSON file with the Algolia search data in tmp directory"
-    task :dump_json => :environment do
+    desc "Parse and return data for a specific HAML file"
+    task :parse_file => :environment do
+      require 'loco_motion/algolia/haml_parser_service'
       require 'json'
-      require 'fileutils'
-      require 'loco_motion/algolia/component_indexer'
-      require 'loco_motion/algolia/documentation_extractor'
-      require 'loco_motion/algolia/example_extractor'
-      require 'loco_motion/algolia/search_record_builder'
-
-      puts "Starting JSON dump process..."
-
-      # Check if LocoMotion::COMPONENTS is defined
-      if !defined?(LocoMotion) || !defined?(LocoMotion::COMPONENTS)
-        puts "Error: LocoMotion::COMPONENTS not defined. Make sure the LocoMotion gem is loaded."
+      
+      # Get the file path from the command line arguments
+      file_path = ENV['FILE_PATH']
+      debug = ENV['DEBUG'] == 'true'
+      
+      if file_path.nil?
+        puts "Error: No file path provided. Use FILE_PATH=path/to/file.html.haml"
         exit 1
       end
-
-      # Build component records
-      puts "Building component records..."
-      builder = LocoMotion::Algolia::SearchRecordBuilder.new(
-        root_path: Rails.root.to_s,
-        demo_path: ENV['DEMO_PATH'] || Rails.root.to_s
-      )
       
-      # Capture start time for performance tracking
-      start_time = Time.now
-      records = builder.build_records
-      end_time = Time.now
-
-      # Ensure tmp directory exists
-      tmp_dir = File.join(Rails.root, 'tmp')
-      FileUtils.mkdir_p(tmp_dir) unless Dir.exist?(tmp_dir)
-
-      # Write to JSON file
-      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-      filename = File.join(tmp_dir, "algolia_data_#{timestamp}.json")
+      unless File.exist?(file_path)
+        puts "Error: File not found: #{file_path}"
+        exit 1
+      end
       
-      # Create summary data for the file
-      summary = {
-        metadata: {
-          timestamp: Time.now.iso8601,
-          total_components: records.size,
-          processing_time_seconds: (end_time - start_time).round(2),
-          frameworks: records.group_by { |r| r[:framework] }.transform_values(&:size),
-          groups: records.group_by { |r| r[:group] }.transform_values(&:size)
-        },
-        records: records
-      }
-
-      puts "Writing #{records.size} records to JSON file..."
-      # Write the data to a pretty-formatted JSON file
-      File.open(filename, 'w') do |file|
-        file.write(JSON.pretty_generate(summary))
+      # Set debug environment variable if requested
+      if debug
+        puts "Starting to parse HAML file: #{file_path}"
+        puts ""
+        puts "File contents:"
+        puts File.read(file_path)
+        puts "End of file contents"
+        puts ""
       end
-
-      # Output summary statistics
-      puts "JSON dump complete! File saved to: #{filename}"
-      puts "Processing time: #{(end_time - start_time).round(2)} seconds"
-      puts "Dumped #{records.size} components."
-      puts "Components by framework:"
-      records.group_by { |r| r[:framework] }.sort_by { |framework, _| framework }.each do |framework, comps|
-        puts "  #{framework}: #{comps.size} components"
+      
+      # Create the parser and parse the file
+      parser = LocoMotion::Algolia::HamlParserService.new(file_path, debug)
+      result = parser.parse
+      
+      # Print the result
+      if debug
+        puts "# Result from parsing #{file_path}:\n"
+        require 'pp'
+        pp result
+      else
+        # Output as a pretty-formatted JSON string
+        puts JSON.pretty_generate(result)
       end
-
-      puts "Components by group:"
-      records.group_by { |r| r[:group] }.sort_by { |group, _| group || '' }.each do |group, comps|
-        puts "  #{group || 'No Group'}: #{comps.size} components"
-      end
-
-      puts "\nDone! You can now inspect the data at: #{filename}"
-      puts "\nFile path accessible from host: " + File.join(ENV['HOST_TMP_DIR'] || '/tmp', "algolia_data_#{timestamp}.json")
-    rescue StandardError => e
-      puts "Error: #{e.message}"
-      puts e.backtrace.join("\n") if ENV['DEBUG']
-      exit 1
     end
   end
 end
