@@ -7,3 +7,4 @@ docs/yard/generated
 node_modules
 builds/
 **/*/.DS_Store
+spec/internal/

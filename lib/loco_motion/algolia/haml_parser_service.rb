@@ -78,16 +78,30 @@ module LocoMotion
       end
 
       def extract_example(node)
-        new_example = {
-          title: clean_title(node.value[:text]),
-          description: clean_string(extract_description(node.children.first)),
-          code: node.children[1..-1].map { |child| extract_code(child) }.join("\n").strip
-        }
+        # Some examples may have only the code and no description
+        if is_description_node?(node)
+          description_node = node.children.first
+          code_nodes = node.children[1..-1]
+        else
+          description_node = nil
+          code_nodes = node.children
+        end
 
-        @result[:examples] << new_example
+        # Extract the description using the appropriate node
+        description = description_node ? clean_string(extract_description(description_node)) : ''
+
+        # Add the values as an example
+        @result[:examples] << {
+          title: clean_title(node.value[:text]),
+          description: description,
+          code: code_nodes.map { |child| extract_code(child) }.join("\n").strip
+        }
       end
 
       def extract_description(node)
+        # Make sure we don't break on nil nodes
+        return "" if node.nil?
+
         # Check if this is a Markdown node
         is_markdown = (node.type == :filter && node.value[:name] == "markdown")
 
@@ -128,6 +142,20 @@ module LocoMotion
         code + "\n" + node.children.map do |child|
           extract_code(child, level + 1)
         end.join("\n")
+      end
+
+      #
+      # Checks if a node or its first child contains a description block
+      #
+      def is_description_node?(node)
+        return false unless node && node.children && node.children.any?
+
+        # Check if the first child is a silent script node with 'doc.with_description'
+        first_child = node.children.first
+        return false unless first_child.type == :silent_script
+
+        # Check if the script includes a call to 'with_description'
+        first_child.value[:text].include?("with_description")
       end
 
       #
