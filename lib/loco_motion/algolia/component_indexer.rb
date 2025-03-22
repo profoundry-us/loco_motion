@@ -15,13 +15,32 @@ module LocoMotion
       # from LocoMotion::COMPONENTS if available.
       #
       # @param components_data [Hash, nil] Optional hash of component data to index
-      def initialize(components_data = nil)
+      # @param root_path [String] Path to the application root
+      # @param demo_path [String] Path to the demo application (for examples)
+      def initialize(components_data = nil, root_path: '.', demo_path: nil)
+        require_relative 'search_record_builder'
+        
         @components = components_data || load_components_data
+        @root_path = root_path
+        @demo_path = demo_path || root_path
+        @search_record_builder = SearchRecordBuilder.new(root_path: @root_path, demo_path: @demo_path)
       end
 
-      # Extract component data from the LocoMotion::COMPONENTS hash.
+      # Extract and enrich component data for Algolia indexing.
       #
       # @return [Array<Hash>] Array of component records for indexing
+      def build_search_records
+        base_components = extract_components
+        
+        # Enrich each component with examples
+        base_components.map do |component|
+          @search_record_builder.enrich_component(component)
+        end
+      end
+      
+      # Extract component data from the LocoMotion::COMPONENTS hash.
+      #
+      # @return [Array<Hash>] Array of basic component records
       def extract_components
         @components.map do |component_name, metadata|
           build_component_record(component_name, metadata)

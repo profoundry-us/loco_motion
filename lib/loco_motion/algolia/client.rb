@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'algoliasearch'
+require 'algoliasearch-rails'
 
 module LocoMotion
   module Algolia
@@ -21,7 +21,7 @@ module LocoMotion
         @application_id = application_id || ENV['ALGOLIA_APPLICATION_ID']
         @api_key = api_key || ENV['ALGOLIA_API_KEY']
         @index_settings = options[:index_settings] || default_index_settings
-        
+
         configure_client
       end
 
