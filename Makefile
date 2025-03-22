@@ -153,12 +153,12 @@ yard-shell:
 # Run the algolia_index binary
 .PHONY: algolia-index
 algolia-index:
-	docker compose exec -it loco bundle exec /home/loco_motion/bin/algolia_index $(ARGS)
+	docker compose exec -it demo bundle exec bin/algolia_index $(ARGS)
 
 # Run the algolia_clear binary
 .PHONY: algolia-clear
 algolia-clear:
-	docker compose exec -it loco bundle exec /home/loco_motion/bin/algolia_clear $(ARGS)
+	docker compose exec -it demo bundle exec bin/algolia_clear $(ARGS)
 
 ##############################
 # Build/Publish commands

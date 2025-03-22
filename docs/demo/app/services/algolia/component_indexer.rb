@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/string/inflections'
-
-module LocoMotion
-  module Algolia
-    # Extracts and formats component data from LocoMotion helpers for Algolia indexing.
-    #
-    # This service is responsible for gathering all component data defined in the
-    # LocoMotion::COMPONENTS hash and formatting it for indexing in Algolia.
-    class ComponentIndexer
+module Algolia
+  # Indexes LocoMotion components into Algolia for searching
+  #
+  # This service builds search records from each component in the LocoMotion library
+  # and prepares them for indexing into Algolia.
+  #
+  # @example
+  #   indexer = Algolia::ComponentIndexer.new
+  #   records = indexer.build_search_records
+  #   client.index('components').save_objects(records)
+  #
+  class ComponentIndexer
       # Initialize a new component indexer.
       #
       # If components_data is not provided, it will attempt to load the data
@@ -176,4 +179,3 @@ module LocoMotion
       end
     end
   end
-end
