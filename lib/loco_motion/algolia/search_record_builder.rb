@@ -20,7 +20,7 @@ module LocoMotion
       # Enrich a component record with examples
       #
       # @param component [Hash] The component record to enrich
-      # @return [Hash] The enriched component record
+      # @return [Hash, Array] The enriched component record and its examples
       def enrich_component(component)
         component_name = component[:component_name]
         framework = component[:framework]
@@ -32,12 +32,12 @@ module LocoMotion
         example_url_path = "/examples/#{component_name}"
         component[:example_path] = example_url_path
 
-        # Add examples if available
+        # Extract examples, but store them separately - don't include in the component
         example_data = extract_examples(example_name, framework, section)
         component[:description] = example_data[:description] if example_data[:description]
-        component[:examples] = example_data[:examples] if example_data[:examples].any?
-
-        component
+        
+        # Return both the component and its examples
+        return component, example_data[:examples] || []
       end
 
       private

@@ -87,12 +87,18 @@ module LocoMotion
           code_nodes = node.children
         end
 
+        # Extract the title and generate a parameterized anchor
+        title = clean_title(node.value[:text])
+        anchor = title.parameterize
+
         # Extract the description using the appropriate node
         description = description_node ? clean_string(extract_description(description_node)) : ''
 
         # Add the values as an example
         @result[:examples] << {
-          title: clean_title(node.value[:text]),
+          type: 'example',
+          title: title,
+          anchor: anchor,
           description: description,
           code: code_nodes.map { |child| extract_code(child) }.join("\n").strip
         }

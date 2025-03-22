@@ -10,7 +10,7 @@ module LocoMotion
     # LocoMotion::COMPONENTS hash and formatting it for indexing in Algolia.
     class ComponentIndexer
       # Initialize a new component indexer.
-      # 
+      #
       # If components_data is not provided, it will attempt to load the data
       # from LocoMotion::COMPONENTS if available.
       #
@@ -19,7 +19,7 @@ module LocoMotion
       # @param demo_path [String] Path to the demo application (for examples)
       def initialize(components_data = nil, root_path: '.', demo_path: nil)
         require_relative 'search_record_builder'
-        
+
         @components = components_data || load_components_data
         @root_path = root_path
         @demo_path = demo_path || root_path
@@ -31,13 +31,54 @@ module LocoMotion
       # @return [Array<Hash>] Array of component records for indexing
       def build_search_records
         base_components = extract_components
-        
-        # Enrich each component with examples
-        base_components.map do |component|
-          @search_record_builder.enrich_component(component)
+
+        # Collect all components and examples
+        enriched_components = []
+        all_examples = []
+
+        # Process each component
+        base_components.each do |component|
+          # Get the enriched component and its examples
+          enriched_component, examples = @search_record_builder.enrich_component(component)
+          enriched_components << enriched_component
+
+          # Process examples if any
+          examples.each do |example|
+            # Create a unique ID for the example
+            example_id = "#{component[:objectID]}:#{example[:anchor]}"
+
+            # Create a record for this example with type as the first attribute
+            example_record = {
+              type: 'example',
+              objectID: example_id,
+              component_name: component[:component_name],
+              component_objectID: component[:objectID],
+              framework: component[:framework],
+              section: component[:section],
+              group: component[:group],
+              example_path: component[:example_path],
+              title: example[:title],
+              anchor: example[:anchor],
+              description: example[:description],
+              code: example[:code]
+            }
+
+            all_examples << example_record
+          end
         end
+
+        # Reorder component attributes to ensure type is first
+        ordered_components = enriched_components.map do |component|
+          {
+            type: 'component',
+            objectID: component[:objectID],
+          }.merge(component.except(:type))
+        end
+
+        # Return both the components and the examples as top-level records
+        ordered_components + all_examples
       end
-      
+
       # Extract component data from the LocoMotion::COMPONENTS hash.
       #
       # @return [Array<Hash>] Array of basic component records
@@ -74,6 +115,7 @@ module LocoMotion
         component_class = path_parts.last
 
         {
+          type: 'component',
           objectID: component_name,
           component_name: component_name,
           class_name: component_class,
@@ -96,7 +138,7 @@ module LocoMotion
       # @param metadata [Hash] The component metadata
       # @return [String] The example path
       def component_example_path(component_name, metadata)
-        comp_split = component_name.split("::") 
+        comp_split = component_name.split("::")
         framework = comp_split.first.underscore
         section = comp_split.length == 3 ? comp_split[1] : nil
         example = metadata[:example]
@@ -118,10 +160,10 @@ module LocoMotion
 
         # Prioritize common components
         common_components = [
-          'Button', 'Card', 'Modal', 'Alert', 'Tabs', 'Form', 
+          'Button', 'Card', 'Modal', 'Alert', 'Tabs', 'Form',
           'Select', 'TextInput', 'Checkbox'
         ]
-        
+
         common_components.each do |common|
           score += 10 if component_name.include?(common)
         end
