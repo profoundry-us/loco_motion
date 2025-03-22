@@ -46,7 +46,8 @@
         %div{ class: nav_classes }
           = render partial: "application/navigation"
 
-    = daisy_modal(title: "Search Docs", dialog_id: "al-search-modal", html: { "data-turbo-permanent": true }) do |modal|
+    = daisy_modal(title: "Search Docs", dialog_id: "al-search-modal", box_css: "flex flex-col max-w-3xl h-3/4", html: { "data-turbo-permanent": true }) do |modal|
       #al-searchbox
-      #al-hits.mt-4.max-h-48.overflow-auto.border.border-base-300.rounded-lg
+      #al-hits.grow.overflow-auto.my-4.border.border-base-300.rounded-lg
       #al-pagination
+      #al-poweredby

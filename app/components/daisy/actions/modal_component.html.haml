@@ -21,12 +21,14 @@
 
     = content
 
-    = part(:actions) do
-      = part(:start_actions) do
-        - if start_actions?
-          = start_actions
-      = part(:end_actions) do
-        - if end_actions?
-          = end_actions
+    - if start_actions? || end_actions?
+      = part(:actions) do
+        = part(:start_actions) do
+          - if start_actions?
+            = start_actions
+        = part(:end_actions) do
+          - if end_actions?
+            = end_actions
+
   = part(:backdrop) do
     %button close

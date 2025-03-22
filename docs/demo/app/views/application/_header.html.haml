@@ -14,7 +14,7 @@
         = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-dash btn-primary btn-xs rounded-full", tip: "alpha")
 
   - bar.with_end(css: "w-auto! space-x-2") do
-    = daisy_button(css: "btn-sm px-5 rounded-full", html: { onclick: "javascript:document.getElementById('al-search-modal').showModal()" }) do
+    = daisy_button(css: "btn-sm px-5 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
       = daisy_kbd "⌘", css: "kbd-sm"
       = daisy_kbd "k", css: "kbd-sm"
       Search
