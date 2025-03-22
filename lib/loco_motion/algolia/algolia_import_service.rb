@@ -71,18 +71,23 @@ module LocoMotion
         puts "Sending data to Algolia..." if debug
 
         begin
-          require 'algoliasearch'
+          require 'algoliasearch-rails'
 
-          # Initialize the Algolia client
-          ::Algolia.init(
-            application_id: ENV['ALGOLIA_APPLICATION_ID'],
-            api_key: ENV['ALGOLIA_API_KEY']
-          )
+          # Use the existing client if available, or create a new one
+          client = if defined?(AlgoliaSearch) && AlgoliaSearch.client
+                    AlgoliaSearch.client
+                  else
+                    # Initialize a new client if needed
+                    ::Algolia::SearchClient.create(
+                      ENV['ALGOLIA_APPLICATION_ID'],
+                      ENV['ALGOLIA_API_KEY']
+                    )
+                  end
 
           # Create an index name based on the file path
           base_name = File.basename(source_file, '.*').gsub(/\.html$/, '')
           index_name = "loco_examples_#{base_name}"
-          index = ::Algolia::Index.new(index_name)
+          index = client.init_index(index_name)
 
           # Add the examples to the index
           if data[:examples]&.any?
@@ -94,7 +99,7 @@ module LocoMotion
               )
             end
 
-            index.add_objects(examples)
+            index.save_objects(examples)
 
             puts "Successfully indexed #{examples.length} examples to Algolia (index: #{index_name})" if debug
             # Also save to file as a backup

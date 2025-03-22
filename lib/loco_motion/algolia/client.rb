@@ -39,7 +39,8 @@ module LocoMotion
 
       # Configure the Algolia client with credentials.
       def configure_client
-        ::Algolia.init(application_id: @application_id, api_key: @api_key)
+        @client = ::Algolia::SearchClient.create(@application_id, @api_key)
+        AlgoliaSearch.client = @client
       end
 
       # Generate the full index name including environment prefix.

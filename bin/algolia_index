@@ -65,7 +65,7 @@ begin
   # Check for Algolia credentials
   application_id = ENV['ALGOLIA_APPLICATION_ID']
   api_key = ENV['ALGOLIA_API_KEY']
-  has_credentials = application_id && api_key && !application_id.empty? && !api_key.empty?
+  has_credentials = application_id.present? && api_key.present?
 
   if has_credentials
     puts "Algolia credentials found. Will upload data to Algolia."
