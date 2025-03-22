@@ -150,15 +150,15 @@ yard-shell:
 # Algolia commands
 ##############################
 
-# Run the algolia_index binary
+# Run the algolia:index rake task in the demo container
 .PHONY: algolia-index
 algolia-index:
-	docker compose exec -it demo bundle exec bin/algolia_index $(ARGS)
+	docker compose exec -it demo bundle exec rake algolia:index ARGS="$(ARGS)"
 
-# Run the algolia_clear binary
+# Run the algolia:clear rake task in the demo container
 .PHONY: algolia-clear
 algolia-clear:
-	docker compose exec -it demo bundle exec bin/algolia_clear $(ARGS)
+	docker compose exec -it demo bundle exec rake algolia:clear ARGS="$(ARGS)"
 
 ##############################
 # Build/Publish commands
