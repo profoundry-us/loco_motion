@@ -16,8 +16,9 @@
   - bar.with_end(css: "w-auto! space-x-2") do
     = daisy_button(css: "btn-sm px-5 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
       = daisy_kbd "⌘", css: "kbd-sm"
-      = daisy_kbd "k", css: "kbd-sm"
-      Search
+      = daisy_kbd "K", css: "kbd-sm"
+      .ml-2
+        Search
 
     = daisy_button "API Docs", href: "/api-docs", target: "_blank", left_icon: "document-text", css: "btn-ghost btn-sm"
 
