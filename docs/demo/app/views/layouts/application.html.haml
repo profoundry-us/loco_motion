@@ -48,32 +48,36 @@
 
     = daisy_modal(dialog_id: "al-search-modal", closable: false,
         backdrop_css: "backdrop-blur-xs",
-        box_css: "flex flex-col max-w-3xl h-3/4",
-        actions_css: "mt-0",
+        box_css: "flex flex-col max-w-3xl h-9/10 md:h-3/4 p-0! bg-base-200",
+        actions_css: "mt-0 border-t border-neutral-content dark:border-base-300",
         html: { "data-turbo-permanent": true }) do |modal|
-      - modal.with_start_actions(css: "flex flex-row items-center gap-2") do
-        = daisy_kbd do
-          %svg.size-4{fill: "none", stroke: "currentColor", "stroke-width" => "1.5", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg"}
-            %path{d: "m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
+      - modal.with_start_actions(css: "flex flex-col md:flex-row md:items-center gap-4 px-4 py-2 text-sm") do
+        .flex.flex-row.items-center.gap-2
+          = daisy_kbd do
+            %svg.size-4{fill: "none", stroke: "currentColor", "stroke-width" => "1.5", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg"}
+              %path{d: "m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
 
-        %span
-          to select
+          %span
+            to select
 
-        = daisy_kbd do
-          = hero_icon("arrow-up", css: "size-4")
-        = daisy_kbd do
-          = hero_icon("arrow-down", css: "size-4")
-        %span
-          to navigate
+        .flex.flex-row.items-center.gap-2
+          = daisy_kbd do
+            = hero_icon("arrow-up", css: "size-4")
+          = daisy_kbd do
+            = hero_icon("arrow-down", css: "size-4")
+          %span
+            to navigate
 
-        = daisy_kbd("esc")
-        %span
-          to close
+        .flex.flex-row.items-center.gap-2
+          = daisy_kbd("esc")
+          %span
+            to close
 
-
-      - modal.with_end_actions do
+      - modal.with_end_actions(css: "p-4") do
         #al-poweredby
+        #al-poweredby-dark
 
-      #al-searchbox
-      #al-hits.grow.overflow-auto.my-4.border.border-base-300.rounded-lg
-      #al-pagination
+      #al-searchbox.mx-4.mt-4
+      .grow.overflow-auto.rounded-lg.p-2
+        #al-hits
+        #al-stats

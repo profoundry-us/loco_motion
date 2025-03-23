@@ -2,6 +2,12 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 
+// Import InstantSearch.js
+import { liteClient as algoliasearch } from 'algoliasearch/lite';
+import instantsearch from 'instantsearch.js';
+import { connectHits } from 'instantsearch.js/es/connectors'
+import { configure, searchBox, stats, poweredBy } from 'instantsearch.js/es/widgets';
+
 window.visitDoc = function(path) {
   Turbo.visit(path);
   document.getElementById('al-search-modal').close()
@@ -9,11 +15,11 @@ window.visitDoc = function(path) {
 
 window.showDocSearch = function() {
   document.getElementById('al-search-modal').showModal();
+  document.getElementById('al-searchbox').querySelector('input').focus();
 }
 
 // Handle up/down arrow navigation in the search results
 window.handleSearchResultsNavigation = function(event) {
-  console.log(" *** handleSearchResultsNavigation")
   const modal = document.getElementById('al-search-modal');
   const isOpen = modal && modal.open;
 
@@ -62,12 +68,6 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-// Import InstantSearch.js
-import { liteClient as algoliasearch } from 'algoliasearch/lite';
-import instantsearch from 'instantsearch.js';
-import { connectHits } from 'instantsearch.js/es/connectors'
-import { configure, searchBox, hits, poweredBy } from 'instantsearch.js/es/widgets';
-
 /*
   Initialize the search client
 
@@ -85,15 +85,17 @@ const search = instantsearch({
 });
 
 const shared_css = [
-  "my-2 p-4 flex md:flex-row gap-2 items-center",
-  "bg-base-200 text-base-content rounded-lg cursor-pointer",
-  "hover:bg-info hover:text-white",
-  "focus:bg-info focus:text-white",
+  "my-2 p-3 flex md:flex-row gap-2 items-center",
+  "bg-base-100 text-base-content rounded-lg shadow-sm cursor-pointer",
+  "hover:bg-secondary hover:text-white",
+  "focus:bg-secondary focus:text-white",
   "focus:outline-none",
-  "[&:hover_.ais-Snippet-highlighted]:text-white!",
-  "[&:hover_.ais-Snippet-highlighted]:bg-info-content/30!",
-  "[&:hover_.ais-Highlight-highlighted]:text-white!",
-  "[&:hover_.ais-Highlight-highlighted]:bg-info-content/30!",
+  "[&_.ais-Snippet-highlighted]:bg-secondary/80! [&_.ais-Snippet-highlighted]:text-white!",
+  "[&:focus_.ais-Snippet-highlighted]:bg-black/80! [&:focus_.ais-Snippet-highlighted]:text-white!",
+  "[&:hover_.ais-Snippet-highlighted]:bg-black/80! [&:hover_.ais-Snippet-highlighted]:text-white!",
+  "[&_.ais-Highlight-highlighted]:bg-secondary/80! [&_.ais-Highlight-highlighted]:text-white!",
+  "[&:focus_.ais-Highlight-highlighted]:bg-black/80! [&:focus_.ais-Highlight-highlighted]:text-white!",
+  "[&:hover_.ais-Highlight-highlighted]:bg-black/80! [&:hover_.ais-Highlight-highlighted]:text-white!",
 ].join(" ");
 
 const componentIcon = `
@@ -126,13 +128,20 @@ const exampleIcon = `
   </svg>
 `;
 
+const groupTemplate = (section, hits) =>`
+  <div class="group px-2 mb-6 first:mt-2">
+    <h2 class="text-lg font-bold mb-2 pl-1 capitalize">${section}</h2>
+    ${hits.map(hit => `${hit.type == "example" ? exampleTemplate(hit) : componentTemplate(hit)}`).join('')}
+  </div>
+`;
+
 const componentTemplate = (hit) => {
   return `
     <a href="javascript:visitDoc('${hit.example_path || ''}')" class="w-full ${shared_css}">
       ${componentIcon}
-      <span class="font-bold whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
+      <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
       ${dashIcon}
-      <span class="flex-1 italic truncate">${hit.description || "All Examples"}</span>
+      <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "All Examples"}</span>
       ${arrowIcon}
     </a>
   `;
@@ -144,9 +153,9 @@ const exampleTemplate = (hit) => {
       ${insetIcon}
       <a href="javascript:visitDoc('${hit.example_path || ''}${ hit.anchor ? '#' + hit.anchor : ''}')" class="flex-1 min-w-0 ${shared_css}">
         ${exampleIcon}
-        <span class="font-bold whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
+        <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
         ${dashIcon}
-        <span class="flex-1 italic truncate">${hit.description || "No description..."}</span>
+        <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "No description..."}</span>
         ${arrowIcon}
       </a>
     </div>
@@ -168,15 +177,7 @@ const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
   }, {});
 
   widgetParams.container.innerHTML = Object.entries(grouped)
-    .map(([section, hits]) => {
-      return `
-        <div class="group p-3 mb-3">
-          <h2 class="text-lg font-bold mb-3 capitalize">${section}</h2>
-          ${hits.map(hit => `${hit.type == "example" ? exampleTemplate(hit) : componentTemplate(hit)}`).join('')}
-        </div>
-      `
-    })
-    .join('');
+    .map(([section, hits]) => groupTemplate(section, hits)).join('');
 });
 
 search.addWidgets([
@@ -187,16 +188,31 @@ search.addWidgets([
   searchBox({
     container: "#al-searchbox",
     autofocus: true,
-    placeholder: "Search documentation"
+    placeholder: "Search documentation",
+    cssClasses: {
+      form: "rounded-lg!",
+      input: "bg-base-100! text-base-content! rounded-lg! focus:border-primary! caret-primary! placeholder:text-primary/60! dark:focus:border-secondary! dark:caret-secondary! dark:placeholder:text-base-content/60! dark:focus:placeholder:text-secondary/60!"
+    }
   }),
 
   customGroupedHits({
     container: document.querySelector('#al-hits'),
   }),
 
+  stats({
+    container: document.querySelector('#al-stats'),
+    cssClasses: { root: "py-6 text-center italic" }
+  }),
+
   poweredBy({
     container: "#al-poweredby",
-    cssClasses: { root: "justify-end" },
+    cssClasses: { root: "justify-end dark:hidden!" },
+  }),
+
+  poweredBy({
+    container: "#al-poweredby-dark",
+    theme: 'dark',
+    cssClasses: { root: "justify-end hidden! dark:block!" },
   }),
 ])
 
