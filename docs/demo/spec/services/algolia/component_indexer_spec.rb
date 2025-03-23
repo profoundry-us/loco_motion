@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-require 'active_support/core_ext/string/inflections'
-require 'loco_motion/algolia/component_indexer'
+require 'rails_helper'
 
-RSpec.describe LocoMotion::Algolia::ComponentIndexer do
+RSpec.describe Algolia::ComponentIndexer do
   # Use test data instead of relying on LocoMotion::COMPONENTS
   let(:test_components) do
     {

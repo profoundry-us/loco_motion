@@ -121,6 +121,11 @@ demo-cache:
 demo-nocache:
 	rm -f docs/demo/tmp/caching-dev.txt
 
+# Run all of the Demo App Rspec tests
+.PHONY: demo-test
+demo-test:
+	docker compose exec -it demo bundle exec rspec spec
+
 ##############################
 # Yard commands
 ##############################

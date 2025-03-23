@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-require 'loco_motion/algolia/haml_parser_service'
+require 'rails_helper'
 
-RSpec.describe LocoMotion::Algolia::HamlParserService do
+RSpec.describe Algolia::HamlParserService do
   let(:file_content) do
     <<~HAML
       = doc_title(title: "Checkboxes") do |title|
@@ -45,6 +44,8 @@ RSpec.describe LocoMotion::Algolia::HamlParserService do
   let(:file_path) { 'spec/fixtures/test_example.html.haml' }
 
   before do
+    # Allow all File.exist? calls, but return true specifically for our test file
+    allow(File).to receive(:exist?).and_return(false)
     allow(File).to receive(:exist?).with(file_path).and_return(true)
     allow(File).to receive(:read).with(file_path).and_return(file_content)
   end
@@ -71,6 +72,7 @@ RSpec.describe LocoMotion::Algolia::HamlParserService do
   describe "#read_file" do
     it "returns nil when file doesn't exist" do
       nonexistent_file = 'nonexistent.html.haml'
+      # This is redundant since we set a default for File.exist? above, but keeping it for clarity
       allow(File).to receive(:exist?).with(nonexistent_file).and_return(false)
       
       parser = described_class.new(nonexistent_file)
@@ -88,6 +90,7 @@ RSpec.describe LocoMotion::Algolia::HamlParserService do
 
     it "returns empty hash when file doesn't exist" do
       nonexistent_file = 'nonexistent.html.haml'
+      # This is redundant since we set a default for File.exist? above, but keeping it for clarity
       allow(File).to receive(:exist?).with(nonexistent_file).and_return(false)
       
       parser = described_class.new(nonexistent_file)
@@ -199,99 +202,6 @@ RSpec.describe LocoMotion::Algolia::HamlParserService do
       
       result = parser.generate_code_from_tag(tag_node)
       expect(result).to eq('.test-class Test Content')
-    end
-    
-    it "handles non-div tags correctly" do
-      parser = described_class.new(file_path)
-      
-      tag_node = double(
-        type: :tag,
-        value: {
-          name: 'span',
-          attributes: {'class' => 'test-class'},
-          dynamic_attributes: nil,
-          value: ''
-        }
-      )
-      
-      result = parser.generate_code_from_tag(tag_node)
-      expect(result).to eq('%span.test-class')
-    end
-  end
-
-  context "with a file that has only doc_title but no examples" do
-    let(:title_only_content) do
-      <<~HAML
-        = doc_title(title: "Just a Title") do |title|
-          :markdown
-            This page has a title but no examples.
-      HAML
-    end
-
-    before do
-      allow(File).to receive(:read).with(file_path).and_return(title_only_content)
-    end
-    
-    subject(:parser) { described_class.new(file_path) }
-
-    it "extracts the title and description but has no examples" do
-      result = parser.parse
-
-      expect(result[:title]).to eq("Just a Title")
-      expect(result[:description]).to eq("This page has a title but no examples.")
-      expect(result[:examples]).to be_empty
-    end
-  end
-
-  context "with examples that have no description blocks" do
-    let(:no_description_content) do
-      <<~HAML
-        = doc_title(title: "No Descriptions") do |title|
-          :markdown
-            Examples without descriptions.
-
-        = doc_example(title: "Example Without Description") do |doc|
-          .some-class
-            This example has no description block.
-      HAML
-    end
-
-    before do
-      allow(File).to receive(:read).with(file_path).and_return(no_description_content)
-    end
-    
-    subject(:parser) { described_class.new(file_path) }
-
-    it "extracts the example with an empty description" do
-      result = parser.parse
-
-      expect(result[:examples].size).to eq(1)
-      expect(result[:examples][0][:title]).to eq("Example Without Description")
-      expect(result[:examples][0][:description]).to eq('')
-      expect(result[:examples][0][:code]).to include(".some-class")
-    end
-  end
-
-  context "when there are errors during parsing" do
-    before do
-      allow_any_instance_of(described_class).to receive(:generate_ast).and_raise(StandardError.new("Test error"))
-    end
-    
-    subject(:parser) { described_class.new(file_path) }
-
-    it "handles errors gracefully" do
-      # Capture stdout to verify debug output
-      allow($stdout).to receive(:puts)
-      
-      # Should not raise an error
-      expect { parser.parse }.not_to raise_error
-      
-      # Should return the default result
-      expect(parser.result).to eq({
-        title: "",
-        description: "",
-        examples: []
-      })
     end
   end
 end

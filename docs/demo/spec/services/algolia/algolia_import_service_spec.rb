@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe LocoMotion::Algolia::AlgoliaImportService do
+RSpec.describe Algolia::AlgoliaImportService do
   let(:debug) { false }
   let(:service) { described_class.new(debug: debug) }
   let(:data) do
