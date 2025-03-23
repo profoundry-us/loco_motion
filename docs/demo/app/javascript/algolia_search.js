@@ -4,6 +4,25 @@ import instantsearch from 'instantsearch.js';
 import { connectHits } from 'instantsearch.js/es/connectors'
 import { configure, searchBox, stats, poweredBy } from 'instantsearch.js/es/widgets';
 
+// Make sure we have the algoliaCredentials object
+if (!window.algoliaCredentials) {
+  console.warn('Algolia search disabled: Missing window.algoliaCredentials');
+} else {
+  const { appId, apiKey, indexName } = window.algoliaCredentials;
+
+  // Check that all required credentials are present
+  if (!appId || !apiKey || !indexName) {
+    console.warn('Algolia search disabled: Missing credentials', {
+      appId: appId ? 'provided' : 'missing',
+      apiKey: apiKey ? 'provided' : 'missing',
+      indexName: indexName ? 'provided' : 'missing'
+    });
+  } else {
+    // All credentials are provided, initialize search
+    initializeSearch(appId, apiKey, indexName);
+  }
+}
+
 // Functions for search interaction
 window.visitDoc = function(path) {
   Turbo.visit(path);
@@ -11,6 +30,14 @@ window.visitDoc = function(path) {
 }
 
 window.showDocSearch = function() {
+  if (!window.algoliaCredentials ||
+      !window.algoliaCredentials.appId ||
+      !window.algoliaCredentials.apiKey ||
+      !window.algoliaCredentials.indexName) {
+    console.warn('Search functionality disabled due to missing Algolia credentials');
+    return;
+  }
+
   document.getElementById('al-search-modal').showModal();
   document.getElementById('al-searchbox').querySelector('input').focus();
 }
@@ -65,154 +92,152 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-/*
-  Initialize the search client
+// Function to initialize Algolia search with the provided credentials
+function initializeSearch(appId, apiKey, indexName) {
+  /*
+    Initialize the search client using credentials from the window object
+    that are injected by the algolia_credentials_tag helper
+  */
+  const searchClient = algoliasearch(appId, apiKey);
 
-  If you're logged into the Algolia dashboard, the following values for
-  YourApplicationID and YourSearchOnlyAPIKey are auto-selected from
-  the currently selected Algolia application.
-*/
-const searchClient = algoliasearch('NEWSB29XIB', '6564437329147da01e34fe5c94c4508e');
+  // Render the InstantSearch.js wrapper
+  const search = instantsearch({
+    indexName,
+    searchClient,
+  });
 
-// Render the InstantSearch.js wrapper
-const search = instantsearch({
-  indexName: 'loco_motion_development_components',
-  searchClient,
-});
+  const shared_css = [
+    "my-2 p-3 flex md:flex-row gap-2 items-center",
+    "bg-base-100 text-base-content rounded-lg shadow-sm cursor-pointer",
+    "hover:bg-secondary hover:text-white",
+    "focus:bg-secondary focus:text-white",
+    "focus:outline-none",
+    "[&_.ais-Snippet-highlighted]:bg-secondary/80! [&_.ais-Snippet-highlighted]:text-white!",
+    "[&:focus_.ais-Snippet-highlighted]:bg-black/80! [&:focus_.ais-Snippet-highlighted]:text-white!",
+    "[&:hover_.ais-Snippet-highlighted]:bg-black/80! [&:hover_.ais-Snippet-highlighted]:text-white!",
+    "[&_.ais-Highlight-highlighted]:bg-secondary/80! [&_.ais-Highlight-highlighted]:text-white!",
+    "[&:focus_.ais-Highlight-highlighted]:bg-black/80! [&:focus_.ais-Highlight-highlighted]:text-white!",
+    "[&:hover_.ais-Highlight-highlighted]:bg-black/80! [&:hover_.ais-Highlight-highlighted]:text-white!",
+  ].join(" ");
 
-const shared_css = [
-  "my-2 p-3 flex md:flex-row gap-2 items-center",
-  "bg-base-100 text-base-content rounded-lg shadow-sm cursor-pointer",
-  "hover:bg-secondary hover:text-white",
-  "focus:bg-secondary focus:text-white",
-  "focus:outline-none",
-  "[&_.ais-Snippet-highlighted]:bg-secondary/80! [&_.ais-Snippet-highlighted]:text-white!",
-  "[&:focus_.ais-Snippet-highlighted]:bg-black/80! [&:focus_.ais-Snippet-highlighted]:text-white!",
-  "[&:hover_.ais-Snippet-highlighted]:bg-black/80! [&:hover_.ais-Snippet-highlighted]:text-white!",
-  "[&_.ais-Highlight-highlighted]:bg-secondary/80! [&_.ais-Highlight-highlighted]:text-white!",
-  "[&:focus_.ais-Highlight-highlighted]:bg-black/80! [&:focus_.ais-Highlight-highlighted]:text-white!",
-  "[&:hover_.ais-Highlight-highlighted]:bg-black/80! [&:hover_.ais-Highlight-highlighted]:text-white!",
-].join(" ");
-
-const componentIcon = `
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
-  </svg>
-`;
-
-const dashIcon = `
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-  </svg>
-`;
-
-const arrowIcon = `
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-  </svg>
-`;
-
-const insetIcon = `
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-4 size-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-  </svg>
-`;
-
-const exampleIcon = `
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
-  </svg>
-`;
-
-const groupTemplate = (section, hits) =>`
-  <div class="group px-2 mb-6 first:mt-2">
-    <h2 class="text-lg font-bold mb-2 pl-1 capitalize">${section}</h2>
-    ${hits.map(hit => `${hit.type == "example" ? exampleTemplate(hit) : componentTemplate(hit)}`).join('')}
-  </div>
-`;
-
-const componentTemplate = (hit) => {
-  return `
-    <a href="javascript:visitDoc('${hit.example_path || ''}')" class="w-full ${shared_css}">
-      ${componentIcon}
-      <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
-      ${dashIcon}
-      <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "All Examples"}</span>
-      ${arrowIcon}
-    </a>
+  const componentIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+    </svg>
   `;
-};
 
-const exampleTemplate = (hit) => {
-  return `
-    <div class="flex flex-row shrink items-center gap-2 w-full">
-      ${insetIcon}
-      <a href="javascript:visitDoc('${hit.example_path || ''}${ hit.anchor ? '#' + hit.anchor : ''}')" class="flex-1 min-w-0 ${shared_css}">
-        ${exampleIcon}
-        <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
-        ${dashIcon}
-        <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "No description..."}</span>
-        ${arrowIcon}
-      </a>
+  const dashIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+    </svg>
+  `;
+
+  const arrowIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    </svg>
+  `;
+
+  const insetIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-4 size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
+    </svg>
+  `;
+
+  const exampleIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
+    </svg>
+  `;
+
+  const groupTemplate = (section, hits) =>`
+    <div class="group px-2 mb-6 first:mt-2">
+      <h2 class="text-lg font-bold mb-2 pl-1 capitalize">${section}</h2>
+      ${hits.map(hit => `${hit.type == "example" ? exampleTemplate(hit) : componentTemplate(hit)}`).join('')}
     </div>
   `;
-};
 
-const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
-  const { hits, widgetParams } = renderOptions;
+  const componentTemplate = (hit) => {
+    return `
+      <a href="javascript:visitDoc('${hit.example_path || ''}')" class="w-full ${shared_css}">
+        ${componentIcon}
+        <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
+        ${dashIcon}
+        <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "All Examples"}</span>
+        ${arrowIcon}
+      </a>
+    `;
+  };
 
-  // Group hits by section
-  const grouped = hits.reduce((groups, hit) => {
-    const group = hit.section ? (hit.framework + " " + hit.section) : hit.framework;
+  const exampleTemplate = (hit) => {
+    return `
+      <div class="flex flex-row shrink items-center gap-2 w-full">
+        ${insetIcon}
+        <a href="javascript:visitDoc('${hit.example_path || ''}${ hit.anchor ? '#' + hit.anchor : ''}')" class="flex-1 min-w-0 ${shared_css}">
+          ${exampleIcon}
+          <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
+          ${dashIcon}
+          <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || "No description..."}</span>
+          ${arrowIcon}
+        </a>
+      </div>
+    `;
+  };
 
-    if (!groups[group]) groups[group] = [];
+  const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
+    const { hits, widgetParams } = renderOptions;
 
-    groups[group].push(hit);
+    // Group hits by section
+    const grouped = hits.reduce((groups, hit) => {
+      const group = hit.section ? (hit.framework + " " + hit.section) : hit.framework;
 
-    return groups;
-  }, {});
+      if (!groups[group]) groups[group] = [];
 
-  widgetParams.container.innerHTML = Object.entries(grouped)
-    .map(([section, hits]) => groupTemplate(section, hits)).join('');
-});
+      groups[group].push(hit);
 
-search.addWidgets([
-  configure({
-    attributesToSnippet: ["description", "code"]
-  }),
+      return groups;
+    }, {});
 
-  searchBox({
-    container: "#al-searchbox",
-    autofocus: true,
-    placeholder: "Search documentation",
-    cssClasses: {
-      form: "rounded-lg!",
-      input: "bg-base-100! text-base-content! rounded-lg! focus:border-primary! caret-primary! placeholder:text-primary/60! dark:focus:border-secondary! dark:caret-secondary! dark:placeholder:text-base-content/60! dark:focus:placeholder:text-secondary/60!"
-    }
-  }),
+    widgetParams.container.innerHTML = Object.entries(grouped)
+      .map(([section, hits]) => groupTemplate(section, hits)).join('');
+  });
 
-  customGroupedHits({
-    container: document.querySelector('#al-hits'),
-  }),
+  search.addWidgets([
+    configure({
+      attributesToSnippet: ["description", "code"]
+    }),
 
-  stats({
-    container: document.querySelector('#al-stats'),
-    cssClasses: { root: "py-6 text-center italic" }
-  }),
+    searchBox({
+      container: "#al-searchbox",
+      autofocus: true,
+      placeholder: "Search documentation",
+      cssClasses: {
+        form: "rounded-lg!",
+        input: "bg-base-100! text-base-content! rounded-lg! focus:border-primary! caret-primary! placeholder:text-primary/60! dark:focus:border-secondary! dark:caret-secondary! dark:placeholder:text-base-content/60! dark:focus:placeholder:text-secondary/60!"
+      }
+    }),
 
-  poweredBy({
-    container: "#al-poweredby",
-    cssClasses: { root: "justify-end dark:hidden!" },
-  }),
+    customGroupedHits({
+      container: document.querySelector('#al-hits'),
+    }),
 
-  poweredBy({
-    container: "#al-poweredby-dark",
-    theme: 'dark',
-    cssClasses: { root: "justify-end hidden! dark:block!" },
-  }),
-])
+    stats({
+      container: document.querySelector('#al-stats'),
+      cssClasses: { root: "py-6 text-center italic" }
+    }),
 
-// Initialize search when the page loads
-document.addEventListener('DOMContentLoaded', () => {
+    poweredBy({
+      container: "#al-poweredby",
+      cssClasses: { root: "justify-end dark:hidden!" },
+    }),
+
+    poweredBy({
+      container: "#al-poweredby-dark",
+      theme: 'dark',
+      cssClasses: { root: "justify-end hidden! dark:block!" },
+    }),
+  ])
+
+  // Initialize search
   search.start();
-});
+}
