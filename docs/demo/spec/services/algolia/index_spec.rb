@@ -149,9 +149,9 @@ RSpec.describe Algolia::Index do
       expect(settings).to be_a(Hash)
       
       # Verify key settings
-      expect(settings[:searchable_attributes]).to include('title', 'group', 'description')
-      expect(settings[:attributes_for_faceting]).to include('filterOnly(group)')
-      expect(settings[:custom_ranking]).to include('desc(popularity)', 'asc(title)')
+      expect(settings[:searchable_attributes]).to include('title', 'framework', 'section', 'description')
+      expect(settings[:attributes_for_faceting]).to include('filterOnly(framework)', 'filterOnly(section)')
+      expect(settings[:custom_ranking]).to include('asc(priority)', 'asc(title)')
       expect(settings[:highlight_pre_tag]).to eq('<em class="highlight">')
       expect(settings[:highlight_post_tag]).to eq('</em>')
     end
