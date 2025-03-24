@@ -4,16 +4,16 @@ require 'json'
 require 'fileutils'
 
 module Algolia
-  # Service to handle importing data into Algolia or saving to a file
+  # Service to handle importing data into Algolia
   #
-  # This service provides a unified interface to process parsed HAML data,
-  # either by sending it to Algolia if credentials are available or by
-  # writing it to a JSON file in the tmp directory.
+  # This service provides a unified interface to process parsed HAML data
+  # and send it to Algolia if credentials are available.
   #
   # @example Parse and handle a HAML file
   #   service = Algolia::AlgoliaImportService.new
   #   result = Algolia::HamlParserService.new(file_path).parse
-  #   service.process(result, file_path)
+  #   records = service.convert_to_records(result, file_path)
+  #   service.import(records, file_path)
   #
   class AlgoliaImportService
     attr_reader :debug
@@ -25,24 +25,6 @@ module Algolia
     def initialize(debug: false)
       @debug = debug
     end
-
-    # Process the parsed HAML data
-    #
-    # @param [Hash] data The parsed HAML data
-    # @param [String] source_file The source file path that was parsed
-    # @return [Boolean] Whether the operation was successful
-    #
-    def process(data, source_file)
-      puts "Processing data from #{source_file}" if debug
-
-      if algolia_configured?
-        send_to_algolia(data, source_file)
-      else
-        save_to_file(data, source_file)
-      end
-    end
-
-    private
 
     # Check if Algolia is configured
     #
@@ -57,16 +39,19 @@ module Algolia
         puts "ALGOLIA_API_KEY: #{api_key ? 'Present' : 'Missing'}"
       end
 
-      !app_id.nil? && !app_id.empty? && !api_key.nil? && !api_key.empty?
+      !app_id.blank? && !api_key.blank?
     end
 
-    # Send the data to Algolia
+    # Import records into Algolia
     #
-    # @param [Hash] data The data to send
+    # @param [Array<Hash>] records The records to import
     # @param [String] source_file The source file that was parsed
     # @return [Boolean] Whether the operation was successful
     #
-    def send_to_algolia(data, source_file)
+    def import(records, source_file)
+      return true if records.empty?
+      return false unless algolia_configured?
+
       puts "Sending data to Algolia..." if debug
 
       begin
@@ -89,54 +74,65 @@ module Algolia
         index = client.init_index(index_name)
 
         # Add the examples to the index
-        if data[:examples]&.any?
-          examples = data[:examples].each_with_index.map do |example, i|
-            example.merge(
-              objectID: "#{base_name}_#{i}",
-              component: data[:title],
-              file_path: source_file
-            )
-          end
+        response = index.save_objects(records)
 
-          index.save_objects(examples)
-
-          puts "Successfully indexed #{examples.length} examples to Algolia (index: #{index_name})" if debug
-          # Also save to file as a backup
-          save_to_file(data, source_file)
-          true
-        else
-          puts "No examples found to index" if debug
-          false
-        end
+        puts "Successfully indexed #{records.length} examples to Algolia (index: #{index_name})" if debug
+        true
       rescue => e
         puts "Error sending to Algolia: #{e.message}" if debug
-        # Fallback to file if Algolia fails
-        save_to_file(data, source_file)
+        puts e.backtrace if debug
         false
       end
     end
 
-    # Save the data to a JSON file
+    # Convert parsed HAML data to searchable records
     #
-    # @param [Hash] data The data to save
-    # @param [String] source_file The source file that was parsed
-    # @return [Boolean] Whether the operation was successful
+    # @param [Hash] data The parsed HAML data
+    # @param [String] source_file The source file path that was parsed
+    # @return [Array<Hash>] The converted records for Algolia
     #
-    def save_to_file(data, source_file)
-      # Ensure the tmp directory exists
-      tmp_dir = File.join(Dir.pwd, 'tmp')
-      FileUtils.mkdir_p(tmp_dir)
+    def convert_to_records(data, source_file)
+      return [] if data.nil? || data[:examples].nil?
 
-      # Create a file path based on the source file
+      # Create an index name based on the file path
       base_name = File.basename(source_file, '.*').gsub(/\.html$/, '')
-      output_file = File.join(tmp_dir, "#{base_name}.json")
 
+      # Convert examples to records
+      data[:examples].each_with_index.map do |example, i|
+        example.merge(
+          objectID: "#{base_name}_#{i}",
+          component: base_name,
+          url: "/examples/daisy/#{base_name}",
+          anchor: example[:anchor],
+          file_path: source_file
+        )
+      end
+    end
+    
+    # Clear all records from the Algolia index
+    #
+    # @return [Boolean] true if successful, false otherwise
+    def clear_index
+      return false unless algolia_configured?
+      
+      puts "Clearing Algolia index..." if debug
+      
       begin
-        File.write(output_file, JSON.pretty_generate(data))
-        puts "Data saved to #{output_file}" if debug
+        # Initialize Algolia client
+        client = Algolia::Client.new(
+          application_id: ENV['ALGOLIA_APPLICATION_ID'],
+          api_key: ENV['ALGOLIA_API_KEY']
+        )
+        
+        # Get the index and clear it
+        index = client.init_index(ALGOLIA_INDEX_NAME)
+        response = index.clear_objects
+        
+        puts "Index cleared successfully. Response: #{response}" if debug
         true
       rescue => e
-        puts "Error saving to file: #{e.message}" if debug
+        puts "Error clearing Algolia index: #{e.message}" if debug
+        puts e.backtrace.join("\n") if debug
         false
       end
     end

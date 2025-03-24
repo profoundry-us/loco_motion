@@ -40,8 +40,11 @@ It can process either a single HAML file or all components.
 # Process all components
 make algolia-index
 
-# Process a single HAML file
-make algolia-index ARGS="path/to/file.html.haml"
+# Process a single file
+make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml"
+
+# Process a single file with additional options
+make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml --output tmp/modals_index.json --skip-upload"
 
 # Process all components with debug output
 make algolia-index ARGS="--debug"
@@ -52,6 +55,22 @@ make algolia-index ARGS="--output tmp/my_components.json --skip-upload"
 # Show help information
 make algolia-index ARGS="--help"
 ```
+
+**Available Options:**
+
+| Option | Description |
+| ------ | ----------- |
+| `-f, --file PATH` | Process a specific file |
+| `-d, --debug` | Enable debug output |
+| `-o, --output PATH` | Save results to a JSON file |
+| `-s, --skip-upload` | Skip uploading to Algolia |
+| `-h, --help` | Display help message |
+
+**Important Notes:**
+
+1. File paths are relative to the `docs/demo` directory.
+2. You can specify a file either as the first positional argument or using the `--file` option.
+3. If no file path is provided, all components will be processed.
 
 If Algolia credentials are available, the data will be uploaded to Algolia.
 Regardless of credentials, a JSON file will always be generated in the `tmp`

@@ -12,8 +12,8 @@ module Algolia
     # @param file_path [String] Path to the HAML file to parse
     # @param debug [Boolean] Whether to output debug information
     def initialize(file_path, debug = false)
+      puts "[DEBUG] initialize" if debug
       @file_path = file_path
-      @content = read_file
       @debug = debug
       @parser = Haml::Parser.new({})
       @ast = nil
@@ -28,15 +28,18 @@ module Algolia
     #
     # @return [Hash] Extracted documentation
     def parse
-      return {} unless @content
+      puts "[DEBUG] parse" if @debug
 
       begin
+        read_file
         generate_ast
         process_ast
       rescue => e
         puts "Error rendering HAML: #{e.message}" if @debug
         puts e.backtrace.join("\n") if @debug
       end
+
+      puts "[DEBUG] parse result: #{@result}"
 
       return @result
     end
@@ -45,93 +48,117 @@ module Algolia
     #
     # @return [String, nil] File content or nil if file doesn't exist
     def read_file
-      return nil unless File.exist?(@file_path)
+      puts "[DEBUG]   read_file" if @debug
+      raise "File does not exist: #{@file_path}" unless File.exist?(@file_path)
 
-      File.read(@file_path)
+      @content = File.read(@file_path)
     end
 
     def generate_ast
+      puts "[DEBUG]   generate_ast" if @debug
       @ast = @parser.call(@content)
     end
 
     def process_ast
+      puts "[DEBUG]   process_ast" if @debug
       @ast.children.each do |child|
-        puts "\n\n *** extracting child: #{child.value[:text]}" if @debug
-        extract_title_and_description(child) if child.value[:text].include? "doc_title"
-        extract_example(child) if child.value[:text].include? "doc_example"
+        process_child(child)
       end
     end
 
-    def ast_hash(ast = @ast)
-      h = ast.to_h.except(:parent)
-
-      h[:children] = (h[:children] || []).map do |child|
-        ast_hash(child)
-      end
-
-      h
+    def process_child(node)
+      puts "[DEBUG]     process_child (#{node.type})" if @debug
+      process_doc_title_and_description(node) if @result[:title].blank?
+      process_example(node)
     end
 
-    def extract_title_and_description(node)
-      @result[:title] = clean_title(node.value[:text])
-      @result[:description] = clean_string(extract_description(node.children.first))
-    end
+    def process_doc_title_and_description(node)
+      puts "[DEBUG]       process_doc_title_and_description (#{node.type})" if @debug
+      # If we are a doc_title node, set the title / description and move on
+      if is_doc_title?(node)
+        @result[:title] = extract_title(node)
 
-    def extract_example(node)
-      # Some examples may have only the code and no description
-      if is_description_node?(node)
-        description_node = node.children.first
-        code_nodes = node.children[1..-1]
+        node.children.each do |child|
+          @result[:description] = extract_description(child)
+        end
       else
-        description_node = nil
-        code_nodes = node.children
+        # Otherwise, iterate over our children and try to find a doc_title node
+        (node.children || []).each do |child|
+          process_doc_title_and_description(child)
+        end
       end
+    end
 
-      # Extract the title and generate a parameterized anchor
-      title = clean_title(node.value[:text])
-      anchor = title.parameterize
+    def process_example(node)
+      puts "[DEBUG]       process_example (#{node.type})" if @debug
+      # Skip doc_title nodes
+      return if is_doc_title?(node)
 
-      # Extract the description using the appropriate node
-      description = description_node ? clean_string(extract_description(description_node)) : ''
+      # Grab the example title and description
+      title = process_example_title(node)
+      description = process_example_description(node)
+      code = process_example_code(node)
 
       # Add the values as an example
       @result[:examples] << {
         type: 'example',
-        title: title,
-        anchor: anchor,
-        description: description,
-        code: code_nodes.map { |child| extract_code(child) }.join("\n").strip
+        title: clean_string((title || "").strip),
+        anchor: clean_string((title || "").parameterize.strip),
+        description: clean_string((description || "").strip),
+        code: (code || "").strip
       }
     end
 
-    def extract_description(node)
-      # Make sure we don't break on nil nodes
-      return "" if node.nil?
+    def process_example_title(node)
+      puts "[DEBUG]         process_example_title (#{node.type})" if @debug
+      return extract_title(node) if is_example_title?(node)
 
-      # Check if this is a Markdown node
-      is_markdown = (node.type == :filter && node.value[:name] == "markdown")
+      (node.children || []).map do |child|
+        process_example_title(child)
+      end.join(" ")
+    end
 
-      puts "  *** desc node: #{node.type} (#{is_markdown}) - #{node.value}" if @debug
-
-      # Initialize the description to the text or a blank string
-      desc = ""
-      desc = node.value[:text] if (node.type == :plain || is_markdown)
-
-      # Grab the text from any children too
-      child_descs = node.children.map do |child|
-        extract_description(child)
+    def process_example_description(node)
+      puts "[DEBUG]         process_example_description (#{node.type})" if @debug
+      if is_example_description?(node)
+        (node.children || []).map do |child|
+          extract_description(child)
+        end.join(" ")
+      else
+        (node.children || []).map do |child|
+          process_example_description(child)
+        end.join(" ")
       end
+    end
 
-      # Return the description + the child descriptions
-      desc + child_descs.join("\n")
+    def process_example_code(node)
+      puts "[DEBUG]         process_example_code (#{node.type})" if @debug
+      # Skip example description nodes
+      return if is_example_description?(node)
+
+      extract_code(node)
+    end
+
+    def extract_title(node)
+      puts "[DEBUG]           extract_title (#{node.type})" if @debug
+      clean_title(node.value[:text])
+    end
+
+    def extract_description(node)
+      puts "[DEBUG]           extract_description (#{node.type})" if @debug
+      my_desc = clean_string(is_tag_node?(node) ? node.value[:value] : node.value[:text])
+      my_desc = "" if my_desc.nil?
+
+      my_desc + " " + (node.children || []).map do |child|
+        extract_description(child)
+      end.join(" ")
     end
 
     #
     # Extracts the code from a node.
     #
     def extract_code(node, level = 0)
-      puts "\n  *** code node (#{level}): #{node.type} - #{node.value}" if @debug
-
+      puts "[DEBUG]           extract_code (#{node.type})" if @debug
       # Make sure we add proper HAML indentation
       code = "  " * level
 
@@ -151,41 +178,12 @@ module Algolia
     end
 
     #
-    # Checks if a node or its first child contains a description block
-    #
-    def is_description_node?(node)
-      return false unless node && node.children && node.children.any?
-
-      # Check if the first child is a silent script node with 'doc.with_description'
-      first_child = node.children.first
-      return false unless first_child.type == :silent_script
-
-      # Check if the script includes a call to 'with_description'
-      first_child.value[:text].include?("with_description")
-    end
-
-    #
-    # Attempts to grab just the title out of a string
-    #
-    def clean_title(str)
-      match = str.match(/title:\s*"([^"]+)"/)
-
-      match ? match[1] : str
-    end
-
-    #
-    # Cleans up a string for display in the search.
-    #
-    def clean_string(str)
-      str.gsub(/\s+/, " ").strip
-    end
-
-    #
     # Since we only have an AST here, attempt to re-generate the code for
     # basic tags. This may not be perfect but should be close enough for
     # search purposes.
     #
     def generate_code_from_tag(node, level = 0)
+      puts "[DEBUG]             generate_code_from_tag (#{node.type})" if @debug
       # Initialize some variables
       code = ""
       indent = "  " * (level + 1)
@@ -208,6 +206,57 @@ module Algolia
 
       # Return the generated code line
       code
+    end
+
+    def is_doc_title?(node)
+      node.type == :script && node.value[:text].include?("doc_title")
+    end
+
+    def is_example_title?(node)
+      node.type == :script && node.value[:text].include?("doc_example")
+    end
+
+    def is_example_description?(node)
+      node.type == :silent_script && node.value[:text].include?("doc.with_description")
+    end
+
+    def is_tag_node?(node)
+      node.type == :tag
+    end
+
+    def is_markdown_node?(node)
+      node.type == :filter && node.value[:name] == "markdown"
+    end
+
+    #
+    # Attempts to grab just the title out of a string
+    #
+    def clean_title(str)
+      puts "[DEBUG]             clean_title" if @debug
+      return str if str.blank?
+
+      match = str.match(/title:\s*"([^"]+)"/)
+
+      match ? match[1].strip : str.strip
+    end
+
+    #
+    # Cleans up a string for display in the search.
+    #
+    def clean_string(str)
+      puts "[DEBUG]             clean_string" if @debug
+      return "" if str.nil?
+      str.gsub(/\s+/, " ").strip
+    end
+
+    def ast_hash(ast = @ast)
+      h = ast.to_h.except(:parent)
+
+      h[:children] = (h[:children] || []).map do |child|
+        ast_hash(child)
+      end
+
+      h
     end
   end
 end

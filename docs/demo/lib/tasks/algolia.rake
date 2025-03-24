@@ -1,118 +1,136 @@
 # frozen_string_literal: true
 
+require 'optparse'
+require 'fileutils'
+
 namespace :algolia do
-  desc "Index components to Algolia"
-  task :index, [:file_path] => [:environment] do |t, args|
-    require 'optparse'
+  desc 'Index component examples to Algolia'
+  task :index => :environment do
+    # Default options
+    options = {
+      skip_upload: false,
+      debug: false,
+      file_path: nil,
+      output_path: nil,
+    }
 
-    # Parse any additional arguments from ENV['ARGS']
-    options = { debug: false, output_path: nil, skip_upload: false }
+    # Parse command-line arguments
+    OptionParser.new do |parser|
+      parser.banner = "Usage: rake algolia:index [options]"
 
-    if ENV['ARGS']
-      args_array = ENV['ARGS'].split(' ')
-      parser = OptionParser.new do |opts|
-        opts.on("-d", "--debug", "Enable debug output") do
-          options[:debug] = true
-        end
-
-        opts.on("-o", "--output PATH", "Save results to a JSON file") do |path|
-          options[:output_path] = path
-        end
-
-        opts.on("-s", "--skip-upload", "Skip uploading to Algolia") do
-          options[:skip_upload] = true
-        end
+      parser.on("-s", "--skip-upload", "Skip uploading to Algolia and only save to file") do
+        options[:skip_upload] = true
       end
 
-      parser.parse!(args_array)
-    end
+      parser.on("-d", "--debug", "Enable debug output") do
+        options[:debug] = true
+      end
 
-    # Set debug environment variable
-    ENV['DEBUG'] = 'true' if options[:debug]
+      parser.on("-f", "--file FILEPATH", "Path to a specific example file to process") do |path|
+        options[:file_path] = path if path && !path.empty?
+      end
+
+      parser.on("-o", "--output FILEPATH", "Save the results to a JSON file at the specified path") do |path|
+        options[:output_path] = path if path && !path.empty?
+      end
+    end.parse!(ENV["ARGS"]&.split || [])
+
+    # Setup debug flag
     debug = options[:debug]
 
-    # Get the file path from task arguments
-    file_path = args[:file_path]
-
-    # Check Algolia configuration
+    # Check for Algolia credentials
     application_id = ENV['ALGOLIA_APPLICATION_ID']
     api_key = ENV['ALGOLIA_API_KEY']
-
-    algolia_configured = !application_id.nil? && !api_key.nil? && !application_id.empty? && !api_key.empty?
+    algolia_configured = !application_id.blank? && !api_key.blank?
 
     if algolia_configured
-      puts "Algolia credentials found. Will upload data to Algolia."
+      puts "Algolia credentials found."
     else
-      puts "Algolia credentials not found. Will only generate JSON output."
+      puts "No Algolia credentials found. Falling back to JSON file."
+      # Force skip_upload if no credentials
       options[:skip_upload] = true
-
-      # Set a default output path if none specified
-      options[:output_path] ||= "tmp/components.json" if options[:output_path].nil?
     end
 
-    # Process a single file or all components
-    if file_path && File.exist?(file_path)
-      puts "Processing single file: #{file_path}"
+    # Determine which files to process
+    files_to_process = []
 
+    if options[:file_path] && File.exist?(options[:file_path])
+      # Process a single file
+      puts "Processing single file: #{options[:file_path]}"
+      files_to_process = [options[:file_path]]
+    else
+      # Process all component files
+      puts "Processing all component examples"
+      files_to_process = Dir.glob(Rails.root.join('app', 'views', 'examples', '**', '*.haml'))
+
+      if files_to_process.empty?
+        puts "No example files found"
+        return
+      end
+
+      puts "Found #{files_to_process.length} example files"
+    end
+
+    # Create the services
+    import_service = Algolia::AlgoliaImportService.new(debug: debug)
+    export_service = Algolia::JsonExportService.new(debug: debug)
+
+    # Process each file
+    files_to_process.each do |file|
+      process_file(file, import_service, export_service, options, algolia_configured, debug)
+    end
+
+    puts "\nAll processing complete!"
+  end
+
+  def self.process_file(file_path, import_service, export_service, options, algolia_configured, debug)
+    puts "\nProcessing: #{file_path}" unless options[:file_path] # Only add newline for multiple files
+
+    begin
       # Parse the file
       parser = Algolia::HamlParserService.new(file_path, debug)
       result = parser.parse
 
-      # Process the result
-      import_service = Algolia::AlgoliaImportService.new(debug: debug)
-      import_service.process(result, file_path)
+      # Convert the parsed result to records
+      records = import_service.convert_to_records(result, file_path)
 
-      puts "Processing complete!"
-    else
-      # Process all components
-      puts "Building component records..."
-      start_time = Time.now
-
-      # Use the component indexer to build records
-      indexer = Algolia::ComponentIndexer.new
-      records = indexer.build_search_records
-
-      end_time = Time.now
-      processing_time = (end_time - start_time).round(2)
-
-      # If we have credentials and records, upload to Algolia
-      if algolia_configured && !options[:skip_upload] && !records.empty?
-        puts "Uploading #{records.size} components to Algolia..."
-        index = Algolia::Index.new('components')
-        response = index.save_objects(records)
-        puts "Indexing complete! Response: #{response}"
+      # Skip if no records generated
+      if records.empty?
+        puts "No records generated from #{file_path}"
+        return
       end
 
-      # Always write to a JSON file for reference if output path specified
+      puts "Generated #{records.length} records from #{file_path}"
+
+      # Handle upload based on options
+      if !options[:skip_upload] && algolia_configured
+        success = import_service.import(records, file_path)
+        puts success ? "Upload to Algolia completed successfully" : "Failed to upload to Algolia"
+      else
+        puts "Skipping upload to Algolia as requested"
+      end
+
+      # Save to JSON file if output path specified
       if options[:output_path]
-        timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-        tmp_dir = Rails.root.join('tmp')
-        FileUtils.mkdir_p(tmp_dir) unless File.directory?(tmp_dir)
-        filename = options[:output_path]
+        output_file = options[:output_path]
 
-        # Create summary data for the file
-        summary = {
-          metadata: {
-            timestamp: Time.now.iso8601,
-            total_components: records.size,
-            processing_time_seconds: processing_time,
-            uploaded_to_algolia: algolia_configured && !options[:skip_upload] ? Time.now.iso8601 : nil
-          },
-          records: records
-        }
+        # If processing multiple files, create individual JSON files
+        unless options[:file_path]
+          # Create a filename based on the component name
+          base_name = File.basename(file_path, '.*').gsub(/\.html$/, '')
+          output_file = File.join(options[:output_path], "#{base_name}.json")
 
-        # Write the data to a pretty-formatted JSON file
-        File.open(filename, 'w') do |file|
-          file.write(JSON.pretty_generate(summary))
+          # Ensure directory exists
+          FileUtils.mkdir_p(File.dirname(output_file))
         end
 
-        puts "File saved to: #{filename}"
+        # Export the records
+        success = export_service.export(records, output_file)
+        puts success ? "Data saved to #{output_file}" : "Failed to save data to #{output_file}"
       end
-
-      # Output summary statistics
-      puts "Processing time: #{processing_time} seconds"
-      puts "Processed #{records.size} components."
-      puts "Done! #{algolia_configured && !options[:skip_upload] ? 'Data uploaded to Algolia and saved locally.' : 'Data saved to JSON file.'}"
+    rescue => e
+      puts "Error processing file: #{e.message}"
+      puts e.backtrace if debug
     end
   end
 
@@ -146,24 +164,19 @@ namespace :algolia do
     debug = options[:debug]
 
     # Check for Algolia credentials
-    application_id = ENV['ALGOLIA_APPLICATION_ID']
-    api_key = ENV['ALGOLIA_API_KEY']
-
-    if application_id.nil? || api_key.nil? || application_id.empty? || api_key.empty?
-      puts "Error: Algolia credentials not configured!"
-      puts "Please set ALGOLIA_APPLICATION_ID and ALGOLIA_API_KEY environment variables."
+    unless AlgoliaSearchRails.configuration.application_id && AlgoliaSearchRails.configuration.api_key
+      puts "Error: Algolia credentials not found."
+      puts "Make sure ALGOLIA_APPLICATION_ID and ALGOLIA_API_KEY environment variables are set."
       exit 1
     end
 
-    # Initialize Algolia client
-    index = Algolia::Index.new('components')
-
-    # Ask for confirmation unless force flag is set
+    # Ask for confirmation unless force option is provided
     unless options[:force]
-      puts "WARNING: This will permanently delete all records in the Algolia '#{index.name}' index."
-      print "Are you sure you want to continue? [y/N] "
-      confirmation = $stdin.gets.chomp.downcase
-      unless confirmation == 'y'
+      puts "WARNING: This will clear all Algolia records."
+      puts "Are you sure you want to continue? [y/N]"
+      input = STDIN.gets.chomp.downcase
+
+      unless input == 'y'
         puts "Operation cancelled."
         exit 0
       end
@@ -171,8 +184,15 @@ namespace :algolia do
 
     # Clear the index
     puts "Clearing Algolia index..."
-    response = index.clear_objects
 
-    puts "Index cleared! Response: #{response}"
+    # Call the AlgoliaImportService to clear the index
+    service = Algolia::AlgoliaImportService.new(debug: debug)
+    success = service.clear_index
+
+    if success
+      puts "Algolia index cleared successfully."
+    else
+      puts "Failed to clear Algolia index."
+    end
   end
 end
