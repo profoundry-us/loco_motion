@@ -19,7 +19,7 @@ module Algolia
 
     # Initialize the service
     #
-    # @param [Boolean] debug Whether to output debug information
+    # @param debug [Boolean] Whether to output debug information
     #
     def initialize(debug: false)
       @debug = debug
@@ -27,8 +27,8 @@ module Algolia
 
     # Export records to a JSON file
     #
-    # @param [Array<Hash>] records The records to export
-    # @param [String] output_path The output file path
+    # @param records [Array<Hash>] The records to export
+    # @param output_path [String] The output file path
     # @return [Boolean] Whether the operation was successful
     #
     def export(records, output_path)

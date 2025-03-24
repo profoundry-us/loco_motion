@@ -134,6 +134,8 @@ When documenting code, follow these proceedures.
 
 14. MUST use `@loco_example` to document our YARD examples.
 
+15. MUST wrap lines at 80 characters.
+
 
 # Non-Code Documentaion
 
@@ -142,7 +144,7 @@ When writing Markdown files for non-code documentation, follow these proceedures
 1. MUST name all files with a .md extension.
 2. MUST format all files with Markdown.
 3. MUST add a newline after all headers.
-4. MUST wrap lines at 85 characters.
+4. MUST wrap lines at 80 characters.
 5. MUST ensure two newlines between content and an H1 heading.
 
 
@@ -154,7 +156,7 @@ When writing / creating guides, follow these proceedures.
 
 2. When working on .md files:
    a. MUST ensure they are formatted properly.
-   b. MUST wrap lines at 85 characters.
+   b. MUST wrap lines at 80 characters.
 
 
 # Creating PR Descriptions

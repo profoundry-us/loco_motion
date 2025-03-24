@@ -4,6 +4,14 @@ require 'haml'
 
 module Algolia
   # Service for parsing HAML files using the HAML library
+  #
+  # This service extracts documentation, examples, and their metadata from HAML
+  # files to be used for indexing in Algolia.
+  #
+  # @example Parse a HAML file
+  #   parser = Algolia::HamlParserService.new(file_path, debug: true)
+  #   result = parser.parse
+  #
   class HamlParserService
     attr_reader :ast, :result
 
@@ -11,6 +19,7 @@ module Algolia
     #
     # @param file_path [String] Path to the HAML file to parse
     # @param debug [Boolean] Whether to output debug information
+    #
     def initialize(file_path, debug = false)
       puts "[DEBUG] initialize" if debug
       @file_path = file_path
@@ -26,7 +35,8 @@ module Algolia
 
     # Parse the HAML file to extract documentation
     #
-    # @return [Hash] Extracted documentation
+    # @return [Hash] Extracted documentation with structure {:title, :description, :examples}
+    #
     def parse
       puts "[DEBUG] parse" if @debug
 
@@ -47,6 +57,8 @@ module Algolia
     # Read the file content
     #
     # @return [String, nil] File content or nil if file doesn't exist
+    # @raise [RuntimeError] If file does not exist
+    #
     def read_file
       puts "[DEBUG]   read_file" if @debug
       raise "File does not exist: #{@file_path}" unless File.exist?(@file_path)
@@ -54,11 +66,19 @@ module Algolia
       @content = File.read(@file_path)
     end
 
+    # Generate Abstract Syntax Tree from HAML content
+    #
+    # @return [Haml::Parser::ParseNode] The AST root node
+    #
     def generate_ast
       puts "[DEBUG]   generate_ast" if @debug
       @ast = @parser.call(@content)
     end
 
+    # Process the AST and extract documentation
+    #
+    # @return [void]
+    #
     def process_ast
       puts "[DEBUG]   process_ast" if @debug
       @ast.children.each do |child|
@@ -66,12 +86,22 @@ module Algolia
       end
     end
 
+    # Process an individual AST node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [void]
+    #
     def process_child(node)
       puts "[DEBUG]     process_child (#{node.type})" if @debug
       process_doc_title_and_description(node) if @result[:title].blank?
       process_example(node)
     end
 
+    # Process a node to extract title and description
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [void]
+    #
     def process_doc_title_and_description(node)
       puts "[DEBUG]       process_doc_title_and_description (#{node.type})" if @debug
       # If we are a doc_title node, set the title / description and move on
@@ -89,6 +119,11 @@ module Algolia
       end
     end
 
+    # Process a node to extract example information
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [void]
+    #
     def process_example(node)
       puts "[DEBUG]       process_example (#{node.type})" if @debug
       # Skip doc_title nodes
@@ -109,6 +144,11 @@ module Algolia
       }
     end
 
+    # Extract the title from an example node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [String, nil] The extracted title or nil
+    #
     def process_example_title(node)
       puts "[DEBUG]         process_example_title (#{node.type})" if @debug
       return extract_title(node) if is_example_title?(node)
@@ -118,6 +158,11 @@ module Algolia
       end.join(" ")
     end
 
+    # Extract the description from an example node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [String] The extracted description
+    #
     def process_example_description(node)
       puts "[DEBUG]         process_example_description (#{node.type})" if @debug
       if is_example_description?(node)
@@ -131,6 +176,11 @@ module Algolia
       end
     end
 
+    # Extract the code from an example node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to process
+    # @return [String, nil] The extracted code or nil
+    #
     def process_example_code(node)
       puts "[DEBUG]         process_example_code (#{node.type})" if @debug
       # Skip example description nodes
@@ -139,11 +189,21 @@ module Algolia
       extract_code(node)
     end
 
+    # Extract title from a node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to extract title from
+    # @return [String] The extracted title
+    #
     def extract_title(node)
       puts "[DEBUG]           extract_title (#{node.type})" if @debug
       clean_title(node.value[:text])
     end
 
+    # Extract description from a node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to extract description from
+    # @return [String] The extracted description
+    #
     def extract_description(node)
       puts "[DEBUG]           extract_description (#{node.type})" if @debug
       my_desc = clean_string(is_tag_node?(node) ? node.value[:value] : node.value[:text])
@@ -154,8 +214,11 @@ module Algolia
       end.join(" ")
     end
 
+    # Extract code from a node
     #
-    # Extracts the code from a node.
+    # @param node [Haml::Parser::ParseNode] The node to extract code from
+    # @param level [Integer] The indentation level
+    # @return [String] The extracted code
     #
     def extract_code(node, level = 0)
       puts "[DEBUG]           extract_code (#{node.type})" if @debug
@@ -177,10 +240,11 @@ module Algolia
       end.join("\n")
     end
 
+    # Generate HAML code from a tag node
     #
-    # Since we only have an AST here, attempt to re-generate the code for
-    # basic tags. This may not be perfect but should be close enough for
-    # search purposes.
+    # @param node [Haml::Parser::ParseNode] The tag node
+    # @param level [Integer] The indentation level
+    # @return [String] The generated HAML code
     #
     def generate_code_from_tag(node, level = 0)
       puts "[DEBUG]             generate_code_from_tag (#{node.type})" if @debug
@@ -208,28 +272,65 @@ module Algolia
       code
     end
 
+    #
+    # Returns as hash version of the AST without the `parent` attributes.
+    # Useful for debugging.
+    #
+    # @param ast [Haml::Parser::ParseNode] The AST to convert
+    # @return [Hash] The AST as a hash
+    #
+    def ast_hash(ast = @ast)
+      h = ast.to_h.except(:parent)
+
+      h[:children] = (h[:children] || []).map do |child|
+        ast_hash(child)
+      end
+
+      h
+    end
+
+    private
+
+    # Check if a node is a doc_title node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to check
+    # @return [Boolean] Whether the node is a doc_title node
+    #
     def is_doc_title?(node)
       node.type == :script && node.value[:text].include?("doc_title")
     end
 
+    # Check if a node is an example_title node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to check
+    # @return [Boolean] Whether the node is an example_title node
+    #
     def is_example_title?(node)
       node.type == :script && node.value[:text].include?("doc_example")
     end
 
+    # Check if a node is an example_description node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to check
+    # @return [Boolean] Whether the node is an example_description node
+    #
     def is_example_description?(node)
       node.type == :silent_script && node.value[:text].include?("doc.with_description")
     end
 
+    # Check if a node is a tag node
+    #
+    # @param node [Haml::Parser::ParseNode] The node to check
+    # @return [Boolean] Whether the node is a tag node
+    #
     def is_tag_node?(node)
       node.type == :tag
     end
 
-    def is_markdown_node?(node)
-      node.type == :filter && node.value[:name] == "markdown"
-    end
-
+    # Clean a title string
     #
-    # Attempts to grab just the title out of a string
+    # @param title [String] The title to clean
+    # @return [String] The cleaned title
     #
     def clean_title(str)
       puts "[DEBUG]             clean_title" if @debug
@@ -240,23 +341,15 @@ module Algolia
       match ? match[1].strip : str.strip
     end
 
+    # Clean a string for the description
     #
-    # Cleans up a string for display in the search.
+    # @param str [String, nil] The string to clean
+    # @return [String] The cleaned string
     #
     def clean_string(str)
       puts "[DEBUG]             clean_string" if @debug
       return "" if str.nil?
       str.gsub(/\s+/, " ").strip
-    end
-
-    def ast_hash(ast = @ast)
-      h = ast.to_h.except(:parent)
-
-      h[:children] = (h[:children] || []).map do |child|
-        ast_hash(child)
-      end
-
-      h
     end
   end
 end

@@ -44,8 +44,9 @@ module Algolia
 
     # Import records into Algolia
     #
-    # @param [Array<Hash>] records The records to import
-    # @param [String] source_file The source file that was parsed
+    # @param records [Array<Hash>] The records to import
+    # @param source_file [String] The source file that was parsed
+    #
     # @return [Boolean] Whether the operation was successful
     #
     def import(records, source_file)
@@ -87,7 +88,8 @@ module Algolia
     
     # Clear all records from the Algolia index
     #
-    # @return [Boolean] true if successful, false otherwise
+    # @return [Boolean] Whether the clear operation was successful
+    #
     def clear_index
       return false unless algolia_configured?
       

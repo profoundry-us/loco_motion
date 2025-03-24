@@ -4,11 +4,21 @@ require 'active_support/core_ext/string/inflections'
 
 module Algolia
   # Enriches component data with examples for Algolia search.
+  #
+  # This class extracts examples from component HAML files and adds them to
+  # the component records to make them searchable in Algolia. It uses the
+  # HamlParserService to extract examples from the demo app.
+  #
+  # @example
+  #   builder = Algolia::SearchRecordBuilder.new(root_path: Rails.root.to_s)
+  #   component, examples = builder.enrich_component(component_data)
+  #
   class SearchRecordBuilder
     # Initialize a new search record builder with paths to source files.
     #
     # @param root_path [String] Path to the application root
     # @param demo_path [String] Path to the demo application (for examples)
+    #
     def initialize(root_path: '.', demo_path: nil)
       require_relative 'haml_parser_service'
 
@@ -19,7 +29,8 @@ module Algolia
     # Enrich a component record with examples
     #
     # @param component [Hash] The component record to enrich
-    # @return [Hash, Array] The enriched component record and its examples
+    # @return [Array<Hash, Array>] The enriched component record and its examples
+    #
     def enrich_component(component)
       component_name = component[:component_name]
       framework = component[:framework]
@@ -47,6 +58,7 @@ module Algolia
     # @param framework [String] Optional framework name (e.g., 'daisy')
     # @param section [String] Optional section name (e.g., 'actions')
     # @return [Hash] Hash containing component description and examples
+    #
     def extract_examples(example_name, framework = nil, section = nil)
       return { description: nil, examples: [] } unless example_name
 
