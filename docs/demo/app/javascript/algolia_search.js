@@ -192,9 +192,18 @@ function initializeSearch(appId, apiKey, indexName) {
   const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
     const { hits, widgetParams } = renderOptions;
 
-    // Group hits by section
+    console.log("customGroupedHits", isFirstRender)
+    const searchBox = document.getElementById('al-searchbox').querySelector('input');
+
+    // Group hits by framework / section (first render) or component
     const grouped = hits.reduce((groups, hit) => {
-      const group = hit.section ? (hit.framework + " " + hit.section) : hit.framework;
+      let group;
+
+      if (searchBox.value == null || searchBox.value == "") {
+        group = hit.section ? (hit.framework + " " + hit.section) : hit.framework;
+      } else {
+        group = hit.component;
+      }
 
       if (!groups[group]) groups[group] = [];
 
