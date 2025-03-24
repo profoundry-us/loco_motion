@@ -93,16 +93,18 @@ module Algolia
       {
         searchable_attributes: [
           'title',
-          'group',
-          'helper_names',
           'description',
-          'example_code'
+          'framework',
+          'section',
+          'component',
+          'code'
         ],
         attributes_for_faceting: [
-          'filterOnly(group)'
+          'filterOnly(framework)',
+          'filterOnly(section)'
         ],
         custom_ranking: [
-          'desc(popularity)',
+          'asc(priority)',
           'asc(title)'
         ],
         highlight_pre_tag: '<em class="highlight">',

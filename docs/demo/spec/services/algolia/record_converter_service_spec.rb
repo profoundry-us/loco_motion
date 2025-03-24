@@ -15,12 +15,14 @@ RSpec.describe Algolia::RecordConverterService do
           title: 'Primary Button',
           description: 'The primary button style',
           code: '%button.btn Primary',
+          html: '<button class="btn">Primary</button>',
           anchor: 'primary'
         },
         {
           title: 'Secondary Button',
           description: 'The secondary button style',
           code: '%button.btn.btn-secondary Secondary',
+          html: '<button class="btn btn-secondary">Secondary</button>',
           anchor: 'secondary'
         }
       ]
@@ -36,176 +38,123 @@ RSpec.describe Algolia::RecordConverterService do
   describe '#convert' do
     before do
       allow(Rails.logger).to receive(:debug)
+      # Mock the LocoMotion::Helpers.component_example_path method
+      allow(LocoMotion::Helpers).to receive(:component_example_path)
+        .with('Daisy::Actions::ButtonComponent')
+        .and_return('/examples/Daisy::Actions::ButtonComponent')
     end
     
-    context 'with a valid source file in the examples directory' do
-      let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
+    let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
+    let(:component_name) { 'Daisy::Actions::ButtonComponent' }
+    
+    it 'returns an array of records' do
+      records = converter.convert(parsed_data, source_file, component_name)
       
-      it 'returns an array of records' do
-        records = converter.convert(parsed_data, source_file)
-        
-        expect(records).to be_an(Array)
-        expect(records.length).to eq(3) # 1 component + 2 examples
-      end
-      
-      it 'creates a component record with correct attributes' do
-        records = converter.convert(parsed_data, source_file)
-        component_record = records.first
-        
-        expect(component_record[:objectID]).to eq('button')
-        expect(component_record[:type]).to eq('component')
-        expect(component_record[:component]).to eq('button')
-        expect(component_record[:title]).to eq('Button Component')
-        expect(component_record[:description]).to eq('Buttons are used to trigger actions or navigate')
-        expect(component_record[:url]).to eq('/examples/Daisy::Actions::ButtonComponent')
-        expect(component_record[:file_path]).to eq(source_file)
-      end
-      
-      it 'creates example records with correct attributes' do
-        records = converter.convert(parsed_data, source_file)
-        example_records = records.drop(1) # Skip the component record
-        
-        expect(example_records.length).to eq(2)
-        
-        # First example
-        expect(example_records[0][:objectID]).to eq('button_primary')
-        expect(example_records[0][:type]).to eq('example')
-        expect(example_records[0][:component]).to eq('button')
-        expect(example_records[0][:title]).to eq('Primary Button')
-        expect(example_records[0][:description]).to eq('The primary button style')
-        expect(example_records[0][:code]).to eq('%button.btn Primary')
-        expect(example_records[0][:url]).to eq('/examples/Daisy::Actions::ButtonComponent#primary')
-        
-        # Second example
-        expect(example_records[1][:objectID]).to eq('button_secondary')
-        expect(example_records[1][:url]).to eq('/examples/Daisy::Actions::ButtonComponent#secondary')
-      end
-      
-      it 'logs debug information when converting' do
-        expect(Rails.logger).to receive(:debug).with("Converting data from #{source_file} to searchable records...")
-        
-        converter.convert(parsed_data, source_file)
-      end
+      expect(records).to be_an(Array)
+      expect(records.length).to eq(3) # 1 component + 2 examples
     end
     
-    context 'when the source file is outside the examples directory' do
-      let(:source_file) { 'app/views/some_other_dir/button.html.haml' }
+    it 'creates a component record with correct attributes' do
+      records = converter.convert(parsed_data, source_file, component_name)
+      component_record = records.find { |r| r[:type] == 'component' }
       
-      it 'falls back to a default URL format' do
-        records = converter.convert(parsed_data, source_file)
-        component_record = records.first
-        
-        expect(component_record[:url]).to eq('/examples/daisy/button')
-      end
+      expect(component_record).to include(
+        objectID: 'button',
+        type: 'component',
+        component: 'button',
+        title: 'Button Component',
+        description: 'Buttons are used to trigger actions or navigate',
+        url: '/examples/Daisy::Actions::ButtonComponent',
+        file_path: source_file
+      )
     end
     
-    context 'with data containing only title without examples' do
-      let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
-      let(:title_only_data) do
-        {
-          title: 'Button Component',
-          description: 'Buttons are used to trigger actions'
-          # No examples
-        }
-      end
+    it 'creates example records with correct attributes' do
+      records = converter.convert(parsed_data, source_file, component_name)
+      example_records = records.select { |r| r[:type] == 'example' }
       
-      it 'returns only the component record' do
-        records = converter.convert(title_only_data, source_file)
-        
-        expect(records.length).to eq(1)
-        expect(records.first[:type]).to eq('component')
-      end
+      expect(example_records.length).to eq(2)
+      
+      # First example
+      expect(example_records[0]).to include(
+        objectID: 'button_example_1',
+        type: 'example',
+        component: 'button',
+        title: 'Primary Button',
+        description: 'The primary button style',
+        code: '%button.btn Primary',
+        html: '<button class="btn">Primary</button>',
+        anchor: 'primary',
+        url: '/examples/Daisy::Actions::ButtonComponent#primary',
+        file_path: source_file,
+        position: 1
+      )
+      
+      # Second example
+      expect(example_records[1]).to include(
+        objectID: 'button_example_2',
+        type: 'example',
+        component: 'button',
+        title: 'Secondary Button',
+        description: 'The secondary button style',
+        code: '%button.btn.btn-secondary Secondary',
+        html: '<button class="btn btn-secondary">Secondary</button>',
+        anchor: 'secondary',
+        url: '/examples/Daisy::Actions::ButtonComponent#secondary',
+        file_path: source_file,
+        position: 2
+      )
     end
     
-    context 'with data containing only examples without title' do
-      let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
-      let(:examples_only_data) do
-        {
-          # No title or description
-          examples: [
-            {
-              title: 'Primary Button',
-              description: 'The primary button style',
-              code: '%button.btn Primary',
-              anchor: 'primary'
-            }
-          ]
-        }
-      end
+    it 'skips examples without title or HTML' do
+      incomplete_data = {
+        title: 'Button Component',
+        description: 'Buttons are used to trigger actions or navigate',
+        examples: [
+          { description: 'Missing title', html: '<button>Test</button>', anchor: 'test1' },
+          { title: 'Missing HTML', description: 'No HTML content', anchor: 'test2' },
+          { title: 'Complete', description: 'This one has everything', html: '<button>OK</button>', anchor: 'test3' }
+        ]
+      }
       
-      it 'returns only example records' do
-        records = converter.convert(examples_only_data, source_file)
-        
-        expect(records.length).to eq(1)
-        expect(records.first[:type]).to eq('example')
-      end
-    end
-    
-    context 'with nil data' do
-      let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
+      records = converter.convert(incomplete_data, source_file, component_name)
+      example_records = records.select { |r| r[:type] == 'example' }
       
-      it 'returns an empty array' do
-        records = converter.convert(nil, source_file)
-        
-        expect(records).to eq([])
-      end
-    end
-    
-    context 'with empty data' do
-      let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
-      let(:empty_data) { {} }
-      
-      it 'returns an empty array' do
-        records = converter.convert(empty_data, source_file)
-        
-        expect(records).to eq([])
-      end
+      expect(example_records.length).to eq(1)
+      expect(example_records[0][:title]).to eq('Complete')
     end
   end
   
-  describe '#extract_component_info' do
-    context 'with a standard example path' do
-      let(:file_path) { 'app/views/examples/daisy/actions/button.html.haml' }
-      
-      it 'extracts the correct component information' do
-        component_info = converter.send(:extract_component_info, file_path)
+  describe '#extract_component_info_from_name' do
+    before do
+      # Mock the LocoMotion::Helpers.component_example_path method
+      allow(LocoMotion::Helpers).to receive(:component_example_path)
+        .with('Daisy::Actions::ButtonComponent')
+        .and_return('/examples/Daisy::Actions::ButtonComponent')
         
-        expect(component_info[:base_name]).to eq('button')
-        expect(component_info[:component_url]).to eq('/examples/Daisy::Actions::ButtonComponent')
-      end
+      allow(LocoMotion::Helpers).to receive(:component_example_path)
+        .with('Daisy::DataDisplay::CardComponent')
+        .and_return('/examples/Daisy::DataDisplay::CardComponent')
     end
     
-    context 'with a path outside the examples directory' do
-      let(:file_path) { 'app/views/some_other_dir/button.html.haml' }
+    it 'extracts the correct component information from a simple component name' do
+      component_name = 'Daisy::Actions::ButtonComponent'
+      result = converter.send(:extract_component_info_from_name, component_name)
       
-      it 'falls back to the default format' do
-        component_info = converter.send(:extract_component_info, file_path)
-        
-        expect(component_info[:base_name]).to eq('button')
-        expect(component_info[:component_url]).to eq('/examples/daisy/button')
-      end
+      expect(result).to eq({
+        base_name: 'button',
+        component_url: '/examples/Daisy::Actions::ButtonComponent'
+      })
     end
     
-    context 'with a path containing no directories after examples' do
-      let(:file_path) { 'app/views/examples/button.html.haml' }
+    it 'extracts the correct component information from a multi-word component name' do
+      component_name = 'Daisy::DataDisplay::CardComponent'
+      result = converter.send(:extract_component_info_from_name, component_name)
       
-      it 'constructs a URL with empty namespace' do
-        component_info = converter.send(:extract_component_info, file_path)
-        
-        expect(component_info[:base_name]).to eq('button')
-        expect(component_info[:component_url]).to eq('/examples/::ButtonComponent')
-      end
-    end
-    
-    context 'with a compound filename' do
-      let(:file_path) { 'app/views/examples/daisy/actions/dropdown_button.html.haml' }
-      
-      it 'uses the correct base name' do
-        component_info = converter.send(:extract_component_info, file_path)
-        
-        expect(component_info[:base_name]).to eq('dropdown_button')
-        expect(component_info[:component_url]).to eq('/examples/Daisy::Actions::DropdownButtonComponent')
-      end
+      expect(result).to eq({
+        base_name: 'card',
+        component_url: '/examples/Daisy::DataDisplay::CardComponent'
+      })
     end
   end
 end

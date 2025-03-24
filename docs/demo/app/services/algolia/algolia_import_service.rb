@@ -46,7 +46,7 @@ module Algolia
       return true if records.empty?
       return false unless algolia_configured?
 
-      Rails.logger.debug "Sending data to Algolia..."
+      Rails.logger.debug "Sending #{records.length} records to Algolia..."
 
       begin
         # Use our existing Index class

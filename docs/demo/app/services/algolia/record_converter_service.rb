@@ -9,7 +9,7 @@ module Algolia
   #
   # @loco_example Convert parsed data to records
   #   converter = Algolia::RecordConverterService.new
-  #   records = converter.convert(parsed_data, "app/views/examples/buttons.html.haml")
+  #   records = converter.convert(parsed_data, "app/views/examples/buttons.html.haml", "Daisy::Actions::ButtonComponent")
   #
   class RecordConverterService
     # Initialize the converter service
@@ -21,29 +21,35 @@ module Algolia
     #
     # @param data [Hash] The parsed HAML data
     # @param source_file [String] The source file path that was parsed
+    # @param component_name [String] The fully qualified component name (e.g. "Daisy::Actions::ButtonComponent")
     #
     # @return [Array<Hash>] The converted records for Algolia
     #
-    def convert(data, source_file)
-      return [] if data.nil?
+    def convert(data, source_file, component_name, position)
+      Rails.logger.debug "Converting data for #{component_name} to searchable records..."
 
-      Rails.logger.debug "Converting data from #{source_file} to searchable records..."
-
-      # Extract component information from file path
-      component_info = extract_component_info(source_file)
+      # Get component information from the component_name
+      split = component_name.split("::")
+      framework = split[0]
+      section = (split.length == 3 ? split[1] : "")
+      base_name = split.last
+      url = LocoMotion::Helpers.component_example_path(component_name)
 
       records = []
 
       # Create a record for the component itself
       if data[:title].present?
         component_record = {
-          objectID: component_info[:base_name],
           type: 'component',
-          component: component_info[:base_name],
+          objectID: base_name,
+          framework: framework,
+          section: section,
+          component: base_name,
           title: data[:title],
           description: data[:description],
-          url: component_info[:component_url],
-          file_path: source_file
+          url: url,
+          file_path: source_file,
+          priority: (position + 1)
         }
 
         records << component_record
@@ -51,61 +57,32 @@ module Algolia
 
       # Create records for each example
       if data[:examples].present?
-        example_records = data[:examples].map do |example|
-          {
-            objectID: "#{component_info[:base_name]}_#{example[:anchor]}",
+        data[:examples].each_with_index do |example, idx|
+          next unless example[:title].present?
+
+          # Create a separate record for this example
+          example_record = {
             type: 'example',
-            component: component_info[:base_name],
+            objectID: "#{base_name}-#{example[:anchor]}",
+            framework: framework,
+            section: section,
+            component: base_name,
             title: example[:title],
             description: example[:description],
             code: example[:code],
-            url: "#{component_info[:component_url]}##{example[:anchor]}",
-            file_path: source_file
+            url: "#{url}##{example[:anchor]}",
+            file_path: source_file,
+
+            # Guessing we won't have more than 1000 components
+            priority: ((position + 1) * 1000) + idx
           }
+
+          records << example_record
         end
-
-        records.concat(example_records)
       end
 
+      Rails.logger.debug "Generated #{records.length} records"
       records
-    end
-
-    private
-
-    # Extract component information from file path
-    #
-    # @param file_path [String] The file path to extract component info from
-    # @return [Hash] A hash containing base_name and component_url
-    #
-    def extract_component_info(file_path)
-      # Extract the base name from the file path
-      base_name = File.basename(file_path, '.*').gsub(/\.html$/, '')
-
-      # Extract directory structure for component namespace
-      path_parts = file_path.split('/')
-      examples_index = path_parts.index('examples')
-
-      if examples_index && examples_index < path_parts.length - 1
-        namespace_parts = path_parts[(examples_index + 1)...-1] # Get directories between 'examples' and the file name
-
-        # Build class name for URL
-        namespace = namespace_parts.map { |part| part.capitalize }.join('::')
-
-        # For the component name, use the base_name
-        component_name = base_name.split('_').map(&:capitalize).join
-
-        # For example: Daisy::Actions::DropdownComponent
-        component_class = "#{namespace}::#{component_name}Component"
-        component_url = "/examples/#{component_class}"
-      else
-        # Fallback to the old format if we can't determine the class structure
-        component_url = "/examples/daisy/#{base_name}"
-      end
-
-      {
-        base_name: base_name,
-        component_url: component_url
-      }
     end
   end
 end

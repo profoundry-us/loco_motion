@@ -91,15 +91,7 @@ module LocoMotion
     end
 
     def component_example_path(component_name)
-      comp = COMPONENTS[component_name]
-
-      comp_split = component_name.split("::")
-      framework = comp_split.first.underscore
-      section = comp_split.length == 3 ? comp_split[1] : nil
-      example = comp[:example]
-      section_path = section ? "#{section.underscore}/" : ""
-
-      "/examples/#{framework}/#{section_path}#{example}"
+      "/examples/#{component_name}"
     end
 
     module_function :component_example_path

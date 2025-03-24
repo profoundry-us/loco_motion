@@ -38,8 +38,13 @@ window.showDocSearch = function() {
     return;
   }
 
-  document.getElementById('al-search-modal').showModal();
-  document.getElementById('al-searchbox').querySelector('input').focus();
+  const modal = document.getElementById('al-search-modal')
+  const searchBox = document.getElementById('al-searchbox').querySelector('input');
+
+  modal.showModal();
+
+  searchBox.focus();
+  searchBox.select();
 }
 
 // Handle up/down arrow navigation in the search results
@@ -159,7 +164,7 @@ function initializeSearch(appId, apiKey, indexName) {
 
   const componentTemplate = (hit) => {
     return `
-      <a href="javascript:visitDoc('${hit.example_path || ''}')" class="w-full ${shared_css}">
+      <a href="javascript:visitDoc('${hit.url || ''}')" class="w-full ${shared_css}">
         ${componentIcon}
         <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
         ${dashIcon}
@@ -173,7 +178,7 @@ function initializeSearch(appId, apiKey, indexName) {
     return `
       <div class="flex flex-row shrink items-center gap-2 w-full">
         ${insetIcon}
-        <a href="javascript:visitDoc('${hit.example_path || ''}${ hit.anchor ? '#' + hit.anchor : ''}')" class="flex-1 min-w-0 ${shared_css}">
+        <a href="javascript:visitDoc('${hit.url || ''}${ hit.anchor ? '#' + hit.anchor : ''}')" class="flex-1 min-w-0 ${shared_css}">
           ${exampleIcon}
           <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
           ${dashIcon}

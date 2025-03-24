@@ -10,7 +10,7 @@ module AlgoliaHelper
         window.algoliaCredentials = {
           appId: '#{ENV.fetch('ALGOLIA_APPLICATION_ID', nil)}',
           apiKey: '#{ENV.fetch('ALGOLIA_API_KEY', nil)}',
-          indexName: 'loco_motion_#{Rails.env}_components'
+          indexName: "loco_motion_#{Rails.env}_components_#{LocoMotion::VERSION}"
         };
       </script>
     JS
