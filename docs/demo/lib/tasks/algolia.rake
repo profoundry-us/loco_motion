@@ -9,7 +9,6 @@ namespace :algolia do
     # Default options
     options = {
       skip_upload: false,
-      debug: false,
       file_path: nil,
       output_path: nil,
     }
@@ -22,10 +21,6 @@ namespace :algolia do
         options[:skip_upload] = true
       end
 
-      parser.on("-d", "--debug", "Enable debug output") do
-        options[:debug] = true
-      end
-
       parser.on("-f", "--file FILEPATH", "Path to a specific example file to process") do |path|
         options[:file_path] = path if path && !path.empty?
       end
@@ -34,9 +29,6 @@ namespace :algolia do
         options[:output_path] = path if path && !path.empty?
       end
     end.parse!(ENV["ARGS"]&.split || [])
-
-    # Setup debug flag
-    debug = options[:debug]
 
     # Check for Algolia credentials
     application_id = ENV['ALGOLIA_APPLICATION_ID']
@@ -79,15 +71,15 @@ namespace :algolia do
     end
 
     # Create the services
-    import_service = Algolia::AlgoliaImportService.new(debug: debug)
-    export_service = Algolia::JsonExportService.new(debug: debug)
-    converter_service = Algolia::RecordConverterService.new(debug: debug)
-    
+    import_service = Algolia::AlgoliaImportService.new
+    export_service = Algolia::JsonExportService.new
+    converter_service = Algolia::RecordConverterService.new
+
     # First, parse all files and collect all records
     all_records = []
-    
+
     files_to_process.each do |file_path|
-      records = parse_file(file_path, converter_service, debug)
+      records = parse_file(file_path, converter_service)
       if records.any?
         puts "Generated #{records.length} records from #{file_path}"
         all_records.concat(records)
@@ -95,15 +87,15 @@ namespace :algolia do
         puts "No records generated from #{file_path}"
       end
     end
-    
+
     # Now handle all records at once
     if all_records.empty?
       puts "\nNo records were generated from any files. Nothing to do."
       return
     end
-    
+
     puts "\nTotal records collected: #{all_records.length}"
-    
+
     # Upload to Algolia if credentials are available and not skipped
     if !options[:skip_upload] && algolia_configured
       puts "Uploading all records to Algolia..."
@@ -112,29 +104,29 @@ namespace :algolia do
     else
       puts "Skipping upload to Algolia as requested"
     end
-    
+
     # Save to JSON file
     if options[:output_path]
       puts "Saving all records to JSON..."
       success = export_service.export(all_records, options[:output_path])
       puts success ? "Data saved to #{options[:output_path]}" : "Failed to save data to #{options[:output_path]}"
     end
-    
+
     puts "\nAll processing complete!"
   end
 
   # Parse a single file and return the records
-  def self.parse_file(file_path, converter_service, debug)
+  def self.parse_file(file_path, converter_service)
     begin
       # Parse the file
-      parser = Algolia::HamlParserService.new(file_path, debug)
+      parser = Algolia::HamlParserService.new(file_path)
       result = parser.parse
 
       # Convert the parsed result to records
       converter_service.convert(result, file_path)
     rescue => e
       puts "Error processing file: #{e.message}"
-      puts e.backtrace if debug
+      puts e.backtrace
       []
     end
   end
@@ -144,19 +136,15 @@ namespace :algolia do
     require 'optparse'
 
     # Parse any additional arguments from ENV['ARGS']
-    options = { debug: false, force: false, index_name: 'loco_examples' }
+    options = { force: false, index_name: 'loco_examples' }
 
     if ENV['ARGS']
       args_array = ENV['ARGS'].split(' ')
       parser = OptionParser.new do |opts|
-        opts.on("-d", "--debug", "Enable debug output") do
-          options[:debug] = true
-        end
-
         opts.on("-f", "--force", "Skip confirmation prompt") do
           options[:force] = true
         end
-        
+
         opts.on("-i", "--index INDEX", "Specify the index name to clear") do |name|
           options[:index_name] = name
         end
@@ -167,10 +155,6 @@ namespace :algolia do
 
     # Override options with task arguments if provided
     options[:force] = true if args[:force] == 'true'
-
-    # Set debug environment variable
-    ENV['DEBUG'] = 'true' if options[:debug]
-    debug = options[:debug]
 
     # Check for Algolia credentials
     unless AlgoliaSearchRails.configuration.application_id && AlgoliaSearchRails.configuration.api_key
@@ -195,7 +179,7 @@ namespace :algolia do
     puts "Clearing Algolia index: #{options[:index_name]}..."
 
     # Call the AlgoliaImportService to clear the index
-    service = Algolia::AlgoliaImportService.new(debug: debug)
+    service = Algolia::AlgoliaImportService.new
     success = service.clear_index(options[:index_name])
 
     if success
