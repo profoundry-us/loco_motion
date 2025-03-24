@@ -51,6 +51,13 @@ namespace :algolia do
       options[:skip_upload] = true
     end
 
+    # Use tmp/algolia directory for temporary files if no specific output path is given
+    if options[:output_path].nil?
+      tmp_dir = Rails.root.join('tmp', 'algolia')
+      FileUtils.mkdir_p(tmp_dir)
+      options[:output_path] = tmp_dir.join('algolia_index.json').to_s
+    end
+
     # Determine which files to process
     files_to_process = []
 
@@ -74,63 +81,61 @@ namespace :algolia do
     # Create the services
     import_service = Algolia::AlgoliaImportService.new(debug: debug)
     export_service = Algolia::JsonExportService.new(debug: debug)
-
-    # Process each file
-    files_to_process.each do |file|
-      process_file(file, import_service, export_service, options, algolia_configured, debug)
+    converter_service = Algolia::RecordConverterService.new(debug: debug)
+    
+    # First, parse all files and collect all records
+    all_records = []
+    
+    files_to_process.each do |file_path|
+      records = parse_file(file_path, converter_service, debug)
+      if records.any?
+        puts "Generated #{records.length} records from #{file_path}"
+        all_records.concat(records)
+      else
+        puts "No records generated from #{file_path}"
+      end
     end
-
+    
+    # Now handle all records at once
+    if all_records.empty?
+      puts "\nNo records were generated from any files. Nothing to do."
+      return
+    end
+    
+    puts "\nTotal records collected: #{all_records.length}"
+    
+    # Upload to Algolia if credentials are available and not skipped
+    if !options[:skip_upload] && algolia_configured
+      puts "Uploading all records to Algolia..."
+      success = import_service.import(all_records, "batch_upload")
+      puts success ? "Upload to Algolia completed successfully" : "Failed to upload to Algolia"
+    else
+      puts "Skipping upload to Algolia as requested"
+    end
+    
+    # Save to JSON file
+    if options[:output_path]
+      puts "Saving all records to JSON..."
+      success = export_service.export(all_records, options[:output_path])
+      puts success ? "Data saved to #{options[:output_path]}" : "Failed to save data to #{options[:output_path]}"
+    end
+    
     puts "\nAll processing complete!"
   end
 
-  def self.process_file(file_path, import_service, export_service, options, algolia_configured, debug)
-    puts "\nProcessing: #{file_path}" unless options[:file_path] # Only add newline for multiple files
-
+  # Parse a single file and return the records
+  def self.parse_file(file_path, converter_service, debug)
     begin
       # Parse the file
       parser = Algolia::HamlParserService.new(file_path, debug)
       result = parser.parse
 
       # Convert the parsed result to records
-      records = import_service.convert_to_records(result, file_path)
-
-      # Skip if no records generated
-      if records.empty?
-        puts "No records generated from #{file_path}"
-        return
-      end
-
-      puts "Generated #{records.length} records from #{file_path}"
-
-      # Handle upload based on options
-      if !options[:skip_upload] && algolia_configured
-        success = import_service.import(records, file_path)
-        puts success ? "Upload to Algolia completed successfully" : "Failed to upload to Algolia"
-      else
-        puts "Skipping upload to Algolia as requested"
-      end
-
-      # Save to JSON file if output path specified
-      if options[:output_path]
-        output_file = options[:output_path]
-
-        # If processing multiple files, create individual JSON files
-        unless options[:file_path]
-          # Create a filename based on the component name
-          base_name = File.basename(file_path, '.*').gsub(/\.html$/, '')
-          output_file = File.join(options[:output_path], "#{base_name}.json")
-
-          # Ensure directory exists
-          FileUtils.mkdir_p(File.dirname(output_file))
-        end
-
-        # Export the records
-        success = export_service.export(records, output_file)
-        puts success ? "Data saved to #{output_file}" : "Failed to save data to #{output_file}"
-      end
+      converter_service.convert(result, file_path)
     rescue => e
       puts "Error processing file: #{e.message}"
       puts e.backtrace if debug
+      []
     end
   end
 

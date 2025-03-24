@@ -44,13 +44,13 @@ make algolia-index
 make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml"
 
 # Process a single file with additional options
-make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml --output tmp/modals_index.json --skip-upload"
+make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml --output tmp/algolia/modals_index.json --skip-upload"
 
 # Process all components with debug output
 make algolia-index ARGS="--debug"
 
 # Save output to a specific JSON file and skip uploading to Algolia
-make algolia-index ARGS="--output tmp/my_components.json --skip-upload"
+make algolia-index ARGS="--output tmp/algolia/my_components.json --skip-upload"
 
 # Show help information
 make algolia-index ARGS="--help"
@@ -71,10 +71,11 @@ make algolia-index ARGS="--help"
 1. File paths are relative to the `docs/demo` directory.
 2. You can specify a file either as the first positional argument or using the `--file` option.
 3. If no file path is provided, all components will be processed.
+4. All records are collected and sent to Algolia in a single batch upload.
+5. By default, JSON output is saved to `tmp/algolia/algolia_index.json` if no output path is specified.
 
 If Algolia credentials are available, the data will be uploaded to Algolia.
-Regardless of credentials, a JSON file will always be generated in the `tmp`
-directory with the processed data if the `--output` option is specified.
+Regardless of credentials, a JSON file will always be generated with the processed data.
 
 
 ### algolia-clear
@@ -105,7 +106,7 @@ application:
 docker compose exec -it demo bundle exec rake algolia:index
 
 # Run with additional arguments
-docker compose exec -it demo bundle exec rake algolia:index ARGS="--debug --output tmp/components.json"
+docker compose exec -it demo bundle exec rake algolia:index ARGS="--debug --output tmp/algolia/components.json"
 
 # Clear the index directly
 docker compose exec -it demo bundle exec rake algolia:clear
@@ -119,8 +120,13 @@ tasks are located in `docs/demo/lib/tasks/algolia.rake` and use the services def
 
 The main services are:
 
-- `Algolia::Index` - Handles Algolia client configuration and index operations
-- `Algolia::ComponentIndexer` - Builds search records from component documentation
-- `Algolia::HamlParserService` - Parses HAML files to extract documentation
-- `Algolia::SearchRecordBuilder` - Enriches component data with examples
-- `Algolia::AlgoliaImportService` - Handles uploading data to Algolia or saving to a file
+- `Algolia::HamlParserService` - Parses HAML files to extract documentation and examples
+- `Algolia::AlgoliaImportService` - Handles uploading data to Algolia
+- `Algolia::JsonExportService` - Handles exporting data to JSON files
+
+The workflow is as follows:
+
+1. The `algolia:index` rake task parses the specified HAML files
+2. Records are extracted from each file and collected into a single batch
+3. If Algolia credentials are available and `--skip-upload` is not specified, all records are uploaded in a single batch
+4. Records are also saved to a JSON file (either at the specified path or the default tmp/algolia directory)
