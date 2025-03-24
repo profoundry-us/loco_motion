@@ -19,23 +19,86 @@ module Algolia
     # @return [Array<Hash>] The converted records for Algolia
     #
     def convert(data, source_file)
-      return [] if data.nil? || data[:examples].nil?
+      return [] if data.nil?
 
       puts "Converting data from #{source_file} to searchable records..." if debug
 
-      # Create an index name based on the file path
-      base_name = File.basename(source_file, '.*').gsub(/\.html$/, '')
-
-      # Convert examples to records
-      data[:examples].each_with_index.map do |example, i|
-        example.merge(
-          objectID: "#{base_name}_#{i}",
-          component: base_name,
-          url: "/examples/daisy/#{base_name}",
-          anchor: example[:anchor],
+      # Extract component information from file path
+      component_info = extract_component_info(source_file)
+      
+      records = []
+      
+      # Create a record for the component itself
+      if data[:title].present?
+        component_record = {
+          objectID: component_info[:base_name],
+          type: 'component',
+          component: component_info[:base_name],
+          title: data[:title],
+          description: data[:description],
+          url: component_info[:component_url],
           file_path: source_file
-        )
+        }
+        
+        records << component_record
       end
+      
+      # Create records for each example
+      if data[:examples].present?
+        example_records = data[:examples].map do |example|
+          {
+            objectID: "#{component_info[:base_name]}_#{example[:anchor]}",
+            type: 'example',
+            component: component_info[:base_name],
+            title: example[:title],
+            description: example[:description],
+            code: example[:code],
+            url: "#{component_info[:component_url]}##{example[:anchor]}",
+            file_path: source_file
+          }
+        end
+        
+        records.concat(example_records)
+      end
+      
+      records
+    end
+    
+    private
+    
+    # Extract component information from file path
+    #
+    # @param [String] file_path The file path to extract component info from
+    # @return [Hash] A hash containing component name and URL information
+    def extract_component_info(file_path)
+      # Extract the base name from the file path
+      base_name = File.basename(file_path, '.*').gsub(/\.html$/, '')
+      
+      # Extract directory structure for component namespace
+      path_parts = file_path.split('/')
+      examples_index = path_parts.index('examples')
+      
+      if examples_index && examples_index < path_parts.length - 1
+        namespace_parts = path_parts[(examples_index + 1)...-1] # Get directories between 'examples' and the file name
+        
+        # Build class name for URL
+        namespace = namespace_parts.map { |part| part.capitalize }.join('::')
+        
+        # For the component name, use the base_name
+        component_name = base_name.split('_').map(&:capitalize).join
+        
+        # For example: Daisy::Actions::DropdownComponent
+        component_class = "#{namespace}::#{component_name}Component"
+        component_url = "/examples/#{component_class}"
+      else
+        # Fallback to the old format if we can't determine the class structure
+        component_url = "/examples/daisy/#{base_name}"
+      end
+      
+      {
+        base_name: base_name,
+        component_url: component_url
+      }
     end
   end
 end
