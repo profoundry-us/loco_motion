@@ -80,19 +80,34 @@ Regardless of credentials, a JSON file will always be generated with the process
 
 ### algolia-clear
 
-This command allows you to clear the Algolia index. It requires confirmation
+This command allows you to clear an Algolia index. It requires confirmation
 unless the `--force` flag is used.
 
 ```bash
-# Clear the index (with confirmation prompt)
+# Clear the default index (with confirmation prompt)
 make algolia-clear
 
 # Clear the index without confirmation
 make algolia-clear ARGS="--force"
 
+# Clear a specific index
+make algolia-clear ARGS="--index custom_index_name"
+
+# Clear a specific index without confirmation and with debug output
+make algolia-clear ARGS="--index custom_index_name --force --debug"
+
 # Show help information
 make algolia-clear ARGS="--help"
 ```
+
+**Available Options:**
+
+| Option | Description |
+| ------ | ----------- |
+| `-i, --index NAME` | Specify the index name to clear (default: 'loco_examples') |
+| `-f, --force` | Skip confirmation prompt |
+| `-d, --debug` | Enable debug output |
+| `-h, --help` | Display help message |
 
 
 ## Running Rake Tasks Directly

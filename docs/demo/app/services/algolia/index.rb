@@ -15,6 +15,8 @@ module Algolia
   #   index.clear_objects
   #
   class Index
+    DEFAULT_INDEX = "components"
+
     attr_reader :name
 
     # Initialize a new Algolia index.

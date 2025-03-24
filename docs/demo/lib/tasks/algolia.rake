@@ -144,7 +144,7 @@ namespace :algolia do
     require 'optparse'
 
     # Parse any additional arguments from ENV['ARGS']
-    options = { debug: false, force: false }
+    options = { debug: false, force: false, index_name: 'loco_examples' }
 
     if ENV['ARGS']
       args_array = ENV['ARGS'].split(' ')
@@ -155,6 +155,10 @@ namespace :algolia do
 
         opts.on("-f", "--force", "Skip confirmation prompt") do
           options[:force] = true
+        end
+        
+        opts.on("-i", "--index INDEX", "Specify the index name to clear") do |name|
+          options[:index_name] = name
         end
       end
 
@@ -177,7 +181,7 @@ namespace :algolia do
 
     # Ask for confirmation unless force option is provided
     unless options[:force]
-      puts "WARNING: This will clear all Algolia records."
+      puts "WARNING: This will clear all Algolia records from index '#{options[:index_name]}'."
       puts "Are you sure you want to continue? [y/N]"
       input = STDIN.gets.chomp.downcase
 
@@ -188,16 +192,16 @@ namespace :algolia do
     end
 
     # Clear the index
-    puts "Clearing Algolia index..."
+    puts "Clearing Algolia index: #{options[:index_name]}..."
 
     # Call the AlgoliaImportService to clear the index
     service = Algolia::AlgoliaImportService.new(debug: debug)
-    success = service.clear_index
+    success = service.clear_index(options[:index_name])
 
     if success
-      puts "Algolia index cleared successfully."
+      puts "Algolia index '#{options[:index_name]}' cleared successfully."
     else
-      puts "Failed to clear Algolia index."
+      puts "Failed to clear Algolia index '#{options[:index_name]}'."
     end
   end
 end

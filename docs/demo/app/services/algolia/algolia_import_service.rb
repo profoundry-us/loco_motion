@@ -49,30 +49,15 @@ module Algolia
     #
     # @return [Boolean] Whether the operation was successful
     #
-    def import(records, source_file)
+    def import(records, source_file, index_name = Algolia::Index::DEFAULT_INDEX)
       return true if records.empty?
       return false unless algolia_configured?
 
       puts "Sending data to Algolia..." if debug
 
       begin
-        require 'algoliasearch-rails'
-
-        # Use the existing client if available, or create a new one
-        client = if defined?(AlgoliaSearch) && AlgoliaSearch.client
-                  AlgoliaSearch.client
-                else
-                  # Initialize a new client if needed
-                  ::Algolia::SearchClient.create(
-                    ENV['ALGOLIA_APPLICATION_ID'],
-                    ENV['ALGOLIA_API_KEY']
-                  )
-                end
-
-        # Create an index name based on the file path
-        base_name = File.basename(source_file, '.*').gsub(/\.html$/, '')
-        index_name = "loco_examples_#{base_name}"
-        index = client.init_index(index_name)
+        # Use our existing Index class
+        index = Algolia::Index.new(index_name)
 
         # Add the examples to the index
         response = index.save_objects(records)
@@ -85,27 +70,22 @@ module Algolia
         false
       end
     end
-    
+
     # Clear all records from the Algolia index
     #
+    # @param index_name [String] Name of the index to clear (short name without prefix)
     # @return [Boolean] Whether the clear operation was successful
     #
-    def clear_index
+    def clear_index(index_name = Algolia::Index::DEFAULT_INDEX)
       return false unless algolia_configured?
-      
-      puts "Clearing Algolia index..." if debug
-      
+
+      puts "Clearing Algolia index #{index_name}" if debug
+
       begin
-        # Initialize Algolia client
-        client = Algolia::Client.new(
-          application_id: ENV['ALGOLIA_APPLICATION_ID'],
-          api_key: ENV['ALGOLIA_API_KEY']
-        )
-        
-        # Get the index and clear it
-        index = client.init_index(ALGOLIA_INDEX_NAME)
+        # Use our existing Index class
+        index = Algolia::Index.new(index_name)
         response = index.clear_objects
-        
+
         puts "Index cleared successfully. Response: #{response}" if debug
         true
       rescue => e
