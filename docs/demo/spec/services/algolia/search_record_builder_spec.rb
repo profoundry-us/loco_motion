@@ -125,8 +125,8 @@ RSpec.describe Algolia::SearchRecordBuilder do
         allow(Algolia::HamlParserService).to receive(:new).and_return(parser)
         allow(parser).to receive(:parse).and_raise('Parsing error')
         
-        # Silence the puts output
-        allow_any_instance_of(described_class).to receive(:puts)
+        # Stub Rails.logger to avoid actual output
+        allow(Rails.logger).to receive(:debug)
       end
       
       it 'handles errors gracefully and returns empty examples' do
@@ -135,6 +135,12 @@ RSpec.describe Algolia::SearchRecordBuilder do
         expect(enriched_component[:example_path]).to eq('/examples/Daisy::Button')
         expect(examples).to eq([])
         expect(enriched_component[:description]).to be_nil
+      end
+      
+      it 'logs errors with Rails.logger' do
+        expect(Rails.logger).to receive(:debug).with(/Error extracting examples: Parsing error/).at_least(:once)
+        
+        builder.enrich_component(component)
       end
     end
   end

@@ -11,18 +11,13 @@ module Algolia
   #
   # @example Export records to a file
   #   records = [...]
-  #   service = Algolia::JsonExportService.new(debug: true)
+  #   service = Algolia::JsonExportService.new
   #   service.export(records, 'output_file.json')
   #
   class JsonExportService
-    attr_reader :debug
-
     # Initialize the service
     #
-    # @param debug [Boolean] Whether to output debug information
-    #
-    def initialize(debug: false)
-      @debug = debug
+    def initialize
     end
 
     # Export records to a JSON file
@@ -44,11 +39,11 @@ module Algolia
           file.write(JSON.pretty_generate(records))
         end
         
-        puts "Data exported to #{output_path}" if debug
+        Rails.logger.debug "Data exported to #{output_path}"
         true
       rescue => e
-        puts "Error exporting to JSON: #{e.message}" if debug
-        puts e.backtrace if debug
+        Rails.logger.debug "Error exporting to JSON: #{e.message}"
+        Rails.logger.debug e.backtrace.inspect
         false
       end
     end

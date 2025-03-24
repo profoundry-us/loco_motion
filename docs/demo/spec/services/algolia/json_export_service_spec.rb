@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Algolia::JsonExportService do
-  let(:debug) { false }
-  let(:service) { described_class.new(debug: debug) }
+  let(:service) { described_class.new }
   
   # Sample records for testing
   let(:records) do
@@ -26,18 +25,8 @@ RSpec.describe Algolia::JsonExportService do
   let(:output_dir) { File.dirname(output_path) }
   
   describe '#initialize' do
-    it 'sets debug mode based on parameter' do
-      debug_service = described_class.new(debug: true)
-      non_debug_service = described_class.new(debug: false)
-      
-      expect(debug_service.debug).to be true
-      expect(non_debug_service.debug).to be false
-    end
-    
-    it 'defaults to non-debug mode when not specified' do
-      default_service = described_class.new
-      
-      expect(default_service.debug).to be false
+    it 'initializes the service' do
+      expect(service).to be_a(described_class)
     end
   end
   
@@ -48,6 +37,7 @@ RSpec.describe Algolia::JsonExportService do
       allow(File).to receive(:directory?).and_return(false)
       allow(File).to receive(:open).and_yield(StringIO.new)
       allow(StringIO.new).to receive(:write)
+      allow(Rails.logger).to receive(:debug)
     end
     
     context 'with valid records and output path' do
@@ -75,6 +65,12 @@ RSpec.describe Algolia::JsonExportService do
         
         expect(result).to be true
       end
+      
+      it 'logs a debug message on success' do
+        expect(Rails.logger).to receive(:debug).with("Data exported to #{output_path}")
+        
+        service.export(records, output_path)
+      end
     end
     
     context 'when directory already exists' do
@@ -93,16 +89,6 @@ RSpec.describe Algolia::JsonExportService do
         
         result = service.export(records, output_path)
         expect(result).to be true
-      end
-    end
-    
-    context 'with debug mode enabled' do
-      let(:debug) { true }
-      
-      it 'outputs debug information on success' do
-        expect(service).to receive(:puts).with("Data exported to #{output_path}")
-        
-        service.export(records, output_path)
       end
     end
     
@@ -144,17 +130,13 @@ RSpec.describe Algolia::JsonExportService do
         expect(result).to be false
       end
       
-      context 'with debug mode enabled' do
-        let(:debug) { true }
+      it 'logs error information' do
+        # Stub Rails.logger to avoid actual output and allow for verification
+        expect(Rails.logger).to receive(:debug).with(/Error exporting to JSON: Test error/).ordered
+        # The backtrace will be output in a separate call
+        expect(Rails.logger).to receive(:debug).ordered
         
-        it 'outputs error information' do
-          # Stub puts to avoid actual output and allow for verification
-          expect(service).to receive(:puts).with(/Error exporting to JSON: Test error/).ordered
-          # The backtrace will be output in a separate call
-          expect(service).to receive(:puts).ordered
-          
-          service.export(records, output_path)
-        end
+        service.export(records, output_path)
       end
     end
   end

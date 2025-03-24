@@ -8,18 +8,13 @@ module Algolia
   # records with appropriate URLs and metadata.
   #
   # @loco_example Convert parsed data to records
-  #   converter = Algolia::RecordConverterService.new(debug: true)
+  #   converter = Algolia::RecordConverterService.new
   #   records = converter.convert(parsed_data, "app/views/examples/buttons.html.haml")
   #
   class RecordConverterService
-    attr_reader :debug
-
     # Initialize the converter service
     #
-    # @param debug [Boolean] Whether to output debug information
-    #
-    def initialize(debug: false)
-      @debug = debug
+    def initialize
     end
 
     # Convert parsed HAML data to searchable records
@@ -32,7 +27,7 @@ module Algolia
     def convert(data, source_file)
       return [] if data.nil?
 
-      puts "Converting data from #{source_file} to searchable records..." if debug
+      Rails.logger.debug "Converting data from #{source_file} to searchable records..."
 
       # Extract component information from file path
       component_info = extract_component_info(source_file)

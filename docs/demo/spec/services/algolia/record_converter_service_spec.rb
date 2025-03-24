@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Algolia::RecordConverterService do
-  let(:debug) { false }
-  let(:converter) { described_class.new(debug: debug) }
+  let(:converter) { described_class.new }
   
   # Sample parsed HAML data for testing
   let(:parsed_data) do
@@ -29,22 +28,16 @@ RSpec.describe Algolia::RecordConverterService do
   end
   
   describe '#initialize' do
-    it 'sets debug mode based on parameter' do
-      debug_converter = described_class.new(debug: true)
-      non_debug_converter = described_class.new(debug: false)
-      
-      expect(debug_converter.debug).to be true
-      expect(non_debug_converter.debug).to be false
-    end
-    
-    it 'defaults to non-debug mode when not specified' do
-      default_converter = described_class.new
-      
-      expect(default_converter.debug).to be false
+    it 'initializes the service' do
+      expect(converter).to be_a(described_class)
     end
   end
   
   describe '#convert' do
+    before do
+      allow(Rails.logger).to receive(:debug)
+    end
+    
     context 'with a valid source file in the examples directory' do
       let(:source_file) { 'app/views/examples/daisy/actions/button.html.haml' }
       
@@ -86,6 +79,12 @@ RSpec.describe Algolia::RecordConverterService do
         # Second example
         expect(example_records[1][:objectID]).to eq('button_secondary')
         expect(example_records[1][:url]).to eq('/examples/Daisy::Actions::ButtonComponent#secondary')
+      end
+      
+      it 'logs debug information when converting' do
+        expect(Rails.logger).to receive(:debug).with("Converting data from #{source_file} to searchable records...")
+        
+        converter.convert(parsed_data, source_file)
       end
     end
     
@@ -201,7 +200,7 @@ RSpec.describe Algolia::RecordConverterService do
     context 'with a compound filename' do
       let(:file_path) { 'app/views/examples/daisy/actions/dropdown_button.html.haml' }
       
-      it 'converts the filename to a proper class name' do
+      it 'uses the correct base name' do
         component_info = converter.send(:extract_component_info, file_path)
         
         expect(component_info[:base_name]).to eq('dropdown_button')

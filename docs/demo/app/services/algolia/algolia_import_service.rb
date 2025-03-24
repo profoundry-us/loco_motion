@@ -16,14 +16,9 @@ module Algolia
   #   service.import(records, file_path)
   #
   class AlgoliaImportService
-    attr_reader :debug
-
     # Initialize the service
     #
-    # @param [Boolean] debug Whether to output debug information
-    #
-    def initialize(debug: false)
-      @debug = debug
+    def initialize
     end
 
     # Check if Algolia is configured
@@ -34,10 +29,8 @@ module Algolia
       app_id = ENV['ALGOLIA_APPLICATION_ID']
       api_key = ENV['ALGOLIA_API_KEY']
 
-      if debug
-        puts "ALGOLIA_APPLICATION_ID: #{app_id ? 'Present' : 'Missing'}"
-        puts "ALGOLIA_API_KEY: #{api_key ? 'Present' : 'Missing'}"
-      end
+      Rails.logger.debug "ALGOLIA_APPLICATION_ID: #{app_id ? 'Present' : 'Missing'}"
+      Rails.logger.debug "ALGOLIA_API_KEY: #{api_key ? 'Present' : 'Missing'}"
 
       !app_id.blank? && !api_key.blank?
     end
@@ -53,7 +46,7 @@ module Algolia
       return true if records.empty?
       return false unless algolia_configured?
 
-      puts "Sending data to Algolia..." if debug
+      Rails.logger.debug "Sending data to Algolia..."
 
       begin
         # Use our existing Index class
@@ -62,11 +55,11 @@ module Algolia
         # Add the examples to the index
         response = index.save_objects(records)
 
-        puts "Successfully indexed #{records.length} examples to Algolia (index: #{index_name})" if debug
+        Rails.logger.debug "Successfully indexed #{records.length} examples to Algolia (index: #{index_name})"
         true
       rescue => e
-        puts "Error sending to Algolia: #{e.message}" if debug
-        puts e.backtrace if debug
+        Rails.logger.debug "Error sending to Algolia: #{e.message}"
+        Rails.logger.debug e.backtrace.inspect
         false
       end
     end
@@ -79,18 +72,18 @@ module Algolia
     def clear_index(index_name = Algolia::Index::DEFAULT_INDEX)
       return false unless algolia_configured?
 
-      puts "Clearing Algolia index #{index_name}" if debug
+      Rails.logger.debug "Clearing Algolia index #{index_name}"
 
       begin
         # Use our existing Index class
         index = Algolia::Index.new(index_name)
         response = index.clear_objects
 
-        puts "Index cleared successfully. Response: #{response}" if debug
+        Rails.logger.debug "Index cleared successfully. Response: #{response}"
         true
       rescue => e
-        puts "Error clearing Algolia index: #{e.message}" if debug
-        puts e.backtrace.join("\n") if debug
+        Rails.logger.debug "Error clearing Algolia index: #{e.message}"
+        Rails.logger.debug e.backtrace.join("\n")
         false
       end
     end

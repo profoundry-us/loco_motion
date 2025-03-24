@@ -3,9 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Algolia::HamlParserService do
-  let(:debug) { false }
   let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'haml_parser', 'example.html.haml') }
-  let(:parser) { described_class.new(file_path, debug) }
+  let(:parser) { described_class.new(file_path) }
   
   # Create test fixture directory and files
   before(:all) do
@@ -177,12 +176,11 @@ RSpec.describe Algolia::HamlParserService do
   end
   
   describe '#initialize' do
-    it 'sets the file path and debug mode' do
-      custom_parser = described_class.new('/custom/path', true)
+    it 'sets the file path' do
+      custom_parser = described_class.new('/custom/path')
       
       # We can't directly test instance variables, but we can test behavior
       expect(custom_parser.instance_variable_get('@file_path')).to eq('/custom/path')
-      expect(custom_parser.instance_variable_get('@debug')).to be true
     end
     
     it 'initializes empty result structure' do

@@ -93,8 +93,7 @@ module Algolia
       return { description: nil, examples: [] } unless found_file
 
       # Use the HamlParserService to parse the file
-      debug_mode = ENV['DEBUG'] == 'true'
-      parser = HamlParserService.new(found_file, debug_mode)
+      parser = HamlParserService.new(found_file)
       parsed_result = parser.parse
 
       {
@@ -103,8 +102,8 @@ module Algolia
       }
     rescue => e
       # Log error for debugging
-      puts "Error extracting examples: #{e.message}"
-      puts e.backtrace.join("\n") if ENV['DEBUG']
+      Rails.logger.debug "Error extracting examples: #{e.message}"
+      Rails.logger.debug e.backtrace.join("\n") if ENV['DEBUG']
       # Return empty result if there's an error
       { description: nil, examples: [] }
     end

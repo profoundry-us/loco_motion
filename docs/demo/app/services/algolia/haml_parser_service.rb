@@ -9,7 +9,7 @@ module Algolia
   # files to be used for indexing in Algolia.
   #
   # @example Parse a HAML file
-  #   parser = Algolia::HamlParserService.new(file_path, debug: true)
+  #   parser = Algolia::HamlParserService.new(file_path)
   #   result = parser.parse
   #
   class HamlParserService
@@ -18,12 +18,10 @@ module Algolia
     # Initialize the HAML parser service with a file path
     #
     # @param file_path [String] Path to the HAML file to parse
-    # @param debug [Boolean] Whether to output debug information
     #
-    def initialize(file_path, debug = false)
-      puts "[DEBUG] initialize" if debug
+    def initialize(file_path)
+      Rails.logger.debug "[DEBUG] initialize"
       @file_path = file_path
-      @debug = debug
       @parser = Haml::Parser.new({})
       @ast = nil
       @result = {
@@ -38,18 +36,18 @@ module Algolia
     # @return [Hash] Extracted documentation with structure {:title, :description, :examples}
     #
     def parse
-      puts "[DEBUG] parse" if @debug
+      Rails.logger.debug "[DEBUG] parse"
 
       begin
         read_file
         generate_ast
         process_ast
       rescue => e
-        puts "Error rendering HAML: #{e.message}" if @debug
-        puts e.backtrace.join("\n") if @debug
+        Rails.logger.debug "Error rendering HAML: #{e.message}"
+        Rails.logger.debug e.backtrace.join("\n")
       end
 
-      puts "[DEBUG] parse result: #{@result}"
+      Rails.logger.debug "[DEBUG] parse result: #{@result}"
 
       return @result
     end
@@ -60,7 +58,7 @@ module Algolia
     # @raise [RuntimeError] If file does not exist
     #
     def read_file
-      puts "[DEBUG]   read_file" if @debug
+      Rails.logger.debug "[DEBUG]   read_file"
       raise "File does not exist: #{@file_path}" unless File.exist?(@file_path)
 
       @content = File.read(@file_path)
@@ -71,7 +69,7 @@ module Algolia
     # @return [Haml::Parser::ParseNode] The AST root node
     #
     def generate_ast
-      puts "[DEBUG]   generate_ast" if @debug
+      Rails.logger.debug "[DEBUG]   generate_ast"
       @ast = @parser.call(@content)
     end
 
@@ -80,7 +78,7 @@ module Algolia
     # @return [void]
     #
     def process_ast
-      puts "[DEBUG]   process_ast" if @debug
+      Rails.logger.debug "[DEBUG]   process_ast"
       @ast.children.each do |child|
         process_child(child)
       end
@@ -92,7 +90,7 @@ module Algolia
     # @return [void]
     #
     def process_child(node)
-      puts "[DEBUG]     process_child (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]     process_child (#{node.type})"
       process_doc_title_and_description(node) if @result[:title].blank?
       process_example(node)
     end
@@ -103,7 +101,7 @@ module Algolia
     # @return [void]
     #
     def process_doc_title_and_description(node)
-      puts "[DEBUG]       process_doc_title_and_description (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]       process_doc_title_and_description (#{node.type})"
       # If we are a doc_title node, set the title / description and move on
       if is_doc_title?(node)
         @result[:title] = extract_title(node)
@@ -125,7 +123,7 @@ module Algolia
     # @return [void]
     #
     def process_example(node)
-      puts "[DEBUG]       process_example (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]       process_example (#{node.type})"
       # Skip doc_title nodes
       return if is_doc_title?(node)
 
@@ -150,7 +148,7 @@ module Algolia
     # @return [String, nil] The extracted title or nil
     #
     def process_example_title(node)
-      puts "[DEBUG]         process_example_title (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]         process_example_title (#{node.type})"
       return extract_title(node) if is_example_title?(node)
 
       (node.children || []).map do |child|
@@ -164,7 +162,7 @@ module Algolia
     # @return [String] The extracted description
     #
     def process_example_description(node)
-      puts "[DEBUG]         process_example_description (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]         process_example_description (#{node.type})"
       if is_example_description?(node)
         (node.children || []).map do |child|
           extract_description(child)
@@ -182,7 +180,7 @@ module Algolia
     # @return [String, nil] The extracted code or nil
     #
     def process_example_code(node)
-      puts "[DEBUG]         process_example_code (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]         process_example_code (#{node.type})"
       # Skip example description nodes
       return if is_example_description?(node)
 
@@ -195,7 +193,7 @@ module Algolia
     # @return [String] The extracted title
     #
     def extract_title(node)
-      puts "[DEBUG]           extract_title (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]           extract_title (#{node.type})"
       clean_title(node.value[:text])
     end
 
@@ -205,7 +203,7 @@ module Algolia
     # @return [String] The extracted description
     #
     def extract_description(node)
-      puts "[DEBUG]           extract_description (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]           extract_description (#{node.type})"
       my_desc = clean_string(is_tag_node?(node) ? node.value[:value] : node.value[:text])
       my_desc = "" if my_desc.nil?
 
@@ -221,7 +219,7 @@ module Algolia
     # @return [String] The extracted code
     #
     def extract_code(node, level = 0)
-      puts "[DEBUG]           extract_code (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]           extract_code (#{node.type})"
       # Make sure we add proper HAML indentation
       code = "  " * level
 
@@ -247,7 +245,7 @@ module Algolia
     # @return [String] The generated HAML code
     #
     def generate_code_from_tag(node, level = 0)
-      puts "[DEBUG]             generate_code_from_tag (#{node.type})" if @debug
+      Rails.logger.debug "[DEBUG]             generate_code_from_tag (#{node.type})"
       # Initialize some variables
       code = ""
       indent = "  " * (level + 1)
@@ -333,7 +331,7 @@ module Algolia
     # @return [String] The cleaned title
     #
     def clean_title(str)
-      puts "[DEBUG]             clean_title" if @debug
+      Rails.logger.debug "[DEBUG]             clean_title"
       return str if str.blank?
 
       match = str.match(/title:\s*"([^"]+)"/)
@@ -347,7 +345,7 @@ module Algolia
     # @return [String] The cleaned string
     #
     def clean_string(str)
-      puts "[DEBUG]             clean_string" if @debug
+      Rails.logger.debug "[DEBUG]             clean_string"
       return "" if str.nil?
       str.gsub(/\s+/, " ").strip
     end
