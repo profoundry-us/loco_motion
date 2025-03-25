@@ -165,15 +165,15 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
     add_html(:close_icon_wrapper, { method: "dialog" })
 
     set_tag_name(:close_icon, :button)
-    add_css(:close_icon, "absolute top-2 right-2 p-1 btn btn-circle btn-ghost btn-xs")
+    add_css(:close_icon, "where:absolute where:top-2 where:right-2 where:p-1 where:btn where:btn-circle where:btn-ghost where:btn-xs")
   end
 
   def setup_title
-    add_css(:title, "mb-2 text-xl font-bold")
+    add_css(:title, "where:mb-2 where:text-xl where:font-bold")
   end
 
   def setup_actions
-    add_css(:actions, "mt-2 flex flex-row items-center justify-between")
+    add_css(:actions, "where:mt-2 where:flex where:flex-row where:items-center where:justify-between")
   end
 
   # Provide a default button if no button is supplied.

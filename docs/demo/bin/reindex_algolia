@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+echo "========================================"
+echo "Starting Algolia reindexing process..."
+echo "========================================"
+echo
+
+echo "Environment: $ALGOLIA_ENV"
+echo
+
+echo "Step 1: Clearing components index..."
+bundle exec rake algolia:clear ARGS="--index components --force"
+
+echo
+echo "Step 2: Indexing components..."
+bundle exec rake algolia:index
+
+echo
+echo "========================================"
+echo "Algolia reindexing complete!"
+echo "========================================"

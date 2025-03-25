@@ -121,6 +121,11 @@ demo-cache:
 demo-nocache:
 	rm -f docs/demo/tmp/caching-dev.txt
 
+# Run all of the Demo App Rspec tests
+.PHONY: demo-test
+demo-test:
+	docker compose exec -it demo bundle exec rspec spec
+
 ##############################
 # Yard commands
 ##############################
@@ -145,6 +150,20 @@ yard-quick:
 .PHONY: yard-shell
 yard-shell:
 	docker compose exec -it yard /bin/bash
+
+##############################
+# Algolia commands
+##############################
+
+# Run the algolia:index rake task in the demo container
+.PHONY: algolia-index
+algolia-index:
+	docker compose exec -it demo bundle exec rake algolia:index ARGS="$(ARGS)"
+
+# Run the algolia:clear rake task in the demo container
+.PHONY: algolia-clear
+algolia-clear:
+	docker compose exec -it demo bundle exec rake algolia:clear ARGS="$(ARGS)"
 
 ##############################
 # Build/Publish commands

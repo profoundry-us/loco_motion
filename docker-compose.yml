@@ -13,6 +13,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # We should NOT need access to the env_file here, if you think you do, you
+    # probably want to move things into the demo app!
     volumes:
       - .:/home/loco_motion
     tty: true

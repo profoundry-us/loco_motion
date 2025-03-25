@@ -1,4 +1,10 @@
 module ApplicationHelper
+  def full_page_title
+    page_title = yield :page_title
+
+    page_title ? page_title + " | LocoMotion" : "LocoMotion"
+  end
+
   def doc_code(*args, **kws, &block)
     render(DocCodeComponent.new(*args, **kws), &block)
   end

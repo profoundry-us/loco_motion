@@ -91,6 +91,10 @@ module LocoMotion
     end
 
     def component_example_path(component_name)
+      "/examples/#{component_name}"
+    end
+
+    def component_partial_path(component_name)
       comp = COMPONENTS[component_name]
 
       comp_split = component_name.split("::")
@@ -102,6 +106,7 @@ module LocoMotion
       "/examples/#{framework}/#{section_path}#{example}"
     end
 
-    module_function :component_example_path
+
+    module_function :component_example_path, :component_partial_path
   end
 end

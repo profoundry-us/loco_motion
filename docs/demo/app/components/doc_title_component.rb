@@ -23,7 +23,7 @@ class DocTitleComponent < ApplicationComponent
   end
 
   def setup_title
-    set_tag_name(:title, :h2)
+    set_tag_name(:title, :h1)
     add_css(:title_wrapper, "flex items-center justify-between")
     add_css(:title, "text-2xl font-bold")
     add_css(:actions, "flex items-center gap-x-4")

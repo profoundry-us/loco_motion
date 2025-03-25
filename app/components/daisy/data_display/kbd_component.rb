@@ -27,9 +27,9 @@
 #   %p
 #     Press
 #     = daisy_kbd("Alt")
-#     + 
+#     +
 #     = daisy_kbd("Shift")
-#     + 
+#     +
 #     = daisy_kbd("M")
 #     to open the menu.
 #
@@ -46,6 +46,8 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
 
   set_component_name :kbd
 
+  attr_reader :simple_title
+
   #
   # Creates a new kbd component.
   #
@@ -55,6 +57,8 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
   #
   def initialize(*args, **kws, &block)
     super
+
+    @simple_title = args[0]
 
     set_tag_name(:component, :span)
   end
@@ -71,7 +75,7 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { content }
+    part(:component) { content || simple_title }
   end
 
   private

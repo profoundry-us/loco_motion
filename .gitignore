@@ -1,3 +1,4 @@
+tmp
 .yardoc
 yardocs
 .byebug_history
@@ -6,3 +7,5 @@ docs/yard/generated
 node_modules
 builds/
 **/*/.DS_Store
+spec/internal/
+NEXT_SESSION.md

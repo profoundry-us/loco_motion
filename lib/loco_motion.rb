@@ -16,3 +16,9 @@ require "loco_motion/helpers"
 
 require "hero"
 require "daisy"
+
+begin
+  require "pry" if Rails.env.development?
+rescue LoadError
+  # Don't throw an error, pry should really only be used while debugging locally
+end

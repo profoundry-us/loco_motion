@@ -1,6 +1,9 @@
 - star_styles = "size-[800px] mask mask-star bg-linear-to-r from-secondary via-cyan-400 to-lime-400"
 - crazy_text_styles = "italic font-black bg-linear-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
 
+= content_for(:page_title) do
+  Home
+
 .relative
   - # Blurred background star
   .absolute.left-0.z-0{ class: "-top-[400px] -right-[400px]" }

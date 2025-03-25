@@ -33,8 +33,9 @@ class DocExampleComponent < ApplicationComponent
   end
 
   def setup_title
-    set_tag_name(:title, :h1)
+    set_tag_name(:title, :h2)
     add_css(:title, "mb-2 text-xl text-base font-bold")
+    add_html(:title, { id: (@simple_title || "").parameterize })
   end
 
   def setup_template

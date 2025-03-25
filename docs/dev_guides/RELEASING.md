@@ -14,6 +14,7 @@ LocoMotion.
   - [Ruby Gem](#ruby-gem)
   - [NPM Package](#npm-package)
 - [Step 5 - GitHub Release](#step-5---github-release)
+- [Step 6 - Algolia Indexing](#step-6---algolia-indexing)
 
 ## Preparation
 
@@ -172,6 +173,32 @@ After both packages are published, create a new release on GitHub:
 3. Select the version tag you created
 4. Add release notes describing the changes (GitHub has an AI tool to do this)
 5. Publish the release
+
+## Step 6 - Algolia Indexing
+
+When the demo application is deployed to Heroku after a new release, the Algolia
+indexing process will run automatically to update the component documentation
+search index.
+
+1. The indexing process runs as part of the Heroku release phase.
+
+2. Each environment (staging, production) uses a separate index determined by
+   the `ALGOLIA_ENV` environment variable.
+
+3. The index includes the version number, so each version of LocoMotion has its
+   own search index.
+
+If you need to manually trigger the reindexing process, you can run:
+
+```bash
+heroku run bin/reindex_algolia -a your-app-name
+```
+
+Or you can alter your `env.local` file to set the `ALGOLIA_ENV` variable to the
+environment you want to use.
+
+See the [Algolia Integration Guide](ALGOLIA.md) for more details on how the
+Algolia integration works.
 
 [rubygems]: https://rubygems.org/gems/loco_motion-rails
 [npm]: https://www.npmjs.com/package/@profoundry/loco_motion
