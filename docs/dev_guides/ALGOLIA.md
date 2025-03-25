@@ -74,6 +74,29 @@ make algolia-index ARGS="--help"
 If Algolia credentials are available, the data will be uploaded to Algolia.
 Regardless of credentials, a JSON file will always be generated with the processed data.
 
+## Automatic Indexing on Deployment
+
+The Algolia indexing process runs automatically during application deployment on
+Heroku through the following mechanism:
+
+1. The `Procfile` includes a `release` phase command that runs the
+   `bin/reindex_algolia` script.
+2. This script runs both the `algolia:clear` and `algolia:index` rake tasks.
+3. The environment variable `ALGOLIA_ENV` determines which index is used, keeping
+   staging and production environments separate.
+
+This means that every time the demo application is deployed, the Algolia index
+will be automatically refreshed with the latest component documentation.
+
+### Environment Variables
+
+The following environment variables control the Algolia integration:
+
+| Variable | Description |
+| -------- | ----------- |
+| `ALGOLIA_APPLICATION_ID` | Your Algolia application ID |
+| `ALGOLIA_API_KEY` | Your Algolia API key with write permissions |
+| `ALGOLIA_ENV` | Environment name used in the index name (e.g., `production`, `staging`) |
 
 ### algolia-clear
 

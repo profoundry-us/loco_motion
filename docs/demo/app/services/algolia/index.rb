@@ -82,7 +82,8 @@ module Algolia
     # @return [String] The full index name (including LocoMotion version)
     #
     def index_name(name)
-      "loco_motion_#{Rails.env}_#{name}_#{LocoMotion::VERSION}"
+      env = ENV['ALGOLIA_ENV'] || Rails.env
+      "loco_motion_#{env}_#{name}_#{LocoMotion::VERSION}"
     end
 
     # Default settings for Algolia indices.
