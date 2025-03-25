@@ -13,7 +13,7 @@ releases should be considered breaking!
 
 ## [0.5.0] - Unreleased
 
-### Changed
+### Overview
 
 - Run migration tool for TailwindCSS 4 and DaisyUI 5 ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - Remove ArtboardComponent and update DeviceComponent for DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
@@ -22,60 +22,65 @@ releases should be considered breaking!
 - Converted most uses of code blocks to markdown backticks for improved readability
 - Added Algolia search integration for documentation site ([PR #44](https://github.com/profoundry-us/loco_motion/pull/44) – [Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
 
-### Fixed
-
-#### Component Updates for DaisyUI 5
-- Fixed Avatar component and added custom `where` variant
-- Fixed Card component for DaisyUI 5
-- Fixed File Inputs component for DaisyUI 5
-- Fixed Footer component for DaisyUI 5
-- Fixed TextInput component for DaisyUI 5
-- Fixed Masks component for DaisyUI 5
-- Fixed Menu component for DaisyUI 5
-- Fixed Select component for DaisyUI 5
-- Fixed Stats component for DaisyUI 5
-- Fixed Tabs component for DaisyUI 5 and added five different size options (xs, sm, md, lg, xl)
-- Fixed TextArea component for DaisyUI 5 styling (borders now default)
-- Fixed reference in specs to removed form-control class in DaisyUI 5
-
-#### Demo Application Fixes
-- Fixed issues with the side navigation
-- Fixed navigation drawer issues and dark mode configuration
-- Fixed broken DocExample JavaScript
-- Fixed padding issue with ThemeController
-- Fixed issues with swaps (rotation issue remains)
-- Fixed navigation not updating active state on selection
-- Fixed padding issue on Dropdowns example by upgrading to latest Tailwind insiders
-- Fixed dark mode toggle functionality
-- Fixed device mockups in dark mode
-- Fixed header and buttons in dark mode
-- Fixed doc example tab roundness
-- Fixed margin in chat bubble examples
-- Fixed hero layouts and patched DaisyUI 5 bug
-- Fixed maximum width for footers
-- Fixed Alert widths and tooltip example layout
-- Fixed Navbar examples with container and height adjustments
-- Fixed select examples by removing duplicate Canada option
-- Fixed form example issues
-- Fixed rating examples with containers
-- Fixed range example with w-full class
-- Fixed footer heart icon color on different themes
-- Fixed layout issues across multiple components
-- Fixed checkbox examples with colors and sizes
-- Fixed Rails form builder example for checkboxes
-- Fixed stats layouts
-- Fixed issues with reset functionality for examples
-- Fixed stack demos
-- Fixed size of countdown boxes example
-- Fixed width of collapses
-- Added border to bottom figure example
-
 ### Added
 
-- Enhanced demo navigation with icons, colors, and improved padding
-- Added custom `where` variant to Avatar component
-- Added Algolia backend to index components
-- Added Algolia search UI to site
+- add: Enhanced demo navigation with icons, colors, and improved padding
+- add: Custom `where` variant to Avatar component
+- add: Algolia backend to index components
+- add: Algolia search UI to site
+
+### Changed / Fixed
+
+#### Component Changes
+
+- fix(Avatar): Update for DaisyUI 5 and added custom `where` variant
+- fix(Card): Update for DaisyUI 5
+- fix(FileInput): Update for DaisyUI 5
+- fix(Footer): Update for DaisyUI 5
+- fix(TextInput): Update for DaisyUI 5
+- fix(Masks): Update for DaisyUI 5
+- fix(Menu): Update for DaisyUI 5
+- fix(Select): Update for DaisyUI 5
+- fix(Stats): Update for DaisyUI 5
+- fix(Tabs): Update for DaisyUI 5 and added five different size options (xs, sm, md, lg, xl)
+- fix(TextArea): Update for DaisyUI 5 styling (borders now default)
+- test: Remove references to `form-control` class in specs
+- fix(KBD): Accept a simple title
+- fix(Modal): Only show actions part if provided
+
+#### Demo Application Changes
+
+- fix: Issues with the side navigation
+- fix: Navigation drawer issues and dark mode configuration
+- fix: Broken DocExample JavaScript
+- fix: Padding issue with ThemeController
+- fix: Issues with swaps (rotation issue remains)
+- fix: Navigation not updating active state on selection
+- fix: Padding issue on Dropdowns example by upgrading to latest Tailwind insiders
+- fix: Dark mode toggle functionality
+- fix: Device mockups in dark mode
+- fix: Header and buttons in dark mode
+- fix: Doc example tab roundness
+- fix: Margin in chat bubble examples
+- fix: Hero layouts and patched DaisyUI 5 bug
+- fix: Maximum width for footers
+- fix: Alert widths and tooltip example layout
+- fix: Navbar examples with container and height adjustments
+- fix: Select examples by removing duplicate Canada option
+- fix: Form example issues
+- fix: Rating examples with containers
+- fix: Range example with w-full class
+- fix: Footer heart icon color on different themes
+- fix: Layout issues across multiple components
+- fix: Checkbox examples with colors and sizes
+- fix: Rails form builder example for checkboxes
+- fix: Stats layouts
+- fix: Issues with reset functionality for examples
+- fix: Stack demos
+- fix: Size of countdown boxes example
+- fix: Width of collapses
+- fix: Border to bottom figure example
+- fix: Standardize H1/H2 doc headings
 
 ## [0.4.0] - 2025-03-07
 
