@@ -1,0 +1,21 @@
+name: Algolia Indexing
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+    - main
+
+jobs:
+  algolia-indexing:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Clear Algolia components index
+      run: bundle exec rake algolia:clear ARGS="--index components"
+    - name: Index components to Algolia
+      run: bundle exec rake algolia:index
