@@ -12,10 +12,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        working-directory: docs/demo
+
+    - name: Create symlink to LocoMotion gem directory
+      run: |
+        mkdir -p docs/demo/vendor
+        ln -sf $(pwd) docs/demo/vendor/loco_motion-rails
+
     - name: Clear Algolia components index
       run: bundle exec rake algolia:clear ARGS="--index components"
+      working-directory: docs/demo
+
     - name: Index components to Algolia
       run: bundle exec rake algolia:index
+      working-directory: docs/demo
