@@ -1,6 +1,6 @@
 = daisy_navbar(css: "justify-between") do |bar|
-  - bar.with_start(css: "w-auto!") do
-    %label.-ml-2.mr-4.btn.btn-ghost.xl:hidden{ for: "sidenav-drawer" }
+  - bar.with_start(css: "w-auto! gap-2") do
+    %label.-ml-2.btn.btn-ghost.xl:hidden{ for: "sidenav-drawer" }
       = heroicon_tag("bars-3", class: "w-6 h-6")
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
