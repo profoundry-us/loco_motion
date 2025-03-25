@@ -20,6 +20,7 @@ releases should be considered breaking!
 - Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
 - Renamed ExampleWrapper component to DocExample for better semantics
 - Converted most uses of code blocks to markdown backticks for improved readability
+- Added Algolia search integration for documentation site ([PR #44](https://github.com/profoundry-us/loco_motion/pull/44) – [Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
 
 ### Fixed
 
@@ -73,6 +74,8 @@ releases should be considered breaking!
 
 - Enhanced demo navigation with icons, colors, and improved padding
 - Added custom `where` variant to Avatar component
+- Added Algolia backend to index components
+- Added Algolia search UI to site
 
 ## [0.4.0] - 2025-03-07
 
