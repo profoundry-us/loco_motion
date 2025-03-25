@@ -24,7 +24,7 @@ jobs:
         working-directory: docs/demo
 
     - name: Clear Algolia components index
-      run: bundle exec rake algolia:clear ARGS="--index components"
+      run: bundle exec rake algolia:clear ARGS="--index components --force"
       working-directory: docs/demo
 
     - name: Index components to Algolia

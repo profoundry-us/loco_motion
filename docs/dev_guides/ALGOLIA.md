@@ -34,20 +34,20 @@ generate a JSON file locally, but data won't be uploaded to Algolia.
 ### algolia-index
 
 This command allows you to index component documentation and examples to Algolia.
-It can process either a single HAML file or all components.
+It can process either a single component or all components.
 
 ```bash
 # Process all components
 make algolia-index
 
-# Process a single file
-make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml"
+# Process a specific component
+make algolia-index ARGS="--component Daisy::Actions::Modal"
 
-# Process a single file with additional options
-make algolia-index ARGS="--file app/views/examples/daisy/actions/modals.html.haml --output tmp/algolia/modals_index.json --skip-upload"
+# Process a specific component and save output to a specific JSON file
+make algolia-index ARGS="--component Daisy::Actions::Modal --output tmp/algolia/modals_index.json"
 
-# Process all components with debug output
-make algolia-index ARGS="--debug"
+# Skip uploading to Algolia and only save the output
+make algolia-index ARGS="--skip-upload"
 
 # Save output to a specific JSON file and skip uploading to Algolia
 make algolia-index ARGS="--output tmp/algolia/my_components.json --skip-upload"
@@ -60,19 +60,16 @@ make algolia-index ARGS="--help"
 
 | Option | Description |
 | ------ | ----------- |
-| `-f, --file PATH` | Process a specific file |
-| `-d, --debug` | Enable debug output |
+| `-c, --component NAME` | Process a specific component (e.g. 'Daisy::DataDisplay::ChatBubble') |
 | `-o, --output PATH` | Save results to a JSON file |
 | `-s, --skip-upload` | Skip uploading to Algolia |
 | `-h, --help` | Display help message |
 
 **Important Notes:**
 
-1. File paths are relative to the `docs/demo` directory.
-2. You can specify a file either as the first positional argument or using the `--file` option.
-3. If no file path is provided, all components will be processed.
-4. All records are collected and sent to Algolia in a single batch upload.
-5. By default, JSON output is saved to `tmp/algolia/algolia_index.json` if no output path is specified.
+1. If no component is specified, all components will be processed.
+2. All records are collected and sent to Algolia in a single batch upload.
+3. By default, JSON output is saved to `tmp/algolia/algolia_index.json` if no output path is specified.
 
 If Algolia credentials are available, the data will be uploaded to Algolia.
 Regardless of credentials, a JSON file will always be generated with the processed data.
@@ -84,17 +81,11 @@ This command allows you to clear an Algolia index. It requires confirmation
 unless the `--force` flag is used.
 
 ```bash
-# Clear the default index (with confirmation prompt)
-make algolia-clear
+# Clear a requested index (required)
+make algolia-clear ARGS="--index index_name"
 
-# Clear the index without confirmation
-make algolia-clear ARGS="--force"
-
-# Clear a specific index
-make algolia-clear ARGS="--index custom_index_name"
-
-# Clear a specific index without confirmation and with debug output
-make algolia-clear ARGS="--index custom_index_name --force --debug"
+# Clear a specific index without confirmation
+make algolia-clear ARGS="--index custom_index_name --force"
 
 # Show help information
 make algolia-clear ARGS="--help"
@@ -104,9 +95,8 @@ make algolia-clear ARGS="--help"
 
 | Option | Description |
 | ------ | ----------- |
-| `-i, --index NAME` | Specify the index name to clear (default: 'loco_examples') |
+| `-i, --index NAME` | Specify the index name to clear (*required) |
 | `-f, --force` | Skip confirmation prompt |
-| `-d, --debug` | Enable debug output |
 | `-h, --help` | Display help message |
 
 
