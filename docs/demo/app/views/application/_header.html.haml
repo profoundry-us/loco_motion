@@ -22,6 +22,33 @@
         = hero_icon "magnifying-glass", css: "size-3.5"
         Search
 
+    - # TODO: Refactor the ThemeController component to handle this better. It
+    - # should also use localStorage for saving.
+    - #
+    - # Fix: There is also a slight delay so the search bar and a few other
+    - # components may flash before the theme is set.
+    - #
+    - # https://github.com/profoundry-us/loco_motion/issues/38
+    = daisy_dropdown(controller: "theme") do |dropdown|
+      - dropdown.with_button(css: "btn-ghost") do
+        = hero_icon "swatch"
+
+      - dropdown.with_item(css: "menu-title") do
+        Theme
+
+      - Daisy::Actions::ThemeControllerComponent::SOME_THEMES.each do |theme|
+        - dropdown.with_item do
+          = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
+            = daisy_radio(css: "theme-controller hidden peer", name: "docs-theme", value: theme, checked: theme == "light")
+            .size-4.grid.grid-cols-2.place-items-center.shrink-0.p1.rounded-md.bg-base-100.shadow-sm{ "data-theme": theme }
+              .bg-base-content.size-1.rounded-full
+              .bg-primary.size-1.rounded-full
+              .bg-secondary.size-1.rounded-full
+              .bg-accent.size-1.rounded-full
+            = theme.humanize
+            = hero_icon "check", css: "size-4 invisible peer-checked:visible"
+
+
     = daisy_button href: "/api-docs", target: "_blank", css: "btn-ghost btn-sm" do
       = hero_icon "document-text"
       .hidden.sm:inline-block

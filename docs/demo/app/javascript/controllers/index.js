@@ -2,7 +2,13 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application"
+import { Application } from "@hotwired/stimulus"
+const application = Application.start()
+
+// Import LocoMotion controllers
+import { CountdownController, ThemeController } from "@profoundry-us/loco_motion"
+application.register("countdown", CountdownController)
+application.register("theme", ThemeController)
 
 import ActiveTabController from "./active_tab_controller"
 application.register("active-tab", ActiveTabController)
@@ -21,3 +27,7 @@ application.register("nav", NavController)
 
 import StackGapController from "./stack_gap_controller"
 application.register("stack-gap", StackGapController)
+
+// Configure Stimulus development experience
+application.debug = false
+window.Stimulus   = application

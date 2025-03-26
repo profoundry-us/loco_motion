@@ -40,6 +40,7 @@ class LocoMotion::ComponentConfig
     @parts[:component][:user_tag_name] = kws[:tag_name] if kws[:tag_name]
     @parts[:component][:user_css].push(kws[:css]) if kws[:css]
     @parts[:component][:user_html].deep_merge!(kws[:html]) if kws[:html]
+    @parts[:component][:user_stimulus_controllers].push(kws[:controller]) if kws[:controller]
     @parts[:component][:user_stimulus_controllers].push(kws[:controllers]) if kws[:controllers]
   end
 

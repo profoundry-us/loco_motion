@@ -58,11 +58,11 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
 
   include ViewComponent::SlotableDefault
 
-  define_parts :menu, :menu_item
+  define_parts :menu
 
   renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
   renders_one :button, Daisy::Actions::ButtonComponent
-  renders_many :items
+  renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li, css: "menu-item")
 
   #
   # Creates a new instance of the DropdownComponent.
@@ -102,10 +102,7 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
   def setup_menu
     # Setup menu itself
     set_tag_name(:menu, :ul)
-    add_css(:menu, "dropdown-content menu bg-base-100 rounded-box shadow w-52 p-2 z-[1]")
-
-    # Setup menu items
-    set_tag_name(:menu_item, :li)
+    add_css(:menu, "dropdown-content where:menu where:bg-base-100 where:rounded-box where:shadow where:w-52 where:p-2 where:z-[1]")
   end
 
   #
