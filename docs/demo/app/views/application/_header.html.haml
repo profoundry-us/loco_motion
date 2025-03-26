@@ -1,7 +1,7 @@
 = daisy_navbar(css: "justify-between") do |bar|
   - bar.with_start(css: "w-auto! gap-2") do
     %label.-ml-2.btn.btn-ghost.xl:hidden{ for: "sidenav-drawer" }
-      = heroicon_tag("bars-3", class: "w-6 h-6")
+      = hero_icon("bars-3", css: "w-6 h-6")
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
       = daisy_button(href: root_path, css: "btn-ghost btn-lg pl-2") do
@@ -18,7 +18,9 @@
       .hidden.sm:inline-block.mr-2
         = daisy_kbd "⌘", css: "kbd-sm"
         = daisy_kbd "K", css: "kbd-sm"
-      Search
+      .flex.flex-row.items-center.gap-1
+        = hero_icon "magnifying-glass", css: "size-3.5"
+        Search
 
     = daisy_button href: "/api-docs", target: "_blank", css: "btn-ghost btn-sm" do
       = hero_icon "document-text"
