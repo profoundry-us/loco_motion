@@ -2,53 +2,67 @@
 
 All notable changes to LocoMotion will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project _mostly_ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 We say mostly because all versions before 1.0.0 will likely have breaking
 changes as we don't consider the project "released" until that point in time.
 
-We plan to use patch versions only for bug fixes, and for now, all minor
-releases should be considered breaking!
+We plan to use patch versions only for bug fixes, and for now, all **minor
+releases** should be considered **breaking**!
 
 ## [0.5.0] - Unreleased
 
 ### Overview
 
-- Run migration tool for TailwindCSS 4 and DaisyUI 5 ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
-- Remove ArtboardComponent and update DeviceComponent for DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
-- Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
-- Renamed ExampleWrapper component to DocExample for better semantics
-- Converted most uses of code blocks to markdown backticks for improved readability
-- Added Algolia search integration for documentation site ([PR #44](https://github.com/profoundry-us/loco_motion/pull/44) – [Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
+This is a **MASSIVE** release which touches basically every component!
+
+We've upgraded both TailwindCSS and DaisyUI to the latest major versions (4.x
+and 5.x respectively) with lots of new features and components!
+
+> [!NOTE]
+> Please refer to the [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade)
+> for specific changes to the styling of components.
+
+We've overhauled the entire docs site to be easier to use (better navigation
+styling) and quicker to navigate (super-fast Algolia search :exploding_head:).
+
+We've also added some new components offered by DaisyUI 5 including:
+
+- List
+
+And we updated many examples to be more clear or show other usage scenarios.
+
+Lastly, we added a TON of tests to ensure that all of the components function as
+designed and will continue to as we add more features.
+
+Read on for specific changes across the entire project! :tada:
 
 ### Added
 
-- add: Enhanced demo navigation with icons, colors, and improved padding
-- add: Custom `where` variant to Avatar component
-- add: Algolia backend to index components
-- add: Algolia search UI to site
+- add(`where:`): Add custom `where:` Tailwind modifier
+- add(List): Add basic List component with examples and specs ([Fixes #29](https://github.com/profoundry-us/loco_motion/issues/29))
 
 ### Changed / Fixed
 
+#### General Changes
+
+- **Breaking:** Upgrade from TailwindCSS 3.x to 4.x and DaisyUI 4.x to 5.x ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
+- **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
+- **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
+
 #### Component Changes
 
-- fix(Avatar): Update for DaisyUI 5 and added custom `where` variant
-- fix(Card): Update for DaisyUI 5
-- fix(FileInput): Update for DaisyUI 5
-- fix(Footer): Update for DaisyUI 5
-- fix(TextInput): Update for DaisyUI 5
-- fix(Masks): Update for DaisyUI 5
-- fix(Menu): Update for DaisyUI 5
-- fix(Select): Update for DaisyUI 5
-- fix(Stats): Update for DaisyUI 5
-- fix(Tabs): Update for DaisyUI 5 and added five different size options (xs, sm, md, lg, xl)
-- fix(TextArea): Update for DaisyUI 5 styling (borders now default)
-- test: Remove references to `form-control` class in specs
+- **Breaking:** remove(Artboard): Remove Artboard component no longer offered by DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
+- **Breaking:** refactor(Device): Utilize standard Tailwind width/height classes instead of Artboard ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
+- **Breaking:** refactor(ThemeController): Migrate to a "Builder" component ([Fixes #38](https://github.com/profoundry-us/loco_motion/issues/38))
+- **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4 `form-control` class (including specs)
+- feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
+- fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
 
-#### Demo Application Changes
+#### Demo / Docs Changes
 
 - fix: Issues with the side navigation
 - fix: Navigation drawer issues and dark mode configuration
@@ -57,7 +71,7 @@ releases should be considered breaking!
 - fix: Issues with swaps (rotation issue remains)
 - fix: Navigation not updating active state on selection
 - fix: Padding issue on Dropdowns example by upgrading to latest Tailwind insiders
-- fix: Dark mode toggle functionality
+- feat: Dark mode toggle functionality
 - fix: Device mockups in dark mode
 - fix: Header and buttons in dark mode
 - fix: Doc example tab roundness
@@ -80,7 +94,11 @@ releases should be considered breaking!
 - fix: Size of countdown boxes example
 - fix: Width of collapses
 - fix: Border to bottom figure example
-- fix: Standardize H1/H2 doc headings
+- feat: Standardize H1/H2 doc headings
+- feat: Enhanced navigation with icons, colors, and improved padding
+- add: Algolia search indexing and UI ([Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
+- refactor: Renamed `ExampleWrapper` doc component to `DocExample` for better semantics
+- fix: Converted most uses of code blocks to markdown backticks for improved readability
 
 ## [0.4.0] - 2025-03-07
 
