@@ -24,6 +24,8 @@
 
     - # Bug: There is a slight delay so the search bar and a few other
     - # components may flash before the theme is set.
+    - #
+    - # https://github.com/profoundry-us/loco_motion/issues/49
     = daisy_theme_controller do |tc|
       = daisy_dropdown(css: "dropdown-end") do |dropdown|
         - dropdown.with_button(css: "btn-ghost px-1 sm:px-3") do

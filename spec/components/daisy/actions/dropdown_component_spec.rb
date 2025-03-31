@@ -45,7 +45,7 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
 
     describe "rendering" do
       it "renders the menu" do
-        expect(page).to have_css ".menu"
+        expect(page).to have_css "ul[class*='where:menu']"
       end
 
       it "renders menu as unordered list" do
@@ -62,7 +62,15 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
       end
 
       it "applies default menu styles" do
-        expect(page).to have_css ".menu.bg-base-100.rounded-box.shadow.w-52.p-2.z-\\[1\\]"
+        # Check each class separately to avoid issues with class ordering
+        expect(page).to have_css "ul.dropdown-content"
+        expect(page).to have_css "ul[class*='where:menu']"
+        expect(page).to have_css "ul[class*='where:bg-base-100']"
+        expect(page).to have_css "ul[class*='where:rounded-box']"
+        expect(page).to have_css "ul[class*='where:shadow']"
+        expect(page).to have_css "ul[class*='where:w-52']"
+        expect(page).to have_css "ul[class*='where:p-2']"
+        expect(page).to have_css "ul[class*='where:z-[1]']"
       end
     end
   end
@@ -128,7 +136,7 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
       end
 
       it "does not render menu structure" do
-        expect(page).not_to have_css "ul.menu"
+        expect(page).not_to have_css "ul[class*='where:menu']"
         expect(page).not_to have_css "li"
       end
     end
