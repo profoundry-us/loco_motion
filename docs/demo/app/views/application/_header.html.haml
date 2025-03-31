@@ -1,6 +1,6 @@
 = daisy_navbar(css: "justify-between") do |bar|
   - bar.with_start(css: "w-auto! gap-2") do
-    %label.-ml-2.btn.btn-ghost.xl:hidden{ for: "sidenav-drawer" }
+    %label.-ml-2.btn.btn-ghost.px-1.sm:px-3.xl:hidden{ for: "sidenav-drawer" }
       = hero_icon("bars-3", css: "w-6 h-6")
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
@@ -14,48 +14,43 @@
       = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-dash btn-primary btn-xs rounded-full", tip: "alpha")
 
   - bar.with_end(css: "w-auto! space-x-2") do
-    = daisy_button(css: "btn-sm px-5 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
-      .hidden.sm:inline-block.mr-2
+    = daisy_button(css: "btn-sm px-3 sm:px-5 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
+      .hidden.lg:inline-block.mr-2
         = daisy_kbd "⌘", css: "kbd-sm"
         = daisy_kbd "K", css: "kbd-sm"
       .flex.flex-row.items-center.gap-1
         = hero_icon "magnifying-glass", css: "size-3.5"
         Search
 
-    - # TODO: Refactor the ThemeController component to handle this better. It
-    - # should also use localStorage for saving.
-    - #
-    - # Fix: There is also a slight delay so the search bar and a few other
+    - # Bug: There is a slight delay so the search bar and a few other
     - # components may flash before the theme is set.
-    - #
-    - # https://github.com/profoundry-us/loco_motion/issues/38
-    = daisy_dropdown(controller: "theme") do |dropdown|
-      - dropdown.with_button(css: "btn-ghost") do
-        = hero_icon "swatch"
+    = daisy_theme_controller do |tc|
+      = daisy_dropdown(css: "dropdown-end") do |dropdown|
+        - dropdown.with_button(css: "btn-ghost px-1 sm:px-3") do
+          = hero_icon("swatch")
+          .hidden.lg:block
+            Themes
+          = hero_icon("chevron-down", css: "size-4 hidden lg:block")
 
-      - dropdown.with_item(css: "menu-title") do
-        Theme
+        - dropdown.with_item(css: "menu-title") do
+          Themes
 
-      - Daisy::Actions::ThemeControllerComponent::SOME_THEMES.each do |theme|
-        - dropdown.with_item do
-          = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
-            = daisy_radio(css: "theme-controller hidden peer", name: "docs-theme", value: theme, checked: theme == "light")
-            .size-4.grid.grid-cols-2.place-items-center.shrink-0.p1.rounded-md.bg-base-100.shadow-sm{ "data-theme": theme }
-              .bg-base-content.size-1.rounded-full
-              .bg-primary.size-1.rounded-full
-              .bg-secondary.size-1.rounded-full
-              .bg-accent.size-1.rounded-full
-            = theme.humanize
-            = hero_icon "check", css: "size-4 invisible peer-checked:visible"
+        - tc.themes.each do |theme|
+          - dropdown.with_item do
+            = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
+              = tc.build_radio_input(theme, name: "docs-theme", css: "hidden peer")
+              = tc.build_theme_preview(theme)
+              = theme.humanize
+              = hero_icon "check", css: "size-4 invisible peer-checked:visible"
 
 
-    = daisy_button href: "/api-docs", target: "_blank", css: "btn-ghost btn-sm" do
+    = daisy_button href: "/api-docs", target: "_blank", css: "btn-ghost btn-sm px-1 sm:px-3" do
       = hero_icon "document-text"
-      .hidden.sm:inline-block
+      .hidden.lg:inline-block
         API Docs
 
-    = daisy_button href: "https://github.com/profoundry-us/loco_motion", target: "_blank", css: "btn-ghost btn-sm" do
-      %svg.w-5.h-5{role: "img", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", class: "dark:fill-base-content"}
+    = daisy_button href: "https://github.com/profoundry-us/loco_motion", target: "_blank", css: "btn-ghost btn-sm px-1 sm:px-3" do
+      %svg.w-5.h-5{role: "img", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", class: "fill-base-content"}
         %title GitHub
         %path{d: "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"}
-      %span.hidden.sm:inline-block GitHub
+      %span.hidden.lg:inline-block GitHub
