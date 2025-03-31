@@ -50,6 +50,7 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** Upgrade from TailwindCSS 3.x to 4.x and DaisyUI 4.x to 5.x ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
 - **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
+- feat: Allow users to pass singular `controller:` keyword in addition to `controllers:`
 
 #### Component Changes
 
@@ -61,6 +62,7 @@ Read on for specific changes across the entire project! :tada:
 - fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
+- feat(Input): Add `daisy_input` alias helper in addition to `daisy_text_input`
 
 #### Demo / Docs Changes
 
@@ -99,6 +101,11 @@ Read on for specific changes across the entire project! :tada:
 - add: Algolia search indexing and UI ([Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
 - refactor: Renamed `ExampleWrapper` doc component to `DocExample` for better semantics
 - fix: Converted most uses of code blocks to markdown backticks for improved readability
+- fix(DocNote): Fix purple TODO variant text color.
+- refactor: Merge `application.js` functionality into `index.js`
+- feat: Add Theme Switcher dropdown to header
+- fix: Fix header item spacing / padding on smaller screens
+- fix: Rename `Data` group to `Data Display` to match component module & DaisyUI 5
 
 ## [0.4.0] - 2025-03-07
 
