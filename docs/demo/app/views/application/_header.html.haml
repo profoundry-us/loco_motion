@@ -14,7 +14,7 @@
       = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-dash btn-primary btn-xs rounded-full", tip: "alpha")
 
   - bar.with_end(css: "w-auto! space-x-2") do
-    = daisy_button(css: "btn-sm px-3 sm:px-5 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
+    = daisy_button(css: "btn-sm px-3 sm:px-6 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
       .hidden.lg:inline-block.mr-2
         = daisy_kbd "⌘", css: "kbd-sm"
         = daisy_kbd "K", css: "kbd-sm"
@@ -28,7 +28,7 @@
     - # https://github.com/profoundry-us/loco_motion/issues/49
     = daisy_theme_controller do |tc|
       = daisy_dropdown(css: "dropdown-end") do |dropdown|
-        - dropdown.with_button(css: "btn-ghost px-1 sm:px-3") do
+        - dropdown.with_button(css: "btn-sm btn-ghost px-1 sm:px-3") do
           = hero_icon("swatch")
           .hidden.lg:block
             Themes
