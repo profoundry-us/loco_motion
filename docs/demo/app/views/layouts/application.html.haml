@@ -20,6 +20,7 @@
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/erb.min.js" }
     %script{ src: "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js" }
 
+
   - header_classes = "sticky z-30 top-0 px-4 border-b border-base-300 backdrop-blur-xs bg-base-100/90"
   - nav_classes = "w-64 bg-base-100"
   - footer_classes = "md:flex md:items-center md:justify-center md:space-x-1 mt-4 py-4 text-sm whitespace-nowrap"
@@ -52,6 +53,11 @@
         box_css: "flex flex-col max-w-3xl h-9/10 md:h-3/4 p-0! bg-base-200",
         actions_css: "mt-0 border-t border-neutral-content dark:border-base-300",
         html: { "data-turbo-permanent": true }) do |modal|
+
+      - # We already have a different button to activate the search, so we don't
+      - # need this one; thus the hidden CSS
+      - modal.with_button(title: "Search Documentation", css: "hidden")
+
       - modal.with_start_actions(css: "flex flex-col md:flex-row md:items-center gap-4 px-4 py-2 text-sm") do
         .flex.flex-row.items-center.gap-2
           = daisy_kbd do

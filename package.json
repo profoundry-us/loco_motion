@@ -14,6 +14,7 @@
   },
   "files": [
     "index.js",
-    "app/components/daisy/data_display/countdown_controller.js"
+    "app/components/daisy/data_display/countdown_controller.js",
+    "app/components/daisy/actions/theme_controller.js"
   ]
 }

@@ -42,7 +42,7 @@ class DocNoteComponent < ApplicationComponent
     @default_icon = "ellipsis-horizontal-circle"
     @default_title = "Todo"
 
-    add_css(:component, "border-purple-600 bg-purple-100")
+    add_css(:component, "border-purple-600 bg-purple-100 text-purple-600")
     add_css(:icon, "text-purple-600")
   end
 

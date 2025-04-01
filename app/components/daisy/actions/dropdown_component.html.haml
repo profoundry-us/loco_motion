@@ -7,7 +7,6 @@
   - if items.any?
     = part(:menu) do
       - items.each do |item|
-        = part(:menu_item) do
-          = item
+        = item
   - else
     = content

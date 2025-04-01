@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe Algolia::Index do
   let(:short_name) { 'components' }
-  let(:full_index_name) { "loco_motion_test_components_#{LocoMotion::VERSION}" }
+  let(:full_index_name) { "loco_motion_#{ENV['ALGOLIA_ENV']}_#{short_name}_#{LocoMotion::VERSION}" }
   let(:client) { instance_double('Algolia::Search::Client') }
   let(:indices_response) { instance_double('Algolia::Search::IndexesResponse') }
   let(:index_items) { [] } # Empty by default, meaning the index doesn't exist
-  
+
   # Mock records for testing save_objects
   let(:records) do
     [
@@ -30,14 +30,17 @@ RSpec.describe Algolia::Index do
   before do
     # Mock AlgoliaSearch.client to return our test client
     allow(AlgoliaSearch).to receive(:client).and_return(client)
-    
-    # Mock Rails.env to return 'test'
+
+    # Mock ENV['ALGOLIA_ENV'] to return 'test'
+    stub_const("ENV", ENV.to_hash.merge('ALGOLIA_ENV' => 'test'))
+
+    # Mock Rails.env to return 'test' (still needed as a fallback)
     allow(Rails).to receive(:env).and_return('test')
-    
+
     # Mock the list_indices method to return our test response
     allow(client).to receive(:list_indices).and_return(indices_response)
     allow(indices_response).to receive(:items).and_return(index_items)
-    
+
     # Always stub set_settings by default to avoid unexpected calls
     allow(client).to receive(:set_settings).and_return(nil)
   end
@@ -52,7 +55,7 @@ RSpec.describe Algolia::Index do
           instance_of(Algolia::Search::IndexSettings),
           true
         )
-        
+
         described_class.new(short_name)
       end
     end
@@ -62,11 +65,11 @@ RSpec.describe Algolia::Index do
 
       it 'does not reconfigure the index' do
         expect(client).not_to receive(:set_settings)
-        
+
         described_class.new(short_name)
       end
     end
-    
+
     it 'sets the name correctly' do
       index = described_class.new(short_name)
       expect(index.name).to eq(full_index_name)
@@ -91,7 +94,7 @@ RSpec.describe Algolia::Index do
       response = index.save_objects(records)
       expect(response).to eq(batch_response)
     end
-    
+
     it 'creates addObject requests for each record' do
       # Capture the batch params to verify the requests
       expect(client).to receive(:batch) do |index_name, params|
@@ -132,13 +135,13 @@ RSpec.describe Algolia::Index do
     it 'formats the name correctly with environment and version' do
       # Create a new instance to avoid interference from the initialized value
       new_index = described_class.new('test_index')
-      expect(new_index.name).to eq("loco_motion_test_test_index_#{LocoMotion::VERSION}")
+      expect(new_index.name).to eq("loco_motion_#{ENV['ALGOLIA_ENV']}_test_index_#{LocoMotion::VERSION}")
     end
   end
 
   describe '#default_index_settings' do
     let(:index) { described_class.new(short_name) }
-    
+
     # Get the private method's result for testing
     let(:settings) do
       # Use send to call the private method
@@ -147,7 +150,7 @@ RSpec.describe Algolia::Index do
 
     it 'returns a hash with the expected settings' do
       expect(settings).to be_a(Hash)
-      
+
       # Verify key settings
       expect(settings[:searchable_attributes]).to include('title', 'framework', 'section', 'description')
       expect(settings[:attributes_for_faceting]).to include('filterOnly(framework)', 'filterOnly(section)')

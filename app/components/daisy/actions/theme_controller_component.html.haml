@@ -1,5 +1,0 @@
-= part(:component) do
-  - @themes.map do |theme|
-    %label.label.cursor-pointer.gap-4
-      %span.label-text= theme.titleize
-      %input.radio.theme-controller{ name: "theme", type: "radio", value: theme, checked: theme == "light"}

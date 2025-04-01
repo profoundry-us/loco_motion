@@ -1,0 +1,102 @@
+= doc_title(title: "Lists", comp: @comp) do |title|
+  :markdown
+    Lists provide a vertical layout to display information in rows. They can
+    contain various content types including text, images, and actions arranged in
+    a consistent format.
+
+= doc_example(title: "Basic List") do |doc|
+  - doc.with_description do
+    :markdown
+      A simple list that displays items in a vertical arrangement. Each item is
+      rendered as a list element with basic styling.
+
+  = daisy_list do |list|
+    - list.with_item { "Item 1" }
+    - list.with_item { "Item 2" }
+    - list.with_item { "Item 3" }
+
+= doc_example(title: "List with Header") do |doc|
+  - doc.with_description do
+    :markdown
+      Lists can include a header element that describes the content below.
+      This provides context for the items and improves organization.
+
+  = daisy_list(header: "Featured Items") do |list|
+    - list.with_item { "Featured Item 1" }
+    - list.with_item { "Featured Item 2" }
+    - list.with_item { "Featured Item 3" }
+
+= doc_example(title: "Styled List") do |doc|
+  - doc.with_description do
+    :markdown
+      Lists can be customized with additional CSS classes for enhanced visual
+      presentation. This example adds a background, rounded corners, shadow,
+      and dividers between items.
+
+  = daisy_list(css: "bg-base-100 shadow-md") do |list|
+    - list.with_item { "Item 1" }
+    - list.with_item { "Item 2" }
+    - list.with_item { "Item 3" }
+
+= doc_example(title: "List with Images") do |doc|
+  - doc.with_description do
+    :markdown
+      List items can contain rich content including images and structured text.
+      This is useful for displaying user profiles or other complex information.
+
+  = daisy_list(header: "User Profiles", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "bg-base-100 rounded-box shadow-md") do |list|
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-1.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Alice Johnson
+        .text-xs.opacity-60 Product Designer
+
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-2.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Jane Smith
+        .text-xs.opacity-60 Software Engineer
+
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-3.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Carol Davis
+        .text-xs.opacity-60 UX Researcher
+
+= doc_example(title: "Interactive List") do |doc|
+  - doc.with_description do
+    :markdown
+      Lists can include interactive elements like buttons to provide additional
+      functionality. This example shows a music player interface with play
+      and favorite buttons.
+
+  = daisy_list(header: "Most played songs", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "w-100 bg-base-100 rounded-box shadow-md") do |list|
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-1.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Remaining Reason
+        .text-xs.uppercase.font-semibold.opacity-60 Dio Lupa
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("play")
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("heart")
+
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-4.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Bears of a Fever
+        .text-xs.uppercase.font-semibold.opacity-60 Ellie Beilish
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("play")
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("heart")
+
+    - list.with_item do |item|
+      = image_tag("avatars/lady-smiling-3.jpg", class: "size-10 rounded-box")
+      .flex.flex-col
+        .font-medium Cappuccino
+        .text-xs.uppercase.font-semibold.opacity-60 Sabrino Gardener
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("play")
+      = daisy_button(css: "btn-square btn-ghost") do
+        = hero_icon("heart")

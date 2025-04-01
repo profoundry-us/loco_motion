@@ -1,13 +1,87 @@
 = doc_title(title: "Theme Controller", comp: @comp) do |title|
-  %p
-    The Theme Controller component allows you to quickly switch between
-    different DaisyUI themes that have been defined / setup in your Tailwind
-    configuration.
+  :markdown
+    The Theme Controller component provides a plethora of pre-built
+    sub-components that can be used to build a custom theme switcher.
 
-= doc_example(title: "Radio Buttons") do |doc|
+  = doc_note(modifier: :tip) do
+    :markdown
+      The `ThemeController` component is a **_Builder_** component rather than
+      your standard **_Slotable_** ViewComponent.
+
+      This means that instead of the component providing slots, and handling
+      where your custom components are _inserted_, the developer utilizes helper
+      methods on the component to **choose** where the sub-components are
+      _rendered_.
+
+      In the examples below, we use the HAML `=` syntax to output the rendered
+      sub-components, whereas typical components use the HAML `-` syntax to
+      "pass" the component to a slot.
+
+
+= doc_example(title: "Theme Preview Icons") do |doc|
   - doc.with_description do
-    %p
-      This example showcases the theme controllers. You can use these
-      controllers to switch between different themes.
+    :markdown
+      One of the most basic sub-components is the theme preview icon. It shows a
+      visual representation of the theme using the `base`, `primary`,
+      `secondary`, and `accent` colors as little dots inside of a rounded
+      square.
 
-  = daisy_theme_controller(css: "bg-base-100 border border-base-300 lg:rounded-full px-10 py-3")
+  = daisy_theme_controller do |theme_controller|
+    .flex.flex-col.sm:flex-row.gap-4.items-start.sm:items-center
+      - theme_controller.themes.each do |theme|
+        .flex.flex-row.gap-2.items-center
+          = theme_controller.build_theme_preview(theme)
+          = theme.humanize
+
+
+= doc_example(title: "Theme Radio Inputs") do |doc|
+  - doc.with_description do
+    :markdown
+      When a theme radio input is selected, the theme's page will change to the
+      value of the the input.
+
+    = doc_note(modifier: :warning, css: "mb-8") do
+      :markdown
+        We provide a custom name of `docs-radio-theme` so that this example
+        doesn't interfere with the header theme or other examples.
+
+        However, because we are **only** using the radio inputs, we do **NOT**
+        call the `setTheme()` method, and thus we do **NOT** save these changes
+        to `localStorage`.
+
+  = daisy_theme_controller do |theme_controller|
+    .flex.flex-col.sm:flex-row.gap-4.items-start.sm:items-center
+      - theme_controller.themes.each do |theme|
+        %label.flex.flex-row.gap-2.items-center
+          = theme_controller.build_radio_input(theme, name: "docs-radio-theme")
+          = theme.humanize
+
+
+= doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also build a custom switcher by using all of the sub-components
+      in combination.
+
+    = doc_note(modifier: :warning, css: "mb-8") do
+      :markdown
+        Note that the `daisy_theme_controller` may need to be the **parent** of
+        your custom switcher to ensure that it appropriately sets up the
+        Stimulus controller.
+
+        In the example below, the dropdown doesn't render custom content when
+        using the `with_item` helper, so the Stimulus controller wouldn't be
+        applied if the order were switched.
+
+
+  = daisy_theme_controller do |tc|
+    = daisy_dropdown do |dropdown|
+      - dropdown.with_button(css: "btn-error", icon: "swatch", title: "Themes", right_icon: "chevron-down")
+
+      - tc.themes.each do |theme|
+        - dropdown.with_item do
+          = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
+            = tc.build_radio_input(theme, name: "docs-custom-theme", css: "hidden peer")
+            = tc.build_theme_preview(theme)
+            = theme.humanize
+            = hero_icon "check", css: "size-4 invisible peer-checked:visible"
