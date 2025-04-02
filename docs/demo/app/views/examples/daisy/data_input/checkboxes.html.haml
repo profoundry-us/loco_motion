@@ -1,21 +1,52 @@
 = doc_title(title: "Checkboxes", comp: @comp) do |title|
   :markdown
-    Here are some examples showcasing checkbox components.
+    Checkboxes are great for toggling an item on / off, or selecting multiple
+    items from a list.
 
 
 = doc_example(title: "Basic Checkboxes") do |doc|
   - doc.with_description do
     :markdown
-      Checkboxes are used to select one or more options from a set.
+      Basic checkboxes can be rendered with or without a label through standard
+      heirarchy means, or by utilizing the `start_label` and `end_label`
+      wrappers.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        While the
+        <a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
+        Concern does implement a `floating_label` attribute, it is not relevant
+        for checkboxes and does not render properly.
 
   .my-2.flex.flex-col.gap-4
+    %div
+      = daisy_checkbox(name: "checkbox0", id: "checkbox0")
+      .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
+        Checkbox with no label
+
     = daisy_label(for: "checkbox1") do
       = daisy_checkbox(name: "checkbox1", id: "checkbox1")
-      Default Checkbox
+      Checkbox with regular label
 
-    = daisy_label(for: "checkbox2") do
-      = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true)
-      Checked Checkbox
+    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true, end_label: "Checkbox using end_label wrapper")
+
+    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true, start_label: "Checkbox using start_label wrapper")
+
+    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true) do |checkbox|
+      - checkbox.with_end_label do
+        :markdown
+          Checkbox using `end_label` block
+
+    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true) do |checkbox|
+      - checkbox.with_start_label(css: "flex flex-row items-center") do
+        Using
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          start_label
+      - checkbox.with_end_label(css: "flex flex-row items-center") do
+        and
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          end_label
+        blocks
 
 
 = doc_example(title: "Checkboxes with Colors") do |doc|
@@ -161,8 +192,8 @@
       Checkboxes can be given a custom ID using the `id` attribute.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "custom-id") do
-      = daisy_checkbox(name: "checkbox12", id: "custom-id")
+    = daisy_label(for: "custom-checkbox") do
+      = daisy_checkbox(name: "checkbox12", id: "custom-checkbox")
       Checkbox with Custom ID
 
 
@@ -178,9 +209,7 @@
       = form.daisy_checkbox(:terms)
       I accept the terms and conditions
 
-    = form.daisy_label(:newsletter) do
-      = form.daisy_checkbox(:newsletter, toggle: true)
-      Subscribe to newsletter
+    = form.daisy_checkbox(:newsletter, toggle: true, end_label: "Subscribe to newsletter")
 
 
 = doc_example(title: "Using Label Component") do |doc|

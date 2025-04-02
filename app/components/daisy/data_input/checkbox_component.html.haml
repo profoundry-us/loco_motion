@@ -1,0 +1,18 @@
+- if has_any_label?
+  = part(:label_wrapper) do
+    - if start_label?
+      = start_label
+    - elsif @start_label
+      = part(:start_label) do
+        = @start_label
+
+    = part(:component)
+
+    - if end_label?
+      = end_label
+    - elsif @end_label
+      = part(:end_label) do
+        = @end_label
+
+- else
+  = part(:component)

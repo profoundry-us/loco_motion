@@ -18,6 +18,8 @@
 #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
 #
 class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::LabelableComponent
+
   attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
 
   #
@@ -60,6 +62,8 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
     setup_component
   end
 
@@ -81,12 +85,5 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
       disabled: @disabled,
       required: @required
     })
-  end
-
-  #
-  # Renders the component inline with no additional whitespace.
-  #
-  def call
-    part(:component)
   end
 end
