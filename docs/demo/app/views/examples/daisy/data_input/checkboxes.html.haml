@@ -20,24 +20,24 @@
 
   .my-2.flex.flex-col.gap-4
     %div
-      = daisy_checkbox(name: "checkbox0", id: "checkbox0")
+      = daisy_checkbox(name: "checkbox_no_label", id: "checkbox_no_label")
       .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
         Checkbox with no label
 
-    = daisy_label(for: "checkbox1") do
-      = daisy_checkbox(name: "checkbox1", id: "checkbox1")
+    = daisy_label(for: "checkbox_with_label") do
+      = daisy_checkbox(name: "checkbox_with_label", id: "checkbox_with_label")
       Checkbox with regular label
 
-    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true, end_label: "Checkbox using end_label wrapper")
+    = daisy_checkbox(name: "checkbox_end_label", id: "checkbox_end_label", checked: true, end_label: "Checkbox using end_label wrapper")
 
-    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true, start_label: "Checkbox using start_label wrapper")
+    = daisy_checkbox(name: "checkbox_start_label", id: "checkbox_start_label", checked: true, start_label: "Checkbox using start_label wrapper")
 
-    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true) do |checkbox|
+    = daisy_checkbox(name: "checkbox_end_label_block", id: "checkbox_end_label_block", checked: true) do |checkbox|
       - checkbox.with_end_label do
         :markdown
           Checkbox using `end_label` block
 
-    = daisy_checkbox(name: "checkbox2", id: "checkbox2", checked: true) do |checkbox|
+    = daisy_checkbox(name: "checkbox_both_labels", id: "checkbox_both_labels", checked: true) do |checkbox|
       - checkbox.with_start_label(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
@@ -59,36 +59,36 @@
         Uses `checkbox-neutral` with dark backgrounds for dark mode compatibility.
 
   .my-2.grid.grid-cols-1.md:grid-cols-2.gap-4
-    = daisy_label(for: "checkbox-dark") do
-      = daisy_checkbox(name: "checkbox-dark", id: "checkbox-dark", css: "checkbox-neutral theme-controller", value: "dark", checked: false)
+    = daisy_label(for: "checkbox_dark_mode") do
+      = daisy_checkbox(name: "checkbox_dark_mode", id: "checkbox_dark_mode", css: "checkbox-neutral theme-controller", value: "dark", checked: false)
       Enable Dark Mode
 
-    = daisy_label(for: "checkbox3") do
-      = daisy_checkbox(name: "checkbox3", css: "checkbox-primary", id: "checkbox3", checked: true)
+    = daisy_label(for: "checkbox_primary") do
+      = daisy_checkbox(name: "checkbox_primary", css: "checkbox-primary", id: "checkbox_primary", checked: true)
       Primary
 
-    = daisy_label(for: "checkbox4") do
-      = daisy_checkbox(name: "checkbox4", css: "checkbox-secondary", id: "checkbox4", checked: true)
+    = daisy_label(for: "checkbox_secondary") do
+      = daisy_checkbox(name: "checkbox_secondary", css: "checkbox-secondary", id: "checkbox_secondary", checked: true)
       Secondary
 
-    = daisy_label(for: "checkbox5") do
-      = daisy_checkbox(name: "checkbox5", css: "checkbox-accent", id: "checkbox5", checked: true)
+    = daisy_label(for: "checkbox_accent") do
+      = daisy_checkbox(name: "checkbox_accent", css: "checkbox-accent", id: "checkbox_accent", checked: true)
       Accent
 
-    = daisy_label(for: "checkbox6") do
-      = daisy_checkbox(name: "checkbox6", css: "checkbox-success", id: "checkbox6", checked: true)
+    = daisy_label(for: "checkbox_success") do
+      = daisy_checkbox(name: "checkbox_success", css: "checkbox-success", id: "checkbox_success", checked: true)
       Success
 
-    = daisy_label(for: "checkbox7") do
-      = daisy_checkbox(name: "checkbox7", css: "checkbox-warning", id: "checkbox7", checked: true)
+    = daisy_label(for: "checkbox_warning") do
+      = daisy_checkbox(name: "checkbox_warning", css: "checkbox-warning", id: "checkbox_warning", checked: true)
       Warning
 
-    = daisy_label(for: "checkbox8") do
-      = daisy_checkbox(name: "checkbox8", css: "checkbox-error", id: "checkbox8", checked: true)
+    = daisy_label(for: "checkbox_error") do
+      = daisy_checkbox(name: "checkbox_error", css: "checkbox-error", id: "checkbox_error", checked: true)
       Error
 
-    = daisy_label(for: "checkbox9") do
-      = daisy_checkbox(name: "checkbox9", css: "checkbox-info", id: "checkbox9", checked: true)
+    = daisy_label(for: "checkbox_info") do
+      = daisy_checkbox(name: "checkbox_info", css: "checkbox-info", id: "checkbox_info", checked: true)
       Info
 
 
@@ -99,28 +99,28 @@
 
   .my-2.flex.flex-col.gap-8
     .flex.items-center.gap-4
-      = daisy_label(for: "checkbox-xs") do
-        = daisy_checkbox(name: "checkbox-xs", id: "checkbox-xs", css: "checkbox-xs", checked: true)
+      = daisy_label(for: "checkbox_extra_small") do
+        = daisy_checkbox(name: "checkbox_extra_small", id: "checkbox_extra_small", css: "checkbox-xs", checked: true)
         Extra Small
 
     .flex.items-center.gap-4
-      = daisy_label(for: "checkbox-sm") do
-        = daisy_checkbox(name: "checkbox-sm", id: "checkbox-sm", css: "checkbox-sm", checked: true)
+      = daisy_label(for: "checkbox_small") do
+        = daisy_checkbox(name: "checkbox_small", id: "checkbox_small", css: "checkbox-sm", checked: true)
         Small
 
     .flex.items-center.gap-4
-      = daisy_label(for: "checkbox-md") do
-        = daisy_checkbox(name: "checkbox-md", id: "checkbox-md", css: "checkbox-md", checked: true)
+      = daisy_label(for: "checkbox_medium") do
+        = daisy_checkbox(name: "checkbox_medium", id: "checkbox_medium", css: "checkbox-md", checked: true)
         Medium (Default)
 
     .flex.items-center.gap-4
-      = daisy_label(for: "checkbox-lg") do
-        = daisy_checkbox(name: "checkbox-lg", id: "checkbox-lg", css: "checkbox-lg", checked: true)
+      = daisy_label(for: "checkbox_large") do
+        = daisy_checkbox(name: "checkbox_large", id: "checkbox_large", css: "checkbox-lg", checked: true)
         Large
 
     .flex.items-center.gap-4
-      = daisy_label(for: "checkbox-xl") do
-        = daisy_checkbox(name: "checkbox-xl", id: "checkbox-xl", css: "checkbox-xl", checked: true)
+      = daisy_label(for: "checkbox_extra_large") do
+        = daisy_checkbox(name: "checkbox_extra_large", id: "checkbox_extra_large", css: "checkbox-xl", checked: true)
         Extra Large
 
 
@@ -130,28 +130,28 @@
       You can combine both color and size classes to create different variations.
 
   .my-2.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
-    = daisy_label(for: "checkbox-primary-sm") do
-      = daisy_checkbox(name: "checkbox-primary-sm", id: "checkbox-primary-sm", css: "checkbox-primary checkbox-sm", checked: true)
+    = daisy_label(for: "checkbox_primary_small") do
+      = daisy_checkbox(name: "checkbox_primary_small", id: "checkbox_primary_small", css: "checkbox-primary checkbox-sm", checked: true)
       Primary Small
 
-    = daisy_label(for: "checkbox-secondary-md") do
-      = daisy_checkbox(name: "checkbox-secondary-md", id: "checkbox-secondary-md", css: "checkbox-secondary checkbox-md", checked: true)
+    = daisy_label(for: "checkbox_secondary_medium") do
+      = daisy_checkbox(name: "checkbox_secondary_medium", id: "checkbox_secondary_medium", css: "checkbox-secondary checkbox-md", checked: true)
       Secondary Medium
 
-    = daisy_label(for: "checkbox-accent-lg") do
-      = daisy_checkbox(name: "checkbox-accent-lg", id: "checkbox-accent-lg", css: "checkbox-accent checkbox-lg", checked: true)
+    = daisy_label(for: "checkbox_accent_large") do
+      = daisy_checkbox(name: "checkbox_accent_large", id: "checkbox_accent_large", css: "checkbox-accent checkbox-lg", checked: true)
       Accent Large
 
-    = daisy_label(for: "checkbox-info-sm") do
-      = daisy_checkbox(name: "checkbox-info-sm", id: "checkbox-info-sm", css: "checkbox-info checkbox-sm", checked: true)
+    = daisy_label(for: "checkbox_info_small") do
+      = daisy_checkbox(name: "checkbox_info_small", id: "checkbox_info_small", css: "checkbox-info checkbox-sm", checked: true)
       Info Small
 
-    = daisy_label(for: "checkbox-success-md") do
-      = daisy_checkbox(name: "checkbox-success-md", id: "checkbox-success-md", css: "checkbox-success checkbox-md", checked: true)
+    = daisy_label(for: "checkbox_success_medium") do
+      = daisy_checkbox(name: "checkbox_success_medium", id: "checkbox_success_medium", css: "checkbox-success checkbox-md", checked: true)
       Success Medium
 
-    = daisy_label(for: "checkbox-warning-lg") do
-      = daisy_checkbox(name: "checkbox-warning-lg", id: "checkbox-warning-lg", css: "checkbox-warning checkbox-lg", checked: true)
+    = daisy_label(for: "checkbox_warning_large") do
+      = daisy_checkbox(name: "checkbox_warning_large", id: "checkbox_warning_large", css: "checkbox-warning checkbox-lg", checked: true)
       Warning Large
 
 
@@ -167,12 +167,12 @@
         You must set the `indeterminate` attribute through JavaScript.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "checkbox10") do
-      = daisy_checkbox(name: "checkbox10", id: "checkbox10")
+    = daisy_label(for: "checkbox_indeterminate_state") do
+      = daisy_checkbox(name: "checkbox_indeterminate_state", id: "checkbox_indeterminate_state")
       Indeterminate Checkbox
 
     :javascript
-      document.getElementById("checkbox10").indeterminate = true;
+      document.getElementById("checkbox_indeterminate_state").indeterminate = true;
 
 
 = doc_example(title: "Disabled Checkbox") do |doc|
@@ -181,8 +181,8 @@
       Checkboxes can be disabled using the `disabled` attribute.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "checkbox11", css: "cursor-not-allowed") do
-      = daisy_checkbox(name: "checkbox11", id: "checkbox11", disabled: true)
+    = daisy_label(for: "checkbox_disabled_state", css: "cursor-not-allowed") do
+      = daisy_checkbox(name: "checkbox_disabled_state", id: "checkbox_disabled_state", disabled: true)
       Disabled Checkbox
 
 
