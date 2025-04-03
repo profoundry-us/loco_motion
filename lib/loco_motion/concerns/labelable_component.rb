@@ -13,17 +13,17 @@ module LocoMotion
     #     # component implementation ...
     #   end
     #
-    #   = daisy_my_input(name: "username", start_label: "Username")
+    #   = daisy_my_input(name: "username", start: "Username")
     #
     # @loco_example With an end label (useful for checkboxes/radios)
-    #   = daisy_checkbox(name: "terms", end_label: "I agree to the terms")
+    #   = daisy_checkbox(name: "terms", end: "I agree to the terms")
     #
     # @loco_example With a floating label
-    #   = daisy_text_input(name: "email", floating_label: "Email Address")
+    #   = daisy_text_input(name: "email", floating: "Email Address")
     #
     # @loco_example Using a custom slot for the label
     #   = daisy_text_input(name: "password") do |input|
-    #     - input.with_floating_label do
+    #     - input.with_floating do
     #       Password
     #       %span.text-red-500 *
     #
@@ -35,30 +35,35 @@ module LocoMotion
       # Sets up the necessary parts & slots for custom label content.
       #
       included do
-        define_parts :label_wrapper, :start_label, :end_label, :floating_label
+        define_parts :label_wrapper, :start, :end, :floating
 
-        renders_one :start_label
-        renders_one :end_label
-        renders_one :floating_label
+        renders_one :start
+        renders_one :end
+        renders_one :floating
       end
 
       def initialize(*instance_args, **instance_kws, &instance_block)
         super(*instance_args, **instance_kws, &instance_block)
 
-        @start_label = config_option(:start_label)
-        @end_label = config_option(:end_label)
-        @floating_label = config_option(:floating_label)
+        @start = config_option(:start)
+        @end = config_option(:end)
+        @floating = config_option(:floating)
       end
 
       def before_render
         super
 
         set_tag_name(:label_wrapper, :label)
-        add_css(:label_wrapper, "label")
 
-        set_tag_name(:start_label, :span)
-        set_tag_name(:end_label, :span)
-        set_tag_name(:floating_label, :span)
+        if has_floating_label?
+          add_css(:label_wrapper, "floating-label")
+        else
+          add_css(:label_wrapper, "label")
+        end
+
+        set_tag_name(:start, :span)
+        set_tag_name(:end, :span)
+        set_tag_name(:floating, :span)
       end
 
       #
@@ -67,12 +72,34 @@ module LocoMotion
       # @return [Boolean] true if any label is present, false otherwise
       #
       def has_any_label?
-        start_label? ||
-        end_label? ||
-        floating_label? ||
-        config_option(:start_label).present? ||
-        config_option(:end_label).present? ||
-        config_option(:floating_label).present?
+        has_start_label? || has_end_label? || has_floating_label?
+      end
+
+      #
+      # Checks if a start label is present.
+      #
+      # @return [Boolean] true if start label is present, false otherwise
+      #
+      def has_start_label?
+        start? || config_option(:start).present?
+      end
+
+      #
+      # Checks if an end label is present.
+      #
+      # @return [Boolean] true if end label is present, false otherwise
+      #
+      def has_end_label?
+        end? || config_option(:end).present?
+      end
+
+      #
+      # Checks if a floating label is present.
+      #
+      # @return [Boolean] true if floating label is present, false otherwise
+      #
+      def has_floating_label?
+        floating? || config_option(:floating).present?
       end
     end
   end

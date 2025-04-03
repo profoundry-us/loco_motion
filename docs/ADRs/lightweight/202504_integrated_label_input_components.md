@@ -75,8 +75,8 @@ entirely new components.
    - `label_required`: Whether to show the input as required in the label
 
 2. **Add corresponding label slots**:
-   - `with_start_label`: For custom label content at the start
-   - `with_end_label`: For custom label content at the end
+   - `with_start`: For custom label content at the start
+   - `with_end`: For custom label content at the end
    - `with_floating_label`: For custom floating label content
 
 3. **Update the component structure**:
@@ -90,7 +90,7 @@ entirely new components.
 **1. Basic Input with Start Label (Traditional Style)**
 
 ```haml
-= daisy_text_input(name: "username", start_label: "Username")
+= daisy_text_input(name: "username", start: "Username")
 ```
 
 Rendered HTML:
@@ -104,7 +104,7 @@ Rendered HTML:
 **2. Input with End Label (Useful for Checkboxes/Radios)**
 
 ```haml
-= daisy_checkbox(name: "terms", end_label: "I agree to the terms")
+= daisy_checkbox(name: "terms", end: "I agree to the terms")
 ```
 
 Rendered HTML:

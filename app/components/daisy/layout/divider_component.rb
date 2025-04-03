@@ -51,8 +51,10 @@ class Daisy::Layout::DividerComponent < LocoMotion::BaseComponent
   #     `divider-accent`, `divider-info`, `divider-success`,
   #     `divider-warning`, `divider-error`
   #
-  def initialize(*args, **kws, &block)
+  def initialize(title = nil, **kws, &block)
     super
+
+    @simple_title = config_option(:title, title)
   end
 
   #
@@ -66,7 +68,7 @@ class Daisy::Layout::DividerComponent < LocoMotion::BaseComponent
   # Renders the component and its content.
   #
   def call
-    part(:component) { content }
+    part(:component) { content || @simple_title }
   end
 
 end

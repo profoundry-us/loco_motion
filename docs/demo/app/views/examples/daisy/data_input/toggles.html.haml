@@ -15,7 +15,7 @@
       :markdown
         While the
         <a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
-        Concern does implement a `floating_label` attribute, it is not relevant
+        Concern does implement a `floating` attribute, it is not relevant
         for toggles and does not render properly.
 
   .my-2.flex.flex-col.gap-4
@@ -28,24 +28,24 @@
       = daisy_toggle(name: "toggle1", id: "toggle1")
       Default Toggle with regular label
 
-    = daisy_toggle(name: "toggle_end_label", id: "toggle_end_label", checked: true, end_label: "Toggle using end_label wrapper")
+    = daisy_toggle(name: "toggle_end", id: "toggle_end", checked: true, end: "Toggle using end wrapper")
 
-    = daisy_toggle(name: "toggle_start_label", id: "toggle_start_label", checked: true, start_label: "Toggle using start_label wrapper")
+    = daisy_toggle(name: "toggle_start", id: "toggle_start", checked: true, start: "Toggle using start wrapper")
 
-    = daisy_toggle(name: "toggle_end_label_block", id: "toggle_end_label_block", checked: true) do |toggle|
-      - toggle.with_end_label do
+    = daisy_toggle(name: "toggle_end_block", id: "toggle_end_block", checked: true) do |toggle|
+      - toggle.with_end do
         :markdown
-          Toggle using `end_label` block
+          Toggle using `end` block
 
-    = daisy_toggle(name: "toggle_start_label_block", id: "toggle_start_label_block", checked: true) do |toggle|
-      - toggle.with_start_label(css: "flex flex-row items-center") do
+    = daisy_toggle(name: "toggle_start_block", id: "toggle_start_block", checked: true) do |toggle|
+      - toggle.with_start(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
-          start_label
-      - toggle.with_end_label(css: "flex flex-row items-center") do
+          start
+      - toggle.with_end(css: "flex flex-row items-center") do
         and
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
-          end_label
+          end
         blocks
 
 

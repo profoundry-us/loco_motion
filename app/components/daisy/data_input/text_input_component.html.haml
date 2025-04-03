@@ -1,6 +1,27 @@
-= part(:component) do
-  = start if start?
+- if has_any_label?
+  = part(:label_wrapper) do
+    - if has_start_label?
+      - if start?
+        = start
+      - else
+        = part(:start) do
+          = @start
 
-  = part(:input)
+    - if has_floating_label?
+      - if floating?
+        = floating
+      - else
+        = part(:floating) do
+          = @floating
 
-  = end_content if end?
+    = part(:component)
+
+    - if has_end_label?
+      - if end?
+        = self.send(:end)
+      - else
+        = part(:end) do
+          = @end
+
+- else
+  = part(:component)
