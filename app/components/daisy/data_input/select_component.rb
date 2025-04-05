@@ -189,8 +189,68 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     end
   end
 
+  # Alias for include_blank to match Ruby convention for boolean methods
   def include_blank?
     @include_blank
+  end
+
+  #
+  # Renders the select options based on the configuration.
+  # This method is used by the template to render options consistently.
+  #
+  # @return [String] The HTML for all options in the select.
+  #
+  def render_select_options
+    result = ""
+
+    # Add blank option if configured
+    if include_blank?
+      result += content_tag(:option, "", value: "")
+    end
+
+    # Add options from the block or default options
+    if options?
+      options.each do |option|
+        option.set_loco_parent(component_ref)
+        result += option.call
+      end
+    elsif default_options.present?
+      default_options.each do |option|
+        option.set_loco_parent(component_ref)
+        result += render(option)
+      end
+    end
+
+    result.html_safe
+  end
+
+  #
+  # Renders the component part with placeholder, options and content.
+  # This method is used by the template to render the select component consistently.
+  #
+  # @return [String] The HTML for the select component.
+  #
+  def render_component
+    part(:component) do
+      result = ""
+
+      # Add placeholder if provided
+      if @placeholder_text
+        result += part(:placeholder) do
+          @placeholder_text
+        end
+      end
+
+      # Add options
+      result += render_select_options
+
+      # Add content if present
+      if content?
+        result += (content || "")
+      end
+
+      result.html_safe
+    end
   end
 
   private
