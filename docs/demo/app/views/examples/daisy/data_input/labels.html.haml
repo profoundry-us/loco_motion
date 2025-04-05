@@ -36,13 +36,18 @@
       components.  This makes your code cleaner and ensures proper semantic
       markup.
 
-      Components that include this functionality:
+    %p
+      - btn_attrs = { css: "btn-xs", right_icon: "cube", right_icon_css: "size-4", html: { data: { turbo: "false" }} }
 
-    .mt-4.mb-4.flex.flex-wrap.gap-2
-      = daisy_button(title: "TextInput", css: "btn-sm", href: "/examples/Daisy::DataInput::TextInputComponent", html: { data: { turbo: "false" }})
-      = daisy_button(title: "Select", css: "btn-sm", href: "/examples/Daisy::DataInput::SelectComponent", html: { data: { turbo: "false" }})
-      = daisy_button(title: "Checkbox", css: "btn-sm", href: "/examples/Daisy::DataInput::CheckboxComponent", html: { data: { turbo: "false" }})
-      = daisy_button(title: "Toggle", css: "btn-sm", href: "/examples/Daisy::DataInput::ToggleComponent", html: { data: { turbo: "false" }})
+      The
+      = daisy_button(title: "TextInput", href: "/examples/Daisy::DataInput::TextInputComponent", **btn_attrs)
+      ,
+      = daisy_button(title: "Select", href: "/examples/Daisy::DataInput::SelectComponent", **btn_attrs)
+      ,
+      = daisy_button(title: "Checkbox", href: "/examples/Daisy::DataInput::CheckboxComponent", **btn_attrs)
+      , and
+      = daisy_button(title: "Toggle", href: "/examples/Daisy::DataInput::ToggleComponent", **btn_attrs)
+      components include this functionality.
 
   .my-2.flex.flex-col.gap-4
     %p.font-medium.mb-2 Start Labels (appear before the input)
