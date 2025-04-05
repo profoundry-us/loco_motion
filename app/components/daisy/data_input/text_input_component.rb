@@ -105,7 +105,9 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :input)
 
-    if has_start_label? || has_end_label?
+    if has_floating_label?
+      add_css(:label_wrapper, "floating-label input")
+    elsif has_start_label? || has_end_label?
       add_css(:label_wrapper, "input")
     else
       add_css(:component, "input")

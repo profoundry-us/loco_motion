@@ -54,16 +54,12 @@ module LocoMotion
         super
 
         set_tag_name(:label_wrapper, :label)
-
-        if has_floating_label?
-          add_css(:label_wrapper, "floating-label")
-        else
-          add_css(:label_wrapper, "label")
-        end
-
         set_tag_name(:start, :span)
         set_tag_name(:end, :span)
         set_tag_name(:floating, :span)
+
+        # Note: All CSS is handled by the implementing component since it is
+        # different for each one.
       end
 
       #

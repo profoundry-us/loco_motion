@@ -14,9 +14,29 @@
       Select inputs allow users to choose an option from a dropdown list. They are
       implemented using the native HTML select element styled with DaisyUI classes.
 
-  .my-2.space-y-2
+  .flex.flex-col.gap-2
     = daisy_label(for: "basic_select", title: "Basic Select")
+
     = daisy_select(name: "basic_select", id: "basic_select", placeholder: "Select a country") do |select|
+      - select.with_option(value: "us", label: "United States")
+      - select.with_option(value: "ca", label: "Canada")
+      - select.with_option(value: "mx", label: "Mexico")
+
+    = daisy_label(css: "mt-2", for: "left_label_select", title: "Country")
+
+    = daisy_select(name: "left_label_select", id: "left_label_select", placeholder: "Select a country", start: "Country") do |select|
+      - select.with_option(value: "us", label: "United States")
+      - select.with_option(value: "ca", label: "Canada")
+      - select.with_option(value: "mx", label: "Mexico")
+
+    = daisy_label(css: "mt-2", for: "right_label_select", title: "Country")
+
+    = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", end: "Country") do |select|
+      - select.with_option(value: "us", label: "United States")
+      - select.with_option(value: "ca", label: "Canada")
+      - select.with_option(value: "mx", label: "Mexico")
+
+    = daisy_select(label_wrapper_css: "mt-8", name: "floating_label_select", id: "floating_label_select", include_blank: true, floating: "Country") do |select|
       - select.with_option(value: "us", label: "United States")
       - select.with_option(value: "ca", label: "Canada")
       - select.with_option(value: "mx", label: "Mexico")

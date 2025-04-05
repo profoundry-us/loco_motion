@@ -20,6 +20,8 @@
 #     - select.with_option(value: "green", label: "Green")
 #     - select.with_option(value: "blue", label: "Blue")
 class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::LabelableComponent
+
   class SelectOptionComponent < LocoMotion::BasicComponent
     attr_reader :value, :label, :selected, :disabled
 
@@ -67,7 +69,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
 
   define_part :placeholder
 
-  attr_reader :name, :id, :value, :placeholder_text, :disabled, :required, :options_css, :options_html
+  attr_reader :name, :id, :value, :include_blank, :placeholder_text, :disabled, :required, :options_css, :options_html
 
   #
   # Initialize a new select component.
@@ -80,6 +82,9 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   #
   # @option kws value [String, Symbol, Integer] The current value of the select input.
   #   Determines which option is selected on initial render.
+  #
+  # @option kws include_blank [Boolean] Whether to include a blank option at the
+  # top of the list.
   #
   # @option kws placeholder [String] Optional placeholder text to display when no
   #   option is selected. Appears as a disabled option at the top of the list.
@@ -103,6 +108,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     @name = config_option(:name)
     @id = config_option(:id)
     @value = config_option(:value)
+    @include_blank = config_option(:include_blank, false)
     @placeholder_text = config_option(:placeholder)
     @disabled = config_option(:disabled, false)
     @required = config_option(:required, false)
@@ -115,6 +121,8 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   # Sets up the component before rendering.
   #
   def before_render
+    super
+
     setup_component
     setup_placeholder
   end
@@ -122,10 +130,23 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML attributes.
   # Sets the tag to 'select' and adds the 'select' CSS class.
+  # Also adds Stimulus controller data attributes.
   #
   def setup_component
     set_tag_name(:component, :select)
-    add_css(:component, "select")
+
+    if has_floating_label?
+      add_css(:label_wrapper, "floating-label")
+      add_css(:component, "select")
+    elsif has_start_label? || has_end_label?
+      add_stimulus_controller(:label_wrapper, "select")
+
+      add_css(:label_wrapper, "select")
+      add_css(:start, "label")
+      add_css(:end, "label")
+    else
+      add_css(:component, "select")
+    end
 
     # Add HTML attributes for the select element
     add_html(:component,
@@ -166,6 +187,10 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
         html: @options_html
       )
     end
+  end
+
+  def include_blank?
+    @include_blank
   end
 
   private
