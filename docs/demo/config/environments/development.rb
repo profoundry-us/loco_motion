@@ -79,15 +79,9 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  env_ip = ENV["BETTER_ERRORS_TRUSTED_IP"]
+  # Fix console permissions for Docker
+  config.web_console.permissions = "0.0.0.0/0"
 
-  if env_ip
-    env_ip = "#{env_ip.strip}/16"
-
-    # Fix console permissions for Docker
-    config.web_console.permissions = env_ip
-
-    # Allow BetterErrors to render
-    BetterErrors::Middleware.allow_ip! env_ip
-  end
+  # Allow BetterErrors to render
+  BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 end
