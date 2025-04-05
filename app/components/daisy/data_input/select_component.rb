@@ -3,13 +3,26 @@
 #
 # The Select component provides a styled dropdown select input for forms.
 # It supports various styling options, including sizes, colors, and variants.
+# Additionally, it supports labelable functionality with start, end, and
+# floating labels.
 #
 # @note Select inputs have a border by default and a width of 20rem. Use
 #   `select-ghost` to remove the border.
 #
-# @part placeholder The placeholder option element that is shown when no option is selected.
+# @part placeholder The placeholder option element that is shown when no option
+#   is selected.
+# @part label_wrapper The wrapper element for labels (when using
+#   start/end/floating labels).
+# @part start The element that contains the start label (appears before the
+#   select).
+# @part end The element that contains the end label (appears after the select).
+# @part floating The element that contains the floating label (appears floating
+#   above the select).
 #
 # @slot options+ Custom options to be rendered in the select.
+# @slot start Custom content for the start label.
+# @slot end Custom content for the end label.
+# @slot floating Custom content for the floating label.
 #
 # @loco_example Using simple strings for options
 #   = daisy_select(name: "size", css: "select-sm", options: ["Small", "Medium", "Large"])
@@ -19,6 +32,13 @@
 #     - select.with_option(value: "red", label: "Red")
 #     - select.with_option(value: "green", label: "Green")
 #     - select.with_option(value: "blue", label: "Blue")
+#
+# @loco_example With a start label
+#   = daisy_select(name: "color", start: "Select a color", options: ["Red", "Green", "Blue"])
+#
+# @loco_example With a floating label
+#   = daisy_select(name: "color", floating: "Color", options: ["Red", "Green", "Blue"])
+#
 class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
 
