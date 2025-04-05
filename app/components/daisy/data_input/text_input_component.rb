@@ -8,11 +8,17 @@
 # @note Input fields have a border by default and a width of 20rem. Use
 #   `input-ghost` to remove the border.
 #
-# The component provides slots to add content before and after the input field,
-# making it easy to add icons, buttons, or other elements.
+# @part label_wrapper The wrapper element for labels (when using
+#   start/end/floating labels).
+# @part start The element that contains the start label (appears before the
+#   input).
+# @part end The element that contains the end label (appears after the input).
+# @part floating The element that contains the floating label (appears floating
+#   above the input).
 #
 # @slot start Content to display before the input field.
 # @slot end Content to display after the input field.
+# @slot floating Custom content for the floating label.
 #
 # @loco_example Basic Usage
 #   = daisy_text_input(name: "username", id: "username")
@@ -26,6 +32,15 @@
 # @loco_example Different Types
 #   = daisy_text_input(name: "password", id: "password", type: "password")
 #   = daisy_text_input(name: "email", id: "email", type: "email")
+#
+# @loco_example With Start Label
+#   = daisy_text_input(name: "username", id: "username", start: "Username:")
+#
+# @loco_example With End Label
+#   = daisy_text_input(name: "email", id: "email", end: "@example.com")
+#
+# @loco_example With Floating Label
+#   = daisy_text_input(name: "username", id: "username", floating: "Username")
 #
 # @loco_example With Icons
 #   = daisy_text_input(name: "search", placeholder: "Search...") do |text_input|
