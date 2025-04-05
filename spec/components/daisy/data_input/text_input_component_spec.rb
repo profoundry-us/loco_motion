@@ -84,6 +84,12 @@ RSpec.describe Daisy::DataInput::TextInputComponent, type: :component do
   it "renders with the input CSS class" do
     render_inline(described_class.new(name: "username"))
 
+    expect(page).to have_css("input.input")
+  end
+
+  it "renders with the label_wrapper with the input CSS class when label is provided" do
+    render_inline(described_class.new(name: "username", start: "Username"))
+
     expect(page).to have_css("label.input")
     expect(page).to have_css("input[type='text']")
   end

@@ -3,13 +3,26 @@
 #
 # The Select component provides a styled dropdown select input for forms.
 # It supports various styling options, including sizes, colors, and variants.
+# Additionally, it supports labelable functionality with start, end, and
+# floating labels.
 #
 # @note Select inputs have a border by default and a width of 20rem. Use
 #   `select-ghost` to remove the border.
 #
-# @part placeholder The placeholder option element that is shown when no option is selected.
+# @part placeholder The placeholder option element that is shown when no option
+#   is selected.
+# @part label_wrapper The wrapper element for labels (when using
+#   start/end/floating labels).
+# @part start The element that contains the start label (appears before the
+#   select).
+# @part end The element that contains the end label (appears after the select).
+# @part floating The element that contains the floating label (appears floating
+#   above the select).
 #
 # @slot options+ Custom options to be rendered in the select.
+# @slot start Custom content for the start label.
+# @slot end Custom content for the end label.
+# @slot floating Custom content for the floating label.
 #
 # @loco_example Using simple strings for options
 #   = daisy_select(name: "size", css: "select-sm", options: ["Small", "Medium", "Large"])
@@ -19,7 +32,16 @@
 #     - select.with_option(value: "red", label: "Red")
 #     - select.with_option(value: "green", label: "Green")
 #     - select.with_option(value: "blue", label: "Blue")
+#
+# @loco_example With a start label
+#   = daisy_select(name: "color", start: "Select a color", options: ["Red", "Green", "Blue"])
+#
+# @loco_example With a floating label
+#   = daisy_select(name: "color", floating: "Color", options: ["Red", "Green", "Blue"])
+#
 class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::LabelableComponent
+
   class SelectOptionComponent < LocoMotion::BasicComponent
     attr_reader :value, :label, :selected, :disabled
 
@@ -67,7 +89,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
 
   define_part :placeholder
 
-  attr_reader :name, :id, :value, :placeholder_text, :disabled, :required, :options_css, :options_html
+  attr_reader :name, :id, :value, :include_blank, :placeholder_text, :disabled, :required, :options_css, :options_html
 
   #
   # Initialize a new select component.
@@ -80,6 +102,9 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   #
   # @option kws value [String, Symbol, Integer] The current value of the select input.
   #   Determines which option is selected on initial render.
+  #
+  # @option kws include_blank [Boolean] Whether to include a blank option at the
+  # top of the list.
   #
   # @option kws placeholder [String] Optional placeholder text to display when no
   #   option is selected. Appears as a disabled option at the top of the list.
@@ -103,6 +128,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     @name = config_option(:name)
     @id = config_option(:id)
     @value = config_option(:value)
+    @include_blank = config_option(:include_blank, false)
     @placeholder_text = config_option(:placeholder)
     @disabled = config_option(:disabled, false)
     @required = config_option(:required, false)
@@ -115,6 +141,8 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   # Sets up the component before rendering.
   #
   def before_render
+    super
+
     setup_component
     setup_placeholder
   end
@@ -122,10 +150,23 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   #
   # Sets up the component by configuring the tag name, CSS classes, and HTML attributes.
   # Sets the tag to 'select' and adds the 'select' CSS class.
+  # Also adds Stimulus controller data attributes.
   #
   def setup_component
     set_tag_name(:component, :select)
-    add_css(:component, "select")
+
+    if has_floating_label?
+      add_css(:label_wrapper, "floating-label")
+      add_css(:component, "select")
+    elsif has_start_label? || has_end_label?
+      add_stimulus_controller(:label_wrapper, "select")
+
+      add_css(:label_wrapper, "select")
+      add_css(:start, "label")
+      add_css(:end, "label")
+    else
+      add_css(:component, "select")
+    end
 
     # Add HTML attributes for the select element
     add_html(:component,
@@ -165,6 +206,70 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
         css: @options_css,
         html: @options_html
       )
+    end
+  end
+
+  # Alias for include_blank to match Ruby convention for boolean methods
+  def include_blank?
+    @include_blank
+  end
+
+  #
+  # Renders the select options based on the configuration.
+  # This method is used by the template to render options consistently.
+  #
+  # @return [String] The HTML for all options in the select.
+  #
+  def render_select_options
+    result = ""
+
+    # Add blank option if configured
+    if include_blank?
+      result += content_tag(:option, "", value: "")
+    end
+
+    # Add options from the block or default options
+    if options?
+      options.each do |option|
+        option.set_loco_parent(component_ref)
+        result += option.call
+      end
+    elsif default_options.present?
+      default_options.each do |option|
+        option.set_loco_parent(component_ref)
+        result += render(option)
+      end
+    end
+
+    result.html_safe
+  end
+
+  #
+  # Renders the component part with placeholder, options and content.
+  # This method is used by the template to render the select component consistently.
+  #
+  # @return [String] The HTML for the select component.
+  #
+  def render_component
+    part(:component) do
+      result = ""
+
+      # Add placeholder if provided
+      if @placeholder_text
+        result += part(:placeholder) do
+          @placeholder_text
+        end
+      end
+
+      # Add options
+      result += render_select_options
+
+      # Add content if present
+      if content?
+        result += (content || "")
+      end
+
+      result.html_safe
     end
   end
 

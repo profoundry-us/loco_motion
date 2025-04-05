@@ -11,14 +11,42 @@
       Toggles are switches that allow users to turn options on or off. They're a visual
       alternative to checkboxes, ideal for settings and preferences.
 
+    = doc_note(css: "mb-8") do
+      :markdown
+        While the
+        <a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
+        Concern does implement a `floating` attribute, it is not relevant
+        for toggles and does not render properly.
+
   .my-2.flex.flex-col.gap-4
+    %div
+      = daisy_toggle(name: "toggle0", id: "toggle0")
+      .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
+        Toggle with no label
+
     = daisy_label(for: "toggle1") do
       = daisy_toggle(name: "toggle1", id: "toggle1")
-      Default Toggle
+      Default Toggle with regular label
 
-    = daisy_label(for: "toggle2") do
-      = daisy_toggle(name: "toggle2", id: "toggle2", checked: true)
-      Checked Toggle
+    = daisy_toggle(name: "toggle_end", id: "toggle_end", checked: true, end: "Toggle using end wrapper")
+
+    = daisy_toggle(name: "toggle_start", id: "toggle_start", checked: true, start: "Toggle using start wrapper")
+
+    = daisy_toggle(name: "toggle_end_block", id: "toggle_end_block", checked: true) do |toggle|
+      - toggle.with_end do
+        :markdown
+          Toggle using `end` block
+
+    = daisy_toggle(name: "toggle_start_block", id: "toggle_start_block", checked: true) do |toggle|
+      - toggle.with_start(css: "flex flex-row items-center") do
+        Using
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          start
+      - toggle.with_end(css: "flex flex-row items-center") do
+        and
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          end
+        blocks
 
 
 = doc_example(title: "Toggles with Colors") do |doc|
@@ -27,28 +55,32 @@
       Toggles can be styled with different colors using CSS classes like `toggle-primary`.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "toggle3") do
-      = daisy_toggle(name: "toggle3", css: "toggle-primary", id: "toggle3", checked: true)
+    = daisy_label(for: "toggle-dark") do
+      = daisy_toggle(name: "toggle-dark", id: "toggle-dark", css: "toggle-neutral theme-controller", value: "dark", checked: false)
+      Enable Dark Mode
+
+    = daisy_label(for: "toggle_primary") do
+      = daisy_toggle(name: "toggle_primary", css: "toggle-primary", id: "toggle_primary", checked: true)
       Primary Toggle
 
-    = daisy_label(for: "toggle4") do
-      = daisy_toggle(name: "toggle4", css: "toggle-secondary", id: "toggle4", checked: true)
+    = daisy_label(for: "toggle_secondary") do
+      = daisy_toggle(name: "toggle_secondary", css: "toggle-secondary", id: "toggle_secondary", checked: true)
       Secondary Toggle
 
-    = daisy_label(for: "toggle5") do
-      = daisy_toggle(name: "toggle5", css: "toggle-accent", id: "toggle5", checked: true)
+    = daisy_label(for: "toggle_accent") do
+      = daisy_toggle(name: "toggle_accent", css: "toggle-accent", id: "toggle_accent", checked: true)
       Accent Toggle
 
-    = daisy_label(for: "toggle6") do
-      = daisy_toggle(name: "toggle6", css: "toggle-success", id: "toggle6", checked: true)
+    = daisy_label(for: "toggle_success") do
+      = daisy_toggle(name: "toggle_success", css: "toggle-success", id: "toggle_success", checked: true)
       Success Toggle
 
-    = daisy_label(for: "toggle7") do
-      = daisy_toggle(name: "toggle7", css: "toggle-warning", id: "toggle7", checked: true)
+    = daisy_label(for: "toggle_warning") do
+      = daisy_toggle(name: "toggle_warning", css: "toggle-warning", id: "toggle_warning", checked: true)
       Warning Toggle
 
-    = daisy_label(for: "toggle8") do
-      = daisy_toggle(name: "toggle8", css: "toggle-error", id: "toggle8", checked: true)
+    = daisy_label(for: "toggle_error") do
+      = daisy_toggle(name: "toggle_error", css: "toggle-error", id: "toggle_error", checked: true)
       Error Toggle
 
 
@@ -129,12 +161,12 @@
       You can also use the Label component directly with toggles for a fully
       custom approach.
 
-  .my-2.flex.flex-col.gap-4
-    .flex.items-center.space-x-2
-      = daisy_toggle(name: "location", id: "location")
+  .my-2.flex.flex-col.gap-4.w-80
+    .flex.items-center.justify-between
       = daisy_label(for: "location", title: "Enable location services")
+      = daisy_toggle(name: "location", id: "location")
 
-    .flex.items-center.space-x-2.mt-4
-      = daisy_toggle(name: "marketing", id: "marketing", css: "toggle-primary")
+    .flex.items-center.justify-between
       = daisy_label(for: "marketing") do
         Receive marketing emails
+      = daisy_toggle(name: "marketing", id: "marketing", css: "toggle-primary")

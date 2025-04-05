@@ -8,13 +8,17 @@
 # @note Input fields have a border by default and a width of 20rem. Use
 #   `input-ghost` to remove the border.
 #
-# The component provides slots to add content before and after the input field,
-# making it easy to add icons, buttons, or other elements.
-#
-# @part input The actual input element that users can type into.
+# @part label_wrapper The wrapper element for labels (when using
+#   start/end/floating labels).
+# @part start The element that contains the start label (appears before the
+#   input).
+# @part end The element that contains the end label (appears after the input).
+# @part floating The element that contains the floating label (appears floating
+#   above the input).
 #
 # @slot start Content to display before the input field.
-# @slot end+ Content to display after the input field.
+# @slot end Content to display after the input field.
+# @slot floating Custom content for the floating label.
 #
 # @loco_example Basic Usage
 #   = daisy_text_input(name: "username", id: "username")
@@ -28,6 +32,15 @@
 # @loco_example Different Types
 #   = daisy_text_input(name: "password", id: "password", type: "password")
 #   = daisy_text_input(name: "email", id: "email", type: "email")
+#
+# @loco_example With Start Label
+#   = daisy_text_input(name: "username", id: "username", start: "Username:")
+#
+# @loco_example With End Label
+#   = daisy_text_input(name: "email", id: "email", end: "@example.com")
+#
+# @loco_example With Floating Label
+#   = daisy_text_input(name: "username", id: "username", floating: "Username")
 #
 # @loco_example With Icons
 #   = daisy_text_input(name: "search", placeholder: "Search...") do |text_input|
@@ -45,10 +58,7 @@
 #   = daisy_text_input(name: "username", id: "username", disabled: true)
 #
 class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
-  define_part :input
-
-  renders_one :start
-  renders_one :end
+  include LocoMotion::Concerns::LabelableComponent
 
   attr_reader :name, :id, :value, :placeholder, :type, :disabled, :required, :readonly
 
@@ -94,8 +104,9 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
     setup_component
-    setup_input
   end
 
   #
@@ -107,23 +118,17 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   # placeholder, type, and states like disabled, required, and readonly.
   #
   def setup_component
-    set_tag_name(:component, :label)
+    set_tag_name(:component, :input)
 
-    add_css(:component, "input where:flex where:items-center where:gap-2")
-  end
+    if has_floating_label?
+      add_css(:label_wrapper, "floating-label input")
+    elsif has_start_label? || has_end_label?
+      add_css(:label_wrapper, "input")
+    else
+      add_css(:component, "input")
+    end
 
-  #
-  # Sets up the input part by configuring the tag name, CSS classes, and HTML
-  # attributes. Sets the tag to input with appropriate type and adds the grow
-  # styling to ensure the input expands to fill available space.
-  #
-  # This configures basic input attributes like name, id, value, placeholder,
-  # and states like disabled, required, and readonly.
-  #
-  def setup_input
-    set_tag_name(:input, :input)
-    add_css(:input, "where:grow")
-    add_html(:input, {
+    add_html(:component, {
       type: @type,
       name: @name,
       id: @id,
@@ -133,14 +138,5 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
       required: @required,
       readonly: @readonly
     })
-  end
-
-  # Returns the end section content.
-  #
-  # Since `end` is a reserved word in Ruby, we need to use a different method
-  # name in the template.
-  #
-  def end_content
-    self.end
   end
 end

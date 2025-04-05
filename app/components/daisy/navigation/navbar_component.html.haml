@@ -1,4 +1,4 @@
 = part(:component) do
   = start if start?
   = center if center?
-  = end_content if end?
+  = self.send(:end) if end?

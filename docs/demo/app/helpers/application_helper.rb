@@ -5,6 +5,10 @@ module ApplicationHelper
     page_title ? page_title + " | LocoMotion" : "LocoMotion"
   end
 
+  def doc_url(path)
+    "#{Rails.configuration.api_docs_host}/#{path}.html"
+  end
+
   def doc_code(*args, **kws, &block)
     render(DocCodeComponent.new(*args, **kws), &block)
   end
