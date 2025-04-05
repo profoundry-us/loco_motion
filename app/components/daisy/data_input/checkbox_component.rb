@@ -76,7 +76,12 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   def before_render
     super
 
+    setup_labels
     setup_component
+  end
+
+  def setup_labels
+    add_css(:label_wrapper, "label") if has_any_label?
   end
 
   #

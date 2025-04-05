@@ -89,4 +89,19 @@ RSpec.describe Daisy::DataInput::CheckboxComponent, type: :component do
     expect(page).to have_css("label")
     expect(page).to have_css("input[type='checkbox']")
   end
+
+  it "adds 'label' CSS class to label_wrapper when using labels" do
+    render_inline(described_class.new(name: "accept_terms", end: "I accept the terms"))
+
+    # Verify the label CSS class is added to the label_wrapper
+    expect(page).to have_css("label.label")
+  end
+
+  it "does not add 'label' CSS class when no labels are used" do
+    render_inline(described_class.new(name: "accept_terms"))
+
+    # Verify no label element is present when no labels are used
+    expect(page).not_to have_css("label.label")
+    expect(page).not_to have_css("label")
+  end
 end

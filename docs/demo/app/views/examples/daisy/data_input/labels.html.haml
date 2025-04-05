@@ -1,6 +1,6 @@
 = doc_title(title: "Labels", comp: @comp) do |title|
   :markdown
-    Here are some examples showcasing label components.
+    Labels provide a useful description for various kinds of inputs.
 
 
 = doc_example(title: "Basic Labels") do |doc|
@@ -28,13 +28,88 @@
       = daisy_label(for: "accept", title: "I accept the terms and conditions")
 
 
+= doc_example(title: "LabelableComponent Functionality") do |doc|
+  - doc.with_description do
+    :markdown
+      Many of our input components include the `LabelableComponent` concern, which
+      provides built-in label functionality without needing separate label
+      components.  This makes your code cleaner and ensures proper semantic
+      markup.
+
+      Components that include this functionality:
+
+    .mt-4.mb-4.flex.flex-wrap.gap-2
+      = daisy_button(title: "TextInput", css: "btn-sm", href: "/examples/Daisy::DataInput::TextInputComponent", html: { data: { turbo: "false" }})
+      = daisy_button(title: "Select", css: "btn-sm", href: "/examples/Daisy::DataInput::SelectComponent", html: { data: { turbo: "false" }})
+      = daisy_button(title: "Checkbox", css: "btn-sm", href: "/examples/Daisy::DataInput::CheckboxComponent", html: { data: { turbo: "false" }})
+      = daisy_button(title: "Toggle", css: "btn-sm", href: "/examples/Daisy::DataInput::ToggleComponent", html: { data: { turbo: "false" }})
+
+  .my-2.flex.flex-col.gap-4
+    %p.font-medium.mb-2 Start Labels (appear before the input)
+    = daisy_text_input(name: "username", id: "username", start: "Username:")
+    .mt-4
+      = daisy_select(name: "country", id: "country", start: "Country:", options: ["USA", "Canada", "UK"])
+
+
+= doc_example(title: "End Labels") do |doc|
+  - doc.with_description do
+    :markdown
+      End labels appear after the input. They are especially useful for checkboxes
+      and toggles, but can be used with any input component that includes the
+      `LabelableComponent` concern.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
+    .mt-4
+      = daisy_toggle(name: "notifications", id: "notifications", end: "Enable notifications")
+    .mt-4
+      = daisy_text_input(name: "email", id: "email", end: "@example.com")
+
+
+= doc_example(title: "Floating Labels") do |doc|
+  - doc.with_description do
+    :markdown
+      Floating labels appear above the input when it has focus or contains a value.
+      This provides a clean, modern look while maintaining good UX.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_text_input(name: "email", id: "email_floating", floating: "Email Address", placeholder: "example@domain.com")
+    .mt-4
+      = daisy_select(name: "language", id: "language_floating", floating: "Preferred Language", options: ["English", "Spanish", "French"])
+
+
+= doc_example(title: "Custom Label Content") do |doc|
+  - doc.with_description do
+    :markdown
+      For more complex labels, you can use the slot API to provide custom content
+      to your labels. This is useful when you need to add HTML or other components
+      within your label.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_text_input(name: "password", id: "password", type: "password") do |input|
+      - input.with_start do
+        Password
+        %span.text-red-500.ml-1 *
+
+    .mt-4
+      = daisy_checkbox(name: "newsletter", id: "newsletter") do |cb|
+        - cb.with_end do
+          Subscribe to newsletter
+          %span.text-xs.text-gray-500.ml-1 (Optional)
+
+
 = doc_example(title: "Form Builder Example") do |doc|
   - doc.with_description do
     :markdown
-      Labels can also be used with the form builder to create form inputs with
-      labels that are automatically associated with the inputs.
+      When using the form builder, labels are automatically included with your
+      inputs based on the field name or options you provide.
 
-  = form_with(url: "#", method: :post) do |form|
-    .flex.items-center.space-x-2
-      = form.daisy_checkbox("newsletter")
-      = form.daisy_label("newsletter", "Subscribe to our newsletter")
+  .my-2.flex.flex-col.gap-4
+    = form_with(url: "/example", method: :post, data: { turbo: false }) do |f|
+      .mb-4
+        = f.label :name, class: "mb-1 block"
+        = f.text_field :name, class: "input w-full"
+
+      .mb-4
+        = f.label :email, class: "mb-1 block"
+        = f.email_field :email, class: "input w-full"
