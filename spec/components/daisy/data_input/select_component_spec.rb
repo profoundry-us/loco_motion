@@ -109,4 +109,73 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
     expect(page).to have_css("option[value='Single Option']", text: "Single Option")
   end
 
+  it "renders with a string start label" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], start: "Choose:")
+    render_inline(component)
+
+    expect(page).to have_css("label")
+    expect(page).to have_css("span", text: "Choose:")
+  end
+
+  it "renders with a string end label" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], end: "(Required)")
+    render_inline(component)
+
+    expect(page).to have_css("label")
+    expect(page).to have_css("span", text: "(Required)")
+  end
+
+  it "renders with a string floating label" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], floating: "Selection")
+    render_inline(component)
+
+    expect(page).to have_css("label.floating-label")
+    expect(page).to have_css("span", text: "Selection")
+  end
+
+  it "renders with content in the start block" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"])
+    render_inline(component) do |c|
+      c.with_start { "Start content" }
+    end
+
+    expect(page).to have_css("label")
+    expect(page).to have_text("Start content")
+  end
+
+  it "renders with content in the end block" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"])
+    render_inline(component) do |c|
+      c.with_end { "End content" }
+    end
+
+    expect(page).to have_css("label")
+    expect(page).to have_text("End content")
+  end
+
+  it "renders with content in the floating block" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"])
+    render_inline(component) do |c|
+      c.with_floating { "Floating content" }
+    end
+
+    expect(page).to have_css("label.floating-label")
+    expect(page).to have_text("Floating content")
+  end
+
+  it "properly adds CSS classes when using start/end labels" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1"], start: "Label:")
+    render_inline(component)
+
+    expect(page).to have_css("label.select")
+    expect(page).to have_css("select")
+  end
+
+  it "properly adds CSS classes when using floating labels" do
+    component = described_class.new(name: "test", id: "test", options: ["Option 1"], floating: "Label")
+    render_inline(component)
+
+    expect(page).to have_css("label.floating-label")
+    expect(page).to have_css("select.select")
+  end
 end
