@@ -42,6 +42,25 @@ module LocoMotion
         renders_one :floating
       end
 
+      #
+      # Initializes the component and sets up the label options.
+      #
+      # @param instance_args [Array] Positional arguments passed to the component
+      #
+      # @param instance_kws [Hash] Keyword arguments passed to the component
+      #
+      # @option instance_kws [String, nil] :start Text to display in the start
+      #   label position
+      #
+      # @option instance_kws [String, nil] :end Text to display in the end
+      #   label position
+      #
+      # @option instance_kws [String, nil] :floating Text to display in the
+      #   floating label position
+      #
+      # @param instance_block [Proc] Block passed to the component for rendering
+      #   custom content
+      #
       def initialize(*instance_args, **instance_kws, &instance_block)
         super(*instance_args, **instance_kws, &instance_block)
 
@@ -50,6 +69,14 @@ module LocoMotion
         @floating = config_option(:floating)
       end
 
+      #
+      # Sets up the tag names for the label parts before rendering the component.
+      # This method is called automatically during the component rendering
+      # lifecycle.
+      #
+      # Note that CSS classes for labels must be handled by the implementing
+      # component since requirements differ for each type of input component.
+      #
       def before_render
         super
 
@@ -57,9 +84,6 @@ module LocoMotion
         set_tag_name(:start, :span)
         set_tag_name(:end, :span)
         set_tag_name(:floating, :span)
-
-        # Note: All CSS is handled by the implementing component since it is
-        # different for each one.
       end
 
       #
