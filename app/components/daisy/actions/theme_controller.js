@@ -50,8 +50,6 @@ export default class extends Controller {
    * @param {Event} event - The triggering click event
    */
   clearTheme(event) {
-    console.log("clearTheme", event.params)
-
     // If we are passed a themeName parameter, clear all inputs with that theme
     if (event && event.params && event.params.themeName) {
       const inputs = document.querySelectorAll(`input[name='${event.params.themeName}']`)
