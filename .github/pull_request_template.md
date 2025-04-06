@@ -1,9 +1,6 @@
 ## Context
 <!-- Help us understand why this change needs to be made -->
 
-## Description
-<!-- Provide a clear and concise description of your changes -->
-
 ## Related Issues
 <!-- Link any related issues using #issue_number -->
 
@@ -16,6 +13,9 @@
 - [ ] Component update/addition
 - [ ] Test update/addition
 - [ ] Other (please describe):
+
+## Description
+<!-- Provide a clear and concise description of your changes -->
 
 ## Checklist
 <!-- Mark completed items with an 'x' (no spaces) -->
