@@ -34,11 +34,11 @@ class Daisy::DataInput::LabelComponent < LocoMotion::BaseComponent
   # @option kws required [Boolean] Whether the label is for a required input.
   #   Defaults to false.
   #
-  def initialize(**kws)
+  def initialize(title = nil, **kws)
     super
 
     @for = config_option(:for)
-    @title = config_option(:title)
+    @title = config_option(:title, title)
     @required = config_option(:required, false)
   end
 

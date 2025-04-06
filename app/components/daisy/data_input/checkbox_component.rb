@@ -5,6 +5,15 @@
 # It can be used standalone or with a form builder, and supports various styling
 # options including toggle mode for switch-like appearance.
 #
+# @part label_wrapper The wrapper element for labels (when using
+#   start/end/floating labels).
+# @part start The element that contains the start label (appears before the
+#   checkbox).
+# @part end The element that contains the end label (appears after the checkbox).
+#
+# @slot start Custom content for the start label.
+# @slot end Custom content for the end label.
+#
 # @loco_example Basic Usage
 #   = daisy_checkbox(name: "accept", id: "accept")
 #
@@ -17,7 +26,12 @@
 # @loco_example Disabled Checkbox
 #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
 #
+# @loco_example With End Label (common for checkboxes)
+#   = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
+#
 class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::LabelableComponent
+
   attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
 
   #
@@ -60,7 +74,14 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
+    setup_labels
     setup_component
+  end
+
+  def setup_labels
+    add_css(:label_wrapper, "label") if has_any_label?
   end
 
   #
@@ -81,12 +102,5 @@ class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
       disabled: @disabled,
       required: @required
     })
-  end
-
-  #
-  # Renders the component inline with no additional whitespace.
-  #
-  def call
-    part(:component)
   end
 end

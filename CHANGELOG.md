@@ -42,6 +42,10 @@ Read on for specific changes across the entire project! :tada:
 
 - add(`where:`): Add custom `where:` Tailwind modifier
 - add(List): Add basic List component with examples and specs ([Fixes #29](https://github.com/profoundry-us/loco_motion/issues/29))
+- feat(LabelableComponent): New concern to enable label functionality across components
+- feat(Select): Enable start/end/floating label functionality
+- feat(Toggle): Enable start/end/floating label functionality
+- feat(Checkbox): Enable start/end label functionality
 
 ### Changed / Fixed
 
@@ -106,6 +110,10 @@ Read on for specific changes across the entire project! :tada:
 - feat: Add Theme Switcher dropdown to header
 - fix: Fix header item spacing / padding on smaller screens
 - fix: Rename `Data` group to `Data Display` to match component module & DaisyUI 5
+- fix: Make Label docs show better buttons for implementing components
+- fix: Add tooltips to header buttons and make logo a link
+- fix: Always enable BetterErrors in development
+- fix: Header Theme Switcher was using the wrong button size
 
 ## [0.4.0] - 2025-03-07
 

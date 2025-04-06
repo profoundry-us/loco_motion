@@ -7,13 +7,6 @@
         = part(:start) do
           = @start
 
-    - if has_floating_label?
-      - if floating?
-        = floating
-      - else
-        = part(:floating) do
-          = @floating
-
     = part(:component)
 
     - if has_end_label?

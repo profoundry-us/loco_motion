@@ -59,15 +59,4 @@ class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
   def before_render
     add_css(:component, "navbar")
   end
-
-  private
-
-  # Returns the end section content.
-  #
-  # Since `end` is a reserved word in Ruby, we need to use a different method
-  # name in the template.
-  #
-  def end_content
-    self.end
-  end
 end

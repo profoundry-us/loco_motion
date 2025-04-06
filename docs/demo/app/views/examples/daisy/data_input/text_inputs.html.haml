@@ -1,17 +1,55 @@
 = doc_title(title: "Text Inputs", comp: @comp) do |title|
   :markdown
-    Here are some examples showcasing text input components. Text inputs have a
-    border by default and a width of 20rem.
+    Text inputs allow you to enter various forms of text such as usernames,
+    passwords, numbers, and more.
 
 
 = doc_example(title: "Basic Text Input") do |doc|
   - doc.with_description do
     :markdown
-      Text inputs allow users to enter text data.
+      Text inputs can be used with or without labels.
 
-  .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "text1", title: "Username")
-    = daisy_text_input(name: "text1", id: "text1")
+    = doc_note(css: "mb-8") do
+      :markdown
+        Adding the `label` class to the `start/end` slots will apply a thin
+        separator between the label and the input.
+
+  .flex.flex-col.gap-4
+    = daisy_label("Basic Inputs")
+
+    = daisy_text_input(name: "username_input", id: "username_input", placeholder: "Username")
+
+    = daisy_text_input(name: "password_input", id: "password_input", placeholder: "Password")
+
+    = daisy_divider("OR")
+
+    .flex.flex-col.gap-2
+      = daisy_label(for: "url_input", title: "URL")
+      = daisy_text_input(name: "url_input", id: "url_input", start: "https://", start_css: "label")
+
+    .flex.flex-col.gap-2
+      = daisy_label(for: "email_input", title: "Email")
+      = daisy_text_input(name: "email_input", id: "email_input") do |text|
+        - text.with_end(css: "label") do
+          @gmail.com
+
+
+= doc_example(title: "Floating Label Inputs") do |doc|
+  - doc.with_description do
+    :markdown
+      Inputs can also utilize a floating label with or without a placeholder to
+      control animation.
+
+  .flex.flex-col.gap-4
+    .space-y-4
+      = daisy_text_input(name: "first_name_input", id: "first_name_input", floating: "First Name")
+      = daisy_text_input(name: "last_name_input", id: "last_name_input", floating: "Last Name")
+
+    = daisy_divider("OR")
+
+    .space-y-4
+      = daisy_text_input(name: "phone_floating_input", id: "phone_floating_input", floating: "Phone Number", placeholder: "ph: (123) 456-7890")
+      = daisy_text_input(name: "fax_floating_input", id: "fax_floating_input", floating: "Fax", placeholder: "fax: (123) 456-7890")
 
 
 = doc_example(title: "Different Input Types") do |doc|
@@ -28,19 +66,6 @@
 
     = daisy_label(for: "number", title: "Number", css: "mt-4")
     = daisy_text_input(name: "number", id: "number", type: "number")
-
-
-= doc_example(title: "Text Inputs with Placeholder") do |doc|
-  - doc.with_description do
-    :markdown
-      Text inputs can have placeholder text to provide hints to users.
-
-  .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "search", title: "Search")
-    = daisy_text_input(name: "search", id: "search", placeholder: "Type here to search...")
-
-    = daisy_label(for: "email-placeholder", title: "Email", css: "mt-4")
-    = daisy_text_input(name: "email-placeholder", id: "email-placeholder", type: "email", placeholder: "example@mail.com")
 
 
 = doc_example(title: "Text Input Sizes") do |doc|
@@ -88,10 +113,10 @@
     = daisy_label(for: "input_ghost", title: "Ghost Style Text Input")
     = daisy_text_input(name: "input_ghost", id: "input_ghost", css: "input-ghost")
 
-    .mt-4.p-4.border.rounded-lg.bg-teal-200
+    .mt-4.p-4.border.rounded-lg.bg-secondary.text-secondary-content
       %p.text-sm.mb-2 Ghost style with background container:
       = daisy_label(for: "input_ghost_bg", title: "Search")
-      = daisy_text_input(name: "input_ghost_bg", id: "input_ghost_bg", css: "input-ghost", placeholder: "Search...")
+      = daisy_text_input(name: "input_ghost_bg", id: "input_ghost_bg", css: "input-ghost", placeholder: "Search the docs...")
 
 
 = doc_example(title: "Disabled Text Input") do |doc|
@@ -118,12 +143,12 @@
   - doc.with_description do
     :markdown
       Text inputs can be combined with icons and other elements using the `start` and `end`
-      blocks, which appear before and after the input field.
+      options or slots, which appear before and after the input field.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_icon_prefix", title: "Search with Icon Prefix")
     = daisy_text_input(name: "input_icon_prefix", id: "input_icon_prefix", placeholder: "Search...") do |text_input|
-      - text_input.with_start do
+      - text_input.with_start(css: "label") do
         = hero_icon("magnifying-glass", size: 5, css: "text-gray-400")
 
     = daisy_label(for: "input_icon_suffix", title: "Email with Icon Suffix", css: "mt-4")

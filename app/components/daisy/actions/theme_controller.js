@@ -44,6 +44,32 @@ export default class extends Controller {
   }
 
   /**
+   * Clears the user's theme preference from localStorage.
+   * Removes the saved theme and dispatches an event to notify other controllers.
+   *
+   * @param {Event} event - The triggering click event
+   */
+  clearTheme(event) {
+    // If we are passed a themeName parameter, clear all inputs with that theme
+    if (event && event.params && event.params.themeName) {
+      const inputs = document.querySelectorAll(`input[name='${event.params.themeName}']`)
+
+      if (inputs) {
+        inputs.forEach(input => {
+          input.checked = false
+        })
+      }
+    }
+
+    // Remove the savedTheme from local storage
+    localStorage.removeItem("savedTheme")
+
+    // Fire off an update
+    const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: null } })
+    window.dispatchEvent(updateEvent)
+  }
+
+  /**
    * Changes the theme based on user selection.
    * Updates localStorage and dispatches a custom event to notify other controllers.
    *
@@ -63,7 +89,7 @@ export default class extends Controller {
   }
 
   /**
-   * Retrieves the current theme from localStorage or system preferences.
+   * Retrieves the current theme from localStorage.
    *
    * @returns {string} The current theme name
    */
@@ -73,9 +99,6 @@ export default class extends Controller {
     if (savedTheme) {
       return savedTheme
     }
-
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return isDarkMode ? 'dark' : 'light'
   }
 
   /**
