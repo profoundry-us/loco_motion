@@ -54,8 +54,6 @@ export default class extends Controller {
     if (event && event.params && event.params.themeName) {
       const inputs = document.querySelectorAll(`input[name='${event.params.themeName}']`)
 
-      console.log(" *** inputs: ", inputs)
-
       if (inputs) {
         inputs.forEach(input => {
           input.checked = false
