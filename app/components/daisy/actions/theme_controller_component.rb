@@ -1,6 +1,6 @@
 #
 # The ThemeComponent serves as a foundation for building a full Theme Switcher.
-# It provides the building blocks that you will use such at the Theme Preview,
+# It provides the building blocks that you will use such as the Theme Preview,
 # Theme Radio, and Stimulus ThemeController.
 #
 # @loco_example Basic Usage
@@ -44,12 +44,13 @@ class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   end
 
   #
-  # Creates a radio input for use in selecting themes.
+  # Builder method to create a radio input for use in selecting themes.
   #
   # @param theme [String] The name of the theme that the input controls.
   # @param options [Hash] Additional options to pass to the component.
   #
-  # @return [Daisy::DataInput::RadioButtonComponent] A new radio button component instance.
+  # @return [Daisy::DataInput::RadioButtonComponent] A new radio button
+  #   component instance.
   #
   def build_radio_input(theme, **options)
     options[:css] = (options[:css] || "").concat(" theme-controller")
@@ -59,7 +60,8 @@ class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   end
 
   #
-  # Helper method to create a theme preview showing the theme's colors in a 2x2 grid.
+  # Builder method to create a theme preview showing the theme's colors in a 2x2
+  # grid.
   #
   # @param theme [String] The theme name to preview.
   #
@@ -70,7 +72,8 @@ class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   #
   # @option options [String] :css Additional CSS classes.
   #
-  # @return [Daisy::Actions::ThemePreviewComponent] A new theme preview component instance.
+  # @return [Daisy::Actions::ThemePreviewComponent] A new theme preview
+  #   component instance.
   #
   def build_theme_preview(theme, **options)
     render Daisy::Actions::ThemePreviewComponent.new(

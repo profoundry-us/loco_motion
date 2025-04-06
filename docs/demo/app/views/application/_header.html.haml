@@ -39,6 +39,11 @@
         - dropdown.with_item(css: "menu-title") do
           Themes
 
+        - dropdown.with_item do
+          = daisy_link(href: "#", css: "no-underline text-error", html: { data: { action: "click->theme#clearTheme", "theme-theme-name-param": "docs-theme" } }) do
+            = hero_icon("trash", css: "size-4")
+            Clear Theme
+
         - tc.themes.each do |theme|
           - dropdown.with_item do
             = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
