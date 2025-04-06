@@ -31,9 +31,9 @@
 = doc_example(title: "LabelableComponent Functionality") do |doc|
   - doc.with_description do
     :markdown
-      Many of our input components include the `LabelableComponent` concern, which
-      provides built-in label functionality without needing separate label
-      components.  This makes your code cleaner and ensures proper semantic
+      Many of our input components include the `LabelableComponent` concern,
+      which provides built-in label functionality without needing separate label
+      components. This makes your code cleaner and ensures proper semantic
       markup.
 
     %p
@@ -106,15 +106,9 @@
 = doc_example(title: "Form Builder Example") do |doc|
   - doc.with_description do
     :markdown
-      When using the form builder, labels are automatically included with your
-      inputs based on the field name or options you provide.
+      We've also extended the standard Rails FormBuilder with custom helper
+      methods for rendering Daisy Inputs with labels.
 
-  .my-2.flex.flex-col.gap-4
-    = form_with(url: "/example", method: :post, data: { turbo: false }) do |f|
-      .mb-4
-        = f.label :name, class: "mb-1 block"
-        = f.text_field :name, class: "input w-full"
-
-      .mb-4
-        = f.label :email, class: "mb-1 block"
-        = f.email_field :email, class: "input w-full"
+  = form_with(url: "#", class: "my-2 flex flex-col gap-4") do |f|
+    = f.daisy_text_input :name, floating: "Name", placeholder: "Name"
+    = f.daisy_text_input :email, type: :email, floating: "Email", placeholder: "Email"
