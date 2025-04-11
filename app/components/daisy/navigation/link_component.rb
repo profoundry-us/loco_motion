@@ -64,8 +64,6 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
     end
 
     @target = config_option(:target)
-    
-    initialize_tippable_component
   end
 
   #
@@ -73,9 +71,11 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   # if provided.
   #
   def before_render
+    super
+
     setup_component
   end
-  
+
   #
   # Renders the link component.
   #
@@ -86,14 +86,13 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   def call
     part(:component) { content || @title }
   end
-  
+
   private
-  
+
   def setup_component
     set_tag_name(:component, :a)
     add_css(:component, "link")
     add_html(:component, { href: @href }) if @href
     add_html(:component, { target: @target }) if @target
-    setup_tippable_component
   end
 end

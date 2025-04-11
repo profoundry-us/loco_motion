@@ -42,7 +42,7 @@
 #     to confirm.
 #
 class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :kbd
 
@@ -64,11 +64,11 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
     @simple_title = args[0]
 
     set_tag_name(:component, :span)
-    
-    initialize_tippable_component
   end
 
   def before_render
+    super
+
     setup_component
   end
 
@@ -87,6 +87,5 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
 
   def setup_component
     add_css(:component, "kbd")
-    setup_tippable_component
   end
 end

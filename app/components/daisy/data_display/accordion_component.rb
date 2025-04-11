@@ -40,7 +40,7 @@
 #       This is the content of the featured section
 #
 class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   # Renders a single section of the accordion.
   #
@@ -158,12 +158,9 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
     super
 
     @name = config_option(:name, "accordion-#{SecureRandom.uuid}")
-    
-    initialize_tippable_component
   end
   
   def before_render
     super
-    setup_tippable_component
   end
 end

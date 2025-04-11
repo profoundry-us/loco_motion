@@ -26,7 +26,7 @@
 #   = daisy_countdown(3.hours + 30.minutes, separator: " → ")
 #
 class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   define_parts :days, :hours, :minutes, :seconds
   define_modifiers :words, :letters
@@ -63,12 +63,11 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
     @separator = config_option(:separator, ":")
     @parts_css = config_option(:parts_css)
     @parts_html = config_option(:parts_html)
-    
-    initialize_tippable_component
   end
 
   def before_render
-    setup_component
+    setup_component # Configure countdown parts and stimulus
+    super           # Run TippableComponent hook
   end
   
   private
@@ -95,8 +94,6 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
       add_html(part, default_html)
       add_html(part, @parts_html) if @parts_html
     end
-    
-    setup_tippable_component
   end
 
   def dparts

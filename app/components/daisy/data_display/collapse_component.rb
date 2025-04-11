@@ -40,7 +40,7 @@
 #     This section has a plus/minus indicator.
 #
 class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   define_parts :title, :wrapper
 
@@ -72,20 +72,18 @@ class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
 
     @simple_title = config_option(:title)
     @checkbox = config_option(:checkbox, true)
-    
-    initialize_tippable_component
   end
 
   def before_render
-    setup_component
-    setup_title
-    setup_wrapper
+    setup_component # Set base styles/attributes
+    super           # Run concern setup hooks
+    setup_title     # Set title part styles
+    setup_wrapper   # Set wrapper part styles
   end
 
   def setup_component
     add_css(:component, "collapse")
     add_html(:component, { tabindex: 0 }) unless @checkbox
-    setup_tippable_component
   end
 
   def setup_title

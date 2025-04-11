@@ -20,7 +20,10 @@
 #   = hero_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
 #
 class Hero::IconComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  # Tippable concern provides tooltip functionality.
+  include LocoMotion::Concerns::TippableComponent
+
+  set_component_name :icon
 
   # Create a new instance of the IconComponent.
   #
@@ -50,12 +53,11 @@ class Hero::IconComponent < LocoMotion::BaseComponent
     # Accept either the :icon keyword argument or the first positional argument
     @icon = config_option(:icon, args[0])
     @variant = config_option(:variant)
-    
-    initialize_tippable_component
   end
 
   def before_render
-    setup_component
+    super
+
     add_html(:component, { variant: @variant }) if @variant
     add_css(:component, "where:size-5")
   end
@@ -69,11 +71,5 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   #
   def call
     heroicon_tag(@icon, **rendered_html(:component))
-  end
-  
-  private
-  
-  def setup_component
-    setup_tippable_component
   end
 end

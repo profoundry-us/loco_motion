@@ -36,9 +36,9 @@
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
 class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
-  prepend LocoMotion::Concerns::LinkableComponent
-  prepend LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::IconableComponent
 
   set_component_name :badge
 
@@ -90,15 +90,12 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
     super
 
     @title = config_option(:title, title)
-    
-    # Initialize all concerns
-    initialize_tippable_component
-    initialize_linkable_component
-    initialize_iconable_component
   end
 
   def before_render
+    # Run component setup *before* super to allow LinkableComponent to override tag
     setup_component
+    super
   end
 
   #
@@ -141,11 +138,6 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :span)
     add_css(:component, "badge")
-    
-    # Setup all concerns
-    setup_tippable_component
-    setup_linkable_component
-    setup_iconable_component
   end
   
   def content_provided?

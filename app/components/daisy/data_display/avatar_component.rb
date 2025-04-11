@@ -34,7 +34,7 @@
 #   = daisy_avatar(src: "avatar.jpg", tip: "John Doe")
 #
 class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :avatar
 
@@ -59,12 +59,12 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
 
     @src = config_option(:src)
     @icon = config_option(:icon)
-    
-    initialize_tippable_component
   end
 
   def before_render
+    # Run component setup *before* super to allow BaseComponent hooks to run last
     setup_component
+    super
   end
 
   private
@@ -84,6 +84,7 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
       add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
     end
     
-    setup_tippable_component
+    # Concern setup is handled by BaseComponent hook via super in before_render
+    # setup_tippable_component
   end
 end

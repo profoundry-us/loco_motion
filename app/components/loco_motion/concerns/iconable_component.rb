@@ -1,9 +1,20 @@
+require "active_support/concern"
+
 #
 # The IconableComponent concern provides functionality for components that
 # display icons. It supports both left and right icons and allows for
 # customization of their CSS classes and HTML attributes.
 #
 module LocoMotion::Concerns::IconableComponent
+  extend ActiveSupport::Concern
+
+  included do |base|
+    base.register_component_initializer(:_initialize_iconable_component)
+    base.register_component_setup(:_setup_iconable_component)
+  end
+
+  protected
+
   #
   # Initialize icon-related options.
   #
@@ -34,7 +45,7 @@ module LocoMotion::Concerns::IconableComponent
   # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
   #   the right icon.
   #
-  def initialize_iconable_component
+  def _initialize_iconable_component
     @icon = config_option(:icon)
     @icon_css = config_option(:icon_css, "where:size-5")
     @icon_html = config_option(:icon_html, {})
@@ -52,11 +63,13 @@ module LocoMotion::Concerns::IconableComponent
   # Configure CSS classes for a component with icons.
   # This adds necessary classes for proper icon spacing and alignment.
   #
-  def setup_iconable_component
+  def _setup_iconable_component
     if @icon || @left_icon || @right_icon
       add_css(:component, "where:inline-flex where:items-center where:gap-2")
     end
   end
+
+  public # Ensure these helper methods remain public
 
   #
   # Returns the HTML attributes for the left icon.

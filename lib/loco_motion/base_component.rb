@@ -10,6 +10,10 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   class_attribute :valid_modifiers, default: []
   class_attribute :valid_sizes, default: []
 
+  # Hooks for concerns to register initialization and setup methods
+  class_attribute :component_initializers, default: []
+  class_attribute :component_setups, default: []
+
   #
   # Return the current configuration of this component.
   #
@@ -31,6 +35,17 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
     # Create our config object
     @config = LocoMotion::ComponentConfig.new(self, **kws, &block)
+
+    # Run registered initializer hooks from concerns
+    self.class.component_initializers.each { |initializer| send(initializer) }
+  end
+
+  #
+  # Run registered setup hooks from concerns before rendering.
+  #
+  def before_render
+    # Note: ViewComponent::Base does not define before_render, so no super call needed.
+    self.class.component_setups.each { |setup| send(setup) }
   end
 
   #
@@ -85,6 +100,26 @@ class LocoMotion::BaseComponent < ViewComponent::Base
     (part_names || []).each do |part_name|
       define_part(part_name)
     end
+  end
+
+  #
+  # Register an instance method to be called during component initialization.
+  #
+  # @param method_name [Symbol] The name of the instance method to call.
+  #
+  def self.register_component_initializer(method_name)
+    # Ensure we don't modify the parent class's array directly
+    self.component_initializers += [method_name.to_sym]
+  end
+
+  #
+  # Register an instance method to be called before component rendering.
+  #
+  # @param method_name [Symbol] The name of the instance method to call.
+  #
+  def self.register_component_setup(method_name)
+    # Ensure we don't modify the parent class's array directly
+    self.component_setups += [method_name.to_sym]
   end
 
   #

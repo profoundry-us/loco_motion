@@ -20,9 +20,9 @@
 #   = daisy_button(title: "Button with Two Icons", left_icon: "heart", right_icon: "plus")
 #
 class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
-  prepend LocoMotion::Concerns::LinkableComponent
-  prepend LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::IconableComponent
 
   #
   # Instantiate a new Button component.
@@ -94,11 +94,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
 
     @action = config_option(:action, action)
 
-    # Initialize concerns
-    initialize_tippable_component
-    initialize_linkable_component
-    initialize_iconable_component
-
+    # Initialize concerns -- handled by BaseComponent hook
     default_title = @left_icon || @right_icon ? nil : "Submit"
     @simple_title = config_option(:title, title || default_title)
   end
@@ -107,38 +103,26 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    # Run before the super so LinkableComponent can override our tag name
     setup_component
+
+    super
   end
 
   #
-  # Sets the tagname to `<a>` if an `href` is provided, otherwise sets it to
-  # `<button>`. Adds the `btn` CSS class to the component. Also adds
-  # `items-center` and `gap-2` CSS classes if an icon is present.
+  # Performs button-specific setup. Adds the `btn` CSS class to the component.
+  # Also adds `items-center` and `gap-2` CSS classes if an icon is present.
+  # Tag name setup (`<a>` vs `<button>`) and tooltip setup are handled by
+  # LinkableComponent and TippableComponent concerns via BaseComponent hooks.
   #
   def setup_component
-    setup_tippable_component
-    setup_linkable_component
-    setup_iconable_component
-    
-    # If we don't have an href, set the tag to button
-    set_tag_name(:component, :button) unless @href
-    
+    # Ensure tag is button if LinkableComponent didn't set it to <a>
+    set_tag_name(:component, :button)
+
+    # Add the btn class
     add_css(:component, "btn")
-    
+
+    # Add data-action if specified
     add_html(:component, { "data-action": @action }) if @action
-  end
-
-  #
-  # Returns the HTML attributes for the left icon.
-  #
-  def left_icon_html
-    { class: @left_icon_css }.merge(@left_icon_html)
-  end
-
-  #
-  # Returns the HTML attributes for the right icon.
-  #
-  def right_icon_html
-    { class: @right_icon_css }.merge(@right_icon_html)
   end
 end

@@ -63,7 +63,7 @@
 #         %span Processing
 #
 class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   class SwapOn < LocoMotion::BasicComponent
     def before_render
@@ -130,17 +130,16 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
     @checked = config_option(:checked, checked || false)
     @simple_on = config_option(:on, on)
     @simple_off = config_option(:off, off)
-    
-    initialize_tippable_component
   end
 
   #
   # Sets up the component with various CSS classes and HTML attributes.
   #
   def before_render
-    setup_component
-    setup_checkbox
-    setup_on_off
+    setup_component # Set tag, base CSS
+    setup_checkbox  # Setup the hidden checkbox part
+    setup_on_off    # Setup the on/off part CSS
+    super           # Run TippableComponent hook
   end
 
   private
@@ -152,7 +151,6 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :label)
     add_css(:component, "swap")
-    setup_tippable_component
   end
 
   #

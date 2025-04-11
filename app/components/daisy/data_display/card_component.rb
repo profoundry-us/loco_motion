@@ -51,7 +51,7 @@
 #           = daisy_button(icon: "share", tip: "Share")
 #
 class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   renders_one :title, LocoMotion::BasicComponent.build(tag_name: :h2, css: "card-title")
   renders_one :top_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
@@ -82,12 +82,12 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
     super
 
     @simple_title = kws[:title]
-    
-    initialize_tippable_component
   end
 
   def before_render
     setup_component
+    super # Runs TippableComponent's setup hook
+
     with_title { simple_title } if simple_title && !title?
   end
   
@@ -95,6 +95,5 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   
   def setup_component
     add_css(:component, "card")
-    setup_tippable_component
   end
 end
