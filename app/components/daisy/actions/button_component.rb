@@ -23,7 +23,6 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::IconableComponent
-  include LocoMotion::Concerns::ActionableComponent
 
   #
   # Instantiate a new Button component.
