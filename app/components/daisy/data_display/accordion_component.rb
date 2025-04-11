@@ -151,9 +151,19 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
   #   Use `:arrow` to show arrow indicators, or `:plus` to show plus/minus
   #   indicators.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(**kws, &block)
     super
 
     @name = config_option(:name, "accordion-#{SecureRandom.uuid}")
+    
+    initialize_tippable_component
+  end
+  
+  def before_render
+    super
+    setup_tippable_component
   end
 end

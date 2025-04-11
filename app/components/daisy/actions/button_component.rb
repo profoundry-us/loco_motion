@@ -94,7 +94,8 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
 
     @action = config_option(:action, action)
 
-    # Initialize linkable and iconable components
+    # Initialize concerns
+    initialize_tippable_component
     initialize_linkable_component
     initialize_iconable_component
 
@@ -115,6 +116,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # `items-center` and `gap-2` CSS classes if an icon is present.
   #
   def setup_component
+    setup_tippable_component
     setup_linkable_component
     setup_iconable_component
     

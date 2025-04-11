@@ -91,7 +91,8 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
 
     @title = config_option(:title, title)
     
-    # Initialize linkable and iconable components
+    # Initialize all concerns
+    initialize_tippable_component
     initialize_linkable_component
     initialize_iconable_component
   end
@@ -141,7 +142,8 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
     set_tag_name(:component, :span)
     add_css(:component, "badge")
     
-    # Setup both linkable and iconable components
+    # Setup all concerns
+    setup_tippable_component
     setup_linkable_component
     setup_iconable_component
   end

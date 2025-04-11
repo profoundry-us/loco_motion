@@ -38,13 +38,21 @@ class Daisy::Feedback::LoadingComponent < LocoMotion::BaseComponent
   #
   def initialize(*args, **kws, &block)
     super
+    initialize_tippable_component
   end
 
   def before_render
-    add_css(:component, "loading")
+    setup_component
   end
-
+  
   def call
     part(:component)
+  end
+  
+  private
+  
+  def setup_component
+    add_css(:component, "loading")
+    setup_tippable_component
   end
 end

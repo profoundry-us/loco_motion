@@ -64,11 +64,16 @@ class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
   # @option kws checkbox [Boolean] Whether to use a checkbox for toggle state
   #   (true) or focus/tabindex mode (false). Defaults to true.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
     @simple_title = config_option(:title)
     @checkbox = config_option(:checkbox, true)
+    
+    initialize_tippable_component
   end
 
   def before_render
@@ -80,6 +85,7 @@ class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
   def setup_component
     add_css(:component, "collapse")
     add_html(:component, { tabindex: 0 }) unless @checkbox
+    setup_tippable_component
   end
 
   def setup_title

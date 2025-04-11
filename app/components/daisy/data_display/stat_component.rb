@@ -79,6 +79,9 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
   # @option kws [String] :icon Name of a heroicon to display in the figure
   #   section.
   #
+  # @option kws [String] :tip The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -86,6 +89,8 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
     @simple_description = config_option(:description)
     @src = config_option(:src)
     @icon = config_option(:icon)
+    
+    initialize_tippable_component
   end
 
   def before_render
@@ -100,5 +105,7 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
     add_css(:value, "stat-value")
     add_css(:description, "stat-desc")
     add_css(:figure, "stat-figure")
+    
+    setup_tippable_component
   end
 end

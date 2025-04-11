@@ -43,6 +43,9 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   #   - State: `link-hover`
   #   - Text: `text-sm`, `text-xl`, `text-2xl`
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws)
     super
 
@@ -61,6 +64,8 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
     end
 
     @target = config_option(:target)
+    
+    initialize_tippable_component
   end
 
   #
@@ -68,12 +73,9 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   # if provided.
   #
   def before_render
-    set_tag_name(:component, :a)
-    add_css(:component, "link")
-    add_html(:component, { href: @href }) if @href
-    add_html(:component, { target: @target }) if @target
+    setup_component
   end
-
+  
   #
   # Renders the link component.
   #
@@ -83,5 +85,15 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   #
   def call
     part(:component) { content || @title }
+  end
+  
+  private
+  
+  def setup_component
+    set_tag_name(:component, :a)
+    add_css(:component, "link")
+    add_html(:component, { href: @href }) if @href
+    add_html(:component, { target: @target }) if @target
+    setup_tippable_component
   end
 end

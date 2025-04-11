@@ -7,18 +7,22 @@ module LocoMotion
     #
     module TippableComponent
       #
-      # Calls the parent `before_render`. Then adds the `tooltip` CSS class and
-      # the `data-tip` attribute to the component if the `tip` attribute is
-      # present.
+      # Initialize tooltip-related options.
       #
-      def before_render
-        super
+      # @option kws tip [String] The tooltip text to display when hovering
+      #
+      def initialize_tippable_component
+        @tip = config_option(:tip)
+      end
 
-        tip = config_option(:tip)
-
-        if tip
+      #
+      # Configure tooltip functionality for the component.
+      # Adds the `tooltip` CSS class and the `data-tip` attribute if a tip is provided.
+      #
+      def setup_tippable_component
+        if @tip
           add_css(:component, "tooltip")
-          add_html(:component, { data: { tip: tip } })
+          add_html(:component, { data: { tip: @tip } })
         end
       end
     end

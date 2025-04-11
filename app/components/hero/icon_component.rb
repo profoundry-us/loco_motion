@@ -41,15 +41,21 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   #   - Color: `text-red-600`, `text-green-600`, `text-yellow-400`
   #   - Animation: `animate-pulse`, `animate-spin`
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the icon.
+  #
   def initialize(*args, **kws, &block)
     super
 
     # Accept either the :icon keyword argument or the first positional argument
     @icon = config_option(:icon, args[0])
     @variant = config_option(:variant)
+    
+    initialize_tippable_component
   end
 
   def before_render
+    setup_component
     add_html(:component, { variant: @variant }) if @variant
     add_css(:component, "where:size-5")
   end
@@ -63,5 +69,11 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   #
   def call
     heroicon_tag(@icon, **rendered_html(:component))
+  end
+  
+  private
+  
+  def setup_component
+    setup_tippable_component
   end
 end

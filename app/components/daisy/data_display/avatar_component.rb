@@ -51,11 +51,16 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   #   provided. If neither src nor icon is provided, placeholder content from
   #   the block will be shown.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(**kws, &block)
     super
 
     @src = config_option(:src)
     @icon = config_option(:icon)
+    
+    initialize_tippable_component
   end
 
   def before_render
@@ -78,5 +83,7 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
       add_css(:component, "avatar-placeholder")
       add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
     end
+    
+    setup_tippable_component
   end
 end

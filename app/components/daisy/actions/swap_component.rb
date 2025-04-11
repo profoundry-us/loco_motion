@@ -121,12 +121,17 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   # @option kws indeterminate [Boolean] If true, starts the swap in an indeterminate
   #   state. Requires the indeterminate slot to be meaningful.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(on = nil, off = nil, checked = nil, **kws, &block)
     super
 
     @checked = config_option(:checked, checked || false)
     @simple_on = config_option(:on, on)
     @simple_off = config_option(:off, off)
+    
+    initialize_tippable_component
   end
 
   #
@@ -147,6 +152,7 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :label)
     add_css(:component, "swap")
+    setup_tippable_component
   end
 
   #
