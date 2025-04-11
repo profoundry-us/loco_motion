@@ -34,7 +34,7 @@
 #   = daisy_avatar(src: "avatar.jpg", tip: "John Doe")
 #
 class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :avatar
 
@@ -51,6 +51,9 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   #   provided. If neither src nor icon is provided, placeholder content from
   #   the block will be shown.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(**kws, &block)
     super
 
@@ -59,7 +62,9 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   end
 
   def before_render
+    # Run component setup *before* super to allow BaseComponent hooks to run last
     setup_component
+    super
   end
 
   private
@@ -78,5 +83,8 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
       add_css(:component, "avatar-placeholder")
       add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
     end
+    
+    # Concern setup is handled by BaseComponent hook via super in before_render
+    # setup_tippable_component
   end
 end

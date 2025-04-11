@@ -40,7 +40,7 @@
 #     This section has a plus/minus indicator.
 #
 class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   define_parts :title, :wrapper
 
@@ -64,6 +64,9 @@ class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
   # @option kws checkbox [Boolean] Whether to use a checkbox for toggle state
   #   (true) or focus/tabindex mode (false). Defaults to true.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -72,9 +75,10 @@ class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
   end
 
   def before_render
-    setup_component
-    setup_title
-    setup_wrapper
+    setup_component # Set base styles/attributes
+    super           # Run concern setup hooks
+    setup_title     # Set title part styles
+    setup_wrapper   # Set wrapper part styles
   end
 
   def setup_component

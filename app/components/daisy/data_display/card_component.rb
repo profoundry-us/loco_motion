@@ -51,7 +51,7 @@
 #           = daisy_button(icon: "share", tip: "Share")
 #
 class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   renders_one :title, LocoMotion::BasicComponent.build(tag_name: :h2, css: "card-title")
   renders_one :top_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
@@ -75,15 +75,25 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   #   - Sizes: `card-sm` (less padding)
   #   - Colors: `bg-base-100`, `bg-primary`, `bg-secondary`
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(**kws, &block)
     super
 
     @simple_title = kws[:title]
-
-    add_css(:component, "card")
   end
 
   def before_render
+    setup_component
+    super # Runs TippableComponent's setup hook
+
     with_title { simple_title } if simple_title && !title?
+  end
+  
+  private
+  
+  def setup_component
+    add_css(:component, "card")
   end
 end

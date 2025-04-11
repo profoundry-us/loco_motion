@@ -42,7 +42,7 @@
 #     to confirm.
 #
 class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :kbd
 
@@ -55,6 +55,9 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
   #
   # @param kws [Hash] The keyword arguments for the component.
   #
+  # @option kws [String] :tip The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -64,6 +67,8 @@ class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
   end
 
   def before_render
+    super
+
     setup_component
   end
 

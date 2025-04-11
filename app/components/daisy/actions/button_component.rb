@@ -20,7 +20,9 @@
 #   = daisy_button(title: "Button with Two Icons", left_icon: "heart", right_icon: "plus")
 #
 class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::IconableComponent
 
   #
   # Instantiate a new Button component.
@@ -29,19 +31,10 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   #   of title, left icon, or right icon is provided. Will be considered the
   #   `action` parameter if **both** the title and a block are provided.
   #
-  # @param action [String] The Stimulus action that should fire when the button
-  #   is clicked.
-  #
   # @param kws    [Hash] The keyword arguments for the component.
   #
   # @option kws title           [String] The title of the button. You can also
   #   pass the title, icons, or any other HTML content as a block.
-  #
-  # @option kws action          [String] The Stimulus action that should fire
-  #   when the button is clicked.
-  #
-  #   > **Note:** _You should use either the `action` or the `href` option, but
-  #   not both._
   #
   # @option kws href            [String] A path or URL to which the user will be
   #   directed when the button is clicked. Forces the Button to use an `<a>`
@@ -74,11 +67,9 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # @option kws right_icon      [String] The name of Hero icon to render inside
   #   the button to the right of the text.
   #
-  # @option kws right_icon_css  [String] The CSS classes to apply to the right
-  #   icon.
+  # @option kws right_icon_css  [String] Right icon CSS (via IconableComponent).
   #
-  # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
-  #   the right icon.
+  # @option kws right_icon_html [Hash] Right icon HTML (via IconableComponent).
   #
   def initialize(title = nil, action = nil, **kws, &block)
     super
@@ -92,21 +83,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
 
     @action = config_option(:action, action)
 
-    @href = config_option(:href)
-    @target = config_option(:target)
-
-    @icon = config_option(:icon)
-    @icon_css = config_option(:icon_css, "where:size-5")
-    @icon_html = config_option(:icon_html, {})
-
-    @left_icon = config_option(:left_icon, @icon)
-    @left_icon_css = config_option(:left_icon_css, @icon_css)
-    @left_icon_html = config_option(:left_icon_html, @icon_html)
-
-    @right_icon = config_option(:right_icon)
-    @right_icon_css = config_option(:right_icon_css, @icon_css)
-    @right_icon_html = config_option(:right_icon_html, @icon_html)
-
+    # Initialize concerns -- handled by BaseComponent hook
     default_title = @left_icon || @right_icon ? nil : "Submit"
     @simple_title = config_option(:title, title || default_title)
   end
@@ -115,42 +92,26 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    # Run before the super so LinkableComponent can override our tag name
     setup_component
+
+    super
   end
 
   #
-  # Sets the tagname to `<a>` if an `href` is provided, otherwise sets it to
-  # `<button>`. Adds the `btn` CSS class to the component. Also adds
-  # `items-center` and `gap-2` CSS classes if an icon is present.
+  # Performs button-specific setup. Adds the `btn` CSS class to the component.
+  # Also adds `items-center` and `gap-2` CSS classes if an icon is present.
+  # Tag name setup (`<a>` vs `<button>`) and tooltip setup are handled by
+  # LinkableComponent and TippableComponent concerns via BaseComponent hooks.
   #
   def setup_component
-    if @href
-      set_tag_name(:component, :a)
-      add_html(:component, { href: @href, target: @target })
-    else
-      set_tag_name(:component, :button)
-    end
+    # Ensure tag is button if LinkableComponent didn't set it to <a>
+    set_tag_name(:component, :button)
 
+    # Add the btn class
     add_css(:component, "btn")
 
-    if @icon || @left_icon || @right_icon
-      add_css(:component, "where:items-center where:gap-2")
-    end
-
-      add_html(:component, { "data-action": @action }) if @action
-  end
-
-  #
-  # Returns the HTML attributes for the left icon.
-  #
-  def left_icon_html
-    { class: @left_icon_css }.merge(@left_icon_html)
-  end
-
-  #
-  # Returns the HTML attributes for the right icon.
-  #
-  def right_icon_html
-    { class: @right_icon_css }.merge(@right_icon_html)
+    # Add data-action if specified
+    add_html(:component, { "data-action": @action }) if @action
   end
 end

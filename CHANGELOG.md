@@ -55,6 +55,7 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
 - **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
 - feat: Allow users to pass singular `controller:` keyword in addition to `controllers:`
+- refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
 
 #### Component Changes
 
@@ -62,11 +63,13 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** refactor(Device): Utilize standard Tailwind width/height classes instead of Artboard ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
 - **Breaking:** refactor(ThemeController): Migrate to a "Builder" component ([Fixes #38](https://github.com/profoundry-us/loco_motion/issues/38))
 - **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4 `form-control` class (including specs)
-- feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
+
+- feat(Badge): Add support for icons and linking via `IconableComponent` and `LinkableComponent`
 - fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
+- feat(Input): Add `daisy_input` alias helper in addition to `daisy_text_input`
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
-- feat(Input): Add `daisy_input` alias helper in addition to `daisy_text_input`
+- feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
 
 #### Demo / Docs Changes
 

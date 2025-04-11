@@ -40,7 +40,7 @@
 #       This is the content of the featured section
 #
 class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   # Renders a single section of the accordion.
   #
@@ -151,9 +151,16 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
   #   Use `:arrow` to show arrow indicators, or `:plus` to show plus/minus
   #   indicators.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(**kws, &block)
     super
 
     @name = config_option(:name, "accordion-#{SecureRandom.uuid}")
+  end
+  
+  def before_render
+    super
   end
 end
