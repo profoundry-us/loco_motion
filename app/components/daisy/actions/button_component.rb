@@ -21,6 +21,8 @@
 #
 class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   prepend LocoMotion::Concerns::TippableComponent
+  prepend LocoMotion::Concerns::LinkableComponent
+  prepend LocoMotion::Concerns::IconableComponent
 
   #
   # Instantiate a new Button component.
@@ -92,20 +94,9 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
 
     @action = config_option(:action, action)
 
-    @href = config_option(:href)
-    @target = config_option(:target)
-
-    @icon = config_option(:icon)
-    @icon_css = config_option(:icon_css, "where:size-5")
-    @icon_html = config_option(:icon_html, {})
-
-    @left_icon = config_option(:left_icon, @icon)
-    @left_icon_css = config_option(:left_icon_css, @icon_css)
-    @left_icon_html = config_option(:left_icon_html, @icon_html)
-
-    @right_icon = config_option(:right_icon)
-    @right_icon_css = config_option(:right_icon_css, @icon_css)
-    @right_icon_html = config_option(:right_icon_html, @icon_html)
+    # Initialize linkable and iconable components
+    initialize_linkable_component
+    initialize_iconable_component
 
     default_title = @left_icon || @right_icon ? nil : "Submit"
     @simple_title = config_option(:title, title || default_title)
@@ -124,20 +115,15 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # `items-center` and `gap-2` CSS classes if an icon is present.
   #
   def setup_component
-    if @href
-      set_tag_name(:component, :a)
-      add_html(:component, { href: @href, target: @target })
-    else
-      set_tag_name(:component, :button)
-    end
-
+    setup_linkable_component
+    setup_iconable_component
+    
+    # If we don't have an href, set the tag to button
+    set_tag_name(:component, :button) unless @href
+    
     add_css(:component, "btn")
-
-    if @icon || @left_icon || @right_icon
-      add_css(:component, "where:items-center where:gap-2")
-    end
-
-      add_html(:component, { "data-action": @action }) if @action
+    
+    add_html(:component, { "data-action": @action }) if @action
   end
 
   #

@@ -118,7 +118,7 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     end
 
     it "sets data-tip attribute" do
-      expect(page).to have_css "[data-tip=\"#{tip}\"]"
+      expect(page).to have_css "[data-tip=\"#{tip}\"]" 
     end
   end
 
@@ -167,6 +167,113 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     it "renders both modifier's css" do
       expect(page).to have_css "span.badge-primary"
       expect(page).to have_css "span.badge-outline"
+    end
+  end
+  
+  # Tests for the new link functionality
+  context "with href" do
+    let(:href) { "/some/path" }
+    before do
+      render_inline(described_class.new(title: "Linked Badge", href: href))
+    end
+
+    it "renders as an anchor tag" do
+      expect(page).to have_css "a.badge"
+    end
+
+    it "has the correct href" do
+      expect(page).to have_css "a[href=\"#{href}\"]"
+    end
+  end
+
+  context "with href and target" do
+    let(:href) { "https://example.com" }
+    let(:target) { "_blank" }
+    
+    before do
+      render_inline(described_class.new(
+        title: "External Link", 
+        href: href, 
+        target: target
+      ))
+    end
+
+    it "has the target attribute" do
+      expect(page).to have_css "a[target=\"#{target}\"]"
+    end
+  end
+  
+  # Tests for the new icon functionality
+  context "with left icon" do
+    before do
+      render_inline(described_class.new(title: "Icon Badge", left_icon: "star"))
+    end
+
+    it "renders with the flex and gap classes" do
+      expect(page).to have_css "span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2"
+    end
+    
+    it "includes the icon in the rendered output" do
+      # Verify that the SVG (heroicon) is present in the output
+      expect(page).to have_css "span.badge svg"
+    end
+  end
+  
+  context "with right icon" do
+    before do
+      render_inline(described_class.new(title: "Badge with Right Icon", right_icon: "arrow-right"))
+    end
+
+    it "renders with the flex and gap classes" do
+      expect(page).to have_css "span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2"
+    end
+    
+    it "includes the icon in the rendered output" do
+      expect(page).to have_css "span.badge svg"
+    end
+  end
+  
+  context "with both left and right icons" do
+    before do
+      render_inline(described_class.new(
+        title: "Dual Icons", 
+        left_icon: "star", 
+        right_icon: "arrow-right"
+      ))
+    end
+
+    it "renders with the flex and gap classes" do
+      expect(page).to have_css "span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2"
+    end
+    
+    it "includes two icons in the rendered output" do
+      # Count the number of SVGs to ensure there are two
+      expect(page).to have_css "span.badge svg", count: 2
+    end
+  end
+  
+  context "with icon alias" do
+    before do
+      render_inline(described_class.new(title: "Icon Alias", icon: "star"))
+    end
+
+    it "renders the icon using the icon alias" do
+      expect(page).to have_css "span.badge svg"
+    end
+  end
+  
+  context "with icon and href" do
+    before do
+      render_inline(described_class.new(
+        title: "Linked with Icon", 
+        left_icon: "link", 
+        href: "/docs"
+      ))
+    end
+
+    it "renders as an anchor with the icon" do
+      expect(page).to have_css "a.badge"
+      expect(page).to have_css "a.badge svg"
     end
   end
 end

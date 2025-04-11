@@ -41,3 +41,43 @@
 
     = daisy_badge(css: "badge-warning badge-xs") do
       Extra Small Badge
+
+
+= doc_example(title: "Badges with Icons") do |doc|
+  - doc.with_description do
+    :markdown
+      Badges can include icons on either the left or right side, or both.
+      Use the `left_icon` and `right_icon` options to add icons.
+
+      You can also use the `icon` option as an alias for `left_icon`.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(title: "New", left_icon: "sparkles", css: "badge-primary")
+
+    = daisy_badge(title: "Download", right_icon: "arrow-down-tray", css: "badge-secondary")
+
+    = daisy_badge(title: "Favorite", icon: "star", css: "badge-warning")
+
+    = daisy_badge(title: "Settings", left_icon: "cog-6-tooth", right_icon: "chevron-right", css: "badge-accent")
+
+
+= doc_example(title: "Linked Badges") do |doc|
+  - doc.with_description do
+    :markdown
+      Badges can be made clickable by providing an `href` option. This
+      transforms the badge into an anchor (`<a>`) tag.
+
+      You can also specify a `target` attribute for the link, such as `_blank`
+      for opening in a new tab.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(title: "Documentation", href: "/api-docs", css: "badge-info")
+
+    = daisy_badge(title: "External Link", href: "https://google.com", target: "_blank", css: "badge-secondary")
+
+    = daisy_badge(title: "GitHub", href: "https://github.com/profoundry-us/loco_motion", left_icon: "code-bracket", css: "badge-neutral")
+
+    = daisy_badge(href: "/", css: "badge-primary") do
+      %span.flex.items-center.gap-1
+        = hero_icon "document-text", css: "size-4"
+        Read More
