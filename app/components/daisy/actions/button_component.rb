@@ -23,6 +23,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::ActionableComponent
 
   #
   # Instantiate a new Button component.
@@ -31,19 +32,10 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   #   of title, left icon, or right icon is provided. Will be considered the
   #   `action` parameter if **both** the title and a block are provided.
   #
-  # @param action [String] The Stimulus action that should fire when the button
-  #   is clicked.
-  #
   # @param kws    [Hash] The keyword arguments for the component.
   #
   # @option kws title           [String] The title of the button. You can also
   #   pass the title, icons, or any other HTML content as a block.
-  #
-  # @option kws action          [String] The Stimulus action that should fire
-  #   when the button is clicked.
-  #
-  #   > **Note:** _You should use either the `action` or the `href` option, but
-  #   not both._
   #
   # @option kws href            [String] A path or URL to which the user will be
   #   directed when the button is clicked. Forces the Button to use an `<a>`
@@ -76,11 +68,9 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   # @option kws right_icon      [String] The name of Hero icon to render inside
   #   the button to the right of the text.
   #
-  # @option kws right_icon_css  [String] The CSS classes to apply to the right
-  #   icon.
+  # @option kws right_icon_css  [String] Right icon CSS (via IconableComponent).
   #
-  # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
-  #   the right icon.
+  # @option kws right_icon_html [Hash] Right icon HTML (via IconableComponent).
   #
   def initialize(title = nil, action = nil, **kws, &block)
     super
