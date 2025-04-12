@@ -16,13 +16,10 @@ When asked to create a Pull Request (PR), follow these procedures:
 
 5.  MUST format the PR description using Markdown.
 
-6.  MUST provide the generated description as a code snippet that the user can
-    easily copy/paste into GitHub.
+6.  MUST present the PR description as a code snippet to the user for review and
+potential modification before proceeding.
 
-7.  MUST present the generated description to the user for review and potential
-    modification before proceeding.
-
-8.  MUST update the `CHANGELOG.md`:
+7.  MUST update the `CHANGELOG.md`:
     a. Generate a concise summary of changes based on the commit messages in
        the current branch (similar to the PR description in Rule 6).
     b. Check if an `[Unreleased]` section exists at the top of the
@@ -31,9 +28,9 @@ When asked to create a Pull Request (PR), follow these procedures:
     d. If it does not exist, create the `[Unreleased]` section header at the
        top and add the summary list items beneath it.
 
-9.  MUST run `git add .` to add the `CHANGELOG.md` changes.
+8.  MUST run `git add .` to add the `CHANGELOG.md` changes.
 
-10. MUST commit the `CHANGELOG.md` changes with the message
+9.  MUST commit the `CHANGELOG.md` changes with the message
     `'docs: Update CHANGELOG'`, using single quotes.
 
-11. MUST push the `CHANGELOG.md` commit to the remote repository.
+10. MUST push the `CHANGELOG.md` commit to the remote repository.
