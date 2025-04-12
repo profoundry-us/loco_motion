@@ -117,6 +117,7 @@ Read on for specific changes across the entire project! :tada:
 - fix: Add tooltips to header buttons and make logo a link
 - fix: Always enable BetterErrors in development
 - fix: Header Theme Switcher was using the wrong button size
+- feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples ([e14a425](https://github.com/profoundry-us/loco_motion/commit/e14a425))
 
 ## [0.4.0] - 2025-03-07
 

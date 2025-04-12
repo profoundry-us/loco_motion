@@ -65,6 +65,7 @@ When committing code changes, follow these proceedures.
 1. NEVER attempt to commit unless requested.
 
 2. MUST follow these commit steps in series:
+  a. If we are on the main branch, STOP and produce an error message.
   a. Run `make loco-test` to ensure all tests pass.
   b. Run a `git status --porcelain` to see what files changed.
   c. Run `git add .` to add all changed files to the index.
