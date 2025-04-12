@@ -17,6 +17,7 @@ When committing code changes, follow these proceedures.
   g. Utilize a single-line message similar to `feat(Button): Add new feature` as the first line.
   h. Commit the changes.
   i. Push the changes to the remote repository.
+  j. Prompt the user if they are ready to create a pull request.
 
 2. MUST format links for Pull Requests as a clickable link.
 
