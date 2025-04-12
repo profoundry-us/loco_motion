@@ -1,0 +1,59 @@
+= doc_title(title: "Fieldsets", comp: @comp) do |title|
+  :markdown
+    Fieldsets group related form controls and can optionally include a legend.
+
+= doc_example(title: "Basic Fieldset (No Legend)") do |doc|
+  - doc.with_description do
+    :markdown
+      A simple fieldset rendered without a legend.
+
+  = daisy_fieldset do
+    = daisy_toggle(end: "Enable Feature X")
+
+
+= doc_example(title: "Fieldset with Legend (Argument)") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass simple text for the legend directly using the `legend:` argument.
+
+  = daisy_fieldset(legend: "Settings (Argument)") do
+    = daisy_toggle(end: "Enable Feature X")
+
+
+= doc_example(title: "Fieldset with Legend (Slot)") do |doc|
+  - doc.with_description do
+    :markdown
+      Use the `with_legend` slot to provide custom content for the legend,
+      including HTML.
+
+  = daisy_fieldset do |fieldset|
+    - fieldset.with_legend { "Settings (Slot)" }
+
+    = daisy_toggle(end: "Enable Notifications")
+    = daisy_toggle(end: "Enable Dark Mode")
+
+
+= doc_example(title: "Fieldset with Various Inputs") do |doc|
+  - doc.with_description do
+    :markdown
+      Fieldsets are useful for grouping related form inputs under a common legend.
+
+  = daisy_fieldset(legend: "User Profile") do
+    .mt-4.space-y-4
+      = daisy_input(floating: "Name")
+      = daisy_text_area(floating: "Bio", rows: 3)
+      = daisy_select(floating: "Country", options: ["USA", "Canada", "Mexico"])
+
+
+= doc_example(title: "Fieldset with Custom Styling") do |doc|
+  - doc.with_description do
+    :markdown
+      You can customize the Fieldset with standard `css` options to make it look
+      exactly like you want.
+
+  = daisy_fieldset(css: "p-4 border rounded bg-base-200 w-80") do |fieldset|
+    - fieldset.with_legend(css: "border rounded bg-white px-4") { "Advanced Options" }
+
+    = daisy_label("API Key")
+    = daisy_input(placeholder: "asdf1234")
+    = daisy_button("Save Settings", css: "mt-4")

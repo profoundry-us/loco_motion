@@ -1,0 +1,8 @@
+= part(:component) do
+  - if legend?
+    = legend
+  - elsif @simple_legend
+    = part(:legend) { @simple_legend }
+
+  -# Render the main content passed to the component block
+  = content
