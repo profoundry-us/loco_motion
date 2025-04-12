@@ -20,7 +20,10 @@
 #   = hero_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
 #
 class Hero::IconComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  # Tippable concern provides tooltip functionality.
+  include LocoMotion::Concerns::TippableComponent
+
+  set_component_name :icon
 
   # Create a new instance of the IconComponent.
   #
@@ -41,6 +44,9 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   #   - Color: `text-red-600`, `text-green-600`, `text-yellow-400`
   #   - Animation: `animate-pulse`, `animate-spin`
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the icon.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -50,6 +56,8 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   end
 
   def before_render
+    super
+
     add_html(:component, { variant: @variant }) if @variant
     add_css(:component, "where:size-5")
   end

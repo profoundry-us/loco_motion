@@ -26,7 +26,7 @@
 #   = daisy_countdown(3.hours + 30.minutes, separator: " → ")
 #
 class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   define_parts :days, :hours, :minutes, :seconds
   define_modifiers :words, :letters
@@ -53,6 +53,9 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
   #
   # @option kws [Hash] :parts_html HTML attributes to apply to all time parts.
   #
+  # @option kws [String] :tip The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -63,6 +66,13 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
   end
 
   def before_render
+    setup_component # Configure countdown parts and stimulus
+    super           # Run TippableComponent hook
+  end
+  
+  private
+  
+  def setup_component
     add_stimulus_controller(:component, "countdown")
 
     add_css(:component, "flex")

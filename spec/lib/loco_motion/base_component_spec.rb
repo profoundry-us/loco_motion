@@ -111,4 +111,80 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
     end
   end
 
+  context "with initializer and setup hooks" do
+    # Define a dummy module to act like a concern
+    module DummyHookable
+      extend ActiveSupport::Concern
+
+      included do
+        # Register methods using symbols
+        register_component_initializer :_initialize_dummy
+        register_component_setup :_setup_dummy
+      end
+
+      protected
+
+      def _initialize_dummy
+        @dummy_initialized_value = config_option(:dummy_init_data, "init_default")
+      end
+
+      def _setup_dummy
+        @dummy_setup_value = "set_in_setup"
+        add_html(:component, { data: { initialized: @dummy_initialized_value, setup: @dummy_setup_value } })
+      end
+    end
+
+    # Define a component that includes the dummy module and registers its own hooks
+    class HookedComponent < LocoMotion::BaseComponent
+      include DummyHookable
+
+      register_component_initializer :_initialize_direct
+      register_component_setup :_setup_direct
+
+      def call
+        part(:component) { "Hooked Component Content" }
+      end
+
+      protected
+
+      def _initialize_direct
+        @direct_initialized = true
+      end
+
+      def _setup_direct
+        @direct_setup = true
+        add_css(:component, "direct-setup-applied")
+      end
+    end
+
+    let(:init_data) { "passed_init_data" }
+    let(:component) { HookedComponent.new(dummy_init_data: init_data) }
+
+    it "runs registered initializers during initialization" do
+      # Trigger initialization by creating the component instance
+      component
+      # Check instance variables set by initializers
+      expect(component.instance_variable_get(:@dummy_initialized_value)).to eq(init_data)
+      expect(component.instance_variable_get(:@direct_initialized)).to be true
+    end
+
+    context "when rendered" do
+      before do
+        render_inline(component)
+      end
+
+      it "runs registered setup methods before rendering" do
+        # Check instance variables set by setup methods after render
+        expect(component.instance_variable_get(:@dummy_setup_value)).to eq("set_in_setup")
+        expect(component.instance_variable_get(:@direct_setup)).to be true
+      end
+
+      it "applies changes made by setup methods to the output" do
+        # Check HTML attributes/CSS added by setup methods
+        expect(page).to have_css("div[data-initialized='#{init_data}'][data-setup='set_in_setup']")
+        expect(page).to have_css("div.direct-setup-applied")
+      end
+    end
+  end
+
 end

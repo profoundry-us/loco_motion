@@ -63,7 +63,7 @@
 #         %span Processing
 #
 class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   class SwapOn < LocoMotion::BasicComponent
     def before_render
@@ -121,6 +121,9 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   # @option kws indeterminate [Boolean] If true, starts the swap in an indeterminate
   #   state. Requires the indeterminate slot to be meaningful.
   #
+  # @option kws tip [String] The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(on = nil, off = nil, checked = nil, **kws, &block)
     super
 
@@ -133,9 +136,10 @@ class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
   # Sets up the component with various CSS classes and HTML attributes.
   #
   def before_render
-    setup_component
-    setup_checkbox
-    setup_on_off
+    setup_component # Set tag, base CSS
+    setup_checkbox  # Setup the hidden checkbox part
+    setup_on_off    # Setup the on/off part CSS
+    super           # Run TippableComponent hook
   end
 
   private

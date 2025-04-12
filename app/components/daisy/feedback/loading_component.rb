@@ -20,7 +20,7 @@
 #   readability, but CSS classes must still use the `loading-*` prefix.
 #
 class Daisy::Feedback::LoadingComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   #
   # Creates a new Loading component.
@@ -41,10 +41,17 @@ class Daisy::Feedback::LoadingComponent < LocoMotion::BaseComponent
   end
 
   def before_render
-    add_css(:component, "loading")
+    setup_component
+    super
   end
-
+  
   def call
     part(:component)
+  end
+  
+  private
+  
+  def setup_component
+    add_css(:component, "loading")
   end
 end

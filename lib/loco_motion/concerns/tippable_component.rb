@@ -1,24 +1,39 @@
+require "active_support/concern"
+
 module LocoMotion
   module Concerns
     #
-    # Can be included in relevant components to allow a new `tip` attibute that
+    # Can be included in relevant components to allow a `tip` attribute that
     # automatically adds the `tooltip` CSS class and the `data-tip` attribute
     # to the component.
     #
     module TippableComponent
-      #
-      # Calls the parent `before_render`. Then adds the `tooltip` CSS class and
-      # the `data-tip` attribute to the component if the `tip` attribute is
-      # present.
-      #
-      def before_render
-        super
+      extend ActiveSupport::Concern
 
-        tip = config_option(:tip)
+      included do |base|
+        base.register_component_initializer(:_initialize_tippable_component)
+        base.register_component_setup(:_setup_tippable_component)
+      end
 
-        if tip
+      protected
+
+      #
+      # Initialize tooltip-related options.
+      #
+      # @option kws tip [String] The tooltip text to display when hovering
+      #
+      def _initialize_tippable_component
+        @tip = config_option(:tip)
+      end
+
+      #
+      # Configure tooltip functionality for the component.
+      # Adds the `tooltip` CSS class and the `data-tip` attribute if a tip is provided.
+      #
+      def _setup_tippable_component
+        if @tip
           add_css(:component, "tooltip")
-          add_html(:component, { data: { tip: tip } })
+          add_html(:component, { data: { tip: @tip } })
         end
       end
     end

@@ -44,7 +44,7 @@
 #         = heroicon_tag "check-circle", class: "size-10"
 #
 class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :stat
 
@@ -79,6 +79,9 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
   # @option kws [String] :icon Name of a heroicon to display in the figure
   #   section.
   #
+  # @option kws [String] :tip The tooltip text to display when hovering over
+  #   the component.
+  #
   def initialize(*args, **kws, &block)
     super
 
@@ -90,6 +93,7 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
 
   def before_render
     setup_component
+    super
   end
 
   private
