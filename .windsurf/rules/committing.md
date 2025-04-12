@@ -17,14 +17,6 @@ When committing code changes, follow these proceedures.
   g. Utilize a single-line message similar to `feat(Button): Add new feature` as the first line.
   h. Commit the changes.
   i. Push the changes to the remote repository.
-  j. If the push output contains `Create a pull request`, output a message to the
-     user with a clickable link to the URL.
-  k. Utilize the existing PR description template to output a description for this PR.
-  l. Prompt for a PR URL
-  m. Utilize the PR URL to add a line to the `Unreleased` section of the CHANGELOG.
-  n. Run `git add .` to add the changes.
-  o. Commit the code with a simple message about updating the CHANGELOG.
-  p. Push the changes again.
 
 2. MUST format links for Pull Requests as a clickable link.
 
