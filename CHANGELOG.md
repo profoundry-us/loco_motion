@@ -42,6 +42,7 @@ Read on for specific changes across the entire project! :tada:
 
 - add(`where:`): Add custom `where:` Tailwind modifier
 - add(List): Add basic List component with examples and specs ([Fixes #29](https://github.com/profoundry-us/loco_motion/issues/29))
+- add(Fieldset): Add Fieldset component for grouping related form elements ([Fixes #32](https://github.com/profoundry-us/loco_motion/issues/32))
 - feat(LabelableComponent): New concern to enable label functionality across components
 - feat(Select): Enable start/end/floating label functionality
 - feat(Toggle): Enable start/end/floating label functionality
