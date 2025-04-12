@@ -1,213 +1,25 @@
-# Communication
-
-When communicating with me, follow these proceedures.
-
-1. MUST speak to me in English.
-
-2. When provided a prompt that looks like a git or shell command:
-   a. MUST attempt to execute the command exactly as prompted
-
-3. MUST interpret `ta` as `try again`
-
-4. MUST interpret `cont` as `continue`
-
-
-# Planning
-
-When asked to create a plan, follow these proceedures.
-
-1. MUST review the relevant template in the `docs/plans/templates` directory.
-
-2. MUST create a Markdown file in the `docs/plans` directory.
-
-3. MUST utilize existing plans as a guide for building new plans.
-
-4. MUST include exact links provided by the user.
-
-5. NEVER add component variants unless explicitly requested.
-
-6. MUST pause after creating the plan so user can review.
-
-
-# Coding
-
-When writing new code, follow these proceedures.
-
-1. MUST follow the plan as outlined.
-
-2. MUST test all Ruby code.
-
-3. MUST document all public Ruby classes and methods.
-
-4. MUST follow the principles of KISS (Keep It Stupid Simple).
-
-5. MUST follow the principles of DRY (Don't Repeat Yourself).
-
-6. MUST regularly run ALL tests during coding sessions.
-
-7. When a component class has parts:
-  a. NEVER include a part for the component itself (this is provided by default).
-  b. NEVER include properties for their `_css` and `_html` customizations (they
-     are handled by the parent BaseComponent).
-
-8. MUST mark off todo items in the README.
-
-9. NEVER delete todo items in the README.
-
-10. If you alter any files in `lib/loco_motion`:
-  a. MUST restart the demo app.
-
-
-# Committing
-
-When committing code changes, follow these proceedures.
-
-1. NEVER attempt to commit unless requested.
-
-2. MUST follow these commit steps in series:
-  a. If we are on the main branch, STOP and produce an error message.
-  a. Run `make loco-test` to ensure all tests pass.
-  b. Run a `git status --porcelain` to see what files changed.
-  c. Run `git add .` to add all changed files to the index.
-  d. Run `git diff` to see the changes of all modified files.
-  e. Iterate over every modified file and generate a brief description of the
-     changes for that file.
-  f. Compile all changes into a singular commit message utilizing Markdown
-     headers, lists, and code blocks.
-  g. Utilize a single-line message similar to `feat(Button): Add new feature` as the first line.
-  h. Commit the changes.
-  i. Push the changes to the remote repository.
-  j. If the push output contains `Create a pull request`, output a message to the
-     user with a clickable link to the URL.
-  k. Utilize the existing PR description template to output a description for this PR.
-  l. Prompt for a PR URL
-  m. Utilize the PR URL to add a line to the `Unreleased` section of the CHANGELOG.
-  n. Run `git add .` to add the changes.
-  o. Commit the code with a simple message about updating the CHANGELOG.
-  p. Push the changes again.
-
-2. MUST format links for Pull Requests as a clickable link.
-
-4. MUST surround commmit messages in single quotes so that we can use Markdown
-   and backticks in the message.
-
-
-# Documenting Code
-
-When documenting code, follow these proceedures.
-
-1. MUST utilize YARD documentation for Ruby files.
-
-2. When documenting new components, MUST utilize existing components as a guide.
-
-2. If a component uses `define_part` or `define_parts`, MUST use the `@part` macro to
-   document it.
-
-3. If a component uses `renders_one` or `renders_many`:
-   a. MUST use the `@slot` macro to document it.
-
-4. If a component uses `renders_many`:
-   a. MUST use the `+` symbol after the name to indicate that it allows multiple calls.
-
-6. When documenting a component:
-   a. ONLY use `@param` for positional arguments and `@option` for all other
-   keyword arguments.
-
-7. All loco_examples in the YARD documentation MUST use proper HAML syntax.
-
-8. When adding a TODO item:
-   a. MUST append it to the bottom of the list in the README.md file
-
-9. MUST utilize proper punctuation, including for list items.
-
-10. If an `initialize` method does not utilize the positional arguments, NEVER
-   include them in the `@param` YARD documentation.
-
-11. All `@param` and `@option` YARD documentation MUST be on the `initialize` method.
-
-12. All `@param` and `@option` YARD documentation MUST have newlines between them.
-
-13. Follow this order when writing component YARD documentation:
-  a. Description
-  b. Notes (Optional)
-  c. Parts
-  d. Slots
-  e. Examples
-
-14. MUST use `@loco_example` to document our YARD examples.
-
-15. MUST wrap lines at 80 characters.
-
-
-# Non-Code Documentaion
-
-When writing Markdown files for non-code documentation, follow these proceedures:
-
-1. MUST name all files with a .md extension.
-2. MUST format all files with Markdown.
-3. MUST add a newline after all headers.
-4. MUST wrap lines at 80 characters.
-5. MUST ensure two newlines between content and an H1 heading.
-
-
-# Creating Guides
-
-When writing / creating guides, follow these proceedures.
-
-1. We have many guides in our `docs/dev_guides` directory.
-
-2. When working on .md files:
-   a. MUST ensure they are formatted properly.
-   b. MUST wrap lines at 80 characters.
-
-
-# Creating PR Descriptions
-
-When asked to create a PR description, follow these proceedures.
-
-1. MUST utilize existing template in `.github/pull_request_template.md`.
-
-2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
-
-3. MUST include relevant lines for every commit in the branch.
-
-4. MUST format the PR using Markdown.
-
-5. MUST provide a code snippet that I can easily copy / paste into GitHub.
-
-
-# Updating the CHANGELOG
-
-When asked to update the changelog, follow these rules.
-
-1. MUST review existing CHANGELOG.
-
-2. MUST run `git log --oneline main..HEAD` to see a comprehensive list of all changes.
-
-3. MUST include relevant lines for every commit in the branch.
-
-
-# Releasing Code
-
-When releasing code, follow the protocol outlined in the `docs/dev_guides/RELEASING.md` file.
-
-
-# Running Commands
-
-When running commands, follow these proceedures.
-
-1. MUST run Ruby-related commands through Docker.
-
-2. NEVER change the Ruby version.
-
-3. MUST review the Makefile to see if a relevant command already exists.
-
-4. When removing a file with `rm` or moving a file with `mv`:
-   a. MUST use `/bin/rm` or `/bin/mv` so that it doesn't prompt you for confirmation.
-
-5. MUST run commands from the root of the project (which is the default).
-
-6. NEVER use `cd` before running commands.
-
-7. NEVER restart the demo app (`make demo-restart`) unless we make changes in
-   the `lib/loco_motion` directory.
+# Cascade AI Windsurf Rules
+
+This file outlines the rules and guidelines for the Cascade AI assistant when
+working on the LocoMotion project.
+
+The rules are broken down into specific sections for clarity and
+maintainability. Please refer to the individual rule files located in the
+`.windsurf/rules/` directory (or other guides within the project) for details on
+each topic:
+
+*   [Maintaining Rules](./.windsurf/rules/maintaining_rules.md)
+*   [Communication](./.windsurf/rules/communication.md)
+*   [Planning](./.windsurf/rules/planning.md)
+*   [Coding](./.windsurf/rules/coding.md)
+*   [Committing](./.windsurf/rules/committing.md)
+*   [Documenting Code](./.windsurf/rules/documenting_code.md)
+*   [Non-Code Documentation](./.windsurf/rules/non_code_documentation.md)
+*   [Creating Guides](./.windsurf/rules/creating_guides.md)
+*   [Creating PR Descriptions](./.windsurf/rules/creating_pr_descriptions.md)
+*   [Updating the CHANGELOG](./.windsurf/rules/updating_the_changelog.md)
+*   [Releasing Code](./docs/dev_guides/RELEASING.md)
+*   [Running Commands](./.windsurf/rules/running_commands.md)
+
+These rules help ensure consistency, quality, and adherence to project standards
+during AI-assisted development.
