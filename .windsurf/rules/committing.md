@@ -5,7 +5,7 @@ When committing code changes, follow these procedures.
 1. NEVER attempt to commit unless requested.
 
 2. MUST follow these commit steps in series:
-  a. Run `make loco-test` to ensure all tests pass.
+  a. Run `make loco-test` and `make demo-test` to ensure all tests pass.
   b. Run a `git status --porcelain` to see what files changed.
   c. MUST run `git add .` to stage all changes in the working directory and index.
   d. Run `git diff --staged` to see the changes of all staged files.
