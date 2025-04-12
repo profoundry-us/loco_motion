@@ -1,25 +1,24 @@
 # Committing
 
-When committing code changes, follow these proceedures.
+When committing code changes, follow these procedures.
 
 1. NEVER attempt to commit unless requested.
 
 2. MUST follow these commit steps in series:
-  a. If we are on the main branch, STOP and produce an error message.
   a. Run `make loco-test` to ensure all tests pass.
   b. Run a `git status --porcelain` to see what files changed.
-  c. Run `git add .` to add all changed files to the index.
-  d. Run `git diff` to see the changes of all modified files.
+  c. MUST run `git add .` to stage all changes in the working directory and index.
+  d. Run `git diff --staged` to see the changes of all staged files.
   e. Iterate over every modified file and generate a brief description of the
-     changes for that file.
+     changes for that file, including any relevant context or explanations.
   f. Compile all changes into a singular commit message utilizing Markdown
-     headers, lists, and code blocks.
-  g. Utilize a single-line message similar to `feat(Button): Add new feature` as the first line.
+     headers, lists, and code blocks, ensuring that the message is clear and
+     concise.
+  g. Utilize a single-line message similar to `feat(Button): Add new feature`
+     as the first line, providing a brief summary of the changes made.
   h. Commit the changes.
   i. Push the changes to the remote repository.
   j. Prompt the user if they are ready to create a pull request.
 
-2. MUST format links for Pull Requests as a clickable link.
-
-4. MUST surround commmit messages in single quotes so that we can use Markdown
-   and backticks in the message.
+3. MUST surround commit messages in single quotes so that we can use Markdown
+   and backticks in the message, allowing for proper formatting and display.

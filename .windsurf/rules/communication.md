@@ -1,10 +1,12 @@
 # Communication
 
-When communicating with me, follow these proceedures.
+When communicating with the user, follow these procedures.
 
-1. MUST speak to me in English.
+1. MUST speak to the user in English.
 
-2. When provided a prompt that looks like a git or shell command:
+2. If a prompt starts with known command-line tools (`git`, `make`, `/bin/`,
+   `docker`, `bundle`, `rails`, `rspec`, etc.), or if the user explicitly asks
+   to run a command:
    a. MUST attempt to execute the command exactly as prompted
 
 3. MUST interpret `ta` as `try again`

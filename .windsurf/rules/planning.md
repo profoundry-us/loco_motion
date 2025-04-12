@@ -1,8 +1,10 @@
 # Planning
 
-When asked to create a plan, follow these proceedures.
+When asked to create a plan, follow these procedures.
 
-1. MUST review the relevant template in the `docs/plans/templates` directory.
+1. MUST review the template specified by the user, or the default plan template
+   if none is specified. Templates are located in the `docs/plans/templates`
+   directory.
 
 2. MUST create a Markdown file in the `docs/plans` directory.
 

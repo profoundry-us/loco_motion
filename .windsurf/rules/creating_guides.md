@@ -1,9 +1,9 @@
 # Creating Guides
 
-When writing / creating guides, follow these proceedures.
+When writing / creating guides, follow these procedures.
 
-1. We have many guides in our `docs/dev_guides` directory.
+1. When working on .md files:
+   a. MUST ensure they are formatted properly by following the rules in
+      `non_code_documentation.md`.
 
-2. When working on .md files:
-   a. MUST ensure they are formatted properly.
    b. MUST wrap lines at 80 characters.

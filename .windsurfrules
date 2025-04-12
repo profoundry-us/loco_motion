@@ -18,7 +18,7 @@ each topic:
 *   [Non-Code Documentation](./.windsurf/rules/non_code_documentation.md)
 *   [Creating Guides](./.windsurf/rules/creating_guides.md)
 *   [Updating the CHANGELOG](./.windsurf/rules/updating_the_changelog.md)
-*   [Releasing Code](./docs/dev_guides/RELEASING.md)
+*   [Releasing](./.windsurf/rules/releasing.md)
 *   [Running Commands](./.windsurf/rules/running_commands.md)
 
 These rules help ensure consistency, quality, and adherence to project standards
