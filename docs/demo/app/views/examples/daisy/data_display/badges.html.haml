@@ -81,3 +81,75 @@
       %span.flex.items-center.gap-1
         = hero_icon "document-text", css: "size-4"
         Read More
+
+
+= doc_example(title: "Outline Badge") do |doc|
+  - doc.with_description do
+    :markdown
+      Badges can be displayed in an outline style.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-outline") { "Default" }
+    = daisy_badge(css: "badge-primary badge-outline") { "Primary" }
+    = daisy_badge(css: "badge-secondary badge-outline") { "Secondary" }
+    = daisy_badge(css: "badge-accent badge-outline") { "Accent" }
+
+
+= doc_example(title: "Soft Badge") do |doc|
+  - doc.with_description do
+    :markdown
+      Badges can be displayed in a soft style.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-soft") { "Default" }
+    = daisy_badge(css: "badge-primary badge-soft") { "Primary" }
+    = daisy_badge(css: "badge-secondary badge-soft") { "Secondary" }
+    = daisy_badge(css: "badge-accent badge-soft") { "Accent" }
+
+
+= doc_example(title: "Dash Badge") do |doc|
+  - doc.with_description do
+    :markdown
+      Badges can be displayed in a dash style.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-dash") { "Default" }
+    = daisy_badge(css: "badge-primary badge-dash") { "Primary" }
+    = daisy_badge(css: "badge-secondary badge-dash") { "Secondary" }
+    = daisy_badge(css: "badge-accent badge-dash") { "Accent" }
+
+
+= doc_example(title: "Outline badges with state colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Outline badges can be displayed with state colors.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-info badge-outline") { "Info" }
+    = daisy_badge(css: "badge-success badge-outline") { "Success" }
+    = daisy_badge(css: "badge-warning badge-outline") { "Warning" }
+    = daisy_badge(css: "badge-error badge-outline") { "Error" }
+
+
+= doc_example(title: "Soft badges with state colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Soft badges can be displayed with state colors.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-info badge-soft") { "Info" }
+    = daisy_badge(css: "badge-success badge-soft") { "Success" }
+    = daisy_badge(css: "badge-warning badge-soft") { "Warning" }
+    = daisy_badge(css: "badge-error badge-soft") { "Error" }
+
+
+= doc_example(title: "Dash badges with state colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Dash badges can be displayed with state colors.
+
+  .flex.flex-col.lg:flex-row.lg:items-center.gap-4
+    = daisy_badge(css: "badge-info badge-dash") { "Info" }
+    = daisy_badge(css: "badge-success badge-dash") { "Success" }
+    = daisy_badge(css: "badge-warning badge-dash") { "Warning" }
+    = daisy_badge(css: "badge-error badge-dash") { "Error" }
