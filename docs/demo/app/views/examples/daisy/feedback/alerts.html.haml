@@ -10,7 +10,7 @@
       start to indicate the type of alert.
 
   = daisy_alert(icon: "archive-box", icon_html: { variant: :outline }, css: "w-100") do |alert|
-    Standard alerts are gray-t! 😉
+    Standard alerts are gray-t!
 
   = daisy_alert(icon: "information-circle", css: "alert-info w-100", icon_html: { variant: :outline }) do |alert|
     Here is some important information!
@@ -59,3 +59,57 @@
   = daisy_alert do |alert|
     = daisy_avatar(css: "size-10", src: image_path("avatars/lady-smiling-3.jpg"))
     %span Or even Daisy avatars / other elements!
+
+
+= doc_example(title: "Soft Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can also be displayed in soft style.
+
+  = daisy_alert(icon: "info-circle", css: "alert-info alert-soft") do
+    Info alert.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success alert-soft") do
+    Success alert.
+
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning alert-soft") do
+    Warning alert.
+
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error alert-soft") do
+    Error alert.
+
+
+= doc_example(title: "Outline Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can also be displayed in outline style.
+
+  = daisy_alert(icon: "info-circle", css: "alert-info alert-outline") do
+    Info alert.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success alert-outline") do
+    Success alert.
+
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning alert-outline") do
+    Warning alert.
+
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error alert-outline") do
+    Error alert.
+
+
+= doc_example(title: "Dash Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can also be displayed in dash style.
+
+  = daisy_alert(icon: "info-circle", css: "alert-info alert-dash") do
+    Info alert.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success alert-dash") do
+    Success alert.
+
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning alert-dash") do
+    Warning alert.
+
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error alert-dash") do
+    Error alert.

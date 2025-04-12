@@ -19,10 +19,87 @@
 #
 #   = daisy_button(title: "Button with Two Icons", left_icon: "heart", right_icon: "plus")
 #
+# @loco_example Button Group
+#   = daisy_button_group do
+#     = daisy_button do
+#       Button 1
+#     = daisy_button do
+#       Button 2
+#
+# @loco_example Default Button
+#   = daisy_button { "Default Button" }
+#
+# @loco_example Primary Button
+#   = daisy_button(css: "btn-primary") { "Primary Button" }
+#
+# @loco_example Secondary Button
+#   = daisy_button(css: "btn-secondary") { "Secondary Button" }
+#
+# @loco_example Accent Button
+#   = daisy_button(css: "btn-accent") { "Accent Button" }
+#
+# @loco_example Ghost Button
+#   = daisy_button(css: "btn-ghost") { "Ghost Button" }
+#
+# @loco_example Link Button
+#   = daisy_button(css: "btn-link") { "Link Button" }
+#
+# @loco_example Info Button
+#   = daisy_button(css: "btn-info") { "Info Button" }
+#
+# @loco_example Success Button
+#   = daisy_button(css: "btn-success") { "Success Button" }
+#
+# @loco_example Warning Button
+#   = daisy_button(css: "btn-warning") { "Warning Button" }
+#
+# @loco_example Error Button
+#   = daisy_button(css: "btn-error") { "Error Button" }
+#
+# @loco_example Outline Primary Button
+#   = daisy_button(css: "btn-primary btn-outline") { "Outline Primary" }
+#
+# @loco_example Outline Success Button
+#   = daisy_button(css: "btn-success btn-outline") { "Outline Success" }
+#
+# @loco_example Outline Warning Button
+#   = daisy_button(css: "btn-warning btn-outline") { "Outline Warning" }
+#
+# @loco_example Outline Error Button
+#   = daisy_button(css: "btn-error btn-outline") { "Outline Error" }
+#
+# @loco_example Soft Primary Button
+#   = daisy_button(css: "btn-primary btn-soft") { "Soft Primary" }
+#
+# @loco_example Soft Success Button
+#   = daisy_button(css: "btn-success btn-soft") { "Soft Success" }
+#
+# @loco_example Soft Warning Button
+#   = daisy_button(css: "btn-warning btn-soft") { "Soft Warning" }
+#
+# @loco_example Soft Error Button
+#   = daisy_button(css: "btn-error btn-soft") { "Soft Error" }
+#
+# @loco_example Dash Primary Button
+#   = daisy_button(css: "btn-primary btn-dash") { "Dash Primary" }
+#
+# @loco_example Dash Success Button
+#   = daisy_button(css: "btn-success btn-dash") { "Dash Success" }
+#
+# @loco_example Dash Warning Button
+#   = daisy_button(css: "btn-warning btn-dash") { "Dash Warning" }
+#
+# @loco_example Dash Error Button
+#   = daisy_button(css: "btn-error btn-dash") { "Dash Error" }
+#
+# @loco_example Wide Button
+#   = daisy_button(css: "btn-wide") { "Wide Button" }
+#
 class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::IconableComponent
+  define_parts :label
 
   #
   # Instantiate a new Button component.

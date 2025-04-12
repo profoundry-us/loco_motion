@@ -68,3 +68,57 @@
     .loading.loading-spinner.mr-1
     %span
       Gradient Button
+
+
+= doc_example(title: "Outline Buttons") do |doc|
+  - doc.with_description do
+    %p You can also create outline buttons.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+    = daisy_button(css: "btn-outline") do
+      Outline Button
+
+    = daisy_button(css: "btn-primary btn-outline") do
+      Primary Outline Button
+
+    = daisy_button(css: "btn-secondary btn-outline") do
+      Secondary Outline Button
+
+    = daisy_button(css: "btn-accent btn-outline") do
+      Accent Outline Button
+
+
+= doc_example(title: "Soft Buttons") do |doc|
+  - doc.with_description do
+    %p You can also create soft buttons.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+    = daisy_button(css: "btn-soft") do
+      Soft Button
+
+    = daisy_button(css: "btn-primary btn-soft") do
+      Primary Soft Button
+
+    = daisy_button(css: "btn-secondary btn-soft") do
+      Secondary Soft Button
+
+    = daisy_button(css: "btn-accent btn-soft") do
+      Accent Soft Button
+
+
+= doc_example(title: "Dash Buttons") do |doc|
+  - doc.with_description do
+    %p You can also create dash buttons.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+    = daisy_button(css: "btn-dash") do
+      Dash Button
+
+    = daisy_button(css: "btn-primary btn-dash") do
+      Primary Dash Button
+
+    = daisy_button(css: "btn-secondary btn-dash") do
+      Secondary Dash Button
+
+    = daisy_button(css: "btn-accent btn-dash") do
+      Accent Dash Button
