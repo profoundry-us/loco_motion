@@ -23,8 +23,6 @@
 #
 # @loco_example Status with Accessibility
 #   = daisy_status(css: "status-success", html: { aria: { label: "Status: Online" } })
-#
-# @!parse class Daisy::DataDisplay::StatusComponent < LocoMotion::BaseComponent; end
 class Daisy::DataDisplay::StatusComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
 
