@@ -18,6 +18,7 @@
 #
 class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::LinkableComponent
 
   # Create a new instance of the LinkComponent.
   #
@@ -90,9 +91,6 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   private
 
   def setup_component
-    set_tag_name(:component, :a)
     add_css(:component, "link")
-    add_html(:component, { href: @href }) if @href
-    add_html(:component, { target: @target }) if @target
   end
 end
