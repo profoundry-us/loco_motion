@@ -30,6 +30,7 @@ styling) and quicker to navigate (super-fast Algolia search :exploding_head:).
 We've also added some new components offered by DaisyUI 5 including:
 
 - List
+- Status
 
 And we updated many examples to be more clear or show other usage scenarios.
 
@@ -43,6 +44,7 @@ Read on for specific changes across the entire project! :tada:
 - add(`where:`): Add custom `where:` Tailwind modifier
 - add(List): Add basic List component with examples and specs ([Fixes #29](https://github.com/profoundry-us/loco_motion/issues/29))
 - add(Fieldset): Add Fieldset component for grouping related form elements ([Fixes #32](https://github.com/profoundry-us/loco_motion/issues/32))
+- add(Status): Add Status component for displaying visual status indicators ([Fixes #30](https://github.com/profoundry-us/loco_motion/issues/30))
 - feat(LabelableComponent): New concern to enable label functionality across components
 - feat(Select): Enable start/end/floating label functionality
 - feat(Toggle): Enable start/end/floating label functionality
@@ -57,6 +59,8 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
 - feat: Allow users to pass singular `controller:` keyword in addition to `controllers:`
 - refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
+- refactor: Move component concerns to lib directory for better organization
+- test: Add comprehensive tests for IconableComponent, LinkableComponent, and TippableComponent
 
 #### Component Changes
 
