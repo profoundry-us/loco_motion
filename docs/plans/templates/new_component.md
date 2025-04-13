@@ -3,7 +3,11 @@
 ## Overview
 
 This is a simplified template for implementing new components in the LocoMotion
-library. Each step includes:
+library.
+
+Make sure to follow the rules in `.windsurf/rules/component_implementation.md`.
+
+Each section includes:
 
 1. A short sentence about the purpose of the file
 2. The file to create
@@ -63,10 +67,10 @@ module Daisy
       # @param name [String] Required identifier for the component.
       # @param simple_caption [String] Optional simple caption text displayed below the component.
       #   For more complex content, use the `with_caption` slot.
-      def initialize(name:, simple_caption: nil, **system_arguments)
+      def initialize(name:, simple_caption: nil, **kws)
         @name = name
         @simple_caption = simple_caption
-        super(**system_arguments)
+        super(**kws)
       end
 
       def before_render
@@ -152,6 +156,18 @@ RSpec.describe Daisy::DataInput::FakeComponent, type: :component do
     expect(page).to have_text("My Label")
     expect(page).to have_css(".fake-icon")
   end
+
+  context "with custom HTML attributes" do
+    it "passes attributes to the component" do
+      render_inline(described_class.new(html: { name: "my_fake", id: "custom-id", data: { test: "value" }}))
+      expect(page).to have_css(".fake#custom-id[data-test='value']")
+    end
+
+    it "applies custom classes" do
+      render_inline(described_class.new(name: "my_fake", css: "fake-primary fake-lg"))
+      expect(page).to have_css(".fake.fake-primary.fake-lg")
+    end
+  end
 end
 ```
 
@@ -163,44 +179,55 @@ end
 
 **Reference Files**:
 - `docs/demo/app/views/examples/daisy/data_input/checkboxes.html.haml`
-- `docs/demo/app/views/examples/daisy/data_input/ranges.html.haml`
+- `docs/demo/app/views/examples/daisy/data_display/badges.html.haml`
 
 **Example Implementation**:
 
 ```haml
-= doc_example(title: "Basic Fake") do
+= doc_title(title: "Fake", comp: @comp) do |title|
+  :markdown
+    A brief description of what the fake component is and how it's used.
+
+= doc_example(title: "Basic Fake") do |doc|
+  - doc.with_description do
+    :markdown
+      This shows a simple example of the basic fake component with minimal configuration.
+
   = daisy_fake(name: "basic")
 
-= doc_example(title: "Fake with Label and Icon") do
+= doc_example(title: "Fake with Label and Icon") do |doc|
+  - doc.with_description do
+    :markdown
+      You can add labels and icons to the fake component for better usability.
+
   = daisy_fake(name: "labelled") do |c|
     - c.with_label { "Click Me" }
     - c.with_icon { "star" }
 ```
 
-### 4. Update Form Builder Helper
+### 4. Register the Helper
 
-**Purpose**: Add form builder integration to allow usage with Rails form
-builders.
+**Purpose**: Make the component available to the application by registering it.
 
-**File to Edit**: `app/helpers/daisy/form_builder_helper.rb`
+**File to Edit**: `lib/loco_motion/helpers.rb`
 
 **Reference Files**:
-- Current implementation in `app/helpers/daisy/form_builder_helper.rb` (checkbox methods)
-- Current implementation in `app/helpers/daisy/form_builder_helper.rb` (range methods)
+- Current implementation in `lib/loco_motion/helpers.rb` (checkbox registration)
+- Current implementation in `lib/loco_motion/helpers.rb` (range registration)
 
 **Example Implementation**:
 
 ```ruby
-module Daisy
-  module FormBuilderHelper
-    def fake_field(method, options = {}, &block)
-      component = Daisy::DataInput::FakeComponent.new(
-        name: method,
-        **options.slice(:class, :css, :data, :id) # Add other relevant options
-      )
-      # Additional logic might be needed to handle value, checked state, etc.
-      render component, &block
+module LocoMotion
+  module Helpers
+    # ... existing helpers ...
+
+    def daisy_fake(name:, **options, &block)
+      render Daisy::DataInput::FakeComponent.new(name: name, **options), &block
     end
+
+    # ... other helper registrations ...
+    register_helpers self, :daisy_fake
   end
 end
 ```
@@ -227,29 +254,3 @@ describe "#fake_field" do
   end
 end
 ```
-
-### 6. Register the Helper
-
-**Purpose**: Make the component available to the application by registering it.
-
-**File to Edit**: `lib/loco_motion/helpers.rb`
-
-**Reference Files**:
-- Current implementation in `lib/loco_motion/helpers.rb` (checkbox registration)
-- Current implementation in `lib/loco_motion/helpers.rb` (range registration)
-
-**Example Implementation**:
-
-```ruby
-module LocoMotion
-  module Helpers
-    # ... existing helpers ...
-
-    def daisy_fake(name:, **options, &block)
-      render Daisy::DataInput::FakeComponent.new(name: name, **options), &block
-    end
-
-    # ... other helper registrations ...
-    register_helpers self, :daisy_fake
-  end
-end
