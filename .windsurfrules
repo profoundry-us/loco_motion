@@ -12,6 +12,7 @@ each topic:
 *   [Communication](./.windsurf/rules/communication.md)
 *   [Planning](./.windsurf/rules/planning.md)
 *   [Coding](./.windsurf/rules/coding.md)
+*   [Component Implementation](./.windsurf/rules/component_implementation.md)
 *   [Committing](./.windsurf/rules/committing.md)
 *   [Creating a Pull Request](./.windsurf/rules/creating_a_pull_request.md)
 *   [Documenting Code](./.windsurf/rules/documenting_code.md)

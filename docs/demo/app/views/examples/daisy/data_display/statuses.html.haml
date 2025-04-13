@@ -1,0 +1,86 @@
+= doc_title(title: "Status", comp: @comp) do |title|
+  :markdown
+    Status is a really small icon to visually show the current status of an
+    element, like online, offline, error, etc.
+
+= doc_example(title: "Basic Status") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic status component is a simple dot indicator with no additional
+      styling.
+
+  = daisy_status
+
+= doc_example(title: "Status Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Status indicators come in five sizes: extra small, small, medium
+      (default), large, and extra large.
+
+  .flex.flex-col.items-start.gap-2
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-xs mr-2")
+      %span Extra Small
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-sm mr-2")
+      %span Small
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-md mr-2")
+      %span Medium (Default)
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-lg mr-2")
+      %span Large
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-xl mr-2")
+      %span Extra Large
+
+= doc_example(title: "Status Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Status indicators can use different colors to represent various states or
+      conditions.
+
+  .flex.flex-col.items-start.gap-2
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-primary mr-2")
+      %span Primary
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-secondary mr-2")
+      %span Secondary
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-accent mr-2")
+      %span Accent
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-neutral mr-2")
+      %span Neutral
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-info mr-2")
+      %span Info
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-success mr-2")
+      %span Success
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-warning mr-2")
+      %span Warning
+
+    .flex.items-center.gap-2
+      = daisy_status(css: "status-error mr-2")
+      %span Error
+
+= doc_example(title: "Status with Tooltip and Aria Label") do |doc|
+  - doc.with_description do
+    :markdown
+      For accessibility, status indicators should include descriptive ARIA
+      labels.
+
+  = daisy_status(css: "status-md status-success", tip: "Online", html: { aria: { label: "Status: Online" } })

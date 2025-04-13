@@ -27,6 +27,7 @@ module LocoMotion
     "Daisy::DataDisplay::KbdComponent" => { names: "kbd", group: "Data Display", title: "Keyboard (KBD)", example: "kbds" },
     "Daisy::DataDisplay::ListComponent" => { names: "list", group: "Data Display", title: "Lists", example: "lists" },
     "Daisy::DataDisplay::StatComponent" => { names: "stat", group: "Data Display", title: "Stats", example: "stats" },
+    "Daisy::DataDisplay::StatusComponent" => { names: "status", group: "Data Display", title: "Statuses", example: "statuses" },
     "Daisy::DataDisplay::TableComponent" => { names: "table", group: "Data Display", title: "Tables", example: "tables" },
     "Daisy::DataDisplay::TimelineComponent" => { names: "timeline", group: "Data Display", title: "Timelines", example: "timelines" },
 
