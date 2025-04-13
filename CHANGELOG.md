@@ -76,6 +76,7 @@ Read on for specific changes across the entire project! :tada:
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
 - feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
+- fix(Link): Tooltips now work.
 
 #### Demo / Docs Changes
 

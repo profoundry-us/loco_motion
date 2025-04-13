@@ -3,7 +3,7 @@ require "active_support/concern"
 module LocoMotion
   module Concerns
     #
-    # Prepend this module to enable link functionality in a component.
+    # Include this module to enable link functionality in a component.
     # When an href is provided, the component will render as an <a> tag.
     #
     module LinkableComponent

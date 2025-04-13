@@ -17,7 +17,7 @@
 #   = daisy_link(title: "Home", href: "#")
 #
 class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
-  prepend LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   # Create a new instance of the LinkComponent.
   #
