@@ -29,6 +29,7 @@ styling) and quicker to navigate (super-fast Algolia search :exploding_head:).
 
 We've also added some new components offered by DaisyUI 5 including:
 
+- Fieldset
 - List
 - Status
 
