@@ -49,15 +49,18 @@ module LocoMotion
       #
       def _initialize_iconable_component
         @icon = config_option(:icon)
-        @icon_css = config_option(:icon_css, "where:size-5")
+        @icon_css = config_option(:icon_css, default_icon_size)
+        @icon_options = config_option(:icon_options, {})
         @icon_html = config_option(:icon_html, {})
 
         @left_icon = config_option(:left_icon, @icon)
         @left_icon_css = config_option(:left_icon_css, @icon_css)
+        @left_icon_options = config_option(:left_icon_options, @icon_html)
         @left_icon_html = config_option(:left_icon_html, @icon_html)
 
         @right_icon = config_option(:right_icon)
         @right_icon_css = config_option(:right_icon_css, @icon_css)
+        @right_icon_options = config_option(:right_icon_options, {})
         @right_icon_html = config_option(:right_icon_html, @icon_html)
       end
 
@@ -69,6 +72,10 @@ module LocoMotion
         if @icon || @left_icon || @right_icon
           add_css(:component, "where:inline-flex where:items-center where:gap-2")
         end
+      end
+
+      def default_icon_size
+        "where:size-5"
       end
 
       public # Ensure these helper methods remain public
@@ -98,6 +105,29 @@ module LocoMotion
       #
       def has_icons?
         @left_icon.present? || @right_icon.present?
+      end
+
+      #
+      # Renders the left icon as a Hero::IconComponent instance.
+      #
+      # @return [String] The rendered HTML for the icon
+      #
+      def render_left_icon
+        return unless @left_icon.present?
+
+        hero_icon(@left_icon, css: @left_icon_css, html: @left_icon_html, **@left_icon_options)
+      end
+      alias_method :render_icon, :render_left_icon
+
+      #
+      # Renders the right icon using a hero icon.
+      #
+      # @return [String] The rendered HTML for the icon
+      #
+      def render_right_icon
+        return unless @right_icon.present?
+
+        hero_icon(@right_icon, css: @right_icon_css, html: @right_icon_html, **@right_icon_options)
       end
     end
   end

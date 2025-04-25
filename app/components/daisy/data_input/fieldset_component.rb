@@ -5,17 +5,17 @@ module Daisy
     # Renders a fieldset element, optionally with a legend, to group
     # related form controls or content.
     #
-    # @example Basic fieldset
+    # @loco_example Basic fieldset
     #   = daisy_fieldset do
     #     Content inside fieldset
     #
-    # @example Fieldset with legend slot
+    # @loco_example Fieldset with legend slot
     #   = daisy_fieldset do |fieldset|
     #     - fieldset.with_legend { "My Legend" }
     #
     #     Content inside fieldset
     #
-    # @example Fieldset with legend argument
+    # @loco_example Fieldset with legend argument
     #   = daisy_fieldset(legend: "My Legend") do
     #     Content inside fieldset
     #

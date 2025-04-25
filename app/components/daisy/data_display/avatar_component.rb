@@ -34,11 +34,13 @@
 #   = daisy_avatar(src: "avatar.jpg", tip: "John Doe")
 #
 class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::TippableComponent
 
   set_component_name :avatar
 
-  define_parts :wrapper, :img, :icon, :placeholder
+  define_parts :wrapper, :img, :placeholder
 
   # Create a new avatar component.
   #
@@ -58,12 +60,12 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
     super
 
     @src = config_option(:src)
-    @icon = config_option(:icon)
   end
 
   def before_render
     # Run component setup *before* super to allow BaseComponent hooks to run last
     setup_component
+
     super
   end
 
@@ -83,7 +85,7 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
       add_css(:component, "avatar-placeholder")
       add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
     end
-    
+
     # Concern setup is handled by BaseComponent hook via super in before_render
     # setup_tippable_component
   end

@@ -22,6 +22,7 @@ module LocoMotion
       def _initialize_linkable_component
         @href = config_option(:href)
         @target = config_option(:target)
+        @title = config_option(:title)
       end
 
       #
@@ -31,7 +32,7 @@ module LocoMotion
       def _setup_linkable_component
         if @href
           set_tag_name(:component, :a)
-          add_html(:component, { href: @href, target: @target })
+          add_html(:component, { href: @href, target: @target, title: @title })
         end
       end
     end

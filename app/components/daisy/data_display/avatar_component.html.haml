@@ -3,7 +3,7 @@
     - if @src.present?
       = part(:img)
     - elsif @icon.present?
-      = heroicon_tag(@icon, **rendered_html(:icon))
+      = render_icon
     - else
       = part(:placeholder) do
         = content

@@ -4,17 +4,17 @@
     = part(:figure) do
       - if figure?
         = figure
-      - if @icon.present?
-        = heroicon_tag(@icon, class: "inline-block h-8 w-8 stroke-current")
+
+      = render_icon
+
       - if @src.present?
         = daisy_avatar(src: @src)
-        
 
   - if title?
     = title
   - elsif @simple_title.present?
     = part(:title) do
-      = @simple_title    
+      = @simple_title
 
   = part(:value) do
     = content
@@ -23,5 +23,4 @@
     = description
   - elsif @simple_description.present?
     = part(:description) do
-      = @simple_description  
-    
+      = @simple_description

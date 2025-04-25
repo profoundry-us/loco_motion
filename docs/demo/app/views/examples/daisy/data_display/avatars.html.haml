@@ -1,10 +1,11 @@
 = doc_title(title: "Avatars", comp: @comp) do |title|
-  %p Here are some simple avatar examples.
+  :markdown
+    Here are some simple avatar examples.
 
 
 = doc_example(title: "Basic Avatars") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       You can use the Avatar component to display a user's profile picture,
       icon, or initials. You can also add an online or offline indicator.
 
@@ -34,3 +35,18 @@
     - # Placeholder avatar with offline indicator
     = daisy_avatar(css: "avatar-offline") do
       TF
+
+
+= doc_example(title: "Linked Avatars") do |doc|
+  - doc.with_description do
+    :markdown
+      You can link the Avatar component to a URL by using the `href` attribute.
+
+  .space-x-4
+    - # Avatar with link and title
+    = daisy_avatar(href: "/", title: "Jane Doe", src: image_path("avatars/lady-smiling-1.jpg")) do
+      Daisy
+
+    - # Avatar with online indicator and link
+    = daisy_avatar(href: "/", css: "avatar-online", src: image_path("avatars/lady-smiling-2.jpg")) do
+      Daisy

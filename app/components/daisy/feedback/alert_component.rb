@@ -105,6 +105,8 @@
 #     This is a dash error alert.
 #
 class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::IconableComponent
+
   define_parts :icon, :content_wrapper
 
   #
@@ -133,33 +135,14 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
     super
 
     @icon = config_option(:icon)
-    @style = config_option(:style)
-    @soft = config_option(:soft)
-    @outline = config_option(:outline)
-    @dash = config_option(:dash)
+  end
+
+  def default_icon_size
+    "where:size-6"
   end
 
   def before_render
     add_css(:component, "alert")
     add_html(:component, { role: "alert" })
-
-    add_css(:icon, "where:size-8")
-
-    @css_class_map = {
-      style: {
-        info: "alert-info",
-        success: "alert-success",
-        warning: "alert-warning",
-        error: "alert-error"
-      },
-      soft: "alert-soft",
-      outline: "alert-outline",
-      dash: "alert-dash"
-    }
-
-    add_css(:component, @css_class_map[:style][@style]) if @style
-    add_css(:component, @css_class_map[:soft]) if @soft
-    add_css(:component, @css_class_map[:outline]) if @outline
-    add_css(:component, @css_class_map[:dash]) if @dash
   end
 end

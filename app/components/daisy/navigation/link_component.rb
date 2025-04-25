@@ -2,18 +2,18 @@
 # Creates a styled link component that can be used for navigation or inline text
 # links. This component is designed to work similarly to Rails' `link_to` helper.
 #
-# @example Link with custom styling
+# @loco_example Link with custom styling
 #   = daisy_link "Components", "#", css: "link-primary text-xl"
 #
-# @example Link with block content
+# @loco_example Link with block content
 #   = daisy_link "#", css: "link-hover" do
 #     = hero_icon("home")
 #     Home
 #
-# @example Link with positional arguments
+# @loco_example Link with positional arguments
 #   = daisy_link "Documentation", "#"
 #
-# @example Basic link with keyword arguments
+# @loco_example Basic link with keyword arguments
 #   = daisy_link(title: "Home", href: "#")
 #
 class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent

@@ -8,14 +8,14 @@
 #
 # @slot items+ {Daisy::Navigation::MenuItemComponent} The menu items to display.
 #
-# @example Basic menu with items
+# @loco_example Basic menu with items
 #   = daisy_menu do |menu|
 #     - menu.with_item do
 #       = link_to "Item 1", "#"
 #     - menu.with_item do
 #       = link_to "Item 2", "#"
 #
-# @example Menu with group titles
+# @loco_example Menu with group titles
 #   = daisy_menu do |menu|
 #     - menu.with_item(title: "Group 1") do
 #       = link_to "Item 1-1", "#"
@@ -24,7 +24,7 @@
 #       = link_to "Item 2-1", "#"
 #       = link_to "Item 2-2", "#"
 #
-# @example Menu with disabled items
+# @loco_example Menu with disabled items
 #   = daisy_menu do |menu|
 #     - menu.with_item do
 #       = link_to "Active Item", "#", class: "menu-active"
@@ -38,15 +38,15 @@ class Daisy::Navigation::MenuComponent < LocoMotion::BaseComponent
   #
   # @part title The title element for the menu item.
   #
-  # @example Basic menu item
+  # @loco_example Basic menu item
   #   = menu.with_item do
   #     = link_to "Item", "#"
   #
-  # @example Menu item with title
+  # @loco_example Menu item with title
   #   = menu.with_item(title: "Group") do
   #     = link_to "Item", "#"
   #
-  # @example Disabled menu item
+  # @loco_example Disabled menu item
   #   = menu.with_item(disabled: true) do
   #     = link_to "Item", "#"
   #

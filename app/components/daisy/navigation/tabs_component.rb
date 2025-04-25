@@ -8,20 +8,20 @@
 # @slot tabs+ {Daisy::Navigation::TabsComponent::TabComponent} The individual
 #   tabs to display.
 #
-# @example Basic tabs with links
+# @loco_example Basic tabs with links
 #   = daisy_tabs(css: "tabs-border") do |tabs|
 #     - tabs.with_tab(title: "Home", active: true)
 #     - tabs.with_tab(title: "Click Me", html: { onclick: "alert('Clicked!')" })
 #     - tabs.with_tab(title: "Google", href: "https://google.com", target: "_blank")
 #
-# @example Radio button tabs with content
+# @loco_example Radio button tabs with content
 #   = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
 #     - tabs.with_tab(title: "Tab 1", checked: true) do
 #       %p Tab 1 content
 #     - tabs.with_tab(title: "Tab 2") do
 #       %p Tab 2 content
 #
-# @example Tabs with custom titles and content
+# @loco_example Tabs with custom titles and content
 #   = daisy_tabs(css: "tabs-lift") do |tabs|
 #     - tabs.with_tab do |tab|
 #       - tab.with_title do
@@ -31,12 +31,12 @@
 #       - tab.with_custom_content(css: "tab-content p-4") do
 #         %p Welcome home!
 #
-# @example Tabs with different sizes
+# @loco_example Tabs with different sizes
 #   = daisy_tabs(css: "tabs-border tabs-xl") do |tabs|
 #     - tabs.with_tab(title: "Extra Large Tab", active: true)
 #     - tabs.with_tab(title: "Another Tab")
 #
-# @example Tabs with different sizes
+# @loco_example Tabs with different sizes
 #   = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
 #     - tabs.with_tab(title: "Large Tab", active: true)
 #     - tabs.with_tab(title: "Another Tab")
@@ -55,21 +55,21 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
   # @slot custom_content Custom content to be rendered after the tab. Use this
   #   instead of the block content for complete control over the content's HTML.
   #
-  # @example Basic tab with title
+  # @loco_example Basic tab with title
   #   = tabs.with_tab(title: "Home")
   #
-  # @example Tab with custom title
+  # @loco_example Tab with custom title
   #   = tabs.with_tab do |tab|
   #     - tab.with_title do
   #       .flex.gap-2
   #         = hero_icon("home")
   #         Home
   #
-  # @example Tab with content
+  # @loco_example Tab with content
   #   = tabs.with_tab(title: "Content") do
   #     %p This is the tab's content
   #
-  # @example Tab with custom content
+  # @loco_example Tab with custom content
   #   = tabs.with_tab do |tab|
   #     - tab.with_custom_content(css: "tab-content p-4") do
   #       %p Custom content with custom wrapper

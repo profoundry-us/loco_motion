@@ -8,21 +8,21 @@
 # @slot steps+ {Daisy::Navigation::StepsComponent::StepComponent} The individual
 #   steps to display.
 #
-# @example Basic steps with progress
+# @loco_example Basic steps with progress
 #   = daisy_steps do |steps|
 #     - steps.with_step(title: "Write Code", css: "step-primary")
 #     - steps.with_step(title: "Release Code", css: "step-primary")
 #     - steps.with_step(title: "Profit", css: "step-secondary")
 #     - steps.with_step(title: "Rule the World")
 #
-# @example Vertical steps
+# @loco_example Vertical steps
 #   = daisy_steps(css: "steps-vertical") do |steps|
 #     - steps.with_step(title: "Write Code", css: "step-primary")
 #     - steps.with_step(title: "Release Code", css: "step-primary")
 #     - steps.with_step(title: "Profit", css: "step-secondary")
 #     - steps.with_step(title: "Rule the World")
 #
-# @example Custom step content
+# @loco_example Custom step content
 #   = daisy_steps do |steps|
 #     - steps.with_step(number: "AB")
 #     - steps.with_step(number: "★")
@@ -33,13 +33,13 @@ class Daisy::Navigation::StepsComponent < LocoMotion::BaseComponent
   #
   # A step within a StepsComponent.
   #
-  # @example Basic step with title
+  # @loco_example Basic step with title
   #   = steps.with_step(title: "Step 1")
   #
-  # @example Step with custom number
+  # @loco_example Step with custom number
   #   = steps.with_step(number: "★", title: "Special Step")
   #
-  # @example Step with custom content
+  # @loco_example Step with custom content
   #   = steps.with_step(number: "1") do
   #     .flex.gap-2
   #       = hero_icon("check")

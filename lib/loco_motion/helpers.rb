@@ -46,7 +46,7 @@ module LocoMotion
 
     # Navigation
     "Daisy::Navigation::BreadcrumbsComponent" => { names: "breadcrumbs", group: "Navigation", title: "Breadcrumbs", example: "breadcrumbs" },
-    "Daisy::Navigation::BottomNavComponent" => { names: "bottom_nav", group: "Navigation", title: "Bottom Navs", example: "bottom_navs" },
+    "Daisy::Navigation::DockComponent" => { names: "dock", group: "Navigation", title: "Dock", example: "docks" },
     "Daisy::Navigation::LinkComponent" => { names: "link", group: "Navigation", title: "Links", example: "links" },
     "Daisy::Navigation::MenuComponent" => { names: "menu", group: "Navigation", title: "Menus", example: "menus" },
     "Daisy::Navigation::NavbarComponent" => { names: "navbar", group: "Navigation", title: "Navbars", example: "navbars" },

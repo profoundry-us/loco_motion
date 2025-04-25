@@ -9,7 +9,7 @@ module Algolia
   # This service handles saving processed records to JSON files in the specified
   # location, creating directories as needed.
   #
-  # @example Export records to a file
+  # @loco_example Export records to a file
   #   records = [...]
   #   service = Algolia::JsonExportService.new
   #   service.export(records, 'output_file.json')
@@ -33,12 +33,12 @@ module Algolia
         # Ensure the directory exists
         directory = File.dirname(output_path)
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
-        
+
         # Write the records to the file
         File.open(output_path, 'w') do |file|
           file.write(JSON.pretty_generate(records))
         end
-        
+
         Rails.logger.debug "Data exported to #{output_path}"
         true
       rescue => e

@@ -58,6 +58,12 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** Upgrade from TailwindCSS 3.x to 4.x and DaisyUI 4.x to 5.x ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
 - **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
+- **Breaking:** Migrated BottomNav component to Dock component to match DaisyUI 5 changes ([Fixes #40](https://github.com/profoundry-us/loco_motion/issues/40)):
+  - `BottomNavComponent` → `DockComponent`
+  - Helper method `daisy_bottom_nav` → `daisy_dock`
+  - Updated all CSS classes, slot/part names, and icon rendering to new conventions
+  - Example views and tests updated accordingly
+  - This is a breaking change: update any usages of the old component and helper to the new names and API
 - feat: Allow users to pass singular `controller:` keyword in addition to `controllers:`
 - refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
 - refactor: Move component concerns to lib directory for better organization
@@ -70,13 +76,21 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** refactor(ThemeController): Migrate to a "Builder" component ([Fixes #38](https://github.com/profoundry-us/loco_motion/issues/38))
 - **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4 `form-control` class (including specs)
 
-- feat(Badge): Add support for icons and linking via `IconableComponent` and `LinkableComponent`
-- fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
+- feat(Avatar): Add support for icons and linking via `IconableComponent` and `LinkableComponent`
+- feat(Badge): Add support for icons and linking and styling, including new `badge-soft` and `badge-dashed` variants
+- feat(Button): Enhanced with new features and styling, including new `btn-soft` and `btn-dashed` variants
+- feat(Alert): Enhanced with new styling options, including `alert-soft` and `alert-dashed` variants
+- feat(Breadcrumbs): Refined implementation for better usability
+- feat(Menu): Enhanced styling and functionality
+- feat(Steps): Enhanced for better visual presentation
+- feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
 - feat(Input): Add `daisy_input` alias helper in addition to `daisy_text_input`
+- fix(Link): Tooltips now work correctly
+- fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
-- feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
-- fix(Link): Tooltips now work.
+- fix(Navbar): Improved implementation and styling
+- refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and improved code organization
 
 #### Demo / Docs Changes
 
@@ -124,7 +138,8 @@ Read on for specific changes across the entire project! :tada:
 - fix: Add tooltips to header buttons and make logo a link
 - fix: Always enable BetterErrors in development
 - fix: Header Theme Switcher was using the wrong button size
-- feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples ([e14a425](https://github.com/profoundry-us/loco_motion/commit/e14a425))
+- feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples ([Fixes #36](https://github.com/profoundry-us/loco_motion/issues/36))
+- feat: Updated component documentation to use `@loco_example` tag for better organization
 
 ## [0.4.0] - 2025-03-07
 

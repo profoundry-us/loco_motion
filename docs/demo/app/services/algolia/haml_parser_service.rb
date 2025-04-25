@@ -8,7 +8,7 @@ module Algolia
   # This service extracts documentation, examples, and their metadata from HAML
   # files to be used for indexing in Algolia.
   #
-  # @example Parse a HAML file
+  # @loco_example Parse a HAML file
   #   parser = Algolia::HamlParserService.new(file_path)
   #   result = parser.parse
   #
