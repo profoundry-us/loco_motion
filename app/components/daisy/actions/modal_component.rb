@@ -7,7 +7,6 @@
 # (`showModal()` and `close()`). This provides better accessibility and keyboard
 # navigation compared to div-based modals.
 #
-# @part dialog The main `<dialog>` container that wraps the modal content.
 # @part box The container for the modal content, providing padding and layout.
 # @part close_icon_wrapper The container for the close icon, positioned in the
 #   top-right corner.
@@ -71,7 +70,7 @@
 class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   set_component_name :modal
 
-  define_parts :dialog, :box, :actions, :close_icon_wrapper, :close_icon,
+  define_parts :box, :actions, :close_icon_wrapper, :close_icon,
     :backdrop, :title, :start_actions, :end_actions
 
   renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })

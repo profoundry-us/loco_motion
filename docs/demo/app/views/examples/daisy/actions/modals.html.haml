@@ -1,14 +1,18 @@
 = doc_title(title: "Modals", comp: @comp) do |title|
-  %p Below is a very simple modal example!
+  :markdown
+    Modals are used to display content that requires user interaction. They are
+    typically used to display forms, alerts, or other content that requires user
+    input.
 
 
 %turbo-frame#simple-modal
   = doc_example(title: "Simple Modal") do |doc|
     - doc.with_description do
-      %p
-        Modals are used to display content that requires user interaction. They
-        are typically used to display forms, alerts, or other content that
-        requires user input.
+      :markdown
+        Modals are most often opened through the click of a button. They can be
+        closed by clicking on the `x` icon in the top right, by clicking outside
+        of the modal, or by submitting a `<form method='dialog'>` inside the
+        modal.
 
       = doc_note(css: "mb-8") do
         If no button or activator is provided, a very basic default button will
@@ -49,9 +53,9 @@
           = daisy_card(css: "cursor-pointer border border-base-300 hover:border-primary bg-base-100 transition-colors w-64") do |card|
             - card.with_top_figure css: "aspect-video", src: image_path("landscapes/mountain-river.jpg")
 
-            .flex.items-center.gap-2.text-primary.p-4
+            .flex.justify-center.items-center.gap-2.p-4.font-bold
               = hero_icon(:bell, css: "w-6 h-6")
-              %span Click me to open the modal!
+              .text-xl Notify Me
 
         This modal was opened using a custom activator instead of a button.
         You can use any HTML element as an activator!
