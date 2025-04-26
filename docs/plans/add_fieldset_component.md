@@ -37,16 +37,16 @@ module Daisy
     # Renders a fieldset element, optionally with a legend, to group
     # related form controls or content.
     #
-    # @example Basic fieldset
+    # @loco_example Basic fieldset
     #   = render Daisy::DataInput::FieldsetComponent.new do
     #     Content inside fieldset
     #
-    # @example Fieldset with legend slot
+    # @loco_example Fieldset with legend slot
     #   = render Daisy::DataInput::FieldsetComponent.new do |c|
     #     - c.with_legend { "My Legend" }
     #     Content inside fieldset
     #
-    # @example Fieldset with legend argument
+    # @loco_example Fieldset with legend argument
     #   = render Daisy::DataInput::FieldsetComponent.new(legend: "My Legend") do
     #     Content inside fieldset
     #

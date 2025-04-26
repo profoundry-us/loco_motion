@@ -8,13 +8,13 @@
 #   `:where()` pseudo-class to ensure our default classes have the lowest CSS
 #   specificity.
 #
-# @example Basic icon usage
+# @loco_example Basic icon usage
 #   = hero_icon("academic-cap")
 #   = hero_icon(icon: "adjustments-horizontal")
 #   %span.text-blue-500
 #     = hero_icon("archive-box")
 #
-# @example Customized icons
+# @loco_example Customized icons
 #   = hero_icon("no-symbol", css: "size-4 text-red-600")
 #   = hero_icon("arrow-trending-up", css: "size-10 text-green-600")
 #   = hero_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
@@ -53,13 +53,15 @@ class Hero::IconComponent < LocoMotion::BaseComponent
     # Accept either the :icon keyword argument or the first positional argument
     @icon = config_option(:icon, args[0])
     @variant = config_option(:variant)
+
+    @css = config_option(:css, "")
   end
 
   def before_render
     super
 
     add_html(:component, { variant: @variant }) if @variant
-    add_css(:component, "where:size-5")
+    add_css(:component, "where:size-5") unless @css.include?("size-")
   end
 
   #

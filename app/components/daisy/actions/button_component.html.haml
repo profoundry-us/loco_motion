@@ -2,6 +2,6 @@
   - if content?
     = content
   - else
-    = heroicon_tag(@left_icon, **left_icon_html) if @left_icon
+    = render_left_icon
     = @simple_title if @simple_title
-    = heroicon_tag(@right_icon, **right_icon_html) if @right_icon
+    = render_right_icon

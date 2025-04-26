@@ -1,38 +1,52 @@
 = doc_title(title: "Breadcrumbs", comp: @comp) do |title|
-  %p
+  :markdown
     Breadcrumbs are used to show the user's location within a website or app.
 
 
 = doc_example(title: "Basic Breadcrumbs") do |doc|
   - doc.with_description do
-    %p
-      Basic breadcrumbs use only text and a separator to show the user's
-      location.
+    :markdown
+      Basic breadcrumbs show only text and a separator.
 
   = daisy_breadcrumbs do |breadcrumbs|
-    - breadcrumbs.with_item do
-      = link_to "Home", "#"
-    - breadcrumbs.with_item do
-      = link_to "Docs", "#"
-    - breadcrumbs.with_item do
-      = link_to "Components", "#"
-    - breadcrumbs.with_item do
-      = link_to "Breadcrumbs", "#"
+    - # Options via keyword arguments
+    - breadcrumbs.with_item(title: "Docs", href: "/")
+
+    - # Options via positional arguments
+    - breadcrumbs.with_item("Breadcrumbs", "/examples/Daisy::Navigation::BreadcrumbsComponent")
+
+    - # Custom content
+    - breadcrumbs.with_item(css: "italic selection:bg-secondary selection:text-secondary-content") do
+      This example
 
 
 = doc_example(title: "Breadcrumbs with Icons") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       Breadcrumbs can also utilize icons to help users quickly identify
       different pages.
 
-  - icon_options = { css: "size-4 mr-1 text-slate-600", variant: :mini }
   - links = [ ["Home", "home"], ["Docs", "document"], ["Components", "cube"], ["Breadcrumbs", "squares-2x2"] ]
 
   = daisy_breadcrumbs do |breadcrumbs|
     - links.each do |link|
+      - breadcrumbs.with_item(title: link[0], href: "#", icon: link[1], icon_css: "size-4 mr-1 text-base-content/50", icon_options: { variant: :mini })
+
+
+= doc_example(title: "Custom Breadcrumbs") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also pass any content to fully customize your breadcrumbs.
+
+  - links = [ [ "🙂", "Favorites", ""], ["😃", "Super Favorites", "italic"], ["🤩", "Amazeballs Favorites", "font-bold italic"] ]
+
+  = daisy_breadcrumbs do |breadcrumbs|
+    - links.each.with_index do |link, index|
       - breadcrumbs.with_item do
-        = link_to "#" do
-          = hero_icon(link[1], **icon_options)
-          = link[0]
+        = daisy_link "#", css: "no-underline! hover:text-secondary" do
+          .text-3xl.-rotate-12
+            = link.first
+
+          .text-xl{ class: link.last }
+            = link.second
 

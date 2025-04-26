@@ -1,0 +1,49 @@
+= doc_title(title: "Dock", comp: @comp) do |title|
+  :markdown
+    The Dock component provides a navigation bar fixed to the bottom of the
+    screen, commonly used in mobile interfaces.
+
+
+= doc_example(title: "Basic Dock", example_css: "mx-auto max-w-[400px]") do |doc|
+  - doc.with_description do
+    :markdown
+      A simple dock component with three sections.
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      :markdown
+        We add the `relative` class to ensure visibility in the example rather
+        than the default of being fixed to the bottom of the screen.
+
+  = daisy_dock(css: "relative border border-base-300") do |dock|
+    - dock.with_section(icon: "home", href: "#")
+    - dock.with_section(icon: "information-circle", href: "#", active: true)
+    - dock.with_section(icon: "chart-bar", href: "#")
+
+
+= doc_example(title: "Dock with Titles", example_css: "mx-auto max-w-[400px]") do |doc|
+  - doc.with_description do
+    :markdown
+      The Dock sections can also have a simple title passed via the `title`
+      attribute, or a more complex title by passing a block to the section.
+
+  = daisy_dock(css: "relative border border-base-content") do |dock|
+    - dock.with_section(icon: "home", href: "#", title: "Home")
+    - dock.with_section(icon: "information-circle", icon_css: "text-blue-600 -rotate-45", href: "#", active: true, title: "Info")
+    - dock.with_section(icon: "chart-bar", href: "#") do
+      .font-bold.italic.text-xs.text-error.animate-bounce
+        Stats
+
+
+= doc_example(title: "Colored Dock", example_css: "flex-col space-y-8 mx-auto max-w-[400px]") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use any of the built-in Daisy, Tailwind, or custom colors.
+
+  - colors = ["text-primary", "text-secondary", "text-accent", "text-info", "text-success",
+    "text-warning", "text-error", "text-cyan-400", "text-[#449944]"]
+
+  - colors.each do |color|
+    = daisy_dock(css: "relative border border-base-300") do |dock|
+      - dock.with_section(icon: "home", href: "#", title: "Home", css: color)
+      - dock.with_section(icon: "information-circle", title: color, href: "#", css: color)
+      - dock.with_section(icon: "chart-bar", href: "#", title: "Stats", css: color)

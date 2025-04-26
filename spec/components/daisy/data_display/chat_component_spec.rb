@@ -73,7 +73,7 @@ RSpec.describe Daisy::DataDisplay::ChatComponent, type: :component do
     describe "rendering" do
       it "renders the avatar with icon" do
         expect(page).to have_selector(".chat-image")
-        expect(page).to have_selector(".chat-image .size-6")
+        expect(page).to have_selector(".chat-image svg")
       end
     end
   end

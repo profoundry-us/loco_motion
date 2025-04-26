@@ -99,6 +99,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::IconableComponent
+
   define_parts :label
 
   #

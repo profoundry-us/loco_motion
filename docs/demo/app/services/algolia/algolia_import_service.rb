@@ -9,7 +9,7 @@ module Algolia
   # This service provides a unified interface to process parsed HAML data
   # and send it to Algolia if credentials are available.
   #
-  # @example Parse and handle a HAML file
+  # @loco_example Parse and handle a HAML file
   #   service = Algolia::AlgoliaImportService.new
   #   result = Algolia::HamlParserService.new(file_path).parse
   #   records = service.convert_to_records(result, file_path)

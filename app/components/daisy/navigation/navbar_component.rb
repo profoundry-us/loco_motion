@@ -11,7 +11,7 @@
 # @slot end {LocoMotion::BasicComponent} The right section of the navbar.
 #   Automatically gets the `navbar-end` CSS class.
 #
-# @example Basic navbar with logo and GitHub link
+# @loco_example Basic navbar with logo and GitHub link
 #   = daisy_navbar(css: "bg-base-100") do |navbar|
 #     - navbar.with_start do
 #       = image_tag("logo.png", class: "h-8")
@@ -20,7 +20,7 @@
 #     - navbar.with_end do
 #       = link_to "GitHub", "https://github.com", target: "_blank"
 #
-# @example Navbar with all sections and dropdown
+# @loco_example Navbar with all sections and dropdown
 #   = daisy_navbar(css: "bg-base-100") do |navbar|
 #     - navbar.with_start do
 #       %span.text-lg.italic Brand

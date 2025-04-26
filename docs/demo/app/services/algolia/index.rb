@@ -9,7 +9,7 @@ module Algolia
   # indices, including initializing the client, configuring indices, and
   # performing batch operations.
   #
-  # @example Initialize and use an index
+  # @loco_example Initialize and use an index
   #   index = Algolia::Index.new('components')
   #   index.save_objects(records)
   #   index.clear_objects

@@ -44,6 +44,8 @@
 #         = heroicon_tag "check-circle", class: "size-10"
 #
 class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::TippableComponent
 
   set_component_name :stat
@@ -88,12 +90,16 @@ class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
     @simple_title = config_option(:title)
     @simple_description = config_option(:description)
     @src = config_option(:src)
-    @icon = config_option(:icon)
   end
 
   def before_render
     setup_component
+
     super
+  end
+
+  def default_icon_size
+    "where:size-8"
   end
 
   private

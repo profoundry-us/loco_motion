@@ -102,9 +102,9 @@
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
 class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
-  include LocoMotion::Concerns::LinkableComponent
   include LocoMotion::Concerns::IconableComponent
+  include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::TippableComponent
 
   set_component_name :badge
 
@@ -155,12 +155,13 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   def initialize(title = nil, **kws, &block)
     super
 
-    @title = config_option(:title, title)
+    @simple_title = config_option(:title, title)
   end
 
   def before_render
     # Run component setup *before* super to allow LinkableComponent to override tag
     setup_component
+
     super
   end
 
@@ -172,31 +173,11 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    context = {}
-    content_output = ""
-    
-    # Add left icon if present
-    if @left_icon
-      context[:left_icon] = helpers.heroicon_tag(@left_icon, **left_icon_html)
-      content_output += context[:left_icon]
+    part(:component) do
+      concat(render_left_icon)
+      concat(content || @simple_title)
+      concat(render_right_icon)
     end
-    
-    # Add content/title if present
-    if content_provided?
-      context[:content] = content
-      content_output += context[:content]
-    elsif @title
-      context[:title] = @title
-      content_output += context[:title]
-    end
-    
-    # Add right icon if present
-    if @right_icon
-      context[:right_icon] = helpers.heroicon_tag(@right_icon, **right_icon_html)
-      content_output += context[:right_icon]
-    end
-    
-    part(:component) { content_output.html_safe }
   end
 
   private
@@ -204,9 +185,5 @@ class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :span)
     add_css(:component, "badge")
-  end
-  
-  def content_provided?
-    content.present?
   end
 end

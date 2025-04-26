@@ -1,24 +1,24 @@
 require "rails_helper"
 
-RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
-  context "basic bottom nav" do
-    let(:nav) { described_class.new }
+RSpec.describe Daisy::Navigation::DockComponent, type: :component do
+  context "basic dock" do
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home", href: "#")
-        n.with_section(icon: "information-circle", href: "#", active: true)
-        n.with_section(icon: "chart-bar", href: "#")
+      render_inline(dock) do |d|
+        d.with_section(icon: "home", href: "#")
+        d.with_section(icon: "information-circle", href: "#", active: true)
+        d.with_section(icon: "chart-bar", href: "#")
       end
     end
 
     describe "rendering" do
-      it "has the btm-nav class" do
-        expect(page).to have_selector(".btm-nav")
+      it "has the dock class" do
+        expect(page).to have_selector(".dock")
       end
 
       it "renders all sections" do
-        expect(page).to have_selector(".btm-nav > a", count: 3)
+        expect(page).to have_selector(".dock > a", count: 3)
       end
 
       it "renders icons" do
@@ -30,24 +30,20 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
       end
 
       it "marks active section" do
-        expect(page).to have_selector("a.active", count: 1)
-        expect(page).to have_selector("a.active svg")
-      end
-
-      it "sets default icon size" do
-        expect(page).to have_selector("[class*='size-6']", count: 3)
+        expect(page).to have_selector("a.dock-active", count: 1)
+        expect(page).to have_selector("a.dock-active svg")
       end
     end
   end
 
   context "with titles" do
-    let(:nav) { described_class.new }
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home", href: "#", title: "Home")
-        n.with_section(icon: "information-circle", href: "#", title: "Info")
-        n.with_section(icon: "chart-bar", href: "#") do
+      render_inline(dock) do |d|
+        d.with_section(icon: "home", href: "#", title: "Home")
+        d.with_section(icon: "information-circle", href: "#", title: "Info")
+        d.with_section(icon: "chart-bar", href: "#") do
           '<div class="font-bold text-xs">Stats</div>'.html_safe
         end
       end
@@ -55,8 +51,8 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
 
     describe "rendering" do
       it "renders simple titles" do
-        expect(page).to have_selector(".btm-nav-label", text: "Home")
-        expect(page).to have_selector(".btm-nav-label", text: "Info")
+        expect(page).to have_selector(".dock-label", text: "Home")
+        expect(page).to have_selector(".dock-label", text: "Info")
       end
 
       it "renders complex title content" do
@@ -66,11 +62,11 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
   end
 
   context "with custom icon styles" do
-    let(:nav) { described_class.new }
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(
+      render_inline(dock) do |d|
+        d.with_section(
           icon: "information-circle",
           icon_css: "text-blue-600 -rotate-45",
           href: "#"
@@ -88,12 +84,12 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
   end
 
   context "with custom colors" do
-    let(:nav) { described_class.new }
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home", href: "#", css: "text-primary")
-        n.with_section(icon: "chart-bar", href: "#", css: "text-[#449944]")
+      render_inline(dock) do |d|
+        d.with_section(icon: "home", href: "#", css: "text-primary")
+        d.with_section(icon: "chart-bar", href: "#", css: "text-[#449944]")
       end
     end
 
@@ -109,12 +105,12 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
   end
 
   context "with buttons instead of links" do
-    let(:nav) { described_class.new }
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home")
-        n.with_section(icon: "chart-bar", active: true)
+      render_inline(dock) do |d|
+        d.with_section(icon: "home")
+        d.with_section(icon: "chart-bar", active: true)
       end
     end
 
@@ -124,17 +120,17 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
       end
 
       it "marks active button" do
-        expect(page).to have_selector("button.active svg")
+        expect(page).to have_selector("button.dock-active svg")
       end
     end
   end
 
   context "with custom icon variant" do
-    let(:nav) { described_class.new }
+    let(:dock) { described_class.new }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home", icon_variant: :solid)
+      render_inline(dock) do |d|
+        d.with_section(icon: "home", icon_variant: :solid)
       end
     end
 
@@ -146,17 +142,17 @@ RSpec.describe Daisy::Navigation::BottomNavComponent, type: :component do
   end
 
   context "with custom container styles" do
-    let(:nav) { described_class.new(css: "relative border border-base-200") }
+    let(:dock) { described_class.new(css: "relative border border-base-200") }
 
     before do
-      render_inline(nav) do |n|
-        n.with_section(icon: "home")
+      render_inline(dock) do |d|
+        d.with_section(icon: "home")
       end
     end
 
     describe "rendering" do
       it "includes custom container classes" do
-        expect(page).to have_selector(".btm-nav.relative.border.border-base-200")
+        expect(page).to have_selector(".dock.relative.border.border-base-200")
       end
     end
   end

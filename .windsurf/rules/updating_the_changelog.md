@@ -13,3 +13,9 @@ When modifying the `CHANGELOG.md` file, follow these procedures regarding format
    adding new version sections.
 
 4. NEVER alter existing changelog entries unless explicitly asked.
+
+5. MUST run `git status` and `git diff` to view ALL unstaged file changes in the
+   repository and coalesce ALL changes.
+
+6. MUST summarize all changes in a concise and clear manner, ensuring that
+   each change is properly categorized and described.
