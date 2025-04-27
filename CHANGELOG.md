@@ -89,6 +89,7 @@ Read on for specific changes across the entire project! :tada:
 - fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
+- fix(Modal): Remove unnecessary `:dialog` part from component definition ([Fixes #46](https://github.com/profoundry-us/loco_motion/issues/46))
 - fix(Navbar): Improved implementation and styling
 - refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and improved code organization
 
