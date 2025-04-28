@@ -128,6 +128,7 @@ Read on for specific changes across the entire project! :tada:
 - feat: Standardize H1/H2 doc headings
 - feat: Enhanced navigation with icons, colors, and improved padding
 - add: Algolia search indexing and UI ([Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
+- feat(AlgoliaSearch): Add auto-selection of first search result on query for improved UX
 - refactor: Renamed `ExampleWrapper` doc component to `DocExample` for better semantics
 - fix: Converted most uses of code blocks to markdown backticks for improved readability
 - fix(DocNote): Fix purple TODO variant text color.

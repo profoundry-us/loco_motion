@@ -4,6 +4,23 @@ import instantsearch from 'instantsearch.js';
 import { connectHits } from 'instantsearch.js/es/connectors'
 import { configure, searchBox, stats, poweredBy } from 'instantsearch.js/es/widgets';
 
+// Global variable to track the currently selected search result
+let currentSearchResultIndex = 0;
+
+// Function to update the visual selection of search results
+function updateSearchResultSelection() {
+  const hits = document.querySelectorAll('#al-hits a');
+  if (hits.length === 0) return;
+
+  // Remove selection styling from all results
+  hits.forEach(hit => hit.classList.remove('bg-secondary', 'text-white'));
+
+  // Add selection styling to the current index
+  if (currentSearchResultIndex >= 0 && currentSearchResultIndex < hits.length) {
+    hits[currentSearchResultIndex].classList.add('bg-secondary', 'text-white');
+  }
+}
+
 // Make sure we have the algoliaCredentials object
 if (!window.algoliaCredentials) {
   console.warn('Algolia search disabled: Missing window.algoliaCredentials');
@@ -58,31 +75,33 @@ window.handleSearchResultsNavigation = function(event) {
   const hits = document.querySelectorAll('#al-hits a');
   if (hits.length === 0) return;
 
-  // Find the currently focused element index
-  let currentIndex = -1;
-  for (let i = 0; i < hits.length; i++) {
-    if (document.activeElement === hits[i]) {
-      currentIndex = i;
-      break;
-    }
-  }
-
   // Handle arrow key navigation
   if (event.key === 'ArrowDown') {
     event.preventDefault();
-    // Select the first item if none is selected, or move to the next
-    const nextIndex = currentIndex === -1 || currentIndex === hits.length - 1 ? 0 : currentIndex + 1;
-    hits[nextIndex].focus();
+    // Move to the next item or wrap to the first
+    currentSearchResultIndex = (currentSearchResultIndex + 1) % hits.length;
   } else if (event.key === 'ArrowUp') {
     event.preventDefault();
-    // Select the last item if none is selected, or move to the previous
-    const prevIndex = currentIndex === -1 || currentIndex === 0 ? hits.length - 1 : currentIndex - 1;
-    hits[prevIndex].focus();
-  } else if (event.key === 'Enter' && currentIndex !== -1) {
-    // Execute the link if Enter is pressed
+    // Move to the previous item or wrap to the last
+    currentSearchResultIndex = (currentSearchResultIndex - 1 + hits.length) % hits.length;
+  } else if (event.key === 'Enter') {
+    // Execute the link of the currently selected item
     event.preventDefault();
-    hits[currentIndex].click();
+    if (hits.length > 0) {
+      if (currentSearchResultIndex >= 0 && currentSearchResultIndex < hits.length) {
+        // If we have a valid selection index, use it
+        hits[currentSearchResultIndex].click();
+      } else {
+        // If no item is selected but search has results, use the first one
+        const searchBox = document.getElementById('al-searchbox').querySelector('input');
+        if (searchBox.value != null && searchBox.value !== "") {
+          hits[0].click();
+        }
+      }
+    }
   }
+
+  updateSearchResultSelection();
 }
 
 // Add keyboard shortcut for search (Cmd+K on Mac, Ctrl+K on Windows/Linux)
@@ -194,6 +213,15 @@ function initializeSearch(appId, apiKey, indexName) {
 
     console.log("customGroupedHits", isFirstRender)
     const searchBox = document.getElementById('al-searchbox').querySelector('input');
+    const hasSearchQuery = searchBox.value != null && searchBox.value !== "";
+
+    // Reset the current index to 0 only when there's a search query
+    if (hasSearchQuery) {
+      currentSearchResultIndex = 0;
+    } else {
+      // For initial load (no search query), don't select any item
+      currentSearchResultIndex = -1;
+    }
 
     // Group hits by framework / section (first render) or component
     const grouped = hits.reduce((groups, hit) => {
@@ -214,6 +242,8 @@ function initializeSearch(appId, apiKey, indexName) {
 
     widgetParams.container.innerHTML = Object.entries(grouped)
       .map(([section, hits]) => groupTemplate(section, hits)).join('');
+
+    updateSearchResultSelection();
   });
 
   search.addWidgets([

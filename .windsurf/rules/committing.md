@@ -14,11 +14,12 @@ When committing code changes, follow these procedures.
   f. Compile all changes into a singular commit message utilizing Markdown
      headers, lists, and code blocks, ensuring that the message is clear and
      concise.
-  g. Utilize a single-line message similar to `feat(Button): Add new feature`
+  g. Check the branch name to see if it has an issue number in it.
+  h. Utilize a single-line message similar to `feat(Button): Add new feature`
      as the first line, providing a brief summary of the changes made.
-  h. Commit the changes.
-  i. Push the changes to the remote repository.
-  j. Prompt the user if they are ready to create a pull request.
+  i. Commit the changes.
+  j. Push the changes to the remote repository.
+  k. Prompt the user if they are ready to create a pull request.
 
 3. MUST surround commit messages in single quotes so that we can use Markdown
    and backticks in the message, allowing for proper formatting and display.
