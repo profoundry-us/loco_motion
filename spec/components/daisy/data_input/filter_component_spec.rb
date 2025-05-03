@@ -9,19 +9,33 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
   it "renders reset button and options" do
     component = described_class.new(name: "filters")
 
-    # Add reset button with value
-    component.with_reset_button(value: "x")
+    # Add reset button
+    component.with_reset_button
 
     # Add options
-    component.with_option(name: "filters", label: "Option 1")
-    component.with_option(name: "filters", label: "Option 2")
+    component.with_option(label: "Option 1")
+    component.with_option(label: "Option 2")
 
     render_inline(component)
 
-    expect(page).to have_css(".filter button.btn.filter-button-reset") # Button reset
-    expect(page).to have_css(".filter input[type='radio'][value='x']") # Check for value attribute
+    expect(page).to have_css(".filter input[type='radio'].filter-reset") # Reset radio button
     expect(page).to have_css(".filter input[type='radio'][aria-label='Option 1']")
     expect(page).to have_css(".filter input[type='radio'][aria-label='Option 2']")
+  end
+
+  it "automatically shares the parent component's name with children" do
+    component = described_class.new(name: "parent_filters")
+
+    # Add reset button without explicitly setting name
+    component.with_reset_button
+
+    # Add option without explicitly setting name
+    component.with_option(label: "Option 1")
+
+    render_inline(component)
+
+    # Both should inherit the name from parent
+    expect(page).to have_css(".filter input[type='radio'][name='parent_filters']")
   end
 
   context "with custom HTML attributes" do
@@ -62,27 +76,31 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
     end
   end
 
-  context "with filter-reset option" do
-    it "applies the filter-reset class to the option" do
-      component = described_class.new(name: "filters")
-      component.with_option(name: "filters", label: "All", css: "filter-reset")
-
-      render_inline(component)
-
-      expect(page).to have_css(".filter input[type='radio'].filter-reset")
-    end
-  end
-
   context "with reset button customization" do
     it "applies custom CSS classes to the reset button" do
       component = described_class.new(name: "filters")
-      component.with_reset_button(value: "x", css: "btn-error")
-      component.with_option(name: "filters", label: "Option")
+      component.with_reset_button(css: "btn-error")
+      component.with_option(label: "Option")
 
       render_inline(component)
 
-      expect(page).to have_css(".filter button.btn.filter-button-reset.btn-error")
-      expect(page).to have_css(".filter input[type='radio'][value='x']")
+      expect(page).to have_css(".filter input[type='radio'].filter-reset.btn-error")
+    end
+
+    it "allows setting a custom value for the reset button" do
+      component = described_class.new(name: "filters")
+      component.with_reset_button(value: "reset_value")
+
+      render_inline(component)
+
+      expect(page).to have_css(".filter input[type='radio'][value='reset_value']")
+    end
+  end
+
+  context "with name attribute access" do
+    it "allows access to the name attribute" do
+      component = described_class.new(name: "test_name")
+      expect(component.name).to eq("test_name")
     end
   end
 end
