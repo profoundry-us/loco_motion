@@ -50,3 +50,13 @@
       - f.with_option(label: "Category 1")
       - f.with_option(label: "Category 2")
     = form.submit "Apply Filters", class: "btn btn-primary mt-4"
+
+
+= doc_example(title: "Form Builder") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use the form builder to create a filter.
+
+  = form_with(url: "", method: :get, scope: :search, class: "mb-4") do |form|
+    = form.daisy_filter(:category, options: ["Technology", "Science", "Arts"])
+    = form.submit "Apply Filters", class: "btn btn-primary mt-4"

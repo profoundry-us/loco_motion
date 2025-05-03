@@ -1,19 +1,38 @@
 # frozen_string_literal: true
 
 #
-# The Filter component is a group of radio buttons. Choosing one of the options will
-# hide the others and shows a reset button next to the chosen option.
+# The Filter component is a group of radio buttons where choosing one option
+# hides the others and shows a reset button.
 #
 # @loco_example Basic Usage
 #   = daisy_filter(name: "frameworks", options: ["Svelte", "Vue", "React"])
 #
-# @loco_example Using Filter-Reset Option
-#   = daisy_filter(name: "metaframeworks") do |f|
-#     - f.with_reset_button(icon: "x-mark")
-#     - f.with_option(name: "metaframeworks", label: "All", css: "filter-reset")
-#     - f.with_option(name: "metaframeworks", label: "Sveltekit")
-#     - f.with_option(name: "metaframeworks", label: "Nuxt")
-#     - f.with_option(name: "metaframeworks", label: "Next.js")
+# @loco_example Using Hash Options
+#   = daisy_filter(name: "languages", options: [
+#     { label: "Ruby", value: "ruby" },
+#     { label: "JavaScript", value: "js" },
+#     { label: "Python", value: "py" }
+#   ])
+#
+# @loco_example Custom Styling
+#   = daisy_filter(name: "priorities", css: "items-center") do |f|
+#     - f.with_reset_button(css: "btn-accent btn-sm rounded-full")
+#     - f.with_option(label: "Low", css: "btn-outline btn-success")
+#     - f.with_option(label: "Medium", css: "btn-outline btn-warning")
+#     - f.with_option(label: "High", css: "btn-outline btn-error")
+#
+# @loco_example Within Form Builder
+#   = form_with(model: @post) do |form|
+#     = form.daisy_filter(:category, options: ["News", "Tech", "Sports"])
+#     = form.submit "Save", class: "btn btn-primary mt-4"
+#
+# @loco_example Form Builder With Block
+#   = form_with(model: @user) do |form|
+#     = form.daisy_filter(:role) do |f|
+#       - f.with_option(label: "Admin", value: "admin")
+#       - f.with_option(label: "Editor", value: "editor")
+#       - f.with_option(label: "Viewer", value: "viewer")
+#     = form.submit "Update", class: "btn btn-primary mt-4"
 #
 module Daisy
   module DataInput
@@ -102,11 +121,14 @@ module Daisy
       # @option kws options [Array] An array of options to display in the filter.
       #   Can be an array of strings, symbols, or hashes with :label keys.
       #
+      # @option kws value [String] The current value of the filter (for form integration).
+      #
       def initialize(**kws)
         super(**kws)
 
         @name = config_option(:name)
         @options_list = config_option(:options)
+        @value = config_option(:value)
       end
 
       #
@@ -116,7 +138,7 @@ module Daisy
         super
 
         setup_component
-        setup_reset_button
+        setup_reset_button if reset_button?
       end
 
       def default_reset_button
@@ -134,11 +156,16 @@ module Daisy
 
         options_list.map do |option|
           label = option.is_a?(Hash) ? option[:label] : option.to_s
+          value = option.is_a?(Hash) ? option[:value] : option
+
+          # Check if this option should be selected based on the component's value
+          checked = @value.present? && @value.to_s == value.to_s
 
           Daisy::DataInput::FilterComponent::FilterOptionComponent.new(
             name: @name,
             label: label,
-            value: option.is_a?(Hash) ? option[:value] : option
+            value: value,
+            checked: checked
           )
         end
       end
