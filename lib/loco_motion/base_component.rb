@@ -38,6 +38,9 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
     # Run registered initializer hooks from concerns
     self.class.component_initializers.each { |initializer| send(initializer) }
+
+    # Allow certain components to skip styling if they are being inherited
+    @skip_styling = config_option(:skip_styling, false)
   end
 
   #

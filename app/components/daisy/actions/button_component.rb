@@ -187,7 +187,7 @@ class Daisy::Actions::ButtonComponent < LocoMotion::BaseComponent
     set_tag_name(:component, :button)
 
     # Add the btn class
-    add_css(:component, "btn")
+    add_css(:component, "btn") unless @skip_styling
 
     # Add data-action if specified
     add_html(:component, { "data-action": @action }) if @action

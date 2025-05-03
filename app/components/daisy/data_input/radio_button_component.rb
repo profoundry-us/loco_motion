@@ -65,7 +65,7 @@ class Daisy::DataInput::RadioButtonComponent < LocoMotion::BaseComponent
   def setup_component
     set_tag_name(:component, :input)
 
-    add_css(:component, "radio")
+    add_css(:component, "radio") unless @skip_styling
 
     add_html(:component, {
       type: "radio",
