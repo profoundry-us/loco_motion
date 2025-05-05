@@ -49,6 +49,7 @@ module Daisy
           super(**kws)
 
           @label = config_option(:label)
+          @index = config_option(:index)
           @skip_styling = true
         end
 
@@ -58,12 +59,14 @@ module Daisy
         def before_render
           # Make sure to pull the default name from the parent
           @name = config_option(:name, loco_parent&.name)
+          @id = config_option(:id, "#{loco_parent&.id}_#{@index}")
 
           # Call the parent setup first
           super
 
           # Add btn class for styling
           add_css(:component, "btn")
+          add_html(:component, { id: @id })
 
           # Add aria-label if specified
           if @label.present?
@@ -92,6 +95,7 @@ module Daisy
         def before_render
           # Make sure to pull the default name from the parent
           @name = config_option(:name, loco_parent&.name)
+          @id = config_option(:id, "#{loco_parent&.id}_reset")
 
           # Call parent setup first
           super
@@ -100,7 +104,7 @@ module Daisy
           add_css(:component, "where:btn where:btn-square filter-reset")
 
           # Set type to reset
-          add_html(:component, { type: "radio" })
+          add_html(:component, { type: "radio", id: @id })
         end
       end
 
@@ -109,7 +113,7 @@ module Daisy
       renders_one :reset_button, FilterResetComponent
       renders_many :options, FilterOptionComponent
 
-      attr_reader :name
+      attr_reader :name, :id
 
       #
       # Initialize a new filter component.
@@ -127,6 +131,7 @@ module Daisy
         super(**kws)
 
         @name = config_option(:name)
+        @id = config_option(:id, SecureRandom.uuid)
         @options_list = config_option(:options)
         @value = config_option(:value)
       end
@@ -142,7 +147,11 @@ module Daisy
       end
 
       def default_reset_button
-        FilterResetComponent.new(name: @name)
+        comp = FilterResetComponent.new(name: @name)
+
+        comp.set_loco_parent(component_ref)
+
+        comp
       end
 
       #
@@ -154,7 +163,7 @@ module Daisy
       def standard_options
         return [] unless options_list
 
-        options_list.map do |option|
+        options_list.map.with_index do |option, index|
           label = option.is_a?(Hash) ? option[:label] : option.to_s
           value = option.is_a?(Hash) ? option[:value] : option
 
@@ -165,7 +174,8 @@ module Daisy
             name: @name,
             label: label,
             value: value,
-            checked: checked
+            checked: checked,
+            index: index
           )
         end
       end
@@ -217,7 +227,7 @@ module Daisy
       # @return [Array] The list of options as an array.
       #
       def options_list
-        @options_list.is_a?(Array) ? @options_list : [@options_list]
+        [@options_list].flatten.compact
       end
     end
   end
