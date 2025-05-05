@@ -103,4 +103,72 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
       expect(component.name).to eq("test_name")
     end
   end
+
+  context "with id attribute" do
+    it "generates a UUID as ID if none is provided" do
+      component = described_class.new(name: "test_filters")
+
+      # The ID should be a UUID format
+      expect(component.id).to match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
+    end
+
+    it "uses the provided ID when specified" do
+      component = described_class.new(name: "test_filters", id: "custom-filter-id")
+      expect(component.id).to eq("custom-filter-id")
+    end
+
+    it "gives options IDs based on parent ID and index" do
+      component = described_class.new(name: "test_filters", id: "parent-filter")
+
+      # Add options explicitly with index
+      component.with_option(label: "Option 1", id: "parent-filter_0")
+      component.with_option(label: "Option 2", id: "parent-filter_1")
+
+      render_inline(component)
+
+      # Check that each option has the expected ID
+      expect(page).to have_css("input[id='parent-filter_0']")
+      expect(page).to have_css("input[id='parent-filter_1']")
+    end
+
+    it "generates option IDs using the options array with indexes" do
+      # Use the standard_options method which handles indexing
+      component = described_class.new(
+        name: "test_filters",
+        id: "parent-filter",
+        options: ["Option 1", "Option 2"]
+      )
+
+      # Render and debug the output
+      result = render_inline(component).to_html
+      puts "\nRendered HTML:\n#{result}\n"
+
+      # Check that each option has automatically generated IDs with index
+      expect(page).to have_css("input[id='parent-filter_0']")
+      expect(page).to have_css("input[id='parent-filter_1']")
+    end
+
+    it "gives reset button an ID based on parent ID" do
+      component = described_class.new(name: "test_filters", id: "parent-filter")
+      component.with_reset_button
+
+      render_inline(component)
+
+      # Check that reset button has ID with parent ID plus '_reset'
+      expect(page).to have_css("input.filter-reset[id='parent-filter_reset']")
+    end
+
+    it "gives reset button an ID based on auto-generated parent UUID" do
+      component = described_class.new(name: "test_filters") # No ID provided, should auto-generate UUID
+      component.with_reset_button
+
+      render_inline(component)
+
+      # Get the parent component's auto-generated ID
+      parent_id = component.id
+
+      # Check that the reset button has the parent's UUID plus '_reset'
+      expect(page).to have_css("input.filter-reset[id='#{parent_id}_reset']")
+    end
+  end
 end

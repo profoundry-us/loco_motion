@@ -175,7 +175,7 @@ module Daisy
             label: label,
             value: value,
             checked: checked,
-            index: index
+            index: index.to_s  # Ensure index is a string
           )
         end
       end
