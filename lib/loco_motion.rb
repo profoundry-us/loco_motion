@@ -14,6 +14,9 @@ require "loco_motion/basic_component"
 require "loco_motion/engine"
 require "loco_motion/helpers"
 
+# Load patches
+require "loco_motion/patches/view_component/slotable_default_patch"
+
 require "hero"
 require "daisy"
 

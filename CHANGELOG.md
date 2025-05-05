@@ -50,6 +50,7 @@ Read on for specific changes across the entire project! :tada:
 - feat(Select): Enable start/end/floating label functionality
 - feat(Toggle): Enable start/end/floating label functionality
 - feat(Checkbox): Enable start/end label functionality
+- feat(Filter): Add Filter component for creating selection interfaces with toggle functionality ([Fixes #33](https://github.com/profoundry-us/loco_motion/issues/33))
 
 ### Changed / Fixed
 

@@ -108,7 +108,7 @@ module Daisy
 
         # Add the daisy_select method to FormBuilder
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
-                          options_css: nil, options_html: {}, **args, &block)
+                           options_css: nil, options_html: {}, **args, &block)
           # Extract the name from the form builder's object_name and method
           name = "#{object_name}[#{method}]"
 
@@ -127,6 +127,28 @@ module Daisy
             options_css: options_css,
             options_html: options_html,
             placeholder: placeholder,
+            **args,
+            &block
+          )
+        end
+
+        # Add the daisy_filter method to FormBuilder
+        def daisy_filter(method, options: nil, **args, &block)
+          # Extract the name from the form builder's object_name and method
+          name = "#{object_name}[#{method}]"
+
+          # Get the current value from the object
+          value = object.try(method)
+
+          # Generate a default ID if not provided
+          id = args[:id] || "#{object_name}_#{method}"
+
+          # Build the component with the extracted form values and any additional options
+          @template.daisy_filter(
+            name: name,
+            id: id,
+            value: value,
+            options: options,
             **args,
             &block
           )
