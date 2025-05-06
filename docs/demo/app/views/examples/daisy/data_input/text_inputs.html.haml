@@ -58,14 +58,23 @@
       Text inputs can have different types such as password, email, number, etc.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_label(for: "password", title: "Password")
-    = daisy_text_input(name: "password", id: "password", type: "password")
-
     = daisy_label(for: "email", title: "Email", css: "mt-4")
     = daisy_text_input(name: "email", id: "email", type: "email")
 
+    = daisy_label(for: "password", title: "Password")
+    = daisy_text_input(name: "password", id: "password", type: "password")
+
     = daisy_label(for: "number", title: "Number", css: "mt-4")
     = daisy_text_input(name: "number", id: "number", type: "number")
+
+    = daisy_label(for: "date", title: "Date", css: "mt-4")
+    = daisy_text_input(name: "date", id: "date", type: "date")
+
+    = daisy_label(for: "time", title: "Time", css: "mt-4")
+    = daisy_text_input(name: "time", id: "time", type: "time")
+
+    = daisy_label(for: "datetime-local", title: "Datetime Local", css: "mt-4")
+    = daisy_text_input(name: "datetime-local", id: "datetime-local", type: "datetime-local")
 
 
 = doc_example(title: "Text Input Sizes") do |doc|
