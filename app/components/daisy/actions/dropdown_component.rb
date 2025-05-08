@@ -16,6 +16,8 @@
 #   and is styled automatically.
 # @slot activator A custom (i.e. non-button) activator for the dropdown.
 #   Automatically adds the `role="button"` and `tabindex="0"` attributes.
+# @slot input A text input field that can be included in the dropdown menu, useful
+#   for search functionality or filtering dropdown options.
 # @slot item+ The items in the dropdown. Each item will be styled consistently
 #   with proper spacing and hover states.
 #
@@ -54,6 +56,11 @@
 #         = heroicon_tag "arrow-right-on-rectangle"
 #         Logout
 #
+# @loco_example With Calendar Input
+#   = daisy_dropdown do |dropdown|
+#     - dropdown.with_input(id: "some_date", placeholder: "Birth date...", css: "my-2 w-full")
+#     = daisy_cally(input: "#some_date")
+#
 class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
 
   include ViewComponent::SlotableDefault
@@ -62,6 +69,7 @@ class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
 
   renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
   renders_one :button, Daisy::Actions::ButtonComponent
+  renders_one :input, Daisy::DataInput::TextInputComponent
   renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li, css: "menu-item")
 
   #

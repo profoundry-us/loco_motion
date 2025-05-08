@@ -15,6 +15,9 @@
     - # Iterate over all of the framework examples
     - last_framework, last_section = nil
     - LocoMotion::COMPONENTS.each do |name, config|
+      - # Skip if we have no examples
+      - next if config[:example].blank?
+
       - comp_split = name.split('::')
       - framework = comp_split.first
       - section = config[:group]

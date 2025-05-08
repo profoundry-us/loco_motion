@@ -1,0 +1,57 @@
+= doc_title(title: "Calendars", comp: @comp) do |title|
+  :markdown
+    LocoMotion offers support for the [Cally](https://wicky.nillia.ms/cally/)
+    calendar web component styled by DaisyUI.
+
+  = doc_note(modifier: :warning) do
+    :markdown
+      You must include the Cally script tag or
+      <a target="_blank" href="https://wicky.nillia.ms/cally/#installation">node module</a>
+      in your application for this component to render and function properly.
+
+
+= doc_example(title: "Calendar", example_css: "flex-col", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Calendars can be used to select a single date. Use the `change` option to
+      pass a CSS selector of a `<div>` or other element to update.
+
+  = daisy_cally(change: "#cally")
+
+  #cally.text-center.italic
+    Select a date...
+
+
+= doc_example(title: "Calendar with Input", example_css: "flex-col", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      You can utilize the `input` option to change a text input when a date is
+      selected.
+
+  = daisy_input(id: "cally_input", placeholder: "Select a date...")
+  = daisy_cally(input: "#cally_input")
+
+
+= doc_example(title: "Calendar with Dropdown", example_css: "flex-col", tab_content_css: "overflow-visible!", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Display the Cally calendar in a standard dropdown.
+
+  = daisy_dropdown do |dropdown|
+    - dropdown.with_input(id: "cally_popover", placeholder: "Select a date...") do |input|
+      - input.with_start do
+        = hero_icon("calendar")
+
+    = daisy_cally(input: "#cally_popover", css: "bg-base-100 border border-base-300 shadow-lg rounded-lg dropdown-content")
+
+
+= doc_example(title: "Calendar Range", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Calendars can also allow selection of a range of dates.
+
+  = daisy_card(css: "card-border bg-base-100 shadow-lg") do
+    = daisy_cally(modifier: :range, months: 2, months_css: "grid md:grid-cols-2 gap-8", change: "#cally_range")
+
+    #cally_range.text-center.italic
+      Select a date range...
