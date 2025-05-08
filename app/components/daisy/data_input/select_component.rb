@@ -89,7 +89,7 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
 
   define_part :placeholder
 
-  attr_reader :name, :id, :value, :include_blank, :placeholder_text, :disabled, :required, :options_css, :options_html
+  attr_reader :name, :id, :value, :include_blank, :disabled, :required, :options_css, :options_html
 
   #
   # Initialize a new select component.
@@ -106,9 +106,6 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   # @option kws include_blank [Boolean] Whether to include a blank option at the
   # top of the list.
   #
-  # @option kws placeholder [String] Optional placeholder text to display when no
-  #   option is selected. Appears as a disabled option at the top of the list.
-  #
   # @option kws disabled [Boolean] Whether the select input is disabled. Defaults to
   #   false.
   #
@@ -122,6 +119,10 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   #
   # @option kws options_html [Hash] HTML attributes to apply to each option.
   #
+  # @option kws option_label [Symbol] The key to use for the option label.
+  #
+  # @option kws option_value [Symbol] The key to use for the option value.
+  #
   def initialize(**kws)
     super(**kws)
 
@@ -129,12 +130,13 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     @id = config_option(:id)
     @value = config_option(:value)
     @include_blank = config_option(:include_blank, false)
-    @placeholder_text = config_option(:placeholder)
     @disabled = config_option(:disabled, false)
     @required = config_option(:required, false)
     @options_list = config_option(:options)
     @options_css = config_option(:options_css, "")
     @options_html = config_option(:options_html, {})
+    @option_label = config_option(:option_label, :label)
+    @option_value = config_option(:option_value, :value)
   end
 
   #
@@ -196,8 +198,8 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     return [] unless @options_list
 
     options_list.map do |option|
-      value = option.is_a?(Hash) ? option[:value] : option
-      label = option.is_a?(Hash) ? option[:label] : option.to_s
+      value = extract_option_value(option)
+      label = extract_option_label(option, value)
 
       Daisy::DataInput::SelectComponent::SelectOptionComponent.new(
         value: value,
@@ -206,6 +208,40 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
         css: @options_css,
         html: @options_html
       )
+    end
+  end
+
+  private
+
+  # Extracts the value from an option using the configured @option_value key or method.
+  #
+  # @param option [Object] The option to extract the value from
+  # @return [Object] The extracted value
+  #
+  def extract_option_value(option)
+    if option.is_a?(Hash)
+      option[@option_value]
+    elsif option.respond_to?(@option_value)
+      option.public_send(@option_value)
+    else
+      option
+    end
+  end
+
+  # Extracts the label from an option using the configured @option_label key or method.
+  # Falls back to the value if no label can be extracted.
+  #
+  # @param option [Object] The option to extract the label from
+  # @param value [Object] The extracted value to use as fallback
+  # @return [String] The extracted label or string representation of the value
+  #
+  def extract_option_label(option, value)
+    if option.is_a?(Hash)
+      option[@option_label] || value.to_s
+    elsif option.respond_to?(@option_label)
+      option.public_send(@option_label)
+    else
+      value.to_s
     end
   end
 
@@ -231,12 +267,10 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     # Add options from the block or default options
     if options?
       options.each do |option|
-        option.set_loco_parent(component_ref)
         result += option.call
       end
     elsif default_options.present?
       default_options.each do |option|
-        option.set_loco_parent(component_ref)
         result += render(option)
       end
     end
@@ -255,9 +289,9 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
       result = ""
 
       # Add placeholder if provided
-      if @placeholder_text
+      if @placeholder
         result += part(:placeholder) do
-          @placeholder_text
+          @placeholder
         end
       end
 

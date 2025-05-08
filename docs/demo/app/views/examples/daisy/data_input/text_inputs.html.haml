@@ -69,6 +69,9 @@
 
     = daisy_label(for: "date", title: "Date", css: "mt-4")
     = daisy_text_input(name: "date", id: "date", type: "date")
+    .text-sm.text-right
+      %span{ class: "text-base-content/50" } See also:
+      = component_link("Cally Input", "Daisy::DataInput::CallyInputComponent")
 
     = daisy_label(for: "time", title: "Time", css: "mt-4")
     = daisy_text_input(name: "time", id: "time", type: "time")

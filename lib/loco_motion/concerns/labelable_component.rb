@@ -40,6 +40,9 @@ module LocoMotion
         renders_one :start
         renders_one :end
         renders_one :floating
+
+        # NOTE: We DO NOT define attr_reader properties here because it can
+        # cause confusion / problems with the parts and slots.
       end
 
       #
@@ -58,15 +61,28 @@ module LocoMotion
       # @option instance_kws [String, nil] :floating Text to display in the
       #   floating label position
       #
+      # @option instance_kws [String, nil] :placeholder The input's placeholder text.
+      #   If not provided and `floating_placeholder` is set, it will use that value.
+      #
+      # @option instance_kws [String, nil] :floating_placeholder Text to use for both
+      #   the floating label and the input placeholder. This is a convenience option
+      #   that sets both the `floating` and `placeholder` options to the same value.
+      #   If both `floating_placeholder` and `floating` are provided, `floating`
+      #   takes precedence for the floating label, while `floating_placeholder`
+      #   still sets the input's placeholder attribute.
+      #
       # @param instance_block [Proc] Block passed to the component for rendering
       #   custom content
       #
       def initialize(*instance_args, **instance_kws, &instance_block)
         super(*instance_args, **instance_kws, &instance_block)
 
+        @floating_placeholder = config_option(:floating_placeholder)
+
         @start = config_option(:start)
         @end = config_option(:end)
-        @floating = config_option(:floating)
+        @floating = config_option(:floating, @floating_placeholder)
+        @placeholder = config_option(:placeholder, @floating_placeholder)
       end
 
       #
@@ -101,7 +117,7 @@ module LocoMotion
       # @return [Boolean] true if start label is present, false otherwise
       #
       def has_start_label?
-        start? || config_option(:start).present?
+        start? || @start || config_option(:start).present?
       end
 
       #
@@ -110,7 +126,7 @@ module LocoMotion
       # @return [Boolean] true if end label is present, false otherwise
       #
       def has_end_label?
-        end? || config_option(:end).present?
+        end? || @end || config_option(:end).present?
       end
 
       #
@@ -119,7 +135,7 @@ module LocoMotion
       # @return [Boolean] true if floating label is present, false otherwise
       #
       def has_floating_label?
-        floating? || config_option(:floating).present?
+        floating? || @floating || config_option(:floating).present?
       end
     end
   end

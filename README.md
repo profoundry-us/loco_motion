@@ -990,6 +990,8 @@ the GitHub Discussions feature and let us know!
 - [ ] Add title and description content_for blocks to all examples for SEO purposes
 - [ ] Update to Tailwind 4 and DaisyUI 5
 - [ ] Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
+- [x] See if we can remove all of the `set_loco_parent` calls in favor of using
+      the `lib/loco_motion/patches/view_component/slot_loco_parent_patch.rb`
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/
