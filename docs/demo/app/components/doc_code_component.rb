@@ -25,7 +25,7 @@ class DocCodeComponent < ApplicationComponent
     part(:component) do
       part(:pre) do
         part(:code) do
-          content
+          content.strip
         end
       end
     end

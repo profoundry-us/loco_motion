@@ -53,8 +53,14 @@ module Daisy
 
         # If we don't have any modifiers, assume we want a single month for a date select
         @month_count = config_option(:months, modifiers.blank? ? 1 : nil)
-        @input = config_option(:input)
         @change = config_option(:change)
+        @update = config_option(:update)
+
+        @id = config_option(:id)
+        @value = config_option(:value)
+        @min = config_option(:min)
+        @max = config_option(:max)
+        @today = config_option(:today)
       end
 
       def before_render
@@ -69,12 +75,20 @@ module Daisy
         add_css(:component, "cally")
         add_html(:component, { months: @month_count }) if @month_count
 
-        if @input
-          add_html(:component, { onchange: "document.querySelector('#{@input}').value = this.value" })
-        end
+        add_html(:component, {
+          id: @id,
+          value: @value,
+          min: @min,
+          max: @max,
+          today: @today
+        })
 
         if @change
-          add_html(:component, { onchange: "document.querySelector('#{@change}').innerHTML = this.value" })
+          add_html(:component, { onchange: "document.querySelector('#{@change}').value = this.value" })
+        end
+
+        if @update
+          add_html(:component, { onchange: "document.querySelector('#{@update}').innerHTML = this.value" })
         end
       end
 
