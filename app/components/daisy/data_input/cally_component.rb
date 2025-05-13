@@ -84,11 +84,11 @@ module Daisy
         })
 
         if @change
-          add_html(:component, { onchange: "document.querySelector('#{@change}').value = this.value" })
+          add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" })
         end
 
         if @update
-          add_html(:component, { onchange: "document.querySelector('#{@update}').innerHTML = this.value" })
+          add_html(:component, { onchange: "document.getElementById('#{@update}').innerHTML = this.value" })
         end
       end
 

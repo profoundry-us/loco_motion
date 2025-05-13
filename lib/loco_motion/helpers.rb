@@ -33,6 +33,7 @@ module LocoMotion
 
     # Data Input
     "Daisy::DataInput::CallyComponent" => { names: "cally", group: "Data Input", title: "Calendars", example: "calendars" },
+    "Daisy::DataInput::CallyInputComponent" => { names: "cally_input", group: "Data Input", title: "Cally Inputs", example: "cally_inputs" },
     "Daisy::DataInput::CheckboxComponent" => { names: "checkbox", group: "Data Input", title: "Checkboxes", example: "checkboxes" },
     "Daisy::DataInput::FileInputComponent" => { names: "file_input", group: "Data Input", title: "File Inputs", example: "file_inputs" },
     "Daisy::DataInput::FieldsetComponent" => { names: "fieldset", group: "Data Input", title: "Fieldsets", example: "fieldsets" },

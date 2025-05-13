@@ -140,6 +140,6 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
       readonly: @readonly
     })
 
-    add_html(:component, { onchange: "document.querySelector('#{@change}').value = this.value" }) if @change
+    add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
   end
 end
