@@ -4,10 +4,10 @@ module LocoMotion
   module Patches
     module ViewComponent
       module SlotPatch
-        # Override to_s method to save the parent component
-        def to_s
+        # Set the loco parent any time the instance changes
+        def __vc_component_instance=(instance)
           # Set the parent
-          @__vc_component_instance.set_loco_parent(@parent) unless @__vc_component_instance.loco_parent.present?
+          instance.set_loco_parent(@parent) unless instance.loco_parent.present?
 
           # Call the original implementation
           super
