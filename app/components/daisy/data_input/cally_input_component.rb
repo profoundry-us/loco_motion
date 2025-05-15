@@ -1,12 +1,52 @@
 module Daisy
   module DataInput
     class CallyInputComponent < LocoMotion::BaseComponent
+      class CallyTextInputComponent < Daisy::DataInput::TextInputComponent
+        def before_render
+          super
+
+          add_html(:component, {
+            popovertarget: loco_parent&.popover_id,
+            id: loco_parent.input_id,
+            style: "anchor-name:--#{loco_parent.anchor}",
+            value: loco_parent.value,
+            data: {
+              "cally-input-target": "input"
+            }
+          })
+        end
+
+        def call
+          render_parent_to_string
+        end
+      end
+
+      class CallyCalendarComponent < Daisy::DataInput::CallyComponent
+        def before_render
+          super
+
+          add_html(:component, {
+            id: loco_parent.calendar_id,
+            value: loco_parent.value,
+            data: {
+              "cally-input-target": "calendar"
+            }
+          })
+        end
+
+        def call
+          render_parent_to_string
+        end
+      end
+
       include ViewComponent::SlotableDefault
 
       define_parts :popover
 
-      renders_one :calendar, Daisy::DataInput::CallyComponent
-      renders_one :input, Daisy::DataInput::TextInputComponent
+      renders_one :calendar, CallyCalendarComponent
+      renders_one :input, CallyTextInputComponent
+
+      attr_reader :id, :value, :calendar_id, :input_id, :popover_id, :anchor
 
       def initialize(**kws)
         super(**kws)
@@ -21,58 +61,29 @@ module Daisy
       end
 
       def before_render
+        super
+
         setup_component
-        super # Call super after setup
       end
 
-      def default_calendar(options = {})
-        default_options = {
-          id: @calendar_id,
-          change: @input_id,
-          value: @value
-        }
-
-        Daisy::DataInput::CallyComponent.new(**default_options.deep_merge(options))
+      def default_calendar
+         CallyCalendarComponent.new
       end
 
-      def js_open_popover
-        "document.getElementById('#{@popover_id}').togglePopover()"
-      end
-
-      def js_set_calendar_date
-        [
-          "(function() {",
-          "  let input = document.getElementById('#{@input_id}');",
-          "  let calendar = document.getElementById('#{@calendar_id}');",
-          "  if (input.value.length !== 10) {return}",
-          "  calendar.value = input.value;",
-          "  calendar.setAttribute('focused-date', input.value);",
-          "})()"
-        ].join("")
-      end
-
-      def default_input(options = {})
-        default_options = {
-          html: {
-            popovertarget: @popover_id,
-            id: @input_id,
-            onclick: js_open_popover.html_safe,
-            onchange: js_set_calendar_date.html_safe,
-            onkeyup: js_set_calendar_date.html_safe,
-            style: "anchor-name:--#{@anchor}",
-            value: @value
-          }
-        }
-
-        Daisy::DataInput::TextInputComponent.new(**default_options.deep_merge(options))
+      def default_input
+        CallyTextInputComponent.new(css: "default-comp")
       end
 
       private
 
       def setup_component
+        add_stimulus_controller(:component, "cally-input")
+
         add_html(:component, { id: @id })
 
         add_html(:popover, { id: @popover_id, popover: "auto", style: "position-anchor:--#{@anchor}" })
+        add_html(:popover, { data: { "cally-input-target": "popover" } })
+
 
         # Note that we NEED the dropdown class so that the anchor positioning works properly
         add_css(:popover, "where:dropdown where:bg-base-100 where:rounded where:shadow-lg")

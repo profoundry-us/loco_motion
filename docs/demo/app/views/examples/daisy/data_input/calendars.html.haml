@@ -25,15 +25,15 @@
       Calendars can be used to select a single date. Use the `update` option to
       pass a CSS selector of a `<div>` or other element to update.
 
-      Note that this uses the `onchange` event along with `querySelector` to
+      Note that this uses the `onchange` event along with `getElementById` to
       provide a very basic change system. You may want to use Stimulus
       controllers to handle more complex scenarios.
 
     = doc_code(language: "js") do
       :plain
-        { onchange: "document.querySelector('\#{@update}').innerHTML = this.value" }
+        { onchange: "document.getElementById('\#{@update}').innerHTML = this.value" }
 
-  = daisy_cally(update: "#cally")
+  = daisy_cally(update: "cally")
 
   #cally.text-center.italic
     Select a date...
@@ -45,39 +45,21 @@
       You can utilize the `change` option to change the value of an HTML input
       when a date is selected.
 
-      Similar to the `update` option, this uses `onchange` and `querySelector`,
+      Similar to the `update` option, this uses `onchange` and `getElementById`,
       but is specialized for updating an input element's `value`.
 
+    = doc_code(language: "js") do
+      :plain
+        { onchange: "document.getElementById('\#{@update}').value = this.value" }
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      %p
+        To attach a Cally calendar to an input in a popover, use the
+        = daisy_button(css: "btn-xs btn-neutral", title: "Cally Input", right_icon: "cube", right_icon_css: "size-4", href: "/examples/Daisy::DataInput::CallyInputComponent", html: { data: { turbo: "false" }})
+        component.
+
   = daisy_input(id: "cally_input", placeholder: "Select a date...")
-  = daisy_cally(change: "#cally_input")
-
-
-= doc_example(title: "Calendar with Dropdown", example_css: "flex-col", tab_content_css: "overflow-visible!", allow_reset: true) do |doc|
-  - doc.with_description do
-    :markdown
-      In general, we recommend using standard HTML `type='date'` or
-      `type='time'` inputs as they provide a better mobile experience.
-
-      However, if you need more control over the appearance or functionality,
-      you can use the `cally` component with an input and a dropdown.
-
-    = doc_note(css: "mb-8", modifier: :tip) do
-      :markdown
-        In the future, we should be able to use the new
-        <a target="_blank" href="https://daisyui.com/components/dropdown/#method-2-popover-api-and-anchor-positioning">Popover</a>
-        functionality that HTML & CSS provide, but we've been having trouble
-        getting it to reliably work with the calendar and an input.
-
-  - a_week_away = 7.days.from_now.to_date.to_fs(:iso8601)
-  .w-80.space-y-2
-    = daisy_input(css: "w-full", placeholder: "Name...")
-    = daisy_dropdown(css: "w-full dropdown-end") do |dropdown|
-      - dropdown.with_input(label_wrapper_css: "w-full", id: "cally_dd_input", change: "#cally_dd_cal", value: a_week_away, placeholder: "Select a date...") do |input|
-        - input.with_start do
-          = hero_icon("calendar")
-
-      = daisy_cally(id: "cally_dd_cal", change: "#cally_dd_input", value: a_week_away,
-        css: "bg-base-100 border border-base-300 shadow-lg rounded-lg dropdown-content")
+  = daisy_cally(change: "cally_input")
 
 
 = doc_example(title: "Calendar Range", allow_reset: true) do |doc|
@@ -86,7 +68,7 @@
       Calendars can also allow selection of a range of dates.
 
   = daisy_card(css: "card-border bg-base-100 shadow-lg") do
-    = daisy_cally(modifier: :range, months: 2, months_css: "grid md:grid-cols-2 gap-8", change: "#cally_range")
+    = daisy_cally(modifier: :range, months: 2, months_css: "grid md:grid-cols-2 gap-8", update: "cally_range")
 
     #cally_range.text-center.italic
       Select a date range...

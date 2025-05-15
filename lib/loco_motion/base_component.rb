@@ -411,6 +411,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
       "@valid_sizes=#{valid_sizes.inspect}",
       "@config=#{@config.inspect}",
       "@component_parts=#{parts.inspect}",
+      "@loco_parent=#{loco_parent.inspect}",
     ].join(" ") + ">"
   end
 end
