@@ -30,7 +30,7 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
     #
     def before_render
       set_tag_name(:component, :input)
-      add_html(:component, { name: loco_parent&.name, type: "radio" })
+      add_html(:component, { name: loco_parent.name, type: "radio" })
     end
 
     #
@@ -120,6 +120,7 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
   def star_items
     (1..@max).map do |rating|
       input_attrs = {
+        loco_parent: component_ref,
         css: ["where:mask where:mask-star", @inputs_css].compact.join(" "),
         html: {
           name: @name,

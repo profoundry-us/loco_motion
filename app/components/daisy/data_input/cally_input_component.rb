@@ -6,7 +6,7 @@ module Daisy
           super
 
           add_html(:component, {
-            popovertarget: loco_parent&.popover_id,
+            popovertarget: loco_parent.popover_id,
             id: loco_parent.input_id,
             style: "anchor-name:--#{loco_parent.anchor}",
             value: loco_parent.value,
