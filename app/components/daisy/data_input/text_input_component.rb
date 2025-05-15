@@ -98,6 +98,7 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
     @disabled = config_option(:disabled, false)
     @required = config_option(:required, false)
     @readonly = config_option(:readonly, false)
+    @change = config_option(:change)
   end
 
   #
@@ -138,5 +139,7 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
       required: @required,
       readonly: @readonly
     })
+
+    add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
   end
 end

@@ -4,3 +4,6 @@ import "./controllers"
 
 // Import Algolia search functionality
 import "./algolia_search"
+
+// Import third-party libraries we use
+import "cally"

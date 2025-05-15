@@ -58,8 +58,8 @@ module Daisy
         #
         def before_render
           # Make sure to pull the default name from the parent
-          @name = config_option(:name, loco_parent&.name)
-          @id = config_option(:id, "#{loco_parent&.id}_#{@index}")
+          @name = config_option(:name, loco_parent.name)
+          @id = config_option(:id, "#{loco_parent.id}_#{@index}")
 
           # Call the parent setup first
           super
@@ -94,8 +94,8 @@ module Daisy
         #
         def before_render
           # Make sure to pull the default name from the parent
-          @name = config_option(:name, loco_parent&.name)
-          @id = config_option(:id, "#{loco_parent&.id}_reset")
+          @name = config_option(:name, loco_parent.name)
+          @id = config_option(:id, "#{loco_parent.id}_reset")
 
           # Call parent setup first
           super
@@ -143,15 +143,10 @@ module Daisy
         super
 
         setup_component
-        setup_reset_button if reset_button?
       end
 
       def default_reset_button
-        comp = FilterResetComponent.new(name: @name)
-
-        comp.set_loco_parent(component_ref)
-
-        comp
+        FilterResetComponent.new(name: @name)
       end
 
       #
@@ -171,6 +166,7 @@ module Daisy
           checked = @value.present? && @value.to_s == value.to_s
 
           Daisy::DataInput::FilterComponent::FilterOptionComponent.new(
+            loco_parent: component_ref,
             name: @name,
             label: label,
             value: value,
@@ -191,12 +187,10 @@ module Daisy
 
         if options?
           options.each do |option|
-            option.set_loco_parent(component_ref)
             result += render(option)
           end
         elsif standard_options.present?
           standard_options.each do |option|
-            option.set_loco_parent(component_ref)
             result += render(option)
           end
         end
@@ -212,13 +206,6 @@ module Daisy
       def setup_component
         # Add base component class
         add_css(:component, "filter")
-      end
-
-      #
-      # Sets up the reset button by ensuring it has access to the parent component.
-      #
-      def setup_reset_button
-        reset_button.set_loco_parent(component_ref)
       end
 
       #

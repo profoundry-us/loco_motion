@@ -58,7 +58,8 @@ Read on for specific changes across the entire project! :tada:
 
 - **Breaking:** Upgrade from TailwindCSS 3.x to 4.x and DaisyUI 4.x to 5.x ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
-- **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
+- **Breaking:** All inputs now have a border by default, use `input-ghost` (or
+  `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
 - **Breaking:** Migrated BottomNav component to Dock component to match DaisyUI 5 changes ([Fixes #40](https://github.com/profoundry-us/loco_motion/issues/40)):
   - `BottomNavComponent` → `DockComponent`
   - Helper method `daisy_bottom_nav` → `daisy_dock`
@@ -69,6 +70,8 @@ Read on for specific changes across the entire project! :tada:
 - refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
 - refactor: Move component concerns to lib directory for better organization
 - test: Add comprehensive tests for IconableComponent, LinkableComponent, and TippableComponent
+- refactor: The Loco parent is now set automatically in slots (`slot_loco_parent_patch.rb`) and you can
+  pass the `loco_parent` option when creating a new component to set it manually when needed
 
 #### Component Changes
 

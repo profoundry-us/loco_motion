@@ -231,12 +231,10 @@ class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
     # Add options from the block or default options
     if options?
       options.each do |option|
-        option.set_loco_parent(component_ref)
         result += option.call
       end
     elsif default_options.present?
       default_options.each do |option|
-        option.set_loco_parent(component_ref)
         result += render(option)
       end
     end

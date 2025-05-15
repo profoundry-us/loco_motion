@@ -139,9 +139,7 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
         options: ["Option 1", "Option 2"]
       )
 
-      # Render and debug the output
-      result = render_inline(component).to_html
-      puts "\nRendered HTML:\n#{result}\n"
+      render_inline(component)
 
       # Check that each option has automatically generated IDs with index
       expect(page).to have_css("input[id='parent-filter_0']")
