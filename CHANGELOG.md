@@ -51,6 +51,10 @@ Read on for specific changes across the entire project! :tada:
 - feat(Toggle): Enable start/end/floating label functionality
 - feat(Checkbox): Enable start/end label functionality
 - feat(Filter): Add Filter component for creating selection interfaces with toggle functionality ([Fixes #33](https://github.com/profoundry-us/loco_motion/issues/33))
+- feat(Cally): Add new Daisy Cally and CallyInput components with date picker functionality
+- feat(Select): Add support for array and hash options in select component
+- feat(Select): Add floating label support for select inputs
+- feat(Labelable): Enhance labelable component behavior for better form handling
 
 ### Changed / Fixed
 
