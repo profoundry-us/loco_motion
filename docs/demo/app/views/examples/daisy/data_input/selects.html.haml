@@ -31,12 +31,14 @@
 
     = daisy_label(css: "mt-2", for: "right_label_select", title: "Country")
 
-    = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", end: "Country") do |select|
-      - select.with_option(value: "us", label: "United States")
-      - select.with_option(value: "ca", label: "Canada")
-      - select.with_option(value: "mx", label: "Mexico")
+    = daisy_tip("DaisyUI end-labeled selects don't currently allow you to select the dropdown area.", css: "tooltip-warning") do
+      = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", end: "Country") do |select|
+        - select.with_option(value: "us", label: "United States")
+        - select.with_option(value: "ca", label: "Canada")
+        - select.with_option(value: "mx", label: "Mexico")
 
-    = daisy_select(label_wrapper_css: "mt-8", name: "floating_label_select", id: "floating_label_select", include_blank: true, floating: "Country") do |select|
+    = daisy_select(label_wrapper_css: "mt-8", name: "floating_label_select", id: "floating_label_select", include_blank: true,
+                   floating: "Country", placeholder: "Select a country...") do |select|
       - select.with_option(value: "us", label: "United States")
       - select.with_option(value: "ca", label: "Canada")
       - select.with_option(value: "mx", label: "Mexico")
@@ -48,13 +50,24 @@
       For simpler cases, you can pass a list of strings as options. The value and
       label will both be set to the string value.
 
-  .my-2.space-y-2
-    = daisy_label(for: "simple_select", title: "Choose a Size")
-    = daisy_select(name: "simple_select", id: "simple_select", placeholder: "Select a size") do |select|
-      - select.with_option(value: "Small", label: "Small")
-      - select.with_option(value: "Medium", label: "Medium")
-      - select.with_option(value: "Large", label: "Large")
-      - select.with_option(value: "X-Large", label: "X-Large")
+      Or you can pass an array of Hashes. You can set the label and value keys
+      through the `option_label` and `option_value` parameters.
+
+  .flex.flex-col.gap-8
+    - tshirt_sizes = ["Small", "Medium", "Large", "X-Large"]
+    = daisy_select(css: "w-60", name: "tshirt_size", id: "tshirt_size",
+      floating: "Select a t-shirt size", options: tshirt_sizes)
+
+    :ruby
+      table_sizes = [
+        { code: "sm", display: "Small (fits 1-2 people)" },
+        { code: "md", display: "Medium (fits 2-4 people)" },
+        { code: "lg", display: "Large (fits 4-6 people)" },
+        { code: "xl", display: "X-Large (fits 6+ people)" }
+      ]
+
+    = daisy_select(name: "table_size", id: "table_size", floating: "Select a table size",
+      options: table_sizes, option_label: :display, option_value: :code)
 
 
 = doc_example(title: "Select Sizes") do |doc|

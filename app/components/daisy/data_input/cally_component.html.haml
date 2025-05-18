@@ -1,0 +1,14 @@
+= part(:component) do
+  = previous_icon if previous_icon?
+  = next_icon if next_icon?
+
+  - if @month_count
+    = part(:months) do
+      - @month_count.times do |index|
+        = render(MonthComponent.new(**month_options(index)))
+
+  - elsif months?
+    = months
+
+  - else
+    = content

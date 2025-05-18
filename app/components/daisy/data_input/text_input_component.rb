@@ -60,7 +60,7 @@
 class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
 
-  attr_reader :name, :id, :value, :placeholder, :type, :disabled, :required, :readonly
+  attr_reader :name, :id, :value, :type, :disabled, :required, :readonly
 
   #
   # Instantiate a new TextInput component.
@@ -72,8 +72,6 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   # @option kws id [String] The ID attribute for the text input.
   #
   # @option kws value [String] The initial value of the text input.
-  #
-  # @option kws placeholder [String] Placeholder text for the text input.
   #
   # @option kws type [String] The type of input (text, password, email, etc.).
   #   Defaults to "text".
@@ -93,11 +91,11 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
     @name = config_option(:name)
     @id = config_option(:id)
     @value = config_option(:value, nil)
-    @placeholder = config_option(:placeholder, nil)
     @type = config_option(:type, "text")
     @disabled = config_option(:disabled, false)
     @required = config_option(:required, false)
     @readonly = config_option(:readonly, false)
+    @change = config_option(:change)
   end
 
   #
@@ -138,5 +136,7 @@ class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
       required: @required,
       readonly: @readonly
     })
+
+    add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
   end
 end

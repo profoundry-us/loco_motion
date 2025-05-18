@@ -307,7 +307,7 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
         expect(builder).to receive(:object).and_return(nil)
         expect(template).to receive(:render) do |component|
           expect(component.type).to eq("email")
-          expect(component.placeholder).to eq("Enter your email")
+          expect(component.config_option(:placeholder)).to eq("Enter your email")
         end
 
         builder.daisy_text_input("email", type: "email", placeholder: "Enter your email")

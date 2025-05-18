@@ -1,0 +1,74 @@
+= doc_title(title: "Calendars", comp: @comp) do |title|
+  :markdown
+    LocoMotion offers support for the [Cally](https://wicky.nillia.ms/cally/)
+    calendar web component styled by DaisyUI.
+
+  = doc_note(modifier: :warning) do
+    :markdown
+      You must include the Cally script tag or
+      <a target="_blank" href="https://wicky.nillia.ms/cally/#installation">node module</a>
+      in your application for this component to render and function properly.
+
+    = doc_code(language: "sh") do
+      :plain
+        npm install cally # or yarn add cally
+
+    = doc_code(language: "js") do
+      :plain
+        # application.js
+        import "cally";
+
+
+= doc_example(title: "Calendar", example_css: "flex-col", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Calendars can be used to select a single date. Use the `update` option to
+      pass a CSS selector of a `<div>` or other element to update.
+
+      Note that this uses the `onchange` event along with `getElementById` to
+      provide a very basic change system. You may want to use Stimulus
+      controllers to handle more complex scenarios.
+
+    = doc_code(language: "js") do
+      :plain
+        { onchange: "document.getElementById('\#{@update}').innerHTML = this.value" }
+
+  = daisy_cally(update: "cally")
+
+  #cally.text-center.italic
+    Select a date...
+
+
+= doc_example(title: "Calendar with Input", example_css: "flex-col", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      You can utilize the `change` option to change the value of an HTML input
+      when a date is selected.
+
+      Similar to the `update` option, this uses `onchange` and `getElementById`,
+      but is specialized for updating an input element's `value`.
+
+    = doc_code(language: "js") do
+      :plain
+        { onchange: "document.getElementById('\#{@update}').value = this.value" }
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      %p
+        To attach a Cally calendar to an input in a popover, use the
+        = component_link("Cally Input", "Daisy::DataInput::CallyInputComponent", size: "btn-neutral")
+        component.
+
+  = daisy_input(id: "cally_input", placeholder: "Select a date...")
+  = daisy_cally(change: "cally_input")
+
+
+= doc_example(title: "Calendar Range", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Calendars can also allow selection of a range of dates.
+
+  = daisy_card(css: "card-border bg-base-100 shadow-lg") do
+    = daisy_cally(modifier: :range, months: 2, months_css: "grid md:grid-cols-2 gap-8", update: "cally_range")
+
+    #cally_range.text-center.italic
+      Select a date range...

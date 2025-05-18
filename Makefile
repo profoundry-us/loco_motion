@@ -100,6 +100,7 @@ demo-console:
 .PHONY: demo-restart
 demo-restart:
 	touch docs/demo/tmp/restart.txt
+	terminal-notifier -message "Loco Demo App restarting..." || true
 
 # Open a shell to your demo container
 .PHONY: demo-shell

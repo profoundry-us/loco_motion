@@ -6,9 +6,12 @@ import { Application } from "@hotwired/stimulus"
 const application = Application.start()
 
 // Import LocoMotion controllers
-import { CountdownController, ThemeController } from "@profoundry-us/loco_motion"
+import { CountdownController, ThemeController, CallyInputController } from "@profoundry-us/loco_motion"
 application.register("countdown", CountdownController)
 application.register("theme", ThemeController)
+application.register("cally-input", CallyInputController)
+
+// Import demo app controllers
 
 import ActiveTabController from "./active_tab_controller"
 application.register("active-tab", ActiveTabController)

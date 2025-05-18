@@ -1,3 +1,7 @@
+---
+trigger: manual
+---
+
 # Creating a Pull Request
 
 When asked to create a Pull Request (PR), follow these procedures:
@@ -11,15 +15,14 @@ When asked to create a Pull Request (PR), follow these procedures:
 3.  MUST run `git log --oneline main..HEAD` to see a comprehensive list of all
     changes since branching from `main`.
 
-4.  MUST include relevant lines based on the commit history in the PR
-    description.
+4.  MUST format the PR description using Markdown.
+  - include relevant lines based on the commit history in the PR description
+  - Use the format `Fixes #123` for the Related Issue
+  - Find the issue number contained in the current branch
 
-5.  MUST format the PR description using Markdown.
+5.  MUST present the PR description as a code snippet to the user for review and potential modification before proceeding.
 
-6.  MUST present the PR description as a code snippet to the user for review and
-potential modification before proceeding.
-
-7.  MUST update the `CHANGELOG.md`:
+6.  MUST update the `CHANGELOG.md`:
     a. Generate a concise summary of changes based on the commit messages in
        the current branch (similar to the PR description in Rule 6).
     b. Check if an `[Unreleased]` section exists at the top of the
@@ -28,9 +31,9 @@ potential modification before proceeding.
     d. If it does not exist, create the `[Unreleased]` section header at the
        top and add the summary list items beneath it.
 
-8.  MUST run `git add .` to add the `CHANGELOG.md` changes.
+7.  MUST run `git add .` to add the `CHANGELOG.md` changes.
 
-9.  MUST commit the `CHANGELOG.md` changes with the message
+8.  MUST commit the `CHANGELOG.md` changes with the message
     `'docs: Update CHANGELOG'`, using single quotes.
 
-10. MUST push the `CHANGELOG.md` commit to the remote repository.
+9. MUST push the `CHANGELOG.md` commit to the remote repository.

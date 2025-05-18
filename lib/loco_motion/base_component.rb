@@ -41,6 +41,10 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
     # Allow certain components to skip styling if they are being inherited
     @skip_styling = config_option(:skip_styling, false)
+
+    # Allow manual passing of the loco parent on init if it's not auto-set
+    # via slots
+    @loco_parent = kws[:loco_parent] if kws.key?(:loco_parent)
   end
 
   #
@@ -411,6 +415,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
       "@valid_sizes=#{valid_sizes.inspect}",
       "@config=#{@config.inspect}",
       "@component_parts=#{parts.inspect}",
+      "@loco_parent=#{loco_parent.inspect}",
     ].join(" ") + ">"
   end
 end

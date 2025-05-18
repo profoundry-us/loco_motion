@@ -106,6 +106,11 @@ module Daisy
           render_daisy_component(Daisy::DataInput::TextAreaComponent, method, **options)
         end
 
+        # Add the daisy_cally_input method to FormBuilder
+        def daisy_cally_input(method, **options, &block)
+          render_daisy_component(Daisy::DataInput::CallyInputComponent, method, **options, &block)
+        end
+
         # Add the daisy_select method to FormBuilder
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
                            options_css: nil, options_html: {}, **args, &block)
@@ -156,7 +161,7 @@ module Daisy
 
         private
 
-        def render_daisy_component(component_class, method, **options)
+        def render_daisy_component(component_class, method, **options, &block)
           # Get the object name from the form builder
           object_name = @object_name.to_s
 
@@ -170,7 +175,7 @@ module Daisy
           options[:value] ||= object.try(method)
 
           # Render the component
-          @template.render component_class.new(**options)
+          @template.render(component_class.new(**options), &block)
         end
       end
     end
