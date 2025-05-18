@@ -49,6 +49,7 @@ export default class extends Controller {
     this.inputTarget.removeEventListener("keyup", this.boundUpdateCalendar)
     this.inputTarget.removeEventListener("keydown", this.boundHandleKeydown)
     this.inputTarget.removeEventListener("click", this.boundOpenCalendar)
+    this.popoverTarget.removeEventListener("toggle", this.boundHandleToggle)
   }
 
   /**
