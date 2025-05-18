@@ -6,8 +6,8 @@ module Daisy
     # It supports both single date and date range selection, with configurable display
     # options including the number of months to show and navigation controls.
     #
-    # @part component - The root calendar element that contains all other parts.
-    # @part months - The container element that holds the month components.
+    # @part component The root calendar element that contains all other parts.
+    # @part months The container element that holds the month components.
     #
     # @slot previous_icon [PreviousIcon] The icon used for navigating to the
     #   previous month. Defaults to a chevron-left icon.
@@ -23,7 +23,7 @@ module Daisy
     #   = daisy_cally
     #
     # @loco_example Calendar with range selection enabled
-    #   = daisy_cally(:range)
+    #   = daisy_cally(modifier: :range)
     #
     # @loco_example Calendar showing multiple months with custom value
     #   = daisy_cally(months: 2, value: Date.today)
@@ -93,15 +93,14 @@ module Daisy
       # configured for date range selection.  The component automatically
       # handles navigation between months and can display multiple months.
       #
-      # @param change [String, nil] ID of an input to update with the selected date
-      # @param update [String, nil] ID of an element to update with the selected date
-      # @param id [String, nil] The ID of the calendar element
-      # @param value [String, Date, nil] The currently selected date or range
-      # @param min [String, Date, nil] The minimum selectable date
-      # @param max [String, Date, nil] The maximum selectable date
-      # @param today [String, Date, nil] The date to consider as 'today'
-      # @param months [Integer, nil] Number of months to display (default: 1)
-      # @option options [Boolean] :range Whether to enable range selection (default: false)
+      # @param change [String] ID of an input to update with the selected date
+      # @param update [String] ID of an element to update with the selected date
+      # @param id [String] The ID of the calendar element
+      # @param value [String, Date] The currently selected date or range
+      # @param min [String, Date] The minimum selectable date
+      # @param max [String, Date] The maximum selectable date
+      # @param today [String, Date] The date to consider as 'today'
+      # @param months [Integer] Number of months to display (default: 1)
       def initialize(**kws)
         super
 
@@ -117,6 +116,11 @@ module Daisy
         @today = config_option(:today)
       end
 
+      # Configures the calendar component before rendering.
+      #
+      # Sets up the appropriate tag name based on whether range selection is
+      # enabled, adds CSS classes, and configures HTML attributes for the
+      # calendar component.
       def before_render
         super
 
