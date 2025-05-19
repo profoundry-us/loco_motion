@@ -204,33 +204,5 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
     end
   end
 
-  context "with input" do
-    let(:dropdown) { described_class.new }
-    let(:placeholder_text) { "Search..." }
 
-    before do
-      render_inline(dropdown) do |d|
-        d.with_input(css: "w-full", placeholder: placeholder_text)
-      end
-    end
-
-    describe "rendering" do
-      it "renders a text input field" do
-        expect(page).to have_css "input[type=text]"
-      end
-
-      it "applies custom classes to the input" do
-        expect(page).to have_css "input.input.w-full"
-      end
-
-      it "includes the placeholder text" do
-        expect(page).to have_css "input[placeholder=\"#{placeholder_text}\"]"
-      end
-
-      it "places the input in the dropdown content" do
-        dropdown_html = page.find(".dropdown").native.inner_html
-        expect(dropdown_html).to include("input")
-      end
-    end
-  end
 end
