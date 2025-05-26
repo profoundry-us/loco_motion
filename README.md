@@ -992,6 +992,8 @@ the GitHub Discussions feature and let us know!
 - [ ] Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
 - [x] See if we can remove all of the `set_loco_parent` calls in favor of using
       the `lib/loco_motion/patches/view_component/slot_loco_parent_patch.rb`
+- [ ] Make the tooltips documentation button a component and use it for the
+      Labelable concern docs too
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/
