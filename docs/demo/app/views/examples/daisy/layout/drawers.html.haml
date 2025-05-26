@@ -30,6 +30,14 @@
     :markdown
       The right drawer slides in from the right side of the screen.
 
+    = doc_note(modifier: :error, css: "mb-8", title: "Known Issue") do
+      :markdown
+        This example broke in the V5 transition and no longer works properly. We
+        are working to correct it.
+
+        See [Issue #53](https://github.com/profoundry-us/loco_motion/issues/53)
+        for more information.
+
   .relative.w-full.h-48
     = daisy_drawer(css: "drawer-end") do |drawer|
       - # The `ms-[-100rem] w-[stretch]` CSS is only used to fix the example and isn't normally needed
