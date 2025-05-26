@@ -31,7 +31,7 @@
 
     = daisy_label(css: "mt-2", for: "right_label_select", title: "Country")
 
-    = daisy_tip("DaisyUI end-labeled selects don't currently allow you to select the dropdown area.", css: "tooltip-warning") do
+    = daisy_tip("DaisyUI end-labeled selects don't currently allow you to select the label area.", css: "tooltip-warning") do
       = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", end: "Country") do |select|
         - select.with_option(value: "us", label: "United States")
         - select.with_option(value: "ca", label: "Canada")
