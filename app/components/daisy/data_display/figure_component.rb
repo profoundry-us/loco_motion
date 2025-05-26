@@ -40,10 +40,11 @@ class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
   def call
     part(:component) do
       if @src
-        part(:image)
-      else
-        content
+        concat(part(:image))
       end
+
+      # Always show the content
+      concat(content)
     end
   end
 end

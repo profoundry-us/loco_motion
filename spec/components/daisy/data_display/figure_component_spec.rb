@@ -49,4 +49,17 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
       expect(page).to have_selector("figure.custom-class")
     end
   end
+
+  context "with both src and content" do
+    let(:figure) { described_class.new(src: "example.jpg") }
+
+    before do
+      render_inline(figure) { "Figure caption" }
+    end
+
+    it "renders both the image and content" do
+      expect(page).to have_selector("img[src='example.jpg']")
+      expect(page).to have_selector("figure", text: "Figure caption")
+    end
+  end
 end
