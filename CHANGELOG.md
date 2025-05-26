@@ -100,6 +100,7 @@ Read on for specific changes across the entire project! :tada:
 - fix(Modal): Remove unnecessary `:dialog` part from component definition ([Fixes #46](https://github.com/profoundry-us/loco_motion/issues/46))
 - fix(Navbar): Improved implementation and styling
 - refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and improved code organization
+- fix(Fieldset): Fix issue with fieldset textarea rendering
 
 #### Demo / Docs Changes
 
@@ -150,6 +151,13 @@ Read on for specific changes across the entire project! :tada:
 - fix: Header Theme Switcher was using the wrong button size
 - feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples ([Fixes #36](https://github.com/profoundry-us/loco_motion/issues/36))
 - feat: Updated component documentation to use `@loco_example` tag for better organization
+- add(DocNote): Add new error modifier to doc_note component for improved documentation
+- fix: Fix issue with figures not showing captions
+- fix: Fix typo in select docs
+- fix: Add check in set_loco_parent_patch to ensure we catch nil references
+- fix: Use shorthand floating_placeholder for label examples
+- add: Add todos about better API doc buttons
+- fix: Fix bug in boxed countdown example
 
 ## [0.4.0] - 2025-03-07
 

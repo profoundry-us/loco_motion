@@ -5,9 +5,13 @@ When modifying the `CHANGELOG.md` file, follow these procedures regarding format
 1. MUST review the existing `CHANGELOG.md` content to ensure consistency with
    the established format.
 
-2. MUST ensure new entries are added as list items under the correct section
-   header (`[Unreleased]` or a specific version header like
+2. MUST ensure new entries are added as items to the bottom of the list under
+   the correct section header (`[Unreleased]` or a specific version header like
    `## [X.Y.Z] - YYYY-MM-DD`).
+    a. doc_note components and changes should always go under the "Demo / Docs
+       Changes" section
+    b. component changes should always go under the "Components Changes" section
+    c. general changes should always go under the "General Changes" section
 
 3. MUST maintain the link reference definitions at the bottom of the file when
    adding new version sections.
