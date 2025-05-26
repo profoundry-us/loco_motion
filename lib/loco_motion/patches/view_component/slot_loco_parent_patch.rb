@@ -22,6 +22,7 @@ module LocoMotion
 
         def set_loco_parent(parent = @parent)
           return if parent.nil?
+          return if @__vc_component_instance.nil?
           return if @__vc_component_instance.loco_parent.present?
 
           @__vc_component_instance.set_loco_parent(parent)
