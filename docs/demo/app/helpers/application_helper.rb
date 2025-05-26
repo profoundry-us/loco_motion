@@ -28,4 +28,22 @@ module ApplicationHelper
   def doc_title(*args, **kws, &block)
     render(DocTitleComponent.new(*args, **kws), &block)
   end
+
+  # Creates a link to a component example page with consistent styling
+  #
+  # @param text [String] The button text
+  # @param component_class [String] The full component class name (e.g., "Daisy::DataInput::TextInputComponent")
+  # @param size [String] The button size (default: "btn-xs")
+  # @param html_options [Hash] Additional HTML options for the button
+  # @return [String] HTML for the component link button
+  def component_link(text, component_class, css: "btn-xs", **options)
+    daisy_button(
+      text,
+      css: css,
+      href: "/examples/#{component_class}",
+      right_icon: "cube",
+      right_icon_css: "size-4",
+      **options
+    )
+  end
 end

@@ -1,6 +1,6 @@
 class DocNoteComponent < ApplicationComponent
 
-  define_modifiers :note, :tip, :todo, :warning
+  define_modifiers :note, :tip, :todo, :warning, :error
 
   define_parts :icon, :content_wrapper
 
@@ -20,6 +20,7 @@ class DocNoteComponent < ApplicationComponent
     setup_tip if @config.modifiers.include?(:tip)
     setup_todo if @config.modifiers.include?(:todo)
     setup_warning if @config.modifiers.include?(:warning)
+    setup_error if @config.modifiers.include?(:error)
   end
 
   def setup_note
@@ -42,8 +43,8 @@ class DocNoteComponent < ApplicationComponent
     @default_icon = "ellipsis-horizontal-circle"
     @default_title = "Todo"
 
-    add_css(:component, "border-purple-600 bg-purple-100 text-purple-600")
-    add_css(:icon, "text-purple-600")
+    add_css(:component, "border-accent bg-accent/10")
+    add_css(:icon, "text-accent")
   end
 
   def setup_warning
@@ -54,4 +55,11 @@ class DocNoteComponent < ApplicationComponent
     add_css(:icon, "text-warning")
   end
 
+  def setup_error
+    @default_icon = "exclamation-triangle"
+    @default_title = "Error"
+
+    add_css(:component, "border-error bg-error/10")
+    add_css(:icon, "text-error")
+  end
 end

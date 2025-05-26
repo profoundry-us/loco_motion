@@ -3,11 +3,9 @@
 
   - if items?
     - items.each do |item|
-      - item.set_loco_parent(component_ref)
       = item
   - elsif content?
     = content
   - elsif star_items.present?
     - star_items.each do |item|
-      - item.set_loco_parent(component_ref)
       = render(item)

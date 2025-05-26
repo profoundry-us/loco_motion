@@ -51,6 +51,10 @@ Read on for specific changes across the entire project! :tada:
 - feat(Toggle): Enable start/end/floating label functionality
 - feat(Checkbox): Enable start/end label functionality
 - feat(Filter): Add Filter component for creating selection interfaces with toggle functionality ([Fixes #33](https://github.com/profoundry-us/loco_motion/issues/33))
+- feat(Cally): Add new Daisy Cally and CallyInput components with date picker functionality
+- feat(Select): Add support for array and hash options in select component
+- feat(Select): Add floating label support for select inputs
+- feat(Labelable): Enhance labelable component behavior for better form handling
 
 ### Changed / Fixed
 
@@ -58,7 +62,8 @@ Read on for specific changes across the entire project! :tada:
 
 - **Breaking:** Upgrade from TailwindCSS 3.x to 4.x and DaisyUI 4.x to 5.x ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - **Breaking:** Update existing components for DaisyUI 5 compatibility ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
-- **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
+- **Breaking:** All inputs now have a border by default, use `input-ghost` (or
+  `*-input-ghost`) to remove (see [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
 - **Breaking:** Migrated BottomNav component to Dock component to match DaisyUI 5 changes ([Fixes #40](https://github.com/profoundry-us/loco_motion/issues/40)):
   - `BottomNavComponent` → `DockComponent`
   - Helper method `daisy_bottom_nav` → `daisy_dock`
@@ -69,6 +74,8 @@ Read on for specific changes across the entire project! :tada:
 - refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
 - refactor: Move component concerns to lib directory for better organization
 - test: Add comprehensive tests for IconableComponent, LinkableComponent, and TippableComponent
+- refactor: The Loco parent is now set automatically in slots (`slot_loco_parent_patch.rb`) and you can
+  pass the `loco_parent` option when creating a new component to set it manually when needed
 
 #### Component Changes
 
@@ -93,6 +100,7 @@ Read on for specific changes across the entire project! :tada:
 - fix(Modal): Remove unnecessary `:dialog` part from component definition ([Fixes #46](https://github.com/profoundry-us/loco_motion/issues/46))
 - fix(Navbar): Improved implementation and styling
 - refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and improved code organization
+- fix(Fieldset): Fix issue with fieldset textarea rendering
 
 #### Demo / Docs Changes
 
@@ -143,6 +151,13 @@ Read on for specific changes across the entire project! :tada:
 - fix: Header Theme Switcher was using the wrong button size
 - feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples ([Fixes #36](https://github.com/profoundry-us/loco_motion/issues/36))
 - feat: Updated component documentation to use `@loco_example` tag for better organization
+- add(DocNote): Add new error modifier to doc_note component for improved documentation
+- fix: Fix issue with figures not showing captions
+- fix: Fix typo in select docs
+- fix: Add check in set_loco_parent_patch to ensure we catch nil references
+- fix: Use shorthand floating_placeholder for label examples
+- add: Add todos about better API doc buttons
+- fix: Fix bug in boxed countdown example
 
 ## [0.4.0] - 2025-03-07
 

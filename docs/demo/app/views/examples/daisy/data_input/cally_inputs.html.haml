@@ -1,0 +1,61 @@
+= doc_title(title: "Cally Inputs", comp: @comp) do |title|
+  %p
+    Cally Inputs combine a Daisy text input field with a Cally calendar using
+    the new HTML
+    = daisy_link(title: "Popover API ↗", target: "_blank", css: "whitespace-nowrap", href: "https://developer.mozilla.org/en-US/docs/Web/API/Popover_API")
+    for intuitive date selection.
+
+  %p
+    This component provides an elegant alternative to standard HTML date inputs
+    while maintaining a consistent visual style with other form components.
+
+
+= doc_example(title: "Basic Usage") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic Cally Input provides a text field that, when clicked, displays a
+      calendar popover for date selection.
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      %p
+        For keyboard navigation, you can use the
+        = daisy_kbd("space")
+        or
+        = daisy_kbd("↓")
+        keys to open the calendar popover.
+
+  = daisy_cally_input(value: "2025-07-24")
+
+
+= doc_example(title: "Custom Input") do |doc|
+  - doc.with_description do
+    :markdown
+      You can customize the input or calendar by using the appropriate slots.
+
+  = daisy_cally_input(placeholder: "parent placeholder", popover_css: "dropdown-top dropdown-center", auto_scroll_padding: 200) do |c|
+    = c.with_input(placeholder: "Select a date...")
+    = c.with_calendar(css: "bg-accent")
+
+
+= doc_example(title: "Rails Form Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The built-in Form Builder extension makes it easy to use Cally Inputs in your
+      Rails forms. The component automatically extracts the name, ID, and value
+      attributes from the form object.
+
+  = form_with(url: "#", method: :post, scope: :event) do |form|
+    .my-2.flex.flex-col.gap-4
+      = form.daisy_cally_input(:start_date, start: "Start Date")
+      = form.daisy_cally_input(:end_date, end: "End Date")
+      = form.daisy_cally_input(:event_date, floating_placeholder: "Select an event date")
+
+      = form.daisy_label(:registration_deadline, "Registration Deadline", css: "mt-4")
+      = form.daisy_cally_input(:registration_deadline, value: Date.today.next_month.to_s) do |cally|
+        - cally.with_input(placeholder: "Select a registration deadline...")
+
+      = form.daisy_label(:reminder_date, "Reminder Date", css: "mt-4")
+      = form.daisy_cally_input(:reminder_date, popover_css: "dropdown-top") do |cally|
+        - cally.with_input(placeholder: "Select a reminder date...")
+        - cally.with_calendar(css: "bg-secondary")
+

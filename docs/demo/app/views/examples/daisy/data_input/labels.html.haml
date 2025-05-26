@@ -37,16 +37,14 @@
       markup.
 
     %p
-      - btn_attrs = { css: "btn-xs", right_icon: "cube", right_icon_css: "size-4", html: { data: { turbo: "false" }} }
-
       The
-      = daisy_button(title: "TextInput", href: "/examples/Daisy::DataInput::TextInputComponent", **btn_attrs)
+      = component_link("TextInput", "Daisy::DataInput::TextInputComponent")
       ,
-      = daisy_button(title: "Select", href: "/examples/Daisy::DataInput::SelectComponent", **btn_attrs)
+      = component_link("Select", "Daisy::DataInput::SelectComponent")
       ,
-      = daisy_button(title: "Checkbox", href: "/examples/Daisy::DataInput::CheckboxComponent", **btn_attrs)
+      = component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")
       , and
-      = daisy_button(title: "Toggle", href: "/examples/Daisy::DataInput::ToggleComponent", **btn_attrs)
+      = component_link("Toggle", "Daisy::DataInput::ToggleComponent")
       components include this functionality.
 
   .my-2.flex.flex-col.gap-4
@@ -110,5 +108,5 @@
       methods for rendering Daisy Inputs with labels.
 
   = form_with(url: "#", class: "my-2 flex flex-col gap-4") do |f|
-    = f.daisy_text_input :name, floating: "Name", placeholder: "Name"
-    = f.daisy_text_input :email, type: :email, floating: "Email", placeholder: "Email"
+    = f.daisy_text_input :name, floating_placeholder: "Name"
+    = f.daisy_text_input :email, type: :email, floating_placeholder: "Email"

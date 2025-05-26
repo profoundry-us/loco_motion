@@ -77,7 +77,7 @@
       .mt-8.xl:mt-0
         .flex.flex-col.xl:flex.xl:flex-row.w-full
           = doc_code(css: "grow", code_css: "xl:pl-2 xl:pr-0 xl:rounded-r-none", language: "erb") do
-            :escaped
+            :plain
               <% # Ruby %>
 
               <% 5.times do |i| %>
@@ -89,7 +89,7 @@
               <% end %>
 
           = doc_code(css: "grow mt-8 xl:mt-0", pre_css: "xl:h-full", code_css: "xl:pl-0 xl:pr-2 xl:h-full xl:rounded-l-none") do
-            :escaped
+            :plain
               - # HAML
 
               - 5.times do |i|
@@ -109,14 +109,14 @@
     .mt-8.xl:flex.xl:space-x-8
       %div
         = doc_code(language: "ruby") do
-          :escaped
+          :plain
             # app/components/application_component.rb
             class ApplicationComponent < LocoMotion::BaseComponent
               # Add your custom / shared component logic here!
             end
 
         = doc_code(language: "haml", css: "mt-8") do
-          :escaped
+          :plain
             - # app/components/character_component.html.haml
             = part(:component) do
               = part(:head)
@@ -126,7 +126,7 @@
 
       %div.mt-8.xl:mt-0
         = doc_code(language: "ruby") do
-          :escaped
+          :plain
             # app/components/character_component.rb
             class CharacterComponent < ApplicationComponent
               define_parts :head, :body, :legs

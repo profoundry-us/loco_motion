@@ -122,9 +122,9 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
 
     def before_render
       # Reset the name to the config option or the parent name if available
-      @name = config_option(:name, loco_parent&.name)
+      @name = config_option(:name, loco_parent.name)
 
-      if loco_parent&.radio?
+      if loco_parent.radio?
         setup_radio_button
       else
         setup_component
@@ -167,7 +167,7 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
       # custom_content.to_s if custom_content?
 
       capture do
-        if loco_parent&.radio?
+        if loco_parent.radio?
           concat(part(:component))
         else
           concat(part(:component) { concat(title? ? title : @simple_title) })

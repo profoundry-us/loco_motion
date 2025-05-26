@@ -93,7 +93,7 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
 
     def setup_component
       # Reset the name to the config option or the parent name if available
-      @name = config_option(:name, loco_parent&.name)
+      @name = config_option(:name, loco_parent.name)
 
       add_css(:component, "collapse")
       add_css(:component, "collapse-arrow") if loco_parent.config.modifiers.include?(:arrow)
@@ -159,7 +159,7 @@ class Daisy::DataDisplay::AccordionComponent < LocoMotion::BaseComponent
 
     @name = config_option(:name, "accordion-#{SecureRandom.uuid}")
   end
-  
+
   def before_render
     super
   end
