@@ -1,1 +1,2 @@
 size-[800px]
+[&_span]:text-5xl
