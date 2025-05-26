@@ -61,15 +61,15 @@ module LocoMotion
       # @option instance_kws [String, nil] :floating Text to display in the
       #   floating label position
       #
-      # @option instance_kws [String, nil] :placeholder The input's placeholder text.
-      #   If not provided and `floating_placeholder` is set, it will use that value.
+      # @option instance_kws [String, nil] :placeholder The input's placeholder
+      #   text.  If not provided and `floating_placeholder` is set, it will use
+      #   that value.
       #
-      # @option instance_kws [String, nil] :floating_placeholder Text to use for both
-      #   the floating label and the input placeholder. This is a convenience option
-      #   that sets both the `floating` and `placeholder` options to the same value.
-      #   If both `floating_placeholder` and `floating` are provided, `floating`
-      #   takes precedence for the floating label, while `floating_placeholder`
-      #   still sets the input's placeholder attribute.
+      # @option instance_kws [String, nil] :floating_placeholder Text to use for
+      #   both the floating label and the input placeholder. This is a
+      #   convenience option that sets both the `floating` and `placeholder`
+      #   options to the same value. Both `floating` and `placeholder` take
+      #   precedence over `floating_placeholder`.
       #
       # @param instance_block [Proc] Block passed to the component for rendering
       #   custom content

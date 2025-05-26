@@ -1,17 +1,13 @@
 module Daisy
   module DataInput
-    # A specialized input component that combines a text input with a calendar picker.
-    # The calendar appears in a popover when the input is focused or clicked.
+    # A specialized input component that combines a text input with a calendar
+    # picker. The calendar appears in a popover when the input is focused or
+    # clicked.
     #
     # @part popover The container for the calendar popover.
     #
     # @slot input The text input component.
     # @slot calendar The calendar component that appears in the popover.
-    #
-    # @option id [String] A unique identifier for the input (default: auto-generated).
-    # @option name [String] The name attribute for the input field.
-    # @option value [Date, String] The initial value of the input (default: `nil`).
-    # @option css [String] Additional CSS classes for the component.
     #
     # @loco_example Basic Usage
     #   = daisy_cally_input(name: "event_date", value: Date.today)
@@ -21,22 +17,25 @@ module Daisy
     #     = c.with_calendar(css: "custom-calendar")
     #     = c.with_input(css: "custom-input")
     class CallyInputComponent < LocoMotion::BaseComponent
-      # A specialized text input component for the CallyInput that handles popover targeting
-      # and data attributes needed for the Stimulus controller.
+      # A specialized text input component for the CallyInput that handles
+      # popover targeting and data attributes needed for the Stimulus
+      # controller.
       class CallyTextInputComponent < Daisy::DataInput::TextInputComponent
-        # Sets up the HTML attributes needed for the text input before rendering.
-        # Configures the popover target, ID, name, and data attributes required
-        # for the Stimulus controller to function properly.
+        # Sets up the HTML attributes needed for the text input before
+        # rendering.  Configures the popover target, ID, name, and data
+        # attributes required for the Stimulus controller to function properly.
         #
         # @return [void]
         def before_render
           parent_config = loco_parent.config
 
+          # Since we're pulling options from the parent, we have to do a little
+          # more work to ensure we set it up correctly.
           @start = config_option(:start, parent_config.options[:start])
           @end = config_option(:end, parent_config.options[:end])
-          @floating = config_option(:floating, parent_config.options[:floating])
-          @placeholder = config_option(:placeholder, parent_config.options[:placeholder])
           @floating_placeholder = config_option(:floating_placeholder, parent_config.options[:floating_placeholder])
+          @floating = config_option(:floating, parent_config.options[:floating] || @floating_placeholder)
+          @placeholder = config_option(:placeholder, parent_config.options[:placeholder] || @floating_placeholder)
 
           super
 
@@ -90,7 +89,7 @@ module Daisy
       renders_one :calendar, CallyCalendarComponent
       renders_one :input, CallyTextInputComponent
 
-      attr_reader :id, :name, :value, :calendar_id, :input_id, :popover_id, :anchor
+      attr_reader :id, :name, :value, :calendar_id, :input_id, :popover_id, :anchor, :auto_scroll_padding
 
       # Initializes a new CallyInputComponent.
       #
@@ -98,6 +97,7 @@ module Daisy
       # @option kws [String] :id A unique identifier for the input (default: auto-generated)
       # @option kws [String] :name The name attribute for the input field
       # @option kws [Date, String] :value The initial value of the input (default: nil)
+      # @option kws [Integer] :auto_scroll_padding The padding to use when scrolling the calendar into view (default: 100)
       # @option kws [String] :css Additional CSS classes for the component
       def initialize(**kws)
         super(**kws)
@@ -105,6 +105,7 @@ module Daisy
         @id = config_option(:id, SecureRandom.uuid)
         @name = config_option(:name)
         @value = config_option(:value)
+        @auto_scroll_padding = config_option(:auto_scroll_padding, 100)
 
         # Input ID should match our ID
         @input_id = @id
@@ -154,7 +155,7 @@ module Daisy
 
         # Add relevant popover part HTML
         add_html(:popover, { id: @popover_id, popover: "auto", style: "position-anchor:--#{@anchor}" })
-        add_html(:popover, { data: { "cally-input-target": "popover" } })
+        add_html(:popover, { data: { "cally-input-target": "popover", "auto-scroll-padding": @auto_scroll_padding } })
 
         # Note that we NEED the dropdown class so that the anchor positioning works properly
         add_css(:popover, "where:dropdown where:bg-base-100 where:rounded where:shadow-lg")

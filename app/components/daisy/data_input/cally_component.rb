@@ -7,7 +7,7 @@ module Daisy
     # options including the number of months to show and navigation controls.
     #
     # @part component The root calendar element that contains all other parts.
-    # @part months The container element that holds the month components.
+    # @part months The container element that holds the individual month components.
     #
     # @slot previous_icon [PreviousIcon] The icon used for navigating to the
     #   previous month. Defaults to a chevron-left icon.
@@ -93,8 +93,10 @@ module Daisy
       # configured for date range selection.  The component automatically
       # handles navigation between months and can display multiple months.
       #
-      # @param change [String] ID of an input to update with the selected date
-      # @param update [String] ID of an element to update with the selected date
+      # @param change [String] ID of an input to update with the selected date.
+      #   Mutually exclusive with `update`.
+      # @param update [String] ID of an element to update with the selected
+      #   date. Mutually exclusive with `change`.
       # @param id [String] The ID of the calendar element
       # @param value [String, Date] The currently selected date or range
       # @param min [String, Date] The minimum selectable date

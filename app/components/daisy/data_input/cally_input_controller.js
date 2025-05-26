@@ -78,28 +78,66 @@ export default class extends Controller {
   }
 
   /**
+   * Opens the calendar if it is closed, or closes it if it is open.
+   *
+   * @returns {void}
+   */
+  toggleCalendar() {
+    this.popoverTarget.togglePopover()
+  }
+
+  /**
    * Handles the popover toggle event.
-   * - When opening: Sets a space in empty inputs to prevent floating label flicker
+   * - When opening: Sets a zero-width space in empty inputs to prevent floating label flicker
    * - When closing: Clears the single-space input to ensure proper floating label behavior
    *
    * @param {Event} event - The toggle event object with newState property
    * @returns {void}
    */
   handleToggle(event) {
-    if (this.inputTarget.parentElement.classList.contains("floating-label")) {
-      const ZERO_WIDTH_SPACE = '\u200B';
-      if (event.newState === 'open') {
+    const hasFloatingLabel = this.inputTarget.parentElement.classList.contains("floating-label")
+    const isOpen = event.newState == 'open'
+
+    if (isOpen) {
+      // Make sure the calendar is visible
+      this.scrollCalendarIntoView()
+    }
+
+    if (hasFloatingLabel) {
+      const ZERO_WIDTH_SPACE = '\u200B'
+
+      if (isOpen) {
         // Set the input to a zero-width space if it is empty to prevent a floating label
         // flicker when the calendar loses focus while setting the date
         if (this.inputTarget.value == null || this.inputTarget.value === '') {
           this.inputTarget.value = ZERO_WIDTH_SPACE;
         }
-      } else if (event.newState === 'closed') {
+      } else {
         // Unset the zero-width space input on close so the floating label works again
         if (this.inputTarget.value === ZERO_WIDTH_SPACE) {
-          this.inputTarget.value = null;
+          this.inputTarget.value = null
         }
       }
+    }
+  }
+
+  /**
+   * Ensures the calendar popover is visible within the viewport.
+   *
+   * If the popover extends beyond the viewport edges, scrolls the window to
+   * bring it into view adding any data-auto-scroll-padding.
+   *
+   * @returns {void}
+   */
+  scrollCalendarIntoView() {
+    const rect = this.popoverTarget.getBoundingClientRect()
+    const autoScrollPadding = parseInt(this.popoverTarget.dataset.autoScrollPadding, 10)
+    const padding = isNaN(autoScrollPadding) ? 0 : autoScrollPadding
+
+    if (rect.bottom > window.innerHeight) {
+      window.scrollBy({ top: rect.bottom - window.innerHeight + padding, behavior: 'smooth' })
+    } else if (rect.top < 0) {
+      window.scrollBy({ top: rect.top - padding, behavior: 'smooth' })
     }
   }
 
@@ -112,7 +150,7 @@ export default class extends Controller {
   updateInput() {
     // Update the input value and close the popover
     this.inputTarget.value = this.calendarTarget.value
-    this.popoverTarget.togglePopover(false)
+    this.closeCalendar()
   }
 
   /**
@@ -135,7 +173,7 @@ export default class extends Controller {
     if (event.key === ' ' || event.code === 'Space') {
       event.preventDefault()
 
-      this.popoverTarget.togglePopover()
+      this.toggleCalendar()
     }
 
     //
@@ -143,9 +181,9 @@ export default class extends Controller {
     //
     else if (isOpen && (event.key === 'Enter' || event.code === 'Enter')) {
       // Stop the enter key from triggering the form submission
-      event.preventDefault();
+      event.preventDefault()
 
-      this.popoverTarget.togglePopover(false)
+      this.closeCalendar()
     }
 
     //
@@ -155,8 +193,8 @@ export default class extends Controller {
       event.preventDefault()
 
       // If the calendar is not already open, open it
-      if (!this.popoverTarget.matches(':popover-open')) {
-        this.popoverTarget.togglePopover(true)
+      if (!isOpen) {
+        this.openCalendar()
       }
 
       // Focus the calendar element
@@ -168,7 +206,6 @@ export default class extends Controller {
         code: event.code,
         bubbles: true,
         cancelable: true,
-        keyCode: event.keyCode
       })
 
       // Dispatch the forwarded event to the calendar

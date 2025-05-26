@@ -112,32 +112,26 @@ RSpec.describe Daisy::DataInput::CallyComponent, type: :component do
     end
 
     it "renders custom previous icon" do
-      expect(page).to have_css("[slot='previous']")
-      # Hero icon is likely be stubbed in test mode, so we'll check for the slot attribute
-      # rather than the specific SVG content
+      expect(page).to have_css("svg[data-slot='icon'][slot='previous']")
     end
 
     it "renders custom next icon" do
-      expect(page).to have_css("[slot='next']")
-      # Hero icon is likely be stubbed in test mode, so we'll check for the slot attribute
-      # rather than the specific SVG content
+      expect(page).to have_css("svg[data-slot='icon'][slot='next']")
     end
   end
 
   context "with custom months" do
-    # Stub the rendering of months for testing
-    # In tests, the custom elements may not be fully processed as they would be in a browser
     it "allows adding multiple months" do
       component = described_class.new
-      
+
       # Add two months
       component.with_month(offset: 0)
       component.with_month(offset: 1)
-      
+
       # Verify two months were added
       expect(component.months.size).to eq(2)
     end
-    
+
     it "creates month components with proper initialization" do
       # Test the MonthComponent directly
       month = Daisy::DataInput::CallyComponent::MonthComponent.new(offset: 1)

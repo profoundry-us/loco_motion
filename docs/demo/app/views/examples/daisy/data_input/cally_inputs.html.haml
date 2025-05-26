@@ -32,7 +32,7 @@
     :markdown
       You can customize the input or calendar by using the appropriate slots.
 
-  = daisy_cally_input(placeholder: "parent placeholder", popover_css: "dropdown-top dropdown-center") do |c|
+  = daisy_cally_input(placeholder: "parent placeholder", popover_css: "dropdown-top dropdown-center", auto_scroll_padding: 200) do |c|
     = c.with_input(placeholder: "Select a date...")
     = c.with_calendar(css: "bg-accent")
 
@@ -48,7 +48,7 @@
     .my-2.flex.flex-col.gap-4
       = form.daisy_cally_input(:start_date, start: "Start Date")
       = form.daisy_cally_input(:end_date, end: "End Date")
-      = form.daisy_cally_input(:event_date, placeholder: "Select an event date", floating: "Select an event date")
+      = form.daisy_cally_input(:event_date, floating_placeholder: "Select an event date")
 
       = form.daisy_label(:registration_deadline, "Registration Deadline", css: "mt-4")
       = form.daisy_cally_input(:registration_deadline, value: Date.today.next_month.to_s) do |cally|
