@@ -41,7 +41,7 @@
   = daisy_fieldset(legend: "User Profile") do
     .mt-4.space-y-4
       = daisy_input(floating: "Name")
-      = daisy_text_area(floating: "Bio", rows: 3)
+      = daisy_text_area(placeholder: "Bio", rows: 3) # Text areas don't currently support floating labels
       = daisy_select(floating: "Country", options: ["USA", "Canada", "Mexico"])
 
 
