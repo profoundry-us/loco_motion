@@ -73,7 +73,7 @@ jobs:
       run: bundle exec rake assets:precompile
       working-directory: docs/demo
 
-    # Start Rails server in production mode in the background
+    # Start Rails server in production mode in the background (with SSL turned off)
     - name: Start Rails server
       env:
         # Secrets
@@ -89,6 +89,9 @@ jobs:
         RAILS_ENV: ${{ vars.RAILS_ENV }}
         RAILS_LOG_TO_STDOUT: ${{ vars.RAILS_LOG_TO_STDOUT }}
         RAILS_SERVE_STATIC_FILES: ${{ vars.RAILS_SERVE_STATIC_FILES }}
+        # Static env variables (skip SSL)
+        RAILS_SKIP_SSL_VERIFICATION: true
+        DISABLE_SSL: true
       run: |
         bundle exec rails server -d -p 3000
         echo "Waiting for server to start..."
