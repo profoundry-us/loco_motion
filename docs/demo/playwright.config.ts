@@ -8,12 +8,6 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-// Access the Rails environment
-const RAILS_ENV = process.env.RAILS_ENV || 'development'
-const isProduction = RAILS_ENV == 'production'
-
-console.log(" *** isProduction: ", isProduction, process.env.RAILS_ENV)
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -32,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: `http${isProduction ? 's' : ''}://localhost:3000`,
+    baseURL: `http://localhost:3000`,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
