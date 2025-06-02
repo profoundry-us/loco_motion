@@ -83,6 +83,7 @@ Read on for specific changes across the entire project! :tada:
 - **Breaking:** refactor(Device): Utilize standard Tailwind width/height classes instead of Artboard ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
 - **Breaking:** refactor(ThemeController): Migrate to a "Builder" component ([Fixes #38](https://github.com/profoundry-us/loco_motion/issues/38))
 - **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4 `form-control` class (including specs)
+- **Breaking:** change(Modal): Modal titles now render as an `<h4>` instead of a `<div>`
 
 - feat(Avatar): Add support for icons and linking via `IconableComponent` and `LinkableComponent`
 - feat(Badge): Add support for icons and linking and styling, including new `badge-soft` and `badge-dashed` variants
