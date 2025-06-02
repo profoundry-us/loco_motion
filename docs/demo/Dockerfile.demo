@@ -19,22 +19,22 @@ ENV APP_HOME /home/loco_demo
 
 WORKDIR $APP_HOME
 
-# RUN ls -al
-# RUN yarn install
-# RUN yarn playwright install
-
-# TODO: Figure out how to fix this instead of commenting it out...
+# TODO: We should be able to add these if we can figure out how to work around
+# the fact that the loco_motion-rails gem is not available at this point in the
+# Docker process. NOTE: This is only because the demo app uses the path version
+# of loco_motion-rails; normal users of the gem will NOT run into this issue!
 #
 # COPY Gemfile $APP_HOME/Gemfile
 # COPY Gemfile.lock $APP_HOME/Gemfile.lock
 # RUN bundle install
+#
+# RUN yarn install
+# RUN yarn playwright install
 
 # Add a script to be executed every time the container starts.
-# COPY entrypoint.sh /usr/bin/
-# RUN chmod +x /usr/bin/entrypoint.sh
-# ENTRYPOINT ["entrypoint.sh"]
-# EXPOSE 3000
-# EXPOSE 8080
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
 # Add some aliases to our Bash shell for when we're messing around
 RUN echo 'alias be="bundle exec"\nalias la="ls -al"' >> ~/.bashrc
