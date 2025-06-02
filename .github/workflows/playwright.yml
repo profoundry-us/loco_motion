@@ -45,17 +45,16 @@ jobs:
       run: |
         yarn link "@profoundry-us/loco_motion"
 
-    # Install dependencies
-    - name: Install dependencies
+    # Install Loco Yarn dependencies
+    - name: Install Yarn dependencies
+      run: yarn install
+
+    # Install Demo dependencies
+    - name: Install Demo dependencies
       run: yarn install
       working-directory: docs/demo
 
-    # Install Playwright browsers
-    - name: Install Playwright
-      run: yarn playwright install --with-deps
-      working-directory: docs/demo
-
-    # Build assets for production
+    # Build Rails assets for production
     - name: Build assets
       env:
         # Secrets
@@ -94,6 +93,11 @@ jobs:
         bundle exec rails server -d -p 3000
         echo "Waiting for server to start..."
         sleep 5
+      working-directory: docs/demo
+
+    # Install Playwright browsers
+    - name: Install Playwright
+      run: yarn playwright install --with-deps
       working-directory: docs/demo
 
     # Run Playwright tests
