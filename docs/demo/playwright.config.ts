@@ -9,8 +9,10 @@ import { defineConfig, devices } from '@playwright/test';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // Access the Rails environment
-const RAILS_ENV = process.env.RAILS_ENV || 'development';
+const RAILS_ENV = process.env.RAILS_ENV || 'development'
 const isProduction = RAILS_ENV == 'production'
+
+console.log(" *** isProduction: ", isProduction, process.env.RAILS_ENV)
 
 /**
  * See https://playwright.dev/docs/test-configuration.
