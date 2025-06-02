@@ -57,13 +57,41 @@ jobs:
 
     # Build assets for production
     - name: Build assets
-      run: RAILS_ENV=production bundle exec rake assets:precompile
+      env:
+        # Secrets
+        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+        UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        UNSPLASH_SECRET_KEY: ${{ secrets.UNSPLASH_SECRET_KEY }}
+        # Variables
+        ALGOLIA_ENV: ${{ vars.ALGOLIA_ENV }}
+        LOCO_DOCS_HOST: ${{ vars.LOCO_DOCS_HOST }}
+        RACK_ENV: ${{ vars.RACK_ENV }}
+        RAILS_ENV: ${{ vars.RAILS_ENV }}
+        RAILS_LOG_TO_STDOUT: ${{ vars.RAILS_LOG_TO_STDOUT }}
+        RAILS_SERVE_STATIC_FILES: ${{ vars.RAILS_SERVE_STATIC_FILES }}
+      run: bundle exec rake assets:precompile
       working-directory: docs/demo
 
     # Start Rails server in production mode in the background
     - name: Start Rails server
+      env:
+        # Secrets
+        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+        UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        UNSPLASH_SECRET_KEY: ${{ secrets.UNSPLASH_SECRET_KEY }}
+        # Variables
+        ALGOLIA_ENV: ${{ vars.ALGOLIA_ENV }}
+        LOCO_DOCS_HOST: ${{ vars.LOCO_DOCS_HOST }}
+        RACK_ENV: ${{ vars.RACK_ENV }}
+        RAILS_ENV: ${{ vars.RAILS_ENV }}
+        RAILS_LOG_TO_STDOUT: ${{ vars.RAILS_LOG_TO_STDOUT }}
+        RAILS_SERVE_STATIC_FILES: ${{ vars.RAILS_SERVE_STATIC_FILES }}
       run: |
-        RAILS_ENV=production bundle exec rails server -d -p 3000
+        bundle exec rails server -d -p 3000
         echo "Waiting for server to start..."
         sleep 5
       working-directory: docs/demo
