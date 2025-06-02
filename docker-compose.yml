@@ -33,6 +33,7 @@ services:
       - .:/home/loco_motion
     ports:
       - 3000:3000
+      - 8080:8080
     tty: true
     stdin_open: true
 

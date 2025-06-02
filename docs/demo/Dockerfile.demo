@@ -13,24 +13,27 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest \
-    && npm install -g yarn@latest \
+    && npm install -g yarn@latest\
     && yarn install
 
 ENV APP_HOME /home/loco_demo
 
 WORKDIR $APP_HOME
 
-# TODO: Figure out how to fix this instead of commenting it out...
+# TODO: We should be able to add these if we can figure out how to work around
+# the fact that the loco_motion-rails gem is not available at this point in the
+# Docker process. NOTE: This is only because the demo app uses the path version
+# of loco_motion-rails; normal users of the gem will NOT run into this issue!
 #
 # COPY Gemfile $APP_HOME/Gemfile
 # COPY Gemfile.lock $APP_HOME/Gemfile.lock
 # RUN bundle install
+# RUN yarn playwright install
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
 
 # Add some aliases to our Bash shell for when we're messing around
 RUN echo 'alias be="bundle exec"\nalias la="ls -al"' >> ~/.bashrc

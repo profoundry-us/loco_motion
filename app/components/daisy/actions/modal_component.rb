@@ -168,6 +168,7 @@ class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
   end
 
   def setup_title
+    set_tag_name(:title, 'h4')
     add_css(:title, "where:mb-2 where:text-xl where:font-bold")
   end
 
