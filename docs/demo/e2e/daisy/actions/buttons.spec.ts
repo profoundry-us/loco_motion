@@ -4,7 +4,7 @@ import { loco } from '../../spec_helpers';
 test('page loads', async ({ page }) => {
   await page.goto('/');
 
-  // Click the Hero Icons link.
+  // Click the Buttons nav link
   await loco.clickNavLink(page, 'Buttons');
 
   // Expect the title and a few headings
