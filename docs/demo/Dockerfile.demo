@@ -13,7 +13,8 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest \
-    && npm install -g yarn@latest
+    && npm install -g yarn@latest\
+    && yarn install
 
 ENV APP_HOME /home/loco_demo
 
@@ -27,8 +28,6 @@ WORKDIR $APP_HOME
 # COPY Gemfile $APP_HOME/Gemfile
 # COPY Gemfile.lock $APP_HOME/Gemfile.lock
 # RUN bundle install
-#
-# RUN yarn install
 # RUN yarn playwright install
 
 # Add a script to be executed every time the container starts.
