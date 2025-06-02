@@ -1,0 +1,80 @@
+name: Playwright Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+    - main
+
+jobs:
+  playwright:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    # Setup Ruby similar to the CICD workflow
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+        working-directory: docs/demo
+
+    # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
+    - name: Create symlink to LocoMotion gem directory
+      run: |
+        mkdir -p docs/demo/vendor
+        ln -sf $(pwd) docs/demo/vendor/loco_motion-rails
+
+    # Setup Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'yarn'
+        cache-dependency-path: 'docs/demo/yarn.lock'
+
+    # Install dependencies
+    - name: Install dependencies
+      run: yarn install
+      working-directory: docs/demo
+
+    # Install Playwright browsers
+    - name: Install Playwright
+      run: yarn playwright install --with-deps
+      working-directory: docs/demo
+
+    # Build assets for production
+    - name: Build assets
+      run: RAILS_ENV=production bundle exec rake assets:precompile
+      working-directory: docs/demo
+
+    # Start Rails server in production mode in the background
+    - name: Start Rails server
+      run: |
+        RAILS_ENV=production bundle exec rails server -d -p 3000
+        echo "Waiting for server to start..."
+        sleep 5
+      working-directory: docs/demo
+
+    # Run Playwright tests
+    - name: Run Playwright tests
+      run: yarn playwright test --reporter=html --workers=1
+      working-directory: docs/demo
+
+    # Upload test results on failure
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: docs/demo/playwright-report/
+        retention-days: 7
+
+    # Stop Rails server
+    - name: Stop Rails server
+      if: always()
+      run: pkill -f "rails server" || true
+      working-directory: docs/demo
