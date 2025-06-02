@@ -102,7 +102,7 @@ jobs:
 
     # Run Playwright tests (the -x stops at the first failure while we test)
     - name: Run Playwright tests
-      run: yarn playwright test 'e2e' --reporter=html --workers=1 -x
+      run: yarn playwright test 'e2e' --reporter=dot,html --workers=1 -x
       working-directory: docs/demo
 
     # Upload test results on failure
