@@ -167,6 +167,14 @@ algolia-clear:
 	docker compose exec -it demo bundle exec rake algolia:clear ARGS="$(ARGS)"
 
 ##############################
+# Playwright / E2E commands
+##############################
+.PHONY: playwright
+playwright:
+	@echo "Playwright UI is available at: \033[34;4mhttp://localhost:8080\033[0m\n"
+	docker compose exec -it demo yarn playwright test --ui-port=8080 --ui-host=0.0.0.0
+
+##############################
 # Build/Publish commands
 ##############################
 
