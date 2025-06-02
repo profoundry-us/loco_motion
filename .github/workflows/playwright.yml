@@ -36,6 +36,15 @@ jobs:
         cache: 'yarn'
         cache-dependency-path: 'docs/demo/yarn.lock'
 
+    # Setup yarn linking
+    - name: Start yarn linking
+      run: |
+        yarn link
+    - name: Finish yarn linking
+      working-directory: docs/demo
+      run: |
+        yarn link "@profoundry-us/loco_motion"
+
     # Install dependencies
     - name: Install dependencies
       run: yarn install
