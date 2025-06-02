@@ -15,18 +15,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
+    - name: Create symlink to LocoMotion gem directory
+      run: |
+        mkdir -p docs/demo/vendor
+        ln -sf $(pwd) docs/demo/vendor/loco_motion-rails
+
     # Setup Ruby similar to the CICD workflow
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
         working-directory: docs/demo
-
-    # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
-    - name: Create symlink to LocoMotion gem directory
-      run: |
-        mkdir -p docs/demo/vendor
-        ln -sf $(pwd) docs/demo/vendor/loco_motion-rails
 
     # Setup Node.js
     - name: Set up Node.js
@@ -61,7 +61,7 @@ jobs:
 
     # Run Playwright tests
     - name: Run Playwright tests
-      run: yarn playwright test --reporter=html --workers=1
+      run: yarn playwright test 'e2e' --reporter=html --workers=1
       working-directory: docs/demo
 
     # Upload test results on failure
