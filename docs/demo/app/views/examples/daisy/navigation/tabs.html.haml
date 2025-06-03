@@ -88,7 +88,7 @@
           - tab.with_title(css: "test-tab") do
             .flex.gap-x-2.items-center
               %span.w-4.h-4
-                = heroicon_tag("bars-#{i}")
+                = heroicon("bars-#{i}", class: "size-4")
               %span.whitespace-nowrap #{i} Bars
 
           - tab.with_custom_content(css: "tab-content bg-base-100 border-base-300 rounded-box p-6") do

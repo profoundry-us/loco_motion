@@ -56,7 +56,7 @@ RSpec.describe Daisy::Actions::ButtonComponent, type: :component do
       end
 
       it "renders the icon" do
-        expect(page).to have_css "button svg[data-slot='icon']"
+        expect(page).to have_css "button svg"
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Daisy::Actions::ButtonComponent, type: :component do
       end
 
       it "renders both icons" do
-        expect(page).to have_css "button svg[data-slot='icon']", count: 2
+        expect(page).to have_css "button svg", count: 2
       end
 
       it "renders the title between icons" do

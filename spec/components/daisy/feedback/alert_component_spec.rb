@@ -44,7 +44,7 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
 
     describe "rendering" do
       it "renders the icon" do
-        expect(page).to have_selector(".alert svg[data-slot='icon']")
+        expect(page).to have_selector(".alert svg")
       end
 
       it "wraps content when icon is present" do
@@ -136,7 +136,7 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
 
     describe "rendering" do
       it "renders the icon with outline variant" do
-        expect(page).to have_selector(".alert svg[data-slot='icon']")
+        expect(page).to have_selector(".alert svg")
       end
     end
   end

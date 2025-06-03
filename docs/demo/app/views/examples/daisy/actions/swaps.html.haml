@@ -30,13 +30,13 @@
       - swap.with_on do
         = hero_icon "pause-circle", css: sizes, variant: :outline
       - swap.with_off do
-        = heroicon_tag "play-circle", class: sizes, variant: :outline
+        = heroicon "play-circle", class: sizes, variant: :outline
 
     = daisy_swap(checked: true) do |swap|
       - swap.with_on do
-        = heroicon_tag "bell-alert", class: sizes + " animate-bounce text-purple-600", variant: :outline
+        = heroicon "bell-alert", class: sizes + " animate-bounce text-purple-600", variant: :outline
       - swap.with_off do
-        = heroicon_tag "bell-slash", class: sizes + " text-gray-400", variant: :outline
+        = heroicon "bell-slash", class: sizes + " text-gray-400", variant: :outline
 
     - # The standard tooltip hover doesn't work with the swap element well, so we
     - # force it open for this example.
@@ -46,10 +46,10 @@
     = daisy_swap(css: "text-blue-600 mt-1") do |swap|
       - swap.with_on do
         .tooltip.tooltip-right.tooltip-open{ data: { tip: "Dollar" }}
-          = heroicon_tag "currency-dollar", class: sizes, variant: :outline
+          = heroicon "currency-dollar", class: sizes, variant: :outline
       - swap.with_off do
         .tooltip.tooltip-right.tooltip-open{ data: { tip: "Euro" }}
-          = heroicon_tag "currency-euro", class: sizes, variant: :outline
+          = heroicon "currency-euro", class: sizes, variant: :outline
 
 
 = doc_example(title: "Custom HTML Elements") do |doc|

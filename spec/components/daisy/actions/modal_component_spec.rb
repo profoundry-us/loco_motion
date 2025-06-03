@@ -34,7 +34,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
       end
 
       it "renders the standard close icon" do
-        expect(page).to have_selector("dialog.modal svg[data-slot='icon']")
+        expect(page).to have_selector("dialog.modal svg")
       end
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
       end
 
       it "does not render the standard close icon" do
-        expect(page).not_to have_selector("dialog.modal svg[data-slot='icon']")
+        expect(page).not_to have_selector("dialog.modal svg")
       end
     end
   end

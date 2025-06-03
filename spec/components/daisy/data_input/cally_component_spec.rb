@@ -112,11 +112,11 @@ RSpec.describe Daisy::DataInput::CallyComponent, type: :component do
     end
 
     it "renders custom previous icon" do
-      expect(page).to have_css("svg[data-slot='icon'][slot='previous']")
+      expect(page).to have_css("svg[slot='previous']")
     end
 
     it "renders custom next icon" do
-      expect(page).to have_css("svg[data-slot='icon'][slot='next']")
+      expect(page).to have_css("svg[slot='next']")
     end
   end
 

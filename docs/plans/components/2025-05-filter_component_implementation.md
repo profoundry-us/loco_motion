@@ -289,7 +289,7 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
       component = described_class.new(icon: "x-mark")
       render_inline(component)
       expect(page).to have_css("button[type='reset'].btn.btn-square")
-      expect(page).to have_css("svg[data-slot='icon']")
+      expect(page).to have_css("svg")
     end
 
     it "allows customizing the icon" do

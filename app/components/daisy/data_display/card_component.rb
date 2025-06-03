@@ -39,7 +39,7 @@
 #     - card.with_top_figure(src: "header.jpg")
 #     - card.with_title do
 #       .flex.items-center.gap-2
-#         = heroicon_tag "star"
+#         = heroicon "star"
 #         Featured Article
 #     %p{ class: "text-base-content/70" } A beautifully designed card with rich content.
 #     - card.with_bottom_figure(src: "footer.jpg")
@@ -90,9 +90,9 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
 
     with_title { simple_title } if simple_title && !title?
   end
-  
+
   private
-  
+
   def setup_component
     add_css(:component, "card")
   end

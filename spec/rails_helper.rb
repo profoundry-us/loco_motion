@@ -26,8 +26,8 @@ RSpec.configure do |config|
   # config.include Capybara::RSpecMatchers, type: :component
 
   # Some of the tests utilize various helpers such as tag, content_tag, and
-  # heroicon_tag (which users the raw helper)
-  config.include Heroicons::IconsHelper, type: :component
+  # heroicon (which users the raw helper)
+  config.include RailsHeroicon::Helper, type: :component
   config.include ActionView::Helpers::TagHelper, type: :component
   config.include ActionView::Helpers::OutputSafetyHelper, type: :component
 end

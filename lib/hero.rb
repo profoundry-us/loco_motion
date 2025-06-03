@@ -1,4 +1,4 @@
-require "heroicons-rails"
+require "rails_heroicon"
 
 #
 # Parent module for all Hero components.

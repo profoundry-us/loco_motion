@@ -54,7 +54,7 @@
 #   = daisy_modal(title: "User Details") do |modal|
 #     - modal.with_activator do
 #       .flex.items-center.gap-2.cursor-pointer
-#         = heroicon_tag "user-circle"
+#         = heroicon "user-circle"
 #         %span View Details
 #
 #     %dl.space-y-2

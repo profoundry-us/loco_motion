@@ -4,7 +4,7 @@
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.w-4.h-4
-            = heroicon_tag("code-bracket")
+            = heroicon("code-bracket", class: "size-4")
           %span.whitespace-nowrap= @title
 
       = part(:pre) { part(:code) { content } }
