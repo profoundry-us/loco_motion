@@ -1,4 +1,4 @@
-FROM ruby:3.3.5
+FROM ruby:3.4.4
 
 # Update and install basic dependencies
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
