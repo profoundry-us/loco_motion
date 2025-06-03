@@ -133,7 +133,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
 
     describe "rendering" do
       it "includes size classes" do
-        expect(page).to have_selector(".avatar.w-10.h-10")
+        expect(page).to have_selector(".avatar.size-10")
       end
 
       it "maintains default classes" do
@@ -181,7 +181,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "includes all classes" do
-        expect(page).to have_selector(".avatar.w-16.h-16.avatar-online.tooltip")
+        expect(page).to have_selector(".avatar.size-16.avatar-online.tooltip")
       end
 
       it "sets the tooltip" do

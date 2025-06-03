@@ -243,7 +243,7 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
     describe "rendering" do
       it "renders title with icon and proper layout" do
         expect(page).to have_selector(".tab .test-tab .flex.gap-x-2.items-center")
-        expect(page).to have_selector(".tab .test-tab .w-4.h-4", text: "icon")
+        expect(page).to have_selector(".tab .test-tab .size-4", text: "icon")
         expect(page).to have_selector(".tab .test-tab .whitespace-nowrap", text: "Title")
       end
     end

@@ -14,7 +14,7 @@
     - tabs.with_tab(active: true, html: active_tab_html, css: "px-6! rounded-t-lg!") do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
-          %span.w-4.h-4
+          %span.size-4
             = heroicon("computer-desktop", class: "size-4")
           %span.whitespace-nowrap Preview
 
@@ -25,7 +25,7 @@
     - tabs.with_tab(css: "px-6! rounded-t-lg! [&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!", html: active_tab_html) do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
-          %span.w-4.h-4
+          %span.size-4
             = heroicon("code-bracket", class: "size-4")
           %span.whitespace-nowrap Code
 
@@ -37,6 +37,6 @@
     - if allow_reset
       - tabs.with_tab(css: reset_css, html: reset_html) do |tab|
         - tab.with_title(css: "flex gap-x-2 items-center text-xs") do
-          %span.w-3.h-3
+          %span.size-3
             = heroicon("arrow-path", class: "size-3")
           %span.whitespace-nowrap Reset
