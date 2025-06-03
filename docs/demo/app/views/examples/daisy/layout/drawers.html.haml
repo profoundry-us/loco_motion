@@ -30,19 +30,16 @@
     :markdown
       The right drawer slides in from the right side of the screen.
 
-    = doc_note(modifier: :error, css: "mb-8", title: "Known Issue") do
+    = doc_note(modifier: :warning, css: "mb-8", title: "Multiple Drawers") do
       :markdown
-        This example broke in the V5 transition and no longer works properly. We
-        are working to correct it.
+        Drawers are not designed to work with multiple on the page, so this
+        example behaves a bit weirdly on desktop, showing both drawers.
 
-        See [Issue #53](https://github.com/profoundry-us/loco_motion/issues/53)
-        for more information.
-
-  .relative.w-full.h-48
+  .w-full.h-48
     = daisy_drawer(css: "drawer-end") do |drawer|
-      - # The `ms-[-100rem] w-[stretch]` CSS is only used to fix the example and isn't normally needed
-      - drawer.with_sidebar(css: "absolute ms-[-100rem] w-[stretch] h-48") do
-        .bg-base-100.p-4.w-40.h-48
+      - drawer.with_sidebar do
+        - # The calc accounts for the top nav bar
+        .w-48.bg-base-100.mt-16.p-4{ class: "h-[calc(100%-4rem)]" }
           Right sidebar!
 
       = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
