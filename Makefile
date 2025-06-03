@@ -169,10 +169,11 @@ algolia-clear:
 ##############################
 # Playwright / E2E commands
 ##############################
+
+# Run the playwright tests in the demo container; the UI mode automatically runs from the Procfile.dev
 .PHONY: playwright
 playwright:
-	@echo "Playwright UI is available at: \033[34;4mhttp://localhost:8080\033[0m\n"
-	docker compose exec -it demo yarn playwright test --ui-port=8080 --ui-host=0.0.0.0
+	docker compose exec -it demo yarn playwright test 'e2e' --reporter=dot,html --workers=1 --trace on
 
 ##############################
 # Build/Publish commands

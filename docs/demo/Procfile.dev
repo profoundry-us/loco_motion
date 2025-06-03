@@ -1,3 +1,4 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
 js: yarn build --watch
 css: yarn build:css --watch
+playwright:  echo "Playwright UI is available at: \033[34;4mhttp://localhost:8080\033[0m\n" && yarn playwright test --ui-port=8080 --ui-host=0.0.0.0
