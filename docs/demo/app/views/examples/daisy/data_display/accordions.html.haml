@@ -8,7 +8,7 @@
       You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers
       directly to each section.
 
-  = daisy_accordion(css: "mt-4 bg-gray-200 rounded-lg") do |accordion|
+  = daisy_accordion(css: "mt-4 bg-base-200 rounded-lg") do |accordion|
     - accordion.with_section(css: "collapse-arrow", title: "Section 1", checked: true) do
       This is a simple accordion. Click the sections to see more.
 
@@ -51,11 +51,11 @@
       %label.block.mb-4.italic What is your favorite color?
 
       = daisy_accordion(modifier: :plus, css: "flex flex-col gap-y-4", name: "favorite-color") do |accordion|
-        - accordion.with_section(css: "bg-red-300", title: "Red", value: "red", checked: params["favorite-color"] == "red") do
+        - accordion.with_section(css: "bg-red-700 text-white", title: "Red", value: "red", checked: params["favorite-color"] == "red") do
           Rosy!
-        - accordion.with_section(css: "bg-blue-300", title: "Blue", value: "blue", checked: params["favorite-color"] == "blue") do
+        - accordion.with_section(css: "bg-blue-700 text-white", title: "Blue", value: "blue", checked: params["favorite-color"] == "blue") do
           Solid!
-        - accordion.with_section(css: "bg-green-300", title: "Green", value: "green", checked: params["favorite-color"] == "green") do
+        - accordion.with_section(css: "bg-green-700 text-white", title: "Green", value: "green", checked: params["favorite-color"] == "green") do
           Groovy!
 
       .mt-4.flex.flex-row.items-center.gap-x-4

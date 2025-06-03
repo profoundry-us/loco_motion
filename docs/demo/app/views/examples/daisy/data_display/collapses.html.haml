@@ -19,10 +19,10 @@
       directly to each collapse.
 
   .flex.flex-col.gap-4{ class: "w-[400px]" }
-    = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-arrow") do |collapse|
+    = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-base-300 collapse-arrow") do |collapse|
       This is the content of the arrow collapse.
 
-    = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-plus") do |collapse|
+    = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-base-300 collapse-plus") do |collapse|
       This is the content of the plus collapse.
 
 
@@ -32,8 +32,8 @@
       You can also customize the collapse with any HTML you desire!
 
   .mx-auto{ class: "w-[400px]" }
-    = daisy_collapse(css: "collapse-arrow bg-gray-100") do |collapse|
-      - collapse.with_title(css: "collapse-title bg-gray-300") do
+    = daisy_collapse(css: "collapse-arrow bg-base-200 border border-base-300") do |collapse|
+      - collapse.with_title(css: "collapse-title bg-base-300") do
         .flex.gap-x-2.items-center
           = heroicon("user-circle", class: "size-6")
           %strong User Profile
