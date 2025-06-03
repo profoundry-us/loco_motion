@@ -25,9 +25,9 @@
       You can apply whatever styling you wish to make the browser stand out
       more.
 
-  = daisy_browser(css: "w-full max-w-4xl bg-sky-400 border border-sky-600") do |browser|
+  = daisy_browser(css: "w-full max-w-4xl bg-accent border border-accent") do |browser|
     - browser.with_toolbar do
-      %input.input.input-bordered.border-sky-600{ class: "ml-4! pl-2! w-full!", placeholder: "https://loco-motion.io" }
+      %input.input.input-bordered.border-accent-content{ class: "ml-4! pl-2! w-full!", placeholder: "https://loco-motion.io" }
 
-    .bg-sky-100.border-t.border-sky-600.px-4.py-16.text-center
+    .bg-base-200.border-t.border-accent.px-4.py-16.text-center
       This browser mockup is very easy to style and make look however you want!

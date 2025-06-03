@@ -20,7 +20,7 @@
         = link_to photo.links.html, target: "_blank" do
           = image_tag(photo.urls.regular, alt: photo.alt_description, class: "rounded-lg h-96")
         .absolute.bottom-2.left-0.right-0.flex.justify-center
-          %span.rounded.text-slate-600.px-2.py-1{ class: "bg-base-100/90" }
+          %span.rounded.text-base-content.px-2.py-1{ class: "bg-base-200/80" }
             Photo by
             = link_to photo.user.name, photo.user.links.html, class: "link hover:text-black", target: "_blank"
             on
