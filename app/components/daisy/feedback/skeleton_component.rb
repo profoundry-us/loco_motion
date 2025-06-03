@@ -10,7 +10,7 @@
 #    loading states.
 #
 # @loco_example Basic Shapes
-#   = daisy_skeleton(css: "w-24 h-24 rounded-full")
+#   = daisy_skeleton(css: "size-24 rounded-full")
 #   = daisy_skeleton(css: "w-36 h-20")
 #   = daisy_skeleton(css: "w-48 h-5")
 #

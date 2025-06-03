@@ -73,7 +73,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
           b.with_item do
             link_to "#" do
               safe_join([
-                heroicon_tag(icon, variant: :mini, class: icon_css),
+                heroicon(icon, variant: :mini, class: icon_css),
                 text
               ])
             end
@@ -89,7 +89,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
 
       it "renders all icons" do
         links.each do |_, icon|
-          expect(page).to have_selector(".breadcrumbs ul li svg[data-slot='icon']")
+          expect(page).to have_selector(".breadcrumbs ul li svg")
         end
       end
 
@@ -164,7 +164,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
         b.with_item do
           link_to "#" do
             safe_join([
-              heroicon_tag("cube", variant: :mini, class: "size-4 mr-1 text-slate-600"),
+              heroicon("cube", variant: :mini, class: "size-4 mr-1 text-slate-600"),
               "Categories"
             ])
           end
@@ -182,7 +182,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
       end
 
       it "renders link with icon" do
-        expect(page).to have_selector(".breadcrumbs ul li svg[data-slot='icon']")
+        expect(page).to have_selector(".breadcrumbs ul li svg")
       end
 
       it "maintains content order" do

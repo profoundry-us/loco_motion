@@ -33,7 +33,7 @@
 #   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
 #     = stat.with_description do
 #       .flex.items-center.gap-1
-#         = heroicon_tag "arrow-up", class: "size-4 text-success"
+#         = heroicon "arrow-up", class: "size-4 text-success"
 #         %span.text-success 14%
 #         from last month
 #
@@ -41,7 +41,7 @@
 #   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
 #     = stat.with_figure do
 #       .text-success
-#         = heroicon_tag "check-circle", class: "size-10"
+#         = heroicon "check-circle", class: "size-10"
 #
 class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::IconableComponent

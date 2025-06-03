@@ -28,7 +28,7 @@
 #     JD
 #
 # @loco_example With Custom Size
-#   = daisy_avatar(src: "avatar.jpg", css: "w-16 h-16")
+#   = daisy_avatar(src: "avatar.jpg", css: "size-16")
 #
 # @loco_example With Tooltip
 #   = daisy_avatar(src: "avatar.jpg", tip: "John Doe")

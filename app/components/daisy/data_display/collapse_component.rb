@@ -20,7 +20,7 @@
 #   = daisy_collapse do |collapse|
 #     - collapse.with_title do
 #       .flex.items-center.gap-2
-#         = heroicon_tag "chevron-down"
+#         = heroicon "chevron-down"
 #         Advanced Settings
 #     %p These are some advanced configuration options.
 #     = daisy_button("Apply Settings")

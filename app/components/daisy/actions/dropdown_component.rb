@@ -31,7 +31,7 @@
 # @loco_example Custom Activator
 #   = daisy_dropdown do |dropdown|
 #     - dropdown.with_activator do
-#       = heroicon_tag "bars-3", css: "size-6"
+#       = heroicon "bars-3", css: "size-6"
 #     - dropdown.with_item do
 #       Menu Item 1
 #     - dropdown.with_item do
@@ -43,15 +43,15 @@
 #       User Settings
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center
-#         = heroicon_tag "user-circle"
+#         = heroicon "user-circle"
 #         Profile
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center
-#         = heroicon_tag "cog-6-tooth"
+#         = heroicon "cog-6-tooth"
 #         Settings
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center.text-error
-#         = heroicon_tag "arrow-right-on-rectangle"
+#         = heroicon "arrow-right-on-rectangle"
 #         Logout
 #
 class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent

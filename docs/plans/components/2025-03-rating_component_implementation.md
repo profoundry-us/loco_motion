@@ -206,12 +206,12 @@ end
 ```haml
 = form_with(url: "#", method: :post, scope: :review, html: { class: "w-full max-w-xs space-y-2" }) do |form|
   .flex.items-center.gap-2
-    = hero_icon("star", class: "w-4 h-4 inline-block")
+    = hero_icon("star", class: "size-4 inline-block")
     = form.daisy_label(:rating, "Your Rating")
   = form.daisy_rating(:rating, css: "[&>input]:mask-star-2")
 
   .flex.items-center.gap-2
-    = hero_icon("chat-bubble-bottom-center-text", class: "w-4 h-4 inline-block")
+    = hero_icon("chat-bubble-bottom-center-text", class: "size-4 inline-block")
     = form.daisy_label(:comment, "Your Comment")
   = form.text_area(:comment, class: "textarea textarea-bordered h-24")
 

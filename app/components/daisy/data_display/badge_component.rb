@@ -31,7 +31,7 @@
 # @loco_example Using a Block
 #   = daisy_badge do
 #     %span.flex.items-center.gap-1
-#       = heroicon_tag "star", css: "size-4"
+#       = heroicon "star", css: "size-4"
 #       Featured
 #
 # @loco_example Default Badge

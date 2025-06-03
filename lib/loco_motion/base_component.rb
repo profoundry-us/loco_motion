@@ -3,7 +3,7 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   SELF_CLOSING_TAGS = %i[area base br col embed hr img input keygen link meta param source track wbr].freeze
   EMPTY_PART_IGNORED_TAGS = %i[textarea].freeze
 
-  include Heroicons::IconsHelper
+  include RailsHeroicon::Helper
 
   class_attribute :component_name
   class_attribute :component_parts, default: { component: {} }

@@ -91,12 +91,12 @@
   = form_with(url: "#", method: :post, scope: :user, html: { class: "w-full max-w-xs space-y-2" }) do |form|
     = form.daisy_label(:volume, "Volume Control") do
       .flex.items-center.gap-2
-        = hero_icon("speaker-wave", class: "w-4 h-4 inline-block")
+        = hero_icon("speaker-wave", class: "size-4 inline-block")
         Volume Control
     = form.daisy_range(:volume, min: 0, max: 100, step: 5, value: 65)
 
     = form.daisy_label(:brightness, "Brightness") do
       .flex.items-center.gap-2
-        = hero_icon("sun", class: "w-4 h-4 inline-block")
+        = hero_icon("sun", class: "size-4 inline-block")
         Brightness
     = form.daisy_range(:brightness, css: "range-primary", value: 80)

@@ -72,6 +72,6 @@ class Hero::IconComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    heroicon_tag(@icon, **rendered_html(:component))
+    heroicon(@icon, **rendered_html(:component))
   end
 end
