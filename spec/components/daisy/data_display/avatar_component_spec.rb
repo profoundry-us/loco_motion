@@ -124,7 +124,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
   end
 
   context "with custom size" do
-    let(:size_classes) { "w-10 h-10" }
+    let(:size_classes) { "size-10" }
     let(:avatar) { described_class.new(css: size_classes) }
 
     before do
@@ -168,7 +168,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
   context "with complex configuration" do
     let(:src) { "https://example.com/avatar.jpg" }
     let(:alt_text) { "User Avatar" }
-    let(:size_classes) { "w-16 h-16" }
+    let(:size_classes) { "size-16" }
     let(:avatar) { described_class.new(src: src, css: "#{size_classes} avatar-online", tip: "Online User") { alt_text } }
 
     before do

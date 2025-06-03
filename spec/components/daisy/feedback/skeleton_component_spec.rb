@@ -20,7 +20,7 @@ RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
   end
 
   context "with dimensions" do
-    let(:dimensions) { "w-24 h-24" }
+    let(:dimensions) { "size-24" }
     let(:skeleton) { described_class.new(css: dimensions) }
 
     before do
@@ -29,7 +29,7 @@ RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
 
     describe "rendering" do
       it "includes dimension classes" do
-        expect(page).to have_selector(".skeleton.w-24.h-24")
+        expect(page).to have_selector(".skeleton.size-24")
       end
 
       it "maintains default classes" do

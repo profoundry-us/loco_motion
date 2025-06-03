@@ -111,7 +111,7 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
       safe_join([
         content_tag(:div, class: "flex gap-x-2 items-center") do
           safe_join([
-            content_tag(:svg, "", class: "h-6 w-6"),
+            content_tag(:svg, "", class: "size-6"),
             content_tag(:strong, "User Profile")
           ])
         end

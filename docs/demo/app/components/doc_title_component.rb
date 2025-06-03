@@ -42,7 +42,7 @@ class DocTitleComponent < ApplicationComponent
       target: "_blank",
       css: "btn-xs btn-info btn-outline px-5 rounded-full hover:text-base-100!",
       right_icon: "arrow-top-right-on-square",
-      right_icon_css: "w-4 h-4",
+      right_icon_css: "size-4",
     )
   end
 

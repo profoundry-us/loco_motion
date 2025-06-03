@@ -188,7 +188,7 @@
     .space-y-2
       = form.daisy_label(:category) do
         .flex.items-center.gap-2
-          = hero_icon("tag", class: "w-4 h-4 inline-block")
+          = hero_icon("tag", class: "size-4 inline-block")
           Product Category
       = form.daisy_select(:category, placeholder: "Select a category") do |select|
         - select.with_option(value: "electronics", label: "Electronics")
@@ -200,7 +200,7 @@
       - options = [ "Under $25", "$25 - $50", "$50 - $100", "$100 - $200", "Over $200" ]
       = form.daisy_label(:price_range) do
         .flex.items-center.gap-2
-          = hero_icon("currency-dollar", class: "w-4 h-4 inline-block")
+          = hero_icon("currency-dollar", class: "size-4 inline-block")
           Price Range
       = form.daisy_select(:price_range, options: options, placeholder: "Select a price range")
 

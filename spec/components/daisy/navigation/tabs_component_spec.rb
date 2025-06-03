@@ -234,7 +234,7 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
       render_inline(tabs) do |t|
         t.with_tab do |tab|
           tab.with_title(css: "test-tab") do
-            '<div class="flex gap-x-2 items-center"><span class="w-4 h-4">icon</span><span class="whitespace-nowrap">Title</span></div>'.html_safe
+            '<div class="flex gap-x-2 items-center"><span class="size-4">icon</span><span class="whitespace-nowrap">Title</span></div>'.html_safe
           end
         end
       end
