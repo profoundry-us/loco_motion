@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib", "app"]
 
   # Add our few dependencies
+  s.add_dependency 'benchmark', '~> 0.4'
   s.add_dependency 'haml-rails', '~> 2.1'
   s.add_dependency 'rails_heroicon', '~> 2.3.0'
   s.add_dependency 'rails', '>= 6.1', '< 8.1'

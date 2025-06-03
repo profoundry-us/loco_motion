@@ -28,6 +28,11 @@ all:
 all-quick:
 	docker compose up
 
+# Run all of the tests (uses running containers)
+.PHONY: test
+test:
+	make loco-test && make demo-test && make playwright
+
 # Run & build the dev container
 .PHONY: dev
 dev:
