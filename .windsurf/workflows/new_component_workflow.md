@@ -133,14 +133,6 @@ Where:
 - `{ComponentTitle}` is the title-cased version of the component name (e.g., "Text Input")
 - `{component_name}` is the snake_case component name
 
-**After Creation**:
-
-Run the following command to restart the demo app and see the new example file:
-
-```bash
-make demo-restart
-```
-
 ### 6. Register Component Helper
 
 **File path**: `lib/loco_motion/helpers.rb`
@@ -165,6 +157,14 @@ Where:
 - `{GroupDisplay}` is the human-readable group name (e.g., `Data Input`)
 - `{PluralTitle}` is the pluralized title for the component (e.g., `Text Inputs`)
 - `{plural_component_name}` is the pluralized component name for example file (e.g., `text_inputs`)
+
+### 7. Restart the application
+
+Run the following command to restart the demo app and see the new example file:
+
+```bash
+make demo-restart
+```
 
 ## Example Usage
 

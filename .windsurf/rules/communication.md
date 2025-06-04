@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Communication
 
 When communicating with the user, follow these procedures.
@@ -12,3 +16,5 @@ When communicating with the user, follow these procedures.
 3. MUST interpret `ta` as `try again`
 
 4. MUST interpret `cont` as `continue`
+
+5. If asked to create a file (or set of files), MUST create **only** those files and prompt the user if you think there should be more files or changes
