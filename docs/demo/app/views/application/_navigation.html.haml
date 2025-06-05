@@ -1,7 +1,7 @@
 - icons = { guides: "document-text", hero: "shield-check", daisy: "square-3-stack-3d" }
 
 %turbo-frame#navmenu{ target: "content" }
-  %ul.menu.w-full.px-4.py-0
+  %ul.menu.w-full.px-4.py-0{ class: "mt-2.5" }
     - # Hard-coded guides
     %li.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1
       = hero_icon(icons[:guides], variant: :outline)
@@ -10,6 +10,11 @@
     %li.pl-6
       = link_to "Get Started", root_path,
       class: (request.original_url == root_url) ? "menu-active" : "",
+      data: { action: "click->nav#activate", "turbo-action": "replace" }
+
+    %li.pl-6
+      = link_to "Install", "/guides/installation",
+      class: (request.original_url == "/guides/installation") ? "menu-active" : "",
       data: { action: "click->nav#activate", "turbo-action": "replace" }
 
     - # Iterate over all of the framework examples

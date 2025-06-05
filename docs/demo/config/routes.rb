@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   get "/api-docs", to: "api_docs#index"
 
+  # Guides route that matches /guides/some-guide to the corresponding guide file
+  get "/guides/:id", to: "guides#show"
+
   # Defines the root path route ("/")
   root "application#home"
 end

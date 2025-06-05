@@ -1,0 +1,121 @@
+.max-w-prose
+  = daisy_link("https://rubyonrails.org", css: "link-hover", target: "_blank") do
+    .flex.items-center.justify-start.mb-8.p-8.bg-base-300.rounded-lg{ class: "mt-1" }
+      = image_tag(asset_path("logos/rails.svg"), class: "h-20 px-4", alt: "Rails Logo")
+      %div.px-4.text-xl
+        :markdown
+          _Loco_**Motion** is designed to work exclusively with the Ruby on
+          Rails web application framework!
+
+.prose
+  :markdown
+    # Install LocoMotion for Rails
+
+    LocoMotion is both a set of guides for builing Ruby on Rails applications as
+    well as a Component library that you can install into an existing Rails
+    application.
+
+    This guide walks you through installing the Component library.
+
+    ## 1. Gem Installation
+
+    Add the following to your `Gemfile` and run `bundle install`.
+
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "loco_motion-rails", "~> 0.5.0", require: "loco_motion"
+
+  :markdown
+    Or if you want the latest and greatest:
+
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
+
+  :markdown
+    ## 2. Javascript Installation
+
+    Next, some of the components require Javascript. Install the library with
+    your package manager of choice.
+
+.max-w-prose
+  .prose.mt-4
+    :markdown
+      ### npm
+
+  = daisy_code(css: "my-4", prefix: "$") do
+    npm i -D @profoundry-us/loco_motion@latest
+
+  .prose
+    :markdown
+      ### Yarn
+
+  = daisy_code(css: "my-4", prefix: "$") do
+    yarn add -D @profoundry-us/loco_motion@latest
+
+  .prose.mt-8
+    :markdown
+      Now, import and register the relevant controllers in your
+      `controllers/index.js` file.
+
+  = doc_code(css: "my-4", language: "javascript") do
+    :plain
+      # app/javascript/controllers/index.js
+
+      import { Application } from "@hotwired/stimulus"
+      const application = Application.start()
+
+      // Import LocoMotion controllers
+      import { CountdownController, ThemeController, CallyInputController } from "@profoundry-us/loco_motion"
+
+      application.register("loco-countdown", CountdownController)
+      application.register("loco-theme", ThemeController)
+      application.register("loco-cally-input", CallyInputController)
+
+.max-w-prose
+  = doc_note(css: "mt-6", modifier: :warning, title: "Cally Javascript Setup") do
+    :markdown
+      Note that there is an extra step if you want to use the Cally Calendar or
+      CallyInput components.
+
+    %br
+
+    %p
+      See the
+      = component_link("CallyInput Docs", "Daisy::DataInput::CallyComponent")
+      for more information.
+
+.mt-10.prose
+  :markdown
+    ## 3. TailwindCSS Installation
+
+    And finally, all of the components are built on top of TailwindCSS, so we
+    need to notify Tailwind of where to look for our components so that it can
+    properly setup and tree-shake all of our code into a minimal package.
+
+    Add the following to your `tailwind.config.js` file.
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "javascript") do
+    :plain
+      // tailwind.config.js
+      const { execSync } = require('child_process');
+
+      // Get the path to the loco_motion gem
+      let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
+
+      console.log(" *** Importing LocoMotion gem Components into Tailwind: ", locoBundlePath);
+
+      module.exports = {
+        content: [
+          `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
+          'app/components/**/*.{rb,js,html,haml}',
+          'app/views/**/*.{rb,js,html,haml}',
+        ]
+      }
+
+  = doc_note(css: "mt-6") do
+    :markdown
+      You can remove the `console.log` once everything is working 😄
