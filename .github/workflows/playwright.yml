@@ -110,7 +110,16 @@ jobs:
       env:
         RAILS_ENV: ${{ vars.RAILS_ENV }}
 
-    # Upload test results on failure
+    # Always upload server logs
+    - name: Upload server logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: server-logs
+        path: docs/demo/log/production.log
+        retention-days: 7
+
+    # Always upload test results
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
