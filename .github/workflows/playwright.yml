@@ -111,12 +111,12 @@ jobs:
         RAILS_ENV: ${{ vars.RAILS_ENV }}
 
     # Always upload server logs
-    - name: Upload everything
+    - name: Upload server logs
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: everything
-        path: .
+        name: server-logs
+        path: docs/demo/log/production.log
         retention-days: 7
 
     # Always upload test results
