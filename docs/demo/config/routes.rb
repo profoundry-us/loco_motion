@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   # Guides route that matches /guides/some-guide to the corresponding guide file
   get "/guides/:id", to: "guides#show", as: :guide
 
+  # Docs route that matches /docs/some-doc to the corresponding doc file
+  get "/docs/:id", to: "docs#show", as: :doc
+
   # Defines the root path route ("/")
-  root "application#home"
+  root "docs#show", id: "01_introduction"
 end
