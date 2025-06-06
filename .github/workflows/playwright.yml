@@ -105,7 +105,7 @@ jobs:
 
     # Run Playwright tests (always trace; add -x if debugging to stop on first fail)
     - name: Run Playwright tests
-      run: yarn playwright test 'e2e' --reporter=dot,html --workers=1 --trace on
+      run: yarn playwright test 'e2e' --reporter=dot,html --workers=1 --trace on -x
       working-directory: docs/demo
       env:
         RAILS_ENV: ${{ vars.RAILS_ENV }}
@@ -116,7 +116,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: server-logs
-        path: docs/demo/log/production.log
+        path: docs/demo/log
         retention-days: 7
 
     # Always upload test results
