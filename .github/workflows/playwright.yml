@@ -122,6 +122,16 @@ jobs:
         path: docs/demo/log/production.log
         retention-days: 7
 
+    # Always upload assets
+    - name: Upload assets
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: assets
+        path: docs/demo/public/assets
+        retention-days: 7
+
+
     # Always upload test results
     - name: Upload test results
       if: always()
