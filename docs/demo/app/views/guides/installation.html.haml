@@ -118,4 +118,27 @@
 
   = doc_note(css: "mt-6") do
     :markdown
-      You can remove the `console.log` once everything is working 😄
+      You can remove the `console.log` once everything is working.
+
+= doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      ## 4. Try it out!
+
+      You're ready to start using the components! 🥳
+
+      Hop into one of your views and show the world what you can build.
+
+  = daisy_button("Done!", html: { onclick: "alert('Go you!')" })
+
+  = daisy_badge(css: "badge-success") do
+    = hero_icon("check-circle")
+    Task completed!
+
+  = daisy_alert(icon: "information-circle", css: "alert-info alert-soft") do
+    Where will you go from here?
+
+  %p.flex.flex-col.gap-1.text-primary
+    Loading endless possibilities...
+    = daisy_progress(css: "w-100 progress-primary")
+

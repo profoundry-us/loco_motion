@@ -48,26 +48,10 @@
           = render partial: "application/navigation"
 
     - # Hide ads on the home page
-    .hidden.fixed.overflow-scroll.bottom-0.w-65.p-4{ class: "top-[calc(65px_+_var(--spacing))] right-[max(0px,calc(50vw-734px))]", "data-ads-target": "ads" }
-      = daisy_card(css: "bg-base-200 shadow-sm hover:shadow-lg transition-all", body_css: "p-3 text-sm", href: "https://app.privacy.com/join/GYCQ9", target: "_blank") do |card|
-        - card.with_top_figure(css: "py-10 bg-[#23221F] text-white") do
-          = image_tag(asset_path("logos/privacy"), class: "w-5/6", alt: "Privacy.com Logo")
-
-        :markdown
-          Get $5 and protect your banking cards!
-
-          Free plans available!
-
-      .mt-8.text-xs.px-2
-        %strong FTC Ads Notice
-
-        .mt-2
-          :markdown
-            The ads above are affiliate links to products I regularly use and highly
-            recommend.
-            <br />
-            <br />
-            I may receive a commission if you decide to purchase.
+    .hidden.fixed.overflow-scroll.bottom-0.w-65.p-4.space-y-4{ class: "top-[calc(65px_+_var(--spacing))] right-[max(0px,calc(50vw-734px))]", "data-ads-target": "ads" }
+      = render partial: "ads/privacy"
+      = render partial: "ads/honeybook"
+      = render partial: "ads/ftc_notice"
 
     = daisy_modal(dialog_id: "al-search-modal", closable: false,
         backdrop_css: "backdrop-blur-xs",
