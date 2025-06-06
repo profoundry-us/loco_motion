@@ -52,11 +52,14 @@
 #
 class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
+  include LocoMotion::Concerns::LinkableComponent
 
   renders_one :title, LocoMotion::BasicComponent.build(tag_name: :h2, css: "card-title")
   renders_one :top_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
   renders_one :bottom_figure, Daisy::DataDisplay::FigureComponent.build(css: "card-image")
   renders_one :actions, LocoMotion::BasicComponent.build(css: "card-actions")
+
+  define_part :body
 
   # @return [String] The title text when using the simple title option.
   attr_reader :simple_title
@@ -95,5 +98,6 @@ class Daisy::DataDisplay::CardComponent < LocoMotion::BaseComponent
 
   def setup_component
     add_css(:component, "card")
+    add_css(:body, "card-body")
   end
 end

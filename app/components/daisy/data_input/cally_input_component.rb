@@ -47,7 +47,7 @@ module Daisy
             placeholder: @placeholder,
             style: "anchor-name:--#{loco_parent.anchor}",
             data: {
-              "cally-input-target": "input"
+              "loco-cally-input-target": "input"
             }
           })
         end
@@ -71,7 +71,7 @@ module Daisy
             id: @id || loco_parent.calendar_id,
             value: @value || loco_parent.value,
             data: {
-              "cally-input-target": "calendar"
+              "loco-cally-input-target": "calendar"
             }
           })
         end
@@ -151,11 +151,11 @@ module Daisy
       # @private
       def setup_component
         # Ensure we attach the Stimulus controller
-        add_stimulus_controller(:component, "cally-input")
+        add_stimulus_controller(:component, "loco-cally-input")
 
         # Add relevant popover part HTML
         add_html(:popover, { id: @popover_id, popover: "auto", style: "position-anchor:--#{@anchor}" })
-        add_html(:popover, { data: { "cally-input-target": "popover", "auto-scroll-padding": @auto_scroll_padding } })
+        add_html(:popover, { data: { "loco-cally-input-target": "popover", "auto-scroll-padding": @auto_scroll_padding } })
 
         # Note that we NEED the dropdown class so that the anchor positioning works properly
         add_css(:popover, "where:dropdown where:bg-base-100 where:rounded where:shadow-lg")

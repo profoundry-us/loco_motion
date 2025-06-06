@@ -71,7 +71,7 @@ export default class extends Controller {
    */
   closeCalendar(event) {
     // Don't close if we're still in the calendar elements
-    if (event.relatedTarget && this.calendarTarget.contains(event.relatedTarget)) {
+    if (event?.relatedTarget && this.calendarTarget.contains(event.relatedTarget)) {
       return
     }
 

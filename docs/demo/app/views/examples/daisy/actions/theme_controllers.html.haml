@@ -80,7 +80,7 @@
 
       - tc.themes.each do |theme|
         - dropdown.with_item do
-          = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
+          = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->loco-theme#setTheme" } }) do
             = tc.build_radio_input(theme, name: "docs-custom-theme", css: "hidden peer")
             = tc.build_theme_preview(theme)
             = theme.humanize

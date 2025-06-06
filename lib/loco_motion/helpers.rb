@@ -112,7 +112,6 @@ module LocoMotion
       "/examples/#{framework}/#{section_path}#{example}"
     end
 
-
     module_function :component_example_path, :component_partial_path
   end
 end

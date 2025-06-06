@@ -1,7 +1,7 @@
 = part(:component) do
   = top_figure if top_figure?
 
-  .card-body
+  = part(:body) do
     = title if title?
     = content
     = actions if actions?

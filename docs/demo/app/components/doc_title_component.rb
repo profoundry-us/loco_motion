@@ -30,7 +30,7 @@ class DocTitleComponent < ApplicationComponent
   end
 
   def setup_description
-    add_css(:description, "prose lg:prose-lg")
+    add_css(:description, "mt-2 prose lg:prose-lg")
   end
 
   def default_api_button

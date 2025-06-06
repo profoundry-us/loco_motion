@@ -26,7 +26,7 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
       end
 
       it "adds stimulus controller" do
-        expect(page).to have_selector("[data-controller='countdown']")
+        expect(page).to have_selector("[data-controller='loco-countdown']")
       end
     end
   end
@@ -194,9 +194,9 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
 
     describe "rendering" do
       it "adds stimulus targets to parts" do
-        expect(page).to have_selector("[data-countdown-target='hours']")
-        expect(page).to have_selector("[data-countdown-target='minutes']")
-        expect(page).to have_selector("[data-countdown-target='seconds']")
+        expect(page).to have_selector("[data-loco-countdown-target='hours']")
+        expect(page).to have_selector("[data-loco-countdown-target='minutes']")
+        expect(page).to have_selector("[data-loco-countdown-target='seconds']")
       end
     end
   end

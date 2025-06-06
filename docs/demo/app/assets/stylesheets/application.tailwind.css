@@ -1,3 +1,6 @@
+/* Import our fonts */
+@import 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap';
+
 /* Import the base Tailwind theme */
 @import 'tailwindcss';
 
@@ -15,3 +18,17 @@
 
 /* Point to our custom config which pulls in some of the LocoMotion files */
 @config "../../../tailwind.config.js";
+
+@theme {
+  --font-sans: "Open Sans", "Montserrat", sans-serif;
+  --max-prose-width: 100%;
+}
+
+/* Add some custom styles */
+.max-w-prose {
+  max-width: var(--max-prose-width);
+}
+
+.prose {
+  max-width: var(--max-prose-width);
+}

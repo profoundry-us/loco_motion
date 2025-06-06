@@ -20,13 +20,13 @@ RSpec.describe Daisy::DataInput::CallyInputComponent, type: :component do
     end
 
     it "includes the stimulus controller" do
-      expect(page).to have_css("[data-controller='cally-input']")
+      expect(page).to have_css("[data-controller='loco-cally-input']")
     end
 
     it "sets up data attributes for stimulus targets" do
-      expect(page).to have_css("[data-cally-input-target='input']")
-      expect(page).to have_css("[data-cally-input-target='calendar']")
-      expect(page).to have_css("[data-cally-input-target='popover']")
+      expect(page).to have_css("[data-loco-cally-input-target='input']")
+      expect(page).to have_css("[data-loco-cally-input-target='calendar']")
+      expect(page).to have_css("[data-loco-cally-input-target='popover']")
     end
   end
 

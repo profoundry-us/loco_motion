@@ -7,14 +7,17 @@ const application = Application.start()
 
 // Import LocoMotion controllers
 import { CountdownController, ThemeController, CallyInputController } from "@profoundry-us/loco_motion"
-application.register("countdown", CountdownController)
-application.register("theme", ThemeController)
-application.register("cally-input", CallyInputController)
+application.register("loco-countdown", CountdownController)
+application.register("loco-theme", ThemeController)
+application.register("loco-cally-input", CallyInputController)
 
 // Import demo app controllers
 
 import ActiveTabController from "./active_tab_controller"
 application.register("active-tab", ActiveTabController)
+
+import AdsController from "./ads_controller"
+application.register("ads", AdsController)
 
 import DocTitleController from "./doc_title_controller"
 application.register("doc-title", DocTitleController)

@@ -1,11 +1,11 @@
-= daisy_navbar(css: "justify-between") do |bar|
+= daisy_navbar(css: "justify-between px-1") do |bar|
   - bar.with_start(css: "w-auto! gap-2") do
     %label.-ml-2.btn.btn-ghost.px-1.sm:px-3.xl:hidden{ for: "sidenav-drawer" }
       = hero_icon("bars-3", css: "size-6")
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
       = link_to(root_path, class: "flex items-center gap-2") do
-        = image_tag("loco-logo.png", class: "h-8")
+        = image_tag("loco-logo.png", class: "h-8 -scale-x-100")
         %span
           %em> Loco
           %span.font-bold Motion
@@ -40,13 +40,13 @@
           Themes
 
         - dropdown.with_item do
-          = daisy_link(href: "#", css: "no-underline text-error", html: { data: { action: "click->theme#clearTheme", "theme-theme-name-param": "docs-theme" } }) do
+          = daisy_link(href: "#", css: "no-underline text-error", html: { data: { action: "click->loco-theme#clearTheme", "loco-theme-theme-name-param": "docs-theme" } }) do
             = hero_icon("trash", css: "size-4")
             Clear Theme
 
         - tc.themes.each do |theme|
           - dropdown.with_item do
-            = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->theme#setTheme" } }) do
+            = daisy_link(href: "#", css: "no-underline", html: { data: { action: "click->loco-theme#setTheme" } }) do
               = tc.build_radio_input(theme, name: "docs-theme", css: "hidden peer")
               = tc.build_theme_preview(theme)
               = theme.humanize

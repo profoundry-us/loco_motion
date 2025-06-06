@@ -33,7 +33,7 @@ class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   # Sets up the component with theme Stimulus controller.
   #
   def before_render
-    add_stimulus_controller(:component, :theme)
+    add_stimulus_controller(:component, "loco-theme")
   end
 
   #
