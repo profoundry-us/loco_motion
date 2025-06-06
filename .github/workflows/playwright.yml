@@ -107,7 +107,7 @@ jobs:
 
     # Run Playwright tests (always trace; add -x if debugging to stop on first fail)
     - name: Run Playwright tests
-      run: yarn playwright test 'e2e' --reporter=dot,html --workers=1 --trace on -x
+      run: yarn playwright test 'e2e' --reporter=dot,html --workers=1 --trace on
       working-directory: docs/demo
       env:
         RAILS_ENV: ${{ vars.RAILS_ENV }}
