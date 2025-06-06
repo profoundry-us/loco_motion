@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: niden/actions-memcached@v7
 
     # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
     - name: Create symlink to LocoMotion gem directory
@@ -93,8 +94,6 @@ jobs:
         RAILS_SKIP_SSL_VERIFICATION: true
         DISABLE_SSL: true
       run: |
-        echo "Precompiling Rails assets..."
-        bundle exec rails assets:precompile
         echo "Starting the server..."
         bundle exec rails server -d -p 3000
         echo "Waiting for server to start..."
