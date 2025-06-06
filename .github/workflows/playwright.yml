@@ -93,6 +93,9 @@ jobs:
         RAILS_SKIP_SSL_VERIFICATION: true
         DISABLE_SSL: true
       run: |
+        echo "Precompiling Rails assets..."
+        bundle exec rails assets:precompile
+        echo "Starting the server..."
         bundle exec rails server -d -p 3000
         echo "Waiting for server to start..."
         sleep 5
