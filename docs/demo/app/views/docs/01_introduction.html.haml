@@ -29,8 +29,8 @@
 
     .mt-16.text-center
       = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", target: "_blank",
-        href: "https://github.com/profoundry-us/loco_motion#locomotion-components"
+        right_icon: "arrow-right", href: doc_path("02_install"),
+        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
 
     .mt-32.lg:flex.lg:space-x-8
       %div{ class: "md:basis-2/5" }
@@ -155,5 +155,5 @@
 
     .mt-4.mb-16.text-center
       = daisy_button "😉 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", target: "_blank",
-        href: "https://github.com/profoundry-us/loco_motion#locomotion-components"
+        right_icon: "arrow-right", href: doc_path("02_install"),
+        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }

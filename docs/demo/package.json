@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.4",
+    "@hotwired/turbo-rails": "^8.0.16",
     "@profoundry-us/loco_motion": "./vendor/loco_motion-rails/",
     "@tailwindcss/cli": "^4.1.8",
     "@tailwindcss/typography": "^0.5.16",

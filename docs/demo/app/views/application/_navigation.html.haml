@@ -4,7 +4,7 @@
   %ul.menu.w-full.px-4.py-0{ class: "mt-2.5" }
     - @nav_sections.each do |section|
       %li
-        %h2.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1
+        %h2.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1.tracking-wide
           = hero_icon(section[:icon], variant: :outline, css: "text-#{section[:icon_color]}")
           = section[:title]
 
@@ -12,19 +12,19 @@
           - section[:items].each do |item|
             - if item[:is_group]
               %li
-                .menu-title.text-primary.font-bold
+                .menu-title.text-primary.font-bold.tracking-wide
                   = item[:title].upcase
                 %ul.ml-4
                   - item[:items].each do |subitem|
                     %li
                       = link_to subitem[:title], subitem[:path],
                       class: request.original_url.include?(subitem[:path]) ? "menu-active" : "",
-                      data: { action: "click->nav#activate", "turbo-action": "replace" }
+                      data: { action: "click->nav#refresh", "turbo-action": "replace" }
             - else
               %li
                 = link_to item[:title], item[:path],
                 class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "menu-active" : "",
-                data: { action: "click->nav#activate", "turbo-action": "replace" }
+                data: { action: "click->nav#refresh", "turbo-action": "replace" }
 
     .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
       <em>That's all folks!</em> 😉

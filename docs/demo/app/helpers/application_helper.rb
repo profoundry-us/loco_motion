@@ -28,6 +28,14 @@ module ApplicationHelper
   def doc_title(*args, **kws, &block)
     render(DocTitleComponent.new(*args, **kws), &block)
   end
+  
+  def doc_buttons(*args, **kws, &block)
+    render(DocFooterButtonsComponent.new(*args, **kws), &block)
+  end
+
+  def doc_info(*args, **kws, &block)
+    render(DocInfoComponent.new(*args, **kws), &block)
+  end
 
   # Creates a link to a component example page with consistent styling
   #

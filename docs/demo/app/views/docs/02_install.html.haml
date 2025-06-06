@@ -1,11 +1,8 @@
 .max-w-prose
-  = daisy_link("https://rubyonrails.org", css: "link-hover", target: "_blank") do
-    .flex.items-center.justify-start.mb-8.p-8.bg-base-300.rounded-lg{ class: "mt-1" }
-      = image_tag("logos/rails.svg", class: "h-20 px-4", alt: "Rails Logo")
-      %div.px-4.text-xl
-        :markdown
-          _Loco_**Motion** is designed to work exclusively with the Ruby on
-          Rails web application framework!
+  = doc_info(url: "https://rubyonrails.org", image_path: "logos/rails.svg", image_alt: "Rails Logo") do
+    :markdown
+      _Loco_**Motion** is designed to work exclusively with the Ruby on
+      Rails web application framework!
 
 .prose
   :markdown

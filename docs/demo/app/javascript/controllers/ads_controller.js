@@ -4,9 +4,16 @@ export default class extends Controller {
   static targets = ["ads", "content", "hidden"]
 
   connect() {
+    this.turboLoadListener = this.turboLoad.bind(this)
+    document.addEventListener('turbo:load', this.turboLoadListener)
   }
 
   disconnect() {
+    document.removeEventListener('turbo:load', this.turboLoadListener)
+  }
+
+  turboLoad() {
+    this.refresh()
   }
 
   refresh() {

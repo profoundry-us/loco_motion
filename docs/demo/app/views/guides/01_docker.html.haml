@@ -1,1 +1,168 @@
-%h1 Docker Documentation
+.max-w-prose
+  = doc_info(url: "https://www.docker.com/", image_path: "logos/docker.svg", image_alt: "Docker Logo") do
+    :markdown
+      _Loco_**Motion** recommends using Docker for a consistent and reliable
+      development environment!
+
+.prose
+  :markdown
+    # Docker Development Environment
+
+    We recommend using Docker to get your project setup from the beginning. This
+    ensures that you have a stable development environment, no matter what OS or
+    system you're using to develop.
+
+    It also allows you to troubleshoot and debug the application since the
+    development container is small and simple with very few dependencies.
+
+    ## 1. Initial Setup
+
+    First, you'll need to install Docker. You can download it from
+    [Docker's website](https://www.docker.com/).
+
+    Once installed, create a new directory for your project:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      mkdir -p ~/Development/mycompany/myproject
+    - code.with_line(prefix: "$") do
+      cd ~/Development/mycompany/myproject
+
+.mt-12.prose
+  :markdown
+    ## 2. Configuration Files
+
+    Look in the `examples` directory of the [LocoMotion
+    repository](https://github.com/profoundry-us/loco_motion/tree/main/examples)
+    for these basic configuration files:
+
+    - `docker-compose.yml` - Defines your application services
+    - `Dockerfile` - Instructions for building your app container
+    - `dev/Dockerfile` - Development environment container
+    - `entrypoint.sh` - Script that runs when containers start
+    - `Makefile` - Shortcuts for common commands
+
+    Copy these files into your project directory. Your directory structure should
+    look like this:
+
+  = doc_code(language: "text") do
+    :plain
+      ~/Development
+      └── mycompany
+          └── myproject
+              ├── Dockerfile
+              ├── Makefile
+              ├── dev
+              │   └── Dockerfile
+              ├── docker-compose.yml
+              └── entrypoint.sh
+
+.prose.mt-12
+  :markdown
+    ## 3. Starting the Development Environment
+
+    With these files in place, you can now start your development environment:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    make dev
+
+.prose
+  :markdown
+    This command will build and run all the necessary containers. Once they have
+    started, open a shell in your development container with:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    make dev-shell
+
+.prose.mt-12
+  :markdown
+    ## 4. Creating a Rails Application
+
+    Once inside the development container, you can create a new Rails application:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
+
+.max-w-prose
+  = doc_note(css: "mt-6") do
+    :markdown
+      If you run into trouble with the Rails command, you can reset your
+      environment with:
+
+      ```shell
+      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version\
+        Gemfile README.md Rakefile app bin config config.ru
+      ```
+
+.prose.mt-12
+  :markdown
+    ## 5. Database Configuration
+
+    After creating your Rails application, update the database configuration in
+    `config/database.yml`:
+
+  = doc_code(language: "yaml") do
+    :plain
+      # Under the default section in config/database.yml
+      host: db
+      username: postgres
+      password: password
+
+.prose.mt-12
+  :markdown
+    ## 6. Running Your Application
+
+    Now you can uncomment the `app` section in your `docker-compose.yml` file and
+    start your application:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    make app
+
+.prose
+  :markdown
+    After the application builds and starts, you should see output indicating that
+    Rails is running. You can now visit [http://localhost:3000](http://localhost:3000)
+    in your web browser to see your application.
+
+.prose.mt-12
+  :markdown
+    ## 7. Building JavaScript and CSS
+
+    To ensure JavaScript and CSS assets are properly bundled, update your
+    `Procfile.dev` to bind to all interfaces:
+
+  = doc_code(language: "text") do
+    :plain
+      web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
+
+.prose
+  :markdown
+    Also update your `Dockerfile` to use Foreman for starting the application:
+
+  = doc_code(language: "dockerfile") do
+    :plain
+      # Change this line:
+      CMD ["rails", "server", "-b", "0.0.0.0"]
+
+      # To this:
+      CMD ["./bin/dev"]
+
+  :markdown
+    ## Success!
+
+    You now have a complete Docker development environment for your Rails
+    application! This setup provides:
+
+    - Consistent development environment across any OS or system
+    - Simple debugging and troubleshooting
+    - Easy onboarding for new team members
+    - Isolation from your host system's dependencies
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

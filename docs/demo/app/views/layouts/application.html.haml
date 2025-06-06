@@ -18,6 +18,7 @@
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/erb.min.js" }
+    %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js" }
     %script{ src: "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js" }
 
 
@@ -25,7 +26,7 @@
   - nav_classes = "w-64 bg-base-100"
   - footer_classes = "md:flex md:items-center md:justify-center md:space-x-1 mt-4 py-4 text-sm whitespace-nowrap"
 
-  %body.relative{ "data-controller": "nav ads", "data-action": "turbo:load@window->ads#refresh" }
+  %body.relative{ "data-controller": "nav ads", "data-action": "turbo:visit@window->ads#refresh" }
     %div{ class: header_classes }
       .mx-auto{ class: "max-w-[1440px]" }
         = render partial: "application/header"
@@ -34,7 +35,7 @@
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
       .drawer-content.overflow-hidden
-        .xl:pl-64.mx-auto{ class: "max-w-[1440px]", "data-ads-target": "content" }
+        .xl:pl-60.mx-auto{ class: "max-w-[1440px]", "data-ads-target": "content" }
           %turbo-frame#content.block.p-4
             = yield
 
