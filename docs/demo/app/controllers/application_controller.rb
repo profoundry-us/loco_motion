@@ -9,16 +9,59 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_nav_sections
+    daisy_components = LocoMotion::COMPONENTS.select { |comp,config| comp.include? "Daisy" }
+
+    # Group daisy components by their group
+    grouped_components = {}
+    daisy_components.each do |comp, config|
+      group = config[:group]
+      grouped_components[group] ||= []
+      grouped_components[group] << { name: comp, config: config }
+    end
+
+    # Sort groups by name
+    sorted_groups = grouped_components.keys.sort
+
     @nav_sections = [
       {
         title: "Docs",
         icon: "book-open",
+        icon_color: "accent",
         items: generate_doc_items('docs')
       },
       {
         title: "Guides",
         icon: "document-text",
+        icon_color: "secondary",
         items: generate_doc_items('guides')
+      },
+      {
+        title: "Hero",
+        icon: "shield-check",
+        icon_color: "info",
+        items: [
+          {
+            title: "Icons",
+            path: "/examples/Hero::IconComponent"
+          }
+        ]
+      },
+      {
+        title: "Daisy",
+        icon: "square-3-stack-3d",
+        icon_color: "primary",
+        items: sorted_groups.map do |group|
+          {
+            title: group,
+            is_group: true,
+            items: grouped_components[group].map do |item|
+              {
+                title: item[:config][:title],
+                path: "/examples/#{item[:name]}"
+              }
+            end
+          }
+        end
       }
     ]
   end
