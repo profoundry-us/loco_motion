@@ -1,7 +1,7 @@
 .max-w-prose
   = doc_info(url: "https://haml.info/", image_path: "logos/haml.png", image_alt: "HAML Logo") do
     :markdown
-      _Loco_**Motion** embraces HAML because brackets are _so_ last decade!
+      _Loco_**Motion** embraces HAML for the amazing developer experience!
       Enjoy cleaner templates with indentation-based syntax that's both elegant
       and efficient.
 
@@ -9,7 +9,277 @@
   :markdown
     # Haml Templates
 
-    Haml Guide Content
+    HAML (HTML Abstraction Markup Language) simplifies your HTML templates with
+    a cleaner, more concise syntax that emphasizes indentation over closing tags
+    and brackets. It's designed to make template creation more enjoyable and
+    maintainable.
+
+    ## 1. Why HAML?
+
+    HAML offers several advantages over traditional ERB templates:
+
+    - **Cleaner syntax**: Uses indentation instead of closing tags, improving
+      readability and reducing errors
+    - **Seamless Ruby integration**: Beautifully integrates with Ruby and Rails,
+      making dynamic content natural
+    - **Powerful filters**: Supports
+    [filters](https://haml.info/docs/yardoc/file.REFERENCE.html#filters) like
+    `:markdown`, `:plain`, and `:javascript` for embedding different content
+    types
+    - **DRY principles**: Reduces repetition in your markup
+    - **Developer friendly**: Makes templates more maintainable with consistent
+    structure
+
+.mt-12.prose
+  :markdown
+    ## 2. Installing HAML
+
+    To add HAML to your Rails project, follow these steps:
+
+    First, add the HAML gems to your `Gemfile`.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Main gem for HAML integration
+      gem "haml-rails", "~> 2.0"
+
+      # For development only (helps convert ERB to HAML)
+      group :development do
+        gem 'html2haml'
+      end
+
+.mt-6.prose
+  :markdown
+    Then install the gems with Bundler.
+
+.mt-6.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bundle install
+
+.mt-6.prose
+  :markdown
+    Update your `tailwind.config.js` file to look for HAML files instead of ERB.
+
+.mt-6.max-w-prose
+  = doc_code(language: "javascript") do
+    :plain
+      module.exports = {
+        content: [
+          './app/views/**/*.html.haml',
+          './app/helpers/**/*.rb',
+          './app/javascript/**/*.js',
+          './app/components/**/*.{rb,js,html.haml}',
+          // ... other paths
+        ],
+        // ... rest of configuration
+      }
+
+.mt-6.prose
+  :markdown
+    If you have existing ERB templates, you can convert them to HAML with the
+    following command.
+
+= doc_note(modifier: :error, title: "Warning", css: "mt-6") do
+  :markdown
+    This will delete your ERB files, so make sure you have a backup or can
+    easily do a `git revert`.
+
+.mt-6.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    HAML_RAILS_DELETE_ERB=true rails haml:erb2haml
+
+.mt-12.prose
+  :markdown
+    ## 3. HAML Syntax Basics
+
+    ### Elements
+
+    HAML uses the `%` character followed by the element name.
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      %h1 Hello World
+      %p This is a paragraph
+      %div
+        %span Nested within the div
+
+.mt-6.prose
+  :markdown
+    Compiled HTML:
+
+.mt-6.max-w-prose
+  = doc_code(language: "html") do
+    :plain
+      <h1>Hello World</h1>
+      <p>This is a paragraph</p>
+      <div>
+        <span>Nested within the div</span>
+      </div>
+
+.prose.mt-12
+  :markdown
+    ### Attributes
+
+    HAML supports both HTML-style and Ruby hash-style attributes. We recommend
+    the Ruby hash-style so you have less context switching.
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      // HTML style
+      %a(href="https://haml.info" title="HAML Website") HAML Site
+
+      // Ruby hash style
+      %a{href: "https://haml.info", title: "HAML Website"} HAML Site
+
+      // With dynamic values
+      %div{class: "card \#{@card_type}"} Content
+
+.mt-6.prose
+  :markdown
+    ### Classes and IDs
+
+    Use `.` for classes and `#` for IDs (similar to CSS selectors).
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      %div.container Content in a div with class "container"
+      %section#main Main section with ID "main"
+
+      // Shorthand - div is implied when only using class/id
+      .container Content in a div with class "container"
+      #main Content in a div with ID "main"
+
+      // Multiple classes
+      - other_classes = ["btn-large", "btn-soft"]
+      .btn.btn-primary{ class: other_classes.join(" ") } Primary button
+
+.mt-6.prose
+  :markdown
+    ### Ruby Code
+
+    And HAML integrates beautifully with Ruby code!
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      // Evaluated Ruby (=)
+      %p= @post.title
+
+      // Ruby block
+      - if user_signed_in?
+        %p Welcome, \#{current_user.name}!
+      - else
+        %p Please sign in.
+
+      // Iteration
+      %ul
+        - @items.each do |item|
+          %li= item.name
+
+.mt-6.prose
+  :markdown
+    ### Comments
+
+    Additoinally, HAML supports both HTML and silent comments.
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      / This comment will be VISIBLE in the HTML output
+
+      -# This comment will be HIDDEN in the HTML output
+
+.mt-6.prose
+  :markdown
+    ### HAML with TailwindCSS and DaisyUI
+
+    And it works seamlessly with utility-based CSS frameworks like TailwindCSS:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      // Using Tailwind classes
+      .flex.items-center.justify-between.p-4.bg-gray-100.rounded-lg
+        %h2.text-xl.font-bold Card Title
+        %p.text-gray-600 Card description goes here
+
+      // Using DaisyUI components with Tailwind
+      .card.shadow-xl
+        .card-body
+          %h3.card-title Product Name
+          %p.mb-4 Product description
+          .card-actions
+            %button.btn.btn-primary Buy Now
+
+.mt-12.prose
+  :markdown
+    ## 4. Best Practices
+
+    ### Keep Templates Clean
+
+    - Maintain consistent indentation (usually 2 spaces)
+    - Extract complex logic into simple helpers or partials
+    - Leverage LocoMotion components for even more complex needs
+
+    ### Line Breaks
+
+    Use the `|` character for multiline text:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      %p
+        This is a paragraph with |
+        multiple lines of text. |
+        Each line will be joined without \#{"spaces"}. |
+
+.mt-6.prose
+  :markdown
+    ### Whitespace Control
+
+    Use `<` to remove trailing whitespace and `>` to remove leading whitespace:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      %p<
+        Text with no trailing whitespace
+      %p>
+        Text with no leading whitespace
+
+.mt-12.prose
+  :markdown
+    ## 5. LocoMotion Components with HAML
+
+    LocoMotion components are designed to work beautifully with HAML templates.
+    Here's an example using the DaisyUI button component:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      // Basic button
+      = daisy_button(text: "Click Me")
+
+      // Styled button with block content
+      = daisy_button(css: "btn-primary") do
+        %i.fas.fa-save.mr-2
+        Save Changes
+
+      // Button with icon and attributes
+      = daisy_button(css: "btn-outline btn-sm", html: { data: { action: "click->form#submit" } }) do
+        Submit Form
+
+.mt-12.prose
+  :markdown
+    ## Success!
+
+    You've learned the basics of HAML and how to use it effectively with
+    LocoMotion! HAML's clean syntax will make your templates more maintainable
+    and your development experience more enjoyable.
 
 = daisy_divider
 
