@@ -93,9 +93,10 @@
       If you run into trouble with the Rails command, you can reset your
       environment with:
 
+      <br />
+
       ```shell
-      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version\
-        Gemfile README.md Rakefile app bin config config.ru
+      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
       ```
 
 .prose.mt-12
@@ -128,6 +129,13 @@
     After the application builds and starts, you should see output indicating that
     Rails is running. You can now visit [http://localhost:3000](http://localhost:3000)
     in your web browser to see your application.
+
+.max-w-prose.mt-6
+  = doc_note do
+    :markdown
+      Once the container is built, you can run `make app-quick` to simply start
+      the containers. This is **much** faster than running the full build every
+      time.
 
 .prose.mt-12
   :markdown
