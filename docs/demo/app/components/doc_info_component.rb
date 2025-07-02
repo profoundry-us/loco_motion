@@ -5,6 +5,11 @@ class DocInfoComponent < ApplicationComponent
     super
 
     @url = config_option(:url, "#")
+
+    @icon = config_option(:icon, "information-circle")
+    @icon_size = config_option(:icon_size, 70)
+    @icon_css = config_option(:icon_css, "")
+
     @image_path = config_option(:image_path, "")
     @image_alt = config_option(:image_alt, "")
   end

@@ -26,11 +26,11 @@ export default class extends Controller {
 
   hide() {
     this.adsTarget.classList.toggle("lg:block!", false)
-    this.contentTarget.classList.toggle("lg:pr-60", false)
+    this.contentTarget.classList.toggle("lg:pr-64", false)
   }
 
   show() {
     this.adsTarget.classList.toggle("lg:block!", true)
-    this.contentTarget.classList.toggle("lg:pr-60", true)
+    this.contentTarget.classList.toggle("lg:pr-64", true)
   }
 }

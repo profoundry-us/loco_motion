@@ -28,28 +28,28 @@
 
   %body.relative{ "data-controller": "nav ads", "data-action": "turbo:visit@window->ads#refresh" }
     %div{ class: header_classes }
-      .mx-auto{ class: "max-w-[1440px]" }
+      .mx-auto{ class: "max-w-[1470px]" }
         = render partial: "application/header"
 
     .drawer.xl:drawer-open
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
       .drawer-content.overflow-hidden
-        .xl:pl-60.mx-auto{ class: "max-w-[1440px]", "data-ads-target": "content" }
-          %turbo-frame#content.block.p-4
+        .mx-auto.mt-5.pl-4.pr-4.xl:pl-64{ class: "max-w-[1470px]", "data-ads-target": "content" }
+          %turbo-frame#content.block
             = yield
 
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
-      .drawer-side.z-20{ class: "mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-734px))] h-[calc(100vh-65px)]" }
+      .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
         %div{ class: nav_classes }
           = render partial: "application/navigation"
 
     - # Hide ads on the home page
-    .hidden.fixed.overflow-scroll.bottom-0.w-65.p-4.space-y-4{ class: "top-[calc(65px_+_var(--spacing))] right-[max(0px,calc(50vw-734px))]", "data-ads-target": "ads" }
+    .hidden.fixed.overflow-auto.bottom-0.w-64.px-4.py-5.space-y-4{ class: "top-[65px] right-[max(0px,calc(50vw-734px))]", "data-ads-target": "ads" }
       = render partial: "ads/privacy"
       = render partial: "ads/honeybook"
       = render partial: "ads/ftc_notice"

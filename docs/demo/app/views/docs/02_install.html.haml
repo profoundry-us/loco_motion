@@ -8,8 +8,8 @@
   :markdown
     # Install LocoMotion for Rails
 
-    LocoMotion is both a set of guides for builing Ruby on Rails applications as
-    well as a Component library that you can install into an existing Rails
+    LocoMotion is both a set of guides for building Ruby on Rails applications
+    as well as a Component library that you can install into an existing Rails
     application.
 
     This guide walks you through installing the Component library.
@@ -116,6 +116,35 @@
   = doc_note(css: "mt-6") do
     :markdown
       You can remove the `console.log` once everything is working.
+
+.mt-4.prose
+  :markdown
+    If you want an _even smaller_ bundle size, you can import **just** the
+    components that you utilize. You will, however, need to update your
+    `tailwind.config.js` file every time you add new components.
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "javascript") do
+    :plain
+      // tailwind.config.js
+      const { execSync } = require('child_process');
+
+      // Get the path to the loco_motion gem
+      let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
+
+      console.log(" *** Importing LocoMotion gem Components into Tailwind: ", locoBundlePath);
+
+      module.exports = {
+        content: [
+          `${locoBundlePath}/app/components/hero/*.{rb,js,html,haml}`,
+          `${locoBundlePath}/app/components/daisy/actions/button_component.{rb,haml}`,
+          `${locoBundlePath}/app/components/daisy/data_display/countdown_component.{rb,haml}`,
+          `${locoBundlePath}/app/components/daisy/data_display/countdown_controller.js`,
+          /* And so on and so forth */
+          'app/components/**/*.{rb,js,html,haml}',
+          'app/views/**/*.{rb,js,html,haml}',
+        ]
+
 
 = doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
   - doc.with_description do

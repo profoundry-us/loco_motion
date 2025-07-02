@@ -72,7 +72,8 @@ class ApplicationController < ActionController::Base
     pattern = Rails.root.join("app/views/#{directory}/*.html.*")
 
     # Find all matching files and sort them
-    files = Dir.glob(pattern).sort
+    # Exclude partials (files starting with an underscore)
+    files = Dir.glob(pattern).reject { |f| File.basename(f).start_with?("_") }.sort
 
     # Transform file paths into navigation items
     files.map do |file|

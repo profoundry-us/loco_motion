@@ -5,7 +5,9 @@ export default class extends Controller {
 
   // Only on first init (not on each connect), scroll the active item into view.
   initialize() {
+    console.log(" *** initialize")
     this.scrollActiveIntoView()
+    window.loco_lastUrl = null
   }
 
   connect() {
@@ -48,10 +50,18 @@ export default class extends Controller {
 
   // Refresh all links when the page changes
   refresh() {
+    window.loco_currentUrl = window.location.href
+
     this.reset()
     this.activateItemByUrl()
     this.scrollActiveIntoView()
-    this.scrollDocumentToTop()
+
+    console.log(" *** refresh urls: ", window.loco_currentUrl, window.loco_lastUrl)
+    if (window.loco_currentUrl != window.loco_lastUrl) {
+      this.scrollDocumentToTop()
+    }
+
+    window.loco_lastUrl = window.loco_currentUrl
 
     // Close the sidenav
     if (this.hasSidenavCheckboxTarget) {

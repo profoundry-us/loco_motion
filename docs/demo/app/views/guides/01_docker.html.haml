@@ -1,3 +1,5 @@
+= render "wip_warning"
+
 .max-w-prose
   = doc_info(url: "https://www.docker.com/", image_path: "logos/docker.svg", image_alt: "Docker Logo") do
     :markdown
@@ -83,21 +85,17 @@
 
     Once inside the development container, you can create a new Rails application:
 
-.max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
+.max-w-prose.mt-4
+  = daisy_code(prefix: "$") do
     cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
 
-.max-w-prose
-  = doc_note(css: "mt-6") do
-    :markdown
-      If you run into trouble with the Rails command, you can reset your
-      environment with:
+.max-w-prose.mt-4
+  :markdown
+    If you run into trouble with the Rails command, you can reset the files and
+    try again by running the following `rm` command:
 
-      <br />
-
-      ```shell
-      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
-      ```
+  = daisy_code(css: "mt-4", prefix: "$") do
+    rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
 
 .prose.mt-12
   :markdown

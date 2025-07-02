@@ -37,6 +37,10 @@ module ApplicationHelper
     render(DocInfoComponent.new(*args, **kws), &block)
   end
 
+  def doc_figure(*args, **kws, &block)
+    render(DocFigureComponent.new(*args, **kws), &block)
+  end
+
   # Creates a link to a component example page with consistent styling
   #
   # @param text [String] The button text
