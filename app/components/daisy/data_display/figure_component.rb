@@ -16,6 +16,8 @@
 #     Content when no image is provided
 #
 class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::LinkableComponent
+
   define_part :image, tag_name: :img
 
   # Creates a new figure component.
@@ -35,6 +37,8 @@ class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
   def before_render
     set_tag_name(:component, :figure)
     add_html(:image, src: @src) if @src
+
+    super
   end
 
   def call
