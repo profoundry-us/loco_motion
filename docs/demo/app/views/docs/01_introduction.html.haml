@@ -4,7 +4,7 @@
 = content_for(:page_title) do
   Home
 
-.relative
+.relative{ "data-ads-target": "hidden" }
   - # Blurred background star
   .absolute.left-0.z-0{ class: "-top-[400px] -right-[400px]" }
     .flex.justify-end.blur-3xl
@@ -20,7 +20,7 @@
         %span.relative.-rotate-3.hover:-rotate-6.hover:scale-125.transition-transform
           %span{ class: crazy_text_styles + " absolute blur-xl" }
             &nbsp;CRAZY&nbsp;
-          %span{ class: crazy_text_styles + " drop-shadow-[0_0_1px_#fff]" }
+          %span{ class: crazy_text_styles + " drop-shadow-[0_0_1px_var(--bg-base-100)]" }
             &nbsp;CRAZY&nbsp;
         %span.-ml-3.md:-ml-1
           \-fast Development
@@ -29,8 +29,8 @@
 
     .mt-16.text-center
       = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", target: "_blank",
-        href: "https://github.com/profoundry-us/loco_motion#locomotion-components"
+        right_icon: "arrow-right", href: doc_path("02_install"),
+        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
 
     .mt-32.lg:flex.lg:space-x-8
       %div{ class: "md:basis-2/5" }
@@ -149,11 +149,11 @@
       More Coming Soon!
 
     %p.mt-2.text-xl.text-center
-      Keen an eye out as we'll be adding more components, guides, and
+      Keep an eye out as we'll be adding more components, guides, and
       %br.max-sm:hidden
       suggested gems for you to build amazing Rails apps!
 
     .mt-4.mb-16.text-center
       = daisy_button "😉 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", target: "_blank",
-        href: "https://github.com/profoundry-us/loco_motion#locomotion-components"
+        right_icon: "arrow-right", href: doc_path("02_install"),
+        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }

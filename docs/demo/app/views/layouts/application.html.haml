@@ -18,6 +18,7 @@
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/haml.min.js" }
     %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/erb.min.js" }
+    %script{ src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js" }
     %script{ src: "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js" }
 
 
@@ -25,28 +26,33 @@
   - nav_classes = "w-64 bg-base-100"
   - footer_classes = "md:flex md:items-center md:justify-center md:space-x-1 mt-4 py-4 text-sm whitespace-nowrap"
 
-  %body.relative{ "data-controller": "nav" }
+  %body.relative{ "data-controller": "nav ads", "data-action": "turbo:visit@window->ads#refresh" }
     %div{ class: header_classes }
-      .mx-auto{ class: "max-w-[1440px]" }
+      .mx-auto{ class: "max-w-[1470px]" }
         = render partial: "application/header"
 
     .drawer.xl:drawer-open
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
       .drawer-content.overflow-hidden
-        .xl:pl-64.mx-auto{ class: "max-w-[1440px]" }
-          %turbo-frame#content.block.p-4
+        .mx-auto.mt-5.pl-4.pr-4.xl:pl-64{ class: "max-w-[1470px]", "data-ads-target": "content" }
+          %turbo-frame#content.block
             = yield
 
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
-
-      .drawer-side.z-20{ class: "mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-734px))] h-[calc(100vh-65px)]" }
+      .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
         %div{ class: nav_classes }
           = render partial: "application/navigation"
+
+    - # Hide ads on the home page
+    .hidden.fixed.overflow-auto.bottom-0.w-64.px-4.py-5.space-y-4{ class: "top-[65px] right-[max(0px,calc(50vw-735px))]", "data-ads-target": "ads" }
+      = render partial: "ads/privacy"
+      = render partial: "ads/honeybook"
+      = render partial: "ads/ftc_notice"
 
     = daisy_modal(dialog_id: "al-search-modal", closable: false,
         backdrop_css: "backdrop-blur-xs",

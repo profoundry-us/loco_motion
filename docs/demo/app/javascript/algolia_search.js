@@ -56,12 +56,15 @@ window.showDocSearch = function() {
   }
 
   const modal = document.getElementById('al-search-modal')
-  const searchBox = document.getElementById('al-searchbox').querySelector('input');
 
   modal.showModal();
 
-  searchBox.focus();
-  searchBox.select();
+  window.setTimeout(() => {
+    const searchBox = document.getElementById('al-searchbox').querySelector('input');
+
+    searchBox.focus();
+    searchBox.select();
+  }, 50);
 }
 
 // Handle up/down arrow navigation in the search results
@@ -211,7 +214,6 @@ function initializeSearch(appId, apiKey, indexName) {
   const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
     const { hits, widgetParams } = renderOptions;
 
-    console.log("customGroupedHits", isFirstRender)
     const searchBox = document.getElementById('al-searchbox').querySelector('input');
     const hasSearchQuery = searchBox.value != null && searchBox.value !== "";
 

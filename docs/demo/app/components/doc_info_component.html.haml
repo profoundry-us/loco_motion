@@ -1,0 +1,10 @@
+= daisy_link(url, css: "link-hover", target: "_blank") do
+  .flex.items-center.justify-start.mb-8.p-8.bg-base-300.rounded-lg{ class: "mt-1" }
+    - if @image_path.present?
+      = image_tag(@image_path, class: "h-20 px-4", alt: @image_alt)
+    - else
+      .flex.items-center.justify-center.size-20.shrink-0.mx-4.rounded-lg.bg-base-100
+        = heroicon(@icon, size: @icon_size, class: "#{@icon_css}")
+
+    %div.px-4.text-xl
+      = content

@@ -1,44 +1,30 @@
-- icons = { guides: "document-text", hero: "shield-check", daisy: "square-3-stack-3d" }
+- icons = { docs: "book-open", guides: "document-text", hero: "shield-check", daisy: "square-3-stack-3d" }
 
 %turbo-frame#navmenu{ target: "content" }
-  %ul.menu.w-full.px-4.py-0
-    - # Hard-coded guides
-    %li.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1
-      = hero_icon(icons[:guides], variant: :outline)
-      Guides
+  %ul.menu.w-full.px-4.py-0{ class: "mt-2.5" }
+    - @nav_sections.each do |section|
+      %li
+        %h2.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1.tracking-wide
+          = hero_icon(section[:icon], variant: :outline, css: "text-#{section[:icon_color]}")
+          = section[:title]
 
-    %li.pl-6
-      = link_to "Get Started", root_path,
-      class: (request.original_url == root_url) ? "menu-active" : "",
-      data: { action: "click->nav#activate", "turbo-action": "replace" }
-
-    - # Iterate over all of the framework examples
-    - last_framework, last_section = nil
-    - LocoMotion::COMPONENTS.each do |name, config|
-      - # Skip if we have no examples
-      - next if config[:example].blank?
-
-      - comp_split = name.split('::')
-      - framework = comp_split.first
-      - section = config[:group]
-
-      - if framework != last_framework
-        - last_framework = framework
-        - icon = icons[framework.downcase.to_sym]
-        %li.menu-title.text-lg.text-base-content.flex-row.items-center.gap-1
-          = hero_icon(icon, variant: :outline)
-          = framework.titleize
-
-      - # Don't show a section heading if it matches the framework
-      - if section != last_section && section.underscore != framework.underscore
-        - last_section = section
-        %li.pl-9.menu-title{ class: "text-secondary #{ section != "Actions" ? 'pt-6' : ''}" }
-          = section.upcase
-
-      %li.pl-6
-        = link_to config[:title], "/examples/#{name}",
-          class: request.original_url.match("/examples/#{name}") ? "menu-active" : "",
-          data: { action: "click->nav#activate", "turbo-action": "replace" }
+        %ul.ml-5
+          - section[:items].each do |item|
+            - if item[:is_group]
+              %li
+                .menu-title.text-primary.font-bold.tracking-wide
+                  = item[:title].upcase
+                %ul.ml-4
+                  - item[:items].each do |subitem|
+                    %li
+                      = link_to subitem[:title], subitem[:path],
+                      class: request.original_url.include?(subitem[:path]) ? "menu-active" : "",
+                      data: { action: "click->nav#refresh", "turbo-action": "replace" }
+            - else
+              %li
+                = link_to item[:title], item[:path],
+                class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "menu-active" : "",
+                data: { action: "click->nav#refresh", "turbo-action": "replace" }
 
     .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
       <em>That's all folks!</em> 😉

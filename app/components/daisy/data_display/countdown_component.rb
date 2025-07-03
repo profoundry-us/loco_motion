@@ -69,11 +69,11 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
     setup_component # Configure countdown parts and stimulus
     super           # Run TippableComponent hook
   end
-  
+
   private
-  
+
   def setup_component
-    add_stimulus_controller(:component, "countdown")
+    add_stimulus_controller(:component, "loco-countdown")
 
     add_css(:component, "flex")
     add_css(:component, "where:gap-x-2") if modifiers.include?(:words)
@@ -83,7 +83,7 @@ class Daisy::DataDisplay::CountdownComponent < LocoMotion::BaseComponent
         data: {
           # Note: We can't use nested hashes here because the Rails content_tag
           # helper is stupid and won't traverse them.
-          "countdown-target": part
+          "loco-countdown-target": part
         }
       }
 

@@ -1,0 +1,209 @@
+= render "wip_warning"
+
+.max-w-prose
+  = doc_info(url: "https://github.com/ruby/debug", icon: "bug-ant", icon_css: "text-accent rotate-12") do
+    :markdown
+      _Loco_**Motion** encourages powerful debugging and troubleshooting tools
+      to keep your development workflow **fast** and **efficient**.
+
+.prose
+  :markdown
+    # Local Development Troubleshooting
+
+    A smooth developer experience starts with great debugging tools and fast
+    feedback loops. This guide walks you through setting up essential tools such
+    as **ruby-debug**, **BetterErrors**, **Web Console**, and Hot-reloading with
+    **Foreman**/esbuild.
+
+.mt-12.prose
+  :markdown
+    ## 1. ruby-debug (built-in)
+
+    Rails 7+ ships with the `debug` gem (successor to `byebug`). It’s already in
+    your Gemfile, but here’s a refresher on usage.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Set a breakpoint anywhere in your code
+      debugger
+
+      # Then run your server (or tests) and execution will pause here
+
+.mt-6.prose
+  :markdown
+    When execution stops, you can inspect variables, step through code, and even
+    evaluate Ruby expressions.
+
+= doc_note(modifier: :note, title: "Running in Docker", css: "mt-6") do
+  :markdown
+    If you are using the LocoMotion Docker setup, Rails will automatically start
+    a **remote** debugger.
+    <br /><br />
+    After adding a `debugger` breakpoint and refreshing the browser, the request
+    will appear to hang. Open another terminal and run:
+    <br /><br />
+    ```
+    make app-debug
+    ```
+    <br /><br />
+    This command attaches to the remote debugger inside the container so
+    you can step through code just like you would locally.
+
+.mt-12.prose
+  :markdown
+    ## 2. BetterErrors + `binding_of_caller`
+
+    For richer error pages, add the following gems to your development group:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      group :development do
+        gem "better_errors"
+        gem "binding_of_caller"
+      end
+
+.mt-6.prose
+  :markdown
+    After running `bundle install`, restart your Rails server. You will now see
+    an interactive stack trace page whenever an exception is raised.
+
+.mt-6.max-w-prose
+  = doc_figure(src: image_path("guides/better-errors.png"),
+               alt: "BetterErrors – Screenshot showing an error within an application.")
+
+.mt-6.max-w-prose
+  = doc_note(modifier: :note, title: "Using with Docker") do
+    :markdown
+      When running inside Docker, BetterErrors will refuse connections from
+      the host machine. Make sure to add the following to
+      `config/environments/development.rb`:
+
+  = doc_code(language: "ruby", css: "my-4") do
+    :plain
+      # Allow BetterErrors to render
+      BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
+
+.mt-6.prose
+  :markdown
+    Restart your container (e.g. `make app-restart`) and refresh the page to
+    get the fully-featured error screen.
+
+.mt-6
+  = doc_note(modifier: :error, title: "Security Note") do
+    :markdown
+      BetterErrors is **development-only**. It should never run in production.
+
+.mt-12.prose
+  :markdown
+    ## 3. Web Console
+
+    Rails ships with [Web Console](https://github.com/rails/web-console) which
+    inserts an IRB prompt right into your browser whenever an exception is
+    raised or when you call the `console` view helper.
+
+    It is included by default in new Rails applications and enabled in the
+    `development` environment.
+
+    ### Allowing Web Console inside Docker
+
+    When Rails is executed inside Docker you will usually see a line like this
+    in the logs:
+
+.mt-6.max-w-prose
+  = doc_code(language: "text") do
+    :plain
+      Cannot render console from 172.23.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+
+.mt-6
+  :markdown
+
+    Add the following to `config/environments/development.rb`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Fix console permissions for Docker so Web Console works no matter the IP address
+      config.web_console.permissions = "0.0.0.0/0"
+
+.mt-6
+  :markdown
+    Restart the app (using `make app-restart`) and refresh the page – the
+    interactive console should now appear whenever there is an error.
+    <br /><br />
+    To use Web Console manually inside a view, call the `console` helper.
+    <br /><br />
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      - # You can access the context at the point `console` is called
+      - my_var = 42
+
+      - console # Opens a live console in the rendered view (my_var will be available)
+
+
+.mt-6.max-w-prose
+  = doc_figure(src: image_path("guides/web-console.png"),
+               alt: "Web Console – Screenshot showing an IRB prompt in the rendered view.")
+
+.prose.mt-12
+  :markdown
+    ## 4. Hot-reloading with Foreman, esbuild, & hotwire-livereload
+
+    For a tight feedback loop on JS/CSS changes we recommend running a
+    `Procfile` with Foreman (or `bin/dev` from Rails 7):
+
+.mt-6.max-w-prose
+  = doc_code(language: "text") do
+    :plain
+      # Procfile.dev
+      web: rails server -b 0.0.0.0
+      js: esbuild app/javascript/*.* --bundle --watch
+      css: tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --watch
+
+.prose.mt-6
+  :markdown
+    And for hot reloading (so you don't even have to refresh your page), just
+    add the [hotwire-livereload](https://github.com/kirillplatonov/hotwire-livereload)
+    gem to your `Gemfile` (in the `development` group).
+
+= doc_code(language: "ruby", css: "mt-6") do
+  :plain
+    # Gemfile
+    group :development do
+      gem "hotwire-livereload"
+    end
+
+.mt-6.prose
+  :markdown
+    Then start everything with:
+
+.mt-6.max-w-prose
+  = daisy_code(prefix: "$") do
+    bin/dev
+
+.mt-6.prose
+  :markdown
+    Your browser will auto-refresh as you edit any of your files (HAML, JS, CSS, etc)!
+
+.mt-12.prose
+  :markdown
+    ## 5. Troubleshooting Tips
+
+    - Use `Rails.logger.debug` to print structured output.
+    - Tail logs with:
+
+.mt-6.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    rails logs -f
+
+.prose
+  :markdown
+    - If containers misbehave, rebuild with `make dev` or prune Docker caches.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

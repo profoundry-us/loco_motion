@@ -20,7 +20,7 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
     it "adds the theme stimulus controller" do
       allow(component).to receive(:add_stimulus_controller)
       component.before_render
-      expect(component).to have_received(:add_stimulus_controller).with(:component, :theme)
+      expect(component).to have_received(:add_stimulus_controller).with(:component, "loco-theme")
     end
   end
 
@@ -109,7 +109,7 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
     
     it "gets stimulus controller attributes" do
       render_inline(component)
-      expect(page).to have_css("[data-controller='theme']")
+      expect(page).to have_css("[data-controller='loco-theme']")
     end
   end
 end

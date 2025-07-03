@@ -6,6 +6,28 @@ export default class extends Controller {
   // Only on first init (not on each connect), scroll the active item into view.
   initialize() {
     this.scrollActiveIntoView()
+    window.loco_lastUrl = null
+  }
+
+  connect() {
+    this.turboLoadListener = this.turboLoad.bind(this)
+    this.turboFetchRequestListener = this.turboFetchRequest.bind(this)
+
+    document.addEventListener('turbo:load', this.turboLoadListener)
+    document.addEventListener('turbo:fetch-request', this.turboFetchRequestListener)
+  }
+
+  disconnect() {
+    document.removeEventListener('turbo:load', this.turboLoadListener)
+    document.removeEventListener('turbo:fetch-request', this.turboFetchRequestListener)
+  }
+
+  turboLoad() {
+    this.refresh()
+  }
+
+  turboFetchRequest() {
+    this.refresh()
   }
 
   // Scroll the active item into view.
@@ -19,6 +41,32 @@ export default class extends Controller {
     }
   }
 
+  scrollDocumentToTop() {
+    window.setTimeout(() => {
+      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 100)
+  }
+
+  // Refresh all links when the page changes
+  refresh() {
+    window.loco_currentUrl = window.location.href
+
+    this.reset()
+    this.activateItemByUrl()
+    this.scrollActiveIntoView()
+
+    if (window.loco_currentUrl != window.loco_lastUrl) {
+      this.scrollDocumentToTop()
+    }
+
+    window.loco_lastUrl = window.loco_currentUrl
+
+    // Close the sidenav
+    if (this.hasSidenavCheckboxTarget) {
+      this.sidenavCheckboxTarget.checked = false
+    }
+  }
+
   // Reset all items to inactive.
   reset() {
     this.element.querySelectorAll("li a").forEach((link) => {
@@ -26,19 +74,11 @@ export default class extends Controller {
     })
   }
 
-  activate(event) {
-    this.reset()
+  activateItemByUrl() {
+    let activeItem = this.element.querySelector(`li a[href="${window.location.pathname}"]`)
 
-    // Find the closest list item to the clicked element (which may be ourselves
-    // or our parent) and then activate the link within it.
-    //
-    // This allows the user to click the <li> or the <a> elements and have the
-    // same effect.
-    event.target.closest("li").querySelector('a').classList.add("menu-active")
-
-    // Close the sidenav
-    if (this.hasSidenavCheckboxTarget) {
-      this.sidenavCheckboxTarget.checked = false
+    if (activeItem) {
+      activeItem.classList.add("menu-active")
     }
   }
 }
