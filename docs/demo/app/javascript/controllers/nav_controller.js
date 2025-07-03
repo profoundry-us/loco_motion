@@ -5,7 +5,6 @@ export default class extends Controller {
 
   // Only on first init (not on each connect), scroll the active item into view.
   initialize() {
-    console.log(" *** initialize")
     this.scrollActiveIntoView()
     window.loco_lastUrl = null
   }
@@ -56,7 +55,6 @@ export default class extends Controller {
     this.activateItemByUrl()
     this.scrollActiveIntoView()
 
-    console.log(" *** refresh urls: ", window.loco_currentUrl, window.loco_lastUrl)
     if (window.loco_currentUrl != window.loco_lastUrl) {
       this.scrollDocumentToTop()
     }

@@ -214,7 +214,6 @@ function initializeSearch(appId, apiKey, indexName) {
   const customGroupedHits = connectHits((renderOptions, isFirstRender) => {
     const { hits, widgetParams } = renderOptions;
 
-    console.log("customGroupedHits", isFirstRender)
     const searchBox = document.getElementById('al-searchbox').querySelector('input');
     const hasSearchQuery = searchBox.value != null && searchBox.value !== "";
 
