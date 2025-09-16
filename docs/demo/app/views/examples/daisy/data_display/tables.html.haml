@@ -1,8 +1,14 @@
 = doc_title(title: "Tables", comp: @comp) do |title|
-  %p Here are some examples showcasing tables.
+  %p
+    Tables are designed to show data in a tabular layout making it easy to see
+    large amounts of data at once and compare rows with each other.
 
 
 = doc_example(title: "Basic Table") do |doc|
+  - doc.with_description do
+    %p
+      Here is a super-basic table.
+
   - data = [{col1: "foo", col2: "bar"}, {col1: "fizz", col2: "buzz"}]
 
   = daisy_table do |table|
