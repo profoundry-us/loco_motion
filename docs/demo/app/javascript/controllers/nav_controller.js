@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["sidenavCheckbox"]
+  static targets = ["menu", "sidenavCheckbox"]
 
   // Only on first init (not on each connect), scroll the active item into view.
   initialize() {
@@ -32,7 +32,7 @@ export default class extends Controller {
 
   // Scroll the active item into view.
   scrollActiveIntoView() {
-    let activeItem = this.element.querySelector("li a.menu-active")
+    let activeItem = this.menuTarget.querySelector("li a.menu-active")
 
     if (activeItem) {
       let method = activeItem.scrollIntoViewIfNeeded ? "scrollIntoViewIfNeeded" : "scrollIntoView";
@@ -69,13 +69,14 @@ export default class extends Controller {
 
   // Reset all items to inactive.
   reset() {
-    this.element.querySelectorAll("li a").forEach((link) => {
+    this.menuTarget.querySelectorAll("li a").forEach((link) => {
       link.classList.remove("menu-active")
     })
   }
 
   activateItemByUrl() {
-    let activeItem = this.element.querySelector(`li a[href="${window.location.pathname}"]`)
+
+    let activeItem = this.menuTarget.querySelector(`li a[href="${window.location.pathname}"]`)
 
     if (activeItem) {
       activeItem.classList.add("menu-active")
