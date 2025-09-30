@@ -171,6 +171,11 @@ algolia-index:
 algolia-clear:
 	docker compose exec -it demo bundle exec rake algolia:clear ARGS="$(ARGS)"
 
+# Generate LLM.txt documentation file
+.PHONY: llm
+llm:
+	docker compose exec -it demo bundle exec rake algolia:llm ARGS="$(ARGS)"
+
 ##############################
 # Playwright / E2E commands
 ##############################

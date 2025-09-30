@@ -204,4 +204,94 @@ namespace :algolia do
       puts "Failed to clear Algolia index '#{options[:index_name]}'."
     end
   end
+
+  desc "Generate LLM.txt documentation file"
+  task :llm => :environment do
+    require 'optparse'
+
+    # Default options
+    options = {
+      component: nil,
+      output_path: nil,
+    }
+
+    # Parse command-line arguments
+    OptionParser.new do |parser|
+      parser.banner = "Usage: rake algolia:llm [options]"
+
+      parser.on("-c", "--component COMPONENT_NAME", "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
+        options[:component] = name if name && !name.empty?
+      end
+
+      parser.on("-o", "--output FILEPATH", "Save the results to a file at the specified path (default: docs/LLM.txt)") do |path|
+        options[:output_path] = path if path && !path.empty?
+      end
+
+      parser.on("-h", "--help", "Display this help message") do
+        puts parser
+        exit 0
+      end
+    end.parse!(ENV["ARGS"]&.split || [])
+
+    # Set default output path if not specified
+    if options[:output_path].nil?
+      # Default to public directory so it can be served by the demo site
+      # Include version in filename for versioning
+      version = LocoMotion::VERSION
+      options[:output_path] = Rails.root.join('public', "LLM-v#{version}.txt").to_s
+      options[:create_versionless_copy] = true
+    else
+      options[:create_versionless_copy] = false
+    end
+
+    puts "Generating LLM.txt documentation..."
+    puts "Output path: #{options[:output_path]}"
+
+    # Create the services
+    aggregation_service = Algolia::LlmAggregationService.new
+    export_service = Algolia::LlmTextExportService.new
+
+    # Aggregate component data
+    components = []
+    
+    if options[:component]
+      component_name = options[:component]
+      
+      if LocoMotion::COMPONENTS.key?(component_name)
+        puts "Processing single component: #{component_name}"
+        component_data = aggregation_service.aggregate_component(component_name, 0)
+        components << component_data if component_data
+      else
+        puts "Error: Component '#{component_name}' not found in LocoMotion::COMPONENTS registry"
+        next
+      end
+    else
+      puts "Processing all components from LocoMotion::COMPONENTS registry"
+      components = aggregation_service.aggregate_all
+    end
+
+    # Check if we have any components
+    if components.empty?
+      puts "No components found. Nothing to export."
+      next
+    end
+
+    puts "Collected #{components.length} component(s)"
+
+    # Export to LLM.txt
+    success = export_service.export(components, options[:output_path])
+    
+    if success
+      puts "LLM.txt generated successfully at #{options[:output_path]}"
+      
+      # Create a versionless copy for easy access if using default path
+      if options[:create_versionless_copy]
+        versionless_path = Rails.root.join('public', 'LLM.txt').to_s
+        FileUtils.cp(options[:output_path], versionless_path)
+        puts "Versionless copy created at #{versionless_path}"
+      end
+    else
+      puts "Failed to generate LLM.txt"
+    end
+  end
 end

@@ -7,10 +7,11 @@ and examples for search functionality.
 
 ## Overview
 
-The Algolia integration provides two main features:
+The Algolia integration provides three main features:
 
 1. Indexing component documentation and examples to Algolia
 2. Parsing individual HAML files for content extraction
+3. Generating LLM.txt documentation for LLM consumption
 
 These operations can be performed using dedicated Rake tasks provided in the
 demo application.
@@ -123,6 +124,63 @@ make algolia-clear ARGS="--help"
 | `-h, --help` | Display help message |
 
 
+### llm
+
+This command generates an LLM.txt file containing all component documentation
+in a format optimized for Large Language Model consumption.
+
+```bash
+# Generate LLM.txt with all components (default output: docs/demo/public/LLM-v{VERSION}.txt)
+make llm
+
+# Generate for a specific component
+make llm ARGS="--component Daisy::Actions::Modal"
+
+# Generate to a custom output location
+make llm ARGS="--output custom/path/LLM.txt"
+
+# Show help information
+make llm ARGS="--help"
+```
+
+**Available Options:**
+
+| Option | Description |
+| ------ | ----------- |
+| `-c, --component NAME` | Process a specific component (e.g. 'Daisy::DataDisplay::ChatBubble') |
+| `-o, --output PATH` | Save results to a file at the specified path (default: public/LLM-v{VERSION}.txt) |
+| `-h, --help` | Display help message |
+
+**Output Format:**
+
+The generated LLM.txt file includes:
+
+1. A top-level index of all components with API and example URLs
+2. Detailed sections for each component including:
+   - Component metadata (group, title, URLs)
+   - Description
+   - Helper method names
+   - All examples with code and descriptions
+
+**Output Location:**
+
+By default, the LLM.txt file is generated in two locations within the demo app's `public` directory:
+
+1. **Versioned file**: `public/LLM-v{VERSION}.txt` (e.g., `LLM-v0.5.1.txt`)
+2. **Versionless file**: `public/LLM.txt` (always points to the latest version)
+
+Both files are accessible via HTTP on the demo site:
+- `https://your-demo-site.com/LLM.txt` (latest)
+- `https://your-demo-site.com/LLM-v0.5.1.txt` (specific version)
+
+**Important Notes:**
+
+1. The output is plain text formatted for optimal LLM parsing
+2. Component ordering is deterministic based on the registry
+3. No Algolia credentials are required for this operation
+4. Code examples are enclosed in triple backticks with language hints
+5. The versioned filename ensures proper caching and version tracking
+
 ## Running Rake Tasks Directly
 
 While the Makefile commands are the recommended approach as they ensure all operations
@@ -138,6 +196,9 @@ docker compose exec -it demo bundle exec rake algolia:index ARGS="--debug --outp
 
 # Clear the index directly
 docker compose exec -it demo bundle exec rake algolia:clear
+
+# Generate LLM.txt directly
+docker compose exec -it demo bundle exec rake algolia:llm
 ```
 
 ## Implementation Details
@@ -151,10 +212,22 @@ The main services are:
 - `Algolia::HamlParserService` - Parses HAML files to extract documentation and examples
 - `Algolia::AlgoliaImportService` - Handles uploading data to Algolia
 - `Algolia::JsonExportService` - Handles exporting data to JSON files
+- `Algolia::RecordConverterService` - Converts parsed data to Algolia search records
+- `Algolia::LLMAggregationService` - Aggregates component data for LLM export
+- `Algolia::LLMTextExportService` - Formats and exports data to LLM.txt format
 
 The workflow is as follows:
+
+### For Algolia Indexing
 
 1. The `algolia:index` rake task parses the specified HAML files
 2. Records are extracted from each file and collected into a single batch
 3. If Algolia credentials are available and `--skip-upload` is not specified, all records are uploaded in a single batch
 4. Records are also saved to a JSON file (either at the specified path or the default tmp/algolia directory)
+
+### For LLM.txt Generation
+
+1. The `algolia:llm` rake task uses `LLMAggregationService` to collect component data
+2. `HamlParserService` extracts documentation from each component's example file
+3. `LLMTextExportService` formats the aggregated data into plain text
+4. Output is written to the specified path (default: docs/LLM.txt)
