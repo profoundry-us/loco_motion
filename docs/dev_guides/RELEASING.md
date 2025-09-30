@@ -5,16 +5,18 @@ This guide will walk you through the process of releasing a new version of
 LocoMotion.
 
 - [Preparation](#preparation)
+- [Release Checklist](#release-checklist)
 - [Step 1 - Version Update](#step-1---version-update)
   - [Using Makefile Commands (Recommended)](#using-makefile-commands-recommended)
   - [Using the Script Directly](#using-the-script-directly)
-- [Step 2 - Building and Testing](#step-2---building-and-testing)
-- [Step 3 - Update Changelog](#step-3---update-changelog)
+- [Step 2 - Update Changelog](#step-2---update-changelog)
+- [Step 3 - Building and Testing](#step-3---building-and-testing)
 - [Step 4 - Publishing](#step-4---publishing)
   - [Ruby Gem](#ruby-gem)
   - [NPM Package](#npm-package)
 - [Step 5 - GitHub Release](#step-5---github-release)
-- [Step 6 - Algolia Indexing](#step-6---algolia-indexing)
+- [Step 6 - Demo App Update](#step-6---demo-app-update)
+- [Step 7 - Algolia Indexing](#step-7---algolia-indexing)
 
 ## Preparation
 
@@ -29,6 +31,19 @@ Before releasing a new version, ensure:
 2. All documentation is up to date and properly formatted.
 3. All changes are committed and pushed to the main branch.
 4. You have the necessary credentials for both RubyGems.org and NPM.
+
+## Release Checklist
+
+A personalized release checklist is automatically created when you run the
+version update commands. The checklist will be created at:
+
+```
+docs/checklists/release-checklist-v[VERSION].md
+```
+
+The checklist includes all the steps from this guide in a checkable format,
+plus troubleshooting tips and verification steps. You can check off items as
+you complete them and keep the file as a record of the release process.
 
 ## Step 1 - Version Update
 
@@ -58,21 +73,37 @@ This will automatically update:
 - `package.json`
 - `docs/demo/package.json` (updates the dependency on `@profoundry-us/loco_motion`)
 
-After updating the version, you should update both the loco and demo app bundles
-to ensure they're using the new version:
+After updating the version, you can safely update the loco container to use the
+new gem version:
 
 ```bash
-# Update LocoMotion and the demo app to lock the version to this new one
-make version-lock
+# Update the loco container to use the new gem version (safe to run anytime)
+make loco-version-lock
 ```
 
+**Important**: Do NOT run `make demo-version-lock` at this stage, as it will fail
+because the NPM package hasn't been published yet. The demo app will be updated
+in a separate step after package publication.
+
 > [!NOTE]
-> We may want to update the version set script to run this automatically.
+> The release process uses a two-phase approach to avoid circular dependencies:
+> 1. **Phase 1**: Release packages (loco gem / package can be updated anytime)
+> 2. **Phase 2**: Update demo app after NPM package is published
 
-This ensures that both the loco container and demo app are using the latest
-version of the gem from the vendor directory.
+## Step 2 - Update Changelog
 
-## Step 2 - Building and Testing
+Update the `CHANGELOG.md` file with all of the relevant changes since the
+last release. You can ask Windsurf to do this. We recommend the following
+prompt:
+
+```
+We need to update the CHANGELOG with the 0.4.0 changes.
+
+Please review the existing changelog for the proper format / concept and utilize
+git commands to build a relevant changelog update.
+```
+
+## Step 3 - Building and Testing
 
 1. Build the Ruby gem:
 
@@ -97,29 +128,11 @@ version of the gem from the vendor directory.
 4. Verify the NPM package looks correct by checking the contents of
    `builds/npm/profoundry-us-loco_motion-[VERSION].tgz`.
 
-## Step 3 - Update Changelog
-
-Once you have verified that everything is built and running correctly, you
-should update the `CHANGELOG.md` file with all of the relevant changes since the
-last release. You can ask Windsurf to do this. We recommend the following
-prompt:
-
-```
-We need to update the CHANGELOG with the 0.4.0 changes.
-
-Please review the existing changelog for the proper format / concept and utilize
-git commands to build a relevant changelog update.
-```
-
 ## Step 4 - Publishing
 
-> [!WARNING]
-> The order of these steps may need to be changed, it seems that we should
-> publish the packages before we attempt to deploy to the server, which happens
-> when we create / merge the PR.
->
-> For now, we can login to Heroku and click the Deploy button to manually re-run
-> the deploy after publishing the packages.
+> [!IMPORTANT]
+> This step publishes the packages to their respective registries. The demo app
+> will be updated in Step 6 after publication to avoid circular dependencies.
 
 Before publishing the packages, ensure your changes are merged to the main
 branch:
@@ -174,7 +187,44 @@ After both packages are published, create a new release on GitHub:
 4. Add release notes describing the changes (GitHub has an AI tool to do this)
 5. Publish the release
 
-## Step 6 - Algolia Indexing
+## Step 6 - Demo App Update
+
+After both packages are published, update the demo app to use the new versions:
+
+1. **Run the post-release script**:
+
+   ```bash
+   bin/update_demo_after_release
+   ```
+
+   This script will:
+   - Check that you're on the main branch
+   - Pull the latest changes
+   - Run `make demo-version-lock` to update demo dependencies
+   - Commit and push the changes
+
+2. **Manual alternative** (if you prefer more control):
+
+   ```bash
+   # Update demo app dependencies
+   make demo-version-lock
+
+   # Commit the changes
+   git add docs/demo/
+   git commit -m "Update demo app to use version X.X.X"
+   git push
+   ```
+
+3. **Verify the deployment**:
+   - Monitor your hosting platform for successful deployment
+   - Check that the demo app loads correctly
+   - Verify the version number is displayed correctly
+
+> [!NOTE]
+> The demo app auto-deploys on every commit, so this step creates a separate
+> commit after the packages are published to avoid circular dependencies.
+
+## Step 7 - Algolia Indexing
 
 When the demo application is deployed to Heroku after a new release, the Algolia
 indexing process will run automatically to update the component documentation

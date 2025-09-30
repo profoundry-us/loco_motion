@@ -191,10 +191,23 @@ version=$(shell grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
 version:
 	@echo $(version)
 
+# Helper target to create release checklist for a given version
+.PHONY: create-checklist
+create-checklist:
+	@echo "Creating release checklist..."
+	@mkdir -p docs/checklists
+	@cp docs/templates/release_checklist.md docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md
+	@sed -i '' 's/Release Checklist Template/Release Checklist for v$(CHECKLIST_VERSION)/g' docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md
+	@sed -i '' 's/x\.y\.z/$(CHECKLIST_VERSION)/g' docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md
+	@sed -i '' 's/\[VERSION\]/$(CHECKLIST_VERSION)/g' docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md
+	@sed -i '' 's/___________/$(CHECKLIST_VERSION)/g' docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md
+	@echo "✓ Created release checklist: docs/checklists/release-checklist-v$(CHECKLIST_VERSION).md"
+
 # Bump the version using the update_version script
 .PHONY: version-bump
 version-bump:
 	docker compose exec -it loco bin/update_version
+	@$(MAKE) create-checklist CHECKLIST_VERSION=$(version)
 
 # Bump the version to a specific version
 .PHONY: version-set
@@ -203,14 +216,31 @@ version-set:
 		echo "Usage: make version-set NEW_VERSION=x.y.z"; \
 	else \
 		docker compose exec -it loco bin/update_version $(NEW_VERSION); \
+		$(MAKE) create-checklist CHECKLIST_VERSION=$(NEW_VERSION); \
 	fi
 
-# Update the demo app to use the new versions
-.PHONY: version-lock
-version-lock:
+# Update only the loco container to use the new gem version (safe to run anytime)
+.PHONY: loco-version-lock
+loco-version-lock:
+	@echo "Updating loco container to use version $(version)..."
 	docker compose exec -it loco bundle
-	docker compose exec -it demo bundle
-	docker compose exec -it demo yarn
+	@echo "✓ Loco container updated to version $(version)"
+
+# Update only the demo app to use the new versions (requires NPM package to be published)
+.PHONY: demo-version-lock
+demo-version-lock:
+	@echo "Updating demo app to use version $(version)..."
+	@if npm view @profoundry-us/loco_motion@$(version) version >/dev/null 2>&1; then \
+		echo "✓ NPM package @profoundry-us/loco_motion@$(version) found"; \
+		docker compose exec -it demo bundle; \
+		docker compose exec -it demo yarn; \
+		echo "✓ Demo app updated to version $(version)"; \
+	else \
+		echo "✗ NPM package @profoundry-us/loco_motion@$(version) not found in registry"; \
+		echo "  Please publish the NPM package first with: make npm-publish"; \
+		exit 1; \
+	fi
+
 
 # Builds a new version of the gem in the builds/rubygems directory
 .PHONY: gem-build

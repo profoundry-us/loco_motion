@@ -60,11 +60,18 @@ def update_version(new_version = nil)
     end
 
     puts "\nSuccessfully updated version to #{new_version}"
-    puts "\nNext steps:"
+    puts "\n📋 Next steps for release:"
     puts "1. Review the changes: git diff"
-    puts "2. Commit the changes: git commit -am 'Bump version to #{new_version}'"
-    puts "3. Create a git tag: git tag v#{new_version}"
-    puts "4. Push changes: git push && git push --tags"
+    puts "2. Check your release checklist: docs/checklists/release-checklist-v#{new_version}.md"
+    puts "3. Update loco container: make loco-version-lock"
+    puts "4. Build and test packages: make gem-build && make npm-build"
+    puts "5. Update CHANGELOG.md with release notes"
+    puts "6. Commit the changes: git commit -am 'Release version #{new_version}'"
+    puts "7. Create and merge PR, then publish packages"
+    puts "8. After publishing, update demo app: bin/update_demo_after_release"
+    puts
+    puts "ℹ️  Note: A release checklist will be automatically created when using make commands."
+    puts "   The demo app will be updated after package publication to avoid circular dependencies."
 
   rescue StandardError => e
     puts "Error updating version: #{e.message}"

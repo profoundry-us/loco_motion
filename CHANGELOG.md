@@ -11,6 +11,24 @@ changes as we don't consider the project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor
 releases** should be considered **breaking**!
 
+## [0.5.1] - 2025-09-25
+
+### Fixed
+
+- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes and improvements
+- Remove alpha status badge from the website header as the project is now considered stable
+
+### Improved
+
+- **Release Process**: Refactored release workflow to eliminate circular dependency issues
+  - Split `make version-lock` into separate `loco-version-lock` and `demo-version-lock` commands
+  - Added new `bin/update_demo_after_release` script for post-publication demo updates
+  - Updated release documentation to use two-phase approach (package release → demo update)
+  - Reordered release steps to update changelog before building packages
+  - Enhanced Makefile targets with NPM package availability checking
+  - **Automated checklist creation**: `make version-bump` and `make version-set` now automatically create personalized release checklists
+- **Documentation**: Added comprehensive release checklist template and improved release guide clarity
+
 ## [0.5.0] - 2025-07-17
 
 ### Overview

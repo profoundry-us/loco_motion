@@ -1,0 +1,105 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'json'
+
+def get_current_version
+  root_dir = File.expand_path('../..', __FILE__)
+  version_rb_path = File.join(root_dir, 'lib', 'loco_motion', 'version.rb')
+  File.read(version_rb_path).match(/VERSION\s*=\s*["'](.+?)["']/)[1]
+end
+
+def update_demo_after_release
+  version = get_current_version
+  
+  puts "🚀 Updating demo app to use LocoMotion version #{version}"
+  puts
+
+  # Check if we're on main branch
+  current_branch = `git branch --show-current`.strip
+  unless current_branch == 'main'
+    puts "⚠️  Warning: You're not on the main branch (currently on: #{current_branch})"
+    print "Continue anyway? (y/N): "
+    response = gets.strip.downcase
+    exit unless response == 'y' || response == 'yes'
+  end
+
+  # Check if there are uncommitted changes
+  unless `git status --porcelain`.strip.empty?
+    puts "❌ Error: You have uncommitted changes. Please commit or stash them first."
+    exit 1
+  end
+
+  # Pull latest changes
+  puts "📥 Pulling latest changes from origin/main..."
+  system('git pull origin main')
+  
+  # Run demo version lock
+  puts "🔒 Running demo version lock..."
+  unless system('make demo-version-lock')
+    puts "❌ Error: Failed to update demo app versions"
+    exit 1
+  end
+
+  # Check if there are changes to commit
+  if `git status --porcelain`.strip.empty?
+    puts "ℹ️  No changes detected - demo app may already be up to date"
+    exit 0
+  end
+
+  # Show what changed
+  puts "\n📋 Changes to be committed:"
+  system('git diff --name-only')
+  puts
+
+  # Commit the changes
+  commit_message = "Update demo app to use version #{version}"
+  puts "💾 Committing changes: #{commit_message}"
+  
+  system("git add docs/demo/")
+  unless system("git commit -m '#{commit_message}'")
+    puts "❌ Error: Failed to commit changes"
+    exit 1
+  end
+
+  # Push the changes
+  puts "📤 Pushing changes to origin/main..."
+  unless system('git push origin main')
+    puts "❌ Error: Failed to push changes"
+    exit 1
+  end
+
+  puts
+  puts "✅ Successfully updated demo app to version #{version}!"
+  puts "🌐 The demo app will auto-deploy with the new version shortly."
+  puts
+  puts "Next steps:"
+  puts "1. Monitor the deployment at your hosting platform"
+  puts "2. Verify the demo app is working correctly"
+  puts "3. Check that Algolia indexing completes successfully"
+end
+
+# Show help if requested
+if ARGV.include?('--help') || ARGV.include?('-h')
+  puts <<~HELP
+    Usage: bin/update_demo_after_release
+    
+    This script updates the demo app to use the latest published version of LocoMotion.
+    It should be run AFTER publishing both the Ruby gem and NPM package.
+    
+    What it does:
+    1. Checks that you're on the main branch (with warning if not)
+    2. Ensures there are no uncommitted changes
+    3. Pulls the latest changes from origin/main
+    4. Runs 'make demo-version-lock' to update demo dependencies
+    5. Commits and pushes the changes
+    
+    Prerequisites:
+    - Both Ruby gem and NPM package must be published
+    - You must be in a clean git state
+    - You should be on the main branch
+  HELP
+  exit 0
+end
+
+update_demo_after_release
