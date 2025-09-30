@@ -182,9 +182,12 @@ module Algolia
         end
         
         if example[:code].present?
+          # Strip the description block from the code since we already show it above
+          cleaned_code = strip_description_block(example[:code])
+          
           file.puts "Code (HAML):"
           file.puts "```haml"
-          file.puts example[:code]
+          file.puts cleaned_code
           file.puts "```"
           file.puts ""
         end
@@ -192,6 +195,53 @@ module Algolia
         file.puts "URL: #{component[:examples_url]}##{example[:anchor]}"
         file.puts ""
       end
+    end
+
+    # Strip the description block from HAML code
+    #
+    # @param code [String] The HAML code
+    #
+    # @return [String] Code with description block removed
+    #
+    def strip_description_block(code)
+      return code if code.nil? || code.empty?
+      
+      lines = code.split("\n")
+      result = []
+      skip_depth = nil
+      base_indent = nil
+      
+      lines.each do |line|
+        # Detect the start of a description block
+        if line.match?(/^\s*-\s+doc\.with_description\s+do\s*$/)
+          # Calculate the indentation level
+          base_indent = line[/^\s*/].length
+          skip_depth = base_indent
+          next
+        end
+        
+        # If we're skipping, check if we've reached the end of the block
+        if skip_depth
+          current_indent = line[/^\s*/].length
+          
+          # Empty lines don't affect block detection
+          if line.strip.empty?
+            next
+          end
+          
+          # If indentation is back to base level or less, we're done skipping
+          if current_indent <= skip_depth
+            skip_depth = nil
+            base_indent = nil
+          else
+            next
+          end
+        end
+        
+        result << line
+      end
+      
+      result.join("\n").strip
     end
 
     # Truncate a description to a maximum length

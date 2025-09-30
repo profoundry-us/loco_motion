@@ -279,8 +279,6 @@ By default, icons are displayed with the `size-5` Tailwind class to set the widt
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
-  - doc.with_description do
-    By default, icons are displayed with the `size-5` Tailwind class to set the
 width and height. This can be overridden **without** using the
 `!` Tailwind modifier because we utilize the `:where()` pseudo-class to
 ensure that our default classes have the lowest CSS specificity possible.
@@ -310,12 +308,6 @@ You can customize the size, color, and other properties of the icons using stand
 Code (HAML):
 ```haml
 = doc_example(title: "Customized Icons", example_css: "gap-x-2") do |doc|
-  - doc.with_description do
-    %p
-      You can customize the size, color, and other properties of the icons using
-
-      standard Tailwind classes.
-
   = hero_icon("no-symbol", css: "size-4 text-red-600")
 
   = hero_icon("arrow-trending-up", css: "size-10 text-green-600")
@@ -349,14 +341,6 @@ Buttons are used to trigger actions. They can be used to submit forms, navigate 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Buttons") do |doc|
-  - doc.with_description do
-    %p
-      Buttons are used to trigger actions. They can be used to submit forms,
-
-      navigate to other pages, or trigger any other action. And they come in
-
-      various styles and colors.
-
   .my-2.flex.flex-col.lg:flex-row.gap-4
     = daisy_button do
       Plain Button
@@ -386,9 +370,6 @@ Buttons can also have an icon on the left or right side.
 Code (HAML):
 ```haml
 = doc_example(title: "Icon Buttons") do |doc|
-  - doc.with_description do
-    %p Buttons can also have an icon on the left or right side.
-
   .flex.flex-col.md:flex-row.items-center.justify-center.gap-4
     = daisy_button(icon: "plus", css: "btn-circle")
 
@@ -410,9 +391,6 @@ You can also use various sizes.
 Code (HAML):
 ```haml
 = doc_example(title: "Multiple Sizes") do |doc|
-  - doc.with_description do
-    %p You can also use various sizes.
-
   .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
     = daisy_button(css: "btn-lg") do
       Big Button
@@ -436,9 +414,6 @@ You can also create custom buttons.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Buttons") do |doc|
-  - doc.with_description do
-    %p You can also create custom buttons.
-
   = daisy_button(css: "bg-linear-to-r from-blue-500 to-blue-700 text-white rounded-full") do
     .loading.loading-spinner.mr-1
 
@@ -455,9 +430,6 @@ You can also create outline buttons.
 Code (HAML):
 ```haml
 = doc_example(title: "Outline Buttons") do |doc|
-  - doc.with_description do
-    %p You can also create outline buttons.
-
   .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
     = daisy_button(css: "btn-outline") do
       Outline Button
@@ -481,9 +453,6 @@ You can also create soft buttons.
 Code (HAML):
 ```haml
 = doc_example(title: "Soft Buttons") do |doc|
-  - doc.with_description do
-    %p You can also create soft buttons.
-
   .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
     = daisy_button(css: "btn-soft") do
       Soft Button
@@ -507,9 +476,6 @@ You can also create dash buttons.
 Code (HAML):
 ```haml
 = doc_example(title: "Dash Buttons") do |doc|
-  - doc.with_description do
-    %p You can also create dash buttons.
-
   .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
     = daisy_button(css: "btn-dash") do
       Dash Button
@@ -550,11 +516,6 @@ A basic dropdown has an icon or a title and a list of items (actions).
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Dropdown", example_css: "pt-5 pb-24") do |doc|
-  - doc.with_description do
-    A basic dropdown has an icon or a title and a list of items (actions).
-
-
-
   = daisy_dropdown(title: "Click to Open") do |dropdown|
     - dropdown.with_item do
       = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
@@ -575,11 +536,6 @@ You can pass in your own button element to the dropdown.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Button", example_css: "pb-32") do |doc|
-  - doc.with_description do
-    You can pass in your own button element to the dropdown.
-
-
-
   = daisy_dropdown do |dropdown|
     - dropdown.with_button(icon: "heart", title: "Favorites", css: "btn-primary")
 
@@ -602,8 +558,6 @@ You can also pass a custom `activator` allowing you to use any content instead o
 Code (HAML):
 ```haml
 = doc_example(title: "Fully Custom Dropdown", example_css: "flex-col") do |doc|
-  - doc.with_description do
-    You can also pass a custom `activator` allowing you to use any content
 instead of just a button to open the dropdown.
 
 Additionally, if no items are setup, the dropdown will simply output any
@@ -679,8 +633,6 @@ Code (HAML):
 ```haml
 %turbo-frame{"id" => "simple-modal"}
   = doc_example(title: "Simple Modal") do |doc|
-    - doc.with_description do
-      Modals are most often opened through the click of a button. They can be
 closed by clicking on the `x` icon in the top right, by clicking outside
 of the modal, or by submitting a `<form method='dialog'>` inside the
 modal.
@@ -727,14 +679,6 @@ Code (HAML):
 ```haml
 %turbo-frame{"id" => "custom-activator-modal"}
   = doc_example(title: "Custom Activator") do |doc|
-    - doc.with_description do
-      %p
-        Sometimes you want to use something other than a button to trigger the
-
-        modal. You can use the activator slot to specify any custom HTML
-
-        element as the trigger.
-
     .flex.flex-col.items-center
       = daisy_modal(title: "Custom Activator Modal") do |modal|
         - modal.with_activator do
@@ -782,12 +726,6 @@ The simplest use of the Swap component is to toggle between two emojis. You can 
 Code (HAML):
 ```haml
 = doc_example(title: "Simple Emojis") do |doc|
-  - doc.with_description do
-    %p
-      The simplest use of the Swap component is to toggle between two emojis.
-
-      You can even add various animations!
-
   .mt-4.flex.gap-x-6.text-4xl.lg:text-6xl
     = daisy_swap(off: "❤️", on: "💔")
 
@@ -805,8 +743,6 @@ You can also use the Swap component with Hero Icons. The following example toggl
 Code (HAML):
 ```haml
 = doc_example(title: "Hero Icons") do |doc|
-  - doc.with_description do
-    You can also use the Swap component with Hero Icons. The following example
 toggles between various icons.
 
 You can also use our special `hero_icon` helper which accepts the `css`
@@ -860,8 +796,6 @@ You can also use the Swap component with custom HTML elements. The following exa
 Code (HAML):
 ```haml
 = doc_example(title: "Custom HTML Elements") do |doc|
-  - doc.with_description do
-    You can also use the Swap component with custom HTML elements. The
 following example toggles between a stop sign, a go sign, and a slow sign
 (when you click the `Make Indeterminate` button).
 
@@ -910,8 +844,6 @@ One of the most basic sub-components is the theme preview icon. It shows a visua
 Code (HAML):
 ```haml
 = doc_example(title: "Theme Preview Icons") do |doc|
-  - doc.with_description do
-    One of the most basic sub-components is the theme preview icon. It shows a
 visual representation of the theme using the `base`, `primary`,
 `secondary`, and `accent` colors as little dots inside of a rounded
 square.
@@ -936,8 +868,6 @@ When a theme radio input is selected, the theme's page will change to the value 
 Code (HAML):
 ```haml
 = doc_example(title: "Theme Radio Inputs") do |doc|
-  - doc.with_description do
-    When a theme radio input is selected, the theme's page will change to the
 value of the the input.
 
 
@@ -970,8 +900,6 @@ You can also build a custom switcher by using all of the sub-components in combi
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
-  - doc.with_description do
-    You can also build a custom switcher by using all of the sub-components
 in combination.
 
 
@@ -1030,8 +958,6 @@ You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Accordion") do |doc|
-  - doc.with_description do
-    You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers
 directly to each section.
 
 
@@ -1056,9 +982,6 @@ Sections can be combined or separated by specifying the `name` attribute. You ca
 Code (HAML):
 ```haml
 = doc_example(title: "Separated Accordion") do |doc|
-  - doc.with_description do
-    Sections can be combined or separated by specifying the `name` attribute.
-
 You can also set the `:arrow` or `:plus` modifier to the entire accordion
 to apply it to all sections.
 
@@ -1087,8 +1010,6 @@ Because it uses `<input type="radio">` elements, you can even use it inside a fo
 Code (HAML):
 ```haml
 = doc_example(title: "Form Accordion") do |doc|
-  - doc.with_description do
-    Because it uses `<input type="radio">` elements, you can even use it
 inside a form!
 
 
@@ -1140,8 +1061,6 @@ You can use the Avatar component to display a user's profile picture, icon, or i
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Avatars") do |doc|
-  - doc.with_description do
-    You can use the Avatar component to display a user's profile picture,
 icon, or initials. You can also add an online or offline indicator.
 
 
@@ -1190,11 +1109,6 @@ You can link the Avatar component to a URL by using the `href` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Linked Avatars") do |doc|
-  - doc.with_description do
-    You can link the Avatar component to a URL by using the `href` attribute.
-
-
-
   .space-x-4
     - # Avatar with link and title
 
@@ -1233,8 +1147,6 @@ You can use the Badge component to display a small amount of information. Badges
 Code (HAML):
 ```haml
 = doc_example(title: "Simple Badges") do |doc|
-  - doc.with_description do
-    You can use the Badge component to display a small amount of information.
 Badges can be used to indicate status, category, or other metadata.
 
 The `title` can be passed through keyword arguments or as a block.
@@ -1265,10 +1177,6 @@ Badges come in four sizes: large, medium, small, and extra small.
 Code (HAML):
 ```haml
 = doc_example(title: "Badge Sizes") do |doc|
-  - doc.with_description do
-    %p
-      Badges come in four sizes: large, medium, small, and extra small.
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-secondary badge-lg") do
       Large Badge
@@ -1292,8 +1200,6 @@ Badges can include icons on either the left or right side, or both. Use the `lef
 Code (HAML):
 ```haml
 = doc_example(title: "Badges with Icons") do |doc|
-  - doc.with_description do
-    Badges can include icons on either the left or right side, or both.
 Use the `left_icon` and `right_icon` options to add icons.
 
 You can also use the `icon` option as an alias for `left_icon`.
@@ -1319,8 +1225,6 @@ Badges can be made clickable by providing an `href` option. This transforms the 
 Code (HAML):
 ```haml
 = doc_example(title: "Linked Badges") do |doc|
-  - doc.with_description do
-    Badges can be made clickable by providing an `href` option. This
 transforms the badge into an anchor (`<a>`) tag.
 
 You can also specify a `target` attribute for the link, such as `_blank`
@@ -1351,11 +1255,6 @@ Badges can be displayed in an outline style.
 Code (HAML):
 ```haml
 = doc_example(title: "Outline Badge") do |doc|
-  - doc.with_description do
-    Badges can be displayed in an outline style.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-outline") { "Default" }
 
@@ -1375,11 +1274,6 @@ Badges can be displayed in a soft style.
 Code (HAML):
 ```haml
 = doc_example(title: "Soft Badge") do |doc|
-  - doc.with_description do
-    Badges can be displayed in a soft style.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-soft") { "Default" }
 
@@ -1399,11 +1293,6 @@ Badges can be displayed in a dash style.
 Code (HAML):
 ```haml
 = doc_example(title: "Dash Badge") do |doc|
-  - doc.with_description do
-    Badges can be displayed in a dash style.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-dash") { "Default" }
 
@@ -1423,11 +1312,6 @@ Outline badges can be displayed with state colors.
 Code (HAML):
 ```haml
 = doc_example(title: "Outline badges with state colors") do |doc|
-  - doc.with_description do
-    Outline badges can be displayed with state colors.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-info badge-outline") { "Info" }
 
@@ -1447,11 +1331,6 @@ Soft badges can be displayed with state colors.
 Code (HAML):
 ```haml
 = doc_example(title: "Soft badges with state colors") do |doc|
-  - doc.with_description do
-    Soft badges can be displayed with state colors.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-info badge-soft") { "Info" }
 
@@ -1471,11 +1350,6 @@ Dash badges can be displayed with state colors.
 Code (HAML):
 ```haml
 = doc_example(title: "Dash badges with state colors") do |doc|
-  - doc.with_description do
-    Dash badges can be displayed with state colors.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(css: "badge-info badge-dash") { "Info" }
 
@@ -1512,12 +1386,6 @@ Cards are used to display information in a structured way. They can contain imag
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Card") do |doc|
-  - doc.with_description do
-    %p
-      Cards are used to display information in a structured way. They can contain
-
-      images, text, and actions.
-
   = daisy_card(css: "max-w-96 bg-base-100 shadow-xl") do |card|
     - card.with_top_figure css: "aspect-video", src: image_path("landscapes/beach.jpg")
 
@@ -1537,10 +1405,6 @@ The images (figures) can be on the top or the bottom!
 Code (HAML):
 ```haml
 = doc_example(title: "Card Figures") do |doc|
-  - doc.with_description do
-    %p
-      The images (figures) can be on the top or the bottom!
-
   - pics = ["beach", "forest", "mountain-river", "desert"]
 
   .mt-8.grid.grid-cols-1.gap-4.lg:grid-cols-2.xl:grid-cols-4
@@ -1569,8 +1433,6 @@ Cards can be rendered in different sizes. Use the `card-sm` class for a more con
 Code (HAML):
 ```haml
 = doc_example(title: "Card Sizes") do |doc|
-  - doc.with_description do
-    Cards can be rendered in different sizes. Use the `card-sm` class for a
 more condensed layout.
 
 
@@ -1633,12 +1495,6 @@ You can use the Carousel component to display a collection of images or other co
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Carousel") do |doc|
-  - doc.with_description do
-    %p
-      You can use the Carousel component to display a collection of images or
-
-      other content.
-
   - photos = Rails.cache.fetch("unsplash_landscapes") { Unsplash::Photo.search("landscape") }
 
   - unsplash_link = "https://unsplash.com?#{Unsplash::Client.connection.utm_params.to_param}"
@@ -1672,12 +1528,6 @@ The Carousel component can also be used to display other components, such as Car
 Code (HAML):
 ```haml
 = doc_example(title: "Card Carousel") do |doc|
-  - doc.with_description do
-    %p
-      The Carousel component can also be used to display other components, such
-
-      as Cards. This is great for showcasing related content in a compact way.
-
   = daisy_carousel(css: "h-96 gap-x-4 rounded-lg") do |carousel|
     - carousel.with_item(css: "w-96") do
       = daisy_card(css: "h-full bg-base-100 border border-base-200") do |card|
@@ -1754,12 +1604,6 @@ Chat bubbles are used to display messages in a structured way. They can contain 
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Chat") do |doc|
-  - doc.with_description do
-    %p
-      Chat bubbles are used to display messages in a structured way. They can
-
-      contain text, user images, a header, and a footer.
-
   .w-full.mx-4
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
@@ -1815,12 +1659,6 @@ Chat bubbles can be colored to differentiate between different users or types of
 Code (HAML):
 ```haml
 = doc_example(title: "Colored Chat") do |doc|
-  - doc.with_description do
-    %p
-      Chat bubbles can be colored to differentiate between different users or
-
-      types of messages.
-
   .w-full.mx-4
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
@@ -1894,10 +1732,6 @@ Collapses are transparent by default and add additional padding.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Collapse") do |doc|
-  - doc.with_description do
-    %p
-      Collapses are transparent by default and add additional padding.
-
   .mx-auto{ class: "w-[400px]" }
     = daisy_collapse(title: "Click to Open") do |collapse|
       This is the content of the collapse.
@@ -1912,8 +1746,6 @@ You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to 
 Code (HAML):
 ```haml
 = doc_example(title: "Arrow & Plus Collapses") do |doc|
-  - doc.with_description do
-    You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers
 directly to each collapse.
 
 
@@ -1935,10 +1767,6 @@ You can also customize the collapse with any HTML you desire!
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Collapse") do |doc|
-  - doc.with_description do
-    %p
-      You can also customize the collapse with any HTML you desire!
-
   .mx-auto{ class: "w-[400px]" }
     = daisy_collapse(css: "collapse-arrow bg-base-200 border border-base-300") do |collapse|
       - collapse.with_title(css: "collapse-title bg-base-300") do
@@ -1982,8 +1810,6 @@ A basic countdown accepts an ActiveSupport::Duration object as either the first 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Countdown", allow_reset: true) do |doc|
-  - doc.with_description do
-    A basic countdown accepts an ActiveSupport::Duration object as either the
 first positional argument or as the value of the `:duration` keyword
 argument.
 
@@ -2004,17 +1830,6 @@ If you want to display a countdown with multiple parts, you can build one using 
 Code (HAML):
 ```haml
 = doc_example(title: "Longer Countdown", allow_reset: true) do |doc|
-  - doc.with_description do
-    %p
-      If you want to display a countdown with multiple parts, you can build one
-
-      using the
-
-      = link_to "https://api.rubyonrails.org/classes/ActiveSupport/Duration.html", target: "_blank" do
-        ActiveSupport::Duration#build
-
-      method.
-
   .flex.flex-col.items-center.gap-y-4.font-mono
     = daisy_countdown(ActiveSupport::Duration.build(3725))
 
@@ -2034,8 +1849,6 @@ You can also display the countdowns in a box by customizing each part of the cou
 Code (HAML):
 ```haml
 = doc_example(title: "Boxed Countdown", allow_reset: true) do |doc|
-  - doc.with_description do
-    You can also display the countdowns in a box by customizing each part of
 the countdown.
 
 Note that the wrapper `text-sm` class applies to the words ("hours",
@@ -2083,12 +1896,6 @@ Diffs are best when they show two mostly similar items that have only a few diff
 Code (HAML):
 ```haml
 = doc_example(title: "Text / HTML Diff") do |doc|
-  - doc.with_description do
-    %p
-      Diffs are best when they show two mostly similar items that have only a
-
-      few differences.
-
   = daisy_diff(css: "aspect-video max-w-[800px] max-h-[450px]") do |diff|
     - diff.with_item do
       .bg-primary.text-primary-content.grid.place-content-center.text-6xl.lg:text-8xl.font-black
@@ -2108,12 +1915,6 @@ Here is an example using two images. One is blurred, and the other is the full-r
 Code (HAML):
 ```haml
 = doc_example(title: "Image Diff") do |doc|
-  - doc.with_description do
-    %p
-      Here is an example using two images. One is blurred, and the other is
-
-      the full-resolution image.
-
   = daisy_diff(css: "aspect-video max-w-[800px] max-h-[450px]") do |diff|
     - diff.with_item do
       = image_tag("landscapes/desert.jpg")
@@ -2148,12 +1949,6 @@ Figures are used to display images with optional captions. They are commonly use
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Figure") do |doc|
-  - doc.with_description do
-    %p
-      Figures are used to display images with optional captions. They are commonly
-
-      used within cards and other content containers.
-
   = daisy_figure(css: "max-w-96", src: image_path("landscapes/beach.jpg"))
 ```
 
@@ -2166,10 +1961,6 @@ You can add a caption to your figure by providing content to the component.
 Code (HAML):
 ```haml
 = doc_example(title: "Figure with Caption") do |doc|
-  - doc.with_description do
-    %p
-      You can add a caption to your figure by providing content to the component.
-
   = daisy_figure(css: "max-w-96", src: image_path("landscapes/mountain-river.jpg")) do
     %p.text-center.italic A beautiful mountain river landscape
 ```
@@ -2183,10 +1974,6 @@ Figures can also be used without an image to display custom content.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Content") do |doc|
-  - doc.with_description do
-    %p
-      Figures can also be used without an image to display custom content.
-
   = daisy_figure(css: "max-w-96 bg-base-100 border border-base-300 p-4 rounded-lg") do
     .flex.flex-col.items-center.gap-4
       = hero_icon("photo", css: "size-16 text-base-content/50")
@@ -2451,8 +2238,6 @@ A simple list that displays items in a vertical arrangement. Each item is render
 Code (HAML):
 ```haml
 = doc_example(title: "Basic List") do |doc|
-  - doc.with_description do
-    A simple list that displays items in a vertical arrangement. Each item is
 rendered as a list element with basic styling.
 
 
@@ -2474,8 +2259,6 @@ Lists can include a header element that describes the content below. This provid
 Code (HAML):
 ```haml
 = doc_example(title: "List with Header") do |doc|
-  - doc.with_description do
-    Lists can include a header element that describes the content below.
 This provides context for the items and improves organization.
 
 
@@ -2497,8 +2280,6 @@ Lists can be customized with additional CSS classes for enhanced visual presenta
 Code (HAML):
 ```haml
 = doc_example(title: "Styled List") do |doc|
-  - doc.with_description do
-    Lists can be customized with additional CSS classes for enhanced visual
 presentation. This example adds a background, rounded corners, shadow,
 and dividers between items.
 
@@ -2521,8 +2302,6 @@ List items can contain rich content including images and structured text. This i
 Code (HAML):
 ```haml
 = doc_example(title: "List with Images") do |doc|
-  - doc.with_description do
-    List items can contain rich content including images and structured text.
 This is useful for displaying user profiles or other complex information.
 
 
@@ -2562,8 +2341,6 @@ Lists can include interactive elements like buttons to provide additional functi
 Code (HAML):
 ```haml
 = doc_example(title: "Interactive List") do |doc|
-  - doc.with_description do
-    Lists can include interactive elements like buttons to provide additional
 functionality. This example shows a music player interface with play
 and favorite buttons.
 
@@ -2639,8 +2416,6 @@ Stats are used to display simple data points. They can be used to display a numb
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Stats") do |doc|
-  - doc.with_description do
-    Stats are used to display simple data points. They can be used to display
 a number (the main content), a title, and a description.
 
 
@@ -2673,8 +2448,6 @@ Stats can also be used to display more complex data points. You can pass in an i
 Code (HAML):
 ```haml
 = doc_example(title: "Complex Stats") do |doc|
-  - doc.with_description do
-    Stats can also be used to display more complex data points. You can pass
 in an image, an icon, or any other content you'd like.
 
 
@@ -2726,8 +2499,6 @@ The basic status component is a simple dot indicator with no additional styling.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Status") do |doc|
-  - doc.with_description do
-    The basic status component is a simple dot indicator with no additional
 styling.
 
 
@@ -2744,8 +2515,6 @@ Status indicators come in five sizes: extra small, small, medium (default), larg
 Code (HAML):
 ```haml
 = doc_example(title: "Status Sizes") do |doc|
-  - doc.with_description do
-    Status indicators come in five sizes: extra small, small, medium
 (default), large, and extra large.
 
 
@@ -2786,8 +2555,6 @@ Status indicators can use different colors to represent various states or condit
 Code (HAML):
 ```haml
 = doc_example(title: "Status Colors") do |doc|
-  - doc.with_description do
-    Status indicators can use different colors to represent various states or
 conditions.
 
 
@@ -2843,8 +2610,6 @@ For accessibility, status indicators should include descriptive ARIA labels.
 Code (HAML):
 ```haml
 = doc_example(title: "Status with Tooltip and Aria Label") do |doc|
-  - doc.with_description do
-    For accessibility, status indicators should include descriptive ARIA
 labels.
 
 
@@ -2878,10 +2643,6 @@ Here is a super-basic table.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Table") do |doc|
-  - doc.with_description do
-    %p
-      Here is a super-basic table.
-
   - data = [{col1: "foo", col2: "bar"}, {col1: "fizz", col2: "buzz"}]
 
   = daisy_table do |table|
@@ -2910,12 +2671,6 @@ The following example shows how to have a table with multiple headers pinned as 
 Code (HAML):
 ```haml
 = doc_example(title: "Pinning Rows (Using Sections)") do |doc|
-  - doc.with_description do
-    %p
-      The following example shows how to have a table with multiple headers
-
-      pinned as you scroll.
-
   .size-96.border.border-base-300.rounded.overflow-y-auto
     = daisy_table(css: "bg-base-100 table-pin-rows") do |table|
       - (0..90).step(10).with_index do |step, index|
@@ -2967,10 +2722,6 @@ Timelines are used to display a series of events in chronological order.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Timeline") do |doc|
-  - doc.with_description do
-    %p
-      Timelines are used to display a series of events in chronological order.
-
   = daisy_timeline do |timeline|
     - timeline.with_event(start: "1985", middle_icon: "user-circle", end: "Topher Born")
 
@@ -2990,8 +2741,6 @@ The `start`, `middle_icon`, and `end` properties can be customized. Or you can p
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Timeline") do |doc|
-  - doc.with_description do
-    The `start`, `middle_icon`, and `end` properties can be customized. Or you
 can provide a completely custom `middle` block.
 
 
@@ -3054,8 +2803,6 @@ Calendars can be used to select a single date. Use the `update` option to pass a
 Code (HAML):
 ```haml
 = doc_example(title: "Calendar", example_css: "flex-col", allow_reset: true) do |doc|
-  - doc.with_description do
-    Calendars can be used to select a single date. Use the `update` option to
 pass a CSS selector of a `<div>` or other element to update.
 
 Note that this uses the `onchange` event along with `getElementById` to
@@ -3084,8 +2831,6 @@ You can utilize the `change` option to change the value of an HTML input when a 
 Code (HAML):
 ```haml
 = doc_example(title: "Calendar with Input", example_css: "flex-col", allow_reset: true) do |doc|
-  - doc.with_description do
-    You can utilize the `change` option to change the value of an HTML input
 when a date is selected.
 
 Similar to the `update` option, this uses `onchange` and `getElementById`,
@@ -3120,11 +2865,6 @@ Calendars can also allow selection of a range of dates.
 Code (HAML):
 ```haml
 = doc_example(title: "Calendar Range", allow_reset: true) do |doc|
-  - doc.with_description do
-    Calendars can also allow selection of a range of dates.
-
-
-
   = daisy_card(css: "card-border bg-base-100 shadow-lg") do
     = daisy_cally(modifier: :range, months: 2, months_css: "grid md:grid-cols-2 gap-8", update: "cally_range")
 
@@ -3158,8 +2898,6 @@ The basic Cally Input provides a text field that, when clicked, displays a calen
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Usage") do |doc|
-  - doc.with_description do
-    The basic Cally Input provides a text field that, when clicked, displays a
 calendar popover for date selection.
 
 
@@ -3188,11 +2926,6 @@ You can customize the input or calendar by using the appropriate slots.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Input") do |doc|
-  - doc.with_description do
-    You can customize the input or calendar by using the appropriate slots.
-
-
-
   = daisy_cally_input(placeholder: "parent placeholder", popover_css: "dropdown-top dropdown-center", auto_scroll_padding: 200) do |c|
     = c.with_input(placeholder: "Select a date...")
 
@@ -3208,8 +2941,6 @@ The built-in Form Builder extension makes it easy to use Cally Inputs in your Ra
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension makes it easy to use Cally Inputs in your
 Rails forms. The component automatically extracts the name, ID, and value
 attributes from the form object.
 
@@ -3262,8 +2993,6 @@ Basic checkboxes can be rendered with or without a label through standard heirar
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Checkboxes") do |doc|
-  - doc.with_description do
-    Basic checkboxes can be rendered with or without a label through standard
 heirarchy means, or by utilizing the `start` and `end` wrappers.
 
 
@@ -3323,16 +3052,6 @@ Checkboxes can be styled with different colors using DaisyUI's color classes. do
 Code (HAML):
 ```haml
 = doc_example(title: "Checkboxes with Colors") do |doc|
-  - doc.with_description do
-    Checkboxes can be styled with different colors using DaisyUI's color classes.
-
-
-
-    = doc_note(css: "mb-8") do
-      Uses `checkbox-neutral` with dark backgrounds for dark mode compatibility.
-
-
-
   .my-2.grid.grid-cols-1.md:grid-cols-2.gap-4
     = daisy_label(for: "checkbox_dark_mode") do
       = daisy_checkbox(name: "checkbox_dark_mode", id: "checkbox_dark_mode", css: "checkbox-neutral theme-controller", value: "dark", checked: false)
@@ -3384,11 +3103,6 @@ Checkboxes come in different sizes using DaisyUI's size classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Checkbox Sizes") do |doc|
-  - doc.with_description do
-    Checkboxes come in different sizes using DaisyUI's size classes.
-
-
-
   .my-2.flex.flex-col.gap-8
     .flex.items-center.gap-4
       = daisy_label(for: "checkbox_extra_small") do
@@ -3430,11 +3144,6 @@ You can combine both color and size classes to create different variations.
 Code (HAML):
 ```haml
 = doc_example(title: "Combining Colors and Sizes") do |doc|
-  - doc.with_description do
-    You can combine both color and size classes to create different variations.
-
-
-
   .my-2.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
     = daisy_label(for: "checkbox_primary_small") do
       = daisy_checkbox(name: "checkbox_primary_small", id: "checkbox_primary_small", css: "checkbox-primary checkbox-sm", checked: true)
@@ -3476,8 +3185,6 @@ Checkboxes can be set to an indeterminate state to indicate that the value is ne
 Code (HAML):
 ```haml
 = doc_example(title: "Indeterminate State") do |doc|
-  - doc.with_description do
-    Checkboxes can be set to an indeterminate state to indicate that the value
 is neither checked nor unchecked. This is commonly used for "Select All"
 checkboxes where some items are selected and others are not.
 
@@ -3506,11 +3213,6 @@ Checkboxes can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled Checkbox") do |doc|
-  - doc.with_description do
-    Checkboxes can be disabled using the `disabled` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "checkbox_disabled_state", css: "cursor-not-allowed") do
       = daisy_checkbox(name: "checkbox_disabled_state", id: "checkbox_disabled_state", disabled: true)
@@ -3527,11 +3229,6 @@ Checkboxes can be given a custom ID using the `id` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom ID") do |doc|
-  - doc.with_description do
-    Checkboxes can be given a custom ID using the `id` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "custom-checkbox") do
       = daisy_checkbox(name: "checkbox12", id: "custom-checkbox")
@@ -3548,8 +3245,6 @@ The built-in Form Builder extension provides an even easier way to use checkboxe
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 checkboxes in your pages by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -3573,8 +3268,6 @@ You can also use the Label component directly with checkboxes for fully custom a
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-  - doc.with_description do
-    You can also use the Label component directly with checkboxes for fully
 custom approach.
 
 
@@ -3618,11 +3311,6 @@ File inputs allow users to select and upload files.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic File Input") do |doc|
-  - doc.with_description do
-    File inputs allow users to select and upload files.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file1", title: "Upload Document")
 
@@ -3638,11 +3326,6 @@ You can restrict the file types that can be selected using the `accept` attribut
 Code (HAML):
 ```haml
 = doc_example(title: "File Input with Accept Attribute") do |doc|
-  - doc.with_description do
-    You can restrict the file types that can be selected using the `accept` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "image", title: "Upload Image")
 
@@ -3662,11 +3345,6 @@ Enable multiple file selection with the `multiple` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Multiple File Selection") do |doc|
-  - doc.with_description do
-    Enable multiple file selection with the `multiple` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "documents", title: "Upload Documents")
 
@@ -3682,11 +3360,6 @@ File inputs can be styled with additional CSS classes to change their appearance
 Code (HAML):
 ```haml
 = doc_example(title: "File Input with Different Colors") do |doc|
-  - doc.with_description do
-    File inputs can be styled with additional CSS classes to change their appearance.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_primary", title: "Primary File Input")
 
@@ -3710,8 +3383,6 @@ File inputs can use the `file-input-ghost` class for a minimalist appearance tha
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Style File Input") do |doc|
-  - doc.with_description do
-    File inputs can use the `file-input-ghost` class for a minimalist appearance
 that only shows borders on focus.
 
 
@@ -3738,11 +3409,6 @@ File inputs can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled File Input") do |doc|
-  - doc.with_description do
-    File inputs can be disabled using the `disabled` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_disabled", title: "Disabled File Input", css: "cursor-not-allowed")
 
@@ -3758,11 +3424,6 @@ File inputs can be marked as required using the `required` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Required File Input") do |doc|
-  - doc.with_description do
-    File inputs can be marked as required using the `required` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_required", title: "Required File Input")
 
@@ -3778,8 +3439,6 @@ The built-in Form Builder extension provides an easy way to use file inputs in y
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an easy way to use
 file inputs in your forms by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -3822,11 +3481,6 @@ A simple fieldset rendered without a legend.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Fieldset (No Legend)") do |doc|
-  - doc.with_description do
-    A simple fieldset rendered without a legend.
-
-
-
   = daisy_fieldset do
     = daisy_toggle(end: "Enable Feature X")
 ```
@@ -3840,11 +3494,6 @@ Pass simple text for the legend directly using the `legend:` argument.
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Legend (Argument)") do |doc|
-  - doc.with_description do
-    Pass simple text for the legend directly using the `legend:` argument.
-
-
-
   = daisy_fieldset(legend: "Settings (Argument)") do
     = daisy_toggle(end: "Enable Feature X")
 ```
@@ -3858,8 +3507,6 @@ Use the `with_legend` slot to provide custom content for the legend, including H
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Legend (Slot)") do |doc|
-  - doc.with_description do
-    Use the `with_legend` slot to provide custom content for the legend,
 including HTML.
 
 
@@ -3881,11 +3528,6 @@ Fieldsets are useful for grouping related form inputs under a common legend.
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Various Inputs") do |doc|
-  - doc.with_description do
-    Fieldsets are useful for grouping related form inputs under a common legend.
-
-
-
   = daisy_fieldset(legend: "User Profile") do
     .mt-4.space-y-4
       = daisy_input(floating: "Name")
@@ -3904,8 +3546,6 @@ You can customize the Fieldset with standard `css` options to make it look exact
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Custom Styling") do |doc|
-  - doc.with_description do
-    You can customize the Fieldset with standard `css` options to make it look
 exactly like you want.
 
 
@@ -3946,8 +3586,6 @@ Labels are used to provide text descriptions for form inputs. They can be used w
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Labels") do |doc|
-  - doc.with_description do
-    Labels are used to provide text descriptions for form inputs. They can be
 used with any form input component.
 
 
@@ -3968,8 +3606,6 @@ Labels can be used with form inputs to provide a description for the input. Here
 Code (HAML):
 ```haml
 = doc_example(title: "With Form Inputs") do |doc|
-  - doc.with_description do
-    Labels can be used with form inputs to provide a description for the input.
 Here's an example with a checkbox.
 
 
@@ -3990,8 +3626,6 @@ Many of our input components include the `LabelableComponent` concern, which pro
 Code (HAML):
 ```haml
 = doc_example(title: "LabelableComponent Functionality") do |doc|
-  - doc.with_description do
-    Many of our input components include the `LabelableComponent` concern,
 which provides built-in label functionality without needing separate label
 components. This makes your code cleaner and ensures proper semantic
 markup.
@@ -4035,8 +3669,6 @@ End labels appear after the input. They are especially useful for checkboxes and
 Code (HAML):
 ```haml
 = doc_example(title: "End Labels") do |doc|
-  - doc.with_description do
-    End labels appear after the input. They are especially useful for checkboxes
 and toggles, but can be used with any input component that includes the
 `LabelableComponent` concern.
 
@@ -4061,8 +3693,6 @@ Floating labels appear above the input when it has focus or contains a value. Th
 Code (HAML):
 ```haml
 = doc_example(title: "Floating Labels") do |doc|
-  - doc.with_description do
-    Floating labels appear above the input when it has focus or contains a value.
 This provides a clean, modern look while maintaining good UX.
 
 
@@ -4083,8 +3713,6 @@ For more complex labels, you can use the slot API to provide custom content to y
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Label Content") do |doc|
-  - doc.with_description do
-    For more complex labels, you can use the slot API to provide custom content
 to your labels. This is useful when you need to add HTML or other components
 within your label.
 
@@ -4114,8 +3742,6 @@ We've also extended the standard Rails FormBuilder with custom helper methods fo
 Code (HAML):
 ```haml
 = doc_example(title: "Form Builder Example") do |doc|
-  - doc.with_description do
-    We've also extended the standard Rails FormBuilder with custom helper
 methods for rendering Daisy Inputs with labels.
 
 
@@ -4152,8 +3778,6 @@ Radio buttons are used to select a single option from a set of options. Radio bu
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Radio Buttons") do |doc|
-  - doc.with_description do
-    Radio buttons are used to select a single option from a set of options.
 Radio buttons with the same name attribute are automatically grouped together.
 
 
@@ -4184,11 +3808,6 @@ Radio buttons can be styled with different colors using DaisyUI utility classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Radio Buttons with Colors") do |doc|
-  - doc.with_description do
-    Radio buttons can be styled with different colors using DaisyUI utility classes.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "radio4") do
       = daisy_radio(name: "radio_group2", id: "radio4", value: "1", css: "radio-primary")
@@ -4215,11 +3834,6 @@ Radio buttons can be in different states such as checked, disabled, or required.
 Code (HAML):
 ```haml
 = doc_example(title: "Radio Button States") do |doc|
-  - doc.with_description do
-    Radio buttons can be in different states such as checked, disabled, or required.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "radio7") do
       = daisy_radio(name: "radio_group3", id: "radio7", value: "1")
@@ -4251,11 +3865,6 @@ Radio buttons can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled Radio Button") do |doc|
-  - doc.with_description do
-    Radio buttons can be disabled using the `disabled` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "radio11", css: "cursor-not-allowed") do
       = daisy_radio(name: "radio_group4", id: "radio11", value: "1", disabled: true)
@@ -4272,11 +3881,6 @@ Radio buttons can be given a custom ID using the `id` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom ID") do |doc|
-  - doc.with_description do
-    Radio buttons can be given a custom ID using the `id` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "custom-radio-id") do
       = daisy_radio(name: "radio_group5", id: "custom-radio-id", value: "1")
@@ -4293,8 +3897,6 @@ The built-in Form Builder extension provides an even easier way to use radio but
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 radio buttons in your pages by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -4327,8 +3929,6 @@ You can also use the Label component directly with radio buttons for a fully cus
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-  - doc.with_description do
-    You can also use the Label component directly with radio buttons for a fully
 custom approach.
 
 
@@ -4376,8 +3976,6 @@ Range inputs allow users to select a value within a specific range by sliding a 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Range") do |doc|
-  - doc.with_description do
-    Range inputs allow users to select a value within a specific range by sliding
 a handle along a track.
 
 
@@ -4397,11 +3995,6 @@ Range inputs can be styled with different colors using DaisyUI utility classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Range with Colors") do |doc|
-  - doc.with_description do
-    Range inputs can be styled with different colors using DaisyUI utility classes.
-
-
-
   .w-full.max-w-xs.my-2.space-y-6
     .space-y-2
       = daisy_label(for: "primary_range", title: "Primary Range")
@@ -4443,8 +4036,6 @@ Range inputs can be configured with specific step values and visual indicators t
 Code (HAML):
 ```haml
 = doc_example(title: "Range with Steps") do |doc|
-  - doc.with_description do
-    Range inputs can be configured with specific step values and visual indicators
 to help users select precise values.
 
 
@@ -4486,11 +4077,6 @@ Range inputs can be in different states such as disabled or required.
 Code (HAML):
 ```haml
 = doc_example(title: "Range States") do |doc|
-  - doc.with_description do
-    Range inputs can be in different states such as disabled or required.
-
-
-
   .w-full.max-w-xs.my-2.space-y-2
     = daisy_label(for: "disabled_range", title: "Disabled Range", css: "cursor-not-allowed")
 
@@ -4510,8 +4096,6 @@ The built-in Form Builder extension provides an even easier way to use range inp
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 range inputs in your pages by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -4561,8 +4145,6 @@ Rating inputs allow users to provide a rating by selecting from a set of stars. 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Rating") do |doc|
-  - doc.with_description do
-    Rating inputs allow users to provide a rating by selecting from a set of
 stars. They are implemented using radio buttons styled with DaisyUI's mask
 classes.
 
@@ -4583,8 +4165,6 @@ The rating style can be customized using DaisyUI's mask classes. Here we use the
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Heart Style") do |doc|
-  - doc.with_description do
-    The rating style can be customized using DaisyUI's mask classes. Here we use
 the `mask-heart` class for a heart-shaped rating.
 
 
@@ -4604,8 +4184,6 @@ Rating inputs can be styled with different colors using DaisyUI utility classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Colors") do |doc|
-  - doc.with_description do
-    Rating inputs can be styled with different colors using DaisyUI utility
 classes.
 
 
@@ -4636,8 +4214,6 @@ Rating inputs can be rendered in different sizes using DaisyUI's size classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Different Sizes") do |doc|
-  - doc.with_description do
-    Rating inputs can be rendered in different sizes using DaisyUI's size
 classes.
 
 
@@ -4673,8 +4249,6 @@ Half-star ratings can be achieved by using the `mask-half-1` and `mask-half-2` c
 Code (HAML):
 ```haml
 = doc_example(title: "Half-Star Rating") do |doc|
-  - doc.with_description do
-    Half-star ratings can be achieved by using the `mask-half-1` and
 `mask-half-2` classes along with a higher max value. Each star is made up of
 two inputs, one for each half.
 
@@ -4697,8 +4271,6 @@ Rating inputs can be set to read-only / disdbled mode to display a static rating
 Code (HAML):
 ```haml
 = doc_example(title: "Read-Only Rating") do |doc|
-  - doc.with_description do
-    Rating inputs can be set to read-only / disdbled mode to display a static
 rating that cannot be changed.
 
 
@@ -4724,8 +4296,6 @@ You can provide custom content to the Rating component using ViewComponent's sta
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Content Rating") do |doc|
-  - doc.with_description do
-    You can provide custom content to the Rating component using ViewComponent's
 standard `content` feature. This gives you full control over the input
 elements while still maintaining the component's structure and behavior.
 
@@ -4758,8 +4328,6 @@ The built-in Form Builder extension provides an even easier way to use rating in
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 rating inputs in your pages by extracting the name and ID attributes from
 the form object and attributes.
 
@@ -4813,8 +4381,6 @@ Select inputs allow users to choose an option from a dropdown list. They are imp
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Select") do |doc|
-  - doc.with_description do
-    Select inputs allow users to choose an option from a dropdown list. They are
 implemented using the native HTML select element styled with DaisyUI classes.
 
 
@@ -4865,8 +4431,6 @@ For simpler cases, you can pass a list of strings as options. The value and labe
 Code (HAML):
 ```haml
 = doc_example(title: "Select with Simple Options") do |doc|
-  - doc.with_description do
-    For simpler cases, you can pass a list of strings as options. The value and
 label will both be set to the string value.
 
 Or you can pass an array of Hashes. You can set the label and value keys
@@ -4900,8 +4464,6 @@ Select inputs can be rendered in different sizes using DaisyUI's size classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Select Sizes") do |doc|
-  - doc.with_description do
-    Select inputs can be rendered in different sizes using DaisyUI's size
 classes.
 
 
@@ -4937,8 +4499,6 @@ Select inputs can be styled with different colors using DaisyUI's color classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Select with Colors") do |doc|
-  - doc.with_description do
-    Select inputs can be styled with different colors using DaisyUI's color
 classes.
 
 
@@ -4974,8 +4534,6 @@ Select inputs can be styled without a border using the `select-ghost` class. The
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Select") do |doc|
-  - doc.with_description do
-    Select inputs can be styled without a border using the `select-ghost` class.
 The border will appear on focus.
 
 
@@ -4996,11 +4554,6 @@ Select inputs can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled Select") do |doc|
-  - doc.with_description do
-    Select inputs can be disabled using the `disabled` attribute.
-
-
-
   .my-2.space-y-2
     = daisy_label(for: "disabled_select", title: "Disabled Select", css: "cursor-not-allowed")
 
@@ -5016,11 +4569,6 @@ Select inputs can be marked as required using the `required` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Required Select") do |doc|
-  - doc.with_description do
-    Select inputs can be marked as required using the `required` attribute.
-
-
-
   .my-2.space-y-2
     = daisy_label(for: "required_select", title: "Required Select *")
 
@@ -5036,11 +4584,6 @@ Select inputs can have a pre-selected value by setting the `value` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Pre-Selected Value") do |doc|
-  - doc.with_description do
-    Select inputs can have a pre-selected value by setting the `value` attribute.
-
-
-
   .my-2.space-y-2
     = daisy_label(for: "preselected_select", title: "Pre-Selected Select")
 
@@ -5061,11 +4604,6 @@ You can use block syntax to define options for more control over each option.
 Code (HAML):
 ```haml
 = doc_example(title: "Block Syntax for Options") do |doc|
-  - doc.with_description do
-    You can use block syntax to define options for more control over each option.
-
-
-
   .my-2.space-y-2
     = daisy_label(for: "block_select", title: "Block Syntax Select")
 
@@ -5088,8 +4626,6 @@ The built-in Form Builder extension provides an even easier way to use select in
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 select inputs in your pages by extracting the name and ID attributes from
 the form object and attributes.
 
@@ -5153,13 +4689,6 @@ Text inputs can be used with or without labels. doc_note(css: "mb-8") do Adding 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Text Input") do |doc|
-  - doc.with_description do
-    Text inputs can be used with or without labels.
-
-
-
-    = doc_note(css: "mb-8") do
-      Adding the `label` class to the `start/end` slots will apply a thin
 separator between the label and the input.
 
 
@@ -5195,8 +4724,6 @@ Inputs can also utilize a floating label with or without a placeholder to contro
 Code (HAML):
 ```haml
 = doc_example(title: "Floating Label Inputs") do |doc|
-  - doc.with_description do
-    Inputs can also utilize a floating label with or without a placeholder to
 control animation.
 
 
@@ -5224,11 +4751,6 @@ Text inputs can have different types such as password, email, number, etc.
 Code (HAML):
 ```haml
 = doc_example(title: "Different Input Types") do |doc|
-  - doc.with_description do
-    Text inputs can have different types such as password, email, number, etc.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "email", title: "Email", css: "mt-4")
 
@@ -5269,11 +4791,6 @@ Text inputs can have different sizes using the `input-lg`, `input-md`, `input-sm
 Code (HAML):
 ```haml
 = doc_example(title: "Text Input Sizes") do |doc|
-  - doc.with_description do
-    Text inputs can have different sizes using the `input-lg`, `input-md`, `input-sm`, or `input-xs` classes.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input-lg", title: "Large Input")
 
@@ -5301,11 +4818,6 @@ Text inputs can be styled with additional CSS classes to change their appearance
 Code (HAML):
 ```haml
 = doc_example(title: "Text Input with Different Colors") do |doc|
-  - doc.with_description do
-    Text inputs can be styled with additional CSS classes to change their appearance.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_primary", title: "Primary Text Input")
 
@@ -5329,8 +4841,6 @@ Text inputs can use the `input-ghost` class to remove the border. The border wil
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Style Text Input") do |doc|
-  - doc.with_description do
-    Text inputs can use the `input-ghost` class to remove the border. The border
 will appear on focus.
 
 
@@ -5357,11 +4867,6 @@ Text inputs can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled Text Input") do |doc|
-  - doc.with_description do
-    Text inputs can be disabled using the `disabled` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_disabled", title: "Disabled Text Input", css: "cursor-not-allowed")
 
@@ -5377,11 +4882,6 @@ Text inputs can be marked as required using the `required` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Required Text Input") do |doc|
-  - doc.with_description do
-    Text inputs can be marked as required using the `required` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_required", title: "Required Text Input")
 
@@ -5397,8 +4897,6 @@ Text inputs can be combined with icons and other elements using the `start` and 
 Code (HAML):
 ```haml
 = doc_example(title: "Text Input with Icons") do |doc|
-  - doc.with_description do
-    Text inputs can be combined with icons and other elements using the `start` and `end`
 options or slots, which appear before and after the input field.
 
 
@@ -5435,8 +4933,6 @@ The built-in Form Builder extension provides an easy way to use text inputs in y
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an easy way to use
 text inputs in your forms by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -5483,11 +4979,6 @@ Text areas allow users to enter multiple lines of text.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Text Area") do |doc|
-  - doc.with_description do
-    Text areas allow users to enter multiple lines of text.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "message1", title: "Message")
 
@@ -5503,11 +4994,6 @@ You can add placeholder text to guide users on what to enter.
 Code (HAML):
 ```haml
 = doc_example(title: "Text Area with Placeholder") do |doc|
-  - doc.with_description do
-    You can add placeholder text to guide users on what to enter.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "feedback", title: "Feedback")
 
@@ -5523,11 +5009,6 @@ You can pre-populate a text area with an initial value.
 Code (HAML):
 ```haml
 = doc_example(title: "Text Area with Initial Value") do |doc|
-  - doc.with_description do
-    You can pre-populate a text area with an initial value.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "bio", title: "Biography")
 
@@ -5543,11 +5024,6 @@ You can customize the height of the text area by specifying the number of rows.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Rows") do |doc|
-  - doc.with_description do
-    You can customize the height of the text area by specifying the number of rows.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "short_note", title: "Short Note (2 rows)")
 
@@ -5567,11 +5043,6 @@ Text areas can be styled with additional CSS classes to change their appearance.
 Code (HAML):
 ```haml
 = doc_example(title: "Text Area with Different Colors") do |doc|
-  - doc.with_description do
-    Text areas can be styled with additional CSS classes to change their appearance.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_primary", title: "Primary Text Area")
 
@@ -5595,8 +5066,6 @@ Use `textarea-ghost` to remove the border from a text area. This creates a minim
 Code (HAML):
 ```haml
 = doc_example(title: "Borderless (Ghost) Text Area") do |doc|
-  - doc.with_description do
-    Use `textarea-ghost` to remove the border from a text area. This creates a
 minimalist appearance that only shows borders on hover.
 
 
@@ -5623,11 +5092,6 @@ Text areas can be disabled using the `disabled` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Disabled Text Area") do |doc|
-  - doc.with_description do
-    Text areas can be disabled using the `disabled` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_disabled", title: "Disabled Text Area", css: "cursor-not-allowed")
 
@@ -5643,11 +5107,6 @@ Text areas can be set to read-only using the `readonly` attribute, allowing user
 Code (HAML):
 ```haml
 = doc_example(title: "Read-only Text Area") do |doc|
-  - doc.with_description do
-    Text areas can be set to read-only using the `readonly` attribute, allowing users to see but not edit the content.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_readonly", title: "Read-only Text Area")
 
@@ -5663,11 +5122,6 @@ Text areas can be marked as required using the `required` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Required Text Area") do |doc|
-  - doc.with_description do
-    Text areas can be marked as required using the `required` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_required", title: "Required Text Area")
 
@@ -5683,8 +5137,6 @@ The built-in Form Builder extension provides an easy way to use text areas in yo
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an easy way to use
 text areas in your forms by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -5727,8 +5179,6 @@ Toggles are switches that allow users to turn options on or off. They're a visua
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Toggles") do |doc|
-  - doc.with_description do
-    Toggles are switches that allow users to turn options on or off. They're a visual
 alternative to checkboxes, ideal for settings and preferences.
 
 
@@ -5788,11 +5238,6 @@ Toggles can be styled with different colors using CSS classes like `toggle-prima
 Code (HAML):
 ```haml
 = doc_example(title: "Toggles with Colors") do |doc|
-  - doc.with_description do
-    Toggles can be styled with different colors using CSS classes like `toggle-primary`.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "toggle-dark") do
       = daisy_toggle(name: "toggle-dark", id: "toggle-dark", css: "toggle-neutral theme-controller", value: "dark", checked: false)
@@ -5839,11 +5284,6 @@ Toggles come in different sizes by applying CSS classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Toggle Sizes") do |doc|
-  - doc.with_description do
-    Toggles come in different sizes by applying CSS classes.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "toggle_small") do
       = daisy_toggle(name: "toggle_small", id: "toggle_small", css: "toggle-sm")
@@ -5870,11 +5310,6 @@ Toggles can be in different states such as checked, disabled, or required.
 Code (HAML):
 ```haml
 = doc_example(title: "Toggle States") do |doc|
-  - doc.with_description do
-    Toggles can be in different states such as checked, disabled, or required.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "toggle_unchecked") do
       = daisy_toggle(name: "toggle_unchecked", id: "toggle_unchecked")
@@ -5906,11 +5341,6 @@ Toggles can be given a custom ID using the `id` attribute.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom ID") do |doc|
-  - doc.with_description do
-    Toggles can be given a custom ID using the `id` attribute.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "custom-toggle-id") do
       = daisy_toggle(name: "toggle_custom", id: "custom-toggle-id")
@@ -5927,8 +5357,6 @@ The built-in Form Builder extension provides an even easier way to use toggles i
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-  - doc.with_description do
-    The built-in Form Builder extension provides an even easier way to use
 toggles in your pages by extracting the name and ID attributes from the
 form object and attributes.
 
@@ -5956,8 +5384,6 @@ You can also use the Label component directly with toggles for a fully custom ap
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-  - doc.with_description do
-    You can also use the Label component directly with toggles for a fully
 custom approach.
 
 
@@ -6001,11 +5427,6 @@ Basic breadcrumbs show only text and a separator.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Breadcrumbs") do |doc|
-  - doc.with_description do
-    Basic breadcrumbs show only text and a separator.
-
-
-
   = daisy_breadcrumbs do |breadcrumbs|
     - # Options via keyword arguments
 
@@ -6030,8 +5451,6 @@ Breadcrumbs can also utilize icons to help users quickly identify different page
 Code (HAML):
 ```haml
 = doc_example(title: "Breadcrumbs with Icons") do |doc|
-  - doc.with_description do
-    Breadcrumbs can also utilize icons to help users quickly identify
 different pages.
 
 
@@ -6052,11 +5471,6 @@ You can also pass any content to fully customize your breadcrumbs.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Breadcrumbs") do |doc|
-  - doc.with_description do
-    You can also pass any content to fully customize your breadcrumbs.
-
-
-
   - links = [ [ "🙂", "Favorites", ""], ["😃", "Super Favorites", "italic"], ["🤩", "Amazeballs Favorites", "font-bold italic"] ]
 
   = daisy_breadcrumbs do |breadcrumbs|
@@ -6096,13 +5510,6 @@ A simple dock component with three sections. doc_note(modifier: :tip, css: "mb-8
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Dock", example_css: "mx-auto max-w-[400px]") do |doc|
-  - doc.with_description do
-    A simple dock component with three sections.
-
-
-
-    = doc_note(modifier: :tip, css: "mb-8") do
-      We add the `relative` class to ensure visibility in the example rather
 than the default of being fixed to the bottom of the screen.
 
 
@@ -6124,8 +5531,6 @@ The Dock sections can also have a simple title passed via the `title` attribute,
 Code (HAML):
 ```haml
 = doc_example(title: "Dock with Titles", example_css: "mx-auto max-w-[400px]") do |doc|
-  - doc.with_description do
-    The Dock sections can also have a simple title passed via the `title`
 attribute, or a more complex title by passing a block to the section.
 
 
@@ -6149,11 +5554,6 @@ You can also use any of the built-in Daisy, Tailwind, or custom colors.
 Code (HAML):
 ```haml
 = doc_example(title: "Colored Dock", example_css: "flex-col space-y-8 mx-auto max-w-[400px]") do |doc|
-  - doc.with_description do
-    You can also use any of the built-in Daisy, Tailwind, or custom colors.
-
-
-
   - colors = ["text-primary", "text-secondary", "text-accent", "text-info", "text-success", "text-warning", "text-error", "text-cyan-400", "text-[#449944]"]
 
   - colors.each do |color|
@@ -6191,8 +5591,6 @@ Basic links are styled with the `.link` class. The `title` and `href` options ca
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Links") do |doc|
-  - doc.with_description do
-    Basic links are styled with the `.link` class. The `title` and `href`
 options can be passed as keyword arguments, or as the first two positional
 arguments.
 
@@ -6237,12 +5635,6 @@ Menus typically contain a list of links or buttons that users can click. The sty
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Menu") do |doc|
-  - doc.with_description do
-    %p
-      Menus typically contain a list of links or buttons that users can click.
-
-      The styling is very minimal, just adding a hover effect.
-
   = daisy_menu(css: "w-56") do |menu|
     - # Menu Item Group with a title keyword argument
 
@@ -6267,8 +5659,6 @@ Menus can be displayed horizontally by adding the `.menu-horizontal` class to th
 Code (HAML):
 ```haml
 = doc_example(title: "Horizontal Menu") do |doc|
-  - doc.with_description do
-    Menus can be displayed horizontally by adding the `.menu-horizontal` class
 to the menu. They can also have icons, disabled / active items, and many
 other options.
 
@@ -6306,12 +5696,6 @@ Menus can also contain nested menus. This is useful for organizing a large numbe
 Code (HAML):
 ```haml
 = doc_example(title: "Nested Menus") do |doc|
-  - doc.with_description do
-    %p
-      Menus can also contain nested menus. This is useful for organizing a large
-
-      number of options.
-
   - icon_options = { css: "size-4 mr-1 text-slate-600", variant: :mini }
 
   = daisy_menu(css: "w-56 bg-base-100 border border-base-300 rounded-lg shadow-md") do |menu|
@@ -6370,8 +5754,6 @@ Navbars are simple elements which typically contain start and end sections, and 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Navbar") do |doc|
-  - doc.with_description do
-    Navbars are simple elements which typically contain start and end
 sections, and sometimes a center section.
 
 
@@ -6407,13 +5789,6 @@ Navbars items can also contain center sections and dropdowns with menus. doc_not
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
-  - doc.with_description do
-    Navbars items can also contain center sections and dropdowns with menus.
-
-
-
-    = doc_note(css: "mb-8") do
-      Note that the size of the elements inside the navbar will affect the
 height of the navbar itself. The navbar will grow to fit the largest
 element inside it.
 
@@ -6469,12 +5844,6 @@ Pagination is used to navigate between pages of content. It is typically used in
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Pagination") do |doc|
-  - doc.with_description do
-    %p
-      Pagination is used to navigate between pages of content. It is typically
-
-      used in conjunction with a list of items that are paginated.
-
   = daisy_join do |join|
     - join.with_item do
       = daisy_button(title: "1", css: "btn-primary join-item")
@@ -6518,12 +5887,6 @@ Steps are automatically numbered and connected with lines. You can utilize color
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Steps") do |doc|
-  - doc.with_description do
-    %p
-      Steps are automatically numbered and connected with lines. You can utilize
-
-      colors to indicate progress through the steps.
-
   = daisy_steps do |steps|
     - steps.with_step(title: "Write Code", css: "step-primary")
 
@@ -6543,10 +5906,6 @@ You can also display steps vertically.
 Code (HAML):
 ```haml
 = doc_example(title: "Vertical Steps") do |doc|
-  - doc.with_description do
-    %p
-      You can also display steps vertically.
-
   = daisy_steps(css: "steps-vertical") do |steps|
     - steps.with_step(title: "Write Code", css: "step-primary")
 
@@ -6566,8 +5925,6 @@ You can customize the content of each step to include any (short) content you wa
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Content") do |doc|
-  - doc.with_description do
-    You can customize the content of each step to include any (short) content
 you want by using the `number` option.
 
 
@@ -6628,8 +5985,6 @@ Tabs are transparent by default and don't automatically do anything since they a
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Tabs") do |doc|
-  - doc.with_description do
-    Tabs are transparent by default and don't automatically do anything since
 they are simple `<a>` (anchor) elements. You can set the `href` attribute
 to make them link to another page.
 
@@ -6652,8 +6007,6 @@ Tabs come in five different sizes: `tabs-xs`, `tabs-sm`, `tabs-md` (default), `t
 Code (HAML):
 ```haml
 = doc_example(title: "Tab Sizes") do |doc|
-  - doc.with_description do
-    Tabs come in five different sizes: `tabs-xs`, `tabs-sm`, `tabs-md` (default),
 `tabs-lg`, and `tabs-xl`. Each size can be combined with any tab style.
 
 
@@ -6719,8 +6072,6 @@ If you want the tabs to change their content, you can use the `radio` option. No
 Code (HAML):
 ```haml
 = doc_example(title: "Radio Button Tabs with Content") do |doc|
-  - doc.with_description do
-    If you want the tabs to change their content, you can use the `radio`
 option. Note that this does *not* allow the use of icons or other HTML
 elements in the title.
 
@@ -6745,11 +6096,6 @@ You can also use tabs with Turbo Frames to load content dynamically.
 Code (HAML):
 ```haml
 = doc_example(title: "Turbo Frame Tabs") do |doc|
-  - doc.with_description do
-    You can also use tabs with Turbo Frames to load content dynamically.
-
-
-
   %turbo-frame{"id" => "tabs--turob-tabs-example"}
     = daisy_tabs(css: "tabs-lift w-[500px]") do |tabs|
       - (2..4).each do |i|
@@ -6793,12 +6139,6 @@ Alerts come in a variety of flavors and generally have an icon at the start to i
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Alerts", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    %p
-      Alerts come in a variety of flavors and generally have an icon at the
-
-      start to indicate the type of alert.
-
   = daisy_alert(icon: "archive-box", icon_html: { variant: :outline }, css: "w-100") do |alert|
     Standard alerts are gray-t!
 
@@ -6824,10 +6164,6 @@ If you don't want an icon, you can simply omit it.
 Code (HAML):
 ```haml
 = doc_example(title: "Alerts Without Icons", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    %p
-      If you don't want an icon, you can simply omit it.
-
   = daisy_alert(css: "alert-info w-100") do |alert|
     Here is some important information!
 
@@ -6850,10 +6186,6 @@ You can also use a custom icon (or any HTML) if you prefer.
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Icon Alerts", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    %p
-      You can also use a custom icon (or any HTML) if you prefer.
-
   = daisy_alert do |alert|
     = hero_icon("star", css: "text-yellow-500")
 
@@ -6879,11 +6211,6 @@ Alerts can also be displayed in soft style.
 Code (HAML):
 ```haml
 = doc_example(title: "Soft Alerts", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    Alerts can also be displayed in soft style.
-
-
-
   = daisy_alert(icon: "information-circle", css: "alert-info alert-soft") do
     Info alert.
 
@@ -6906,11 +6233,6 @@ Alerts can also be displayed in outline style.
 Code (HAML):
 ```haml
 = doc_example(title: "Outline Alerts", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    Alerts can also be displayed in outline style.
-
-
-
   = daisy_alert(icon: "information-circle", css: "alert-info alert-outline") do
     Info alert.
 
@@ -6933,11 +6255,6 @@ Alerts can also be displayed in dash style.
 Code (HAML):
 ```haml
 = doc_example(title: "Dash Alerts", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    Alerts can also be displayed in dash style.
-
-
-
   = daisy_alert(icon: "information-circle", css: "alert-info alert-dash") do
     Info alert.
 
@@ -6978,12 +6295,6 @@ Loaders come in a variety of flavors! doc_note(css: "mb-8") do This component's 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Loaders", example_css: "gap-4") do |doc|
-  - doc.with_description do
-    %p
-      Loaders come in a variety of flavors!
-
-    = doc_note(css: "mb-8") do
-      This component's helper method is also aliased as `daisy_loader`
 because we think it sounds better 😄
 
 However, you **must** use the `loading` class names for the CSS to work
@@ -7030,8 +6341,6 @@ Progress bars utilize `value` and a `max` attributes to set the progress and can
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Bars") do |doc|
-  - doc.with_description do
-    Progress bars utilize `value` and a `max` attributes to set the progress
 and can have various colors. By default, they take up the full width of
 their parent container.
 
@@ -7059,8 +6368,6 @@ Indeterminate progress bars are used when the progress is unknown. They animate 
 Code (HAML):
 ```haml
 = doc_example(title: "Indeterminate Bars") do |doc|
-  - doc.with_description do
-    Indeterminate progress bars are used when the progress is unknown. They
 animate to indicate that a process is currently happening.
 
 
@@ -7101,8 +6408,6 @@ Radial progress bars utilize a `value` attribute to set the progress and can hav
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Radials") do |doc|
-  - doc.with_description do
-    Radial progress bars utilize a `value` attribute to set the progress and
 can have various colors / sizes, along with content inside.
 
 The max is always set to 100 due to the way they are rendered, so `value`
@@ -7123,11 +6428,6 @@ The content doesn't have to be just text!
 Code (HAML):
 ```haml
 = doc_example(title: "Fancy Radials", example_css: "gap-4") do |doc|
-  - doc.with_description do
-    The content doesn't have to be just text!
-
-
-
   = daisy_radial(value: 68) do
     = hero_icon("beaker", css: "size-8 text-primary")
 
@@ -7147,8 +6447,6 @@ You can also control the size, thickness, and color of the radial progress. - `s
 Code (HAML):
 ```haml
 = doc_example(title: "Controlling Size & Color", example_css: "gap-4") do |doc|
-  - doc.with_description do
-    You can also control the size, thickness, and color of the radial
 progress.
 
 - `size` defaults to `5rem` and **must** include units
@@ -7186,11 +6484,6 @@ Skeletons can take on various shapes and sizes that you define.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Skeletons") do |doc|
-  - doc.with_description do
-    Skeletons can take on various shapes and sizes that you define.
-
-
-
   .flex.flex-col.gap-4.w-72
     .flex.items-center.gap-4
       = daisy_skeleton(css: "size-24 rounded-full")
@@ -7212,8 +6505,6 @@ You can also use skeletons to show placeholders for components by adding the `sk
 Code (HAML):
 ```haml
 = doc_example(title: "Component Skeletons") do |doc|
-  - doc.with_description do
-    You can also use skeletons to show placeholders for components by adding
 the `skeleton` class to many existing components.
 
 
@@ -7278,8 +6569,6 @@ The Toast component is a simple wrapper that positions it's contents at various 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Toasts", example_css: "h-48") do |doc|
-  - doc.with_description do
-    The Toast component is a simple wrapper that positions it's contents at
 various spots on the page, usually in the bottom right corner.
 
 
@@ -7323,8 +6612,6 @@ Tooltips can be added to many components by setting the `tip` attribute or by ad
 Code (HAML):
 ```haml
 = doc_example(title: "Component Tooltips") do |doc|
-  - doc.with_description do
-    Tooltips can be added to many components by setting the `tip` attribute or
 by adding the `tooltip` class and setting the `data-tip` attribute to the
 text you want to display.
 
@@ -7368,9 +6655,6 @@ Sometimes, you may need to wrap the entire component in a tooltip. For this, we 
 Code (HAML):
 ```haml
 = doc_example(title: "Wrapper Tooltips") do |doc|
-  - doc.with_description do
-    Sometimes, you may need to wrap the entire component in a tooltip.
-
 For this, we offer the very basic `daisy_tooltip` (or `daisy_tip`)
 component which has a `tip` argument to simplify your code a bit.
 
@@ -7420,8 +6704,6 @@ The basic divider is a simple horizontal or vertical line that can be used to se
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Dividers", example_css: "flex-col gap-8") do |doc|
-  - doc.with_description do
-    The basic divider is a simple horizontal or vertical line that can be used
 to separate content.
 
 
@@ -7460,8 +6742,6 @@ Dividers can be colored to match the theme of the page or to highlight specific 
 Code (HAML):
 ```haml
 = doc_example(title: "Colored Dividers") do |doc|
-  - doc.with_description do
-    Dividers can be colored to match the theme of the page or to highlight
 specific content.
 
 
@@ -7521,11 +6801,6 @@ The basic drawer slides in from the left side of the screen.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Drawer", tab_content_css: "p-0!") do |doc|
-  - doc.with_description do
-    The basic drawer slides in from the left side of the screen.
-
-
-
   .relative.w-full.h-48
     = daisy_drawer do |drawer|
       - drawer.with_sidebar(css: "absolute h-48") do
@@ -7544,13 +6819,6 @@ The right drawer slides in from the right side of the screen. doc_note(modifier:
 Code (HAML):
 ```haml
 = doc_example(title: "Right Drawer", tab_content_css: "p-0!") do |doc|
-  - doc.with_description do
-    The right drawer slides in from the right side of the screen.
-
-
-
-    = doc_note(modifier: :warning, css: "mb-8", title: "Multiple Drawers") do
-      Drawers are not designed to work with multiple on the page, so this
 example behaves a bit weirdly on desktop, showing both drawers.
 
 
@@ -7575,8 +6843,6 @@ The advanced drawer slides in from the left side of the screen and has multiple 
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Drawer", tab_content_css: "p-0!") do |doc|
-  - doc.with_description do
-    The advanced drawer slides in from the left side of the screen and has
 multiple ways to close it, along with some extra styling.
 
 
@@ -7633,8 +6899,6 @@ The basic nav footer is vertical by default, which works well for most mobile-fi
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Nav Footer (Vertical)") do |doc|
-  - doc.with_description do
-    The basic nav footer is vertical by default, which works well for most
 mobile-first designs.
 
 
@@ -7680,8 +6944,6 @@ Use the `footer-horizontal` class to make the footer horizontal. You can also us
 Code (HAML):
 ```haml
 = doc_example(title: "Horizontal Footer") do |doc|
-  - doc.with_description do
-    Use the `footer-horizontal` class to make the footer horizontal. You can also
 use responsive variants like `lg:footer-horizontal` to make it horizontal
 only on larger screens.
 
@@ -7728,8 +6990,6 @@ A simple footer with centered content, perfect for copyright notices or minimal 
 Code (HAML):
 ```haml
 = doc_example(title: "Center-Aligned Footer") do |doc|
-  - doc.with_description do
-    A simple footer with centered content, perfect for copyright notices or
 minimal information.
 
 
@@ -7767,11 +7027,6 @@ The basic hero is a simple hero with a title and a subtitle.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Hero") do |doc|
-  - doc.with_description do
-    The basic hero is a simple hero with a title and a subtitle.
-
-
-
   = daisy_hero(css: "max-w-[1000px] mx-16 lg:mx-32 bg-base-200 text-center") do
     - # Heroes display their children in a flex column by default
 
@@ -7794,9 +7049,6 @@ You can add an image to the hero by making it the first or last child. You can a
 Code (HAML):
 ```haml
 = doc_example(title: "Heroes with Images", example_css: "flex-col! gap-8") do |doc|
-  - doc.with_description do
-    You can add an image to the hero by making it the first or last child.
-
 You can also change the layout of the hero by passing a
 `content_wrapper_css` to make it responsive or add other styling.
 
@@ -7836,8 +7088,6 @@ The Hero component provides an `overlay` slot allowing you to add a semi-transpa
 Code (HAML):
 ```haml
 = doc_example(title: "Hero with Overlay", example_css: "px-16!") do |doc|
-  - doc.with_description do
-    The Hero component provides an `overlay` slot allowing you to add a
 semi-transparent background to the hero and apply other effects (such as a
 blur).
 
@@ -7886,11 +7136,6 @@ By default, the indicator is positioned in the top right corner.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Indicator", example_css: "gap-8") do |doc|
-  - doc.with_description do
-    By default, the indicator is positioned in the top right corner.
-
-
-
   = daisy_indicator do |indicator|
     - indicator.with_item do
       = daisy_badge(title: "8", css: "badge-secondary text-xl")
@@ -7913,8 +7158,6 @@ You can position the indicator in all of the usual places, and indicators can co
 Code (HAML):
 ```haml
 = doc_example(title: "Different Positions") do |doc|
-  - doc.with_description do
-    You can position the indicator in all of the usual places, and indicators
 can contain multiple items.
 
 Additionally, you can apply many of the DaisyUI classes directly to the
@@ -7964,14 +7207,6 @@ Buttons can be joined with other components to create a single, cohesive element
 Code (HAML):
 ```haml
 = doc_example(title: "Button Joins", example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    %p
-      Buttons can be joined with other components to create a single, cohesive
-
-      element.
-
-    = doc_note(css: "mb-8") do
-      You **must** manually add the `.join-item` CSS class to the items you
 want to be joined since this could be complicated to do automatically in
 many use-cases and would almost certainly cause rendering issues.
 
@@ -8007,10 +7242,6 @@ You can also join elements vertically.
 Code (HAML):
 ```haml
 = doc_example(title: "Vertical Joins") do |doc|
-  - doc.with_description do
-    %p
-      You can also join elements vertically.
-
   = daisy_join(css: "join-vertical min-w-32") do |join|
     - join.with_item do
       = daisy_button(title: "Top", css: "w-full join-item")
@@ -8048,8 +7279,6 @@ Masks can be applied to many elements, and can be combined with other classes to
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Masks") do |doc|
-  - doc.with_description do
-    Masks can be applied to many elements, and can be combined with other
 classes to create interesting effects.
 
 
@@ -8071,8 +7300,6 @@ Masks can also be applied to HTML elements. Masks apply the `inline-block` displ
 Code (HAML):
 ```haml
 = doc_example(title: "Masked Text") do |doc|
-  - doc.with_description do
-    Masks can also be applied to HTML elements. Masks apply the `inline-block`
 display, so you may need to override that for certain cases.
 
 
@@ -8110,8 +7337,6 @@ A Stack is a wrapper around other elements, making it's children appear on top o
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Stack") do |doc|
-  - doc.with_description do
-    A Stack is a wrapper around other elements, making it's children appear on
 top of each other.
 
 This example uses a slightly transparent background and some clever
@@ -8141,34 +7366,6 @@ You can also do some slick effects with a library like succeed '!' do link_to "A
 Code (HAML):
 ```haml
 = doc_example(title: "Animated Stack", allow_reset: true) do |doc|
-  - doc.with_description do
-    %p
-      You can also do some slick effects with a library like
-
-      = succeed '!' do
-        = link_to "Anime.js", "https://animejs.com/", target: "_blank"
-
-  
-    %p.my-4
-      Click to remove and see the cards underneath.
-
-    .flex.justify-center.items-center
-      - card_css = "border-base-300 border shadow-lg cursor-pointer text-center transition-transform"
-
-      - card_html = { onclick: "(function(el) { anime({ targets: el, duration: 400, easing: \"easeInQuad\", translateY: \"-100%\", opacity: 0, complete: function() { el.remove() } }) })(this)" }
-
-      = daisy_stack do
-        = daisy_card(css: card_css + " bg-primary text-white", html: card_html) do
-          Stack 1
-
-        = daisy_card(css: card_css + " bg-secondary text-white", html: card_html) do
-          Stack 2
-
-        = daisy_card(css: card_css + " bg-accent text-white", html: card_html) do
-          Stack 3
-
-        = daisy_card(css: card_css + " bg-neutral text-neutral-content cursor-default!") do
-          Can't Remove Me!
 ```
 
 URL: /examples/Daisy::Layout::StackComponent#animated-stack
@@ -8180,8 +7377,6 @@ DaisyUI 5 introduces directional stacking with `stack-top`, `stack-bottom`, `sta
 Code (HAML):
 ```haml
 = doc_example(title: "Stack Positions") do |doc|
-  - doc.with_description do
-    DaisyUI 5 introduces directional stacking with `stack-top`, `stack-bottom`, `stack-start`,
 and `stack-end` CSS classes. These allow you to position the stacked elements in
 different directions.
 
@@ -8258,8 +7453,6 @@ The Stack component simply applies the `stack` CSS class, which you can also use
 Code (HAML):
 ```haml
 = doc_example(title: "CSS Stack") do |doc|
-  - doc.with_description do
-    The Stack component simply applies the `stack` CSS class, which you can
 also use directly.
 
 You can also add spacing between stacked elements using gap utilities like
@@ -8316,12 +7509,6 @@ A basic browser has very minimal styling and can include an optional toolbar.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Browser") do |doc|
-  - doc.with_description do
-    %p
-      A basic browser has very minimal styling and can include an optional
-
-      toolbar.
-
   = daisy_browser(css: "w-full max-w-4xl border border-base-300") do |browser|
     - browser.with_toolbar do
       %input.input.input-bordered{ placeholder: "https://loco-motion.io" }
@@ -8339,12 +7526,6 @@ You can apply whatever styling you wish to make the browser stand out more.
 Code (HAML):
 ```haml
 = doc_example(title: "Styled Browser") do |doc|
-  - doc.with_description do
-    %p
-      You can apply whatever styling you wish to make the browser stand out
-
-      more.
-
   = daisy_browser(css: "w-full max-w-4xl bg-accent border border-accent") do |browser|
     - browser.with_toolbar do
       %input.input.input-bordered.border-accent-content{ class: "ml-4! pl-2! w-full!", placeholder: "https://loco-motion.io" }
@@ -8379,8 +7560,6 @@ A basic code block is just a simple block of code with no additional styling. Yo
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Code Block") do |doc|
-  - doc.with_description do
-    A basic code block is just a simple block of code with no additional
 styling. You can pass the `prefix` attribute to add a prefix to the code
 block.
 
@@ -8399,8 +7578,6 @@ You can also create multi-line code blocks by calling the `with_line` slot multi
 Code (HAML):
 ```haml
 = doc_example(title: "Multi-line Code Block") do |doc|
-  - doc.with_description do
-    You can also create multi-line code blocks by calling the `with_line`
 slot multiple times.
 
 
@@ -8425,8 +7602,6 @@ You can also pass full code blocks by utilizing the `:plain` filter provided by 
 Code (HAML):
 ```haml
 = doc_example(title: "Code Block with Language") do |doc|
-  - doc.with_description do
-    You can also pass full code blocks by utilizing the `:plain` filter
 provided by HAML.
 
 
@@ -8452,8 +7627,6 @@ You can also highlight specific lines in your code block by utilizing standard T
 Code (HAML):
 ```haml
 = doc_example(title: "Numbered / Highlighted Lines") do |doc|
-  - doc.with_description do
-    You can also highlight specific lines in your code block by utilizing
 standard Tailwind classes.
 
 
@@ -8501,11 +7674,6 @@ You can use the `daisy_device` component to display a phone mockup.
 Code (HAML):
 ```haml
 = doc_example(title: "Phone") do |doc|
-  - doc.with_description do
-    You can use the `daisy_device` component to display a phone mockup.
-
-
-
   = daisy_device(css: "mockup-phone", display_css: "overflow-auto") do
     .flex.flex-col.gap-4.p-4.pt-12.pb-8.bg-base-100
       .text-center.text-2xl.font-bold
@@ -8529,8 +7697,6 @@ You can also hide the camera by passing `show_camera: false` to the component an
 Code (HAML):
 ```haml
 = doc_example(title: "Tablet") do |doc|
-  - doc.with_description do
-    You can also hide the camera by passing `show_camera: false` to the
 component and add any colors you want to the device.
 
 
@@ -8575,11 +7741,6 @@ A basic frame is just a simple frame with no additional styling.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Frame") do |doc|
-  - doc.with_description do
-    A basic frame is just a simple frame with no additional styling.
-
-
-
   = daisy_frame(css: "w-full max-w-4xl border border-base-300") do |frame|
     .border-t.border-base-300.px-4.py-16.text-center
       This is the content of the browser. You can put anything you want here.
@@ -8597,11 +7758,6 @@ You can style the frames however you like!
 Code (HAML):
 ```haml
 = doc_example(title: "Styled Frame") do |doc|
-  - doc.with_description do
-    You can style the frames however you like!
-
-
-
   = daisy_frame(css: "w-full max-w-4xl bg-purple-200 border border-purple-600") do |frame|
     .bg-base-100.border-t.border-purple-300.px-4.py-16.text-center
       = image_tag("loco-logo.png", class: "max-w-xs mx-auto")
