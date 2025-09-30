@@ -464,8 +464,10 @@
   dependencies:
     playwright "1.52.0"
 
-"@profoundry-us/loco_motion@./vendor/loco_motion-rails/":
+"@profoundry-us/loco_motion@^0.5.0":
   version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.5.0.tgz#51ebe859508a1a700398a1478bbc27c135c78357"
+  integrity sha512-IsFmNC9sJwSyCHL6zbvvfwLLeGpI7tikcyJd34HHDrKJUEiIR2B8/iis+htHM5heORspQxGIWGcntEtuMCWMRA==
   dependencies:
     "@hotwired/stimulus" "^3.2.2"
 
