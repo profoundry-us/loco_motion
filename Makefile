@@ -2,6 +2,11 @@
 # General commands
 ##############################
 
+# Show available make commands
+.PHONY: help
+help:
+	@grep -E "^[a-zA-Z_-]+:" Makefile | cut -d: -f1 | sort
+
 # Prune ALL of the docker things (WARNING - this will destroy other project
 # stuff too!!!)
 .PHONY: prune
@@ -170,6 +175,11 @@ algolia-index:
 .PHONY: algolia-clear
 algolia-clear:
 	docker compose exec -it demo bundle exec rake algolia:clear ARGS="$(ARGS)"
+
+# Generate LLM.txt documentation file
+.PHONY: llm
+llm:
+	docker compose exec -it demo bundle exec rake algolia:llm ARGS="$(ARGS)"
 
 ##############################
 # Playwright / E2E commands

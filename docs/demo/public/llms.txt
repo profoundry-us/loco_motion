@@ -1,0 +1,255 @@
+# LocoMotion Documentation Index
+
+This file contains a list of available components in the LocoMotion library.
+For full documentation, please refer to llms-full.txt
+
+## Available Components
+
+- **Hero::IconComponent** (Hero): Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Hero::IconComponent
+
+- **Daisy::Actions::ButtonComponent** (Actions): Interactive button components for actions, navigation, and form submissions.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent
+
+- **Daisy::Actions::DropdownComponent** (Actions): Dropdowns are a great way to display a list of items in a compact manner. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::DropdownComponent
+
+- **Daisy::Actions::ModalComponent** (Actions): Modals are used to display content that requires user interaction.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ModalComponent
+
+- **Daisy::Actions::SwapComponent** (Actions): The Swap component allows you to quickly swap between two icons, images, or...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent
+
+- **Daisy::Actions::ThemeControllerComponent** (Actions): do The `ThemeController` component is a **_Builder_** component rather than...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent
+
+- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): Collapsible content sections that expand/collapse on click.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent
+
+- **Daisy::DataDisplay::AvatarComponent** (DataDisplay): User profile image components with fallback options and status indicators.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent
+
+- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): Small, colorful indicators for displaying status, counts, or metadata.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent
+
+- **Daisy::DataDisplay::CardComponent** (DataDisplay): Versatile containers for grouping related content with optional images,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent
+
+- **Daisy::DataDisplay::CarouselComponent** (DataDisplay): Interactive image galleries with smooth sliding transitions and navigation.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent
+
+- **Daisy::DataDisplay::ChatComponent** (DataDisplay): Message bubbles designed for chat interfaces and conversations.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent
+
+- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): Expandable/collapsible content containers with smooth animations.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent
+
+- **Daisy::DataDisplay::CountdownComponent** (DataDisplay): Animated timers that count down from a specified duration to zero.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent
+
+- **Daisy::DataDisplay::DiffComponent** (DataDisplay): Interactive comparison components with a sliding divider to compare before...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent
+
+- **Daisy::DataDisplay::FigureComponent** (DataDisplay): Image containers with optional captions for visual content presentation.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent
+
+- **Daisy::DataDisplay::KbdComponent** (DataDisplay): Styled keyboard key representations for displaying keyboard shortcuts,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent
+
+- **Daisy::DataDisplay::ListComponent** (DataDisplay): Lists provide a vertical layout to display information in rows.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent
+
+- **Daisy::DataDisplay::StatComponent** (DataDisplay): do Stats have a transparent background by default. Use `bg-base-100` if you...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatComponent
+
+- **Daisy::DataDisplay::StatusComponent** (DataDisplay): Status is a really small icon to visually show the current status of an...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent
+
+- **Daisy::DataDisplay::TableComponent** (DataDisplay): Tables are designed to show data in a tabular layout making it easy to see...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent
+
+- **Daisy::DataDisplay::TimelineComponent** (DataDisplay): Visual sequences for displaying chronological events, progress updates,  or...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent
+
+- **Daisy::DataInput::CallyComponent** (DataInput): do You must include the Cally script tag or <a href="https://wicky.nillia.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent
+
+- **Daisy::DataInput::CallyInputComponent** (DataInput): This component provides an elegant alternative to standard HTML date inputs...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyInputComponent
+
+- **Daisy::DataInput::CheckboxComponent** (DataInput): Checkboxes are great for toggling an item on / off, or selecting multiple items...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent
+
+- **Daisy::DataInput::FileInputComponent** (DataInput): Styled file upload controls with drag-and-drop support and visual feedback.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent
+
+- **Daisy::DataInput::FieldsetComponent** (DataInput): Fieldsets group related form controls and can optionally include a leg. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent
+
+- **Daisy::DataInput::LabelComponent** (DataInput): Labels provide a useful description for various kinds of inputs. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent
+
+- **Daisy::DataInput::RadioButtonComponent** (DataInput): Interactive selection controls for choosing one option from a group.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent
+
+- **Daisy::DataInput::RangeComponent** (DataInput): Slider controls for selecting numeric values within a defined range.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent
+
+- **Daisy::DataInput::RatingComponent** (DataInput): Star-based rating controls for user feedback and reviews. Interactive star...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent
+
+- **Daisy::DataInput::SelectComponent** (DataInput): do Select inputs have a border by default and a width of 20rem.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent
+
+- **Daisy::DataInput::TextInputComponent** (DataInput): Text inputs allow you to enter various forms of text such as usernames,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent
+
+- **Daisy::DataInput::TextAreaComponent** (DataInput): do Text areas have a border by default. Use `textarea-ghost` to remove the...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent
+
+- **Daisy::DataInput::ToggleComponent** (DataInput): The Toggle component is a wrapper around the  component_link("Checkbox",...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent
+
+- **Daisy::Navigation::BreadcrumbsComponent** (Navigation): Navigation aids that show the user's current location and path within a...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent
+
+- **Daisy::Navigation::DockComponent** (Navigation): The Dock component provides a navigation bar fixed to the bottom of the screen,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::DockComponent
+
+- **Daisy::Navigation::LinkComponent** (Navigation): Tailwind removes the styling on standard links so we provide an easy way to...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::LinkComponent
+
+- **Daisy::Navigation::MenuComponent** (Navigation): do Vertical menus no longer have a default width. Use `w-full` or other width...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent
+
+- **Daisy::Navigation::NavbarComponent** (Navigation): Horizontal navigation bars that organize primary navigation links, branding,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::NavbarComponent
+
+- **Daisy::Navigation::PaginationComponent** (Navigation): Pagination can be implemented by utilizing the existing  component_link("Join",...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::PaginationComponent
+
+- **Daisy::Navigation::StepsComponent** (Navigation): Steps allow you to create a series of steps that users can follow to  complete...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent
+
+- **Daisy::Navigation::TabsComponent** (Navigation): Navigation controls for organizing content into switchable panels.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent
+
+- **Daisy::Feedback::AlertComponent** (Feedback):  Alerts inform the user about important information or changes to the system. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent
+
+- **Daisy::Feedback::LoadingComponent** (Feedback):  Loaders are used to indicate that a process is happening in the background. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::LoadingComponent
+
+- **Daisy::Feedback::ProgressComponent** (Feedback):  Progress bars are used to indicate the progress of a process. 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ProgressComponent
+
+- **Daisy::Feedback::RadialProgressComponent** (Feedback): Radial progress bars are used to indicate the progress of a process, in a...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::RadialProgressComponent
+
+- **Daisy::Feedback::SkeletonComponent** (Feedback): Skeletons are used to show a placeholder for content that is loading or  being...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::SkeletonComponent
+
+- **Daisy::Feedback::ToastComponent** (Feedback): Toasts are used to show a message to the user that is not critical, but...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ToastComponent
+
+- **Daisy::Feedback::TooltipComponent** (Feedback): Additionally, we offer the `daisy_tooltip` component to wrap an entire...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Feedback::TooltipComponent
+
+- **Daisy::Layout::DividerComponent** (Layout): Dividers are used to separate content in a meaningful way.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerComponent
+
+- **Daisy::Layout::DrawerComponent** (Layout): do The `relative / absolute` and the `h-48` classes allow the drawer to rer...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent
+
+- **Daisy::Layout::FooterComponent** (Layout): Footers are used to provide additional information about a page or site.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterComponent
+
+- **Daisy::Layout::HeroComponent** (Layout): Heroes are used to provide a large, eye-catching introduction to a page or site.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComponent
+
+- **Daisy::Layout::IndicatorComponent** (Layout): Indicators wrap other elements and provide a visual cue that something requires...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::IndicatorComponent
+
+- **Daisy::Layout::JoinComponent** (Layout): Joins allow you to combine multiple components into a singular, joined,...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::JoinComponent
+
+- **Daisy::Layout::MaskComponent** (Layout): Masks allow you to create a variety of shapes and patterns!
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::MaskComponent
+
+- **Daisy::Layout::StackComponent** (Layout): Stacks provide a 3 dimensional effect to your content. This can be helpful for...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent
+
+- **Daisy::Mockup::BrowserComponent** (Mockup): The Browser component is a simple mockup that looks and feels like a user's...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Mockup::BrowserComponent
+
+- **Daisy::Mockup::CodeComponent** (Mockup): Code blocks are a great way to display code snippets in your site or...
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent
+
+- **Daisy::Mockup::DeviceComponent** (Mockup): Device mockups are a great way to showcase your designs in a realistic way! 
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Mockup::DeviceComponent
+
+- **Daisy::Mockup::FrameComponent** (Mockup): Frames showcase your work as if they were displayed in a window.
+  API: https://loco-motion.profoundry.us/api-docs
+  Examples: https://loco-motion.profoundry.us/examples/Daisy::Mockup::FrameComponent
+

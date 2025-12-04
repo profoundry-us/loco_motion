@@ -204,4 +204,167 @@ namespace :algolia do
       puts "Failed to clear Algolia index '#{options[:index_name]}'."
     end
   end
+
+  desc "Generate llms.txt and llms-full.txt documentation files"
+  task :llm => :environment do
+    require 'optparse'
+
+    # Default options
+    options = {
+      component: nil,
+      output_dir: nil,
+    }
+
+    # Parse command-line arguments
+    OptionParser.new do |parser|
+      parser.banner = "Usage: rake algolia:llm [options]"
+
+      parser.on("-c", "--component COMPONENT_NAME", "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
+        options[:component] = name if name && !name.empty?
+      end
+
+      parser.on("-o", "--output DIR", "Save the results to the specified directory (default: public/)") do |path|
+        options[:output_dir] = path if path && !path.empty?
+      end
+
+      parser.on("-h", "--help", "Display this help message") do
+        puts parser
+        exit 0
+      end
+    end.parse!(ENV["ARGS"]&.split || [])
+
+    # Set default output directory if not specified
+    if options[:output_dir].nil?
+      options[:output_dir] = Rails.root.join('public').to_s
+    end
+
+    # Define output paths
+    version = LocoMotion::VERSION
+    index_filename = "llms-v#{version}.txt"
+    full_filename = "llms-full-v#{version}.txt"
+
+    index_path = File.join(options[:output_dir], index_filename)
+    full_path = File.join(options[:output_dir], full_filename)
+
+    # Also create versionless copies for convenience/permalinks
+    versionless_index_path = File.join(options[:output_dir], "llms.txt")
+    versionless_full_path = File.join(options[:output_dir], "llms-full.txt")
+
+    puts "Generating LLM documentation..."
+    puts "Output directory: #{options[:output_dir]}"
+    puts "Version: #{version}"
+
+    # Create the services
+    aggregation_service = Algolia::LlmAggregationService.new
+    export_service = Algolia::LlmTextExportService.new
+
+    # Aggregate component data
+    components = []
+
+    if options[:component]
+      component_name = options[:component]
+
+      if LocoMotion::COMPONENTS.key?(component_name)
+        puts "Processing single component: #{component_name}"
+        component_data = aggregation_service.aggregate_component(component_name, 0)
+        components << component_data if component_data
+      else
+        puts "Error: Component '#{component_name}' not found in LocoMotion::COMPONENTS registry"
+        next
+      end
+    else
+      puts "Processing all components from LocoMotion::COMPONENTS registry"
+      components = aggregation_service.aggregate_all
+    end
+
+    # Check if we have any components
+    if components.empty?
+      puts "No components found. No documentation generated."
+      next
+    end
+
+    puts "Collected #{components.length} component(s)"
+
+    # Export the index file (llms-vX.Y.Z.txt)
+    if export_service.export_index(components, index_path)
+      puts "Generated: #{index_path}"
+
+      # Create the versionless copy
+      FileUtils.cp(index_path, versionless_index_path)
+      puts "Generated: #{versionless_index_path} (copy)"
+    else
+      puts "Error generating index file"
+    end
+
+    # Export the full content file (llms-full-vX.Y.Z.txt)
+    if export_service.export_full(components, full_path)
+      puts "Generated: #{full_path}"
+
+      # Create the versionless copy
+      FileUtils.cp(full_path, versionless_full_path)
+      puts "Generated: #{versionless_full_path} (copy)"
+
+      # Run content validation checks
+      puts "\nRunning content validation checks..."
+      validate_content_quality(full_path)
+    else
+      puts "Error generating full content file"
+    end
+
+    puts "\nDocumentation generation complete!"
+  end
+
+  # Validate content quality of generated documentation
+  #
+  # @param file_path [String] Path to the generated documentation file
+  #
+  def self.validate_content_quality(file_path)
+    return unless File.exist?(file_path)
+
+    content = File.read(file_path)
+    issues = []
+
+    # Check for HAML syntax contamination in component descriptions only
+    if content.include?('succeed "." do')
+      issues << "Found HAML syntax contamination in descriptions"
+    end
+
+    # Check for component helper calls in component descriptions (not usage patterns)
+    # Split by component sections to avoid false positives in usage patterns
+    component_sections = content.split('=== Component:')
+    component_sections.shift # Skip the header section
+
+    component_sections.each do |section|
+      # Look for descriptions before "API Signature:" or "Helpers:"
+      description_part = section.split(/API Signature:|Helpers:/).first
+
+      if description_part.include?('daisy_link(') || description_part.include?('hero_icon(')
+        issues << "Found component helper calls in component descriptions"
+        break
+      end
+    end
+
+    # Check for documentation boilerplate in code examples
+    if content.include?('doc_example(') || content.include?('example_css:')
+      issues << "Found documentation boilerplate in code examples"
+    end
+
+    # Check for truncated descriptions
+    lines = content.split("\n")
+    lines.each do |line|
+      if line.match?(/^\*\*[^*]+\*\*:\s*.*\.\.\.$/) && !line.include?("URL:")
+        issues << "Found truncated description: #{line[0..50]}..."
+        break
+      end
+    end
+
+    # Report results
+    if issues.empty?
+      puts "✅ All content quality checks passed!"
+    else
+      puts "⚠️  Content quality issues found:"
+      issues.each { |issue| puts "   - #{issue}" }
+      puts "   Consider reviewing the generated documentation"
+    end
+  end
 end

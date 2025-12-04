@@ -339,15 +339,41 @@ module Algolia
       match ? match[1].strip : str.strip
     end
 
-    # Clean a string for the description
+    # Clean a string by removing excessive whitespace and HAML artifacts
     #
-    # @param str [String, nil] The string to clean
+    # @param str [String] The string to clean
     # @return [String] The cleaned string
     #
     def clean_string(str)
       Rails.logger.debug "[DEBUG]             clean_string"
       return "" if str.nil?
-      str.gsub(/\s+/, " ").strip
+
+      # Basic whitespace cleanup
+      cleaned = str.gsub(/\s+/, " ").strip
+
+      # Remove common HAML/Ruby artifacts that cause issues
+      cleaned = cleaned.gsub("succeed", "")
+      cleaned = cleaned.gsub('"" do', "")
+      cleaned = cleaned.gsub('" do', "")
+      cleaned = cleaned.gsub("end", "")
+      cleaned = cleaned.gsub("daisy_link", "link to")
+      cleaned = cleaned.gsub("hero_icon", "icon")
+      cleaned = cleaned.gsub(/right_icon="[^"]*"/, "")
+      cleaned = cleaned.gsub(/right_icon_css="[^"]*"/, "")
+      cleaned = cleaned.gsub(/target="[^"]*"/, "")
+      cleaned = cleaned.gsub(/css="[^"]*"/, "")
+      cleaned = cleaned.gsub(/size-\d+/, "")
+      cleaned = cleaned.gsub("arrow-top-right-on-square", "")
+      cleaned = cleaned.gsub("doc_note", "")
+      cleaned = cleaned.gsub(/\(modifier: *:[^)]+\)/, "")
+      cleaned = cleaned.gsub(/\(css: *"[^"]*"\)/, "")
+
+      # Clean up any remaining odd spacing
+      cleaned = cleaned.gsub("  ", " ").strip
+      cleaned = cleaned.gsub(" .", ".").strip
+      cleaned = cleaned.gsub(" ,", ",").strip
+
+      cleaned
     end
   end
 end

@@ -1,0 +1,57 @@
+.max-w-prose
+  = doc_info(url: "/llms-v#{LocoMotion::VERSION}.txt", image_path: "logos/openai.svg", image_alt: "OpenAI Logo") do
+    :markdown
+      **LocoMotion** provides a dedicated documentation file for Large Language
+      Models (LLMs) to help you build faster with AI assistants!
+
+.prose
+  :markdown
+    # LLM Documentation
+
+    We generate a comprehensive text-based documentation file that is optimized
+    for consumption by LLMs like ChatGPT, Claude, and Gemini. This allows you
+    to easily provide context about the LocoMotion component library to your
+    AI assistant.
+
+    ## Usage
+
+    You can provide the documentation to your LLM in a few ways:
+
+    ### 1. Direct Link (Cursor / Windsurf)
+
+    If you are using an AI-powered editor like Cursor or Windsurf, you can
+    often add a documentation source by URL. Use the following link:
+
+  = doc_code(language: "text", css: "my-4") do
+    = "#{request.base_url}/llms-v#{LocoMotion::VERSION}.txt"
+
+  :markdown
+    ### 2. llms.txt Standard
+
+    Some LLM tools support the `/llms.txt` standard for automatically discovering
+    documentation. We provide both an index file and a full documentation file:
+
+  = doc_code(language: "text", css: "my-4") do
+    = "#{request.base_url}/llms.txt"
+
+  = doc_code(language: "text", css: "my-4") do
+    = "#{request.base_url}/llms-full.txt"
+
+  :markdown
+    ### 3. Manual Upload
+
+    Alternatively, you can download the full documentation file and upload it
+    directly to your chat session.
+
+  = daisy_link("Download llms-full-v#{LocoMotion::VERSION}.txt", "/llms-full-v#{LocoMotion::VERSION}.txt", target: "_blank", download: true)
+
+.max-w-prose
+  = doc_note(css: "mt-8", modifier: :tip, title: "Pro Tip") do
+    :markdown
+      When asking your LLM to generate code, try prompting it with:
+
+    = doc_code(language: "text", css: "my-4") do
+      Using the LocoMotion component library at #{request.base_url}, create a...
+
+    :markdown
+      This helps the model understand which context to prioritize.
