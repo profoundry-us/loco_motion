@@ -71,7 +71,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
   end
 
   context "with position: top" do
-    let(:figure) { described_class.new(src: "example.jpg", position: "top") }
+    let(:figure) { described_class.new(src: "example.jpg", position: :top) }
 
     before do
       render_inline(figure) { "Figure caption" }
@@ -86,7 +86,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
   end
 
   context "with position: bottom" do
-    let(:figure) { described_class.new(src: "example.jpg", position: "bottom") }
+    let(:figure) { described_class.new(src: "example.jpg", position: :bottom) }
 
     before do
       render_inline(figure) { "Figure caption" }
@@ -106,7 +106,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
   end
 
   context "with position: bottom and no content" do
-    let(:figure) { described_class.new(src: "example.jpg", position: "bottom") }
+    let(:figure) { described_class.new(src: "example.jpg", position: :bottom) }
 
     before do
       render_inline(figure)
@@ -118,7 +118,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
   end
 
   context "with position: bottom and no image" do
-    let(:figure) { described_class.new(position: "bottom") }
+    let(:figure) { described_class.new(position: :bottom) }
 
     before do
       render_inline(figure) { "Content only" }
@@ -137,7 +137,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
     it "raises an ArgumentError" do
       expect {
         described_class.new(position: "invalid")
-      }.to raise_error(ArgumentError, "position must be 'top' or 'bottom', got 'invalid'")
+      }.to raise_error(ArgumentError, "position must be :top or :bottom, got 'invalid'")
     end
   end
 

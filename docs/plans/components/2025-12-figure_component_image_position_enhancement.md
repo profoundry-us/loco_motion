@@ -27,8 +27,8 @@ component.
 **Changes to Make**:
 
 1. Add a new `position` parameter to the `initialize` method with default value
-   `"top"` to maintain backward compatibility
-2. Add validation to ensure position is either `"top"` or `"bottom"`
+   `:top` to maintain backward compatibility
+2. Add validation to ensure position is either `:top` or `:bottom`
 3. Modify the `call` method to conditionally render the image before or after
    the content based on the position parameter
 4. Update the component documentation to include the new parameter and examples
@@ -41,8 +41,8 @@ component.
 
 **Changes to Make**:
 
-1. Add test context for `position: "top"` (default behavior)
-2. Add test context for `position: "bottom"`
+1. Add test context for `position: :top` (default behavior)
+2. Add test context for `position: :bottom`
 3. Add test to ensure validation rejects invalid positions
 4. Update existing tests to ensure they still pass with default behavior
 

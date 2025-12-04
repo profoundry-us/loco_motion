@@ -31,6 +31,6 @@ test('figure positioning works correctly', async ({ page }) => {
 
   // Verify the bottom positioning example description is visible
   const bottomSection = page.locator('h2:has-text("Figure with Bottom Position") + div');
-  await expect(bottomSection).toContainText('position: "bottom"');
+  await expect(bottomSection).toContainText('position: :bottom');
   await expect(bottomSection).toContainText('display the caption above the image');
 });
