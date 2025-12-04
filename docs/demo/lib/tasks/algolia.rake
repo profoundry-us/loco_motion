@@ -303,10 +303,68 @@ namespace :algolia do
       # Create the versionless copy
       FileUtils.cp(full_path, versionless_full_path)
       puts "Generated: #{versionless_full_path} (copy)"
+
+      # Run content validation checks
+      puts "\nRunning content validation checks..."
+      validate_content_quality(full_path)
     else
       puts "Error generating full content file"
     end
 
     puts "\nDocumentation generation complete!"
+  end
+
+  # Validate content quality of generated documentation
+  #
+  # @param file_path [String] Path to the generated documentation file
+  #
+  def self.validate_content_quality(file_path)
+    return unless File.exist?(file_path)
+
+    content = File.read(file_path)
+    issues = []
+
+    # Check for HAML syntax contamination in component descriptions only
+    if content.include?('succeed "." do')
+      issues << "Found HAML syntax contamination in descriptions"
+    end
+
+    # Check for component helper calls in component descriptions (not usage patterns)
+    # Split by component sections to avoid false positives in usage patterns
+    component_sections = content.split('=== Component:')
+    component_sections.shift # Skip the header section
+
+    component_sections.each do |section|
+      # Look for descriptions before "API Signature:" or "Helpers:"
+      description_part = section.split(/API Signature:|Helpers:/).first
+
+      if description_part.include?('daisy_link(') || description_part.include?('hero_icon(')
+        issues << "Found component helper calls in component descriptions"
+        break
+      end
+    end
+
+    # Check for documentation boilerplate in code examples
+    if content.include?('doc_example(') || content.include?('example_css:')
+      issues << "Found documentation boilerplate in code examples"
+    end
+
+    # Check for truncated descriptions
+    lines = content.split("\n")
+    lines.each do |line|
+      if line.match?(/^\*\*[^*]+\*\*:\s*.*\.\.\.$/) && !line.include?("URL:")
+        issues << "Found truncated description: #{line[0..50]}..."
+        break
+      end
+    end
+
+    # Report results
+    if issues.empty?
+      puts "✅ All content quality checks passed!"
+    else
+      puts "⚠️  Content quality issues found:"
+      issues.each { |issue| puts "   - #{issue}" }
+      puts "   Consider reviewing the generated documentation"
+    end
   end
 end
