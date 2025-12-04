@@ -369,7 +369,6 @@ module Algolia
       cleaned = cleaned.gsub("  ", " ").strip
       cleaned = cleaned.gsub(" .", ".").strip
       cleaned = cleaned.gsub(" ,", ",").strip
-      cleaned = cleaned.gsub("  ", " ").strip
 
       cleaned
     end
