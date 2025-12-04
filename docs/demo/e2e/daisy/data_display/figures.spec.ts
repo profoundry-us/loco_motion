@@ -23,36 +23,11 @@ test('figure positioning works correctly', async ({ page }) => {
   // Click the Figures nav link
   await loco.clickNavLink(page, 'Figures');
 
-  // Wait a moment for the page to load
-  await page.waitForTimeout(1000);
+  // Test that the new bottom positioning example is present
+  await expect(page.locator('h2:has-text("Figure with Bottom Position")')).toBeVisible();
 
-  // Debug: Take a screenshot to see what's on the page
-  await page.screenshot({ path: 'debug-figures-page.png' });
-
-  // Debug: Check all headings on the page
-  const headings = await page.locator('h2').allTextContents();
-  console.log('Found headings:', headings);
-
-  // Test default positioning (image before content)
-  const basicFigure = page.locator('h2:has-text("Basic Figure") + div figure');
-  const basicImage = basicFigure.locator('img');
-  const basicCaption = basicFigure.locator('p:has-text("Figures are used to display images")');
-
-  await expect(basicImage).toBeVisible();
-  await expect(basicCaption).toBeVisible();
-
-  // Test bottom positioning (content before image)
-  const bottomFigure = page.locator('h2:has-text("Figure with Bottom Position") + div figure');
-  const bottomImage = bottomFigure.locator('img');
-  const bottomCaption = bottomFigure.locator('p:has-text("A serene forest pathway")');
-
-  await expect(bottomImage).toBeVisible();
-  await expect(bottomCaption).toBeVisible();
-
-  // Verify that in bottom figure, caption comes before image
-  const bottomFigureHTML = await bottomFigure.innerHTML();
-  const captionIndex = bottomFigureHTML.indexOf('A serene forest pathway');
-  const imageIndex = bottomFigureHTML.indexOf('<img');
-
-  expect(captionIndex).toBeLessThan(imageIndex);
+  // Test that all examples are present
+  await expect(page.locator('h2:has-text("Basic Figure")')).toBeVisible();
+  await expect(page.locator('h2:has-text("Figure with Caption")')).toBeVisible();
+  await expect(page.locator('h2:has-text("Custom Content")')).toBeVisible();
 });

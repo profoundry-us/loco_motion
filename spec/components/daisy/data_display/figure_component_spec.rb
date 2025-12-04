@@ -63,7 +63,10 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
     end
 
     it "renders image before content by default" do
-      expect(page).to have_css("figure img + *", text: "Figure caption")
+      html = page.native.to_html
+      image_index = html.index('<img')
+      content_index = html.index('Figure caption')
+      expect(image_index).to be < content_index
     end
   end
 
@@ -75,7 +78,10 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
     end
 
     it "renders image before content" do
-      expect(page).to have_css("figure img + *", text: "Figure caption")
+      html = page.native.to_html
+      image_index = html.index('<img')
+      content_index = html.index('Figure caption')
+      expect(image_index).to be < content_index
     end
   end
 
@@ -87,7 +93,10 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
     end
 
     it "renders content before image" do
-      expect(page).to have_css("figure * + img", text: "Figure caption")
+      html = page.native.to_html
+      content_index = html.index('Figure caption')
+      image_index = html.index('<img')
+      expect(content_index).to be < image_index
     end
 
     it "still renders both elements" do
@@ -140,7 +149,10 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
     end
 
     it "defaults to top positioning" do
-      expect(page).to have_css("figure img + *", text: "Figure caption")
+      html = page.native.to_html
+      image_index = html.index('<img')
+      content_index = html.index('Figure caption')
+      expect(image_index).to be < content_index
     end
   end
 end
