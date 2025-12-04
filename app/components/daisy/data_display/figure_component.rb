@@ -56,14 +56,10 @@ class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
       if @position == "bottom"
         # Show content first, then image
         concat(content)
-        if @src
-          concat(part(:image))
-        end
+        concat(part(:image)) if @src
       else
         # Default: show image first, then content
-        if @src
-          concat(part(:image))
-        end
+        concat(part(:image)) if @src
         concat(content)
       end
     end
