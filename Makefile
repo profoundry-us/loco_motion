@@ -2,6 +2,11 @@
 # General commands
 ##############################
 
+# Show available make commands
+.PHONY: help
+help:
+	@grep -E "^[a-zA-Z_-]+:" Makefile | cut -d: -f1 | sort
+
 # Prune ALL of the docker things (WARNING - this will destroy other project
 # stuff too!!!)
 .PHONY: prune
