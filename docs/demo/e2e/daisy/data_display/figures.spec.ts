@@ -23,11 +23,14 @@ test('figure positioning works correctly', async ({ page }) => {
   // Click the Figures nav link
   await loco.clickNavLink(page, 'Figures');
 
-  // Test that the new bottom positioning example is present
-  await expect(page.locator('h2:has-text("Figure with Bottom Position")')).toBeVisible();
-
-  // Test that all examples are present
+  // Test that all examples are present including the new bottom positioning example
   await expect(page.locator('h2:has-text("Basic Figure")')).toBeVisible();
   await expect(page.locator('h2:has-text("Figure with Caption")')).toBeVisible();
+  await expect(page.locator('h2:has-text("Figure with Bottom Position")')).toBeVisible();
   await expect(page.locator('h2:has-text("Custom Content")')).toBeVisible();
+
+  // Verify the bottom positioning example description is visible
+  const bottomSection = page.locator('h2:has-text("Figure with Bottom Position") + div');
+  await expect(bottomSection).toContainText('position: "bottom"');
+  await expect(bottomSection).toContainText('display the caption above the image');
 });

@@ -18,7 +18,7 @@ the image above the content, but users should be able to specify the position.
 **Purpose**: Add support for configurable image positioning in the Figure
 component.
 
-**File to Edit**: `/Users/topherfangio/Development/profoundry/loco_motion/app/components/daisy/data_display/figure_component.rb`
+**File to Edit**: `app/components/daisy/data_display/figure_component.rb`
 
 **Reference Files**:
 - Current Figure component implementation
@@ -37,7 +37,7 @@ component.
 
 **Purpose**: Add test coverage for the new image positioning functionality.
 
-**File to Edit**: `/Users/topherfangio/Development/profoundry/loco_motion/spec/components/daisy/data_display/figure_component_spec.rb`
+**File to Edit**: `spec/components/daisy/data_display/figure_component_spec.rb`
 
 **Changes to Make**:
 
@@ -51,7 +51,7 @@ component.
 **Purpose**: Demonstrate the new image positioning functionality in the demo
 application.
 
-**File to Edit**: `/Users/topherfangio/Development/profoundry/loco_motion/docs/demo/app/views/examples/daisy/data_display/figures.html.haml`
+**File to Edit**: `docs/demo/app/views/examples/daisy/data_display/figures.html.haml`
 
 **Changes to Make**:
 
@@ -63,7 +63,7 @@ application.
 
 **Purpose**: Ensure end-to-end tests cover the new positioning functionality.
 
-**File to Edit**: `/Users/topherfangio/Development/profoundry/loco_motion/docs/demo/e2e/daisy/data_display/figures.spec.ts`
+**File to Edit**: `docs/demo/e2e/daisy/data_display/figures.spec.ts`
 
 **Changes to Make**:
 
