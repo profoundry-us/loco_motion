@@ -1,7 +1,319 @@
-# LocoMotion Component Library
+# LocoMotion Component Library v0.5.1
+
+## Library Metadata
+- Framework: Ruby on Rails + ViewComponent
+- UI Library: DaisyUI v5
+- Total Components: 63
+- Component Categories: Actions, Data Display, Data Input, Feedback, Hero, Layout, Mockup, Navigation
+- Helper Methods: daisy_, hero_ prefixes
+- File Conventions: Components in app/components/, Examples in app/views/examples/
 
 This file provides comprehensive documentation for all LocoMotion components.
 LocoMotion is a Ruby on Rails component library built on ViewComponent and DaisyUI.
+
+## Common Usage Patterns
+
+
+This document describes common usage patterns and conventions for the LocoMotion component library. These patterns help LLMs generate idiomatic and consistent code.
+
+## Form Building Patterns
+
+### Basic Form Fields
+- Use `daisy_label` with `daisy_text_input` for form fields
+- Wrap related inputs in `daisy_fieldset` for grouping
+- Add validation errors with `daisy_alert` (error modifier)
+- Use `daisy_text_area` for multi-line input
+
+### Form Layout
+```haml
+= daisy_fieldset do
+  = daisy_label("Name")
+  = daisy_text_input(name: "name", id: "name", css: "input-bordered")
+
+  = daisy_label("Email")
+  = daisy_text_input(name: "email", id: "email", type: "email", css: "input-bordered")
+
+  = daisy_label("Message")
+  = daisy_text_area(name: "message", id: "message", css: "textarea-bordered")
+```
+
+### Select Fields and Options
+- Use `daisy_select` with option groups for better organization
+- Include `daisy_label` for accessibility
+- Use `daisy_radio_button` for mutually exclusive choices
+- Use `daisy_checkbox` for multiple selections
+
+### File Uploads
+- Use `daisy_file_input` with proper labeling
+- Add validation feedback with `daisy_alert`
+- Include help text with `daisy_label` descriptions
+
+## Navigation Patterns
+
+### Main Navigation
+- Use `daisy_navbar` for primary site navigation
+- Include `daisy_link` components for navigation items
+- Add `daisy_dropdown` for sub-menus
+- Use `daisy_breadcrumbs` for hierarchical navigation
+
+### Sidebar Navigation
+- Use `daisy_menu` for vertical sidebar navigation
+- Apply `w-full` or specific width classes
+- Use `daisy_link` for menu items
+- Consider `daisy_drawer` for mobile navigation
+
+### Navigation Example
+```haml
+= daisy_navbar(css: "bg-base-100") do
+  .navbar-start
+    = daisy_link("Home", "/", css: "btn btn-ghost")
+    = daisy_link("About", "/about", css: "btn btn-ghost")
+
+  .navbar-end
+    = daisy_dropdown(css: "btn btn-ghost") do |dropdown|
+      - dropdown.with_trigger do
+        Account
+      - dropdown.with_content do
+        = daisy_link("Profile", "/profile")
+        = daisy_link("Settings", "/settings")
+```
+
+## Layout Patterns
+
+### Page Structure
+- Use `daisy_hero` for page headers and introductions
+- Wrap content in `daisy_card` for section grouping
+- Use `daisy_divider` to separate content sections
+- Apply `daisy_footer` for page footers
+
+### Content Cards
+- Use `daisy_card` for content grouping
+- Include `daisy_button` for card actions
+- Use `daisy_avatar` for user information
+- Apply `daisy_badge` for status indicators
+
+### Responsive Layout
+- Use Tailwind flexbox utilities with components
+- Apply `daisy_stack` for 3D layering effects
+- Use `daisy_join` to connect related elements
+- Consider `daisy_collapse` for expandable content
+
+## Data Display Patterns
+
+### Tables and Lists
+- Use `daisy_table` for tabular data
+- Apply `daisy_list` for vertical item displays
+- Use `daisy_stat` for metrics and statistics
+- Include `daisy_badge` for status and categorization
+
+### Media Content
+- Use `daisy_figure` for images with captions
+- Apply `daisy_avatar` for user profiles
+- Use `daisy_carousel` for image galleries
+- Include `daisy_kbd` for keyboard shortcuts
+
+### Data Visualization
+- Use `daisy_progress` for progress bars
+- Apply `daisy_radial_progress` for circular progress
+- Use `daisy_countdown` for timers
+- Include `daisy_stat` for key metrics
+
+## Feedback Patterns
+
+### User Feedback
+- Use `daisy_alert` for notifications and warnings
+- Apply `daisy_toast` for non-critical messages
+- Use `daisy_loading` for loading states
+- Include `daisy_skeleton` for content placeholders
+
+### Interactive Feedback
+- Use `daisy_tooltip` for contextual help
+- Apply `daisy_modal` for dialogs and confirmations
+- Use `daisy_swap` for toggle states
+- Include `daisy_collapse` for expandable content
+
+### Error Handling
+```haml
+= daisy_alert(modifier: :error) do
+  %div
+    %svg.w-6.h-6.inline-block.mr-2{fill: "none", stroke: "currentColor", viewBox: "0 0 24 24"}
+      %path{stroke_linecap: "round", stroke_linejoin: "round", "stroke-width": "2", d: "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"}
+    Error: This field is required
+
+= daisy_alert(modifier: :warning) do
+  %div
+    %svg.w-6.h-6.inline-block.mr-2{fill: "none", stroke: "currentColor", viewBox: "0 0 24 24"}
+      %path{stroke_linecap: "round", stroke_linejoin: "round", "stroke-width": "2", d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"}
+    Warning: Please review your input
+```
+
+## Rails Integration Patterns
+
+### ViewComponent Integration
+- All components inherit from `ViewComponent::Base`
+- Use Rails helpers within components
+- Access controller and request data when needed
+- Follow Rails naming conventions
+
+### Helper Method Usage
+- Use `daisy_*` helper methods in views
+- Apply `hero_*` helpers for icons
+- Use standard Rails form helpers with components
+- Leverage Rails URL helpers for links
+
+### Asset Pipeline
+- Include DaisyUI CSS in your application
+- Add Tailwind CSS for utility classes
+- Use Stimulus controllers for JavaScript interactions
+- Follow Rails asset organization patterns
+
+## Styling Conventions
+
+### DaisyUI Classes
+- Use semantic color classes: `btn-primary`, `input-error`
+- Apply size modifiers: `btn-sm`, `input-lg`
+- Use state classes: `btn-active`, `input-disabled`
+- Apply ghost variants for borderless styles: `input-ghost`, `btn-ghost`
+
+### Tailwind Integration
+- Use utility classes for spacing: `m-4`, `p-2`
+- Apply responsive utilities: `lg:flex`, `md:hidden`
+- Use animation classes: `animate-pulse`, `animate-bounce`
+- Apply layout utilities: `flex`, `grid`, `block`
+
+### Custom CSS
+- Use the `css:` parameter for additional styling
+- Apply conditional classes based on state
+- Use `html:` parameter for HTML attributes
+- Include ARIA attributes for accessibility
+
+## Accessibility Patterns
+
+### Semantic HTML
+- Use proper heading hierarchy
+- Include ARIA labels and descriptions
+- Ensure keyboard navigation support
+- Provide alternative text for images
+
+### Form Accessibility
+```haml
+= daisy_label("Full Name", for: "full_name")
+= daisy_text_input(name: "user[full_name]", id: "full_name",
+                   html: { aria: { required: true, describedby: "name_help" } })
+%p#name_help.text-sm.text-gray-600 Enter your full name as it appears on official documents
+```
+
+### Interactive Elements
+- Use `daisy_tooltip` for additional context
+- Apply proper focus states
+- Include skip links for navigation
+- Ensure color contrast requirements
+
+## Performance Patterns
+
+### Component Optimization
+- Avoid deeply nested component structures
+- Use conditional rendering for expensive components
+- Leverage Rails caching for repeated content
+- Consider lazy loading for heavy components
+
+### Asset Loading
+- Load DaisyUI and Tailwind CSS efficiently
+- Use Stimulus controllers judiciously
+- Optimize image assets with proper sizing
+- Consider progressive enhancement strategies
+
+## Components by Category
+
+### Actions
+
+- **Daisy::Actions::ButtonComponent**:  Here are some examples showcasing button. 
+- **Daisy::Actions::DropdownComponent**: Dropdowns are a great way to display a list of items in a compact manner. 
+- **Daisy::Actions::ModalComponent**: Modals are used to display content that requires user interaction. They are typi...
+- **Daisy::Actions::SwapComponent**: The Swap component allows you to quickly swap between two icons, images, or  HT...
+- **Daisy::Actions::ThemeControllerComponent**: doc_note(modifier: :tip) do The `ThemeController` component is a **_Builder_** c...
+
+### DataDisplay
+
+- **Daisy::DataDisplay::AccordionComponent**: Here are some examples showcasing accordions. 
+- **Daisy::DataDisplay::AvatarComponent**: Here are some simple avatar examples. 
+- **Daisy::DataDisplay::BadgeComponent**: Here are some examples showcasing badges. 
+- **Daisy::DataDisplay::CardComponent**: Here are some examples showcasing cards. 
+- **Daisy::DataDisplay::CarouselComponent**: Carousels are great for showing off a lot of images! 
+- **Daisy::DataDisplay::ChatComponent**:  Here are some examples showcasing chat bubbles. 
+- **Daisy::DataDisplay::CollapseComponent**: Here are some simple collapse examples. 
+- **Daisy::DataDisplay::CountdownComponent**:  Countdowns display an animated countdown to a specific date. 
+- **Daisy::DataDisplay::DiffComponent**: Diffs allow you to move a slider back and forth to compare two images,  text, o...
+- **Daisy::DataDisplay::FigureComponent**: Here are some examples showcasing figures. 
+- **Daisy::DataDisplay::KbdComponent**: The keyboard component is used to visually represent a key on a keyboard. 
+- **Daisy::DataDisplay::ListComponent**: Lists provide a vertical layout to display information in rows. They can contain...
+- **Daisy::DataDisplay::StatComponent**: doc_note do Stats have a transparent background by default. Use `bg-base-100` if...
+- **Daisy::DataDisplay::StatusComponent**: Status is a really small icon to visually show the current status of an element,...
+- **Daisy::DataDisplay::TableComponent**: Tables are designed to show data in a tabular layout making it easy to see  lar...
+- **Daisy::DataDisplay::TimelineComponent**:  Here are some examples showcasing timelines. 
+
+### DataInput
+
+- **Daisy::DataInput::CallyComponent**: doc_note(modifier: :warning) do You must include the Cally script tag or <a targ...
+- **Daisy::DataInput::CallyInputComponent**: This component provides an elegant alternative to standard HTML date inputs  wh...
+- **Daisy::DataInput::CheckboxComponent**: Checkboxes are great for toggling an item on / off, or selecting multiple items...
+- **Daisy::DataInput::FileInputComponent**: Here are some examples showcasing file input components. 
+- **Daisy::DataInput::FieldsetComponent**: Fieldsets group related form controls and can optionally include a legend. 
+- **Daisy::DataInput::LabelComponent**: Labels provide a useful description for various kinds of inputs. 
+- **Daisy::DataInput::RadioButtonComponent**: Here are some examples showcasing radio button components. 
+- **Daisy::DataInput::RangeComponent**: Here are some examples showcasing range input components. 
+- **Daisy::DataInput::RatingComponent**: Here are some examples showcasing rating input components. 
+- **Daisy::DataInput::SelectComponent**: doc_note do Select inputs have a border by default and a width of 20rem. Use `se...
+- **Daisy::DataInput::TextInputComponent**: Text inputs allow you to enter various forms of text such as usernames, password...
+- **Daisy::DataInput::TextAreaComponent**: doc_note do Text areas have a border by default. Use `textarea-ghost` to remove...
+- **Daisy::DataInput::ToggleComponent**: The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy...
+
+### Feedback
+
+- **Daisy::Feedback::AlertComponent**:  Alerts inform the user about important information or changes to the system. 
+- **Daisy::Feedback::LoadingComponent**:  Loaders are used to indicate that a process is happening in the background. 
+- **Daisy::Feedback::ProgressComponent**:  Progress bars are used to indicate the progress of a process. 
+- **Daisy::Feedback::RadialProgressComponent**: Radial progress bars are used to indicate the progress of a process, in a  circ...
+- **Daisy::Feedback::SkeletonComponent**: Skeletons are used to show a placeholder for content that is loading or  being...
+- **Daisy::Feedback::ToastComponent**: Toasts are used to show a message to the user that is not critical, but  import...
+- **Daisy::Feedback::TooltipComponent**: Additionally, we offer the `daisy_tooltip` component to wrap an entire component...
+
+### Hero
+
+- **Hero::IconComponent**: Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  us...
+
+### Layout
+
+- **Daisy::Layout::DividerComponent**: Dividers are used to separate content in a meaningful way. They can be used to s...
+- **Daisy::Layout::DrawerComponent**: doc_note(css: "mb-8 max-w-2xl") do The `relative / absolute` and the `h-48` clas...
+- **Daisy::Layout::FooterComponent**: Footers are used to provide additional information about a page or site. They ar...
+- **Daisy::Layout::HeroComponent**: Heroes are used to provide a large, eye-catching introduction to a page or site....
+- **Daisy::Layout::IndicatorComponent**: Indicators wrap other elements and provide a visual cue that something requires...
+- **Daisy::Layout::JoinComponent**: Joins allow you to combine multiple components into a singular, joined,  elemen...
+- **Daisy::Layout::MaskComponent**: Masks allow you to create a variety of shapes and patterns! Masks are **NOT** a...
+- **Daisy::Layout::StackComponent**: Stacks provide a 3 dimensional effect to your content. This can be helpful for d...
+
+### Mockup
+
+- **Daisy::Mockup::BrowserComponent**: The Browser component is a simple mockup that looks and feels like a user's  we...
+- **Daisy::Mockup::CodeComponent**: Code blocks are a great way to display code snippets in your site or  documenta...
+- **Daisy::Mockup::DeviceComponent**: Device mockups are a great way to showcase your designs in a realistic way! 
+- **Daisy::Mockup::FrameComponent**: Frames showcase your work as if they were displayed in a window. This is  very...
+
+### Navigation
+
+- **Daisy::Navigation::BreadcrumbsComponent**: Breadcrumbs are used to show the user's location within a website or app. 
+- **Daisy::Navigation::DockComponent**: The Dock component provides a navigation bar fixed to the bottom of the screen,...
+- **Daisy::Navigation::LinkComponent**: Tailwind removes the styling on standard links so we provide an easy way to  re...
+- **Daisy::Navigation::MenuComponent**: doc_note do Vertical menus no longer have a default width. Use `w-full` or other...
+- **Daisy::Navigation::NavbarComponent**:  Navbars are a common way to organize navigation links at the top of a page. 
+- **Daisy::Navigation::PaginationComponent**: Pagination can be implemented by utilizing the existing  component_link("Join",...
+- **Daisy::Navigation::StepsComponent**: Steps allow you to create a series of steps that users can follow to  complete...
+- **Daisy::Navigation::TabsComponent**: Here are some examples showcasing tabs. 
+
+---
+
+## Component Details
 
 === Component: Hero::IconComponent
 Group: Hero
@@ -12,6 +324,21 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/hero
 
 Description:
  Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  use in your web projects. You can find them at  succeed "." do daisy_link("https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4") 
+
+API Signature:
+- hero_icon
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Rails Integration:
+- Base Class: Hero::IconComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - hero_icon
@@ -62,6 +389,27 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Here are some examples showcasing button. 
+
+API Signature:
+- daisy_button
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Actions::DropdownComponent
+- Daisy::Actions::ModalComponent
+- Daisy::Actions::SwapComponent
+- Daisy::Actions::ThemeControllerComponent
+
+Rails Integration:
+- Base Class: Daisy::Actions::ButtonComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::IconableComponent, LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_button
@@ -258,6 +606,27 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Dropdowns are a great way to display a list of items in a compact manner. 
 
+API Signature:
+- daisy_dropdown
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Actions::ButtonComponent
+- Daisy::Actions::ModalComponent
+- Daisy::Actions::SwapComponent
+- Daisy::Actions::ThemeControllerComponent
+
+Rails Integration:
+- Base Class: Daisy::Actions::DropdownComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Patches::ViewComponent::SlotableDefaultPatch, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_dropdown
 
@@ -357,6 +726,27 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Modals are used to display content that requires user interaction. They are typically used to display forms, alerts, or other content that requires user input. 
 
+API Signature:
+- daisy_modal
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Actions::ButtonComponent
+- Daisy::Actions::DropdownComponent
+- Daisy::Actions::SwapComponent
+- Daisy::Actions::ThemeControllerComponent
+
+Rails Integration:
+- Base Class: Daisy::Actions::ModalComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_modal
 
@@ -397,6 +787,27 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  The Swap component allows you to quickly swap between two icons, images, or  HTML elements with a simple click. 
+
+API Signature:
+- daisy_swap
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Actions::ButtonComponent
+- Daisy::Actions::DropdownComponent
+- Daisy::Actions::ModalComponent
+- Daisy::Actions::ThemeControllerComponent
+
+Rails Integration:
+- Base Class: Daisy::Actions::SwapComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_swap
@@ -504,6 +915,27 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 doc_note(modifier: :tip) do The `ThemeController` component is a **_Builder_** component rather than your standard **_Slotable_** ViewComponent. This means that instead of the component providing slots, and handling where your custom components are _inserted_, the developer utilizes helper methods on the component to **choose** where the sub-components are _rendered_. In the examples below, we use the HAML `=` syntax to output the rendered sub-components, whereas typical components use the HAML `-` syntax to "pass" the component to a slot. 
 
+API Signature:
+- daisy_theme_controller
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Actions::ButtonComponent
+- Daisy::Actions::DropdownComponent
+- Daisy::Actions::ModalComponent
+- Daisy::Actions::SwapComponent
+
+Rails Integration:
+- Base Class: Daisy::Actions::ThemeControllerComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_theme_controller
 
@@ -581,6 +1013,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing accordions. 
+
+API Signature:
+- daisy_accordion
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+- Daisy::DataDisplay::ChatComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::AccordionComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_accordion
@@ -672,6 +1126,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Here are some simple avatar examples. 
 
+API Signature:
+- daisy_avatar
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+- Daisy::DataDisplay::ChatComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::AvatarComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::IconableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_avatar
 
@@ -753,6 +1229,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing badges. 
+
+API Signature:
+- daisy_badge
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+- Daisy::DataDisplay::ChatComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::BadgeComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::IconableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_badge
@@ -974,6 +1472,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Here are some examples showcasing cards. 
 
+API Signature:
+- daisy_card
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CarouselComponent
+- Daisy::DataDisplay::ChatComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::CardComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_card
 
@@ -1094,6 +1614,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Carousels are great for showing off a lot of images! 
 
+API Signature:
+- daisy_carousel
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::ChatComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::CarouselComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_carousel
 
@@ -1202,6 +1744,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Here are some examples showcasing chat bubbles. 
+
+API Signature:
+- daisy_chat
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::ChatComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_chat
@@ -1331,6 +1895,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Here are some simple collapse examples. 
 
+API Signature:
+- daisy_collapse
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::CollapseComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_collapse
 
@@ -1405,6 +1991,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Countdowns display an animated countdown to a specific date. 
 
+API Signature:
+- daisy_countdown
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::CountdownComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_countdown
 
@@ -1471,6 +2079,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Diffs allow you to move a slider back and forth to compare two images,  text, or any HTML. 
 
+API Signature:
+- daisy_diff
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::DiffComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_diff
 
@@ -1523,6 +2153,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing figures. 
+
+API Signature:
+- daisy_figure
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::FigureComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LinkableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_figure
@@ -1581,6 +2233,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 The keyboard component is used to visually represent a key on a keyboard. 
+
+API Signature:
+- daisy_kbd
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::KbdComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_kbd
@@ -1813,6 +2487,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Lists provide a vertical layout to display information in rows. They can contain various content types including text, images, and actions arranged in a consistent format. 
 
+API Signature:
+- daisy_list
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::ListComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_list
 
@@ -1969,6 +2665,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 doc_note do Stats have a transparent background by default. Use `bg-base-100` if you need a background color. 
 
+API Signature:
+- daisy_stat
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::StatComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::IconableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_stat
 
@@ -2043,6 +2761,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Status is a really small icon to visually show the current status of an element, like online, offline, error, etc. 
+
+API Signature:
+- daisy_status
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::StatusComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_status
@@ -2172,6 +2912,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Tables are designed to show data in a tabular layout making it easy to see  large amounts of data at once and compare rows with each other. 
 
+API Signature:
+- daisy_table
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::TableComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_table
 
@@ -2251,6 +3013,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Here are some examples showcasing timelines. 
 
+API Signature:
+- daisy_timeline
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataDisplay::AccordionComponent
+- Daisy::DataDisplay::AvatarComponent
+- Daisy::DataDisplay::BadgeComponent
+- Daisy::DataDisplay::CardComponent
+- Daisy::DataDisplay::CarouselComponent
+
+Rails Integration:
+- Base Class: Daisy::DataDisplay::TimelineComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_timeline
 
@@ -2328,6 +3112,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 doc_note(modifier: :warning) do You must include the Cally script tag or <a target="_blank" href="https://wicky.nillia.ms/cally/#installation">node module</a> in your application for this component to render and function properly.  doc_code(language: "sh") do npm install cally # or yarn add cally  doc_code(language: "js") do # application.js import "cally"; 
 
+API Signature:
+- daisy_cally
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+- Daisy::DataInput::FilterComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::CallyComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Patches::ViewComponent::SlotableDefaultPatch, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_cally
 
@@ -2389,6 +3195,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  This component provides an elegant alternative to standard HTML date inputs  while maintaining a consistent visual style with other form components. 
+
+API Signature:
+- daisy_cally_input
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+- Daisy::DataInput::FilterComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::CallyInputComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LabelableComponent, LocoMotion::Patches::ViewComponent::SlotableDefaultPatch, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_cally_input
@@ -2463,6 +3291,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Checkboxes are great for toggling an item on / off, or selecting multiple items from a list. 
+
+API Signature:
+- daisy_checkbox
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+- Daisy::DataInput::FilterComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::CheckboxComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LabelableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_checkbox
@@ -2751,6 +3601,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Here are some examples showcasing file input components. 
 
+API Signature:
+- daisy_file_input
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FieldsetComponent
+- Daisy::DataInput::FilterComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::FileInputComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_file_input
 
@@ -2912,6 +3784,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Fieldsets group related form controls and can optionally include a legend. 
 
+API Signature:
+- daisy_fieldset
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FilterComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::FieldsetComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_fieldset
 
@@ -3008,6 +3902,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Labels provide a useful description for various kinds of inputs. 
+
+API Signature:
+- daisy_label
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::LabelComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_label
@@ -3149,6 +4065,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing radio button components. 
+
+API Signature:
+- daisy_radio
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::RadioButtonComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_radio
@@ -3335,6 +4273,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Here are some examples showcasing range input components. 
 
+API Signature:
+- daisy_range
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::RangeComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_range
 
@@ -3490,6 +4450,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing rating input components. 
+
+API Signature:
+- daisy_rating
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::RatingComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_rating
@@ -3681,6 +4663,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 doc_note do Select inputs have a border by default and a width of 20rem. Use `select-ghost` to remove the border. 
+
+API Signature:
+- daisy_select
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::SelectComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LabelableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_select
@@ -3961,6 +4965,29 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Text inputs allow you to enter various forms of text such as usernames, passwords, numbers, and more. 
 
+API Signature:
+- daisy_input
+- daisy_text_input
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::TextInputComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LabelableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_input
 - daisy_text_input
@@ -4231,6 +5258,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 doc_note do Text areas have a border by default. Use `textarea-ghost` to remove the border. 
 
+API Signature:
+- daisy_text_area
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::TextAreaComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_text_area
 
@@ -4421,6 +5470,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")  component that sets the <code>toggle</code> property to <code>true</code> by default, providing a switch-like appearance. 
+
+API Signature:
+- daisy_toggle
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::DataInput::CallyComponent
+- Daisy::DataInput::CallyInputComponent
+- Daisy::DataInput::CheckboxComponent
+- Daisy::DataInput::FileInputComponent
+- Daisy::DataInput::FieldsetComponent
+
+Rails Integration:
+- Base Class: Daisy::DataInput::ToggleComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LabelableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_toggle
@@ -4649,6 +5720,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Breadcrumbs are used to show the user's location within a website or app. 
 
+API Signature:
+- daisy_breadcrumbs
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::NavbarComponent
+- Daisy::Navigation::PaginationComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::BreadcrumbsComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_breadcrumbs
 
@@ -4728,6 +5821,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 The Dock component provides a navigation bar fixed to the bottom of the screen, commonly used in mobile interfaces. 
 
+API Signature:
+- daisy_dock
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::NavbarComponent
+- Daisy::Navigation::PaginationComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::DockComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_dock
 
@@ -4801,6 +5916,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Tailwind removes the styling on standard links so we provide an easy way to  re-add them. This works very similarly to the  link_to "link_to", "https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to", class: "font-mono"  helper in Rails. 
 
+API Signature:
+- daisy_link
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::NavbarComponent
+- Daisy::Navigation::PaginationComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::LinkComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::LinkableComponent, LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_link
 
@@ -4837,6 +5974,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 doc_note do Vertical menus no longer have a default width. Use `w-full` or other width classes if you want to control the width. 
+
+API Signature:
+- daisy_menu
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::NavbarComponent
+- Daisy::Navigation::PaginationComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::MenuComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_menu
@@ -4939,6 +6098,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Navbars are a common way to organize navigation links at the top of a page. 
+
+API Signature:
+- daisy_navbar
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::PaginationComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::NavbarComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_navbar
@@ -5062,6 +6243,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Steps allow you to create a series of steps that users can follow to  complete a task. This is useful for onboarding, form completion, and many  more. 
 
+API Signature:
+- daisy_steps
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::NavbarComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::StepsComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_steps
 
@@ -5139,6 +6342,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Here are some examples showcasing tabs. 
+
+API Signature:
+- daisy_tabs
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Navigation::BreadcrumbsComponent
+- Daisy::Navigation::DockComponent
+- Daisy::Navigation::LinkComponent
+- Daisy::Navigation::MenuComponent
+- Daisy::Navigation::NavbarComponent
+
+Rails Integration:
+- Base Class: Daisy::Navigation::TabsComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_tabs
@@ -5279,6 +6504,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Alerts inform the user about important information or changes to the system. 
+
+API Signature:
+- daisy_alert
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::SkeletonComponent
+- Daisy::Feedback::ToastComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::AlertComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::IconableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_alert
@@ -5435,6 +6682,29 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Loaders are used to indicate that a process is happening in the background. 
 
+API Signature:
+- daisy_loading
+- daisy_loader
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::SkeletonComponent
+- Daisy::Feedback::ToastComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::LoadingComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::Concerns::TippableComponent, LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_loading
 - daisy_loader
@@ -5474,6 +6744,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Progress bars are used to indicate the progress of a process. 
+
+API Signature:
+- daisy_progress
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::SkeletonComponent
+- Daisy::Feedback::ToastComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::ProgressComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_progress
@@ -5534,6 +6826,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Radial progress bars are used to indicate the progress of a process, in a  circular fasion. 
+
+API Signature:
+- daisy_radial
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::SkeletonComponent
+- Daisy::Feedback::ToastComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::RadialProgressComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_radial
@@ -5601,6 +6915,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Skeletons are used to show a placeholder for content that is loading or  being fetched. They are often used to give the user an idea of what the  content will look like before it is loaded. 
+
+API Signature:
+- daisy_skeleton
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::ToastComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::SkeletonComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_skeleton
@@ -5683,6 +7019,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  Toasts are used to show a message to the user that is not critical, but  important. They are often used to show a message that is not part of the  main content flow and can be dismissed by the user. 
 
+API Signature:
+- daisy_toast
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::SkeletonComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::ToastComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_toast
 
@@ -5716,6 +7074,29 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Additionally, we offer the `daisy_tooltip` component to wrap an entire component, or any block of HTML, in a tooltip. This is also aliased as `daisy_tip` for convenience. 
+
+API Signature:
+- daisy_tooltip
+- daisy_tip
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Feedback::AlertComponent
+- Daisy::Feedback::LoadingComponent
+- Daisy::Feedback::ProgressComponent
+- Daisy::Feedback::RadialProgressComponent
+- Daisy::Feedback::SkeletonComponent
+
+Rails Integration:
+- Base Class: Daisy::Feedback::TooltipComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_tooltip
@@ -5799,6 +7180,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Dividers are used to separate content in a meaningful way. They can be used to separate different sections of a page or to highlight a specific piece of content. They can be used both horizontally and vertically, and can include content if desired. 
+
+API Signature:
+- daisy_divider
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::IndicatorComponent
+- Daisy::Layout::JoinComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::DividerComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_divider
@@ -5889,6 +7292,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 doc_note(css: "mb-8 max-w-2xl") do The `relative / absolute` and the `h-48` classes allow the drawer to render properly inside the example preview box instead of the whole screen. 
 
+API Signature:
+- daisy_drawer
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::IndicatorComponent
+- Daisy::Layout::JoinComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::DrawerComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_drawer
 
@@ -5978,6 +7403,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Footers are used to provide additional information about a page or site. They are vertical by default, but can be made horizontal using the `footer-horizontal` class. 
+
+API Signature:
+- daisy_footer
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::IndicatorComponent
+- Daisy::Layout::JoinComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::FooterComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_footer
@@ -6094,6 +7541,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Heroes are used to provide a large, eye-catching introduction to a page or site. They are responsive by default and will stack on smaller screens. 
 
+API Signature:
+- daisy_hero
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::IndicatorComponent
+- Daisy::Layout::JoinComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::HeroComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_hero
 
@@ -6193,6 +7662,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Indicators wrap other elements and provide a visual cue that something requires the user's attention. 
 
+API Signature:
+- daisy_indicator
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::JoinComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::IndicatorComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_indicator
 
@@ -6255,6 +7746,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Joins allow you to combine multiple components into a singular, joined,  element. This is useful for components like buttons, inputs with symbols,  and many more. 
+
+API Signature:
+- daisy_join
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::IndicatorComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::JoinComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_join
@@ -6372,6 +7885,28 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
 Stacks provide a 3 dimensional effect to your content. This can be helpful for displaying lots of notifications or other content in a small space. 
+
+API Signature:
+- daisy_stack
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Layout::DividerComponent
+- Daisy::Layout::DrawerComponent
+- Daisy::Layout::FooterComponent
+- Daisy::Layout::HeroComponent
+- Daisy::Layout::IndicatorComponent
+
+Rails Integration:
+- Base Class: Daisy::Layout::StackComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_stack
@@ -6525,6 +8060,26 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
  The Browser component is a simple mockup that looks and feels like a user's  web browser. This can be useful for creating mockups of web applications or  to showcase your own website in a more realistic setting. 
 
+API Signature:
+- daisy_browser
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Mockup::CodeComponent
+- Daisy::Mockup::DeviceComponent
+- Daisy::Mockup::FrameComponent
+
+Rails Integration:
+- Base Class: Daisy::Mockup::BrowserComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_browser
 
@@ -6575,6 +8130,26 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Code blocks are a great way to display code snippets in your site or  documentation. They can be used to show examples, provide context, or call  out something important. 
+
+API Signature:
+- daisy_code
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Mockup::BrowserComponent
+- Daisy::Mockup::DeviceComponent
+- Daisy::Mockup::FrameComponent
+
+Rails Integration:
+- Base Class: Daisy::Mockup::CodeComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_code
@@ -6667,6 +8242,26 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 Description:
 Device mockups are a great way to showcase your designs in a realistic way! 
 
+API Signature:
+- daisy_device
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Mockup::BrowserComponent
+- Daisy::Mockup::CodeComponent
+- Daisy::Mockup::FrameComponent
+
+Rails Integration:
+- Base Class: Daisy::Mockup::DeviceComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
+
 Helpers:
 - daisy_device
 
@@ -6729,6 +8324,26 @@ File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/dais
 
 Description:
  Frames showcase your work as if they were displayed in a window. This is  very similar to the existing  component_link("Browser", "Daisy::Mockup::BrowserComponent")  component but without some of the additional styling such as the browser  toolbar. 
+
+API Signature:
+- daisy_frame
+
+Initialize Method:
+  initialize()
+
+Common Parameters:
+- css (String): CSS classes for styling
+- html (Hash): HTML attributes
+
+Related Components:
+- Daisy::Mockup::BrowserComponent
+- Daisy::Mockup::CodeComponent
+- Daisy::Mockup::DeviceComponent
+
+Rails Integration:
+- Base Class: Daisy::Mockup::FrameComponent
+- ViewComponent: Yes
+- Includes: LocoMotion::BaseComponent::GeneratedSlotMethods
 
 Helpers:
 - daisy_frame

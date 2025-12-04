@@ -18,7 +18,8 @@ module Algolia
   class LlmTextExportService
     # Initialize the service
     #
-    def initialize
+    def initialize(aggregation_service = nil)
+      @aggregation_service = aggregation_service || Algolia::LlmAggregationService.new
     end
 
     # Export components to an llms.txt index file
@@ -105,7 +106,17 @@ module Algolia
     # @param file [File] The output file
     #
     def write_full_header(file)
-      file.puts "# LocoMotion Component Library"
+      library_metadata = @aggregation_service.extract_library_metadata
+
+      file.puts "# LocoMotion Component Library v#{LocoMotion::VERSION}"
+      file.puts ""
+      file.puts "## Library Metadata"
+      file.puts "- Framework: #{library_metadata[:framework]}"
+      file.puts "- UI Library: #{library_metadata[:ui_library]}"
+      file.puts "- Total Components: #{library_metadata[:total_components]}"
+      file.puts "- Component Categories: #{library_metadata[:component_categories].join(', ')}"
+      file.puts "- Helper Methods: #{library_metadata[:helper_prefixes].join(', ')} prefixes"
+      file.puts "- File Conventions: Components in #{library_metadata[:file_conventions][:components]}, Examples in #{library_metadata[:file_conventions][:examples]}"
       file.puts ""
       file.puts "This file provides comprehensive documentation for all LocoMotion components."
       file.puts "LocoMotion is a Ruby on Rails component library built on ViewComponent and DaisyUI."
@@ -154,6 +165,15 @@ module Algolia
     # @param components [Array<Hash>] Array of component data bundles
     #
     def write_component_details(file, components)
+      # Add usage patterns section
+      write_usage_patterns_section(file)
+
+      # Add categorized component index
+      write_categorized_index(file, components)
+
+      # Add separator and component details
+      write_separator(file)
+
       components.each do |component|
         write_component_section(file, component)
       end
@@ -179,6 +199,10 @@ module Algolia
         file.puts ""
       end
 
+      # Enhanced metadata sections
+      write_api_signature_section(file, component)
+      write_related_components_section(file, component)
+      write_rails_integration_section(file, component)
       write_helpers_section(file, component)
       write_examples_section(file, component)
 
@@ -307,6 +331,131 @@ module Algolia
         "#{text[0...max_length].strip}..."
       else
         text
+      end
+    end
+
+    # Write the API signature section for a component
+    #
+    # @param file [File] The output file
+    # @param component [Hash] Component data bundle
+    #
+    def write_api_signature_section(file, component)
+      return unless component[:api_signature].present?
+
+      file.puts "API Signature:"
+
+      if component[:api_signature][:helper_methods].present?
+        component[:api_signature][:helper_methods].each do |method|
+          file.puts "- #{method}"
+        end
+      end
+
+      if component[:api_signature][:initialize_signature].present?
+        file.puts ""
+        file.puts "Initialize Method:"
+        file.puts "  #{component[:api_signature][:initialize_signature]}"
+      end
+
+      if component[:api_signature][:common_parameters].present?
+        file.puts ""
+        file.puts "Common Parameters:"
+        component[:api_signature][:common_parameters].each do |param|
+          file.puts "- #{param[:name]} (#{param[:type]}): #{param[:description]}"
+        end
+      end
+
+      file.puts ""
+    end
+
+    # Write the related components section for a component
+    #
+    # @param file [File] The output file
+    # @param component [Hash] Component data bundle
+    #
+    def write_related_components_section(file, component)
+      return unless component[:related_components].present? && component[:related_components].any?
+
+      file.puts "Related Components:"
+      component[:related_components].each do |related|
+        file.puts "- #{related}"
+      end
+      file.puts ""
+    end
+
+    # Write the Rails integration section for a component
+    #
+    # @param file [File] The output file
+    # @param component [Hash] Component data bundle
+    #
+    def write_rails_integration_section(file, component)
+      return unless component[:rails_integration].present?
+
+      file.puts "Rails Integration:"
+
+      if component[:rails_integration][:base_class].present?
+        file.puts "- Base Class: #{component[:rails_integration][:base_class]}"
+      end
+
+      if component[:rails_integration][:view_component]
+        file.puts "- ViewComponent: Yes"
+      end
+
+      if component[:rails_integration][:includes].present? && component[:rails_integration][:includes].any?
+        file.puts "- Includes: #{component[:rails_integration][:includes].join(', ')}"
+      end
+
+      file.puts ""
+    end
+
+    # Write the usage patterns section
+    #
+    # @param file [File] The output file
+    #
+    def write_usage_patterns_section(file)
+      patterns_file = Rails.root.join('docs', 'demo', 'data', 'usage_patterns.md')
+
+      if File.exist?(patterns_file)
+        file.puts "## Common Usage Patterns"
+        file.puts ""
+
+        File.read(patterns_file).each_line do |line|
+          # Skip the markdown header since we already have one
+          next if line.start_with?('# LocoMotion Usage Patterns')
+          file.puts line
+        end
+
+        file.puts ""
+      end
+    end
+
+    # Write the categorized component index
+    #
+    # @param file [File] The output file
+    # @param components [Array<Hash>] Array of component data bundles
+    #
+    def write_categorized_index(file, components)
+      file.puts "## Components by Category"
+      file.puts ""
+
+      # Group components by category
+      categories = {}
+      components.each do |component|
+        category = component[:section].present? ? component[:section] : component[:framework]
+        categories[category] ||= []
+        categories[category] << component
+      end
+
+      # Write each category
+      categories.sort.each do |category, category_components|
+        file.puts "### #{category}"
+        file.puts ""
+
+        category_components.each do |component|
+          short_desc = truncate_description(component[:description], 80)
+          file.puts "- **#{component[:component]}**: #{short_desc}"
+        end
+
+        file.puts ""
       end
     end
   end

@@ -19,6 +19,7 @@ module Algolia
     # Initialize the aggregation service
     #
     def initialize
+      @metadata_extractor = ComponentMetadataExtractor.new
     end
 
     # Aggregate all components from the registry
@@ -36,6 +37,14 @@ module Algolia
 
       Rails.logger.debug "Aggregated #{components.length} components"
       components
+    end
+
+    # Extract library-wide metadata
+    #
+    # @return [Hash] Library metadata
+    #
+    def extract_library_metadata
+      @metadata_extractor.extract_library_metadata
     end
 
     # Aggregate a single component
@@ -81,7 +90,10 @@ module Algolia
       github_path = component_name.underscore + ".rb"
       github_url = "https://github.com/profoundry-us/loco_motion/blob/main/app/components/#{github_path}"
 
-      # Return normalized structure
+      # Extract enhanced metadata
+      enhanced_metadata = @metadata_extractor.extract_for_component(component_name)
+
+      # Return normalized structure with enhanced metadata
       {
         component: component_name,
         framework: framework,
@@ -93,7 +105,12 @@ module Algolia
         title: parsed[:title],
         description: parsed[:description],
         examples: parsed[:examples],
-        position: position
+        position: position,
+        # Enhanced metadata
+        api_signature: enhanced_metadata[:api_signature],
+        related_components: enhanced_metadata[:related_components],
+        rails_integration: enhanced_metadata[:rails_integration],
+        component_category: enhanced_metadata[:component_category]
       }
     end
   end
