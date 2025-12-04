@@ -364,6 +364,9 @@ module Algolia
       cleaned = cleaned.gsub(/css="[^"]*"/, "")
       cleaned = cleaned.gsub(/size-\d+/, "")
       cleaned = cleaned.gsub("arrow-top-right-on-square", "")
+      cleaned = cleaned.gsub("doc_note", "")
+      cleaned = cleaned.gsub(/\(modifier: *:[^)]+\)/, "")
+      cleaned = cleaned.gsub(/\(css: *"[^"]*"\)/, "")
 
       # Clean up any remaining odd spacing
       cleaned = cleaned.gsub("  ", " ").strip

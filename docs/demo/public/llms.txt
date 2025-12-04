@@ -25,7 +25,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent
 
-- **Daisy::Actions::ThemeControllerComponent** (Actions): doc_note(modifier: :tip) do The `ThemeController` component is a **_Builder_**...
+- **Daisy::Actions::ThemeControllerComponent** (Actions): do The `ThemeController` component is a **_Builder_** component rather than...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent
 
@@ -77,7 +77,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent
 
-- **Daisy::DataDisplay::StatComponent** (DataDisplay): doc_note do Stats have a transparent background by default.
+- **Daisy::DataDisplay::StatComponent** (DataDisplay): do Stats have a transparent background by default. Use `bg-base-100` if you...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatComponent
 
@@ -93,7 +93,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent
 
-- **Daisy::DataInput::CallyComponent** (DataInput): doc_note(modifier: :warning) do You must include the Cally script tag or <a...
+- **Daisy::DataInput::CallyComponent** (DataInput): do You must include the Cally script tag or <a href="https://wicky.nillia.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent
 
@@ -129,7 +129,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent
 
-- **Daisy::DataInput::SelectComponent** (DataInput): doc_note do Select inputs have a border by default and a width of 20rem.
+- **Daisy::DataInput::SelectComponent** (DataInput): do Select inputs have a border by default and a width of 20rem.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent
 
@@ -137,7 +137,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent
 
-- **Daisy::DataInput::TextAreaComponent** (DataInput): doc_note do Text areas have a border by default. Use `textarea-ghost` to remove...
+- **Daisy::DataInput::TextAreaComponent** (DataInput): do Text areas have a border by default. Use `textarea-ghost` to remove the...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent
 
@@ -157,7 +157,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::LinkComponent
 
-- **Daisy::Navigation::MenuComponent** (Navigation): doc_note do Vertical menus no longer have a default width.
+- **Daisy::Navigation::MenuComponent** (Navigation): do Vertical menus no longer have a default width. Use `w-full` or other width...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent
 
@@ -209,7 +209,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerComponent
 
-- **Daisy::Layout::DrawerComponent** (Layout): doc_note(css: "mb-8 max-w-2xl") do The `relative / absolute` and the `h-48`...
+- **Daisy::Layout::DrawerComponent** (Layout): do The `relative / absolute` and the `h-48` classes allow the drawer to rer...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent
 

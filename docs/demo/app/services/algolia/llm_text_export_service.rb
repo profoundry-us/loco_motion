@@ -331,21 +331,32 @@ module Algolia
 
       lines = code.split("\n")
       result = []
+      block_nesting = 0
+      skipping_doc_example = false
 
       lines.each do |line|
-        # Skip doc_example wrapper lines
-        if line.include?("doc_example(") || line.include?("title:") || line.include?("example_css:")
+        # Skip doc_example wrapper lines (only lines starting with = or - and doc_example()
+        if line =~ /^\s*[=-]\s*doc_example\(.*\)/
+          skipping_doc_example = true
           next
         end
 
-        # Skip the do |doc| line
+        # Skip the do |doc| line and start tracking block nesting
         if line.include?("do |doc|")
+          block_nesting += 1
+          skipping_doc_example = true
           next
         end
 
-        # Skip the closing end line for doc_example
-        if line.strip == "end" && result.any? && result.last.include?("= daisy_")
-          next
+        # Track block nesting for any 'do' and 'end'
+        if skipping_doc_example
+          block_nesting += line.scan(/\bdo\b/).size
+          block_nesting -= line.scan(/\bend\b/).size
+          # Skip the closing end line for doc_example when nesting returns to zero
+          if line.strip == "end" && block_nesting <= 0
+            skipping_doc_example = false
+            next
+          end
         end
 
         result << line

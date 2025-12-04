@@ -82,8 +82,9 @@ RSpec.describe Algolia::LlmTextExportService, type: :service do
         if in_code_block
           # Check for documentation boilerplate in code blocks
           expect(line).not_to include('doc_example(')
-          expect(line).not_to include('title:')
-          expect(line).not_to include('example_css:')
+          expect(line).not_to include('do |doc|')
+          # These should be cleaned up by the haml_parser_service
+          expect(line).not_to include('doc_note')
         end
       end
     end
