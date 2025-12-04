@@ -9,18 +9,30 @@
   - doc.with_description do
     %p
       Figures are used to display images with optional captions. They are commonly
-      used within cards and other content containers.
+      used within cards and other content containers. By default, images appear
+      above the content.
 
   = daisy_figure(css: "max-w-96", src: image_path("landscapes/beach.jpg"))
 
 
 = doc_example(title: "Figure with Caption") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       You can add a caption to your figure by providing content to the component.
+      The image appears above the caption by default (`position: :top`).
 
   = daisy_figure(css: "max-w-96", src: image_path("landscapes/mountain-river.jpg")) do
     %p.text-center.italic A beautiful mountain river landscape
+
+
+= doc_example(title: "Figure with Bottom Position") do |doc|
+  - doc.with_description do
+    :markdown
+      Use `position: :bottom` to display the caption above the image. This is
+      useful when you want the text to appear first in the reading flow.
+
+  = daisy_figure(css: "max-w-96", src: image_path("landscapes/forest.jpg"), position: :bottom) do
+    %p.text-center.italic A serene forest pathway
 
 
 = doc_example(title: "Custom Content") do |doc|

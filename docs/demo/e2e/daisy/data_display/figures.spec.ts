@@ -12,6 +12,7 @@ test('page loads', async ({ page }) => {
   await loco.expectPageHeadings(page, [
     'Basic Figure',
     'Figure with Caption',
+    'Figure with Bottom Position',
     'Custom Content'
   ]);
 });

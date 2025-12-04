@@ -188,7 +188,7 @@ llm:
 # Run the playwright tests in the demo container; the UI mode automatically runs from the Procfile.dev
 .PHONY: playwright
 playwright:
-	docker compose exec -it demo yarn playwright test 'e2e' --reporter=dot,html --workers=5 --trace on
+	docker compose exec -it demo yarn playwright test 'e2e' --reporter=dot --workers=5 --trace on
 
 ##############################
 # Build/Publish commands
