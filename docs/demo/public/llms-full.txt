@@ -3,266 +3,12 @@
 This file provides comprehensive documentation for all LocoMotion components.
 LocoMotion is a Ruby on Rails component library built on ViewComponent and DaisyUI.
 
-## Available Components
-
-- **Hero::IconComponent** (Hero): Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  us...
-  API: /api-docs
-  Examples: /examples/Hero::IconComponent
-
-- **Daisy::Actions::ButtonComponent** (Actions):  Here are some examples showcasing button. 
-  API: /api-docs
-  Examples: /examples/Daisy::Actions::ButtonComponent
-
-- **Daisy::Actions::DropdownComponent** (Actions): Dropdowns are a great way to display a list of items in a compact manner. 
-  API: /api-docs
-  Examples: /examples/Daisy::Actions::DropdownComponent
-
-- **Daisy::Actions::ModalComponent** (Actions): Modals are used to display content that requires user interaction. They are typi...
-  API: /api-docs
-  Examples: /examples/Daisy::Actions::ModalComponent
-
-- **Daisy::Actions::SwapComponent** (Actions): The Swap component allows you to quickly swap between two icons, images, or  HT...
-  API: /api-docs
-  Examples: /examples/Daisy::Actions::SwapComponent
-
-- **Daisy::Actions::ThemeControllerComponent** (Actions): doc_note(modifier: :tip) do The `ThemeController` component is a **_Builder_** c...
-  API: /api-docs
-  Examples: /examples/Daisy::Actions::ThemeControllerComponent
-
-- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): Here are some examples showcasing accordions. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::AccordionComponent
-
-- **Daisy::DataDisplay::AvatarComponent** (DataDisplay): Here are some simple avatar examples. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::AvatarComponent
-
-- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): Here are some examples showcasing badges. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::BadgeComponent
-
-- **Daisy::DataDisplay::CardComponent** (DataDisplay): Here are some examples showcasing cards. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::CardComponent
-
-- **Daisy::DataDisplay::CarouselComponent** (DataDisplay): Carousels are great for showing off a lot of images! 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::CarouselComponent
-
-- **Daisy::DataDisplay::ChatComponent** (DataDisplay):  Here are some examples showcasing chat bubbles. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::ChatComponent
-
-- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): Here are some simple collapse examples. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::CollapseComponent
-
-- **Daisy::DataDisplay::CountdownComponent** (DataDisplay):  Countdowns display an animated countdown to a specific date. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::CountdownComponent
-
-- **Daisy::DataDisplay::DiffComponent** (DataDisplay): Diffs allow you to move a slider back and forth to compare two images,  text, o...
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::DiffComponent
-
-- **Daisy::DataDisplay::FigureComponent** (DataDisplay): Here are some examples showcasing figures. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::FigureComponent
-
-- **Daisy::DataDisplay::KbdComponent** (DataDisplay): The keyboard component is used to visually represent a key on a keyboard. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::KbdComponent
-
-- **Daisy::DataDisplay::ListComponent** (DataDisplay): Lists provide a vertical layout to display information in rows. They can contain...
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::ListComponent
-
-- **Daisy::DataDisplay::StatComponent** (DataDisplay): doc_note do Stats have a transparent background by default. Use `bg-base-100` if...
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::StatComponent
-
-- **Daisy::DataDisplay::StatusComponent** (DataDisplay): Status is a really small icon to visually show the current status of an element,...
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::StatusComponent
-
-- **Daisy::DataDisplay::TableComponent** (DataDisplay): Tables are designed to show data in a tabular layout making it easy to see  lar...
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::TableComponent
-
-- **Daisy::DataDisplay::TimelineComponent** (DataDisplay):  Here are some examples showcasing timelines. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataDisplay::TimelineComponent
-
-- **Daisy::DataInput::CallyComponent** (DataInput): doc_note(modifier: :warning) do You must include the Cally script tag or <a targ...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::CallyComponent
-
-- **Daisy::DataInput::CallyInputComponent** (DataInput): This component provides an elegant alternative to standard HTML date inputs  wh...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::CallyInputComponent
-
-- **Daisy::DataInput::CheckboxComponent** (DataInput): Checkboxes are great for toggling an item on / off, or selecting multiple items...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::CheckboxComponent
-
-- **Daisy::DataInput::FileInputComponent** (DataInput): Here are some examples showcasing file input components. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::FileInputComponent
-
-- **Daisy::DataInput::FieldsetComponent** (DataInput): Fieldsets group related form controls and can optionally include a legend. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::FieldsetComponent
-
-- **Daisy::DataInput::LabelComponent** (DataInput): Labels provide a useful description for various kinds of inputs. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::LabelComponent
-
-- **Daisy::DataInput::RadioButtonComponent** (DataInput): Here are some examples showcasing radio button components. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::RadioButtonComponent
-
-- **Daisy::DataInput::RangeComponent** (DataInput): Here are some examples showcasing range input components. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::RangeComponent
-
-- **Daisy::DataInput::RatingComponent** (DataInput): Here are some examples showcasing rating input components. 
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::RatingComponent
-
-- **Daisy::DataInput::SelectComponent** (DataInput): doc_note do Select inputs have a border by default and a width of 20rem. Use `se...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::SelectComponent
-
-- **Daisy::DataInput::TextInputComponent** (DataInput): Text inputs allow you to enter various forms of text such as usernames, password...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::TextInputComponent
-
-- **Daisy::DataInput::TextAreaComponent** (DataInput): doc_note do Text areas have a border by default. Use `textarea-ghost` to remove...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::TextAreaComponent
-
-- **Daisy::DataInput::ToggleComponent** (DataInput): The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy...
-  API: /api-docs
-  Examples: /examples/Daisy::DataInput::ToggleComponent
-
-- **Daisy::Navigation::BreadcrumbsComponent** (Navigation): Breadcrumbs are used to show the user's location within a website or app. 
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::BreadcrumbsComponent
-
-- **Daisy::Navigation::DockComponent** (Navigation): The Dock component provides a navigation bar fixed to the bottom of the screen,...
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::DockComponent
-
-- **Daisy::Navigation::LinkComponent** (Navigation): Tailwind removes the styling on standard links so we provide an easy way to  re...
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::LinkComponent
-
-- **Daisy::Navigation::MenuComponent** (Navigation): doc_note do Vertical menus no longer have a default width. Use `w-full` or other...
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::MenuComponent
-
-- **Daisy::Navigation::NavbarComponent** (Navigation):  Navbars are a common way to organize navigation links at the top of a page. 
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::NavbarComponent
-
-- **Daisy::Navigation::PaginationComponent** (Navigation): Pagination can be implemented by utilizing the existing  component_link("Join",...
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::PaginationComponent
-
-- **Daisy::Navigation::StepsComponent** (Navigation): Steps allow you to create a series of steps that users can follow to  complete...
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::StepsComponent
-
-- **Daisy::Navigation::TabsComponent** (Navigation): Here are some examples showcasing tabs. 
-  API: /api-docs
-  Examples: /examples/Daisy::Navigation::TabsComponent
-
-- **Daisy::Feedback::AlertComponent** (Feedback):  Alerts inform the user about important information or changes to the system. 
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::AlertComponent
-
-- **Daisy::Feedback::LoadingComponent** (Feedback):  Loaders are used to indicate that a process is happening in the background. 
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::LoadingComponent
-
-- **Daisy::Feedback::ProgressComponent** (Feedback):  Progress bars are used to indicate the progress of a process. 
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::ProgressComponent
-
-- **Daisy::Feedback::RadialProgressComponent** (Feedback): Radial progress bars are used to indicate the progress of a process, in a  circ...
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::RadialProgressComponent
-
-- **Daisy::Feedback::SkeletonComponent** (Feedback): Skeletons are used to show a placeholder for content that is loading or  being...
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::SkeletonComponent
-
-- **Daisy::Feedback::ToastComponent** (Feedback): Toasts are used to show a message to the user that is not critical, but  import...
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::ToastComponent
-
-- **Daisy::Feedback::TooltipComponent** (Feedback): Additionally, we offer the `daisy_tooltip` component to wrap an entire component...
-  API: /api-docs
-  Examples: /examples/Daisy::Feedback::TooltipComponent
-
-- **Daisy::Layout::DividerComponent** (Layout): Dividers are used to separate content in a meaningful way. They can be used to s...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::DividerComponent
-
-- **Daisy::Layout::DrawerComponent** (Layout): doc_note(css: "mb-8 max-w-2xl") do The `relative / absolute` and the `h-48` clas...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::DrawerComponent
-
-- **Daisy::Layout::FooterComponent** (Layout): Footers are used to provide additional information about a page or site. They ar...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::FooterComponent
-
-- **Daisy::Layout::HeroComponent** (Layout): Heroes are used to provide a large, eye-catching introduction to a page or site....
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::HeroComponent
-
-- **Daisy::Layout::IndicatorComponent** (Layout): Indicators wrap other elements and provide a visual cue that something requires...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::IndicatorComponent
-
-- **Daisy::Layout::JoinComponent** (Layout): Joins allow you to combine multiple components into a singular, joined,  elemen...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::JoinComponent
-
-- **Daisy::Layout::MaskComponent** (Layout): Masks allow you to create a variety of shapes and patterns! Masks are **NOT** a...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::MaskComponent
-
-- **Daisy::Layout::StackComponent** (Layout): Stacks provide a 3 dimensional effect to your content. This can be helpful for d...
-  API: /api-docs
-  Examples: /examples/Daisy::Layout::StackComponent
-
-- **Daisy::Mockup::BrowserComponent** (Mockup): The Browser component is a simple mockup that looks and feels like a user's  we...
-  API: /api-docs
-  Examples: /examples/Daisy::Mockup::BrowserComponent
-
-- **Daisy::Mockup::CodeComponent** (Mockup): Code blocks are a great way to display code snippets in your site or  documenta...
-  API: /api-docs
-  Examples: /examples/Daisy::Mockup::CodeComponent
-
-- **Daisy::Mockup::DeviceComponent** (Mockup): Device mockups are a great way to showcase your designs in a realistic way! 
-  API: /api-docs
-  Examples: /examples/Daisy::Mockup::DeviceComponent
-
-- **Daisy::Mockup::FrameComponent** (Mockup): Frames showcase your work as if they were displayed in a window. This is  very...
-  API: /api-docs
-  Examples: /examples/Daisy::Mockup::FrameComponent
-
----
-
-## Component Details
-
 === Component: Hero::IconComponent
 Group: Hero
 Title: Icons
-API URL: /api-docs
-Examples URL: /examples/Hero::IconComponent
-File: /home/loco_demo/app/views/examples/hero/icons.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Hero::IconComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/hero/icon_component.rb
 
 Description:
  Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  use in your web projects. You can find them at  succeed "." do daisy_link("https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4") 
@@ -279,18 +25,6 @@ By default, icons are displayed with the `size-5` Tailwind class to set the widt
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
-width and height. This can be overridden **without** using the
-`!` Tailwind modifier because we utilize the `:where()` pseudo-class to
-ensure that our default classes have the lowest CSS specificity possible.
-
-The icon color will inherit the text color of the parent element.
-
-Additionally, if it's more convenient for your purposes, you can pass the
-icon as a keyword argument using the `icon:` option instead of the first
-positional argument.
-
-
-
   = hero_icon("academic-cap")
 
   = hero_icon(icon: "adjustments-horizontal")
@@ -299,7 +33,7 @@ positional argument.
     = hero_icon("archive-box")
 ```
 
-URL: /examples/Hero::IconComponent#basic-icons
+URL: https://loco-motion.profoundry.us/examples/Hero::IconComponent#basic-icons
 
 -- Example: Customized Icons
 Description:
@@ -315,16 +49,16 @@ Code (HAML):
   = hero_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
 ```
 
-URL: /examples/Hero::IconComponent#customized-icons
+URL: https://loco-motion.profoundry.us/examples/Hero::IconComponent#customized-icons
 
 ---
 
 === Component: Daisy::Actions::ButtonComponent
 Group: Actions
 Title: Buttons
-API URL: /api-docs
-Examples URL: /examples/Daisy::Actions::ButtonComponent
-File: /home/loco_demo/app/views/examples/daisy/actions/buttons.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/button_component.rb
 
 Description:
  Here are some examples showcasing button. 
@@ -361,7 +95,27 @@ Code (HAML):
       Link Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#basic-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#basic-buttons
+
+-- Example: Links
+Description:
+Buttons can be used as links by providing an `href` attribute. This renders an `<a>` tag instead of a `<button>` tag.
+
+Code (HAML):
+```haml
+= doc_example(title: "Links") do |doc|
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_button(href: "https://google.com", target: "_blank") do
+      External Link
+
+    = daisy_button(href: "/docs", css: "btn-primary") do
+      Internal Link
+
+    = daisy_button(href: "#", css: "btn-secondary", icon: "arrow-right") do
+      Link with Icon
+```
+
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#links
 
 -- Example: Icon Buttons
 Description:
@@ -382,7 +136,7 @@ Code (HAML):
     = daisy_button(css: "btn-primary btn-lg", right_icon: "chevron-right", right_icon_css: "size-8", title: "Go")
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#icon-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#icon-buttons
 
 -- Example: Multiple Sizes
 Description:
@@ -405,7 +159,7 @@ Code (HAML):
       Tiny Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#multiple-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#multiple-sizes
 
 -- Example: Custom Buttons
 Description:
@@ -421,7 +175,7 @@ Code (HAML):
       Gradient Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#custom-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#custom-buttons
 
 -- Example: Outline Buttons
 Description:
@@ -444,7 +198,7 @@ Code (HAML):
       Accent Outline Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#outline-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#outline-buttons
 
 -- Example: Soft Buttons
 Description:
@@ -467,7 +221,7 @@ Code (HAML):
       Accent Soft Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#soft-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#soft-buttons
 
 -- Example: Dash Buttons
 Description:
@@ -490,16 +244,16 @@ Code (HAML):
       Accent Dash Button
 ```
 
-URL: /examples/Daisy::Actions::ButtonComponent#dash-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent#dash-buttons
 
 ---
 
 === Component: Daisy::Actions::DropdownComponent
 Group: Actions
 Title: Dropdowns
-API URL: /api-docs
-Examples URL: /examples/Daisy::Actions::DropdownComponent
-File: /home/loco_demo/app/views/examples/daisy/actions/dropdowns.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::DropdownComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/dropdown_component.rb
 
 Description:
 Dropdowns are a great way to display a list of items in a compact manner. 
@@ -527,7 +281,7 @@ Code (HAML):
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 ```
 
-URL: /examples/Daisy::Actions::DropdownComponent#basic-dropdown
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::DropdownComponent#basic-dropdown
 
 -- Example: Custom Button
 Description:
@@ -549,7 +303,7 @@ Code (HAML):
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 ```
 
-URL: /examples/Daisy::Actions::DropdownComponent#custom-button
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::DropdownComponent#custom-button
 
 -- Example: Fully Custom Dropdown
 Description:
@@ -558,23 +312,6 @@ You can also pass a custom `activator` allowing you to use any content instead o
 Code (HAML):
 ```haml
 = doc_example(title: "Fully Custom Dropdown", example_css: "flex-col") do |doc|
-instead of just a button to open the dropdown.
-
-Additionally, if no items are setup, the dropdown will simply output any
-content you provide, meaning you can completely customize the dropdown
-content as well.
-
-
-
-    = doc_note(css: "mb-8") do
-      You'll need to **manually** add the `dropdown-content` CSS class to the
-content wrapper.
-
-We **automatically** add the `role="button"` and `tabindex="0"`
-attributes to the custom activator to make it keyboard accessible.
-
-
-
   .flex.flex-col.items-end{ class: "max-w-[500px]" }
     = daisy_dropdown(css: "dropdown-end dropdown-hover") do |dropdown|
       - # This is the custom activator that will open the dropdown
@@ -606,16 +343,16 @@ You can also click on the Stat item (or focus it using your keyboard) to
 keep the dropdown open.
 ```
 
-URL: /examples/Daisy::Actions::DropdownComponent#fully-custom-dropdown
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::DropdownComponent#fully-custom-dropdown
 
 ---
 
 === Component: Daisy::Actions::ModalComponent
 Group: Actions
 Title: Modals
-API URL: /api-docs
-Examples URL: /examples/Daisy::Actions::ModalComponent
-File: /home/loco_demo/app/views/examples/daisy/actions/modals.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ModalComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.rb
 
 Description:
 Modals are used to display content that requires user interaction. They are typically used to display forms, alerts, or other content that requires user input. 
@@ -633,43 +370,9 @@ Code (HAML):
 ```haml
 %turbo-frame{"id" => "simple-modal"}
   = doc_example(title: "Simple Modal") do |doc|
-closed by clicking on the `x` icon in the top right, by clicking outside
-of the modal, or by submitting a `<form method='dialog'>` inside the
-modal.
-
-
-
-      = doc_note(css: "mb-8") do
-        If no button or activator is provided, a very basic default button will
-
-        be used instead. The button title will match the title of the modal.
-
-    .flex.flex-col.items-center
-      = daisy_modal(title: "Simple Modal") do |modal|
-        - modal.with_button(css: 'btn-primary') do
-          Open Modal
-
-        Here is some really long modal content that should go well past the
-
-        spot where the close icon appears...
-
-        - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
-          %form{ method: :dialog }
-            = daisy_button do
-              Cancel
-
-          %form{ action: "", method: :get }
-            %input{ type: "hidden", name: "submitted", value: "true" }
-
-            = daisy_button(css: "btn-primary") do
-              Submit
-
-      - if params[:submitted] == "true"
-        %p.my-2.font-bold.italic
-          You submitted the modal!
 ```
 
-URL: /examples/Daisy::Actions::ModalComponent#simple-modal
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ModalComponent#simple-modal
 
 -- Example: Custom Activator
 Description:
@@ -679,37 +382,18 @@ Code (HAML):
 ```haml
 %turbo-frame{"id" => "custom-activator-modal"}
   = doc_example(title: "Custom Activator") do |doc|
-    .flex.flex-col.items-center
-      = daisy_modal(title: "Custom Activator Modal") do |modal|
-        - modal.with_activator do
-          = daisy_card(css: "cursor-pointer border border-base-300 hover:border-primary bg-base-100 transition-colors w-64") do |card|
-            - card.with_top_figure css: "aspect-video", src: image_path("landscapes/mountain-river.jpg")
-
-            .flex.justify-center.items-center.gap-2.p-4.font-bold
-              = hero_icon(:bell, css: "size-6")
-
-              .text-xl Notify Me
-
-        This modal was opened using a custom activator instead of a button.
-
-        You can use any HTML element as an activator!
-
-        - modal.with_start_actions(css: "flex flex-row items-center gap-2") do
-          %form{ method: :dialog }
-            = daisy_button do
-              I'm Done
 ```
 
-URL: /examples/Daisy::Actions::ModalComponent#custom-activator
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ModalComponent#custom-activator
 
 ---
 
 === Component: Daisy::Actions::SwapComponent
 Group: Actions
 Title: Swaps
-API URL: /api-docs
-Examples URL: /examples/Daisy::Actions::SwapComponent
-File: /home/loco_demo/app/views/examples/daisy/actions/swaps.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/swap_component.rb
 
 Description:
  The Swap component allows you to quickly swap between two icons, images, or  HTML elements with a simple click. 
@@ -734,7 +418,7 @@ Code (HAML):
     = daisy_swap(off: "🔇", on: "🔊", css: "swap-flip")
 ```
 
-URL: /examples/Daisy::Actions::SwapComponent#simple-emojis
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent#simple-emojis
 
 -- Example: Hero Icons
 Description:
@@ -743,13 +427,6 @@ You can also use the Swap component with Hero Icons. The following example toggl
 Code (HAML):
 ```haml
 = doc_example(title: "Hero Icons") do |doc|
-toggles between various icons.
-
-You can also use our special `hero_icon` helper which accepts the `css`
-property and all other options that our custom components accept.
-
-
-
   .mt-2.flex.items-center.gap-x-4
     - sizes = "size-16"
 
@@ -787,7 +464,7 @@ property and all other options that our custom components accept.
           = heroicon "currency-euro", class: sizes, variant: :outline
 ```
 
-URL: /examples/Daisy::Actions::SwapComponent#hero-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent#hero-icons
 
 -- Example: Custom HTML Elements
 Description:
@@ -796,11 +473,6 @@ You can also use the Swap component with custom HTML elements. The following exa
 Code (HAML):
 ```haml
 = doc_example(title: "Custom HTML Elements") do |doc|
-following example toggles between a stop sign, a go sign, and a slow sign
-(when you click the `Make Indeterminate` button).
-
-
-
   - shared_classes = "p-8 mask text-center font-bold"
 
   .w-56.mt-4.flex.flex-col.items-center
@@ -818,16 +490,16 @@ following example toggles between a stop sign, a go sign, and a slow sign
       Make Indeterminate
 ```
 
-URL: /examples/Daisy::Actions::SwapComponent#custom-html-elements
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapComponent#custom-html-elements
 
 ---
 
 === Component: Daisy::Actions::ThemeControllerComponent
 Group: Actions
 Title: Theme Controller
-API URL: /api-docs
-Examples URL: /examples/Daisy::Actions::ThemeControllerComponent
-File: /home/loco_demo/app/views/examples/daisy/actions/theme_controllers.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/theme_controller_component.rb
 
 Description:
 doc_note(modifier: :tip) do The `ThemeController` component is a **_Builder_** component rather than your standard **_Slotable_** ViewComponent. This means that instead of the component providing slots, and handling where your custom components are _inserted_, the developer utilizes helper methods on the component to **choose** where the sub-components are _rendered_. In the examples below, we use the HAML `=` syntax to output the rendered sub-components, whereas typical components use the HAML `-` syntax to "pass" the component to a slot. 
@@ -844,12 +516,6 @@ One of the most basic sub-components is the theme preview icon. It shows a visua
 Code (HAML):
 ```haml
 = doc_example(title: "Theme Preview Icons") do |doc|
-visual representation of the theme using the `base`, `primary`,
-`secondary`, and `accent` colors as little dots inside of a rounded
-square.
-
-
-
   = daisy_theme_controller do |theme_controller|
     .flex.flex-col.sm:flex-row.gap-4.items-start.sm:items-center
       - theme_controller.themes.each do |theme|
@@ -859,7 +525,7 @@ square.
           = theme.humanize
 ```
 
-URL: /examples/Daisy::Actions::ThemeControllerComponent#theme-preview-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent#theme-preview-icons
 
 -- Example: Theme Radio Inputs
 Description:
@@ -868,20 +534,6 @@ When a theme radio input is selected, the theme's page will change to the value 
 Code (HAML):
 ```haml
 = doc_example(title: "Theme Radio Inputs") do |doc|
-value of the the input.
-
-
-
-    = doc_note(modifier: :warning, css: "mb-8") do
-      We provide a custom name of `docs-radio-theme` so that this example
-doesn't interfere with the header theme or other examples.
-
-However, because we are **only** using the radio inputs, we do **NOT**
-call the `setTheme()` method, and thus we do **NOT** save these changes
-to `localStorage`.
-
-
-
   = daisy_theme_controller do |theme_controller|
     .flex.flex-col.sm:flex-row.gap-4.items-start.sm:items-center
       - theme_controller.themes.each do |theme|
@@ -891,7 +543,7 @@ to `localStorage`.
           = theme.humanize
 ```
 
-URL: /examples/Daisy::Actions::ThemeControllerComponent#theme-radio-inputs
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent#theme-radio-inputs
 
 -- Example: Custom Switcher
 Description:
@@ -900,22 +552,6 @@ You can also build a custom switcher by using all of the sub-components in combi
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
-in combination.
-
-
-
-    = doc_note(modifier: :warning, css: "mb-8") do
-      Note that the `daisy_theme_controller` may need to be the **parent** of
-your custom switcher to ensure that it appropriately sets up the
-Stimulus controller.
-
-In the example below, the dropdown doesn't render custom content when
-using the `with_item` helper, so the Stimulus controller wouldn't be
-applied if the order were switched.
-
-
-
-
   = daisy_theme_controller do |tc|
     = daisy_dropdown do |dropdown|
       - dropdown.with_button(css: "btn-error", icon: "swatch", title: "Themes", right_icon: "chevron-down")
@@ -932,16 +568,16 @@ applied if the order were switched.
             = hero_icon "check", css: "size-4 invisible peer-checked:visible"
 ```
 
-URL: /examples/Daisy::Actions::ThemeControllerComponent#custom-switcher
+URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent#custom-switcher
 
 ---
 
 === Component: Daisy::DataDisplay::AccordionComponent
 Group: DataDisplay
 Title: Accordions
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::AccordionComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/accordions.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/accordion_component.rb
 
 Description:
 Here are some examples showcasing accordions. 
@@ -958,10 +594,6 @@ You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Accordion") do |doc|
-directly to each section.
-
-
-
   = daisy_accordion(css: "mt-4 bg-base-200 rounded-lg") do |accordion|
     - accordion.with_section(css: "collapse-arrow", title: "Section 1", checked: true) do
       This is a simple accordion. Click the sections to see more.
@@ -973,7 +605,7 @@ directly to each section.
       You can open them independently.
 ```
 
-URL: /examples/Daisy::DataDisplay::AccordionComponent#basic-accordion
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent#basic-accordion
 
 -- Example: Separated Accordion
 Description:
@@ -982,11 +614,6 @@ Sections can be combined or separated by specifying the `name` attribute. You ca
 Code (HAML):
 ```haml
 = doc_example(title: "Separated Accordion") do |doc|
-You can also set the `:arrow` or `:plus` modifier to the entire accordion
-to apply it to all sections.
-
-
-
   = daisy_accordion(css: "mt-4", modifier: :arrow) do |accordion|
     - accordion.with_section(title: "Section 1", checked: true) do
       Sections can be combined...
@@ -1001,7 +628,7 @@ to apply it to all sections.
       Like these two.
 ```
 
-URL: /examples/Daisy::DataDisplay::AccordionComponent#separated-accordion
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent#separated-accordion
 
 -- Example: Form Accordion
 Description:
@@ -1010,10 +637,6 @@ Because it uses `<input type="radio">` elements, you can even use it inside a fo
 Code (HAML):
 ```haml
 = doc_example(title: "Form Accordion") do |doc|
-inside a form!
-
-
-
   %turbo-frame{"id" => "accordion-form"}
     %form.mt-4.w-80{ action: "#" }
       %label.block.mb-4.italic What is your favorite color?
@@ -1035,16 +658,16 @@ inside a form!
           %span.font-bold "You chose #{params["favorite-color"]}!"
 ```
 
-URL: /examples/Daisy::DataDisplay::AccordionComponent#form-accordion
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent#form-accordion
 
 ---
 
 === Component: Daisy::DataDisplay::AvatarComponent
 Group: DataDisplay
 Title: Avatars
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::AvatarComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/avatars.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb
 
 Description:
 Here are some simple avatar examples. 
@@ -1061,10 +684,6 @@ You can use the Avatar component to display a user's profile picture, icon, or i
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Avatars") do |doc|
-icon, or initials. You can also add an online or offline indicator.
-
-
-
   - # Lady 0 is skipped / unused because she looks kinda fake
 
   - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpg") }
@@ -1100,7 +719,7 @@ icon, or initials. You can also add an online or offline indicator.
       TF
 ```
 
-URL: /examples/Daisy::DataDisplay::AvatarComponent#basic-avatars
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent#basic-avatars
 
 -- Example: Linked Avatars
 Description:
@@ -1121,16 +740,16 @@ Code (HAML):
       Daisy
 ```
 
-URL: /examples/Daisy::DataDisplay::AvatarComponent#linked-avatars
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent#linked-avatars
 
 ---
 
 === Component: Daisy::DataDisplay::BadgeComponent
 Group: DataDisplay
 Title: Badges
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::BadgeComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/badges.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/badge_component.rb
 
 Description:
 Here are some examples showcasing badges. 
@@ -1147,12 +766,6 @@ You can use the Badge component to display a small amount of information. Badges
 Code (HAML):
 ```haml
 = doc_example(title: "Simple Badges") do |doc|
-Badges can be used to indicate status, category, or other metadata.
-
-The `title` can be passed through keyword arguments or as a block.
-
-
-
   .my-2.flex.flex-col.lg:flex-row.gap-4
     = daisy_badge(title: "Plain Badge")
 
@@ -1168,7 +781,7 @@ The `title` can be passed through keyword arguments or as a block.
       Ghost Badge
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#simple-badges
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#simple-badges
 
 -- Example: Badge Sizes
 Description:
@@ -1191,7 +804,7 @@ Code (HAML):
       Extra Small Badge
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#badge-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#badge-sizes
 
 -- Example: Badges with Icons
 Description:
@@ -1200,12 +813,6 @@ Badges can include icons on either the left or right side, or both. Use the `lef
 Code (HAML):
 ```haml
 = doc_example(title: "Badges with Icons") do |doc|
-Use the `left_icon` and `right_icon` options to add icons.
-
-You can also use the `icon` option as an alias for `left_icon`.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(title: "New", left_icon: "sparkles", css: "badge-primary")
 
@@ -1216,7 +823,7 @@ You can also use the `icon` option as an alias for `left_icon`.
     = daisy_badge(title: "Settings", left_icon: "cog-6-tooth", right_icon: "chevron-right", css: "badge-accent")
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#badges-with-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#badges-with-icons
 
 -- Example: Linked Badges
 Description:
@@ -1225,13 +832,6 @@ Badges can be made clickable by providing an `href` option. This transforms the 
 Code (HAML):
 ```haml
 = doc_example(title: "Linked Badges") do |doc|
-transforms the badge into an anchor (`<a>`) tag.
-
-You can also specify a `target` attribute for the link, such as `_blank`
-for opening in a new tab.
-
-
-
   .flex.flex-col.lg:flex-row.lg:items-center.gap-4
     = daisy_badge(title: "Documentation", href: "/api-docs", css: "badge-info")
 
@@ -1246,7 +846,7 @@ for opening in a new tab.
         Read More
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#linked-badges
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#linked-badges
 
 -- Example: Outline Badge
 Description:
@@ -1265,7 +865,7 @@ Code (HAML):
     = daisy_badge(css: "badge-accent badge-outline") { "Accent" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#outline-badge
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#outline-badge
 
 -- Example: Soft Badge
 Description:
@@ -1284,7 +884,7 @@ Code (HAML):
     = daisy_badge(css: "badge-accent badge-soft") { "Accent" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#soft-badge
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#soft-badge
 
 -- Example: Dash Badge
 Description:
@@ -1303,7 +903,7 @@ Code (HAML):
     = daisy_badge(css: "badge-accent badge-dash") { "Accent" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#dash-badge
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#dash-badge
 
 -- Example: Outline badges with state colors
 Description:
@@ -1322,7 +922,7 @@ Code (HAML):
     = daisy_badge(css: "badge-error badge-outline") { "Error" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#outline-badges-with-state-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#outline-badges-with-state-colors
 
 -- Example: Soft badges with state colors
 Description:
@@ -1341,7 +941,7 @@ Code (HAML):
     = daisy_badge(css: "badge-error badge-soft") { "Error" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#soft-badges-with-state-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#soft-badges-with-state-colors
 
 -- Example: Dash badges with state colors
 Description:
@@ -1360,16 +960,16 @@ Code (HAML):
     = daisy_badge(css: "badge-error badge-dash") { "Error" }
 ```
 
-URL: /examples/Daisy::DataDisplay::BadgeComponent#dash-badges-with-state-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent#dash-badges-with-state-colors
 
 ---
 
 === Component: Daisy::DataDisplay::CardComponent
 Group: DataDisplay
 Title: Cards
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::CardComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/cards.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/card_component.rb
 
 Description:
 Here are some examples showcasing cards. 
@@ -1396,7 +996,22 @@ Code (HAML):
         Book Travel
 ```
 
-URL: /examples/Daisy::DataDisplay::CardComponent#basic-card
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent#basic-card
+
+-- Example: Simple Card
+Description:
+For simple cards, you can pass the title and body directly as arguments instead of using blocks.
+
+Code (HAML):
+```haml
+= doc_example(title: "Simple Card") do |doc|
+  = daisy_card(title: "Simple Card", body: "This is a simple card with just text.", css: "max-w-96 bg-base-100 shadow-xl") do |card|
+    - card.with_actions(css: "justify-end") do
+      = daisy_button(css: "btn-primary") do
+        Action
+```
+
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent#simple-card
 
 -- Example: Card Figures
 Description:
@@ -1424,7 +1039,7 @@ Code (HAML):
             Book Travel
 ```
 
-URL: /examples/Daisy::DataDisplay::CardComponent#card-figures
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent#card-figures
 
 -- Example: Card Sizes
 Description:
@@ -1433,10 +1048,6 @@ Cards can be rendered in different sizes. Use the `card-sm` class for a more con
 Code (HAML):
 ```haml
 = doc_example(title: "Card Sizes") do |doc|
-more condensed layout.
-
-
-
   .mt-8.space-y-6.md:space-y-0.md:flex.md:flex-row.md:gap-6
     = daisy_card(title: "Large Card", css: "max-w-96 bg-base-100 shadow-xl card-lg") do |card|
       This is a large card with larger text / padding. It provides extra space
@@ -1469,16 +1080,16 @@ information in a more condensed format.
           Learn More
 ```
 
-URL: /examples/Daisy::DataDisplay::CardComponent#card-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent#card-sizes
 
 ---
 
 === Component: Daisy::DataDisplay::CarouselComponent
 Group: DataDisplay
 Title: Carousels
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::CarouselComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/carousels.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/carousel_component.rb
 
 Description:
 Carousels are great for showing off a lot of images! 
@@ -1519,7 +1130,7 @@ Code (HAML):
             = link_to "Unsplash", unsplash_link, class: "link hover:text-black", target: "_blank"
 ```
 
-URL: /examples/Daisy::DataDisplay::CarouselComponent#basic-carousel
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent#basic-carousel
 
 -- Example: Card Carousel
 Description:
@@ -1578,16 +1189,16 @@ Code (HAML):
           = daisy_button("Learn More")
 ```
 
-URL: /examples/Daisy::DataDisplay::CarouselComponent#card-carousel
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent#card-carousel
 
 ---
 
 === Component: Daisy::DataDisplay::ChatComponent
 Group: DataDisplay
 Title: Chat Bubbles
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::ChatComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/chat_bubbles.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb
 
 Description:
  Here are some examples showcasing chat bubbles. 
@@ -1650,7 +1261,7 @@ Code (HAML):
         Who dis? Why am I in this group chat?!
 ```
 
-URL: /examples/Daisy::DataDisplay::ChatComponent#advanced-chat
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent#advanced-chat
 
 -- Example: Colored Chat
 Description:
@@ -1706,16 +1317,16 @@ Code (HAML):
         Wow, thanks! ❤️
 ```
 
-URL: /examples/Daisy::DataDisplay::ChatComponent#colored-chat
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent#colored-chat
 
 ---
 
 === Component: Daisy::DataDisplay::CollapseComponent
 Group: DataDisplay
 Title: Collapses
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::CollapseComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/collapses.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/collapse_component.rb
 
 Description:
 Here are some simple collapse examples. 
@@ -1737,7 +1348,7 @@ Code (HAML):
       This is the content of the collapse.
 ```
 
-URL: /examples/Daisy::DataDisplay::CollapseComponent#basic-collapse
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent#basic-collapse
 
 -- Example: Arrow & Plus Collapses
 Description:
@@ -1746,10 +1357,6 @@ You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to 
 Code (HAML):
 ```haml
 = doc_example(title: "Arrow & Plus Collapses") do |doc|
-directly to each collapse.
-
-
-
   .flex.flex-col.gap-4{ class: "w-[400px]" }
     = daisy_collapse(title: "Click to Open", css: "bg-base-100 border border-base-300 collapse-arrow") do |collapse|
       This is the content of the arrow collapse.
@@ -1758,7 +1365,7 @@ directly to each collapse.
       This is the content of the plus collapse.
 ```
 
-URL: /examples/Daisy::DataDisplay::CollapseComponent#arrow-plus-collapses
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent#arrow-plus-collapses
 
 -- Example: Advanced Collapse
 Description:
@@ -1784,16 +1391,16 @@ Code (HAML):
           .italic jane@oliver.test
 ```
 
-URL: /examples/Daisy::DataDisplay::CollapseComponent#advanced-collapse
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent#advanced-collapse
 
 ---
 
 === Component: Daisy::DataDisplay::CountdownComponent
 Group: DataDisplay
 Title: Countdowns
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::CountdownComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/countdowns.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/countdown_component.rb
 
 Description:
  Countdowns display an animated countdown to a specific date. 
@@ -1810,18 +1417,13 @@ A basic countdown accepts an ActiveSupport::Duration object as either the first 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Countdown", allow_reset: true) do |doc|
-first positional argument or as the value of the `:duration` keyword
-argument.
-
-
-
   .flex.flex-col.gap-y-4.font-mono
     = daisy_countdown(60.seconds)
 
     = daisy_countdown(duration: 60.seconds, modifier: :letters)
 ```
 
-URL: /examples/Daisy::DataDisplay::CountdownComponent#basic-countdown
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent#basic-countdown
 
 -- Example: Longer Countdown
 Description:
@@ -1840,7 +1442,7 @@ Code (HAML):
     = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :words)
 ```
 
-URL: /examples/Daisy::DataDisplay::CountdownComponent#longer-countdown
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent#longer-countdown
 
 -- Example: Boxed Countdown
 Description:
@@ -1849,37 +1451,22 @@ You can also display the countdowns in a box by customizing each part of the cou
 Code (HAML):
 ```haml
 = doc_example(title: "Boxed Countdown", allow_reset: true) do |doc|
-the countdown.
-
-Note that the wrapper `text-sm` class applies to the words ("hours",
-"minutes", and "seconds") and the global `parts_css` sets the size of the
-numbers.
-
-You can also customize each part individually by using the `days_css`,
-`hours_css`, `minutes_css`, and `seconds_css` options.
-
-And you can add custom HTML using either the global `parts_html` or the
-individual `days_html`, `hours_html`, `minutes_html`, and `seconds_html`
-options.
-
-
-
   .flex.flex-col.items-center.gap-y-4.text-sm
     - box_css = "where:bg-neutral where:text-neutral-content rounded-box flex flex-col items-center justify-center size-24 font-bold [&_span]:font-mono [&_span]:text-5xl"
 
     = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :words, css: "gap-x-8", parts_css: box_css, seconds_css: "bg-red-600 text-white", seconds_html: { title: "You better hurry!" })
 ```
 
-URL: /examples/Daisy::DataDisplay::CountdownComponent#boxed-countdown
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent#boxed-countdown
 
 ---
 
 === Component: Daisy::DataDisplay::DiffComponent
 Group: DataDisplay
 Title: Diffs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::DiffComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/diffs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/diff_component.rb
 
 Description:
  Diffs allow you to move a slider back and forth to compare two images,  text, or any HTML. 
@@ -1906,7 +1493,7 @@ Code (HAML):
         LocoMotion
 ```
 
-URL: /examples/Daisy::DataDisplay::DiffComponent#text-html-diff
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent#text-html-diff
 
 -- Example: Image Diff
 Description:
@@ -1923,16 +1510,16 @@ Code (HAML):
       = image_tag("landscapes/desert.jpg", class: "blur-xs")
 ```
 
-URL: /examples/Daisy::DataDisplay::DiffComponent#image-diff
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent#image-diff
 
 ---
 
 === Component: Daisy::DataDisplay::FigureComponent
 Group: DataDisplay
 Title: Figures
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::FigureComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/figures.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/figure_component.rb
 
 Description:
 Here are some examples showcasing figures. 
@@ -1952,7 +1539,7 @@ Code (HAML):
   = daisy_figure(css: "max-w-96", src: image_path("landscapes/beach.jpg"))
 ```
 
-URL: /examples/Daisy::DataDisplay::FigureComponent#basic-figure
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent#basic-figure
 
 -- Example: Figure with Caption
 Description:
@@ -1965,7 +1552,7 @@ Code (HAML):
     %p.text-center.italic A beautiful mountain river landscape
 ```
 
-URL: /examples/Daisy::DataDisplay::FigureComponent#figure-with-caption
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent#figure-with-caption
 
 -- Example: Custom Content
 Description:
@@ -1981,16 +1568,16 @@ Code (HAML):
       %p.text-center.italic Custom content without an image
 ```
 
-URL: /examples/Daisy::DataDisplay::FigureComponent#custom-content
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent#custom-content
 
 ---
 
 === Component: Daisy::DataDisplay::KbdComponent
 Group: DataDisplay
 Title: Keyboard (KBD)
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::KbdComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/kbds.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/kbd_component.rb
 
 Description:
 The keyboard component is used to visually represent a key on a keyboard. 
@@ -2008,7 +1595,7 @@ Code (HAML):
     
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#basic-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#basic-example
 
 -- Example: Various Sizes
 Code (HAML):
@@ -2028,7 +1615,7 @@ Code (HAML):
       Shift
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#various-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#various-sizes
 
 -- Example: Inside a Sentence
 Code (HAML):
@@ -2043,7 +1630,7 @@ Code (HAML):
     %p to pay respects.
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#inside-a-sentence
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#inside-a-sentence
 
 -- Example: Combined Keys
 Code (HAML):
@@ -2064,7 +1651,7 @@ Code (HAML):
       Del
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#combined-keys
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#combined-keys
 
 -- Example: Function Keys
 Code (HAML):
@@ -2084,7 +1671,7 @@ Code (HAML):
       ⌃
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#function-keys
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#function-keys
 
 -- Example: Full Keyboard
 Code (HAML):
@@ -2212,16 +1799,16 @@ Code (HAML):
         shift
 ```
 
-URL: /examples/Daisy::DataDisplay::KbdComponent#full-keyboard
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent#full-keyboard
 
 ---
 
 === Component: Daisy::DataDisplay::ListComponent
 Group: DataDisplay
 Title: Lists
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::ListComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/lists.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/list_component.rb
 
 Description:
 Lists provide a vertical layout to display information in rows. They can contain various content types including text, images, and actions arranged in a consistent format. 
@@ -2238,10 +1825,6 @@ A simple list that displays items in a vertical arrangement. Each item is render
 Code (HAML):
 ```haml
 = doc_example(title: "Basic List") do |doc|
-rendered as a list element with basic styling.
-
-
-
   = daisy_list do |list|
     - list.with_item { "Item 1" }
 
@@ -2250,7 +1833,7 @@ rendered as a list element with basic styling.
     - list.with_item { "Item 3" }
 ```
 
-URL: /examples/Daisy::DataDisplay::ListComponent#basic-list
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent#basic-list
 
 -- Example: List with Header
 Description:
@@ -2259,10 +1842,6 @@ Lists can include a header element that describes the content below. This provid
 Code (HAML):
 ```haml
 = doc_example(title: "List with Header") do |doc|
-This provides context for the items and improves organization.
-
-
-
   = daisy_list(header: "Featured Items") do |list|
     - list.with_item { "Featured Item 1" }
 
@@ -2271,7 +1850,7 @@ This provides context for the items and improves organization.
     - list.with_item { "Featured Item 3" }
 ```
 
-URL: /examples/Daisy::DataDisplay::ListComponent#list-with-header
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent#list-with-header
 
 -- Example: Styled List
 Description:
@@ -2280,11 +1859,6 @@ Lists can be customized with additional CSS classes for enhanced visual presenta
 Code (HAML):
 ```haml
 = doc_example(title: "Styled List") do |doc|
-presentation. This example adds a background, rounded corners, shadow,
-and dividers between items.
-
-
-
   = daisy_list(css: "bg-base-100 shadow-md") do |list|
     - list.with_item { "Item 1" }
 
@@ -2293,7 +1867,7 @@ and dividers between items.
     - list.with_item { "Item 3" }
 ```
 
-URL: /examples/Daisy::DataDisplay::ListComponent#styled-list
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent#styled-list
 
 -- Example: List with Images
 Description:
@@ -2302,10 +1876,6 @@ List items can contain rich content including images and structured text. This i
 Code (HAML):
 ```haml
 = doc_example(title: "List with Images") do |doc|
-This is useful for displaying user profiles or other complex information.
-
-
-
   = daisy_list(header: "User Profiles", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "bg-base-100 rounded-box shadow-md") do |list|
     - list.with_item do |item|
       = image_tag("avatars/lady-smiling-1.jpg", class: "size-10 rounded-box")
@@ -2332,7 +1902,7 @@ This is useful for displaying user profiles or other complex information.
         .text-xs.opacity-60 UX Researcher
 ```
 
-URL: /examples/Daisy::DataDisplay::ListComponent#list-with-images
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent#list-with-images
 
 -- Example: Interactive List
 Description:
@@ -2341,11 +1911,6 @@ Lists can include interactive elements like buttons to provide additional functi
 Code (HAML):
 ```haml
 = doc_example(title: "Interactive List") do |doc|
-functionality. This example shows a music player interface with play
-and favorite buttons.
-
-
-
   = daisy_list(header: "Most played songs", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "w-100 bg-base-100 rounded-box shadow-md") do |list|
     - list.with_item do |item|
       = image_tag("avatars/lady-smiling-1.jpg", class: "size-10 rounded-box")
@@ -2390,16 +1955,16 @@ and favorite buttons.
         = hero_icon("heart")
 ```
 
-URL: /examples/Daisy::DataDisplay::ListComponent#interactive-list
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ListComponent#interactive-list
 
 ---
 
 === Component: Daisy::DataDisplay::StatComponent
 Group: DataDisplay
 Title: Stats
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::StatComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/stats.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/stat_component.rb
 
 Description:
 doc_note do Stats have a transparent background by default. Use `bg-base-100` if you need a background color. 
@@ -2416,10 +1981,6 @@ Stats are used to display simple data points. They can be used to display a numb
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Stats") do |doc|
-a number (the main content), a title, and a description.
-
-
-
   .bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg{ class: "w-[300px] lg:w-[800px]" }
     = daisy_stat do
       = number_to_currency(8619.45)
@@ -2439,7 +2000,7 @@ a number (the main content), a title, and a description.
         %p.stat-desc You're doing quite well on your ACV!
 ```
 
-URL: /examples/Daisy::DataDisplay::StatComponent#basic-stats
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatComponent#basic-stats
 
 -- Example: Complex Stats
 Description:
@@ -2448,10 +2009,6 @@ Stats can also be used to display more complex data points. You can pass in an i
 Code (HAML):
 ```haml
 = doc_example(title: "Complex Stats") do |doc|
-in an image, an icon, or any other content you'd like.
-
-
-
   .bg-base-100.lg:grid.lg:grid-flow-col.lg:auto-cols-auto.items-center.gap-x-4.border.rounded-lg{ class: "w-[300px] lg:w-[900px]" }
     = daisy_stat(css: "max-w-80", title: "Tasks", description: "Completed this month.", src: image_path("avatars/lady-smiling-1.jpg")) do
       25
@@ -2473,16 +2030,16 @@ in an image, an icon, or any other content you'd like.
           New!
 ```
 
-URL: /examples/Daisy::DataDisplay::StatComponent#complex-stats
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatComponent#complex-stats
 
 ---
 
 === Component: Daisy::DataDisplay::StatusComponent
 Group: DataDisplay
 Title: Status
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::StatusComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/statuses.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/status_component.rb
 
 Description:
 Status is a really small icon to visually show the current status of an element, like online, offline, error, etc. 
@@ -2499,14 +2056,10 @@ The basic status component is a simple dot indicator with no additional styling.
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Status") do |doc|
-styling.
-
-
-
   = daisy_status
 ```
 
-URL: /examples/Daisy::DataDisplay::StatusComponent#basic-status
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent#basic-status
 
 -- Example: Status Sizes
 Description:
@@ -2515,10 +2068,6 @@ Status indicators come in five sizes: extra small, small, medium (default), larg
 Code (HAML):
 ```haml
 = doc_example(title: "Status Sizes") do |doc|
-(default), large, and extra large.
-
-
-
   .flex.flex-col.items-start.gap-2
     .flex.items-center.gap-2
       = daisy_status(css: "status-xs mr-2")
@@ -2546,7 +2095,7 @@ Code (HAML):
       %span Extra Large
 ```
 
-URL: /examples/Daisy::DataDisplay::StatusComponent#status-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent#status-sizes
 
 -- Example: Status Colors
 Description:
@@ -2555,10 +2104,6 @@ Status indicators can use different colors to represent various states or condit
 Code (HAML):
 ```haml
 = doc_example(title: "Status Colors") do |doc|
-conditions.
-
-
-
   .flex.flex-col.items-start.gap-2
     .flex.items-center.gap-2
       = daisy_status(css: "status-primary mr-2")
@@ -2601,7 +2146,7 @@ conditions.
       %span Error
 ```
 
-URL: /examples/Daisy::DataDisplay::StatusComponent#status-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent#status-colors
 
 -- Example: Status with Tooltip and Aria Label
 Description:
@@ -2610,23 +2155,19 @@ For accessibility, status indicators should include descriptive ARIA labels.
 Code (HAML):
 ```haml
 = doc_example(title: "Status with Tooltip and Aria Label") do |doc|
-labels.
-
-
-
   = daisy_status(css: "status-md status-success", tip: "Online", html: { aria: { label: "Status: Online" } })
 ```
 
-URL: /examples/Daisy::DataDisplay::StatusComponent#status-with-tooltip-and-aria-label
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::StatusComponent#status-with-tooltip-and-aria-label
 
 ---
 
 === Component: Daisy::DataDisplay::TableComponent
 Group: DataDisplay
 Title: Tables
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::TableComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/tables.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.rb
 
 Description:
  Tables are designed to show data in a tabular layout making it easy to see  large amounts of data at once and compare rows with each other. 
@@ -2662,7 +2203,7 @@ Code (HAML):
           = d[:col2]
 ```
 
-URL: /examples/Daisy::DataDisplay::TableComponent#basic-table
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent#basic-table
 
 -- Example: Pinning Rows (Using Sections)
 Description:
@@ -2696,16 +2237,16 @@ Code (HAML):
                     = "19#{step + i}"
 ```
 
-URL: /examples/Daisy::DataDisplay::TableComponent#pinning-rows-using-sections
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent#pinning-rows-using-sections
 
 ---
 
 === Component: Daisy::DataDisplay::TimelineComponent
 Group: DataDisplay
 Title: Timelines
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataDisplay::TimelineComponent
-File: /home/loco_demo/app/views/examples/daisy/data_display/timelines.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/timeline_component.rb
 
 Description:
  Here are some examples showcasing timelines. 
@@ -2732,7 +2273,7 @@ Code (HAML):
     - timeline.with_event(start: "Built LocoMotion", middle_icon: "code-bracket", end: "2024")
 ```
 
-URL: /examples/Daisy::DataDisplay::TimelineComponent#basic-timeline
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent#basic-timeline
 
 -- Example: Custom Timeline
 Description:
@@ -2741,10 +2282,6 @@ The `start`, `middle_icon`, and `end` properties can be customized. Or you can p
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Timeline") do |doc|
-can provide a completely custom `middle` block.
-
-
-
   = daisy_timeline do |timeline|
     - timeline.with_event do |event|
       - event.with_start(css: "font-bold") do
@@ -2777,16 +2314,16 @@ can provide a completely custom `middle` block.
         Married
 ```
 
-URL: /examples/Daisy::DataDisplay::TimelineComponent#custom-timeline
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent#custom-timeline
 
 ---
 
 === Component: Daisy::DataInput::CallyComponent
 Group: DataInput
 Title: Calendars
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::CallyComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/calendars.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/cally_component.rb
 
 Description:
 doc_note(modifier: :warning) do You must include the Cally script tag or <a target="_blank" href="https://wicky.nillia.ms/cally/#installation">node module</a> in your application for this component to render and function properly.  doc_code(language: "sh") do npm install cally # or yarn add cally  doc_code(language: "js") do # application.js import "cally"; 
@@ -2803,26 +2340,13 @@ Calendars can be used to select a single date. Use the `update` option to pass a
 Code (HAML):
 ```haml
 = doc_example(title: "Calendar", example_css: "flex-col", allow_reset: true) do |doc|
-pass a CSS selector of a `<div>` or other element to update.
-
-Note that this uses the `onchange` event along with `getElementById` to
-provide a very basic change system. You may want to use Stimulus
-controllers to handle more complex scenarios.
-
-
-
-    = doc_code(language: "js") do
-      { onchange: "document.getElementById('\#{@update}').innerHTML = this.value" }
-
-
-
   = daisy_cally(update: "cally")
 
   .text-center.italic{"id" => "cally"}
     Select a date...
 ```
 
-URL: /examples/Daisy::DataInput::CallyComponent#calendar
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent#calendar
 
 -- Example: Calendar with Input
 Description:
@@ -2831,32 +2355,12 @@ You can utilize the `change` option to change the value of an HTML input when a 
 Code (HAML):
 ```haml
 = doc_example(title: "Calendar with Input", example_css: "flex-col", allow_reset: true) do |doc|
-when a date is selected.
-
-Similar to the `update` option, this uses `onchange` and `getElementById`,
-but is specialized for updating an input element's `value`.
-
-
-
-    = doc_code(language: "js") do
-      { onchange: "document.getElementById('\#{@update}').value = this.value" }
-
-
-
-    = doc_note(modifier: :tip, css: "mb-8") do
-      %p
-        To attach a Cally calendar to an input in a popover, use the
-
-        = component_link("Cally Input", "Daisy::DataInput::CallyInputComponent")
-
-        component.
-
   = daisy_input(id: "cally_input", placeholder: "Select a date...")
 
   = daisy_cally(change: "cally_input")
 ```
 
-URL: /examples/Daisy::DataInput::CallyComponent#calendar-with-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent#calendar-with-input
 
 -- Example: Calendar Range
 Description:
@@ -2872,16 +2376,16 @@ Code (HAML):
       Select a date range...
 ```
 
-URL: /examples/Daisy::DataInput::CallyComponent#calendar-range
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyComponent#calendar-range
 
 ---
 
 === Component: Daisy::DataInput::CallyInputComponent
 Group: DataInput
 Title: Cally Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::CallyInputComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/cally_inputs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyInputComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/cally_input_component.rb
 
 Description:
  This component provides an elegant alternative to standard HTML date inputs  while maintaining a consistent visual style with other form components. 
@@ -2898,26 +2402,10 @@ The basic Cally Input provides a text field that, when clicked, displays a calen
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Usage") do |doc|
-calendar popover for date selection.
-
-
-
-    = doc_note(modifier: :tip, css: "mb-8") do
-      %p
-        For keyboard navigation, you can use the
-
-        = daisy_kbd("space")
-
-        or
-
-        = daisy_kbd("↓")
-
-        keys to open the calendar popover.
-
   = daisy_cally_input(value: "2025-07-24")
 ```
 
-URL: /examples/Daisy::DataInput::CallyInputComponent#basic-usage
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyInputComponent#basic-usage
 
 -- Example: Custom Input
 Description:
@@ -2932,7 +2420,7 @@ Code (HAML):
     = c.with_calendar(css: "bg-accent")
 ```
 
-URL: /examples/Daisy::DataInput::CallyInputComponent#custom-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyInputComponent#custom-input
 
 -- Example: Rails Form Example
 Description:
@@ -2941,11 +2429,6 @@ The built-in Form Builder extension makes it easy to use Cally Inputs in your Ra
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-Rails forms. The component automatically extracts the name, ID, and value
-attributes from the form object.
-
-
-
   = form_with(url: "#", method: :post, scope: :event) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_cally_input(:start_date, start: "Start Date")
@@ -2967,16 +2450,16 @@ attributes from the form object.
         - cally.with_calendar(css: "bg-secondary")
 ```
 
-URL: /examples/Daisy::DataInput::CallyInputComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CallyInputComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::CheckboxComponent
 Group: DataInput
 Title: Checkboxes
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::CheckboxComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/checkboxes.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/checkbox_component.rb
 
 Description:
 Checkboxes are great for toggling an item on / off, or selecting multiple items from a list. 
@@ -2993,18 +2476,6 @@ Basic checkboxes can be rendered with or without a label through standard heirar
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Checkboxes") do |doc|
-heirarchy means, or by utilizing the `start` and `end` wrappers.
-
-
-
-    = doc_note(css: "mb-8") do
-      While the
-<a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
-Concern does implement a `floating_label` attribute, it is not relevant
-for checkboxes and is not implemented.
-
-
-
   .my-2.flex.flex-col.gap-4
     
       = daisy_checkbox(name: "checkbox_no_label", id: "checkbox_no_label")
@@ -3043,7 +2514,7 @@ for checkboxes and is not implemented.
         blocks
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#basic-checkboxes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#basic-checkboxes
 
 -- Example: Checkboxes with Colors
 Description:
@@ -3094,7 +2565,7 @@ Code (HAML):
       Info
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#checkboxes-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#checkboxes-with-colors
 
 -- Example: Checkbox Sizes
 Description:
@@ -3135,7 +2606,7 @@ Code (HAML):
         Extra Large
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#checkbox-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#checkbox-sizes
 
 -- Example: Combining Colors and Sizes
 Description:
@@ -3176,7 +2647,7 @@ Code (HAML):
       Warning Large
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#combining-colors-and-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#combining-colors-and-sizes
 
 -- Example: Indeterminate State
 Description:
@@ -3185,16 +2656,6 @@ Checkboxes can be set to an indeterminate state to indicate that the value is ne
 Code (HAML):
 ```haml
 = doc_example(title: "Indeterminate State") do |doc|
-is neither checked nor unchecked. This is commonly used for "Select All"
-checkboxes where some items are selected and others are not.
-
-
-
-    = doc_note(css: "mb-8") do
-      You must set the `indeterminate` attribute through JavaScript.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "checkbox_indeterminate_state") do
       = daisy_checkbox(name: "checkbox_indeterminate_state", id: "checkbox_indeterminate_state")
@@ -3204,7 +2665,7 @@ checkboxes where some items are selected and others are not.
     document.getElementById("checkbox_indeterminate_state").indeterminate = true;
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#indeterminate-state
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#indeterminate-state
 
 -- Example: Disabled Checkbox
 Description:
@@ -3220,7 +2681,7 @@ Code (HAML):
       Disabled Checkbox
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#disabled-checkbox
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#disabled-checkbox
 
 -- Example: Custom ID
 Description:
@@ -3236,7 +2697,7 @@ Code (HAML):
       Checkbox with Custom ID
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#custom-id
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#custom-id
 
 -- Example: Rails Form Example
 Description:
@@ -3245,11 +2706,6 @@ The built-in Form Builder extension provides an even easier way to use checkboxe
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-checkboxes in your pages by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user, class: "flex flex-col gap-8") do |form|
     = form.daisy_label(:terms) do
       = form.daisy_checkbox(:terms)
@@ -3259,7 +2715,7 @@ form object and attributes.
     = form.daisy_checkbox(:newsletter, toggle: true, end: "Subscribe to newsletter")
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#rails-form-example
 
 -- Example: Using Label Component
 Description:
@@ -3268,10 +2724,6 @@ You can also use the Label component directly with checkboxes for fully custom a
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-custom approach.
-
-
-
   .my-2.flex.flex-col.gap-4
     .flex.items-center.space-x-2
       = daisy_checkbox(name: "agree", id: "agree")
@@ -3285,16 +2737,16 @@ custom approach.
         Receive product updates
 ```
 
-URL: /examples/Daisy::DataInput::CheckboxComponent#using-label-component
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent#using-label-component
 
 ---
 
 === Component: Daisy::DataInput::FileInputComponent
 Group: DataInput
 Title: File Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::FileInputComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/file_inputs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/file_input_component.rb
 
 Description:
 Here are some examples showcasing file input components. 
@@ -3317,7 +2769,7 @@ Code (HAML):
     = daisy_file_input(name: "file1", id: "file1")
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#basic-file-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#basic-file-input
 
 -- Example: File Input with Accept Attribute
 Description:
@@ -3336,7 +2788,7 @@ Code (HAML):
     = daisy_file_input(name: "pdf", id: "pdf", accept: ".pdf")
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#file-input-with-accept-attribute
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#file-input-with-accept-attribute
 
 -- Example: Multiple File Selection
 Description:
@@ -3351,7 +2803,7 @@ Code (HAML):
     = daisy_file_input(name: "documents[]", id: "documents", multiple: true)
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#multiple-file-selection
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#multiple-file-selection
 
 -- Example: File Input with Different Colors
 Description:
@@ -3374,7 +2826,7 @@ Code (HAML):
     = daisy_file_input(name: "file_accent", id: "file_accent", css: "file-input-accent")
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#file-input-with-different-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#file-input-with-different-colors
 
 -- Example: Ghost Style File Input
 Description:
@@ -3383,10 +2835,6 @@ File inputs can use the `file-input-ghost` class for a minimalist appearance tha
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Style File Input") do |doc|
-that only shows borders on focus.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "file_ghost", title: "Ghost Style File Input")
 
@@ -3400,7 +2848,7 @@ that only shows borders on focus.
       = daisy_file_input(name: "file_ghost_bg", id: "file_ghost_bg", css: "file-input-ghost")
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#ghost-style-file-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#ghost-style-file-input
 
 -- Example: Disabled File Input
 Description:
@@ -3415,7 +2863,7 @@ Code (HAML):
     = daisy_file_input(name: "file_disabled", id: "file_disabled", disabled: true)
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#disabled-file-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#disabled-file-input
 
 -- Example: Required File Input
 Description:
@@ -3430,7 +2878,7 @@ Code (HAML):
     = daisy_file_input(name: "file_required", id: "file_required", required: true)
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#required-file-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#required-file-input
 
 -- Example: Rails Form Example
 Description:
@@ -3439,11 +2887,6 @@ The built-in Form Builder extension provides an easy way to use file inputs in y
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-file inputs in your forms by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user, html: { multipart: true }) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:avatar)
@@ -3455,16 +2898,16 @@ form object and attributes.
       = form.daisy_file_input(:documents, multiple: true)
 ```
 
-URL: /examples/Daisy::DataInput::FileInputComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::FieldsetComponent
 Group: DataInput
 Title: Fieldsets
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::FieldsetComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/fieldsets.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/fieldset_component.rb
 
 Description:
 Fieldsets group related form controls and can optionally include a legend. 
@@ -3485,7 +2928,7 @@ Code (HAML):
     = daisy_toggle(end: "Enable Feature X")
 ```
 
-URL: /examples/Daisy::DataInput::FieldsetComponent#basic-fieldset-no-legend
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent#basic-fieldset-no-legend
 
 -- Example: Fieldset with Legend (Argument)
 Description:
@@ -3498,7 +2941,7 @@ Code (HAML):
     = daisy_toggle(end: "Enable Feature X")
 ```
 
-URL: /examples/Daisy::DataInput::FieldsetComponent#fieldset-with-legend-argument
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent#fieldset-with-legend-argument
 
 -- Example: Fieldset with Legend (Slot)
 Description:
@@ -3507,10 +2950,6 @@ Use the `with_legend` slot to provide custom content for the legend, including H
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Legend (Slot)") do |doc|
-including HTML.
-
-
-
   = daisy_fieldset do |fieldset|
     - fieldset.with_legend { "Settings (Slot)" }
 
@@ -3519,7 +2958,7 @@ including HTML.
     = daisy_toggle(end: "Enable Dark Mode")
 ```
 
-URL: /examples/Daisy::DataInput::FieldsetComponent#fieldset-with-legend-slot
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent#fieldset-with-legend-slot
 
 -- Example: Fieldset with Various Inputs
 Description:
@@ -3537,7 +2976,7 @@ Code (HAML):
       = daisy_select(floating: "Country", options: ["USA", "Canada", "Mexico"])
 ```
 
-URL: /examples/Daisy::DataInput::FieldsetComponent#fieldset-with-various-inputs
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent#fieldset-with-various-inputs
 
 -- Example: Fieldset with Custom Styling
 Description:
@@ -3546,10 +2985,6 @@ You can customize the Fieldset with standard `css` options to make it look exact
 Code (HAML):
 ```haml
 = doc_example(title: "Fieldset with Custom Styling") do |doc|
-exactly like you want.
-
-
-
   = daisy_fieldset(css: "p-4 border rounded bg-base-200 w-80") do |fieldset|
     - fieldset.with_legend(css: "border rounded bg-base-100 px-4") { "Advanced Options" }
 
@@ -3560,16 +2995,16 @@ exactly like you want.
     = daisy_button("Save Settings", css: "mt-4")
 ```
 
-URL: /examples/Daisy::DataInput::FieldsetComponent#fieldset-with-custom-styling
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FieldsetComponent#fieldset-with-custom-styling
 
 ---
 
 === Component: Daisy::DataInput::LabelComponent
 Group: DataInput
 Title: Labels
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::LabelComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/labels.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/label_component.rb
 
 Description:
 Labels provide a useful description for various kinds of inputs. 
@@ -3586,10 +3021,6 @@ Labels are used to provide text descriptions for form inputs. They can be used w
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Labels") do |doc|
-used with any form input component.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input1", title: "Standard Label")
 
@@ -3597,7 +3028,7 @@ used with any form input component.
       Content Block Label
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#basic-labels
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#basic-labels
 
 -- Example: With Form Inputs
 Description:
@@ -3606,10 +3037,6 @@ Labels can be used with form inputs to provide a description for the input. Here
 Code (HAML):
 ```haml
 = doc_example(title: "With Form Inputs") do |doc|
-Here's an example with a checkbox.
-
-
-
   .my-2.flex.flex-col.gap-4
     .flex.items-center.space-x-2
       = daisy_checkbox(name: "accept", id: "accept")
@@ -3617,7 +3044,7 @@ Here's an example with a checkbox.
       = daisy_label(for: "accept", title: "I accept the terms and conditions")
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#with-form-inputs
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#with-form-inputs
 
 -- Example: LabelableComponent Functionality
 Description:
@@ -3626,31 +3053,6 @@ Many of our input components include the `LabelableComponent` concern, which pro
 Code (HAML):
 ```haml
 = doc_example(title: "LabelableComponent Functionality") do |doc|
-which provides built-in label functionality without needing separate label
-components. This makes your code cleaner and ensures proper semantic
-markup.
-
-
-
-    %p
-      The
-
-      = component_link("TextInput", "Daisy::DataInput::TextInputComponent")
-
-      ,
-
-      = component_link("Select", "Daisy::DataInput::SelectComponent")
-
-      ,
-
-      = component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")
-
-      , and
-
-      = component_link("Toggle", "Daisy::DataInput::ToggleComponent")
-
-      components include this functionality.
-
   .my-2.flex.flex-col.gap-4
     %p.font-medium.mb-2 Start Labels (appear before the input)
 
@@ -3660,7 +3062,7 @@ markup.
       = daisy_select(name: "country", id: "country", start: "Country:", options: ["USA", "Canada", "UK"])
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#labelablecomponent-functionality
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#labelablecomponent-functionality
 
 -- Example: End Labels
 Description:
@@ -3669,11 +3071,6 @@ End labels appear after the input. They are especially useful for checkboxes and
 Code (HAML):
 ```haml
 = doc_example(title: "End Labels") do |doc|
-and toggles, but can be used with any input component that includes the
-`LabelableComponent` concern.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
 
@@ -3684,7 +3081,7 @@ and toggles, but can be used with any input component that includes the
       = daisy_text_input(name: "email", id: "email", end: "@example.com")
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#end-labels
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#end-labels
 
 -- Example: Floating Labels
 Description:
@@ -3693,10 +3090,6 @@ Floating labels appear above the input when it has focus or contains a value. Th
 Code (HAML):
 ```haml
 = doc_example(title: "Floating Labels") do |doc|
-This provides a clean, modern look while maintaining good UX.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_text_input(name: "email", id: "email_floating", floating: "Email Address", placeholder: "example@domain.com")
 
@@ -3704,7 +3097,7 @@ This provides a clean, modern look while maintaining good UX.
       = daisy_select(name: "language", id: "language_floating", floating: "Preferred Language", options: ["English", "Spanish", "French"])
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#floating-labels
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#floating-labels
 
 -- Example: Custom Label Content
 Description:
@@ -3713,11 +3106,6 @@ For more complex labels, you can use the slot API to provide custom content to y
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Label Content") do |doc|
-to your labels. This is useful when you need to add HTML or other components
-within your label.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_text_input(name: "password", id: "password", type: "password") do |input|
       - input.with_start do
@@ -3733,7 +3121,7 @@ within your label.
           %span.text-xs.text-gray-500.ml-1 (Optional)
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#custom-label-content
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#custom-label-content
 
 -- Example: Form Builder Example
 Description:
@@ -3742,26 +3130,22 @@ We've also extended the standard Rails FormBuilder with custom helper methods fo
 Code (HAML):
 ```haml
 = doc_example(title: "Form Builder Example") do |doc|
-methods for rendering Daisy Inputs with labels.
-
-
-
   = form_with(url: "#", class: "my-2 flex flex-col gap-4") do |f|
     = f.daisy_text_input :name, floating_placeholder: "Name"
 
     = f.daisy_text_input :email, type: :email, floating_placeholder: "Email"
 ```
 
-URL: /examples/Daisy::DataInput::LabelComponent#form-builder-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent#form-builder-example
 
 ---
 
 === Component: Daisy::DataInput::RadioButtonComponent
 Group: DataInput
 Title: Radio Buttons
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::RadioButtonComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/radio_buttons.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/radio_button_component.rb
 
 Description:
 Here are some examples showcasing radio button components. 
@@ -3778,10 +3162,6 @@ Radio buttons are used to select a single option from a set of options. Radio bu
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Radio Buttons") do |doc|
-Radio buttons with the same name attribute are automatically grouped together.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "radio1") do
       = daisy_radio(name: "radio_group1", id: "radio1", value: "1")
@@ -3799,7 +3179,7 @@ Radio buttons with the same name attribute are automatically grouped together.
       Option 3
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#basic-radio-buttons
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#basic-radio-buttons
 
 -- Example: Radio Buttons with Colors
 Description:
@@ -3825,7 +3205,7 @@ Code (HAML):
       Accent Radio Button
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#radio-buttons-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#radio-buttons-with-colors
 
 -- Example: Radio Button States
 Description:
@@ -3856,7 +3236,7 @@ Code (HAML):
       Required Radio Button
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#radio-button-states
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#radio-button-states
 
 -- Example: Disabled Radio Button
 Description:
@@ -3872,7 +3252,7 @@ Code (HAML):
       Disabled Radio Button
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#disabled-radio-button
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#disabled-radio-button
 
 -- Example: Custom ID
 Description:
@@ -3888,7 +3268,7 @@ Code (HAML):
       Radio Button with Custom ID
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#custom-id
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#custom-id
 
 -- Example: Rails Form Example
 Description:
@@ -3897,11 +3277,6 @@ The built-in Form Builder extension provides an even easier way to use radio but
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-radio buttons in your pages by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .flex.flex-col.gap-4
       = form.daisy_label(:gender_male) do
@@ -3920,7 +3295,7 @@ form object and attributes.
         Other
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#rails-form-example
 
 -- Example: Using Label Component
 Description:
@@ -3929,10 +3304,6 @@ You can also use the Label component directly with radio buttons for a fully cus
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-custom approach.
-
-
-
   .my-2.flex.flex-col.gap-4
     .flex.items-center.space-x-2
       = daisy_radio(name: "contact_preference", id: "email", value: "email")
@@ -3950,16 +3321,16 @@ custom approach.
       = daisy_label(for: "mail", title: "Mail")
 ```
 
-URL: /examples/Daisy::DataInput::RadioButtonComponent#using-label-component
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent#using-label-component
 
 ---
 
 === Component: Daisy::DataInput::RangeComponent
 Group: DataInput
 Title: Range Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::RangeComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/ranges.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/range_component.rb
 
 Description:
 Here are some examples showcasing range input components. 
@@ -3976,17 +3347,13 @@ Range inputs allow users to select a value within a specific range by sliding a 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Range") do |doc|
-a handle along a track.
-
-
-
   .w-full.max-w-xs.my-2.space-y-2
     = daisy_label(for: "volume", title: "Volume")
 
     = daisy_range(name: "volume", id: "volume", min: 0, max: 100, value: 50)
 ```
 
-URL: /examples/Daisy::DataInput::RangeComponent#basic-range
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent#basic-range
 
 -- Example: Range with Colors
 Description:
@@ -4027,7 +3394,7 @@ Code (HAML):
       = daisy_range(name: "error_range", id: "error_range", value: 10, css: "range-error")
 ```
 
-URL: /examples/Daisy::DataInput::RangeComponent#range-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent#range-with-colors
 
 -- Example: Range with Steps
 Description:
@@ -4036,10 +3403,6 @@ Range inputs can be configured with specific step values and visual indicators t
 Code (HAML):
 ```haml
 = doc_example(title: "Range with Steps") do |doc|
-to help users select precise values.
-
-
-
   .w-full.max-w-sm
     = daisy_label(for: "step_range", title: "Satisfaction Level")
 
@@ -4068,7 +3431,7 @@ to help users select precise values.
       %span 5
 ```
 
-URL: /examples/Daisy::DataInput::RangeComponent#range-with-steps
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent#range-with-steps
 
 -- Example: Range States
 Description:
@@ -4087,7 +3450,7 @@ Code (HAML):
     = daisy_range(name: "required_range", id: "required_range", value: 75, required: true)
 ```
 
-URL: /examples/Daisy::DataInput::RangeComponent#range-states
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent#range-states
 
 -- Example: Rails Form Example
 Description:
@@ -4096,11 +3459,6 @@ The built-in Form Builder extension provides an even easier way to use range inp
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-range inputs in your pages by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user, html: { class: "w-full max-w-xs space-y-2" }) do |form|
     = form.daisy_label(:volume, "Volume Control") do
       .flex.items-center.gap-2
@@ -4119,16 +3477,16 @@ form object and attributes.
     = form.daisy_range(:brightness, css: "range-primary", value: 80)
 ```
 
-URL: /examples/Daisy::DataInput::RangeComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::RatingComponent
 Group: DataInput
 Title: Rating Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::RatingComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/ratings.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/rating_component.rb
 
 Description:
 Here are some examples showcasing rating input components. 
@@ -4145,18 +3503,13 @@ Rating inputs allow users to provide a rating by selecting from a set of stars. 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Rating") do |doc|
-stars. They are implemented using radio buttons styled with DaisyUI's mask
-classes.
-
-
-
   .flex.flex-col.max-w-xs.my-2.space-y-2
     = daisy_label(for: "basic_rating", title: "Basic Rating")
 
     = daisy_rating(name: "basic_rating", id: "basic_rating")
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#basic-rating
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#basic-rating
 
 -- Example: Rating with Heart Style
 Description:
@@ -4165,17 +3518,13 @@ The rating style can be customized using DaisyUI's mask classes. Here we use the
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Heart Style") do |doc|
-the `mask-heart` class for a heart-shaped rating.
-
-
-
   .flex.flex-col.max-w-xs.my-2.space-y-2
     = daisy_label(for: "heart_rating", title: "Heart Rating")
 
     = daisy_rating(name: "heart_rating", id: "heart_rating", css: "space-x-1", inputs_css: "mask-heart bg-red-500", value: 2)
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#rating-with-heart-style
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#rating-with-heart-style
 
 -- Example: Rating with Colors
 Description:
@@ -4184,10 +3533,6 @@ Rating inputs can be styled with different colors using DaisyUI utility classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Colors") do |doc|
-classes.
-
-
-
   .max-w-xs.my-2.space-y-6
     .flex.flex-col.space-y-2
       = daisy_label(for: "primary_rating", title: "Primary Color Rating")
@@ -4205,7 +3550,7 @@ classes.
       = daisy_rating(name: "success_rating", id: "success_rating", value: 4, inputs_css: "bg-success")
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#rating-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#rating-with-colors
 
 -- Example: Rating with Different Sizes
 Description:
@@ -4214,10 +3559,6 @@ Rating inputs can be rendered in different sizes using DaisyUI's size classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Rating with Different Sizes") do |doc|
-classes.
-
-
-
   .max-w-xs.my-2.space-y-6
     .flex.flex-col.space-y-2
       = daisy_label(for: "rating_xs", title: "Extra Small Rating")
@@ -4240,7 +3581,7 @@ classes.
       = daisy_rating(name: "rating_lg", id: "rating_lg", css: "rating-lg")
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#rating-with-different-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#rating-with-different-sizes
 
 -- Example: Half-Star Rating
 Description:
@@ -4249,11 +3590,6 @@ Half-star ratings can be achieved by using the `mask-half-1` and `mask-half-2` c
 Code (HAML):
 ```haml
 = doc_example(title: "Half-Star Rating") do |doc|
-`mask-half-2` classes along with a higher max value. Each star is made up of
-two inputs, one for each half.
-
-
-
   .flex.flex-col.max-w-xs.my-2.space-y-2
     = daisy_label(for: "half_star_rating", title: "Half-Star Rating")
 
@@ -4262,7 +3598,7 @@ two inputs, one for each half.
         - rating.with_item(css: "mask mask-star mask-half-#{i.even? ? 2 : 1}")
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#half-star-rating
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#half-star-rating
 
 -- Example: Read-Only Rating
 Description:
@@ -4271,23 +3607,13 @@ Rating inputs can be set to read-only / disdbled mode to display a static rating
 Code (HAML):
 ```haml
 = doc_example(title: "Read-Only Rating") do |doc|
-rating that cannot be changed.
-
-
-
-    = doc_note(css: "mb-8") do
-      You may also want to add the `cursor-not-allowed!` class to the rating's
-`inputs_css` to make each radio button appear disabled.
-
-
-
   .flex.flex-col.max-w-xs.my-2.space-y-2
     = daisy_label(for: "disabled_rating", title: "Disabled Rating (3/5)")
 
     = daisy_rating(name: "disabled_rating", id: "disabled_rating", inputs_css: "cursor-not-allowed!", value: 3, disabled: true)
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#read-only-rating
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#read-only-rating
 
 -- Example: Custom Content Rating
 Description:
@@ -4296,14 +3622,6 @@ You can provide custom content to the Rating component using ViewComponent's sta
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Content Rating") do |doc|
-standard `content` feature. This gives you full control over the input
-elements while still maintaining the component's structure and behavior.
-
-Note that you'll need to set the proper attributes on your inputs to ensure
-they work correctly with the component.
-
-
-
   .flex.flex-col.max-w-xs.my-2.space-y-2
     = daisy_label(for: "custom_rating", title: "Custom Rating")
 
@@ -4319,7 +3637,7 @@ they work correctly with the component.
       %input.mask.mask-circle.bg-secondary{type: "radio", name: "custom_rating", value: "5"}
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#custom-content-rating
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#custom-content-rating
 
 -- Example: Rails Form Example
 Description:
@@ -4328,11 +3646,6 @@ The built-in Form Builder extension provides an even easier way to use rating in
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-rating inputs in your pages by extracting the name and ID attributes from
-the form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :review, html: { class: "max-w-xs space-y-4" }) do |form|
     .flex.flex-col.space-y-2
       = form.daisy_label(:rating) do
@@ -4355,16 +3668,16 @@ the form object and attributes.
     = form.submit "Submit Review", class: "btn btn-primary"
 ```
 
-URL: /examples/Daisy::DataInput::RatingComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::SelectComponent
 Group: DataInput
 Title: Select Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::SelectComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/selects.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/select_component.rb
 
 Description:
 doc_note do Select inputs have a border by default and a width of 20rem. Use `select-ghost` to remove the border. 
@@ -4381,10 +3694,6 @@ Select inputs allow users to choose an option from a dropdown list. They are imp
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Select") do |doc|
-implemented using the native HTML select element styled with DaisyUI classes.
-
-
-
   .flex.flex-col.gap-2
     = daisy_label(for: "basic_select", title: "Basic Select")
 
@@ -4422,7 +3731,7 @@ implemented using the native HTML select element styled with DaisyUI classes.
       - select.with_option(value: "mx", label: "Mexico")
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#basic-select
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#basic-select
 
 -- Example: Select with Simple Options
 Description:
@@ -4431,13 +3740,6 @@ For simpler cases, you can pass a list of strings as options. The value and labe
 Code (HAML):
 ```haml
 = doc_example(title: "Select with Simple Options") do |doc|
-label will both be set to the string value.
-
-Or you can pass an array of Hashes. You can set the label and value keys
-through the `option_label` and `option_value` parameters.
-
-
-
   .flex.flex-col.gap-8
     - tshirt_sizes = ["Small", "Medium", "Large", "X-Large"]
 
@@ -4455,7 +3757,7 @@ through the `option_label` and `option_value` parameters.
     = daisy_select(name: "table_size", id: "table_size", floating: "Select a table size", options: table_sizes, option_label: :display, option_value: :code)
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#select-with-simple-options
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#select-with-simple-options
 
 -- Example: Select Sizes
 Description:
@@ -4464,10 +3766,6 @@ Select inputs can be rendered in different sizes using DaisyUI's size classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Select Sizes") do |doc|
-classes.
-
-
-
   .my-2.space-y-6
     .space-y-2
       = daisy_label(for: "select_xs", title: "Extra Small Select")
@@ -4490,7 +3788,7 @@ classes.
       = daisy_select(name: "select_lg", id: "select_lg", css: "select-lg", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#select-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#select-sizes
 
 -- Example: Select with Colors
 Description:
@@ -4499,10 +3797,6 @@ Select inputs can be styled with different colors using DaisyUI's color classes.
 Code (HAML):
 ```haml
 = doc_example(title: "Select with Colors") do |doc|
-classes.
-
-
-
   .my-2.space-y-6
     .space-y-2
       = daisy_label(for: "select_primary", title: "Primary Select")
@@ -4525,7 +3819,7 @@ classes.
       = daisy_select(name: "select_warning", id: "select_warning", css: "select-warning", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#select-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#select-with-colors
 
 -- Example: Ghost Select
 Description:
@@ -4534,10 +3828,6 @@ Select inputs can be styled without a border using the `select-ghost` class. The
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Select") do |doc|
-The border will appear on focus.
-
-
-
   .my-2.space-y-6
     .space-y-2
       = daisy_label(for: "select_ghost", title: "Ghost Select")
@@ -4545,7 +3835,7 @@ The border will appear on focus.
       = daisy_select(name: "select_ghost", id: "select_ghost", css: "select-ghost", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option")
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#ghost-select
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#ghost-select
 
 -- Example: Disabled Select
 Description:
@@ -4560,7 +3850,7 @@ Code (HAML):
     = daisy_select(name: "disabled_select", id: "disabled_select", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option", disabled: true)
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#disabled-select
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#disabled-select
 
 -- Example: Required Select
 Description:
@@ -4575,7 +3865,7 @@ Code (HAML):
     = daisy_select(name: "required_select", id: "required_select", options: ["Option 1", "Option 2", "Option 3"], placeholder: "Select an option", required: true)
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#required-select
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#required-select
 
 -- Example: Pre-Selected Value
 Description:
@@ -4595,7 +3885,7 @@ Code (HAML):
       - select.with_option(value: "mx", label: "Mexico")
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#pre-selected-value
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#pre-selected-value
 
 -- Example: Block Syntax for Options
 Description:
@@ -4617,7 +3907,7 @@ Code (HAML):
       - select.with_option(value: "disabled_option", label: "Disabled Option", disabled: true)
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#block-syntax-for-options
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#block-syntax-for-options
 
 -- Example: Rails Form Example
 Description:
@@ -4626,11 +3916,6 @@ The built-in Form Builder extension provides an even easier way to use select in
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-select inputs in your pages by extracting the name and ID attributes from
-the form object and attributes.
-
-
-
   = form_with(url: "#", method: :get, scope: :product, html: { class: "space-y-4" }) do |form|
     .space-y-2
       = form.daisy_label(:category) do
@@ -4662,16 +3947,16 @@ the form object and attributes.
     = form.submit "Filter Results", class: "mt-2 btn btn-primary w-full"
 ```
 
-URL: /examples/Daisy::DataInput::SelectComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::SelectComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::TextInputComponent
 Group: DataInput
 Title: Text Inputs
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::TextInputComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/text_inputs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/text_input_component.rb
 
 Description:
 Text inputs allow you to enter various forms of text such as usernames, passwords, numbers, and more. 
@@ -4689,10 +3974,6 @@ Text inputs can be used with or without labels. doc_note(css: "mb-8") do Adding 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Text Input") do |doc|
-separator between the label and the input.
-
-
-
   .flex.flex-col.gap-4
     = daisy_label("Basic Inputs")
 
@@ -4715,7 +3996,7 @@ separator between the label and the input.
           @gmail.com
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#basic-text-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#basic-text-input
 
 -- Example: Floating Label Inputs
 Description:
@@ -4724,10 +4005,6 @@ Inputs can also utilize a floating label with or without a placeholder to contro
 Code (HAML):
 ```haml
 = doc_example(title: "Floating Label Inputs") do |doc|
-control animation.
-
-
-
   .flex.flex-col.gap-4
     .space-y-4
       = daisy_text_input(name: "first_name_input", id: "first_name_input", floating: "First Name")
@@ -4742,7 +4019,7 @@ control animation.
       = daisy_text_input(name: "fax_floating_input", id: "fax_floating_input", floating: "Fax", placeholder: "fax: (123) 456-7890")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#floating-label-inputs
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#floating-label-inputs
 
 -- Example: Different Input Types
 Description:
@@ -4782,7 +4059,7 @@ Code (HAML):
     = daisy_text_input(name: "datetime-local", id: "datetime-local", type: "datetime-local")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#different-input-types
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#different-input-types
 
 -- Example: Text Input Sizes
 Description:
@@ -4809,7 +4086,7 @@ Code (HAML):
     = daisy_text_input(name: "input-xs", id: "input-xs", placeholder: "Extra small input", css: "input-xs")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#text-input-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#text-input-sizes
 
 -- Example: Text Input with Different Colors
 Description:
@@ -4832,7 +4109,7 @@ Code (HAML):
     = daisy_text_input(name: "input_accent", id: "input_accent", css: "input-accent")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#text-input-with-different-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#text-input-with-different-colors
 
 -- Example: Ghost Style Text Input
 Description:
@@ -4841,10 +4118,6 @@ Text inputs can use the `input-ghost` class to remove the border. The border wil
 Code (HAML):
 ```haml
 = doc_example(title: "Ghost Style Text Input") do |doc|
-will appear on focus.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_ghost", title: "Ghost Style Text Input")
 
@@ -4858,7 +4131,7 @@ will appear on focus.
       = daisy_text_input(name: "input_ghost_bg", id: "input_ghost_bg", css: "input-ghost", placeholder: "Search the docs...")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#ghost-style-text-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#ghost-style-text-input
 
 -- Example: Disabled Text Input
 Description:
@@ -4873,7 +4146,7 @@ Code (HAML):
     = daisy_text_input(name: "input_disabled", id: "input_disabled", disabled: true)
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#disabled-text-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#disabled-text-input
 
 -- Example: Required Text Input
 Description:
@@ -4888,7 +4161,7 @@ Code (HAML):
     = daisy_text_input(name: "input_required", id: "input_required", required: true)
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#required-text-input
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#required-text-input
 
 -- Example: Text Input with Icons
 Description:
@@ -4897,10 +4170,6 @@ Text inputs can be combined with icons and other elements using the `start` and 
 Code (HAML):
 ```haml
 = doc_example(title: "Text Input with Icons") do |doc|
-options or slots, which appear before and after the input field.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_icon_prefix", title: "Search with Icon Prefix")
 
@@ -4924,7 +4193,7 @@ options or slots, which appear before and after the input field.
         = hero_icon("check", size: 5, css: "text-success")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#text-input-with-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#text-input-with-icons
 
 -- Example: Rails Form Example
 Description:
@@ -4933,11 +4202,6 @@ The built-in Form Builder extension provides an easy way to use text inputs in y
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-text inputs in your forms by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:username)
@@ -4953,16 +4217,16 @@ form object and attributes.
       = form.daisy_text_input(:password, type: "password")
 ```
 
-URL: /examples/Daisy::DataInput::TextInputComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextInputComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::TextAreaComponent
 Group: DataInput
 Title: Text Areas
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::TextAreaComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/text_areas.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/text_area_component.rb
 
 Description:
 doc_note do Text areas have a border by default. Use `textarea-ghost` to remove the border. 
@@ -4985,7 +4249,7 @@ Code (HAML):
     = daisy_text_area(name: "message1", id: "message1")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#basic-text-area
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#basic-text-area
 
 -- Example: Text Area with Placeholder
 Description:
@@ -5000,7 +4264,7 @@ Code (HAML):
     = daisy_text_area(name: "feedback", id: "feedback", placeholder: "Tell us what you think...")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#text-area-with-placeholder
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#text-area-with-placeholder
 
 -- Example: Text Area with Initial Value
 Description:
@@ -5015,7 +4279,7 @@ Code (HAML):
     = daisy_text_area(name: "bio", id: "bio", value: "I am a software developer with expertise in Ruby on Rails and JavaScript.")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#text-area-with-initial-value
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#text-area-with-initial-value
 
 -- Example: Custom Rows
 Description:
@@ -5034,7 +4298,7 @@ Code (HAML):
     = daisy_text_area(name: "long_note", id: "long_note", rows: 8)
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#custom-rows
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#custom-rows
 
 -- Example: Text Area with Different Colors
 Description:
@@ -5057,7 +4321,7 @@ Code (HAML):
     = daisy_text_area(name: "textarea_accent", id: "textarea_accent", css: "textarea-accent")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#text-area-with-different-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#text-area-with-different-colors
 
 -- Example: Borderless (Ghost) Text Area
 Description:
@@ -5066,10 +4330,6 @@ Use `textarea-ghost` to remove the border from a text area. This creates a minim
 Code (HAML):
 ```haml
 = doc_example(title: "Borderless (Ghost) Text Area") do |doc|
-minimalist appearance that only shows borders on hover.
-
-
-
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_ghost", title: "Ghost Style Text Area")
 
@@ -5083,7 +4343,7 @@ minimalist appearance that only shows borders on hover.
       = daisy_text_area(name: "textarea_ghost_bg", id: "textarea_ghost_bg", css: "textarea-ghost")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#borderless-ghost-text-area
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#borderless-ghost-text-area
 
 -- Example: Disabled Text Area
 Description:
@@ -5098,7 +4358,7 @@ Code (HAML):
     = daisy_text_area(name: "textarea_disabled", id: "textarea_disabled", disabled: true, value: "This text area is disabled and cannot be edited.")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#disabled-text-area
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#disabled-text-area
 
 -- Example: Read-only Text Area
 Description:
@@ -5113,7 +4373,7 @@ Code (HAML):
     = daisy_text_area(name: "textarea_readonly", id: "textarea_readonly", readonly: true, value: "This text area is read-only. You can select the text but cannot edit it.")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#read-only-text-area
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#read-only-text-area
 
 -- Example: Required Text Area
 Description:
@@ -5128,7 +4388,7 @@ Code (HAML):
     = daisy_text_area(name: "textarea_required", id: "textarea_required", required: true)
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#required-text-area
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#required-text-area
 
 -- Example: Rails Form Example
 Description:
@@ -5137,11 +4397,6 @@ The built-in Form Builder extension provides an easy way to use text areas in yo
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-text areas in your forms by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .my-2.flex.flex-col.gap-4
       = form.daisy_label(:bio)
@@ -5153,16 +4408,16 @@ form object and attributes.
       = form.daisy_text_area(:comments, rows: 6, placeholder: "Share your thoughts...")
 ```
 
-URL: /examples/Daisy::DataInput::TextAreaComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextAreaComponent#rails-form-example
 
 ---
 
 === Component: Daisy::DataInput::ToggleComponent
 Group: DataInput
 Title: Toggles
-API URL: /api-docs
-Examples URL: /examples/Daisy::DataInput::ToggleComponent
-File: /home/loco_demo/app/views/examples/daisy/data_input/toggles.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/toggle_component.rb
 
 Description:
  The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")  component that sets the <code>toggle</code> property to <code>true</code> by default, providing a switch-like appearance. 
@@ -5179,18 +4434,6 @@ Toggles are switches that allow users to turn options on or off. They're a visua
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Toggles") do |doc|
-alternative to checkboxes, ideal for settings and preferences.
-
-
-
-    = doc_note(css: "mb-8") do
-      While the
-<a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
-Concern does implement a `floating` attribute, it is not relevant
-for toggles and does not render properly.
-
-
-
   .my-2.flex.flex-col.gap-4
     
       = daisy_toggle(name: "toggle0", id: "toggle0")
@@ -5229,7 +4472,7 @@ for toggles and does not render properly.
         blocks
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#basic-toggles
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#basic-toggles
 
 -- Example: Toggles with Colors
 Description:
@@ -5275,7 +4518,7 @@ Code (HAML):
       Error Toggle
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#toggles-with-colors
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#toggles-with-colors
 
 -- Example: Toggle Sizes
 Description:
@@ -5301,7 +4544,7 @@ Code (HAML):
       Large Toggle
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#toggle-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#toggle-sizes
 
 -- Example: Toggle States
 Description:
@@ -5332,7 +4575,7 @@ Code (HAML):
       Required Toggle
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#toggle-states
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#toggle-states
 
 -- Example: Custom ID
 Description:
@@ -5348,7 +4591,7 @@ Code (HAML):
       Toggle with Custom ID
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#custom-id
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#custom-id
 
 -- Example: Rails Form Example
 Description:
@@ -5357,11 +4600,6 @@ The built-in Form Builder extension provides an even easier way to use toggles i
 Code (HAML):
 ```haml
 = doc_example(title: "Rails Form Example") do |doc|
-toggles in your pages by extracting the name and ID attributes from the
-form object and attributes.
-
-
-
   = form_with(url: "#", method: :post, scope: :user) do |form|
     .flex.flex-col.gap-4
       = form.daisy_label(:notifications) do
@@ -5375,7 +4613,7 @@ form object and attributes.
         Enable dark mode
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#rails-form-example
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#rails-form-example
 
 -- Example: Using Label Component
 Description:
@@ -5384,10 +4622,6 @@ You can also use the Label component directly with toggles for a fully custom ap
 Code (HAML):
 ```haml
 = doc_example(title: "Using Label Component") do |doc|
-custom approach.
-
-
-
   .my-2.flex.flex-col.gap-4.w-80
     .flex.items-center.justify-between
       = daisy_label(for: "location", title: "Enable location services")
@@ -5401,16 +4635,16 @@ custom approach.
       = daisy_toggle(name: "marketing", id: "marketing", css: "toggle-primary")
 ```
 
-URL: /examples/Daisy::DataInput::ToggleComponent#using-label-component
+URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent#using-label-component
 
 ---
 
 === Component: Daisy::Navigation::BreadcrumbsComponent
 Group: Navigation
 Title: Breadcrumbs
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::BreadcrumbsComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/breadcrumbs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/breadcrumbs_component.rb
 
 Description:
 Breadcrumbs are used to show the user's location within a website or app. 
@@ -5442,7 +4676,7 @@ Code (HAML):
       This example
 ```
 
-URL: /examples/Daisy::Navigation::BreadcrumbsComponent#basic-breadcrumbs
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent#basic-breadcrumbs
 
 -- Example: Breadcrumbs with Icons
 Description:
@@ -5451,10 +4685,6 @@ Breadcrumbs can also utilize icons to help users quickly identify different page
 Code (HAML):
 ```haml
 = doc_example(title: "Breadcrumbs with Icons") do |doc|
-different pages.
-
-
-
   - links = [ ["Home", "home"], ["Docs", "document"], ["Components", "cube"], ["Breadcrumbs", "squares-2x2"] ]
 
   = daisy_breadcrumbs do |breadcrumbs|
@@ -5462,7 +4692,7 @@ different pages.
       - breadcrumbs.with_item(title: link[0], href: "#", icon: link[1], icon_css: "size-4 mr-1 text-base-content/50", icon_options: { variant: :mini })
 ```
 
-URL: /examples/Daisy::Navigation::BreadcrumbsComponent#breadcrumbs-with-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent#breadcrumbs-with-icons
 
 -- Example: Custom Breadcrumbs
 Description:
@@ -5484,16 +4714,16 @@ Code (HAML):
             = link.second
 ```
 
-URL: /examples/Daisy::Navigation::BreadcrumbsComponent#custom-breadcrumbs
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent#custom-breadcrumbs
 
 ---
 
 === Component: Daisy::Navigation::DockComponent
 Group: Navigation
 Title: Dock
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::DockComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/docks.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::DockComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/dock_component.rb
 
 Description:
 The Dock component provides a navigation bar fixed to the bottom of the screen, commonly used in mobile interfaces. 
@@ -5510,10 +4740,6 @@ A simple dock component with three sections. doc_note(modifier: :tip, css: "mb-8
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Dock", example_css: "mx-auto max-w-[400px]") do |doc|
-than the default of being fixed to the bottom of the screen.
-
-
-
   = daisy_dock(css: "relative border border-base-300") do |dock|
     - dock.with_section(icon: "home", href: "#")
 
@@ -5522,7 +4748,7 @@ than the default of being fixed to the bottom of the screen.
     - dock.with_section(icon: "chart-bar", href: "#")
 ```
 
-URL: /examples/Daisy::Navigation::DockComponent#basic-dock
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::DockComponent#basic-dock
 
 -- Example: Dock with Titles
 Description:
@@ -5531,10 +4757,6 @@ The Dock sections can also have a simple title passed via the `title` attribute,
 Code (HAML):
 ```haml
 = doc_example(title: "Dock with Titles", example_css: "mx-auto max-w-[400px]") do |doc|
-attribute, or a more complex title by passing a block to the section.
-
-
-
   = daisy_dock(css: "relative border border-base-content") do |dock|
     - dock.with_section(icon: "home", href: "#", title: "Home")
 
@@ -5545,7 +4767,7 @@ attribute, or a more complex title by passing a block to the section.
         Stats
 ```
 
-URL: /examples/Daisy::Navigation::DockComponent#dock-with-titles
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::DockComponent#dock-with-titles
 
 -- Example: Colored Dock
 Description:
@@ -5565,16 +4787,16 @@ Code (HAML):
       - dock.with_section(icon: "chart-bar", href: "#", title: "Stats", css: color)
 ```
 
-URL: /examples/Daisy::Navigation::DockComponent#colored-dock
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::DockComponent#colored-dock
 
 ---
 
 === Component: Daisy::Navigation::LinkComponent
 Group: Navigation
 Title: Links
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::LinkComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/links.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::LinkComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/link_component.rb
 
 Description:
  Tailwind removes the styling on standard links so we provide an easy way to  re-add them. This works very similarly to the  link_to "link_to", "https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to", class: "font-mono"  helper in Rails. 
@@ -5591,13 +4813,6 @@ Basic links are styled with the `.link` class. The `title` and `href` options ca
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Links") do |doc|
-options can be passed as keyword arguments, or as the first two positional
-arguments.
-
-The `title` can also be passed as a block.
-
-
-
   .flex.items-end.space-x-4
     = daisy_link title: "Home", href: "#"
 
@@ -5609,16 +4824,16 @@ The `title` can also be passed as a block.
       Big Hover Link
 ```
 
-URL: /examples/Daisy::Navigation::LinkComponent#basic-links
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::LinkComponent#basic-links
 
 ---
 
 === Component: Daisy::Navigation::MenuComponent
 Group: Navigation
 Title: Menus
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::MenuComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/menus.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/menu_component.rb
 
 Description:
 doc_note do Vertical menus no longer have a default width. Use `w-full` or other width classes if you want to control the width. 
@@ -5650,7 +4865,7 @@ Code (HAML):
       = link_to "Item 2 - 2", "#"
 ```
 
-URL: /examples/Daisy::Navigation::MenuComponent#basic-menu
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent#basic-menu
 
 -- Example: Horizontal Menu
 Description:
@@ -5659,23 +4874,6 @@ Menus can be displayed horizontally by adding the `.menu-horizontal` class to th
 Code (HAML):
 ```haml
 = doc_example(title: "Horizontal Menu") do |doc|
-to the menu. They can also have icons, disabled / active items, and many
-other options.
-
-Use `menu-active`, `menu-focus`, and `menu-disabled` classes to style menu
-items in different states.
-
-
-
-    = doc_note(css: "mb-4") do
-      We can't actually disable the link since the HTML spec does not allow
-that (instead you should generally just make it text). However, we can
-disable the link with CSS and use `.pointer-events-none` to ensure it
-cannot be clicked. You may also want to add `tabindex: -1` to your link
-to ensure it cannot be focused with the keyboard.
-
-
-
   = daisy_menu(css: "menu-horizontal") do |menu|
     - menu.with_item do
       = link_to "Item 1", "#"
@@ -5687,7 +4885,7 @@ to ensure it cannot be focused with the keyboard.
       = link_to "Item 3", "#", class: "menu-active"
 ```
 
-URL: /examples/Daisy::Navigation::MenuComponent#horizontal-menu
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent#horizontal-menu
 
 -- Example: Nested Menus
 Description:
@@ -5728,16 +4926,16 @@ Code (HAML):
             = hero_icon("bolt", **icon_options)
 ```
 
-URL: /examples/Daisy::Navigation::MenuComponent#nested-menus
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent#nested-menus
 
 ---
 
 === Component: Daisy::Navigation::NavbarComponent
 Group: Navigation
 Title: Navbars
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::NavbarComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/navbars.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::NavbarComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/navbar_component.rb
 
 Description:
  Navbars are a common way to organize navigation links at the top of a page. 
@@ -5754,10 +4952,6 @@ Navbars are simple elements which typically contain start and end sections, and 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Navbar") do |doc|
-sections, and sometimes a center section.
-
-
-
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
       - navbar.with_start do
@@ -5780,7 +4974,7 @@ sections, and sometimes a center section.
           GitHub
 ```
 
-URL: /examples/Daisy::Navigation::NavbarComponent#basic-navbar
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::NavbarComponent#basic-navbar
 
 -- Example: Advanced Navbar
 Description:
@@ -5789,13 +4983,6 @@ Navbars items can also contain center sections and dropdowns with menus. doc_not
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
-height of the navbar itself. The navbar will grow to fit the largest
-element inside it.
-
-Try hovering the green icon below to see the change.
-
-
-
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
       - navbar.with_start(css: "text-lg italic") do
@@ -5818,16 +5005,16 @@ Try hovering the green icon below to see the change.
             = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 ```
 
-URL: /examples/Daisy::Navigation::NavbarComponent#advanced-navbar
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::NavbarComponent#advanced-navbar
 
 ---
 
 === Component: Daisy::Navigation::PaginationComponent
 Group: Navigation
 Title: Pagination
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::PaginationComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/pagination.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::PaginationComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/pagination_component.rb
 
 Description:
  Pagination can be implemented by utilizing the existing  component_link("Join", "Daisy::Layout::JoinComponent")  component. 
@@ -5861,16 +5048,16 @@ Code (HAML):
       = daisy_button(title: "10", css: "join-item")
 ```
 
-URL: /examples/Daisy::Navigation::PaginationComponent#basic-pagination
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::PaginationComponent#basic-pagination
 
 ---
 
 === Component: Daisy::Navigation::StepsComponent
 Group: Navigation
 Title: Steps
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::StepsComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/steps.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/steps_component.rb
 
 Description:
  Steps allow you to create a series of steps that users can follow to  complete a task. This is useful for onboarding, form completion, and many  more. 
@@ -5897,7 +5084,7 @@ Code (HAML):
     - steps.with_step(title: "Rule the World")
 ```
 
-URL: /examples/Daisy::Navigation::StepsComponent#basic-steps
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent#basic-steps
 
 -- Example: Vertical Steps
 Description:
@@ -5916,7 +5103,7 @@ Code (HAML):
     - steps.with_step(title: "Rule the World")
 ```
 
-URL: /examples/Daisy::Navigation::StepsComponent#vertical-steps
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent#vertical-steps
 
 -- Example: Custom Content
 Description:
@@ -5925,26 +5112,6 @@ You can customize the content of each step to include any (short) content you wa
 Code (HAML):
 ```haml
 = doc_example(title: "Custom Content") do |doc|
-you want by using the `number` option.
-
-
-
-    = doc_note do
-      You can also supply this via the `data-content` attribute in the html.
-
-
-
-      = doc_code(language: "haml") do
-        = daisy_steps do |steps|
-
-          - steps.with_step(html: { data: { content: "❤️" } })
-
-    And you can alter the colors by supplying CSS for the `after`
-pseudo-element. Note that you may need to use the `!important` modifier to
-override the default styles.
-
-
-
   = daisy_steps do |steps|
     - steps.with_step(number: "AB")
 
@@ -5959,16 +5126,16 @@ override the default styles.
     - steps.with_step(number: "✕", css: "after:bg-black! after:text-green-500!")
 ```
 
-URL: /examples/Daisy::Navigation::StepsComponent#custom-content
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent#custom-content
 
 ---
 
 === Component: Daisy::Navigation::TabsComponent
 Group: Navigation
 Title: Tabs
-API URL: /api-docs
-Examples URL: /examples/Daisy::Navigation::TabsComponent
-File: /home/loco_demo/app/views/examples/daisy/navigation/tabs.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/tabs_component.rb
 
 Description:
 Here are some examples showcasing tabs. 
@@ -5985,11 +5152,6 @@ Tabs are transparent by default and don't automatically do anything since they a
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Tabs") do |doc|
-they are simple `<a>` (anchor) elements. You can set the `href` attribute
-to make them link to another page.
-
-
-
   = daisy_tabs(css: "tabs-border") do |tabs|
     - tabs.with_tab(title: "I Do Nothing", active: true)
 
@@ -5998,7 +5160,7 @@ to make them link to another page.
     - tabs.with_tab(title: "Open Google", href: "https://google.com", target: "_blank")
 ```
 
-URL: /examples/Daisy::Navigation::TabsComponent#basic-tabs
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent#basic-tabs
 
 -- Example: Tab Sizes
 Description:
@@ -6007,10 +5169,6 @@ Tabs come in five different sizes: `tabs-xs`, `tabs-sm`, `tabs-md` (default), `t
 Code (HAML):
 ```haml
 = doc_example(title: "Tab Sizes") do |doc|
-`tabs-lg`, and `tabs-xl`. Each size can be combined with any tab style.
-
-
-
   .space-y-8
     .space-y-2
       %p.text-sm Extra Small
@@ -6063,7 +5221,7 @@ Code (HAML):
         - tabs.with_tab(title: "Tab 3")
 ```
 
-URL: /examples/Daisy::Navigation::TabsComponent#tab-sizes
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent#tab-sizes
 
 -- Example: Radio Button Tabs with Content
 Description:
@@ -6072,11 +5230,6 @@ If you want the tabs to change their content, you can use the `radio` option. No
 Code (HAML):
 ```haml
 = doc_example(title: "Radio Button Tabs with Content") do |doc|
-option. Note that this does *not* allow the use of icons or other HTML
-elements in the title.
-
-
-
   = daisy_tabs(css: "tabs-lift w-[500px]", radio: true) do |tabs|
     - # Add some space before the first tab
 
@@ -6087,7 +5240,7 @@ elements in the title.
         %p "Tab #{i} content"
 ```
 
-URL: /examples/Daisy::Navigation::TabsComponent#radio-button-tabs-with-content
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent#radio-button-tabs-with-content
 
 -- Example: Turbo Frame Tabs
 Description:
@@ -6113,16 +5266,16 @@ Code (HAML):
             %p "#{i} bars content..."
 ```
 
-URL: /examples/Daisy::Navigation::TabsComponent#turbo-frame-tabs
+URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent#turbo-frame-tabs
 
 ---
 
 === Component: Daisy::Feedback::AlertComponent
 Group: Feedback
 Title: Alerts
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::AlertComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/alerts.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/alert_component.rb
 
 Description:
  Alerts inform the user about important information or changes to the system. 
@@ -6155,7 +5308,7 @@ Code (HAML):
     Uh oh, something went wrong!
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#basic-alerts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#basic-alerts
 
 -- Example: Alerts Without Icons
 Description:
@@ -6177,7 +5330,7 @@ Code (HAML):
     Uh oh, something went wrong!
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#alerts-without-icons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#alerts-without-icons
 
 -- Example: Custom Icon Alerts
 Description:
@@ -6202,7 +5355,7 @@ Code (HAML):
     %span Or even Daisy avatars / other elements!
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#custom-icon-alerts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#custom-icon-alerts
 
 -- Example: Soft Alerts
 Description:
@@ -6224,7 +5377,7 @@ Code (HAML):
     Error alert.
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#soft-alerts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#soft-alerts
 
 -- Example: Outline Alerts
 Description:
@@ -6246,7 +5399,7 @@ Code (HAML):
     Error alert.
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#outline-alerts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#outline-alerts
 
 -- Example: Dash Alerts
 Description:
@@ -6268,16 +5421,16 @@ Code (HAML):
     Error alert.
 ```
 
-URL: /examples/Daisy::Feedback::AlertComponent#dash-alerts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertComponent#dash-alerts
 
 ---
 
 === Component: Daisy::Feedback::LoadingComponent
 Group: Feedback
 Title: Loaders
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::LoadingComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/loaders.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::LoadingComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/loading_component.rb
 
 Description:
  Loaders are used to indicate that a process is happening in the background. 
@@ -6295,13 +5448,6 @@ Loaders come in a variety of flavors! doc_note(css: "mb-8") do This component's 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Loaders", example_css: "gap-4") do |doc|
-because we think it sounds better 😄
-
-However, you **must** use the `loading` class names for the CSS to work
-properly.
-
-
-
   = daisy_loading(css: "loading-spinner text-primary")
 
   = daisy_loading(css: "loading-dots text-secondary")
@@ -6315,16 +5461,16 @@ properly.
   = daisy_loader(css: "loading-infinity text-error")
 ```
 
-URL: /examples/Daisy::Feedback::LoadingComponent#basic-loaders
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::LoadingComponent#basic-loaders
 
 ---
 
 === Component: Daisy::Feedback::ProgressComponent
 Group: Feedback
 Title: Progress Bars
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::ProgressComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/progress_bars.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ProgressComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/progress_component.rb
 
 Description:
  Progress bars are used to indicate the progress of a process. 
@@ -6341,9 +5487,6 @@ Progress bars utilize `value` and a `max` attributes to set the progress and can
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Bars") do |doc|
-and can have various colors. By default, they take up the full width of
-their parent container.
-
 - `value` defaults to `nil` if not provided (for indeterminate bars)
 - `max` defaults to `100` if not provided to mimic percentages
 
@@ -6359,7 +5502,7 @@ their parent container.
     = daisy_progress(css: "progress-accent", value: 100, max: 100)
 ```
 
-URL: /examples/Daisy::Feedback::ProgressComponent#basic-bars
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ProgressComponent#basic-bars
 
 -- Example: Indeterminate Bars
 Description:
@@ -6368,10 +5511,6 @@ Indeterminate progress bars are used when the progress is unknown. They animate 
 Code (HAML):
 ```haml
 = doc_example(title: "Indeterminate Bars") do |doc|
-animate to indicate that a process is currently happening.
-
-
-
   .flex.flex-col.gap-4.w-56
     = daisy_progress(css: "progress-info")
 
@@ -6382,16 +5521,16 @@ animate to indicate that a process is currently happening.
     = daisy_progress(css: "progress-error [animation-delay:750ms]!")
 ```
 
-URL: /examples/Daisy::Feedback::ProgressComponent#indeterminate-bars
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ProgressComponent#indeterminate-bars
 
 ---
 
 === Component: Daisy::Feedback::RadialProgressComponent
 Group: Feedback
 Title: Radial Progress Bars
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::RadialProgressComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/radials.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::RadialProgressComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/radial_progress_component.rb
 
 Description:
  Radial progress bars are used to indicate the progress of a process, in a  circular fasion. 
@@ -6408,18 +5547,11 @@ Radial progress bars utilize a `value` attribute to set the progress and can hav
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Radials") do |doc|
-can have various colors / sizes, along with content inside.
-
-The max is always set to 100 due to the way they are rendered, so `value`
-should always be a percentage of the bar that is filled.
-
-
-
   = daisy_radial(value: 66) do
     66%
 ```
 
-URL: /examples/Daisy::Feedback::RadialProgressComponent#basic-radials
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::RadialProgressComponent#basic-radials
 
 -- Example: Fancy Radials
 Description:
@@ -6438,7 +5570,7 @@ Code (HAML):
     😢
 ```
 
-URL: /examples/Daisy::Feedback::RadialProgressComponent#fancy-radials
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::RadialProgressComponent#fancy-radials
 
 -- Example: Controlling Size & Color
 Description:
@@ -6447,8 +5579,6 @@ You can also control the size, thickness, and color of the radial progress. - `s
 Code (HAML):
 ```haml
 = doc_example(title: "Controlling Size & Color", example_css: "gap-4") do |doc|
-progress.
-
 - `size` defaults to `5rem` and **must** include units
 - `thickness` defaults to `calc(size / 10)` and **must** include units
 
@@ -6458,16 +5588,16 @@ progress.
     19%
 ```
 
-URL: /examples/Daisy::Feedback::RadialProgressComponent#controlling-size-color
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::RadialProgressComponent#controlling-size-color
 
 ---
 
 === Component: Daisy::Feedback::SkeletonComponent
 Group: Feedback
 Title: Skeletons
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::SkeletonComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/skeletons.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::SkeletonComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/skeleton_component.rb
 
 Description:
  Skeletons are used to show a placeholder for content that is loading or  being fetched. They are often used to give the user an idea of what the  content will look like before it is loaded. 
@@ -6496,7 +5626,7 @@ Code (HAML):
       = daisy_skeleton(css: "#{width} h-5")
 ```
 
-URL: /examples/Daisy::Feedback::SkeletonComponent#basic-skeletons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::SkeletonComponent#basic-skeletons
 
 -- Example: Component Skeletons
 Description:
@@ -6505,10 +5635,6 @@ You can also use skeletons to show placeholders for components by adding the `sk
 Code (HAML):
 ```haml
 = doc_example(title: "Component Skeletons") do |doc|
-the `skeleton` class to many existing components.
-
-
-
   .flex.flex-col.gap-8
     .flex.items-center.gap-8
       = daisy_badge(css: "badge-lg skeleton text-base-content/50") do
@@ -6543,16 +5669,16 @@ the `skeleton` class to many existing components.
         Here is some more text that won't be displayed...
 ```
 
-URL: /examples/Daisy::Feedback::SkeletonComponent#component-skeletons
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::SkeletonComponent#component-skeletons
 
 ---
 
 === Component: Daisy::Feedback::ToastComponent
 Group: Feedback
 Title: Toasts
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::ToastComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/toasts.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ToastComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/toast_component.rb
 
 Description:
  Toasts are used to show a message to the user that is not critical, but  important. They are often used to show a message that is not part of the  main content flow and can be dismissed by the user. 
@@ -6569,14 +5695,6 @@ The Toast component is a simple wrapper that positions it's contents at various 
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Toasts", example_css: "h-48") do |doc|
-various spots on the page, usually in the bottom right corner.
-
-
-
-  These toasts will appear at the bottom right of the entire page.
-
-
-
   = daisy_toast(css: "z-10") do
     = daisy_alert(icon: "check-circle", css: "alert-success text-white") do
       Yay! Something went well!
@@ -6585,16 +5703,16 @@ various spots on the page, usually in the bottom right corner.
       Uh oh! Something went wrong...
 ```
 
-URL: /examples/Daisy::Feedback::ToastComponent#basic-toasts
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ToastComponent#basic-toasts
 
 ---
 
 === Component: Daisy::Feedback::TooltipComponent
 Group: Feedback
 Title: Tooltips
-API URL: /api-docs
-Examples URL: /examples/Daisy::Feedback::TooltipComponent
-File: /home/loco_demo/app/views/examples/daisy/feedback/tooltips.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::TooltipComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/tooltip_component.rb
 
 Description:
 Additionally, we offer the `daisy_tooltip` component to wrap an entire component, or any block of HTML, in a tooltip. This is also aliased as `daisy_tip` for convenience. 
@@ -6612,11 +5730,6 @@ Tooltips can be added to many components by setting the `tip` attribute or by ad
 Code (HAML):
 ```haml
 = doc_example(title: "Component Tooltips") do |doc|
-by adding the `tooltip` class and setting the `data-tip` attribute to the
-text you want to display.
-
-
-
   .flex.flex-col.gap-12
     .flex.items-center.justify-center.gap-8
       - # Just pass the `tip` argument to any component that supports it!
@@ -6646,7 +5759,7 @@ text you want to display.
           Here is some text that also has a tooltip!
 ```
 
-URL: /examples/Daisy::Feedback::TooltipComponent#component-tooltips
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::TooltipComponent#component-tooltips
 
 -- Example: Wrapper Tooltips
 Description:
@@ -6655,11 +5768,6 @@ Sometimes, you may need to wrap the entire component in a tooltip. For this, we 
 Code (HAML):
 ```haml
 = doc_example(title: "Wrapper Tooltips") do |doc|
-For this, we offer the very basic `daisy_tooltip` (or `daisy_tip`)
-component which has a `tip` argument to simplify your code a bit.
-
-
-
   .flex.flex-col.gap-8
     - # Manual-style HAML tootlip
 
@@ -6678,16 +5786,16 @@ component which has a `tip` argument to simplify your code a bit.
       = daisy_skeleton(css: "w-56 h-24")
 ```
 
-URL: /examples/Daisy::Feedback::TooltipComponent#wrapper-tooltips
+URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::TooltipComponent#wrapper-tooltips
 
 ---
 
 === Component: Daisy::Layout::DividerComponent
 Group: Layout
 Title: Dividers
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::DividerComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/dividers.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/divider_component.rb
 
 Description:
 Dividers are used to separate content in a meaningful way. They can be used to separate different sections of a page or to highlight a specific piece of content. They can be used both horizontally and vertically, and can include content if desired. 
@@ -6704,10 +5812,6 @@ The basic divider is a simple horizontal or vertical line that can be used to se
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Dividers", example_css: "flex-col gap-8") do |doc|
-to separate content.
-
-
-
   .w-full{ class: "md:w-1/3" }
     - card_css = "border border-base-300 bg-base-100 shadow-xl text-center"
 
@@ -6733,7 +5837,7 @@ to separate content.
       Right Card
 ```
 
-URL: /examples/Daisy::Layout::DividerComponent#basic-dividers
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerComponent#basic-dividers
 
 -- Example: Colored Dividers
 Description:
@@ -6742,10 +5846,6 @@ Dividers can be colored to match the theme of the page or to highlight specific 
 Code (HAML):
 ```haml
 = doc_example(title: "Colored Dividers") do |doc|
-specific content.
-
-
-
   .w-full{ class: "md:w-1/2" }
     = daisy_divider do
       Default Divider
@@ -6775,16 +5875,16 @@ specific content.
       Error
 ```
 
-URL: /examples/Daisy::Layout::DividerComponent#colored-dividers
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerComponent#colored-dividers
 
 ---
 
 === Component: Daisy::Layout::DrawerComponent
 Group: Layout
 Title: Drawers
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::DrawerComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/drawers.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/drawer_component.rb
 
 Description:
 doc_note(css: "mb-8 max-w-2xl") do The `relative / absolute` and the `h-48` classes allow the drawer to render properly inside the example preview box instead of the whole screen. 
@@ -6810,7 +5910,7 @@ Code (HAML):
       = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
 ```
 
-URL: /examples/Daisy::Layout::DrawerComponent#basic-drawer
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent#basic-drawer
 
 -- Example: Right Drawer
 Description:
@@ -6819,10 +5919,6 @@ The right drawer slides in from the right side of the screen. doc_note(modifier:
 Code (HAML):
 ```haml
 = doc_example(title: "Right Drawer", tab_content_css: "p-0!") do |doc|
-example behaves a bit weirdly on desktop, showing both drawers.
-
-
-
   .w-full.h-48
     = daisy_drawer(css: "drawer-end") do |drawer|
       - drawer.with_sidebar do
@@ -6834,7 +5930,7 @@ example behaves a bit weirdly on desktop, showing both drawers.
       = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
 ```
 
-URL: /examples/Daisy::Layout::DrawerComponent#right-drawer
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent#right-drawer
 
 -- Example: Advanced Drawer
 Description:
@@ -6843,10 +5939,6 @@ The advanced drawer slides in from the left side of the screen and has multiple 
 Code (HAML):
 ```haml
 = doc_example(title: "Advanced Drawer", tab_content_css: "p-0!") do |doc|
-multiple ways to close it, along with some extra styling.
-
-
-
   .relative.w-full.h-48
     = daisy_drawer do |drawer|
       - drawer.with_sidebar(css: "absolute h-48") do
@@ -6873,16 +5965,16 @@ multiple ways to close it, along with some extra styling.
           = daisy_button(tag_name: "label", css: "btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
 ```
 
-URL: /examples/Daisy::Layout::DrawerComponent#advanced-drawer
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerComponent#advanced-drawer
 
 ---
 
 === Component: Daisy::Layout::FooterComponent
 Group: Layout
 Title: Footers
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::FooterComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/footers.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/footer_component.rb
 
 Description:
 Footers are used to provide additional information about a page or site. They are vertical by default, but can be made horizontal using the `footer-horizontal` class. 
@@ -6899,10 +5991,6 @@ The basic nav footer is vertical by default, which works well for most mobile-fi
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Nav Footer (Vertical)") do |doc|
-mobile-first designs.
-
-
-
   = daisy_footer(css: "max-w-64 bg-neutral text-neutral-content p-10") do
     %nav
       %h6.footer-title
@@ -6935,7 +6023,7 @@ mobile-first designs.
       = link_to "EGS", "https://www.egscomics.com/", class: "link-hover", target: "_blank"
 ```
 
-URL: /examples/Daisy::Layout::FooterComponent#basic-nav-footer-vertical
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterComponent#basic-nav-footer-vertical
 
 -- Example: Horizontal Footer
 Description:
@@ -6944,11 +6032,6 @@ Use the `footer-horizontal` class to make the footer horizontal. You can also us
 Code (HAML):
 ```haml
 = doc_example(title: "Horizontal Footer") do |doc|
-use responsive variants like `lg:footer-horizontal` to make it horizontal
-only on larger screens.
-
-
-
   = daisy_footer(css: "max-w-[1000px] mx-32 bg-base-200 text-base-content p-10 lg:footer-horizontal") do
     %nav
       %h6.footer-title
@@ -6981,7 +6064,7 @@ only on larger screens.
       = link_to "Cookie Policy", "#", class: "link-hover"
 ```
 
-URL: /examples/Daisy::Layout::FooterComponent#horizontal-footer
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterComponent#horizontal-footer
 
 -- Example: Center-Aligned Footer
 Description:
@@ -6990,10 +6073,6 @@ A simple footer with centered content, perfect for copyright notices or minimal 
 Code (HAML):
 ```haml
 = doc_example(title: "Center-Aligned Footer") do |doc|
-minimal information.
-
-
-
   = daisy_footer(css: "max-w-[1000px] mx-32 justify-center p-4 bg-neutral text-neutral-content") do
     .text-xs
       ="Copyright &copy; #{Date.today.year} LocoMotion."
@@ -7001,16 +6080,16 @@ minimal information.
       All rights reserved.
 ```
 
-URL: /examples/Daisy::Layout::FooterComponent#center-aligned-footer
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterComponent#center-aligned-footer
 
 ---
 
 === Component: Daisy::Layout::HeroComponent
 Group: Layout
 Title: Heroes
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::HeroComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/heroes.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.rb
 
 Description:
 Heroes are used to provide a large, eye-catching introduction to a page or site. They are responsive by default and will stack on smaller screens. 
@@ -7040,7 +6119,7 @@ Code (HAML):
       = daisy_button(css: "btn btn-primary", title: "Get Started", href: "/")
 ```
 
-URL: /examples/Daisy::Layout::HeroComponent#basic-hero
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComponent#basic-hero
 
 -- Example: Heroes with Images
 Description:
@@ -7049,11 +6128,6 @@ You can add an image to the hero by making it the first or last child. You can a
 Code (HAML):
 ```haml
 = doc_example(title: "Heroes with Images", example_css: "flex-col! gap-8") do |doc|
-You can also change the layout of the hero by passing a
-`content_wrapper_css` to make it responsive or add other styling.
-
-
-
   = daisy_hero(css: "block max-w-[1000px] mx-16 py-8 lg:mx-32 bg-base-200") do
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 
@@ -7079,7 +6153,7 @@ You can also change the layout of the hero by passing a
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 ```
 
-URL: /examples/Daisy::Layout::HeroComponent#heroes-with-images
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComponent#heroes-with-images
 
 -- Example: Hero with Overlay
 Description:
@@ -7088,11 +6162,6 @@ The Hero component provides an `overlay` slot allowing you to add a semi-transpa
 Code (HAML):
 ```haml
 = doc_example(title: "Hero with Overlay", example_css: "px-16!") do |doc|
-semi-transparent background to the hero and apply other effects (such as a
-blur).
-
-
-
   - image = image_path("landscapes/mountain-river.jpg")
 
   - fix_for_v5_bug = "z-0"
@@ -7110,16 +6179,16 @@ blur).
       = daisy_button(css: "btn btn-accent", title: "Get Started", href: "/")
 ```
 
-URL: /examples/Daisy::Layout::HeroComponent#hero-with-overlay
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComponent#hero-with-overlay
 
 ---
 
 === Component: Daisy::Layout::IndicatorComponent
 Group: Layout
 Title: Indicators
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::IndicatorComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/indicators.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::IndicatorComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/indicator_component.rb
 
 Description:
 Indicators wrap other elements and provide a visual cue that something requires the user's attention. 
@@ -7149,7 +6218,7 @@ Code (HAML):
     = daisy_button(title: "Checkout", left_icon: "shopping-cart")
 ```
 
-URL: /examples/Daisy::Layout::IndicatorComponent#basic-indicator
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::IndicatorComponent#basic-indicator
 
 -- Example: Different Positions
 Description:
@@ -7158,14 +6227,6 @@ You can position the indicator in all of the usual places, and indicators can co
 Code (HAML):
 ```haml
 = doc_example(title: "Different Positions") do |doc|
-can contain multiple items.
-
-Additionally, you can apply many of the DaisyUI classes directly to the
-indicator items, which might be required for the positioning to work
-correctly.
-
-
-
   - vertical = ["indicator-top", "indicator-middle", "indicator-bottom"]
 
   - horizontal = ["indicator-start", "indicator-center", "indicator-end"]
@@ -7181,16 +6242,16 @@ correctly.
     .w-96.h-48.bg-base-200
 ```
 
-URL: /examples/Daisy::Layout::IndicatorComponent#different-positions
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::IndicatorComponent#different-positions
 
 ---
 
 === Component: Daisy::Layout::JoinComponent
 Group: Layout
 Title: Joins
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::JoinComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/joins.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::JoinComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/join_component.rb
 
 Description:
  Joins allow you to combine multiple components into a singular, joined,  element. This is useful for components like buttons, inputs with symbols,  and many more. 
@@ -7207,11 +6268,6 @@ Buttons can be joined with other components to create a single, cohesive element
 Code (HAML):
 ```haml
 = doc_example(title: "Button Joins", example_css: "flex-col space-y-8") do |doc|
-want to be joined since this could be complicated to do automatically in
-many use-cases and would almost certainly cause rendering issues.
-
-
-
   = daisy_join do |join|
     - join.with_item do
       = daisy_button(title: "Start", css: "join-item")
@@ -7233,7 +6289,7 @@ many use-cases and would almost certainly cause rendering issues.
       = daisy_button(icon: "bars-3-bottom-right", css: "join-item")
 ```
 
-URL: /examples/Daisy::Layout::JoinComponent#button-joins
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::JoinComponent#button-joins
 
 -- Example: Vertical Joins
 Description:
@@ -7253,16 +6309,16 @@ Code (HAML):
       = daisy_button(title: "Bottom", css: "w-full join-item")
 ```
 
-URL: /examples/Daisy::Layout::JoinComponent#vertical-joins
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::JoinComponent#vertical-joins
 
 ---
 
 === Component: Daisy::Layout::MaskComponent
 Group: Layout
 Title: Masks
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::MaskComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/masks.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::MaskComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/mask_component.rb
 
 Description:
 Masks allow you to create a variety of shapes and patterns! Masks are **NOT** a full component, but rather a set of CSS classes that can be applied to many existing elements. 
@@ -7279,10 +6335,6 @@ Masks can be applied to many elements, and can be combined with other classes to
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Masks") do |doc|
-classes to create interesting effects.
-
-
-
   - masks = ["mask-squircle", "mask-heart", "mask-hexagon", "mask-hexagon-2", "mask-decagon", "mask-pentagon", "mask-diamond", "mask-square", "mask-circle", "mask-star", "mask-star-2", "mask-triangle", "mask-triangle-2", "mask-triangle-3", "mask-triangle-4"]
 
   .grid.grid-cols-4.gap-4
@@ -7291,7 +6343,7 @@ classes to create interesting effects.
         = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "rounded-none mask #{mask}")
 ```
 
-URL: /examples/Daisy::Layout::MaskComponent#basic-masks
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::MaskComponent#basic-masks
 
 -- Example: Masked Text
 Description:
@@ -7300,10 +6352,6 @@ Masks can also be applied to HTML elements. Masks apply the `inline-block` displ
 Code (HAML):
 ```haml
 = doc_example(title: "Masked Text") do |doc|
-display, so you may need to override that for certain cases.
-
-
-
   .flex.flex-col.justify-center.gap-8
     = daisy_button(left_icon: "shopping-bag", css: "btn-primary flex mask mask-diamond animate-pulse")
 
@@ -7311,16 +6359,16 @@ display, so you may need to override that for certain cases.
       STOP
 ```
 
-URL: /examples/Daisy::Layout::MaskComponent#masked-text
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::MaskComponent#masked-text
 
 ---
 
 === Component: Daisy::Layout::StackComponent
 Group: Layout
 Title: Stacks
-API URL: /api-docs
-Examples URL: /examples/Daisy::Layout::StackComponent
-File: /home/loco_demo/app/views/examples/daisy/layout/stacks.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/stack_component.rb
 
 Description:
 Stacks provide a 3 dimensional effect to your content. This can be helpful for displaying lots of notifications or other content in a small space. 
@@ -7337,13 +6385,6 @@ A Stack is a wrapper around other elements, making it's children appear on top o
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Stack") do |doc|
-top of each other.
-
-This example uses a slightly transparent background and some clever
-padding to show the effect.
-
-
-
   - card_css = "bg-base-100/80 border-base-300 border shadow-lg text-center"
 
   = daisy_stack do
@@ -7357,7 +6398,7 @@ padding to show the effect.
       Bottom Stack
 ```
 
-URL: /examples/Daisy::Layout::StackComponent#basic-stack
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent#basic-stack
 
 -- Example: Animated Stack
 Description:
@@ -7368,7 +6409,7 @@ Code (HAML):
 = doc_example(title: "Animated Stack", allow_reset: true) do |doc|
 ```
 
-URL: /examples/Daisy::Layout::StackComponent#animated-stack
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent#animated-stack
 
 -- Example: Stack Positions
 Description:
@@ -7377,11 +6418,6 @@ DaisyUI 5 introduces directional stacking with `stack-top`, `stack-bottom`, `sta
 Code (HAML):
 ```haml
 = doc_example(title: "Stack Positions") do |doc|
-and `stack-end` CSS classes. These allow you to position the stacked elements in
-different directions.
-
-
-
   .grid.grid-cols-2.gap-6
     .space-y-2
       %p.font-medium.text-center stack-top
@@ -7444,7 +6480,7 @@ different directions.
           3
 ```
 
-URL: /examples/Daisy::Layout::StackComponent#stack-positions
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent#stack-positions
 
 -- Example: CSS Stack
 Description:
@@ -7453,14 +6489,6 @@ The Stack component simply applies the `stack` CSS class, which you can also use
 Code (HAML):
 ```haml
 = doc_example(title: "CSS Stack") do |doc|
-also use directly.
-
-You can also add spacing between stacked elements using gap utilities like
-`gap-3`. Adjust the slider below to see how different gap values affect
-the stack.
-
-
-
   .space-y-4{ data: { controller: "stack-gap" } }
     .flex.items-center.gap-4
       %span.text-sm.min-w-16 Gap size:
@@ -7483,16 +6511,16 @@ the stack.
       %img{ src: image_path("landscapes/forest.jpg") }
 ```
 
-URL: /examples/Daisy::Layout::StackComponent#css-stack
+URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackComponent#css-stack
 
 ---
 
 === Component: Daisy::Mockup::BrowserComponent
 Group: Mockup
 Title: Browsers
-API URL: /api-docs
-Examples URL: /examples/Daisy::Mockup::BrowserComponent
-File: /home/loco_demo/app/views/examples/daisy/mockup/browsers.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::BrowserComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/browser_component.rb
 
 Description:
  The Browser component is a simple mockup that looks and feels like a user's  web browser. This can be useful for creating mockups of web applications or  to showcase your own website in a more realistic setting. 
@@ -7517,7 +6545,7 @@ Code (HAML):
       This is the content of the browser. You can put anything you want here.
 ```
 
-URL: /examples/Daisy::Mockup::BrowserComponent#basic-browser
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::BrowserComponent#basic-browser
 
 -- Example: Styled Browser
 Description:
@@ -7534,16 +6562,16 @@ Code (HAML):
       This browser mockup is very easy to style and make look however you want!
 ```
 
-URL: /examples/Daisy::Mockup::BrowserComponent#styled-browser
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::BrowserComponent#styled-browser
 
 ---
 
 === Component: Daisy::Mockup::CodeComponent
 Group: Mockup
 Title: Code Blocks
-API URL: /api-docs
-Examples URL: /examples/Daisy::Mockup::CodeComponent
-File: /home/loco_demo/app/views/examples/daisy/mockup/code_blocks.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/code_component.rb
 
 Description:
  Code blocks are a great way to display code snippets in your site or  documentation. They can be used to show examples, provide context, or call  out something important. 
@@ -7560,16 +6588,11 @@ A basic code block is just a simple block of code with no additional styling. Yo
 Code (HAML):
 ```haml
 = doc_example(title: "Basic Code Block") do |doc|
-styling. You can pass the `prefix` attribute to add a prefix to the code
-block.
-
-
-
   = daisy_code(prefix: "$") do
     echo "Hello, world!"
 ```
 
-URL: /examples/Daisy::Mockup::CodeComponent#basic-code-block
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent#basic-code-block
 
 -- Example: Multi-line Code Block
 Description:
@@ -7578,10 +6601,6 @@ You can also create multi-line code blocks by calling the `with_line` slot multi
 Code (HAML):
 ```haml
 = doc_example(title: "Multi-line Code Block") do |doc|
-slot multiple times.
-
-
-
   = daisy_code do |code|
     - code.with_line(prefix: "$") do
       yarn add @profoundry-us/loco_motion
@@ -7593,7 +6612,7 @@ slot multiple times.
       Done!
 ```
 
-URL: /examples/Daisy::Mockup::CodeComponent#multi-line-code-block
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent#multi-line-code-block
 
 -- Example: Code Block with Language
 Description:
@@ -7602,23 +6621,13 @@ You can also pass full code blocks by utilizing the `:plain` filter provided by 
 Code (HAML):
 ```haml
 = doc_example(title: "Code Block with Language") do |doc|
-provided by HAML.
-
-
-
-    = doc_note(modifier: :warning, css: "mb-8") do
-      You cannot use the `prefix` option and the `:plain` filter at the same
-time as we have to apply some special styling
-
-
-
   = daisy_code do
     def hello_world
   puts "Hello, world!"
 end
 ```
 
-URL: /examples/Daisy::Mockup::CodeComponent#code-block-with-language
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent#code-block-with-language
 
 -- Example: Numbered / Highlighted Lines
 Description:
@@ -7627,10 +6636,6 @@ You can also highlight specific lines in your code block by utilizing standard T
 Code (HAML):
 ```haml
 = doc_example(title: "Numbered / Highlighted Lines") do |doc|
-standard Tailwind classes.
-
-
-
   = daisy_code do |code|
     - code.with_line(prefix: "1") do
       Here is the first line
@@ -7648,16 +6653,16 @@ standard Tailwind classes.
       Here is the fifth line
 ```
 
-URL: /examples/Daisy::Mockup::CodeComponent#numbered-highlighted-lines
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComponent#numbered-highlighted-lines
 
 ---
 
 === Component: Daisy::Mockup::DeviceComponent
 Group: Mockup
 Title: Devices
-API URL: /api-docs
-Examples URL: /examples/Daisy::Mockup::DeviceComponent
-File: /home/loco_demo/app/views/examples/daisy/mockup/devices.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::DeviceComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/device_component.rb
 
 Description:
 Device mockups are a great way to showcase your designs in a realistic way! 
@@ -7688,7 +6693,7 @@ Code (HAML):
       = image_tag("landscapes/mountain-river.jpg", class: "rounded-lg")
 ```
 
-URL: /examples/Daisy::Mockup::DeviceComponent#phone
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::DeviceComponent#phone
 
 -- Example: Tablet
 Description:
@@ -7697,10 +6702,6 @@ You can also hide the camera by passing `show_camera: false` to the component an
 Code (HAML):
 ```haml
 = doc_example(title: "Tablet") do |doc|
-component and add any colors you want to the device.
-
-
-
   = daisy_device(css: "mockup-phone border-red-600", display_css: "overflow-auto w-[736px] h-[414px]", show_camera: false) do
     .flex.flex-col.gap-4.p-4.bg-base-100
       .text-center.text-2xl.font-bold
@@ -7715,16 +6716,16 @@ component and add any colors you want to the device.
       = image_tag("landscapes/mountain-river.jpg", class: "rounded-xl")
 ```
 
-URL: /examples/Daisy::Mockup::DeviceComponent#tablet
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::DeviceComponent#tablet
 
 ---
 
 === Component: Daisy::Mockup::FrameComponent
 Group: Mockup
 Title: Frames
-API URL: /api-docs
-Examples URL: /examples/Daisy::Mockup::FrameComponent
-File: /home/loco_demo/app/views/examples/daisy/mockup/frames.html.haml
+API URL: https://loco-motion.profoundry.us/api-docs
+Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::FrameComponent
+File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/frame_component.rb
 
 Description:
  Frames showcase your work as if they were displayed in a window. This is  very similar to the existing  component_link("Browser", "Daisy::Mockup::BrowserComponent")  component but without some of the additional styling such as the browser  toolbar. 
@@ -7749,7 +6750,7 @@ Code (HAML):
         = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")
 ```
 
-URL: /examples/Daisy::Mockup::FrameComponent#basic-frame
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::FrameComponent#basic-frame
 
 -- Example: Styled Frame
 Description:
@@ -7769,7 +6770,7 @@ Code (HAML):
         = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")
 ```
 
-URL: /examples/Daisy::Mockup::FrameComponent#styled-frame
+URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::FrameComponent#styled-frame
 
 ---
 

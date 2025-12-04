@@ -89,6 +89,9 @@ class ApplicationController < ActionController::Base
       # Create a title from the id (capitalize, replace underscores with spaces)
       title = id.humanize
 
+      # Special case for LLMS to ensure proper capitalization
+      title = "LLMS" if id == "llms"
+
       # Create the navigation item hash with the appropriate path helper
       path = directory == 'docs' ? doc_path(display_id) : guide_path(display_id)
       { title: title, path: path }

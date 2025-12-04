@@ -205,14 +205,14 @@ namespace :algolia do
     end
   end
 
-  desc "Generate LLM.txt documentation file"
+  desc "Generate llms.txt and llms-full.txt documentation files"
   task :llm => :environment do
     require 'optparse'
 
     # Default options
     options = {
       component: nil,
-      output_path: nil,
+      output_dir: nil,
     }
 
     # Parse command-line arguments
@@ -223,8 +223,8 @@ namespace :algolia do
         options[:component] = name if name && !name.empty?
       end
 
-      parser.on("-o", "--output FILEPATH", "Save the results to a file at the specified path (default: docs/LLM.txt)") do |path|
-        options[:output_path] = path if path && !path.empty?
+      parser.on("-o", "--output DIR", "Save the results to the specified directory (default: public/)") do |path|
+        options[:output_dir] = path if path && !path.empty?
       end
 
       parser.on("-h", "--help", "Display this help message") do
@@ -233,19 +233,26 @@ namespace :algolia do
       end
     end.parse!(ENV["ARGS"]&.split || [])
 
-    # Set default output path if not specified
-    if options[:output_path].nil?
-      # Default to public directory so it can be served by the demo site
-      # Include version in filename for versioning
-      version = LocoMotion::VERSION
-      options[:output_path] = Rails.root.join('public', "LLM-v#{version}.txt").to_s
-      options[:create_versionless_copy] = true
-    else
-      options[:create_versionless_copy] = false
+    # Set default output directory if not specified
+    if options[:output_dir].nil?
+      options[:output_dir] = Rails.root.join('public').to_s
     end
 
-    puts "Generating LLM.txt documentation..."
-    puts "Output path: #{options[:output_path]}"
+    # Define output paths
+    version = LocoMotion::VERSION
+    index_filename = "llms-v#{version}.txt"
+    full_filename = "llms-full-v#{version}.txt"
+
+    index_path = File.join(options[:output_dir], index_filename)
+    full_path = File.join(options[:output_dir], full_filename)
+
+    # Also create versionless copies for convenience/permalinks
+    versionless_index_path = File.join(options[:output_dir], "llms.txt")
+    versionless_full_path = File.join(options[:output_dir], "llms-full.txt")
+
+    puts "Generating LLM documentation..."
+    puts "Output directory: #{options[:output_dir]}"
+    puts "Version: #{version}"
 
     # Create the services
     aggregation_service = Algolia::LlmAggregationService.new
@@ -253,10 +260,10 @@ namespace :algolia do
 
     # Aggregate component data
     components = []
-    
+
     if options[:component]
       component_name = options[:component]
-      
+
       if LocoMotion::COMPONENTS.key?(component_name)
         puts "Processing single component: #{component_name}"
         component_data = aggregation_service.aggregate_component(component_name, 0)
@@ -272,26 +279,34 @@ namespace :algolia do
 
     # Check if we have any components
     if components.empty?
-      puts "No components found. Nothing to export."
+      puts "No components found. No documentation generated."
       next
     end
 
     puts "Collected #{components.length} component(s)"
 
-    # Export to LLM.txt
-    success = export_service.export(components, options[:output_path])
-    
-    if success
-      puts "LLM.txt generated successfully at #{options[:output_path]}"
-      
-      # Create a versionless copy for easy access if using default path
-      if options[:create_versionless_copy]
-        versionless_path = Rails.root.join('public', 'LLM.txt').to_s
-        FileUtils.cp(options[:output_path], versionless_path)
-        puts "Versionless copy created at #{versionless_path}"
-      end
+    # Export the index file (llms-vX.Y.Z.txt)
+    if export_service.export_index(components, index_path)
+      puts "Generated: #{index_path}"
+
+      # Create the versionless copy
+      FileUtils.cp(index_path, versionless_index_path)
+      puts "Generated: #{versionless_index_path} (copy)"
     else
-      puts "Failed to generate LLM.txt"
+      puts "Error generating index file"
     end
+
+    # Export the full content file (llms-full-vX.Y.Z.txt)
+    if export_service.export_full(components, full_path)
+      puts "Generated: #{full_path}"
+
+      # Create the versionless copy
+      FileUtils.cp(full_path, versionless_full_path)
+      puts "Generated: #{versionless_full_path} (copy)"
+    else
+      puts "Error generating full content file"
+    end
+
+    puts "\nDocumentation generation complete!"
   end
 end

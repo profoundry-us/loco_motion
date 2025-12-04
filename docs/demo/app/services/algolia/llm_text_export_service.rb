@@ -12,7 +12,8 @@ module Algolia
   # @loco_example Export components to LLM.txt
   #   components = Algolia::LLMAggregationService.new.aggregate_all
   #   service = Algolia::LLMTextExportService.new
-  #   service.export(components, 'docs/LLM.txt')
+  #   service.export_index(components, 'docs/llms.txt')
+  #   service.export_full(components, 'docs/llms-full.txt')
   #
   class LlmTextExportService
     # Initialize the service
@@ -20,14 +21,14 @@ module Algolia
     def initialize
     end
 
-    # Export components to an LLM.txt file
+    # Export components to an llms.txt index file
     #
     # @param components [Array<Hash>] Array of component data bundles
     # @param output_path [String] The output file path
     #
     # @return [Boolean] Whether the export was successful
     #
-    def export(components, output_path)
+    def export_index(components, output_path)
       return false if components.nil? || components.empty? || output_path.nil? || output_path.empty?
 
       begin
@@ -35,35 +36,85 @@ module Algolia
         directory = File.dirname(output_path)
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
-        # Write the LLM.txt file
+        # Write the llms.txt file
         File.open(output_path, 'w:UTF-8') do |file|
-          write_header(file)
+          write_index_header(file)
           write_component_index(file, components)
-          write_separator(file)
-          write_component_details(file, components)
         end
 
-        Rails.logger.debug "LLM.txt exported to #{output_path}"
+        Rails.logger.debug "llms.txt exported to #{output_path}"
         true
       rescue => e
-        Rails.logger.debug "Error exporting LLM.txt: #{e.message}"
+        Rails.logger.debug "Error exporting llms.txt: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
         false
       end
     end
 
+    # Export components to an llms-full.txt file
+    #
+    # @param components [Array<Hash>] Array of component data bundles
+    # @param output_path [String] The output file path
+    #
+    # @return [Boolean] Whether the export was successful
+    #
+    def export_full(components, output_path)
+      return false if components.nil? || components.empty? || output_path.nil? || output_path.empty?
+
+      begin
+        # Ensure the directory exists
+        directory = File.dirname(output_path)
+        FileUtils.mkdir_p(directory) unless File.directory?(directory)
+
+        # Write the llms-full.txt file
+        File.open(output_path, 'w:UTF-8') do |file|
+          write_full_header(file)
+          write_component_details(file, components)
+        end
+
+        Rails.logger.debug "llms-full.txt exported to #{output_path}"
+        true
+      rescue => e
+        Rails.logger.debug "Error exporting llms-full.txt: #{e.message}"
+        Rails.logger.debug e.backtrace.inspect
+        false
+      end
+    end
+
+    # Deprecated: Use export_full instead
+    def export(components, output_path)
+      export_full(components, output_path)
+    end
+
     private
 
-    # Write the file header
+    # Write the index file header
     #
     # @param file [File] The output file
     #
-    def write_header(file)
+    def write_index_header(file)
+      file.puts "# LocoMotion Documentation Index"
+      file.puts ""
+      file.puts "This file contains a list of available components in the LocoMotion library."
+      file.puts "For full documentation, please refer to llms-full.txt"
+      file.puts ""
+    end
+
+    # Write the full file header
+    #
+    # @param file [File] The output file
+    #
+    def write_full_header(file)
       file.puts "# LocoMotion Component Library"
       file.puts ""
       file.puts "This file provides comprehensive documentation for all LocoMotion components."
       file.puts "LocoMotion is a Ruby on Rails component library built on ViewComponent and DaisyUI."
       file.puts ""
+    end
+
+    # Deprecated: Use write_full_header instead
+    def write_header(file)
+      write_full_header(file)
     end
 
     # Write the component index section
@@ -74,11 +125,11 @@ module Algolia
     def write_component_index(file, components)
       file.puts "## Available Components"
       file.puts ""
-      
+
       components.each do |component|
         section_text = component[:section].present? ? component[:section] : component[:framework]
         short_desc = truncate_description(component[:description], 80)
-        
+
         file.puts "- **#{component[:component]}** (#{section_text}): #{short_desc}"
         file.puts "  API: #{component[:api_url]}"
         file.puts "  Examples: #{component[:examples_url]}"
@@ -121,16 +172,16 @@ module Algolia
       file.puts "Examples URL: #{component[:examples_url]}"
       file.puts "File: #{component[:file_path]}"
       file.puts ""
-      
+
       if component[:description].present?
         file.puts "Description:"
         file.puts component[:description]
         file.puts ""
       end
-      
+
       write_helpers_section(file, component)
       write_examples_section(file, component)
-      
+
       file.puts "---"
       file.puts ""
     end
@@ -142,20 +193,20 @@ module Algolia
     #
     def write_helpers_section(file, component)
       file.puts "Helpers:"
-      
+
       # Get helper names from the component registry
       metadata = LocoMotion::COMPONENTS[component[:component]]
       if metadata && metadata[:names]
         helper_names = [metadata[:names]].flatten.compact
         framework_prefix = component[:framework].underscore
-        
+
         helper_names.each do |name|
           file.puts "- #{framework_prefix}_#{name}"
         end
       else
         file.puts "- (No helper methods defined)"
       end
-      
+
       file.puts ""
     end
 
@@ -166,32 +217,32 @@ module Algolia
     #
     def write_examples_section(file, component)
       return unless component[:examples].present? && component[:examples].any?
-      
+
       file.puts "Examples:"
       file.puts ""
-      
+
       component[:examples].each do |example|
         next unless example[:title].present?
-        
+
         file.puts "-- Example: #{example[:title]}"
-        
+
         if example[:description].present?
           file.puts "Description:"
           file.puts example[:description]
           file.puts ""
         end
-        
+
         if example[:code].present?
           # Strip the description block from the code since we already show it above
           cleaned_code = strip_description_block(example[:code])
-          
+
           file.puts "Code (HAML):"
           file.puts "```haml"
           file.puts cleaned_code
           file.puts "```"
           file.puts ""
         end
-        
+
         file.puts "URL: #{component[:examples_url]}##{example[:anchor]}"
         file.puts ""
       end
@@ -205,42 +256,40 @@ module Algolia
     #
     def strip_description_block(code)
       return code if code.nil? || code.empty?
-      
+
       lines = code.split("\n")
       result = []
-      skip_depth = nil
-      base_indent = nil
-      
+      in_description = false
+
       lines.each do |line|
         # Detect the start of a description block
         if line.match?(/^\s*-\s+doc\.with_description\s+do\s*$/)
-          # Calculate the indentation level
-          base_indent = line[/^\s*/].length
-          skip_depth = base_indent
+          in_description = true
           next
         end
-        
-        # If we're skipping, check if we've reached the end of the block
-        if skip_depth
-          current_indent = line[/^\s*/].length
-          
-          # Empty lines don't affect block detection
+
+        # If we're in a description block, skip until we find actual HAML code
+        if in_description
+          # Empty lines are part of the description
           if line.strip.empty?
             next
           end
-          
-          # If indentation is back to base level or less, we're done skipping
-          if current_indent <= skip_depth
-            skip_depth = nil
-            base_indent = nil
+
+          # Check if this line looks like HAML code (starts with =, -, %, ., or #)
+          # We need to check at the indentation level of the doc_example block (typically 2 spaces)
+          if line.match?(/^\s{0,2}[=\-%#\.]/)
+            # This is actual HAML code, exit description mode
+            in_description = false
+            # Don't skip this line - it's actual code
           else
+            # This is still description text, skip it
             next
           end
         end
-        
+
         result << line
       end
-      
+
       result.join("\n").strip
     end
 
@@ -253,7 +302,7 @@ module Algolia
     #
     def truncate_description(text, max_length)
       return "" if text.nil? || text.empty?
-      
+
       if text.length > max_length
         "#{text[0...max_length].strip}..."
       else

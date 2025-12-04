@@ -30,6 +30,24 @@
       Link Button
 
 
+= doc_example(title: "Links") do |doc|
+  - doc.with_description do
+    %p
+      Buttons can be used as links by providing an `href` attribute. This renders
+      an `<a>` tag instead of a `<button>` tag.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_button(href: "https://google.com", target: "_blank") do
+      External Link
+
+    = daisy_button(href: "/docs", css: "btn-primary") do
+      Internal Link
+
+    = daisy_button(href: "#", css: "btn-secondary", icon: "arrow-right") do
+      Link with Icon
+
+
+
 = doc_example(title: "Icon Buttons") do |doc|
   - doc.with_description do
     %p Buttons can also have an icon on the left or right side.

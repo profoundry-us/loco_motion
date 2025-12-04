@@ -18,6 +18,19 @@
         Book Travel
 
 
+= doc_example(title: "Simple Card") do |doc|
+  - doc.with_description do
+    %p
+      For simple cards, you can pass the title and body directly as arguments
+      instead of using blocks.
+
+  = daisy_card(title: "Simple Card", body: "This is a simple card with just text.", css: "max-w-96 bg-base-100 shadow-xl") do |card|
+    - card.with_actions(css: "justify-end") do
+      = daisy_button(css: "btn-primary") do
+        Action
+
+
+
 = doc_example(title: "Card Figures") do |doc|
   - doc.with_description do
     %p
