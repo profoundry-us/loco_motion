@@ -199,14 +199,35 @@ module Algolia
 
         # Layout components
         "Daisy::Layout::HeroComponent" => ["Daisy::Actions::ButtonComponent"],
-        "Daisy::Layout::CardComponent" => ["Daisy::Actions::ButtonComponent"],
+        "Daisy::DataDisplay::CardComponent" => ["Daisy::Actions::ButtonComponent"],
 
         # Feedback components
         "Daisy::Feedback::AlertComponent" => ["Daisy::DataInput::TextInputComponent"],
         "Daisy::Feedback::TooltipComponent" => ["Daisy::Actions::ButtonComponent"]
       }
 
-      relationships[component_name] || []
+      # Validate all component names in relationships
+      valid_components = LocoMotion::COMPONENTS.keys
+
+      # Check if the requested component exists
+      unless valid_components.include?(component_name)
+        raise ArgumentError, "Component '#{component_name}' not found in LocoMotion::COMPONENTS registry"
+      end
+
+      # Check if we have relationships for this component
+      if relationships.key?(component_name)
+        # Validate all related components exist
+        related_components = relationships[component_name]
+        invalid_related = related_components.reject { |name| valid_components.include?(name) }
+
+        unless invalid_related.empty?
+          raise ArgumentError, "Invalid related components for '#{component_name}': #{invalid_related.join(', ')}"
+        end
+
+        related_components
+      else
+        []
+      end
     end
 
     # Extract Rails integration information
