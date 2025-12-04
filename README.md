@@ -994,7 +994,7 @@ the GitHub Discussions feature and let us know!
       the `lib/loco_motion/patches/view_component/slot_loco_parent_patch.rb`
 - [ ] Make the tooltips documentation button a component and use it for the
       Labelable concern docs too
-- [ ] Update LLM.txt with better examples showing actual usage scenarios
+- [x] Update LLM.txt with better examples showing actual usage scenarios
     - Right now, LLMs don't see enough things like HREFs in buttons / links
     - Cards still try to do a `card.with_body` or even `card.with_title` for
       just a string

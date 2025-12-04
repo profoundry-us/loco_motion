@@ -468,7 +468,7 @@ module Algolia
     # @param file [File] The output file
     #
     def write_usage_patterns_section(file)
-      patterns_file = Rails.root.join('docs', 'demo', 'data', 'usage_patterns.md')
+      patterns_file = Rails.root.join('data', 'usage_patterns.md')
 
       if File.exist?(patterns_file)
         file.puts "## Common Usage Patterns"

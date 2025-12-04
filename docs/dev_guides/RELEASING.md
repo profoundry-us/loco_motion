@@ -17,6 +17,7 @@ LocoMotion.
 - [Step 5 - GitHub Release](#step-5---github-release)
 - [Step 6 - Demo App Update](#step-6---demo-app-update)
 - [Step 7 - Algolia Indexing](#step-7---algolia-indexing)
+- [Step 8 - LLM Documentation Generation](#step-8---llm-documentation-generation)
 
 ## Preparation
 
@@ -246,6 +247,44 @@ heroku run bin/reindex_algolia -a your-app-name
 
 Or you can alter your `env.local` file to set the `ALGOLIA_ENV` variable to the
 environment you want to use.
+
+## Step 8 - LLM Documentation Generation
+
+After the demo app is deployed and Algolia indexing is complete, generate the
+LLM-friendly documentation files:
+
+1. **Generate LLM documentation**:
+
+   ```bash
+   make llm
+   ```
+
+   This will:
+   - Generate comprehensive LLM.txt files with all component documentation
+   - Create both versioned (`LLM-vX.X.X.txt`) and versionless (`LLM.txt`) copies
+   - Include usage patterns, component examples, and helper method documentation
+   - Place files in the demo public directory for HTTP access
+
+2. **Verify the generation**:
+
+   ```bash
+   # Check that files were generated
+   ls -la docs/demo/public/LLM*.txt
+
+   # Verify content quality
+   docker compose exec -it demo bundle exec rake algolia:llm
+   ```
+
+3. **Commit the generated files**:
+
+   ```bash
+   git add docs/demo/public/LLM*.txt
+   git commit -m "Generate LLM documentation for version X.X.X"
+   git push
+   ```
+
+The LLM documentation is used by AI assistants to provide better code
+generation and support for LocoMotion components.
 
 See the [Algolia Integration Guide](ALGOLIA.md) for more details on how the
 Algolia integration works.

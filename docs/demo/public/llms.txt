@@ -29,7 +29,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent
 
-- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): 
+- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): Collapsible content sections that expand/collapse on click.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent
 
@@ -37,39 +37,39 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent
 
-- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): 
+- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): Small, colorful indicators for displaying status, counts, or metadata.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent
 
-- **Daisy::DataDisplay::CardComponent** (DataDisplay): Versatile containers for grouping related content with optional images, titles,...
+- **Daisy::DataDisplay::CardComponent** (DataDisplay): Versatile containers for grouping related content with optional images,...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent
 
-- **Daisy::DataDisplay::CarouselComponent** (DataDisplay): Carousels are great for showing off a lot of images! 
+- **Daisy::DataDisplay::CarouselComponent** (DataDisplay): Interactive image galleries with smooth sliding transitions and navigation.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent
 
-- **Daisy::DataDisplay::ChatComponent** (DataDisplay): 
+- **Daisy::DataDisplay::ChatComponent** (DataDisplay): Message bubbles designed for chat interfaces and conversations.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent
 
-- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): 
+- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): Expandable/collapsible content containers with smooth animations.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent
 
-- **Daisy::DataDisplay::CountdownComponent** (DataDisplay):  Countdowns display an animated countdown to a specific date. 
+- **Daisy::DataDisplay::CountdownComponent** (DataDisplay): Animated timers that count down from a specified duration to zero.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CountdownComponent
 
-- **Daisy::DataDisplay::DiffComponent** (DataDisplay): Diffs allow you to move a slider back and forth to compare two images,  text,...
+- **Daisy::DataDisplay::DiffComponent** (DataDisplay): Interactive comparison components with a sliding divider to compare before...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent
 
-- **Daisy::DataDisplay::FigureComponent** (DataDisplay): 
+- **Daisy::DataDisplay::FigureComponent** (DataDisplay): Image containers with optional captions for visual content presentation.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent
 
-- **Daisy::DataDisplay::KbdComponent** (DataDisplay): The keyboard component is used to visually represent a key on a keyboard. 
+- **Daisy::DataDisplay::KbdComponent** (DataDisplay): Styled keyboard key representations for displaying keyboard shortcuts,...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::KbdComponent
 
@@ -89,7 +89,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent
 
-- **Daisy::DataDisplay::TimelineComponent** (DataDisplay): Visual sequences for displaying chronological events, progress updates, or...
+- **Daisy::DataDisplay::TimelineComponent** (DataDisplay): Visual sequences for displaying chronological events, progress updates,  or...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent
 
@@ -145,7 +145,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::ToggleComponent
 
-- **Daisy::Navigation::BreadcrumbsComponent** (Navigation): Breadcrumbs are used to show the user's location within a website or app. 
+- **Daisy::Navigation::BreadcrumbsComponent** (Navigation): Navigation aids that show the user's current location and path within a...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::BreadcrumbsComponent
 
@@ -161,7 +161,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::MenuComponent
 
-- **Daisy::Navigation::NavbarComponent** (Navigation):  Navbars are a common way to organize navigation links at the top of a page. 
+- **Daisy::Navigation::NavbarComponent** (Navigation): Horizontal navigation bars that organize primary navigation links, branding,...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::NavbarComponent
 
