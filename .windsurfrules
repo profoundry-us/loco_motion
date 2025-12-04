@@ -27,6 +27,7 @@ during AI-assisted development.
 
 # Always-On Rules
 
+0. NEVER push to the remote repository unless explicitly told to do so
 1. NEVER try to start / stop Docker containers; prompt the user for help instead
 2. ALWAYS review the `Makefile` before running any commands
 3. ALWAYS use `/bin/rm`, `/bin/mv`, and `/bin/cp` commands instead of `rm`, `mv`, and `cp` (which have aliases that prompt for confirmation)
