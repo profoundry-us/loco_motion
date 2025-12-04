@@ -226,7 +226,7 @@ This document describes common usage patterns and conventions for the LocoMotion
 
 ### Actions
 
-- **Daisy::Actions::ButtonComponent**:  Here are some examples showcasing button. 
+- **Daisy::Actions::ButtonComponent**: Interactive button components for actions, navigation, and form submissions.
 - **Daisy::Actions::DropdownComponent**: Dropdowns are a great way to display a list of items in a compact manner. 
 - **Daisy::Actions::ModalComponent**: Modals are used to display content that requires user interaction.
 - **Daisy::Actions::SwapComponent**: The Swap component allows you to quickly swap between two icons, images, or...
@@ -234,34 +234,34 @@ This document describes common usage patterns and conventions for the LocoMotion
 
 ### DataDisplay
 
-- **Daisy::DataDisplay::AccordionComponent**: Here are some examples showcasing accordions. 
-- **Daisy::DataDisplay::AvatarComponent**: Here are some simple avatar examples. 
-- **Daisy::DataDisplay::BadgeComponent**: Here are some examples showcasing badges. 
-- **Daisy::DataDisplay::CardComponent**: Here are some examples showcasing cards. 
+- **Daisy::DataDisplay::AccordionComponent**: 
+- **Daisy::DataDisplay::AvatarComponent**: User profile image components with fallback options and status indicators.
+- **Daisy::DataDisplay::BadgeComponent**: 
+- **Daisy::DataDisplay::CardComponent**: Versatile containers for grouping related content with optional images, titles,...
 - **Daisy::DataDisplay::CarouselComponent**: Carousels are great for showing off a lot of images! 
-- **Daisy::DataDisplay::ChatComponent**:  Here are some examples showcasing chat bubbles. 
-- **Daisy::DataDisplay::CollapseComponent**: Here are some simple collapse examples. 
+- **Daisy::DataDisplay::ChatComponent**: 
+- **Daisy::DataDisplay::CollapseComponent**: 
 - **Daisy::DataDisplay::CountdownComponent**:  Countdowns display an animated countdown to a specific date. 
 - **Daisy::DataDisplay::DiffComponent**: Diffs allow you to move a slider back and forth to compare two images,  text,...
-- **Daisy::DataDisplay::FigureComponent**: Here are some examples showcasing figures. 
+- **Daisy::DataDisplay::FigureComponent**: 
 - **Daisy::DataDisplay::KbdComponent**: The keyboard component is used to visually represent a key on a keyboard. 
 - **Daisy::DataDisplay::ListComponent**: Lists provide a vertical layout to display information in rows.
 - **Daisy::DataDisplay::StatComponent**: doc_note do Stats have a transparent background by default.
 - **Daisy::DataDisplay::StatusComponent**: Status is a really small icon to visually show the current status of an...
 - **Daisy::DataDisplay::TableComponent**: Tables are designed to show data in a tabular layout making it easy to see...
-- **Daisy::DataDisplay::TimelineComponent**:  Here are some examples showcasing timelines. 
+- **Daisy::DataDisplay::TimelineComponent**: Visual sequences for displaying chronological events, progress updates, or...
 
 ### DataInput
 
 - **Daisy::DataInput::CallyComponent**: doc_note(modifier: :warning) do You must include the Cally script tag or <a...
 - **Daisy::DataInput::CallyInputComponent**: This component provides an elegant alternative to standard HTML date inputs...
 - **Daisy::DataInput::CheckboxComponent**: Checkboxes are great for toggling an item on / off, or selecting multiple items...
-- **Daisy::DataInput::FileInputComponent**: Here are some examples showcasing file input components. 
+- **Daisy::DataInput::FileInputComponent**: Styled file upload controls with drag-and-drop support and visual feedback.
 - **Daisy::DataInput::FieldsetComponent**: Fieldsets group related form controls and can optionally include a leg. 
 - **Daisy::DataInput::LabelComponent**: Labels provide a useful description for various kinds of inputs. 
-- **Daisy::DataInput::RadioButtonComponent**: Here are some examples showcasing radio button components. 
-- **Daisy::DataInput::RangeComponent**: Here are some examples showcasing range input components. 
-- **Daisy::DataInput::RatingComponent**: Here are some examples showcasing rating input components. 
+- **Daisy::DataInput::RadioButtonComponent**: Interactive selection controls for choosing one option from a group.
+- **Daisy::DataInput::RangeComponent**: Slider controls for selecting numeric values within a defined range.
+- **Daisy::DataInput::RatingComponent**: Star-based rating controls for user feedback and reviews. Interactive star...
 - **Daisy::DataInput::SelectComponent**: doc_note do Select inputs have a border by default and a width of 20rem.
 - **Daisy::DataInput::TextInputComponent**: Text inputs allow you to enter various forms of text such as usernames,...
 - **Daisy::DataInput::TextAreaComponent**: doc_note do Text areas have a border by default. Use `textarea-ghost` to remove...
@@ -308,7 +308,7 @@ This document describes common usage patterns and conventions for the LocoMotion
 - **Daisy::Navigation::NavbarComponent**:  Navbars are a common way to organize navigation links at the top of a page. 
 - **Daisy::Navigation::PaginationComponent**: Pagination can be implemented by utilizing the existing  component_link("Join",...
 - **Daisy::Navigation::StepsComponent**: Steps allow you to create a series of steps that users can follow to  complete...
-- **Daisy::Navigation::TabsComponent**: Here are some examples showcasing tabs. 
+- **Daisy::Navigation::TabsComponent**: Navigation controls for organizing content into switchable panels.
 
 ---
 
@@ -381,7 +381,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/button_component.rb
 
 Description:
- Here are some examples showcasing button. 
+ Interactive button components for actions, navigation, and form submissions.  Supports multiple styles (primary, secondary, ghost, link), sizes, icons,  and custom styling options for versatile UI interactions. 
 
 API Signature:
 - daisy_button
@@ -932,13 +932,9 @@ Code (HAML):
 
 === Component: Daisy::DataDisplay::AccordionComponent
 Group: DataDisplay
-Title: Accordions
 API URL: https://loco-motion.profoundry.us/api-docs
 Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/accordion_component.rb
-
-Description:
-Here are some examples showcasing accordions. 
 
 API Signature:
 - daisy_accordion
@@ -965,62 +961,6 @@ Rails Integration:
 Helpers:
 - daisy_accordion
 
-Examples:
-
--- Example: Basic Accordion
-Description:
-You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to each section.
-
-Code (HAML):
-```haml
-= daisy_accordion(css: "mt-4 bg-base-200 rounded-lg") do |accordion|
-      This is a simple accordion. Click the sections to see more.
-
-      It has three sections.
-
-      You can open them independently.
-```
-
--- Example: Separated Accordion
-Description:
-Sections can be combined or separated by specifying the `name` attribute. You can also set the `:arrow` or `:plus` modifier to the entire accordion to apply it to all sections.
-
-Code (HAML):
-```haml
-= daisy_accordion(css: "mt-4", modifier: :arrow) do |accordion|
-      Sections can be combined...
-
-      Like these two.
-
-      Or separated via the <code>name</code> attribute.
-
-      Like these two.
-```
-
--- Example: Form Accordion
-Description:
-Because it uses `<input type="radio">` elements, you can even use it inside a form!
-
-Code (HAML):
-```haml
-%turbo-frame{"id" => "accordion-form"}
-    %form.mt-4.w-80{ action: "#" }
-      %label.block.mb-4.italic What is your favorite color?
-
-      = daisy_accordion(modifier: :plus, css: "flex flex-col gap-y-4", name: "favorite-color") do |accordion|
-          Rosy!
-
-          Solid!
-
-          Groovy!
-
-      .mt-4.flex.flex-row.items-center.gap-x-4
-        %input{ type: "submit", value: "Submit", class: "btn btn-secondary" }
-
-        - if params["favorite-color"]
-          %span.font-bold "You chose #{params["favorite-color"]}!"
-```
-
 ---
 
 === Component: Daisy::DataDisplay::AvatarComponent
@@ -1031,7 +971,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Ava
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb
 
 Description:
-Here are some simple avatar examples. 
+User profile image components with fallback options and status indicators. Supports photos, initials, or icons with online/offline status dots for representing users in chat interfaces and user lists. 
 
 API Signature:
 - daisy_avatar
@@ -1122,13 +1062,9 @@ Code (HAML):
 
 === Component: Daisy::DataDisplay::BadgeComponent
 Group: DataDisplay
-Title: Badges
 API URL: https://loco-motion.profoundry.us/api-docs
 Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/badge_component.rb
-
-Description:
-Here are some examples showcasing badges. 
 
 API Signature:
 - daisy_badge
@@ -1155,169 +1091,6 @@ Rails Integration:
 Helpers:
 - daisy_badge
 
-Examples:
-
--- Example: Simple Badges
-Description:
-You can use the Badge component to display a small amount of information. Badges can be used to indicate status, category, or other metadata. The `title` can be passed through keyword arguments or as a block.
-
-Code (HAML):
-```haml
-.my-2.flex.flex-col.lg:flex-row.gap-4
-
-
-    = daisy_badge(css: "badge-secondary") do
-      Secondary Badge
-
-    = daisy_badge(css: "badge-accent") do
-      Accent Badge
-
-    = daisy_badge(css: "badge-ghost") do
-      Ghost Badge
-```
-
--- Example: Badge Sizes
-Description:
-Badges come in four sizes: large, medium, small, and extra small.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-secondary badge-lg") do
-      Large Badge
-
-    = daisy_badge(css: "badge-success badge-md") do
-      Medium Badge
-
-    = daisy_badge(css: "badge-error badge-sm") do
-      Small Badge
-
-    = daisy_badge(css: "badge-warning badge-xs") do
-      Extra Small Badge
-```
-
--- Example: Badges with Icons
-Description:
-Badges can include icons on either the left or right side, or both. Use the `left_icon` and `right_icon` options to add icons. You can also use the `icon` option as an alias for `left_icon`.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-```
-
--- Example: Linked Badges
-Description:
-Badges can be made clickable by providing an `href` option. This transforms the badge into an anchor (`<a>`) tag. You can also specify a `target` attribute for the link, such as `_blank` for opening in a new tab.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-
-
-
-    = daisy_badge(href: "/", css: "badge-primary") do
-      %span.flex.items-center.gap-1
-        = hero_icon "document-text", css: "size-4"
-
-        Read More
-```
-
--- Example: Outline Badge
-Description:
-Badges can be displayed in an outline style.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-outline") { "Default" }
-
-    = daisy_badge(css: "badge-primary badge-outline") { "Primary" }
-
-    = daisy_badge(css: "badge-secondary badge-outline") { "Secondary" }
-
-    = daisy_badge(css: "badge-accent badge-outline") { "Accent" }
-```
-
--- Example: Soft Badge
-Description:
-Badges can be displayed in a soft style.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-soft") { "Default" }
-
-    = daisy_badge(css: "badge-primary badge-soft") { "Primary" }
-
-    = daisy_badge(css: "badge-secondary badge-soft") { "Secondary" }
-
-    = daisy_badge(css: "badge-accent badge-soft") { "Accent" }
-```
-
--- Example: Dash Badge
-Description:
-Badges can be displayed in a dash style.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-dash") { "Default" }
-
-    = daisy_badge(css: "badge-primary badge-dash") { "Primary" }
-
-    = daisy_badge(css: "badge-secondary badge-dash") { "Secondary" }
-
-    = daisy_badge(css: "badge-accent badge-dash") { "Accent" }
-```
-
--- Example: Outline badges with state colors
-Description:
-Outline badges can be displayed with state colors.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-info badge-outline") { "Info" }
-
-    = daisy_badge(css: "badge-success badge-outline") { "Success" }
-
-    = daisy_badge(css: "badge-warning badge-outline") { "Warning" }
-
-    = daisy_badge(css: "badge-error badge-outline") { "Error" }
-```
-
--- Example: Soft badges with state colors
-Description:
-Soft badges can be displayed with state colors.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-info badge-soft") { "Info" }
-
-    = daisy_badge(css: "badge-success badge-soft") { "Success" }
-
-    = daisy_badge(css: "badge-warning badge-soft") { "Warning" }
-
-    = daisy_badge(css: "badge-error badge-soft") { "Error" }
-```
-
--- Example: Dash badges with state colors
-Description:
-Dash badges can be displayed with state colors.
-
-Code (HAML):
-```haml
-.flex.flex-col.lg:flex-row.lg:items-center.gap-4
-    = daisy_badge(css: "badge-info badge-dash") { "Info" }
-
-    = daisy_badge(css: "badge-success badge-dash") { "Success" }
-
-    = daisy_badge(css: "badge-warning badge-dash") { "Warning" }
-
-    = daisy_badge(css: "badge-error badge-dash") { "Error" }
-```
-
 ---
 
 === Component: Daisy::DataDisplay::CardComponent
@@ -1328,7 +1101,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Car
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/card_component.rb
 
 Description:
-Here are some examples showcasing cards. 
+Versatile containers for grouping related content with optional images, titles, descriptions, and actions. Perfect for product displays, article  previews, and organized information presentation. 
 
 API Signature:
 - daisy_card
@@ -1572,13 +1345,9 @@ Code (HAML):
 
 === Component: Daisy::DataDisplay::ChatComponent
 Group: DataDisplay
-Title: Chat Bubbles
 API URL: https://loco-motion.profoundry.us/api-docs
 Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb
-
-Description:
- Here are some examples showcasing chat bubbles. 
 
 API Signature:
 - daisy_chat
@@ -1605,124 +1374,13 @@ Rails Integration:
 Helpers:
 - daisy_chat
 
-Examples:
-
--- Example: Advanced Chat
-Description:
-Chat bubbles are used to display messages in a structured way. They can contain text, user images, a header, and a footer.
-
-Code (HAML):
-```haml
-.w-full.mx-4
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble do
-        Hey Marcia! How are you doing?
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-3.jpg"))
-
-      - chat.with_bubble do
-        I'm doing great! How about you?
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble do
-        I'm doing great too! Thanks for asking.
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-3.jpg"))
-
-      - chat.with_bubble do
-        That's great to hear!
-
-      - chat.with_footer do
-        Read 10:45 AM
-
-    = # Custom content messages
-
-    = daisy_chat(css: "chat-end") do |chat|
-      - chat.with_avatar(icon: "user", icon_css: "text-yellow-400")
-
-      - chat.with_header do
-        Unknown Number (555) 883-1234
-
-      - chat.with_footer(css: "text-red-600 mt-1 flex items-center gap-x-2") do
-        = heroicon("exclamation-triangle", variant: :outline, class: "size-4")
-
-        %span
-          Failed to send
-
-      .chat-bubble
-        Who dis? Why am I in this group chat?!
-```
-
--- Example: Colored Chat
-Description:
-Chat bubbles can be colored to differentiate between different users or types of messages.
-
-Code (HAML):
-```haml
-.w-full.mx-4
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble(css: "chat-bubble-accent flex items-center gap-x-1") do
-        = heroicon "map-pin", class: "size-5"
-
-        %strong
-          Jill
-
-        %span
-          Started sharing her location.
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble(css: "bg-base-300 text-base-content") do
-        Hey Marcia! How are you doing?
-
-    = daisy_chat(css: "chat-end") do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-4.jpg"))
-
-      - chat.with_bubble(css: "chat-bubble-primary") do
-        I'm blue da ba dee da ba daa
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble(css: "bg-base-300 text-base-content") do
-        Maybe this will help!
-
-    = daisy_chat do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
-
-      - chat.with_bubble(css: "chat-bubble-success text-base-200") do
-        .flex.justify-center
-          = heroicon "currency-dollar", class: "size-12"
-
-        Jill sent you <strong>$50</strong>.
-
-    = daisy_chat(css: "chat-end") do |chat|
-      - chat.with_avatar(src: image_path("avatars/lady-smiling-4.jpg"))
-
-      - chat.with_bubble(css: "chat-bubble-primary") do
-        Wow, thanks! ❤️
-```
-
 ---
 
 === Component: Daisy::DataDisplay::CollapseComponent
 Group: DataDisplay
-Title: Collapses
 API URL: https://loco-motion.profoundry.us/api-docs
 Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/collapse_component.rb
-
-Description:
-Here are some simple collapse examples. 
 
 API Signature:
 - daisy_collapse
@@ -1748,53 +1406,6 @@ Rails Integration:
 
 Helpers:
 - daisy_collapse
-
-Examples:
-
--- Example: Basic Collapse
-Description:
-Collapses are transparent by default and add additional padding.
-
-Code (HAML):
-```haml
-.mx-auto{ class: "w-[400px]" }
-      This is the content of the collapse.
-```
-
--- Example: Arrow & Plus Collapses
-Description:
-You can apply the `collapse-arrow` or `collapse-plus` CSS modifiers directly to each collapse.
-
-Code (HAML):
-```haml
-.flex.flex-col.gap-4{ class: "w-[400px]" }
-      This is the content of the arrow collapse.
-
-      This is the content of the plus collapse.
-```
-
--- Example: Advanced Collapse
-Description:
-You can also customize the collapse with any HTML you desire!
-
-Code (HAML):
-```haml
-.mx-auto{ class: "w-[400px]" }
-    = daisy_collapse(css: "collapse-arrow bg-base-200 border border-base-300") do |collapse|
-      - collapse.with_title(css: "collapse-title bg-base-300") do
-        .flex.gap-x-2.items-center
-          = heroicon("user-circle", class: "size-6")
-
-          %strong User Profile
-
-      .mt-4.flex.gap-x-4.items-center
-        = daisy_avatar(src: image_path("avatars/lady-smiling-1.jpg"))
-
-        
-          .text-xl.font-bold Jane Oliver
-
-          .italic jane@oliver.test
-```
 
 ---
 
@@ -1946,13 +1557,9 @@ Code (HAML):
 
 === Component: Daisy::DataDisplay::FigureComponent
 Group: DataDisplay
-Title: Figures
 API URL: https://loco-motion.profoundry.us/api-docs
 Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/figure_component.rb
-
-Description:
-Here are some examples showcasing figures. 
 
 API Signature:
 - daisy_figure
@@ -1978,40 +1585,6 @@ Rails Integration:
 
 Helpers:
 - daisy_figure
-
-Examples:
-
--- Example: Basic Figure
-Description:
-Figures are used to display images with optional captions. They are commonly used within cards and other content containers.
-
-Code (HAML):
-```haml
-= daisy_figure(css: "max-w-96", src: image_path("landscapes/beach.jpg"))
-```
-
--- Example: Figure with Caption
-Description:
-You can add a caption to your figure by providing content to the component.
-
-Code (HAML):
-```haml
-= daisy_figure(css: "max-w-96", src: image_path("landscapes/mountain-river.jpg")) do
-    %p.text-center.italic A beautiful mountain river landscape
-```
-
--- Example: Custom Content
-Description:
-Figures can also be used without an image to display custom content.
-
-Code (HAML):
-```haml
-= daisy_figure(css: "max-w-96 bg-base-100 border border-base-300 p-4 rounded-lg") do
-    .flex.flex-col.items-center.gap-4
-      = hero_icon("photo", css: "size-16 text-base-content/50")
-
-      %p.text-center.italic Custom content without an image
-```
 
 ---
 
@@ -2741,7 +2314,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Tim
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/timeline_component.rb
 
 Description:
- Here are some examples showcasing timelines. 
+Visual sequences for displaying chronological events, progress updates, or step-by-step processes. Supports vertical and horizontal layouts with  customizable markers and content sections. 
 
 API Signature:
 - daisy_timeline
@@ -3276,7 +2849,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileI
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/file_input_component.rb
 
 Description:
-Here are some examples showcasing file input components. 
+Styled file upload controls with drag-and-drop support and visual feedback. Accepts single or multiple files with customizable styling and validation options for modern form interfaces. 
 
 API Signature:
 - daisy_file_input
@@ -3667,7 +3240,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Radio
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/radio_button_component.rb
 
 Description:
-Here are some examples showcasing radio button components. 
+Interactive selection controls for choosing one option from a group. Automatically grouped by name attribute with customizable styling and labels for form inputs and preference settings. 
 
 API Signature:
 - daisy_radio
@@ -3849,7 +3422,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Range
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/range_component.rb
 
 Description:
-Here are some examples showcasing range input components. 
+Slider controls for selecting numeric values within a defined range. Perfect for volume controls, price filters, progress indicators, and any quantitative input with visual feedback. 
 
 API Signature:
 - daisy_range
@@ -4002,7 +3575,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Ratin
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/rating_component.rb
 
 Description:
-Here are some examples showcasing rating input components. 
+Star-based rating controls for user feedback and reviews. Interactive star selection with customizable colors, sizes, and half-star precision for product ratings and satisfaction surveys. 
 
 API Signature:
 - daisy_rating
@@ -5614,7 +5187,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Tabs
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/tabs_component.rb
 
 Description:
-Here are some examples showcasing tabs. 
+Navigation controls for organizing content into switchable panels. Supports multiple sizes (xs, sm, md, lg, xl) and styles (boxed, bordered, lift) for creating intuitive content navigation and filtering interfaces. 
 
 API Signature:
 - daisy_tabs

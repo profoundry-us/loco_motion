@@ -9,7 +9,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Hero::IconComponent
 
-- **Daisy::Actions::ButtonComponent** (Actions):  Here are some examples showcasing button. 
+- **Daisy::Actions::ButtonComponent** (Actions): Interactive button components for actions, navigation, and form submissions.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonComponent
 
@@ -29,19 +29,19 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeControllerComponent
 
-- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): Here are some examples showcasing accordions. 
+- **Daisy::DataDisplay::AccordionComponent** (DataDisplay): 
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AccordionComponent
 
-- **Daisy::DataDisplay::AvatarComponent** (DataDisplay): Here are some simple avatar examples. 
+- **Daisy::DataDisplay::AvatarComponent** (DataDisplay): User profile image components with fallback options and status indicators.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::AvatarComponent
 
-- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): Here are some examples showcasing badges. 
+- **Daisy::DataDisplay::BadgeComponent** (DataDisplay): 
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::BadgeComponent
 
-- **Daisy::DataDisplay::CardComponent** (DataDisplay): Here are some examples showcasing cards. 
+- **Daisy::DataDisplay::CardComponent** (DataDisplay): Versatile containers for grouping related content with optional images, titles,...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CardComponent
 
@@ -49,11 +49,11 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CarouselComponent
 
-- **Daisy::DataDisplay::ChatComponent** (DataDisplay):  Here are some examples showcasing chat bubbles. 
+- **Daisy::DataDisplay::ChatComponent** (DataDisplay): 
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::ChatComponent
 
-- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): Here are some simple collapse examples. 
+- **Daisy::DataDisplay::CollapseComponent** (DataDisplay): 
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::CollapseComponent
 
@@ -65,7 +65,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::DiffComponent
 
-- **Daisy::DataDisplay::FigureComponent** (DataDisplay): Here are some examples showcasing figures. 
+- **Daisy::DataDisplay::FigureComponent** (DataDisplay): 
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::FigureComponent
 
@@ -89,7 +89,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TableComponent
 
-- **Daisy::DataDisplay::TimelineComponent** (DataDisplay):  Here are some examples showcasing timelines. 
+- **Daisy::DataDisplay::TimelineComponent** (DataDisplay): Visual sequences for displaying chronological events, progress updates, or...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::TimelineComponent
 
@@ -105,7 +105,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::CheckboxComponent
 
-- **Daisy::DataInput::FileInputComponent** (DataInput): Here are some examples showcasing file input components. 
+- **Daisy::DataInput::FileInputComponent** (DataInput): Styled file upload controls with drag-and-drop support and visual feedback.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileInputComponent
 
@@ -117,15 +117,15 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::LabelComponent
 
-- **Daisy::DataInput::RadioButtonComponent** (DataInput): Here are some examples showcasing radio button components. 
+- **Daisy::DataInput::RadioButtonComponent** (DataInput): Interactive selection controls for choosing one option from a group.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RadioButtonComponent
 
-- **Daisy::DataInput::RangeComponent** (DataInput): Here are some examples showcasing range input components. 
+- **Daisy::DataInput::RangeComponent** (DataInput): Slider controls for selecting numeric values within a defined range.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RangeComponent
 
-- **Daisy::DataInput::RatingComponent** (DataInput): Here are some examples showcasing rating input components. 
+- **Daisy::DataInput::RatingComponent** (DataInput): Star-based rating controls for user feedback and reviews. Interactive star...
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::DataInput::RatingComponent
 
@@ -173,7 +173,7 @@ For full documentation, please refer to llms-full.txt
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::StepsComponent
 
-- **Daisy::Navigation::TabsComponent** (Navigation): Here are some examples showcasing tabs. 
+- **Daisy::Navigation::TabsComponent** (Navigation): Navigation controls for organizing content into switchable panels.
   API: https://loco-motion.profoundry.us/api-docs
   Examples: https://loco-motion.profoundry.us/examples/Daisy::Navigation::TabsComponent
 
