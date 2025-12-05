@@ -44,3 +44,34 @@
   = daisy_radial(value: 19, size: "15rem", thickness: "4px",
     css: "bg-primary text-primary-content text-3xl border-accent border-8") do
     19%
+
+
+= doc_example(title: "JavaScript Animation", example_css: "gap-4") do |doc|
+  - doc.with_description do
+    :markdown
+      The radial progress component animates smoothly when the value changes.
+      Here's a simple JavaScript example that automatically changes to a random
+      percentage between 8% and 100% every 1.5 seconds:
+
+  .flex.flex-col.items-center.gap-4
+    #animated-radial{class: "radial-progress", style: "--value: 50; --size: 8rem; --thickness: 8px;", role: "progressbar"}
+      50%
+
+  :javascript
+    function updateRadial(value) {
+      const radial = document.getElementById('animated-radial');
+      radial.style.setProperty('--value', value);
+      radial.textContent = value + '%';
+    }
+
+    function getRandomPercentage() {
+      return Math.floor(Math.random() * (100 - 8 + 1)) + 8;
+    }
+
+    function animateRadial() {
+      const newValue = getRandomPercentage();
+      updateRadial(newValue);
+    }
+
+    // Start the animation
+    setInterval(animateRadial, 1500);

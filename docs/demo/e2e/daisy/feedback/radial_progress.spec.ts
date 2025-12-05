@@ -12,6 +12,7 @@ test('page loads', async ({ page }) => {
   await loco.expectPageHeadings(page, [
     'Basic Radials',
     'Fancy Radials',
-    'Controlling Size & Color'
+    'Controlling Size & Color',
+    'JavaScript Animation'
   ]);
 });
