@@ -136,7 +136,7 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
   context "with invalid position" do
     it "raises an ArgumentError" do
       expect {
-        described_class.new(position: "invalid")
+        described_class.new(position: :invalid)
       }.to raise_error(ArgumentError, "position must be :top or :bottom, got 'invalid'")
     end
   end
