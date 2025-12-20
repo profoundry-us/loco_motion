@@ -16,7 +16,7 @@
 #     Content when no image is provided
 #
 # @loco_example Image Position Bottom
-#   = daisy_figure(src: "example.jpg", position: "bottom") do
+#   = daisy_figure(src: "example.jpg", position: :bottom) do
 #     Caption appears above the image
 #
 class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
