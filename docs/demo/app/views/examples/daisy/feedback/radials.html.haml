@@ -58,8 +58,19 @@
       50%
 
   :javascript
+    // Use window property to avoid redeclaration errors and allow cross-navigation access
+    if (window.radialInterval) {
+      clearInterval(window.radialInterval);
+    }
+
     function updateRadial(value) {
       const radial = document.getElementById('animated-radial');
+
+      if (!radial) {
+        clearInterval(window.radialInterval);
+        return;
+      }
+
       radial.style.setProperty('--value', value);
       radial.textContent = value + '%';
     }
@@ -74,4 +85,4 @@
     }
 
     // Start the animation
-    setInterval(animateRadial, 1500);
+    window.radialInterval = setInterval(animateRadial, 1500);
