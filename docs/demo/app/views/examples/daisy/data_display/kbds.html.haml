@@ -6,11 +6,21 @@
 
 
 = doc_example(title: "Basic Example") do |doc|
+  - doc.with_description do
+    :markdown
+      The KBD component is used to display keyboard shortcuts and command
+      references.
+
   = daisy_kbd do
     
 
 
 = doc_example(title: "Various Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Keyboard indicators are available in four sizes: `kbd-xs`, `kbd-sm`,
+      `kbd-md` (default), and `kbd-lg`.
+
   .my-2.flex.flex-row.gap-4.items-center
     = daisy_kbd(css: "kbd-lg") do
       Shift
@@ -23,6 +33,11 @@
 
 
 = doc_example(title: "Inside a Sentence") do |doc|
+  - doc.with_description do
+    :markdown
+      KBD components can be easily integrated into text to provide inline
+      instructions or hints.
+
   .my-2.flex.flex-row.gap-2.items-center
     %p Press
     = daisy_kbd do
@@ -31,6 +46,11 @@
 
 
 = doc_example(title: "Combined Keys") do |doc|
+  - doc.with_description do
+    :markdown
+      You can combine multiple KBD components with simple text separators to
+      show multi-key shortcuts.
+
   .my-2.flex.flex-row.gap-2.items-center
     = daisy_kbd do
       Ctrl
@@ -47,6 +67,11 @@
 
 
 = doc_example(title: "Function Keys") do |doc|
+  - doc.with_description do
+    :markdown
+      KBD components work perfectly with special characters and symbols for
+      modifier keys.
+
   .my-2.flex.flex-row.gap-4.items-center
     = daisy_kbd do
       ⌘
@@ -62,6 +87,11 @@
 
 
 = doc_example(title: "Full Keyboard") do |doc|
+  - doc.with_description do
+    :markdown
+      By combining flex layouts and KBD components, you can create realistic
+      keyboard layouts.
+
   %div
     .flex.justify-center.gap-1.my-1.w-full
       = daisy_kbd do
