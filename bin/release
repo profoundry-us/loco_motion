@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'date'
 
 def get_current_version
   root_dir = File.expand_path('..', __dir__)
@@ -32,7 +33,7 @@ end
 def execute_command(description, command, exit_on_failure: true)
   puts "\n🔧 #{description}"
   puts "   Running: #{command}"
-  
+
   unless system(command)
     puts "❌ Error: Command failed"
     if exit_on_failure
@@ -43,7 +44,7 @@ def execute_command(description, command, exit_on_failure: true)
     end
     return false
   end
-  
+
   puts "✅ Completed successfully"
   true
 end
@@ -83,25 +84,25 @@ def update_version
 
   current_version = get_current_version
   puts "   Current version: #{current_version}"
-  
+
   new_version = prompt_user("Enter new version (e.g., 0.5.2):")
-  
+
   # Update version
   execute_command("Updating version to #{new_version}", "make version-set NEW_VERSION=#{new_version}")
-  
+
   # Update loco container
   execute_command("Updating loco container", "make loco-version-lock")
-  
+
   # Show changes
   puts "\n📋 Changes made:"
   system('git diff --name-only')
   puts
-  
+
   response = prompt_yes_no("Commit version changes?", default: 'y')
   if response == 'y'
     execute_command("Committing version changes", "git add . && git commit -m 'Release version #{new_version}'")
   end
-  
+
   new_version
 end
 
@@ -112,12 +113,12 @@ def update_changelog(version)
   puts "   Please update CHANGELOG.md to replace '[Unreleased]' with the new version header:"
   puts "   ## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
   puts
-  
+
   response = prompt_yes_no("Open CHANGELOG.md for editing?", default: 'y')
   if response == 'y'
     system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
   end
-  
+
   response = prompt_yes_no("Commit CHANGELOG changes?", default: 'y')
   if response == 'y'
     execute_command("Committing CHANGELOG", "git add CHANGELOG.md && git commit -m 'docs: Finalize CHANGELOG for release v#{version}'")
@@ -130,7 +131,7 @@ def build_packages
 
   # Build Ruby gem
   execute_command("Building Ruby gem", "make gem-build")
-  
+
   # Verify gem exists
   version = get_current_version
   gem_path = "builds/rubygems/loco_motion-rails-#{version}.gem"
@@ -143,7 +144,7 @@ def build_packages
 
   # Build NPM package
   execute_command("Building NPM package", "make npm-build")
-  
+
   # Verify NPM package exists
   npm_path = "builds/npm/profoundry-us-loco_motion-#{version}.tgz"
   if File.exist?(npm_path)
@@ -152,7 +153,7 @@ def build_packages
     puts "❌ NPM package not found at expected location: #{npm_path}"
     exit 1
   end
-  
+
   puts "\n📦 Both packages built successfully!"
   response = prompt_yes_no("Continue with publishing?", default: 'y')
   exit unless response == 'y'
@@ -165,19 +166,19 @@ def create_and_merge_pr
   response = prompt_yes_no("Push changes and create PR?", default: 'y')
   if response == 'y'
     execute_command("Pushing changes to origin", "git push origin main")
-    
+
     puts "\n📋 Please create a pull request with your changes:"
     puts "   1. Go to: https://github.com/profoundry-us/loco_motion/compare/main...#{`git branch --show-current`.strip}"
     puts "   2. Create pull request"
     puts "   3. Get it reviewed and approved"
     puts "   4. Merge it to main"
-    
+
     response = prompt_yes_no("Have you merged the PR to main?", default: 'n')
     unless response == 'y'
       puts "⚠️  Please merge the PR before continuing."
       exit 1
     end
-    
+
     execute_command("Pulling latest changes from main", "git checkout main && git pull origin main")
   end
 end
@@ -247,53 +248,53 @@ def update_checklist(version)
   checklist_path = "docs/checklists/release-checklist-v#{version}.md"
   if File.exist?(checklist_path)
     puts "   Updating checklist: #{checklist_path}"
-    
+
     # Mark completed items
     content = File.read(checklist_path)
-    
+
     # Mark pre-release preparation as completed
     content.gsub!('- \[ \] All tests are passing locally', '- [x] All tests are passing locally')
     content.gsub!('- \[ \] All documentation is up to date', '- [x] All documentation is up to date')
     content.gsub!('- \[ \] All changes are committed and pushed', '- [x] All changes are committed and pushed')
     content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
-    
+
     # Mark version update steps as completed
     content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `make version-set NEW_VERSION=' + version + '`')
     content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
     content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
-    
+
     # Mark changelog as completed
     content.gsub!('- \[ \] Add new version section', '- [x] Add new version section')
     content.gsub!('- \[ \] Include all relevant changes', '- [x] Include all relevant changes')
     content.gsub!('- \[ \] Use proper formatting', '- [x] Use proper formatting')
-    
+
     # Mark building steps as completed
     content.gsub!('- \[ \] Build Ruby gem', '- [x] Build Ruby gem')
     content.gsub!('- \[ \] Verify gem build', '- [x] Verify gem build')
     content.gsub!('- \[ \] Build NPM package', '- [x] Build NPM package')
     content.gsub!('- \[ \] Verify NPM package', '- [x] Verify NPM package')
-    
+
     # Mark PR steps as completed
     content.gsub!(/- \[ \] Commit all changes:.*$/, '- [x] Commit all changes: `git commit -am "Release version ' + version + '"`')
     content.gsub!('- \[ \] Create pull request', '- [x] Create pull request')
     content.gsub!('- \[ \] Get pull request reviewed', '- [x] Get pull request reviewed')
     content.gsub!('- \[ \] Merge pull request', '- [x] Merge pull request')
     content.gsub!('- \[ \] Pull latest main locally', '- [x] Pull latest main locally')
-    
+
     # Mark tag as completed
     content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
-    
+
     # Add notes about manual publishing
     content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)')
     content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `make npm-publish` (requires manual execution with credentials)')
-    
+
     # Update release info
     content.gsub!(/\*\*Release Date\*\*:.*$/, "**Release Date**: #{Date.today.strftime('%Y-%m-%d')}")
     content.gsub!(/\*\*Released By\*\*:.*$/, "**Released By**: Interactive Release Script")
-    
+
     File.write(checklist_path, content)
     puts "✅ Checklist updated successfully"
-    
+
     response = prompt_yes_no("Commit checklist changes?", default: 'y')
     if response == 'y'
       execute_command("Committing checklist", "git add #{checklist_path} && git commit -m 'Update release checklist for v#{version}'")
@@ -309,7 +310,7 @@ def update_demo_app
 
   puts "   This will run the post-release script to update the demo app."
   response = prompt_yes_no("Continue with demo app update?", default: 'y')
-  
+
   if response == 'y'
     execute_command("Updating demo app", "bin/update_demo_after_release")
   end
@@ -325,7 +326,7 @@ def main
   if ARGV.include?('--help') || ARGV.include?('-h')
     puts <<~HELP
       Usage: bin/release [VERSION]
-      
+
       This wizard walks you through the complete LocoMotion release process:
       1. Check prerequisites
       2. Update version
@@ -337,11 +338,11 @@ def main
       8. Create GitHub release
       9. Update release checklist
       10. Update demo app
-      
+
       Options:
         VERSION    Optional: Skip version prompt and use this version
         --help     Show this help message
-      
+
       Prerequisites:
         - Clean git state
         - RubyGems.org credentials
@@ -353,7 +354,7 @@ def main
 
   begin
     check_prerequisites
-    
+
     version = ARGV[0] || update_version
     update_changelog(version)
     build_packages
@@ -363,7 +364,7 @@ def main
     create_github_release(version)
     update_checklist(version)
     update_demo_app
-    
+
     puts "\n🎉 Release v#{version} completed successfully!"
     puts "=" * 50
     puts "   What's next:"
@@ -371,7 +372,7 @@ def main
     puts "   2. Verify Algolia indexing"
     puts "   3. Generate LLM documentation: make llm"
     puts "   4. Test the demo site"
-    
+
   rescue Interrupt
     puts "\n\n⚠️  Release process interrupted by user"
     exit 1
