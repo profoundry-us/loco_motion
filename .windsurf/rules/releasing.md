@@ -40,13 +40,18 @@ up-to-date:
     b. Propose running the command `git tag v<current_version>`.
     c. Propose running the command `git push origin v<current_version>`.
 
-6.  MUST **propose publishing the packages**:
+6.  MUST **prepare the packages for publishing**:
     a. Propose running the command `make gem-publish`.
     b. Propose running the command `make npm-publish`.
     c. MUST remind the user that these steps require external
-       credentials/authentication and should be run with caution.
+       credentials/authentication and should be run manually by the user.
+    d. MUST clarify that these are preparation steps only - the AI should not
+       actually execute the publishing commands.
 
-7.  MUST inform the user that the automated parts of the release process are
-    complete and that they should now proceed with the manual steps outlined
-    in the project's releasing guide, such as creating the GitHub release via
-    the UI.
+7.  MUST inform the user that the automated preparation steps are complete
+    and that they should now manually execute the publishing commands and proceed
+    with the manual steps outlined in the project's releasing guide, such as
+    creating the GitHub release via the UI.
+
+8.  MUST update the generated release checklist to mark all completed items
+    and add notes about manual publishing requirements.

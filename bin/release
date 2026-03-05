@@ -1,0 +1,384 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'json'
+
+def get_current_version
+  root_dir = File.expand_path('..', __dir__)
+  version_rb_path = File.join(root_dir, 'lib', 'loco_motion', 'version.rb')
+  File.read(version_rb_path).match(/VERSION\s*=\s*["'](.+?)["']/)[1]
+end
+
+def prompt_user(message, required: true)
+  loop do
+    print "#{message} "
+    input = gets.strip
+    return input if !required && input.empty?
+    return input unless input.empty?
+    puts "⚠️  This field is required. Please enter a value."
+  end
+end
+
+def prompt_yes_no(message, default: 'n')
+  loop do
+    print "#{message} (y/N): "
+    response = gets.strip.downcase
+    response = default if response.empty?
+    return response if %w[y yes n no].include?(response)
+    puts "⚠️  Please enter 'y' or 'n'."
+  end
+end
+
+def execute_command(description, command, exit_on_failure: true)
+  puts "\n🔧 #{description}"
+  puts "   Running: #{command}"
+  
+  unless system(command)
+    puts "❌ Error: Command failed"
+    if exit_on_failure
+      puts "   This step is required for the release process."
+      print "   Continue anyway? (y/N): "
+      response = gets.strip.downcase
+      exit unless response == 'y' || response == 'yes'
+    end
+    return false
+  end
+  
+  puts "✅ Completed successfully"
+  true
+end
+
+def check_prerequisites
+  puts "🔍 Checking release prerequisites..."
+  puts
+
+  # Check if we're on main branch
+  current_branch = `git branch --show-current`.strip
+  unless current_branch == 'main'
+    puts "⚠️  Warning: You're not on the main branch (currently on: #{current_branch})"
+    response = prompt_yes_no("Continue anyway?", default: 'n')
+    exit unless response == 'y'
+  end
+
+  # Check if there are uncommitted changes
+  unless `git status --porcelain`.strip.empty?
+    puts "❌ Error: You have uncommitted changes. Please commit or stash them first."
+    puts "   Current changes:"
+    system('git status --short')
+    exit 1
+  end
+
+  # Check if tests pass
+  response = prompt_yes_no("Run tests to ensure everything is working?", default: 'y')
+  if response == 'y'
+    execute_command("Running all tests", "make test")
+  end
+
+  puts "✅ Prerequisites check passed"
+end
+
+def update_version
+  puts "\n📦 Step 1: Update Version"
+  puts "=" * 50
+
+  current_version = get_current_version
+  puts "   Current version: #{current_version}"
+  
+  new_version = prompt_user("Enter new version (e.g., 0.5.2):")
+  
+  # Update version
+  execute_command("Updating version to #{new_version}", "make version-set NEW_VERSION=#{new_version}")
+  
+  # Update loco container
+  execute_command("Updating loco container", "make loco-version-lock")
+  
+  # Show changes
+  puts "\n📋 Changes made:"
+  system('git diff --name-only')
+  puts
+  
+  response = prompt_yes_no("Commit version changes?", default: 'y')
+  if response == 'y'
+    execute_command("Committing version changes", "git add . && git commit -m 'Release version #{new_version}'")
+  end
+  
+  new_version
+end
+
+def update_changelog(version)
+  puts "\n📝 Step 2: Update CHANGELOG"
+  puts "=" * 50
+
+  puts "   Please update CHANGELOG.md to replace '[Unreleased]' with the new version header:"
+  puts "   ## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
+  puts
+  
+  response = prompt_yes_no("Open CHANGELOG.md for editing?", default: 'y')
+  if response == 'y'
+    system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
+  end
+  
+  response = prompt_yes_no("Commit CHANGELOG changes?", default: 'y')
+  if response == 'y'
+    execute_command("Committing CHANGELOG", "git add CHANGELOG.md && git commit -m 'docs: Finalize CHANGELOG for release v#{version}'")
+  end
+end
+
+def build_packages
+  puts "\n🔨 Step 3: Build Packages"
+  puts "=" * 50
+
+  # Build Ruby gem
+  execute_command("Building Ruby gem", "make gem-build")
+  
+  # Verify gem exists
+  version = get_current_version
+  gem_path = "builds/rubygems/loco_motion-rails-#{version}.gem"
+  if File.exist?(gem_path)
+    puts "✅ Ruby gem built: #{gem_path}"
+  else
+    puts "❌ Ruby gem not found at expected location: #{gem_path}"
+    exit 1
+  end
+
+  # Build NPM package
+  execute_command("Building NPM package", "make npm-build")
+  
+  # Verify NPM package exists
+  npm_path = "builds/npm/profoundry-us-loco_motion-#{version}.tgz"
+  if File.exist?(npm_path)
+    puts "✅ NPM package built: #{npm_path}"
+  else
+    puts "❌ NPM package not found at expected location: #{npm_path}"
+    exit 1
+  end
+  
+  puts "\n📦 Both packages built successfully!"
+  response = prompt_yes_no("Continue with publishing?", default: 'y')
+  exit unless response == 'y'
+end
+
+def create_and_merge_pr
+  puts "\n🔀 Step 4: Create and Merge PR"
+  puts "=" * 50
+
+  response = prompt_yes_no("Push changes and create PR?", default: 'y')
+  if response == 'y'
+    execute_command("Pushing changes to origin", "git push origin main")
+    
+    puts "\n📋 Please create a pull request with your changes:"
+    puts "   1. Go to: https://github.com/profoundry-us/loco_motion/compare/main...#{`git branch --show-current`.strip}"
+    puts "   2. Create pull request"
+    puts "   3. Get it reviewed and approved"
+    puts "   4. Merge it to main"
+    
+    response = prompt_yes_no("Have you merged the PR to main?", default: 'n')
+    unless response == 'y'
+      puts "⚠️  Please merge the PR before continuing."
+      exit 1
+    end
+    
+    execute_command("Pulling latest changes from main", "git checkout main && git pull origin main")
+  end
+end
+
+def tag_release(version)
+  puts "\n🏷️  Step 5: Tag Release"
+  puts "=" * 50
+
+  execute_command("Creating git tag", "git tag v#{version}")
+  execute_command("Pushing tag to origin", "git push origin v#{version}")
+end
+
+def publish_packages
+  puts "\n🚀 Step 6: Publish Packages"
+  puts "=" * 50
+
+  puts "   This step requires your credentials for both RubyGems and NPM."
+  puts "   The script will run the publishing commands, but you may need to"
+  puts "   authenticate when prompted."
+  puts
+
+  # Publish Ruby gem
+  puts "💎 Publishing Ruby Gem to RubyGems.org..."
+  response = prompt_yes_no("Continue with gem publishing?", default: 'y')
+  if response == 'y'
+    execute_command("Publishing Ruby gem", "make gem-publish", exit_on_failure: false)
+    puts "   Verify at: https://rubygems.org/gems/loco_motion-rails"
+  end
+
+  # Publish NPM package
+  puts "\n📦 Publishing NPM package to npmjs.com..."
+  response = prompt_yes_no("Continue with NPM publishing?", default: 'y')
+  if response == 'y'
+    execute_command("Publishing NPM package", "make npm-publish", exit_on_failure: false)
+    puts "   Verify at: https://www.npmjs.com/package/@profoundry-us/loco_motion"
+  end
+
+  response = prompt_yes_no("Were both packages published successfully?", default: 'n')
+  unless response == 'y'
+    puts "⚠️  Please resolve any publishing issues before continuing."
+    exit 1
+  end
+end
+
+def create_github_release(version)
+  puts "\n🎉 Step 7: Create GitHub Release"
+  puts "=" * 50
+
+  puts "   Please create a GitHub release:"
+  puts "   1. Go to: https://github.com/profoundry-us/loco_motion/releases/new"
+  puts "   2. Select tag: v#{version}"
+  puts "   3. Add release notes (GitHub AI can help)"
+  puts "   4. Publish the release"
+  puts
+
+  response = prompt_yes_no("Have you created the GitHub release?", default: 'n')
+  unless response == 'y'
+    puts "⚠️  Please create the GitHub release before continuing."
+    exit 1
+  end
+end
+
+def update_checklist(version)
+  puts "\n📋 Step 8: Update Release Checklist"
+  puts "=" * 50
+
+  checklist_path = "docs/checklists/release-checklist-v#{version}.md"
+  if File.exist?(checklist_path)
+    puts "   Updating checklist: #{checklist_path}"
+    
+    # Mark completed items
+    content = File.read(checklist_path)
+    
+    # Mark pre-release preparation as completed
+    content.gsub!('- \[ \] All tests are passing locally', '- [x] All tests are passing locally')
+    content.gsub!('- \[ \] All documentation is up to date', '- [x] All documentation is up to date')
+    content.gsub!('- \[ \] All changes are committed and pushed', '- [x] All changes are committed and pushed')
+    content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
+    
+    # Mark version update steps as completed
+    content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `make version-set NEW_VERSION=' + version + '`')
+    content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
+    content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
+    
+    # Mark changelog as completed
+    content.gsub!('- \[ \] Add new version section', '- [x] Add new version section')
+    content.gsub!('- \[ \] Include all relevant changes', '- [x] Include all relevant changes')
+    content.gsub!('- \[ \] Use proper formatting', '- [x] Use proper formatting')
+    
+    # Mark building steps as completed
+    content.gsub!('- \[ \] Build Ruby gem', '- [x] Build Ruby gem')
+    content.gsub!('- \[ \] Verify gem build', '- [x] Verify gem build')
+    content.gsub!('- \[ \] Build NPM package', '- [x] Build NPM package')
+    content.gsub!('- \[ \] Verify NPM package', '- [x] Verify NPM package')
+    
+    # Mark PR steps as completed
+    content.gsub!(/- \[ \] Commit all changes:.*$/, '- [x] Commit all changes: `git commit -am "Release version ' + version + '"`')
+    content.gsub!('- \[ \] Create pull request', '- [x] Create pull request')
+    content.gsub!('- \[ \] Get pull request reviewed', '- [x] Get pull request reviewed')
+    content.gsub!('- \[ \] Merge pull request', '- [x] Merge pull request')
+    content.gsub!('- \[ \] Pull latest main locally', '- [x] Pull latest main locally')
+    
+    # Mark tag as completed
+    content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
+    
+    # Add notes about manual publishing
+    content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)')
+    content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `make npm-publish` (requires manual execution with credentials)')
+    
+    # Update release info
+    content.gsub!(/\*\*Release Date\*\*:.*$/, "**Release Date**: #{Date.today.strftime('%Y-%m-%d')}")
+    content.gsub!(/\*\*Released By\*\*:.*$/, "**Released By**: Interactive Release Script")
+    
+    File.write(checklist_path, content)
+    puts "✅ Checklist updated successfully"
+    
+    response = prompt_yes_no("Commit checklist changes?", default: 'y')
+    if response == 'y'
+      execute_command("Committing checklist", "git add #{checklist_path} && git commit -m 'Update release checklist for v#{version}'")
+    end
+  else
+    puts "⚠️  Checklist not found: #{checklist_path}"
+  end
+end
+
+def update_demo_app
+  puts "\n🌐 Step 9: Update Demo App"
+  puts "=" * 50
+
+  puts "   This will run the post-release script to update the demo app."
+  response = prompt_yes_no("Continue with demo app update?", default: 'y')
+  
+  if response == 'y'
+    execute_command("Updating demo app", "bin/update_demo_after_release")
+  end
+end
+
+def main
+  puts "🚀 LocoMotion Release Wizard"
+  puts "=" * 50
+  puts "   This wizard will walk you through the complete release process."
+  puts
+
+  # Show help if requested
+  if ARGV.include?('--help') || ARGV.include?('-h')
+    puts <<~HELP
+      Usage: bin/release [VERSION]
+      
+      This wizard walks you through the complete LocoMotion release process:
+      1. Check prerequisites
+      2. Update version
+      3. Update CHANGELOG
+      4. Build packages
+      5. Create and merge PR
+      6. Tag release
+      7. Publish packages (requires credentials)
+      8. Create GitHub release
+      9. Update release checklist
+      10. Update demo app
+      
+      Options:
+        VERSION    Optional: Skip version prompt and use this version
+        --help     Show this help message
+      
+      Prerequisites:
+        - Clean git state
+        - RubyGems.org credentials
+        - NPM credentials
+        - GitHub access for creating releases
+    HELP
+    exit 0
+  end
+
+  begin
+    check_prerequisites
+    
+    version = ARGV[0] || update_version
+    update_changelog(version)
+    build_packages
+    create_and_merge_pr
+    tag_release(version)
+    publish_packages
+    create_github_release(version)
+    update_checklist(version)
+    update_demo_app
+    
+    puts "\n🎉 Release v#{version} completed successfully!"
+    puts "=" * 50
+    puts "   What's next:"
+    puts "   1. Monitor demo app deployment"
+    puts "   2. Verify Algolia indexing"
+    puts "   3. Generate LLM documentation: make llm"
+    puts "   4. Test the demo site"
+    
+  rescue Interrupt
+    puts "\n\n⚠️  Release process interrupted by user"
+    exit 1
+  rescue => e
+    puts "\n❌ Error: #{e.message}"
+    exit 1
+  end
+end
+
+main
