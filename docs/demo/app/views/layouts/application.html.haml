@@ -6,6 +6,7 @@
       = (yield :page_title || "")
       | LocoMotion
     %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %link{:href => image_path("loco-favicon.jpg"), :rel => "icon", :type => "image/jpeg"}/
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"

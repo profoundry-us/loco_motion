@@ -227,7 +227,7 @@ This document describes common usage patterns and conventions for the LocoMotion
 ### Actions
 
 - **Daisy::Actions::ButtonComponent**: Interactive button components for actions, navigation, and form submissions.
-- **Daisy::Actions::DropdownComponent**: Dropdowns are a great way to display a list of items in a compact manner. 
+- **Daisy::Actions::DropdownComponent**: Dropdowns are a great way to display a list of items in a compact manner.
 - **Daisy::Actions::ModalComponent**: Modals are used to display content that requires user interaction.
 - **Daisy::Actions::SwapComponent**: The Swap component allows you to quickly swap between two icons, images, or...
 - **Daisy::Actions::ThemeControllerComponent**: do The `ThemeController` component is a **_Builder_** component rather than...
@@ -257,8 +257,8 @@ This document describes common usage patterns and conventions for the LocoMotion
 - **Daisy::DataInput::CallyInputComponent**: This component provides an elegant alternative to standard HTML date inputs...
 - **Daisy::DataInput::CheckboxComponent**: Checkboxes are great for toggling an item on / off, or selecting multiple items...
 - **Daisy::DataInput::FileInputComponent**: Styled file upload controls with drag-and-drop support and visual feedback.
-- **Daisy::DataInput::FieldsetComponent**: Fieldsets group related form controls and can optionally include a leg. 
-- **Daisy::DataInput::LabelComponent**: Labels provide a useful description for various kinds of inputs. 
+- **Daisy::DataInput::FieldsetComponent**: Fieldsets group related form controls and can optionally include a leg.
+- **Daisy::DataInput::LabelComponent**: Labels provide a useful description for various kinds of inputs.
 - **Daisy::DataInput::RadioButtonComponent**: Interactive selection controls for choosing one option from a group.
 - **Daisy::DataInput::RangeComponent**: Slider controls for selecting numeric values within a defined range.
 - **Daisy::DataInput::RatingComponent**: Star-based rating controls for user feedback and reviews. Interactive star...
@@ -269,9 +269,9 @@ This document describes common usage patterns and conventions for the LocoMotion
 
 ### Feedback
 
-- **Daisy::Feedback::AlertComponent**:  Alerts inform the user about important information or changes to the system. 
-- **Daisy::Feedback::LoadingComponent**:  Loaders are used to indicate that a process is happening in the background. 
-- **Daisy::Feedback::ProgressComponent**:  Progress bars are used to indicate the progress of a process. 
+- **Daisy::Feedback::AlertComponent**:  Alerts inform the user about important information or changes to the system.
+- **Daisy::Feedback::LoadingComponent**:  Loaders are used to indicate that a process is happening in the background.
+- **Daisy::Feedback::ProgressComponent**:  Progress bars are used to indicate the progress of a process.
 - **Daisy::Feedback::RadialProgressComponent**: Radial progress bars are used to indicate the progress of a process, in a...
 - **Daisy::Feedback::SkeletonComponent**: Skeletons are used to show a placeholder for content that is loading or  being...
 - **Daisy::Feedback::ToastComponent**: Toasts are used to show a message to the user that is not critical, but...
@@ -296,7 +296,7 @@ This document describes common usage patterns and conventions for the LocoMotion
 
 - **Daisy::Mockup::BrowserComponent**: The Browser component is a simple mockup that looks and feels like a user's...
 - **Daisy::Mockup::CodeComponent**: Code blocks are a great way to display code snippets in your site or...
-- **Daisy::Mockup::DeviceComponent**: Device mockups are a great way to showcase your designs in a realistic way! 
+- **Daisy::Mockup::DeviceComponent**: Device mockups are a great way to showcase your designs in a realistic way!
 - **Daisy::Mockup::FrameComponent**: Frames showcase your work as if they were displayed in a window.
 
 ### Navigation
@@ -322,7 +322,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Hero::IconComponent
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/hero/icon_component.rb
 
 Description:
- Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  use in your web projects. You can find them at  ". link to("https://heroicons.com", target: "_blank", right_icon: "", right_icon_css: "") 
+ Heroicons are a set of free, MIT-licensed high-quality SVG icons for you to  use in your web projects. You can find them at  ". link to("https://heroicons.com", target: "_blank", right_icon: "", right_icon_css: "")
 
 API Signature:
 - hero_icon
@@ -381,7 +381,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ButtonC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/button_component.rb
 
 Description:
- Interactive button components for actions, navigation, and form submissions.  Supports multiple styles (primary, secondary, ghost, link), sizes, icons,  and custom styling options for versatile UI interactions. 
+ Interactive button components for actions, navigation, and form submissions.  Supports multiple styles (primary, secondary, ghost, link), sizes, icons,  and custom styling options for versatile UI interactions.
 
 API Signature:
 - daisy_button
@@ -573,7 +573,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::Dropdow
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/dropdown_component.rb
 
 Description:
-Dropdowns are a great way to display a list of items in a compact manner. 
+Dropdowns are a great way to display a list of items in a compact manner.
 
 API Signature:
 - daisy_dropdown
@@ -684,7 +684,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ModalCo
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.rb
 
 Description:
-Modals are used to display content that requires user interaction. They are typically used to display forms, alerts, or other content that requires user input. 
+Modals are used to display content that requires user interaction. They are typically used to display forms, alerts, or other content that requires user input.
 
 API Signature:
 - daisy_modal
@@ -740,7 +740,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::SwapCom
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/swap_component.rb
 
 Description:
- The Swap component allows you to quickly swap between two icons, images, or  HTML elements with a simple click. 
+ The Swap component allows you to quickly swap between two icons, images, or  HTML elements with a simple click.
 
 API Signature:
 - daisy_swap
@@ -858,7 +858,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Actions::ThemeCo
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/theme_controller_component.rb
 
 Description:
-do The `ThemeController` component is a **_Builder_** component rather than your standard **_Slotable_** ViewComponent. This means that instead of the component providing slots, and handling where your custom components are _inserted_, the developer utilizes helper methods on the component to **choose** where the sub-components are _rered_. In the examples below, we use the HAML `=` syntax to output the rered sub-components, whereas typical components use the HAML `-` syntax to "pass" the component to a slot. 
+do The `ThemeController` component is a **_Builder_** component rather than your standard **_Slotable_** ViewComponent. This means that instead of the component providing slots, and handling where your custom components are _inserted_, the developer utilizes helper methods on the component to **choose** where the sub-components are _rered_. In the examples below, we use the HAML `=` syntax to output the rered sub-components, whereas typical components use the HAML `-` syntax to "pass" the component to a slot.
 
 API Signature:
 - daisy_theme_controller
@@ -948,7 +948,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Acc
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/accordion_component.rb
 
 Description:
- Collapsible content sections that expand/collapse on click. Perfect for  organizing large amounts of content while keeping the interface clean.  Supports arrow and plus icons with smooth animations. 
+ Collapsible content sections that expand/collapse on click. Perfect for  organizing large amounts of content while keeping the interface clean.  Supports arrow and plus icons with smooth animations.
 
 API Signature:
 - daisy_accordion
@@ -1051,7 +1051,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Ava
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb
 
 Description:
-User profile image components with fallback options and status indicators. Supports photos, initials, or icons with online/offline status dots for representing users in chat interfaces and user lists. 
+User profile image components with fallback options and status indicators. Supports photos, initials, or icons with online/offline status dots for representing users in chat interfaces and user lists.
 
 API Signature:
 - daisy_avatar
@@ -1149,7 +1149,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Bad
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/badge_component.rb
 
 Description:
- Small, colorful indicators for displaying status, counts, or metadata.  Ideal for notifications, labels, tags, and visual cues. Supports various  colors, sizes, and positioning options. 
+ Small, colorful indicators for displaying status, counts, or metadata.  Ideal for notifications, labels, tags, and visual cues. Supports various  colors, sizes, and positioning options.
 
 API Signature:
 - daisy_badge
@@ -1361,7 +1361,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Car
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/card_component.rb
 
 Description:
- Versatile containers for grouping related content with optional images,  titles, descriptions, and actions. Perfect for product displays, article  previews, and organized information presentation. 
+ Versatile containers for grouping related content with optional images,  titles, descriptions, and actions. Perfect for product displays, article  previews, and organized information presentation.
 
 API Signature:
 - daisy_card
@@ -1479,7 +1479,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Car
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/carousel_component.rb
 
 Description:
- Interactive image galleries with smooth sliding transitions and navigation.  Perfect for showcasing products, portfolios, photo collections, and featured  content with customizable controls and auto-play options. 
+ Interactive image galleries with smooth sliding transitions and navigation.  Perfect for showcasing products, portfolios, photo collections, and featured  content with customizable controls and auto-play options.
 
 API Signature:
 - daisy_carousel
@@ -1604,7 +1604,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Cha
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb
 
 Description:
- Message bubbles designed for chat interfaces and conversations. Support  different alignments (sent/received), headers, footers, and user avatars  for realistic chat UI implementations. 
+ Message bubbles designed for chat interfaces and conversations. Support  different alignments (sent/received), headers, footers, and user avatars  for realistic chat UI implementations.
 
 API Signature:
 - daisy_chat
@@ -1748,7 +1748,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Col
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/collapse_component.rb
 
 Description:
- Expandable/collapsible content containers with smooth animations.  Perfect for FAQs, nested content, and progressive disclosure of information  with customizable styling and icons. 
+ Expandable/collapsible content containers with smooth animations.  Perfect for FAQs, nested content, and progressive disclosure of information  with customizable styling and icons.
 
 API Signature:
 - daisy_collapse
@@ -1819,7 +1819,7 @@ Code (HAML):
       .mt-4.flex.gap-x-4.items-center
         = daisy_avatar(src: image_path("avatars/lady-smiling-1.jpg"))
 
-        
+
           .text-xl.font-bold Jane Oliver
 
           .italic jane@oliver.test
@@ -1835,7 +1835,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Cou
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/countdown_component.rb
 
 Description:
- Animated timers that count down from a specified duration to zero. Perfect  for creating urgency in product launches, event start times, limited-time  offers, and deadline tracking with customizable styling and format options. 
+ Animated timers that count down from a specified duration to zero. Perfect  for creating urgency in product launches, event start times, limited-time  offers, and deadline tracking with customizable styling and format options.
 
 API Signature:
 - daisy_countdown
@@ -1914,7 +1914,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Dif
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/diff_component.rb
 
 Description:
- Interactive comparison components with a sliding divider to compare before  and after states. Perfect for showcasing image edits, text changes, design  iterations, and any visual or content differences with smooth transitions. 
+ Interactive comparison components with a sliding divider to compare before  and after states. Perfect for showcasing image edits, text changes, design  iterations, and any visual or content differences with smooth transitions.
 
 API Signature:
 - daisy_diff
@@ -1983,7 +1983,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Fig
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/figure_component.rb
 
 Description:
- Image containers with optional captions for visual content presentation.  Perfect for displaying photos, illustrations, or graphics with descriptive  text in articles, galleries, and documentation. 
+ Image containers with optional captions for visual content presentation.  Perfect for displaying photos, illustrations, or graphics with descriptive  text in articles, galleries, and documentation.
 
 API Signature:
 - daisy_figure
@@ -2054,7 +2054,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Kbd
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/kbd_component.rb
 
 Description:
- Styled keyboard key representations for displaying keyboard shortcuts,  hotkeys, and command references. Perfect for documentation, tutorials,  and UI hints with realistic key styling and multiple size options. 
+ Styled keyboard key representations for displaying keyboard shortcuts,  hotkeys, and command references. Perfect for documentation, tutorials,  and UI hints with realistic key styling and multiple size options.
 
 API Signature:
 - daisy_kbd
@@ -2288,7 +2288,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Lis
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/list_component.rb
 
 Description:
-Lists provide a vertical layout to display information in rows. They can contain various content types including text, images, and actions arranged in a consistent format. 
+Lists provide a vertical layout to display information in rows. They can contain various content types including text, images, and actions arranged in a consistent format.
 
 API Signature:
 - daisy_list
@@ -2451,7 +2451,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Sta
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/stat_component.rb
 
 Description:
-do Stats have a transparent background by default. Use `bg-base-100` if you need a background color. 
+do Stats have a transparent background by default. Use `bg-base-100` if you need a background color.
 
 API Signature:
 - daisy_stat
@@ -2542,7 +2542,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Sta
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/status_component.rb
 
 Description:
-Status is a really small icon to visually show the current status of an element, like online, offline, error, etc. 
+Status is a really small icon to visually show the current status of an element, like online, offline, error, etc.
 
 API Signature:
 - daisy_status
@@ -2680,7 +2680,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Tab
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.rb
 
 Description:
- Tables are designed to show data in a tabular layout making it easy to see  large amounts of data at once and compare rows with each other. 
+ Tables are designed to show data in a tabular layout making it easy to see  large amounts of data at once and compare rows with each other.
 
 API Signature:
 - daisy_table
@@ -2775,7 +2775,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataDisplay::Tim
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/timeline_component.rb
 
 Description:
- Visual sequences for displaying chronological events, progress updates,  or step-by-step processes. Supports vertical and horizontal layouts with  customizable markers and content sections. 
+ Visual sequences for displaying chronological events, progress updates,  or step-by-step processes. Supports vertical and horizontal layouts with  customizable markers and content sections.
 
 API Signature:
 - daisy_timeline
@@ -2868,7 +2868,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Cally
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/cally_component.rb
 
 Description:
-do You must include the Cally script tag or <a href="https://wicky.nillia.ms/cally/#installation">node module</a> in your application for this component to rer and function properly.  doc_code(language: "sh") do npm install cally # or yarn add cally  doc_code(language: "js") do # application.js import "cally"; 
+do You must include the Cally script tag or <a href="https://wicky.nillia.ms/cally/#installation">node module</a> in your application for this component to rer and function properly.  doc_code(language: "sh") do npm install cally # or yarn add cally  doc_code(language: "js") do # application.js import "cally";
 
 API Signature:
 - daisy_cally
@@ -2943,7 +2943,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Cally
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/cally_input_component.rb
 
 Description:
- This component provides an elegant alternative to standard HTML date inputs  while maintaining a consistent visual style with other form components. 
+ This component provides an elegant alternative to standard HTML date inputs  while maintaining a consistent visual style with other form components.
 
 API Signature:
 - daisy_cally_input
@@ -3030,7 +3030,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Check
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/checkbox_component.rb
 
 Description:
-Checkboxes are great for toggling an item on / off, or selecting multiple items from a list. 
+Checkboxes are great for toggling an item on / off, or selecting multiple items from a list.
 
 API Signature:
 - daisy_checkbox
@@ -3066,7 +3066,7 @@ Basic checkboxes can be rered with or without a label through standard heirarchy
 Code (HAML):
 ```haml
 .my-2.flex.flex-col.gap-4
-    
+
       = daisy_checkbox(name: "checkbox_no_label", id: "checkbox_no_label")
 
       .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
@@ -3312,7 +3312,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::FileI
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/file_input_component.rb
 
 Description:
-Styled file upload controls with drag-and-drop support and visual feedback. Accepts single or multiple files with customizable styling and validation options for modern form interfaces. 
+Styled file upload controls with drag-and-drop support and visual feedback. Accepts single or multiple files with customizable styling and validation options for modern form interfaces.
 
 API Signature:
 - daisy_file_input
@@ -3471,7 +3471,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Field
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/fieldset_component.rb
 
 Description:
-Fieldsets group related form controls and can optionally include a leg. 
+Fieldsets group related form controls and can optionally include a leg.
 
 API Signature:
 - daisy_fieldset
@@ -3575,7 +3575,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Label
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/label_component.rb
 
 Description:
-Labels provide a useful description for various kinds of inputs. 
+Labels provide a useful description for various kinds of inputs.
 
 API Signature:
 - daisy_label
@@ -3717,7 +3717,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Radio
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/radio_button_component.rb
 
 Description:
-Interactive selection controls for choosing one option from a group. Automatically grouped by name attribute with customizable styling and labels for form inputs and preference settings. 
+Interactive selection controls for choosing one option from a group. Automatically grouped by name attribute with customizable styling and labels for form inputs and preference settings.
 
 API Signature:
 - daisy_radio
@@ -3903,7 +3903,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Range
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/range_component.rb
 
 Description:
-Slider controls for selecting numeric values within a defined range. Perfect for volume controls, price filters, progress indicators, and any quantitative input with visual feedback. 
+Slider controls for selecting numeric values within a defined range. Perfect for volume controls, price filters, progress indicators, and any quantitative input with visual feedback.
 
 API Signature:
 - daisy_range
@@ -4066,7 +4066,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Ratin
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/rating_component.rb
 
 Description:
-Star-based rating controls for user feedback and reviews. Interactive star selection with customizable colors, sizes, and half-star precision for product ratings and satisfaction surveys. 
+Star-based rating controls for user feedback and reviews. Interactive star selection with customizable colors, sizes, and half-star precision for product ratings and satisfaction surveys.
 
 API Signature:
 - daisy_rating
@@ -4255,7 +4255,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Selec
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/select_component.rb
 
 Description:
-do Select inputs have a border by default and a width of 20rem. Use `select-ghost` to remove the border. 
+do Select inputs have a border by default and a width of 20rem. Use `select-ghost` to remove the border.
 
 API Signature:
 - daisy_select
@@ -4526,7 +4526,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextI
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/text_input_component.rb
 
 Description:
-Text inputs allow you to enter various forms of text such as usernames, passwords, numbers, and more. 
+Text inputs allow you to enter various forms of text such as usernames, passwords, numbers, and more.
 
 API Signature:
 - daisy_input
@@ -4789,7 +4789,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::TextA
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/text_area_component.rb
 
 Description:
-do Text areas have a border by default. Use `textarea-ghost` to remove the border. 
+do Text areas have a border by default. Use `textarea-ghost` to remove the border.
 
 API Signature:
 - daisy_text_area
@@ -4972,7 +4972,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::DataInput::Toggl
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_input/toggle_component.rb
 
 Description:
- The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")  component that sets the <code>toggle</code> property to <code>true</code> by default, providing a switch-like appearance. 
+ The Toggle component is a wrapper around the  component_link("Checkbox", "Daisy::DataInput::CheckboxComponent")  component that sets the <code>toggle</code> property to <code>true</code> by default, providing a switch-like appearance.
 
 API Signature:
 - daisy_toggle
@@ -5008,7 +5008,7 @@ Toggles are switches that allow users to turn options on or off. They're a visua
 Code (HAML):
 ```haml
 .my-2.flex.flex-col.gap-4
-    
+
       = daisy_toggle(name: "toggle0", id: "toggle0")
 
       .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
@@ -5200,7 +5200,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Brea
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/breadcrumbs_component.rb
 
 Description:
- Navigation aids that show the user's current location and path within a  website hierarchy. Perfect for complex sites with multiple levels, providing  context and easy navigation back to parent pages with customizable separators  and styling options. 
+ Navigation aids that show the user's current location and path within a  website hierarchy. Perfect for complex sites with multiple levels, providing  context and easy navigation back to parent pages with customizable separators  and styling options.
 
 API Signature:
 - daisy_breadcrumbs
@@ -5292,7 +5292,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Dock
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/dock_component.rb
 
 Description:
-The Dock component provides a navigation bar fixed to the bottom of the screen, commonly used in mobile interfaces. 
+The Dock component provides a navigation bar fixed to the bottom of the screen, commonly used in mobile interfaces.
 
 API Signature:
 - daisy_dock
@@ -5378,7 +5378,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Link
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/link_component.rb
 
 Description:
- Tailwind removes the styling on standard links so we provide an easy way to  re-add them. This works very similarly to the  link_to "link_to", "https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to", class: "font-mono"  helper in Rails. 
+ Tailwind removes the styling on standard links so we provide an easy way to  re-add them. This works very similarly to the  link_to "link_to", "https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to", class: "font-mono"  helper in Rails.
 
 API Signature:
 - daisy_link
@@ -5434,7 +5434,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Menu
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/menu_component.rb
 
 Description:
-do Vertical menus no longer have a default width. Use `w-full` or other width classes if you want to control the width. 
+do Vertical menus no longer have a default width. Use `w-full` or other width classes if you want to control the width.
 
 API Signature:
 - daisy_menu
@@ -5549,7 +5549,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Navb
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/navbar_component.rb
 
 Description:
- Horizontal navigation bars that organize primary navigation links, branding,  and user actions at the top of pages. Perfect for site headers, application  navigation, and responsive layouts with flexible sections for logo, menu items,  and interactive elements. 
+ Horizontal navigation bars that organize primary navigation links, branding,  and user actions at the top of pages. Perfect for site headers, application  navigation, and responsive layouts with flexible sections for logo, menu items,  and interactive elements.
 
 API Signature:
 - daisy_navbar
@@ -5587,7 +5587,7 @@ Code (HAML):
 .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
       - navbar.with_start do
-        = image_tag("loco-logo.png", class: "h-8")
+        = image_tag("loco-logo-modern.png", class: "h-8")
 
         %span
           %em Loco
@@ -5644,7 +5644,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Pagi
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/pagination_component.rb
 
 Description:
- Pagination can be implemented by utilizing the existing  component_link("Join", "Daisy::Layout::JoinComponent")  component. 
+ Pagination can be implemented by utilizing the existing  component_link("Join", "Daisy::Layout::JoinComponent")  component.
 
 Helpers:
 - (No helper methods defined)
@@ -5684,7 +5684,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Step
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/steps_component.rb
 
 Description:
- Steps allow you to create a series of steps that users can follow to  complete a task. This is useful for onboarding, form completion, and many  more. 
+ Steps allow you to create a series of steps that users can follow to  complete a task. This is useful for onboarding, form completion, and many  more.
 
 API Signature:
 - daisy_steps
@@ -5775,7 +5775,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Navigation::Tabs
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/navigation/tabs_component.rb
 
 Description:
-Navigation controls for organizing content into switchable panels. Supports multiple sizes (xs, sm, md, lg, xl) and styles (boxed, bordered, lift) for creating intuitive content navigation and filtering interfaces. 
+Navigation controls for organizing content into switchable panels. Supports multiple sizes (xs, sm, md, lg, xl) and styles (boxed, bordered, lift) for creating intuitive content navigation and filtering interfaces.
 
 API Signature:
 - daisy_tabs
@@ -5925,7 +5925,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::AlertC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/alert_component.rb
 
 Description:
- Alerts inform the user about important information or changes to the system. 
+ Alerts inform the user about important information or changes to the system.
 
 API Signature:
 - daisy_alert
@@ -6084,7 +6084,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::Loadin
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/loading_component.rb
 
 Description:
- Loaders are used to indicate that a process is happening in the background. 
+ Loaders are used to indicate that a process is happening in the background.
 
 API Signature:
 - daisy_loading
@@ -6144,7 +6144,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::Progre
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/progress_component.rb
 
 Description:
- Progress bars are used to indicate the progress of a process. 
+ Progress bars are used to indicate the progress of a process.
 
 API Signature:
 - daisy_progress
@@ -6220,7 +6220,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::Radial
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/radial_progress_component.rb
 
 Description:
- Radial progress bars are used to indicate the progress of a process, in a  circular fasion. 
+ Radial progress bars are used to indicate the progress of a process, in a  circular fasion.
 
 API Signature:
 - daisy_radial
@@ -6300,7 +6300,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::Skelet
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/skeleton_component.rb
 
 Description:
- Skeletons are used to show a placeholder for content that is loading or  being fetched. They are often used to give the user an idea of what the  content will look like before it is loaded. 
+ Skeletons are used to show a placeholder for content that is loading or  being fetched. They are often used to give the user an idea of what the  content will look like before it is loaded.
 
 API Signature:
 - daisy_skeleton
@@ -6397,7 +6397,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::ToastC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/toast_component.rb
 
 Description:
- Toasts are used to show a message to the user that is not critical, but  important. They are often used to show a message that is not part of the  main content flow and can be dismissed by the user. 
+ Toasts are used to show a message to the user that is not critical, but  important. They are often used to show a message that is not part of the  main content flow and can be dismissed by the user.
 
 API Signature:
 - daisy_toast
@@ -6450,7 +6450,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Feedback::Toolti
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/feedback/tooltip_component.rb
 
 Description:
-Additionally, we offer the `daisy_tooltip` component to wrap an entire component, or any block of HTML, in a tooltip. This is also aliased as `daisy_tip` for convenience. 
+Additionally, we offer the `daisy_tooltip` component to wrap an entire component, or any block of HTML, in a tooltip. This is also aliased as `daisy_tip` for convenience.
 
 API Signature:
 - daisy_tooltip
@@ -6550,7 +6550,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DividerC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/divider_component.rb
 
 Description:
-Dividers are used to separate content in a meaningful way. They can be used to separate different sections of a page or to highlight a specific piece of content. They can be used both horizontally and vertically, and can include content if desired. 
+Dividers are used to separate content in a meaningful way. They can be used to separate different sections of a page or to highlight a specific piece of content. They can be used both horizontally and vertically, and can include content if desired.
 
 API Signature:
 - daisy_divider
@@ -6655,7 +6655,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::DrawerCo
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/drawer_component.rb
 
 Description:
-do The `relative / absolute` and the `h-48` classes allow the drawer to rer properly inside the example preview box instead of the whole screen. 
+do The `relative / absolute` and the `h-48` classes allow the drawer to rer properly inside the example preview box instead of the whole screen.
 
 API Signature:
 - daisy_drawer
@@ -6741,7 +6741,7 @@ Code (HAML):
             %li link_to "GitHub", "https://github.com/profoundry-us/loco_motion", class: "link-hover", target: "_blank"
 
       .flex.items-center.justify-center.h-48
-        
+
           %p.my-4
             Click the button below to open the drawer!
 
@@ -6758,7 +6758,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::FooterCo
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/footer_component.rb
 
 Description:
-Footers are used to provide additional information about a page or site. They are vertical by default, but can be made horizontal using the `footer-horizontal` class. 
+Footers are used to provide additional information about a page or site. They are vertical by default, but can be made horizontal using the `footer-horizontal` class.
 
 API Signature:
 - daisy_footer
@@ -6886,7 +6886,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::HeroComp
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.rb
 
 Description:
-Heroes are used to provide a large, eye-catching introduction to a page or site. They are responsive by default and will stack on smaller screens. 
+Heroes are used to provide a large, eye-catching introduction to a page or site. They are responsive by default and will stack on smaller screens.
 
 API Signature:
 - daisy_hero
@@ -6924,7 +6924,7 @@ Code (HAML):
 = daisy_hero(css: "max-w-[1000px] mx-16 lg:mx-32 bg-base-200 text-center") do
     - # Heroes display their children in a flex column by default
 
-    
+
       %h1.text-5xl.font-bold
         Hello, World!
 
@@ -6943,7 +6943,7 @@ Code (HAML):
 = daisy_hero(css: "block max-w-[1000px] mx-16 py-8 lg:mx-32 bg-base-200") do
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 
-    
+
       %h1.text-5xl.font-bold
         Hello, World!
 
@@ -6953,7 +6953,7 @@ Code (HAML):
       = daisy_button(css: "btn btn-primary", title: "Get Started", href: "/")
 
   = daisy_hero(css: "block max-w-[1000px] mx-16 py-8 lg:mx-32 bg-base-200") do
-    
+
       %h1.text-5xl.font-bold
         Hello, World!
 
@@ -6998,7 +6998,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::Indicato
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/indicator_component.rb
 
 Description:
-Indicators wrap other elements and provide a visual cue that something requires the user's attention. 
+Indicators wrap other elements and provide a visual cue that something requires the user's attention.
 
 API Signature:
 - daisy_indicator
@@ -7077,7 +7077,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::JoinComp
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/join_component.rb
 
 Description:
- Joins allow you to combine multiple components into a singular, joined,  element. This is useful for components like buttons, inputs with symbols,  and many more. 
+ Joins allow you to combine multiple components into a singular, joined,  element. This is useful for components like buttons, inputs with symbols,  and many more.
 
 API Signature:
 - daisy_join
@@ -7160,7 +7160,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::MaskComp
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/mask_component.rb
 
 Description:
-Masks allow you to create a variety of shapes and patterns! Masks are **NOT** a full component, but rather a set of CSS classes that can be applied to many existing elements. 
+Masks allow you to create a variety of shapes and patterns! Masks are **NOT** a full component, but rather a set of CSS classes that can be applied to many existing elements.
 
 Helpers:
 - (No helper methods defined)
@@ -7204,7 +7204,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Layout::StackCom
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/stack_component.rb
 
 Description:
-Stacks provide a 3 dimensional effect to your content. This can be helpful for displaying lots of notifications or other content in a small space. 
+Stacks provide a 3 dimensional effect to your content. This can be helpful for displaying lots of notifications or other content in a small space.
 
 API Signature:
 - daisy_stack
@@ -7367,7 +7367,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::BrowserC
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/browser_component.rb
 
 Description:
- The Browser component is a simple mockup that looks and feels like a user's  web browser. This can be useful for creating mockups of web applications or  to showcase your own website in a more realistic setting. 
+ The Browser component is a simple mockup that looks and feels like a user's  web browser. This can be useful for creating mockups of web applications or  to showcase your own website in a more realistic setting.
 
 API Signature:
 - daisy_browser
@@ -7432,7 +7432,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::CodeComp
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/code_component.rb
 
 Description:
- Code blocks are a great way to display code snippets in your site or  documentation. They can be used to show examples, provide context, or call  out something important. 
+ Code blocks are a great way to display code snippets in your site or  documentation. They can be used to show examples, provide context, or call  out something important.
 
 API Signature:
 - daisy_code
@@ -7530,7 +7530,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::DeviceCo
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/device_component.rb
 
 Description:
-Device mockups are a great way to showcase your designs in a realistic way! 
+Device mockups are a great way to showcase your designs in a realistic way!
 
 API Signature:
 - daisy_device
@@ -7607,7 +7607,7 @@ Examples URL: https://loco-motion.profoundry.us/examples/Daisy::Mockup::FrameCom
 File: https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/mockup/frame_component.rb
 
 Description:
- Frames showcase your work as if they were displayed in a window. This is  very similar to the existing  component_link("Browser", "Daisy::Mockup::BrowserComponent")  component but without some of the additional styling such as the browser  toolbar. 
+ Frames showcase your work as if they were displayed in a window. This is  very similar to the existing  component_link("Browser", "Daisy::Mockup::BrowserComponent")  component but without some of the additional styling such as the browser  toolbar.
 
 API Signature:
 - daisy_frame
@@ -7656,7 +7656,7 @@ Code (HAML):
 ```haml
 = daisy_frame(css: "w-full max-w-4xl bg-purple-200 border border-purple-600") do |frame|
     .bg-base-100.border-t.border-purple-300.px-4.py-16.text-center
-      = image_tag("loco-logo.png", class: "max-w-xs mx-auto")
+      = image_tag("loco-logo-modern.png", class: "max-w-xs mx-auto")
 
       %p
         This is the content of the browser. You can put anything you want here.

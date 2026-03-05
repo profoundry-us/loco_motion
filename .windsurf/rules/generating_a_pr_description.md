@@ -10,3 +10,4 @@ Follow these rules when asked to generate PR description.
 - The "Type of Change" section should be marked with an 'x' (no spaces) for the appropriate option
 - Skip screenshots (we will manually upload relevant ones)
 - Skip the "Additional Notes" section
+- Ensure all file references use only <code> tags for formatting; no back-ticks or links
