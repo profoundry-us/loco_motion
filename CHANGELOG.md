@@ -11,8 +11,6 @@ changes as we don't consider the project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor
 releases** should be considered **breaking**!
 
-## [Unreleased]
-
 ## [0.5.2] - 2026-03-05
 
 ### Fixed
