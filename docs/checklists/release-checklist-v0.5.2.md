@@ -4,43 +4,43 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 
 ## Pre-Release Preparation
 
-- [x] All tests are passing locally: `make loco-test`
-- [x] All documentation is up to date and properly formatted
-- [x] All changes are committed and pushed to the main branch
+- [ ] All tests are passing locally: `make loco-test`
+- [ ] All documentation is up to date and properly formatted
+- [ ] All changes are committed and pushed to the main branch
 - [ ] You have the necessary credentials for both RubyGems.org and NPM
-- [x] Review any breaking changes and update documentation accordingly
+- [ ] Review any breaking changes and update documentation accordingly
 
 ## Phase 1: Package Release
 
 ### Step 1 - Version Update
-- [x] Update version: `make version-bump` or `make version-set NEW_VERSION=0.5.2`
-- [x] Review version changes: `git diff`
-- [x] Update loco container: `make loco-version-lock` (safe to run anytime)
-- [x] **Note**: Do NOT run `make demo-version-lock` at this stage
+- [ ] Update version: `make version-bump` or `make version-set NEW_VERSION=0.5.2`
+- [ ] Review version changes: `git diff`
+- [ ] Update loco container: `make loco-version-lock` (safe to run anytime)
+- [ ] **Note**: Do NOT run `make demo-version-lock` at this stage
 
 ### Step 2 - Update Changelog
-- [x] Add new version section to `CHANGELOG.md`
-- [x] Include all relevant changes since last release
-- [x] Use proper formatting consistent with existing entries
+- [ ] Add new version section to `CHANGELOG.md`
+- [ ] Include all relevant changes since last release
+- [ ] Use proper formatting consistent with existing entries
 
 ### Step 3 - Building and Testing
-- [x] Build Ruby gem: `make gem-build`
-- [x] Verify gem build in `builds/rubygems/loco_motion-rails-0.5.2.gem`
-- [x] Build NPM package: `make npm-build`
-- [x] Verify NPM package in `builds/npm/profoundry-us-loco_motion-0.5.2.tgz`
+- [ ] Build Ruby gem: `make gem-build`
+- [ ] Verify gem build in `builds/rubygems/loco_motion-rails-0.5.2.gem`
+- [ ] Build NPM package: `make npm-build`
+- [ ] Verify NPM package in `builds/npm/profoundry-us-loco_motion-0.5.2.tgz`
 
 ### Step 4 - Create Release PR
-- [x] Commit all changes: `git commit -am "Release version 0.5.2"`
-- [x] Create pull request with release changes
-- [x] Get pull request reviewed and approved
-- [x] Merge pull request into main
-- [x] Pull latest main locally: `git checkout main && git pull`
+- [ ] Commit all changes: `git commit -am "Release version 0.5.2"`
+- [ ] Create pull request with release changes
+- [ ] Get pull request reviewed and approved
+- [ ] Merge pull request into main
+- [ ] Pull latest main locally: `git checkout main && git pull`
 
 ### Step 5 - Publish Packages
-- [x] Create and push version tag: `git tag v0.5.2 && git push origin v0.5.2`
-- [ ] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)
+- [ ] Create and push version tag: `git tag v0.5.2 && git push origin v0.5.2`
+- [ ] Publish Ruby gem: `make gem-publish`
 - [ ] Verify gem on [RubyGems.org](https://rubygems.org/gems/loco_motion-rails)
-- [ ] Publish NPM package: `make npm-publish` (requires manual execution with credentials)
+- [ ] Publish NPM package: `make npm-publish`
 - [ ] Verify package on [npmjs.com](https://www.npmjs.com/package/@profoundry-us/loco_motion)
 
 ### Step 6 - GitHub Release
@@ -103,6 +103,6 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 
 ---
 
-**Release Version**: 0.5.2
-**Release Date**: 2026-03-05
-**Released By**: AI-Assisted Release Preparation
+**Release Version**: 0.5.2  
+**Release Date**: 0.5.2  
+**Released By**: 0.5.2
