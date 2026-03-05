@@ -11,6 +11,24 @@ changes as we don't consider the project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor
 releases** should be considered **breaking**!
 
+## [Unreleased]
+
+## [0.5.2] - 2026-03-05
+
+### Fixed
+
+- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes and improvements
+  - DaisyUI: v5.5.14 → v5.5.19
+  - TailwindCSS: v4.1.18 → v4.2.1
+  - @tailwindcss/cli: v4.1.18 → v4.2.1
+
+### Changed
+
+- **Branding**: Updated project logo to modern version across all documentation and examples
+  - Replaced `loco-logo.png` with `loco-logo-modern.png` in navbar and frame examples
+  - Updated LLM documentation files to reflect new logo references
+  - Added new modern favicon (`loco-favicon.jpg`)
+
 ## [0.5.1] - 2025-09-25
 
 ### Fixed
