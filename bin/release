@@ -16,7 +16,7 @@ def prompt_user(message, required: true)
     input = gets.strip
     return input if !required && input.empty?
     return input unless input.empty?
-    puts "⚠️  This field is required. Please enter a value."
+    puts "WARNING: This field is required. Please enter a value."
   end
 end
 
@@ -26,16 +26,16 @@ def prompt_yes_no(message, default: 'n')
     response = gets.strip.downcase
     response = default if response.empty?
     return response if %w[y yes n no].include?(response)
-    puts "⚠️  Please enter 'y' or 'n'."
+    puts "WARNING: Please enter 'y' or 'n'."
   end
 end
 
 def execute_command(description, command, exit_on_failure: true)
-  puts "\n🔧 #{description}"
+  puts "\nEXEC: #{description}"
   puts "   Running: #{command}"
 
   unless system(command)
-    puts "❌ Error: Command failed"
+    puts "ERROR: Command failed"
     if exit_on_failure
       puts "   This step is required for the release process."
       print "   Continue anyway? (y/N): "
@@ -45,47 +45,95 @@ def execute_command(description, command, exit_on_failure: true)
     return false
   end
 
-  puts "✅ Completed successfully"
+  puts "SUCCESS: Completed successfully"
   true
 end
 
-def check_prerequisites
-  puts "🔍 Checking release prerequisites..."
+def check_prerequisites(dry_run: false)
+  puts "CHECK: Checking release prerequisites..."
   puts
 
-  # Check if we're on main branch
+  if dry_run
+    puts "DRY RUN: Running read-only prerequisite checks..."
+  end
+
+  # Check if we're on main branch (safe to run in dry run)
   current_branch = `git branch --show-current`.strip
   unless current_branch == 'main'
-    puts "⚠️  Warning: You're not on the main branch (currently on: #{current_branch})"
-    response = prompt_yes_no("Continue anyway?", default: 'n')
-    exit unless response == 'y'
+    puts "WARNING: You're not on the main branch (currently on: #{current_branch})"
+    unless dry_run
+      response = prompt_yes_no("Continue anyway?", default: 'n')
+      exit unless response == 'y'
+    end
+  else
+    puts "SUCCESS: On main branch (#{current_branch})"
   end
 
-  # Check if there are uncommitted changes
+  # Check if there are uncommitted changes (safe to run in dry run)
   unless `git status --porcelain`.strip.empty?
-    puts "❌ Error: You have uncommitted changes. Please commit or stash them first."
-    puts "   Current changes:"
+    puts "WARNING: You have uncommitted changes:"
     system('git status --short')
-    exit 1
+    unless dry_run
+      puts "ERROR: Please commit or stash changes before proceeding with release."
+      exit 1
+    end
+  else
+    puts "SUCCESS: No uncommitted changes"
   end
 
-  # Check if tests pass
-  response = prompt_yes_no("Run tests to ensure everything is working?", default: 'y')
-  if response == 'y'
-    execute_command("Running all tests", "make test")
+  # Check if tests pass (skip in dry run as it runs commands)
+  if dry_run
+    puts "DRY RUN: Skipping test execution (would run 'make test')"
+  else
+    response = prompt_yes_no("Run tests to ensure everything is working?", default: 'y')
+    if response == 'y'
+      execute_command("Running all tests", "make test")
+    end
   end
 
-  puts "✅ Prerequisites check passed"
+  if dry_run
+    puts "DRY RUN: Read-only prerequisite checks completed"
+  else
+    puts "SUCCESS: Prerequisites check passed"
+  end
 end
 
-def update_version
-  puts "\n📦 Step 1: Update Version"
+def update_version(dry_run: false)
+  puts "\nSTEP 1: Update Version"
   puts "=" * 50
 
   current_version = get_current_version
   puts "   Current version: #{current_version}"
 
-  new_version = prompt_user("Enter new version (e.g., 0.5.2):")
+  if dry_run
+    puts "DRY RUN: Checking if version update is needed..."
+
+    # Get version from main function's parsing
+    version_arg = ARGV.find { |arg| !arg.start_with?('--') && !arg.start_with?('-') }
+
+    # Check if version is already set to what we want
+    if version_arg && version_arg == current_version
+      puts "SUCCESS: Version already set to #{current_version}"
+      return current_version
+    elsif version_arg
+      puts "INFO: Would update version from #{current_version} to #{version_arg}"
+      return version_arg
+    else
+      puts "INFO: Would prompt for new version (current: #{current_version})"
+      return current_version
+    end
+  end
+
+  version_arg = ARGV.find { |arg| !arg.start_with?('--') && !arg.start_with?('-') }
+  new_version = version_arg || prompt_user("Enter new version (e.g., 0.5.2):")
+
+  # Check if version is already set
+  if new_version == current_version
+    puts "INFO: Version #{new_version} is already set"
+    response = prompt_yes_no("Continue with this version?", default: 'y')
+    return new_version if response == 'y'
+    new_version = prompt_user("Enter different version:")
+  end
 
   # Update version
   execute_command("Updating version to #{new_version}", "make version-set NEW_VERSION=#{new_version}")
@@ -94,7 +142,7 @@ def update_version
   execute_command("Updating loco container", "make loco-version-lock")
 
   # Show changes
-  puts "\n📋 Changes made:"
+  puts "\nCHANGES: Changes made:"
   system('git diff --name-only')
   puts
 
@@ -106,9 +154,38 @@ def update_version
   new_version
 end
 
-def update_changelog(version)
-  puts "\n📝 Step 2: Update CHANGELOG"
+def update_changelog(version, dry_run: false)
+  puts "\nSTEP 2: Update CHANGELOG"
   puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Checking if CHANGELOG update is needed..."
+
+    # Check if CHANGELOG exists and has unreleased section
+    if File.exist?('CHANGELOG.md')
+      changelog_content = File.read('CHANGELOG.md')
+      if changelog_content.include?('[Unreleased]')
+        puts "INFO: CHANGELOG has [Unreleased] section that needs to be updated to [#{version}]"
+      elsif changelog_content.include?("[#{version}]")
+        puts "SUCCESS: CHANGELOG already has [#{version}] section"
+      else
+        puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
+      end
+    else
+      puts "WARNING: CHANGELOG.md not found"
+    end
+    return
+  end
+
+  # Check if CHANGELOG already has the version
+  if File.exist?('CHANGELOG.md')
+    changelog_content = File.read('CHANGELOG.md')
+    if changelog_content.include?("[#{version}]")
+      puts "INFO: CHANGELOG already has [#{version}] section"
+      response = prompt_yes_no("Continue with existing CHANGELOG?", default: 'y')
+      return if response == 'y'
+    end
+  end
 
   puts "   Please update CHANGELOG.md to replace '[Unreleased]' with the new version header:"
   puts "   ## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
@@ -125,49 +202,98 @@ def update_changelog(version)
   end
 end
 
-def build_packages
-  puts "\n🔨 Step 3: Build Packages"
+def build_packages(dry_run: false)
+  puts "\nSTEP 3: Build Packages"
   puts "=" * 50
 
-  # Build Ruby gem
-  execute_command("Building Ruby gem", "make gem-build")
-
-  # Verify gem exists
   version = get_current_version
   gem_path = "builds/rubygems/loco_motion-rails-#{version}.gem"
-  if File.exist?(gem_path)
-    puts "✅ Ruby gem built: #{gem_path}"
+  npm_path = "builds/npm/profoundry-us-loco_motion-#{version}.tgz"
+
+  if dry_run
+    puts "DRY RUN: Checking if packages need to be built..."
+
+    # Check if packages already exist
+    gem_exists = File.exist?(gem_path)
+    npm_exists = File.exist?(npm_path)
+
+    if gem_exists && npm_exists
+      puts "SUCCESS: Both packages already built:"
+      puts "   - Ruby gem: #{gem_path}"
+      puts "   - NPM package: #{npm_path}"
+    elsif gem_exists
+      puts "INFO: Ruby gem exists, NPM package missing:"
+      puts "   - Ruby gem: #{gem_path} (exists)"
+      puts "   - NPM package: #{npm_path} (would build)"
+    elsif npm_exists
+      puts "INFO: NPM package exists, Ruby gem missing:"
+      puts "   - Ruby gem: #{gem_path} (would build)"
+      puts "   - NPM package: #{npm_path} (exists)"
+    else
+      puts "INFO: Both packages need to be built:"
+      puts "   - Ruby gem: #{gem_path} (would build)"
+      puts "   - NPM package: #{npm_path} (would build)"
+    end
+    return
+  end
+
+  # Check if packages already exist
+  gem_exists = File.exist?(gem_path)
+  npm_exists = File.exist?(npm_path)
+
+  if gem_exists && npm_exists
+    puts "INFO: Both packages already exist:"
+    puts "   - Ruby gem: #{gem_path}"
+    puts "   - NPM package: #{npm_path}"
+    response = prompt_yes_no("Rebuild packages anyway?", default: 'n')
+    return if response != 'y'
+  end
+
+  # Build Ruby gem if needed
+  unless gem_exists
+    execute_command("Building Ruby gem", "make gem-build")
   else
-    puts "❌ Ruby gem not found at expected location: #{gem_path}"
+    puts "INFO: Ruby gem already exists: #{gem_path}"
+  end
+
+  # Verify gem exists
+  unless File.exist?(gem_path)
+    puts "ERROR: Ruby gem not found at expected location: #{gem_path}"
     exit 1
   end
 
-  # Build NPM package
-  execute_command("Building NPM package", "make npm-build")
+  # Build NPM package if needed
+  unless npm_exists
+    execute_command("Building NPM package", "make npm-build")
+  else
+    puts "INFO: NPM package already exists: #{npm_path}"
+  end
 
   # Verify NPM package exists
-  npm_path = "builds/npm/profoundry-us-loco_motion-#{version}.tgz"
-  if File.exist?(npm_path)
-    puts "✅ NPM package built: #{npm_path}"
-  else
-    puts "❌ NPM package not found at expected location: #{npm_path}"
+  unless File.exist?(npm_path)
+    puts "ERROR: NPM package not found at expected location: #{npm_path}"
     exit 1
   end
 
-  puts "\n📦 Both packages built successfully!"
+  puts "\nSUCCESS: Both packages built successfully!"
   response = prompt_yes_no("Continue with publishing?", default: 'y')
   exit unless response == 'y'
 end
 
-def create_and_merge_pr
-  puts "\n🔀 Step 4: Create and Merge PR"
+def create_and_merge_pr(dry_run: false)
+  puts "\nSTEP 4: Create and Merge PR"
   puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Skipping PR creation and merge"
+    return
+  end
 
   response = prompt_yes_no("Push changes and create PR?", default: 'y')
   if response == 'y'
     execute_command("Pushing changes to origin", "git push origin main")
 
-    puts "\n📋 Please create a pull request with your changes:"
+    puts "\nINFO: Please create a pull request with your changes:"
     puts "   1. Go to: https://github.com/profoundry-us/loco_motion/compare/main...#{`git branch --show-current`.strip}"
     puts "   2. Create pull request"
     puts "   3. Get it reviewed and approved"
@@ -175,7 +301,7 @@ def create_and_merge_pr
 
     response = prompt_yes_no("Have you merged the PR to main?", default: 'n')
     unless response == 'y'
-      puts "⚠️  Please merge the PR before continuing."
+      puts "WARNING: Please merge the PR before continuing."
       exit 1
     end
 
@@ -183,17 +309,78 @@ def create_and_merge_pr
   end
 end
 
-def tag_release(version)
-  puts "\n🏷️  Step 5: Tag Release"
+def tag_release(version, dry_run: false)
+  puts "\nSTEP 5: Tag Release"
   puts "=" * 50
 
+  # Helper function to check tag existence
+  def check_tag_status(version)
+    # Check local tag (fast)
+    local_tag_exists = system("git rev-parse --verify --quiet refs/tags/v#{version} > /dev/null 2>&1")
+
+    # Check remote tag (only if needed, use faster method)
+    remote_tag_exists = false
+    if local_tag_exists
+      # Faster remote check - just see if the tag exists in the remote refs
+      remote_tag_exists = system("git ls-remote --exit-code origin refs/tags/v#{version} > /dev/null 2>&1")
+    end
+
+    [local_tag_exists, remote_tag_exists]
+  end
+
+  local_tag_exists, remote_tag_exists = check_tag_status(version)
+
+  if dry_run
+    puts "DRY RUN: Checking if git tag exists..."
+
+    if local_tag_exists && remote_tag_exists
+      puts "SUCCESS: Tag v#{version} exists locally and remotely"
+    elsif local_tag_exists
+      puts "INFO: Tag v#{version} exists locally but not remotely (would push)"
+    elsif remote_tag_exists
+      puts "INFO: Tag v#{version} exists remotely but not locally (would pull)"
+    else
+      puts "INFO: Tag v#{version} does not exist (would create and push)"
+    end
+    return
+  end
+
+  if local_tag_exists && remote_tag_exists
+    puts "INFO: Tag v#{version} already exists locally and remotely"
+    response = prompt_yes_no("Create new tag anyway?", default: 'n')
+    return if response != 'y'
+  elsif local_tag_exists
+    puts "INFO: Tag v#{version} exists locally but not remotely"
+    response = prompt_yes_no("Push existing tag to remote?", default: 'y')
+    if response == 'y'
+      execute_command("Pushing tag to origin", "git push origin v#{version}")
+    end
+    return
+  elsif remote_tag_exists
+    puts "INFO: Tag v#{version} exists remotely but not locally"
+    response = prompt_yes_no("Pull remote tag locally?", default: 'y')
+    if response == 'y'
+      execute_command("Pulling remote tag", "git fetch origin tag v#{version}")
+    end
+    return
+  end
+
+  # Create and push new tag
   execute_command("Creating git tag", "git tag v#{version}")
   execute_command("Pushing tag to origin", "git push origin v#{version}")
 end
 
-def publish_packages
-  puts "\n🚀 Step 6: Publish Packages"
+def publish_packages(dry_run: false)
+  puts "\nSTEP 6: Publish Packages"
   puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Skipping package publishing"
+    puts "   Would publish:"
+    puts "   - Ruby gem to RubyGems.org"
+    puts "   - NPM package to npmjs.com"
+    return
+  end
 
   puts "   This step requires your credentials for both RubyGems and NPM."
   puts "   The script will run the publishing commands, but you may need to"
@@ -201,7 +388,7 @@ def publish_packages
   puts
 
   # Publish Ruby gem
-  puts "💎 Publishing Ruby Gem to RubyGems.org..."
+  puts "INFO: Publishing Ruby Gem to RubyGems.org..."
   response = prompt_yes_no("Continue with gem publishing?", default: 'y')
   if response == 'y'
     execute_command("Publishing Ruby gem", "make gem-publish", exit_on_failure: false)
@@ -209,7 +396,7 @@ def publish_packages
   end
 
   # Publish NPM package
-  puts "\n📦 Publishing NPM package to npmjs.com..."
+  puts "\nINFO: Publishing NPM package to npmjs.com..."
   response = prompt_yes_no("Continue with NPM publishing?", default: 'y')
   if response == 'y'
     execute_command("Publishing NPM package", "make npm-publish", exit_on_failure: false)
@@ -218,14 +405,21 @@ def publish_packages
 
   response = prompt_yes_no("Were both packages published successfully?", default: 'n')
   unless response == 'y'
-    puts "⚠️  Please resolve any publishing issues before continuing."
+    puts "WARNING: Please resolve any publishing issues before continuing."
     exit 1
   end
 end
 
-def create_github_release(version)
-  puts "\n🎉 Step 7: Create GitHub Release"
+def create_github_release(version, dry_run: false)
+  puts "\nSTEP 7: Create GitHub Release"
   puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Skipping GitHub release creation"
+    puts "   Would create release at: https://github.com/profoundry-us/loco_motion/releases/new"
+    puts "   With tag: v#{version}"
+    return
+  end
 
   puts "   Please create a GitHub release:"
   puts "   1. Go to: https://github.com/profoundry-us/loco_motion/releases/new"
@@ -236,77 +430,116 @@ def create_github_release(version)
 
   response = prompt_yes_no("Have you created the GitHub release?", default: 'n')
   unless response == 'y'
-    puts "⚠️  Please create the GitHub release before continuing."
+    puts "WARNING: Please create the GitHub release before continuing."
     exit 1
   end
 end
 
-def update_checklist(version)
-  puts "\n📋 Step 8: Update Release Checklist"
+def update_checklist(version, dry_run: false)
+  puts "\nSTEP 8: Update Release Checklist"
   puts "=" * 50
 
   checklist_path = "docs/checklists/release-checklist-v#{version}.md"
-  if File.exist?(checklist_path)
-    puts "   Updating checklist: #{checklist_path}"
 
-    # Mark completed items
-    content = File.read(checklist_path)
+  if dry_run
+    puts "DRY RUN: Checking if checklist update is needed..."
 
-    # Mark pre-release preparation as completed
-    content.gsub!('- \[ \] All tests are passing locally', '- [x] All tests are passing locally')
-    content.gsub!('- \[ \] All documentation is up to date', '- [x] All documentation is up to date')
-    content.gsub!('- \[ \] All changes are committed and pushed', '- [x] All changes are committed and pushed')
-    content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
+    if File.exist?(checklist_path)
+      puts "INFO: Checklist exists: #{checklist_path}"
 
-    # Mark version update steps as completed
-    content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `make version-set NEW_VERSION=' + version + '`')
-    content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
-    content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
-
-    # Mark changelog as completed
-    content.gsub!('- \[ \] Add new version section', '- [x] Add new version section')
-    content.gsub!('- \[ \] Include all relevant changes', '- [x] Include all relevant changes')
-    content.gsub!('- \[ \] Use proper formatting', '- [x] Use proper formatting')
-
-    # Mark building steps as completed
-    content.gsub!('- \[ \] Build Ruby gem', '- [x] Build Ruby gem')
-    content.gsub!('- \[ \] Verify gem build', '- [x] Verify gem build')
-    content.gsub!('- \[ \] Build NPM package', '- [x] Build NPM package')
-    content.gsub!('- \[ \] Verify NPM package', '- [x] Verify NPM package')
-
-    # Mark PR steps as completed
-    content.gsub!(/- \[ \] Commit all changes:.*$/, '- [x] Commit all changes: `git commit -am "Release version ' + version + '"`')
-    content.gsub!('- \[ \] Create pull request', '- [x] Create pull request')
-    content.gsub!('- \[ \] Get pull request reviewed', '- [x] Get pull request reviewed')
-    content.gsub!('- \[ \] Merge pull request', '- [x] Merge pull request')
-    content.gsub!('- \[ \] Pull latest main locally', '- [x] Pull latest main locally')
-
-    # Mark tag as completed
-    content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
-
-    # Add notes about manual publishing
-    content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)')
-    content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `make npm-publish` (requires manual execution with credentials)')
-
-    # Update release info
-    content.gsub!(/\*\*Release Date\*\*:.*$/, "**Release Date**: #{Date.today.strftime('%Y-%m-%d')}")
-    content.gsub!(/\*\*Released By\*\*:.*$/, "**Released By**: Interactive Release Script")
-
-    File.write(checklist_path, content)
-    puts "✅ Checklist updated successfully"
-
-    response = prompt_yes_no("Commit checklist changes?", default: 'y')
-    if response == 'y'
-      execute_command("Committing checklist", "git add #{checklist_path} && git commit -m 'Update release checklist for v#{version}'")
+      # Check if checklist is already updated
+      content = File.read(checklist_path)
+      if content.include?("**Released By**: Interactive Release Script")
+        puts "SUCCESS: Checklist appears to be already updated by release script"
+      elsif content.include?("[x] Publish Ruby gem")
+        puts "INFO: Checklist has some completed items, may need full update"
+      else
+        puts "INFO: Checklist exists but needs to be updated with completed items"
+      end
+    else
+      puts "WARNING: Checklist not found: #{checklist_path}"
     end
-  else
-    puts "⚠️  Checklist not found: #{checklist_path}"
+    return
+  end
+
+  unless File.exist?(checklist_path)
+    puts "WARNING: Checklist not found: #{checklist_path}"
+    response = prompt_yes_no("Continue without updating checklist?", default: 'y')
+    return if response == 'y'
+    return
+  end
+
+  puts "   Updating checklist: #{checklist_path}"
+
+  # Check if already updated
+  content = File.read(checklist_path)
+  if content.include?("**Released By**: Interactive Release Script")
+    puts "INFO: Checklist appears to already be updated"
+    response = prompt_yes_no("Update checklist anyway?", default: 'n')
+    return if response != 'y'
+  end
+
+  # Mark completed items
+  content = File.read(checklist_path)
+
+  # Mark pre-release preparation as completed
+  content.gsub!('- \[ \] All tests are passing locally', '- [x] All tests are passing locally')
+  content.gsub!('- \[ \] All documentation is up to date', '- [x] All documentation is up to date')
+  content.gsub!('- \[ \] All changes are committed and pushed', '- [x] All changes are committed and pushed')
+  content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
+
+  # Mark version update steps as completed
+  content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `make version-set NEW_VERSION=' + version + '`')
+  content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
+  content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
+
+  # Mark changelog as completed
+  content.gsub!('- \[ \] Add new version section', '- [x] Add new version section')
+  content.gsub!('- \[ \] Include all relevant changes', '- [x] Include all relevant changes')
+  content.gsub!('- \[ \] Use proper formatting', '- [x] Use proper formatting')
+
+  # Mark building steps as completed
+  content.gsub!('- \[ \] Build Ruby gem', '- [x] Build Ruby gem')
+  content.gsub!('- \[ \] Verify gem build', '- [x] Verify gem build')
+  content.gsub!('- \[ \] Build NPM package', '- [x] Build NPM package')
+  content.gsub!('- \[ \] Verify NPM package', '- [x] Verify NPM package')
+
+  # Mark PR steps as completed
+  content.gsub!(/- \[ \] Commit all changes:.*$/, '- [x] Commit all changes: `git commit -am "Release version ' + version + '"`')
+  content.gsub!('- \[ \] Create pull request', '- [x] Create pull request')
+  content.gsub!('- \[ \] Get pull request reviewed', '- [x] Get pull request reviewed')
+  content.gsub!('- \[ \] Merge pull request', '- [x] Merge pull request')
+  content.gsub!('- \[ \] Pull latest main locally', '- [x] Pull latest main locally')
+
+  # Mark tag as completed
+  content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
+
+  # Add notes about manual publishing
+  content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)')
+  content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `make npm-publish` (requires manual execution with credentials)')
+
+  # Update release info
+  content.gsub!(/\*\*Release Date\*\*:.*$/, "**Release Date**: #{Date.today.strftime('%Y-%m-%d')}")
+  content.gsub!(/\*\*Released By\*\*:.*$/, "**Released By**: Interactive Release Script")
+
+  File.write(checklist_path, content)
+  puts "SUCCESS: Checklist updated successfully"
+
+  response = prompt_yes_no("Commit checklist changes?", default: 'y')
+  if response == 'y'
+    execute_command("Committing checklist", "git add #{checklist_path} && git commit -m 'Update release checklist for v#{version}'")
   end
 end
 
-def update_demo_app
-  puts "\n🌐 Step 9: Update Demo App"
+def update_demo_app(dry_run: false)
+  puts "\nSTEP 9: Update Demo App"
   puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Skipping demo app update"
+    puts "   Would run: bin/update_demo_after_release"
+    return
+  end
 
   puts "   This will run the post-release script to update the demo app."
   response = prompt_yes_no("Continue with demo app update?", default: 'y')
@@ -317,15 +550,19 @@ def update_demo_app
 end
 
 def main
-  puts "🚀 LocoMotion Release Wizard"
+  puts "RELEASE: LocoMotion Release Wizard"
   puts "=" * 50
   puts "   This wizard will walk you through the complete release process."
   puts
 
+  # Parse arguments
+  dry_run = ARGV.include?('--dry-run')
+  version_arg = ARGV.find { |arg| !arg.start_with?('--') && !arg.start_with?('-') }
+
   # Show help if requested
   if ARGV.include?('--help') || ARGV.include?('-h')
     puts <<~HELP
-      Usage: bin/release [VERSION]
+      Usage: bin/release [VERSION] [OPTIONS]
 
       This wizard walks you through the complete LocoMotion release process:
       1. Check prerequisites
@@ -340,11 +577,17 @@ def main
       10. Update demo app
 
       Options:
-        VERSION    Optional: Skip version prompt and use this version
-        --help     Show this help message
+        VERSION        Optional: Skip version prompt and use this version
+        --dry-run      Run in dry run mode (skips git state checks and actual commands)
+        --help         Show this help message
+
+      Dry Run Mode:
+        - Skips git state checks (main branch, uncommitted changes)
+        - Shows what would be done without executing commands
+        - Useful for testing the release workflow
 
       Prerequisites:
-        - Clean git state
+        - Clean git state (unless in dry run mode)
         - RubyGems.org credentials
         - NPM credentials
         - GitHub access for creating releases
@@ -352,32 +595,43 @@ def main
     exit 0
   end
 
+  if dry_run
+    puts "DRY RUN: No actual commands will be executed"
+    puts
+  end
+
   begin
-    check_prerequisites
+    check_prerequisites(dry_run: dry_run)
 
-    version = ARGV[0] || update_version
-    update_changelog(version)
-    build_packages
-    create_and_merge_pr
-    tag_release(version)
-    publish_packages
-    create_github_release(version)
-    update_checklist(version)
-    update_demo_app
+    version = version_arg || update_version(dry_run: dry_run)
+    update_changelog(version, dry_run: dry_run)
+    build_packages(dry_run: dry_run)
+    create_and_merge_pr(dry_run: dry_run)
+    tag_release(version, dry_run: dry_run)
+    publish_packages(dry_run: dry_run)
+    create_github_release(version, dry_run: dry_run)
+    update_checklist(version, dry_run: dry_run)
+    update_demo_app(dry_run: dry_run)
 
-    puts "\n🎉 Release v#{version} completed successfully!"
-    puts "=" * 50
-    puts "   What's next:"
-    puts "   1. Monitor demo app deployment"
-    puts "   2. Verify Algolia indexing"
-    puts "   3. Generate LLM documentation: make llm"
-    puts "   4. Test the demo site"
+    if dry_run
+      puts "\nDRY RUN COMPLETED"
+      puts "   No actual changes were made."
+      puts "   Run without --dry-run to execute the release."
+    else
+      puts "\nSUCCESS: Release v#{version} completed successfully!"
+      puts "=" * 50
+      puts "   What's next:"
+      puts "   1. Monitor demo app deployment"
+      puts "   2. Verify Algolia indexing"
+      puts "   3. Generate LLM documentation: make llm"
+      puts "   4. Test the demo site"
+    end
 
   rescue Interrupt
-    puts "\n\n⚠️  Release process interrupted by user"
+    puts "\n\nWARNING: Release process interrupted by user"
     exit 1
   rescue => e
-    puts "\n❌ Error: #{e.message}"
+    puts "\nERROR: #{e.message}"
     exit 1
   end
 end
