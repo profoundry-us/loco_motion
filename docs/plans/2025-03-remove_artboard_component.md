@@ -59,6 +59,6 @@ DaisyUI 5 has removed the Artboard component. This plan outlines the steps to re
 
 **Commands to Run**:
 ```bash
-make loco-test
-make demo-restart
+just loco-test
+just demo-restart
 ```

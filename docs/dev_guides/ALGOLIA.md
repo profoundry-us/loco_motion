@@ -39,22 +39,22 @@ It can process either a single component or all components.
 
 ```bash
 # Process all components
-make algolia-index
+just algolia-index
 
 # Process a specific component
-make algolia-index ARGS="--component Daisy::Actions::Modal"
+just algolia-index --component Daisy::Actions::Modal
 
 # Process a specific component and save output to a specific JSON file
-make algolia-index ARGS="--component Daisy::Actions::Modal --output tmp/algolia/modals_index.json"
+just algolia-index --component Daisy::Actions::Modal --output tmp/algolia/modals_index.json
 
 # Skip uploading to Algolia and only save the output
-make algolia-index ARGS="--skip-upload"
+just algolia-index --skip-upload
 
 # Save output to a specific JSON file and skip uploading to Algolia
-make algolia-index ARGS="--output tmp/algolia/my_components.json --skip-upload"
+just algolia-index --output tmp/algolia/my_components.json --skip-upload
 
 # Show help information
-make algolia-index ARGS="--help"
+just algolia-index --help
 ```
 
 **Available Options:**
@@ -106,13 +106,13 @@ unless the `--force` flag is used.
 
 ```bash
 # Clear a requested index (required)
-make algolia-clear ARGS="--index index_name"
+just algolia-clear --index index_name
 
 # Clear a specific index without confirmation
-make algolia-clear ARGS="--index custom_index_name --force"
+just algolia-clear --index custom_index_name --force
 
 # Show help information
-make algolia-clear ARGS="--help"
+just algolia-clear --help
 ```
 
 **Available Options:**
@@ -131,16 +131,16 @@ in a format optimized for Large Language Model consumption.
 
 ```bash
 # Generate LLM.txt with all components (default output: docs/demo/public/LLM-v{VERSION}.txt)
-make llm
+just llm
 
 # Generate for a specific component
-make llm ARGS="--component Daisy::Actions::Modal"
+just llm --component Daisy::Actions::Modal
 
 # Generate to a custom output location
-make llm ARGS="--output custom/path/LLM.txt"
+just llm --output custom/path/LLM.txt
 
 # Show help information
-make llm ARGS="--help"
+just llm --help
 ```
 
 **Available Options:**
@@ -183,7 +183,7 @@ Both files are accessible via HTTP on the demo site:
 
 ## Running Rake Tasks Directly
 
-While the Makefile commands are the recommended approach as they ensure all operations
+While the justfile commands are the recommended approach as they ensure all operations
 run in the proper Docker container, you can also run the Rake tasks directly in the demo
 application:
 

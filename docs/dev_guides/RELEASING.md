@@ -7,7 +7,7 @@ LocoMotion.
 - [Preparation](#preparation)
 - [Release Checklist](#release-checklist)
 - [Step 1 - Version Update](#step-1---version-update)
-  - [Using Makefile Commands (Recommended)](#using-makefile-commands-recommended)
+  - [Using Justfile Commands (Recommended)](#using-justfile-commands-recommended)
   - [Using the Script Directly](#using-the-script-directly)
 - [Step 2 - Update Changelog](#step-2---update-changelog)
 - [Step 3 - Building and Testing](#step-3---building-and-testing)
@@ -27,7 +27,7 @@ Before releasing a new version, ensure:
 1. All tests are passing locally:
 
    ```bash
-   make loco-test
+   just loco-test
    ```
 
 2. All documentation is up to date and properly formatted.
@@ -51,14 +51,14 @@ you complete them and keep the file as a record of the release process.
 
 Update the version across all files using one of the following methods:
 
-### Using Makefile Commands (Recommended)
+### Using Justfile Commands (Recommended)
 
 ```bash
 # Interactive mode - will prompt for new version
-make version-bump
+just version-bump
 
 # Specify version directly
-make version-set NEW_VERSION=1.0.0
+just version-set NEW_VERSION=1.0.0
 ```
 
 ### Using the Script Directly
@@ -80,10 +80,10 @@ new gem version:
 
 ```bash
 # Update the loco container to use the new gem version (safe to run anytime)
-make loco-version-lock
+just loco-version-lock
 ```
 
-**Important**: Do NOT run `make demo-version-lock` at this stage, as it will fail
+**Important**: Do NOT run `just demo-version-lock` at this stage, as it will fail
 because the NPM package hasn't been published yet. The demo app will be updated
 in a separate step after package publication.
 
@@ -110,7 +110,7 @@ git commands to build a relevant changelog update.
 1. Build the Ruby gem:
 
    ```bash
-   make gem-build
+   just gem-build
    ```
 
    This will create a new gem file in the `builds/rubygems` directory with the
@@ -122,7 +122,7 @@ git commands to build a relevant changelog update.
 3. Build the NPM package:
 
    ```bash
-   make npm-build
+   just npm-build
    ```
 
    This will create a new tarball in the `builds/npm` directory.
@@ -159,14 +159,14 @@ branch:
 1. Create and push a version tag:
 
    ```bash
-   git tag v$(make version)
-   git push origin v$(make version)
+   git tag v$(just version)
+   git push origin v$(just version)
    ```
 
 2. **Manually** publish the gem to RubyGems.org:
 
    ```bash
-   make gem-publish
+   just gem-publish
    ```
 
    > **Note**: This command requires RubyGems.org credentials and must be run manually.
@@ -180,7 +180,7 @@ branch:
 2. **Manually** publish the NPM package:
 
    ```bash
-   make npm-publish
+   just npm-publish
    ```
 
    > **Note**: This command requires NPM credentials and must be run manually.
@@ -228,14 +228,14 @@ After both packages are published, update the demo app to use the new versions:
    This script will:
    - Check that you're on the main branch
    - Pull the latest changes
-   - Run `make demo-version-lock` to update demo dependencies
+   - Run `just demo-version-lock` to update demo dependencies
    - Commit and push the changes
 
 2. **Manual alternative** (if you prefer more control):
 
    ```bash
    # Update demo app dependencies
-   make demo-version-lock
+   just demo-version-lock
 
    # Commit the changes
    git add docs/demo/
@@ -283,7 +283,7 @@ LLM-friendly documentation files:
 1. **Generate LLM documentation**:
 
    ```bash
-   make llm
+   just llm
    ```
 
    This will:
