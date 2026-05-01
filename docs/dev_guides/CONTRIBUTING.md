@@ -34,13 +34,13 @@ In particular, we utilize Docker to build and run our application and all of
 its dependencies.
 
 Once you've downloaded and setup Docker, all you should have to do is open a
-terminal in the project directory and type `make all`. This should build all of
+terminal in the project directory and type `just all`. This should build all of
 the Docker containers, install all relevant dependencies, install Rails and all
 of the necessary gems, and start all of the different services.
 
 > [!NOTE]
 > For normal day-to-day development after the initial setup, you can use
-> `make all-quick` instead of `make all`. This will skip rebuilding the Docker
+> `just all-quick` instead of `just all`. This will skip rebuilding the Docker
 > containers and is much faster for routine development work.
 
 If everything is successful, you should see some output from each of the running
@@ -130,7 +130,7 @@ features of LocoMotion.
 
 3. Ensure all tests pass:
    ```bash
-   make loco-test
+   just loco-test
    ```
 
 ## Documentation
@@ -157,7 +157,7 @@ All new code should include tests:
 
 1. Write tests for your changes following the patterns in existing test files
 2. Ensure all tests pass before submitting a pull request
-3. Run tests using `make loco-test`
+3. Run tests using `just loco-test`
 
 ## Pull Requests
 
@@ -170,7 +170,7 @@ All new code should include tests:
 > We will update the CHANGELOG.md with your changes when we merge your PR.
 
 > [!IMPORTANT]
-> Always run `make loco-test` before submitting a pull request to ensure all
+> Always run `just loco-test` before submitting a pull request to ensure all
 > tests are passing. This helps maintain the quality and stability of the
 > codebase. Also make sure to update the CHANGELOG.md with your changes.
 

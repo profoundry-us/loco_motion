@@ -2,12 +2,15 @@
 
 ## Overview
 
-This plan addresses the circular dependency issue in the current release process where `make version-lock` fails because it tries to install an NPM package that hasn't been published yet. The solution involves splitting the release process into two phases: package release and demo app update.
+This plan addresses the circular dependency issue in the current release process
+where `just demo-version-lock` fails because it tries to install an NPM package
+that hasn't been published yet. The solution involves splitting the release
+process into two phases: package release and demo app update.
 
 ## Problem Statement
 
 Currently, the release process has a circular dependency:
-1. Step 1 requires running `make version-lock` after version update
+1. Step 1 requires running `just loco-version-lock` after version update
 2. `version-lock` tries to install the NPM package from the registry
 3. The NPM package isn't published until Step 4
 4. The demo app auto-deploys on every commit, so it needs the published package
@@ -27,16 +30,16 @@ Currently, the release process has a circular dependency:
 **File to Modify**: `docs/dev_guides/RELEASING.md`
 
 **Changes Required**:
-- Remove `make version-lock` from Step 1
-- Add new Step 6: "Demo App Update" 
+- Remove `just loco-version-lock` from Step 1
+- Add new Step 6: "Demo App Update"
 - Update the warning in Step 4 to clarify the process
 - Add notes about the two-phase approach
 
-### 2. Create New Makefile Target
+### 2. Create New Justfile Target
 
 **Purpose**: Create a demo-specific version lock command that only updates the demo app.
 
-**File to Modify**: `Makefile`
+**File to Modify**: `justfile`
 
 **New Target**: `demo-version-lock`
 
@@ -49,7 +52,7 @@ Currently, the release process has a circular dependency:
 
 **Purpose**: Update the existing `version-lock` to be more flexible about when it's run.
 
-**File to Modify**: `Makefile`
+**File to Modify**: `justfile`
 
 **Changes Required**:
 - Add conditional logic to check if NPM package exists in registry
@@ -63,7 +66,7 @@ Currently, the release process has a circular dependency:
 **File to Create**: `bin/update_demo_after_release`
 
 **Functionality**:
-- Run `make demo-version-lock`
+- Run `just demo-version-lock`
 - Create a commit with message "Update demo app to use version X.X.X"
 - Optionally create a PR for the demo update
 
@@ -86,7 +89,7 @@ Currently, the release process has a circular dependency:
 
 **Content**:
 - Pre-release checklist
-- Phase 1: Package Release checklist  
+- Phase 1: Package Release checklist
 - Phase 2: Demo Update checklist
 - Post-release verification steps
 
@@ -96,14 +99,14 @@ Currently, the release process has a circular dependency:
 
 1. **Version Update** (without demo lock)
    ```bash
-   make version-bump  # or make version-set NEW_VERSION=X.X.X
+   just version-bump  # or just version-set NEW_VERSION=X.X.X
    # Note: This will NOT run version-lock anymore
    ```
 
 2. **Build and Test**
    ```bash
-   make gem-build
-   make npm-build
+   just gem-build
+   just npm-build
    ```
 
 3. **Update Changelog**
@@ -120,8 +123,8 @@ Currently, the release process has a circular dependency:
    ```bash
    git tag vX.X.X
    git push origin vX.X.X
-   make gem-publish
-   make npm-publish
+   just gem-publish
+   just npm-publish
    ```
 
 6. **Create GitHub Release**
@@ -131,7 +134,7 @@ Currently, the release process has a circular dependency:
 
 1. **Update Demo App**
    ```bash
-   make demo-version-lock
+   just demo-version-lock
    ```
 
 2. **Commit Demo Update**
@@ -168,7 +171,7 @@ Currently, the release process has a circular dependency:
 ## Risks and Mitigations
 
 ### Risk: Forgetting Phase 2
-**Mitigation**: 
+**Mitigation**:
 - Clear documentation and checklist
 - Consider automation or reminders
 - Make the demo update script as simple as possible

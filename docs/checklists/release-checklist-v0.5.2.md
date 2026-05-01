@@ -4,7 +4,7 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 
 ## Pre-Release Preparation
 
-- [ ] All tests are passing locally: `make loco-test`
+- [ ] All tests are passing locally: `just loco-test`
 - [ ] All documentation is up to date and properly formatted
 - [ ] All changes are committed and pushed to the main branch
 - [ ] You have the necessary credentials for both RubyGems.org and NPM
@@ -13,10 +13,10 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 ## Phase 1: Package Release
 
 ### Step 1 - Version Update
-- [ ] Update version: `make version-bump` or `make version-set NEW_VERSION=0.5.2`
+- [ ] Update version: `just version-bump` or `just version-set NEW_VERSION=0.5.2`
 - [ ] Review version changes: `git diff`
-- [ ] Update loco container: `make loco-version-lock` (safe to run anytime)
-- [ ] **Note**: Do NOT run `make demo-version-lock` at this stage
+- [ ] Update loco container: `just loco-version-lock` (safe to run anytime)
+- [ ] **Note**: Do NOT run `just demo-version-lock` at this stage
 
 ### Step 2 - Update Changelog
 - [ ] Add new version section to `CHANGELOG.md`
@@ -24,9 +24,9 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 - [ ] Use proper formatting consistent with existing entries
 
 ### Step 3 - Building and Testing
-- [ ] Build Ruby gem: `make gem-build`
+- [ ] Build Ruby gem: `just gem-build`
 - [ ] Verify gem build in `builds/rubygems/loco_motion-rails-0.5.2.gem`
-- [ ] Build NPM package: `make npm-build`
+- [ ] Build NPM package: `just npm-build`
 - [ ] Verify NPM package in `builds/npm/profoundry-us-loco_motion-0.5.2.tgz`
 
 ### Step 4 - Create Release PR
@@ -103,6 +103,6 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 
 ---
 
-**Release Version**: 0.5.2  
-**Release Date**: 0.5.2  
+**Release Version**: 0.5.2
+**Release Date**: 0.5.2
 **Released By**: 0.5.2

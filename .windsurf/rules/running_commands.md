@@ -15,7 +15,7 @@ When running commands, follow these procedures.
 
 2. NEVER change the Ruby version.
 
-3. MUST review the Makefile to see if a relevant command already exists.
+3. MUST review the justfile to see if a relevant command already exists.
 
 4. When removing a file with `rm` or moving a file with `mv`:
    a. MUST use `/bin/rm` or `/bin/mv` so that it doesn't prompt you for
@@ -25,5 +25,5 @@ When running commands, follow these procedures.
 
 6. NEVER use `cd` before running commands.
 
-7. NEVER restart the demo app (`make demo-restart`) unless we make changes in
+7. NEVER restart the demo app (`just demo-restart`) unless we make changes in
    the `lib/loco_motion` directory.

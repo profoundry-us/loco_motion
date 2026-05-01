@@ -1,0 +1,95 @@
+##############################
+# General commands
+##############################
+
+# Run & build the dev container
+dev:
+    docker compose up dev --build
+
+# Run the dev container without rebuilding
+dev-fast:
+    docker compose up dev
+
+# Open a shell to your development container
+dev-shell:
+    docker compose exec -it dev /bin/bash
+
+# Stop all running containers
+down:
+    docker compose down
+
+
+##############################
+# Rails app commands
+##############################
+
+# Run all of the containers and build
+app:
+    docker compose up --build app
+
+# Run all of the containers without building
+app-fast:
+    docker compose up app
+
+# Open a bash shell in the running app container
+app-shell:
+    docker compose exec -it app /bin/bash
+
+# Open a Rails console
+app-console:
+    docker compose exec -it app rails c
+
+# Open a remote debugging console
+app-debug:
+    docker compose exec -it app bundle exec rdbg -a
+
+# Restart the Rails application
+app-restart:
+    touch tmp/restart.txt
+
+# Run all Rspec tests
+app-rspec:
+    docker compose exec -it app rspec spec
+
+
+##############################
+# Database commands
+##############################
+
+# Open a bash shell in the running db container
+db-shell:
+    docker compose exec -it db /bin/bash
+
+# Open a connection to the development database
+db-dev:
+    docker compose exec -it db psql -U postgres -d trc_development
+
+# Open a connection to the test database
+db-test:
+    docker compose exec -it db psql -U postgres -d trc_test
+
+
+##############################
+# Additional Justfile features
+##############################
+
+# List all available recipes
+default:
+    just --list
+
+# Show Docker compose status
+status:
+    docker compose ps
+
+# View logs for all services
+logs:
+    docker compose logs -f
+
+# View logs for specific service
+logs-service service:
+    docker compose logs -f {{service}}
+
+# Clean up Docker resources
+clean:
+    docker compose down --volumes --remove-orphans
+    docker system prune -f

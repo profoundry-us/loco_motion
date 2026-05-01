@@ -126,15 +126,15 @@ Look in the `examples` directory for basic `docker-compose.yml`, `Dockerfile`,
 `dev/Dockerfile`, and `entrypoint.sh` files to get you started and give you a
 place to run commands. Copy these into your project directory.
 
-Next, we recommend using a [Makefile](/examples/Makefile) (also in
-`examples`) to create shortcuts for running your various commands. `make` will
-run on just about any operating system, and provides a self-documenting list of
-all of the ways that you typically interact with your application. This means
-that other developers can quickly see the common use-cases, but will also have a
-starting point if they need to customize any of the commands for their
-particular setup.
+Next, we recommend using a [justfile](/examples/justfile) (also in
+`examples`) to create shortcuts for running your various commands.
+[just](https://just.systems/) will run on just about any operating system, and
+provides a self-documenting list of all of the ways that you typically interact
+with your application. This means that other developers can quickly see the
+common use-cases, but will also have a starting point if they need to customize
+any of the commands for their particular setup.
 
-Copy this `Makefile` into your top-level project directory as well.
+Copy this `justfile` into your top-level project directory as well.
 
 Your directory structure should look like this:
 
@@ -143,7 +143,7 @@ Your directory structure should look like this:
   - mycompany
     - myproject
       - Dockerfile
-      - Makefile
+      - justfile
       - dev
         - Dockerfile
       - docker-compose.yml
@@ -155,11 +155,11 @@ editor, but this is purely preference. It has a lot of plugins that make it
 really customizable, but utlimately, you should use whatever editor makes you
 most comfortable during development.
 
-You should now be able to run `make dev` in a terminal inside your project
+You should now be able to run `just dev` in a terminal inside your project
 directory to build and run all of the containers.
 
 Once they have all built and started, in a separate terminal, you can run
-`make dev-shell` to open a Bash shell into your development container.
+`just dev-shell` to open a Bash shell into your development container.
 
 Congratulations! You're ready to create your Rails app!
 
@@ -196,7 +196,7 @@ rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version\
 
 Once complete, you should now be able to exit out of the dev container and kill
 the running docker containers with <kbd>Ctrl-C</kbd> in the running terminal, or
-you can open a new terminal and run `make down`.
+you can open a new terminal and run `just down`.
 
 Open the newly created `config/database.yml` file and add the following three
 lines under the `default` key:
@@ -208,7 +208,7 @@ lines under the `default` key:
 ```
 
 Now, uncomment the `app` section in your `docker-compose.yml` file and run
-`make app` to build the application.
+`just app` to build the application.
 
 After a minute or two, everything should be booted up and you should see output
 similar to the following:
@@ -269,7 +269,7 @@ And add the following to your `Gemfile` in the `group :development` section:
 gem 'html2haml'
 ```
 
-Next, open up a Docker shell in the app container using `make app-shell` and
+Next, open up a Docker shell in the app container using `just app-shell` and
 run `bundle` to install the HAML gem.
 
 Next, open up your `tailwind.config.js` file and replace the line for `erb`
@@ -343,7 +343,7 @@ However, if you're working on a project and want a good starting point for UI
 components, you might checkout DaisyUI or a simliar Tailwind-based UI library.
 
 DaisyUI is a plugin for Tailwind, so installing it is dead simple. Just open up
-an app shell by running `make app-shell` in the terminal and run the following
+an app shell by running `just app-shell` in the terminal and run the following
 command:
 
 ```shell
@@ -409,16 +409,16 @@ system! "rm -rf /home/app/tmp/pids/server.pid"
 
 Finally, you can kill your running docker containers (either using
 <kbd>Ctrl-C</kbd>, opening a new terminal in your project folder and running
-`make down`, or using the Docker UI to stop all of the containers).
+`just down`, or using the Docker UI to stop all of the containers).
 
-Now restart using `make app`.
+Now restart using `just app`.
 
 > [!TIP]
 > Once you have stabalized your Dockerfile and any dependencies, you can run
-> `make app-quick` to launch the containers without rebuilding.
+> `just app-fast` to launch the containers without rebuilding.
 >
 > In this case, since we changed our `Dockerfile`, we still need to use the
-> regular `make app` command.
+> regular `just app` command.
 
 You should be able to test that everything is working by altering a few files so
 you can see some custom output:
@@ -483,7 +483,7 @@ container as it automatically starts a remote debugger for you.
 
 Add the word `debugger` anywhere in your code (perhaps the `test` method of your
 `ApplicationController`), reload the page (it will look like it's hanging), and
-then run `make app-debug` in a separate terminal.
+then run `just app-debug` in a separate terminal.
 
 This will connect to the remote debugger instance which will be stopped at your
 `debugger` line.
@@ -572,8 +572,8 @@ gem "omniauth-rails_csrf_protection"
 After that has finished, you'll need to restart your Rails server.
 
 > [!TIP]
-> Although you can do this by using <kbd>Ctrl-C</kbd> and re-running `make
-> app-quick`, a faster way to restart only the web server is to create a
+> Although you can do this by using <kbd>Ctrl-C</kbd> and re-running `just
+> app-fast`, a faster way to restart only the web server is to create a
 > temporary file named `restart.txt`.
 >
 > You can easily do this by running `touch tmp/restart.txt` in a terminal!
@@ -704,11 +704,11 @@ and console and adds a bit more styling to the page to make it easier to read.
 It's also very easy to install!
 
 Add the following to your `Gemfile` and re-run `bundle install` inside of the
-Docker app container (`make app-shell`).
+Docker app container (`just app-shell`).
 
 > [!TIP]
 > You can also just kill (using <kbd>Ctrl-C</kbd>) and restart the container
-> using `make app-quick` as this process attempts to install any gems for you.
+> using `just app-fast` as this process attempts to install any gems for you.
 
 
 ```Gemfile
@@ -851,8 +851,8 @@ UNSPLASH_ACCESS_KEY="<< INSERT ACCESS KEY >>"
 UNSPLASH_SECRET_KEY="<< INSERT SECRET KEY >>"
 ```
 
-You should then be able to run `make rebuild` in the project directory and then
-`make all-quick` to start the services.
+You should then be able to run `just rebuild` in the project directory and then
+`just all-quick` to start the services.
 
 > [!NOTE]
 >
@@ -869,10 +869,10 @@ You should then be able to run `make rebuild` in the project directory and then
 From here, you can access the demo site at http://localhost:3000 and the YARD
 docs at http://localhost:8808/docs/yard
 
-You can type `make demo-shell` to open a shell inside the demo Docker container,
-or `make loco-shell` to get a shell inside the gem's Docker container.
+You can type `just demo-shell` to open a shell inside the demo Docker container,
+or `just loco-shell` to get a shell inside the gem's Docker container.
 
-See the `Makefile` for all available commands.
+See the `justfile` for all available commands.
 
 > [!WARNING]
 >
@@ -881,7 +881,7 @@ See the `Makefile` for all available commands.
 > changes.
 >
 > ```sh
-> make demo-restart
+> just demo-restart
 > ```
 
 ### Contributing
