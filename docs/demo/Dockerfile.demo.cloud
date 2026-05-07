@@ -1,0 +1,34 @@
+# Cloud-compatible Dockerfile for environments where apt-get is blocked.
+# Uses multi-stage build to copy Node.js from the official node image
+# rather than installing it via apt/nodesource (which requires deb.debian.org).
+#
+# The full ruby:3.4.4 image already includes build-essential, so no apt-get
+# is needed at all.
+
+# Stage 1: grab node + npm + yarn from the official node image
+FROM node:20-slim AS node_source
+
+# Stage 2: main image — ruby:3.4.4 (full, already has build-essential/git/curl)
+FROM ruby:3.4.4
+
+# Copy node, npm, and yarn binaries from the node image
+COPY --from=node_source /usr/local/bin/node /usr/local/bin/node
+COPY --from=node_source /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node_source /usr/local/include/node /usr/local/include/node
+
+# Symlink npm and npx; copy yarn directly from the node image
+COPY --from=node_source /usr/local/bin/yarn /usr/local/bin/yarn
+COPY --from=node_source /usr/local/bin/yarnpkg /usr/local/bin/yarnpkg
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+ && ln -sf /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+
+ENV APP_HOME /home/loco_demo
+WORKDIR $APP_HOME
+
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+RUN echo 'alias be="bundle exec"\nalias la="ls -al"' >> ~/.bashrc
+
+CMD ["/usr/bin/tini", "--", "./bin/dev"]

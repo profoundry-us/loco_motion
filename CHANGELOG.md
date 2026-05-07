@@ -16,10 +16,12 @@ releases** should be considered **breaking**!
 ### Components Changes
 
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
+- feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 
 ### Demo / Docs Changes
 
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
+- add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
 
 ### Changed
 
@@ -27,12 +29,7 @@ releases** should be considered **breaking**!
   - Added custom <code>loco_motion-buildpack</code> to copy <code>docs/demo</code> subdirectory and gem files
   - Added <code>heroku/ruby</code> and <code>heroku/nodejs</code> buildpacks
   - Custom buildpack must run first to ensure files are in place before standard buildpacks execute
-
-## [Unreleased]
-
-### Added
-
-- feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
+- **Developer Tooling**: Add `CLAUDE.md` at the repo root referencing all Windsurf rule files so Claude Code sessions pick up the same coding conventions as Windsurf ([Fixes #90](https://github.com/profoundry-us/loco_motion/issues/90))
 
 ## [0.5.2] - 2026-03-05
 
