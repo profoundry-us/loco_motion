@@ -21,3 +21,15 @@
     = daisy_link "Components", "#", css: "link-secondary text-2xl"
     = daisy_link "#", css: "link-success link-hover text-3xl" do
       Big Hover Link
+
+= doc_example(title: "Links with Icons") do |doc|
+  - doc.with_description do
+    :markdown
+      Links support `icon`, `left_icon`, and `right_icon` options just like
+      buttons. You can use these to add icons to the left and/or right of the
+      link text.
+
+  .flex.items-end.space-x-4
+    = daisy_link title: "Home", href: "#", icon: "home"
+    = daisy_link title: "Settings", href: "#", icon: "cog-6-tooth", css: "link-primary"
+    = daisy_link title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right", css: "link-secondary"

@@ -56,4 +56,42 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
       expect(page).to have_css("a[href='https://example.com']")
     end
   end
+
+  context "with icons" do
+    context "with a single icon" do
+      let(:link) { described_class.new(title: "Home", href: "#", icon: "home") }
+
+      before do
+        render_inline(link)
+      end
+
+      it "renders the icon" do
+        expect(page).to have_css "a svg"
+      end
+
+      it "renders the title" do
+        expect(page).to have_text("Home")
+      end
+
+      it "adds inline-flex and items-center classes" do
+        expect(page).to have_css "a.inline-flex.items-center"
+      end
+    end
+
+    context "with left and right icons" do
+      let(:link) { described_class.new(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right") }
+
+      before do
+        render_inline(link)
+      end
+
+      it "renders both icons" do
+        expect(page).to have_css "a svg", count: 2
+      end
+
+      it "renders the title between the icons" do
+        expect(page).to have_text("Navigate")
+      end
+    end
+  end
 end
