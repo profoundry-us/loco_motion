@@ -16,9 +16,16 @@
 # @loco_example Basic link with keyword arguments
 #   = daisy_link(title: "Home", href: "#")
 #
+# @loco_example Link with an icon
+#   = daisy_link(title: "Home", href: "#", icon: "home")
+#
+# @loco_example Link with left and right icons
+#   = daisy_link(title: "Download", href: "#", left_icon: "arrow-down-tray", right_icon: "arrow-right")
+#
 class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::IconableComponent
 
   # Create a new instance of the LinkComponent.
   #
@@ -46,6 +53,31 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   #
   # @option kws tip [String] The tooltip text to display when hovering over
   #   the component.
+  #
+  # @option kws icon [String] The name of a Hero icon to render inside the
+  #   link. This is an alias of `left_icon`.
+  #
+  # @option kws icon_css [String] The CSS classes to apply to the icon. This
+  #   is an alias of `left_icon_css`.
+  #
+  # @option kws icon_html [Hash] Additional HTML attributes to apply to the
+  #   icon. This is an alias of `left_icon_html`.
+  #
+  # @option kws left_icon [String] The name of a Hero icon to render to the
+  #   left of the link text.
+  #
+  # @option kws left_icon_css [String] The CSS classes to apply to the left icon.
+  #
+  # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
+  #   the left icon.
+  #
+  # @option kws right_icon [String] The name of a Hero icon to render to the
+  #   right of the link text.
+  #
+  # @option kws right_icon_css [String] The CSS classes to apply to the right icon.
+  #
+  # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
+  #   the right icon.
   #
   def initialize(*args, **kws)
     super
@@ -85,7 +117,13 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { content || @title }
+    part(:component) do
+      if content?
+        content
+      else
+        safe_join([render_left_icon, @title, render_right_icon].compact)
+      end
+    end
   end
 
   private

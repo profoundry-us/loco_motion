@@ -56,4 +56,36 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
       expect(page).to have_css("a[href='https://example.com']")
     end
   end
+
+  context "with an icon" do
+    let(:link) { described_class.new(title: "Home", href: "#", icon: "home") }
+
+    before do
+      render_inline(link)
+    end
+
+    it "renders the icon as an svg" do
+      expect(page).to have_css("a svg")
+    end
+
+    it "renders the title text" do
+      expect(page).to have_text("Home")
+    end
+  end
+
+  context "with left and right icons" do
+    let(:link) { described_class.new(title: "Download", href: "#", left_icon: "arrow-down-tray", right_icon: "arrow-right") }
+
+    before do
+      render_inline(link)
+    end
+
+    it "renders both icons as svgs" do
+      expect(page).to have_css("a svg", count: 2)
+    end
+
+    it "renders the title text" do
+      expect(page).to have_text("Download")
+    end
+  end
 end

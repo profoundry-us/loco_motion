@@ -21,3 +21,16 @@
     = daisy_link "Components", "#", css: "link-secondary text-2xl"
     = daisy_link "#", css: "link-success link-hover text-3xl" do
       Big Hover Link
+
+= doc_example(title: "Links with Icons") do |doc|
+  - doc.with_description do
+    :markdown
+      Links support the same `icon`, `left_icon`, and `right_icon` options as
+      buttons. Icons are rendered using Hero Icons and are automatically sized
+      and aligned with the link text.
+
+  .flex.items-end.space-x-4
+    = daisy_link(title: "Home", href: "#", icon: "home")
+    = daisy_link(title: "Download", href: "#", css: "link-primary", left_icon: "arrow-down-tray")
+    = daisy_link(title: "Next", href: "#", css: "link-secondary", right_icon: "arrow-right")
+    = daisy_link(title: "Transfer", href: "#", css: "link-accent", left_icon: "arrow-left", right_icon: "arrow-right")
