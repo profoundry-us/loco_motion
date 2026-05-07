@@ -19,9 +19,8 @@
 # conflict with the hover zones.
 #
 # @loco_example Basic Usage
-#   = daisy_hover do
-#     %figure.max-w-100.rounded-2xl
-#       = image_tag("creditcard.webp", alt: "3D card")
+#   = daisy_hover(css: "max-w-100") do
+#     = daisy_figure(src: image_path("creditcard.webp"), css: "rounded-2xl overflow-hidden")
 #
 # @loco_example Clickable 3D Card
 #   = daisy_hover(href: "/cards/123", css: "my-12 mx-2 cursor-pointer") do
@@ -32,9 +31,8 @@
 # @loco_example Image Gallery
 #   .flex.gap-4
 #     - %w[card-1.webp card-2.webp card-3.webp].each do |img|
-#       = daisy_hover do
-#         %figure.w-60.rounded-2xl
-#           = image_tag(img, alt: "3D hover image")
+#       = daisy_hover(css: "block w-60") do
+#         = daisy_figure(src: image_path(img), css: "rounded-2xl overflow-hidden")
 #
 class Daisy::Layout::HoverComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LinkableComponent
