@@ -16,9 +16,16 @@
 # @loco_example Basic link with keyword arguments
 #   = daisy_link(title: "Home", href: "#")
 #
+# @loco_example Link with icon
+#   = daisy_link(title: "Home", href: "#", icon: "home")
+#
+# @loco_example Link with left and right icons
+#   = daisy_link(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
+#
 class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
   include LocoMotion::Concerns::LinkableComponent
+  include LocoMotion::Concerns::IconableComponent
 
   # Create a new instance of the LinkComponent.
   #
@@ -37,6 +44,33 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   # @option kws href [String] The URL to visit when the link is clicked.
   #
   # @option kws target [String] The target attribute for the anchor tag (e.g., "_blank").
+  #
+  # @option kws icon [String] The name of Hero icon to render inside the
+  #   link. This is an alias of `left_icon`.
+  #
+  # @option kws icon_css [String] The CSS classes to apply to the icon.
+  #   This is an alias of `left_icon_css`.
+  #
+  # @option kws icon_html [Hash] Additional HTML attributes to apply to
+  #   the icon. This is an alias of `left_icon_html`.
+  #
+  # @option kws left_icon [String] The name of Hero icon to render inside
+  #   the link to the left of the text.
+  #
+  # @option kws left_icon_css [String] The CSS classes to apply to the left
+  #   icon.
+  #
+  # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
+  #   the left icon.
+  #
+  # @option kws right_icon [String] The name of Hero icon to render inside
+  #   the link to the right of the text.
+  #
+  # @option kws right_icon_css [String] The CSS classes to apply to the
+  #   right icon.
+  #
+  # @option kws right_icon_html [Hash] Additional HTML attributes to apply
+  #   to the right icon.
   #
   # @option kws css [String] Additional CSS classes for styling. Common
   #   options include:
@@ -85,7 +119,15 @@ class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
   # additional whitespace gets added to the output.
   #
   def call
-    part(:component) { content || @title }
+    if content?
+      part(:component) { content }
+    else
+      part(:component) do
+        concat(render_left_icon)
+        concat(@title)
+        concat(render_right_icon)
+      end
+    end
   end
 
   private
