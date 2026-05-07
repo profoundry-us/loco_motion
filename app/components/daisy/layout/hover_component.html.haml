@@ -1,0 +1,7 @@
+= part(:component) do
+  = content
+
+  -# DaisyUI's `hover-3d` requires eight empty divs after the content to
+  -# create the eight hover zones that drive the 3D tilt effect.
+  - Daisy::Layout::HoverComponent::HOVER_ZONE_COUNT.times do
+    %div

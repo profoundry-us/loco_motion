@@ -13,6 +13,14 @@ releases** should be considered **breaking**!
 
 ## [Unreleased]
 
+### Components Changes
+
+- add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
+
+### Demo / Docs Changes
+
+- add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
+
 ### Changed
 
 - **Heroku Configuration**: Added buildpack configuration to <code>app.json</code> for Heroku Review Apps
