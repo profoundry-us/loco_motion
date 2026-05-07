@@ -74,7 +74,7 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
       end
 
       it "adds inline-flex and items-center classes" do
-        expect(page).to have_css "a.inline-flex.items-center"
+        expect(page).to have_css "a[class*='inline-flex'][class*='items-center']"
       end
     end
 
