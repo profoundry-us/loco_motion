@@ -7,10 +7,10 @@ require 'fileutils'
 def update_version(new_version = nil)
   root_dir = File.expand_path('../..', __FILE__)
   version_rb_path = File.join(root_dir, 'lib', 'loco_motion', 'version.rb')
-  
+
   # Get current version if no new version provided
   current_version = File.read(version_rb_path).match(/VERSION\s*=\s*["'](.+?)["']/)[1]
-  
+
   if new_version.nil?
     puts "Current version: #{current_version}"
     print "Enter new version (or press enter to cancel): "
@@ -38,6 +38,11 @@ def update_version(new_version = nil)
     RUBY
     File.write(version_rb_path, version_content)
     puts "✓ Updated version.rb"
+
+    # Update VERSION file (required by custom Heroku buildpack)
+    version_file_path = File.join(root_dir, 'VERSION')
+    File.write(version_file_path, new_version)
+    puts "✓ Updated VERSION file"
 
     # Update package.json
     package_json_path = File.join(root_dir, 'package.json')
