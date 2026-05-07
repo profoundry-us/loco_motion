@@ -1,0 +1,54 @@
+= doc_title(title: "Hover 3D", comp: @comp) do |title|
+  :markdown
+    The Hover 3D component wraps any content with DaisyUI's `hover-3d` effect,
+    tilting and rotating the content based on the mouse position to create an
+    interactive 3D feel.
+
+    Only put **non-interactive** content inside the wrapper. If you want the
+    whole card to be clickable, pass an `href:` option so the wrapper is
+    rendered as an `<a>` tag (the DaisyUI-recommended approach).
+
+
+= doc_example(title: "Basic Hover 3D") do |doc|
+  - doc.with_description do
+    :markdown
+      Wrap any element to give it a 3D tilt on hover.
+
+  = daisy_hover(css: "max-w-100") do
+    %figure.rounded-2xl.overflow-hidden
+      = image_tag("landscapes/forest.jpg", alt: "Forest landscape")
+
+
+= doc_example(title: "3D Card Hover Effect") do |doc|
+  - doc.with_description do
+    :markdown
+      Combine `daisy_hover` with `daisy_card` and a colored background to
+      build an interactive credit-card-like effect. Pass an `href:` to make
+      the entire card clickable.
+
+  = daisy_hover(href: "#", css: "my-4 mx-2 cursor-pointer") do
+    = daisy_card(css: "w-96 bg-black text-white") do |card|
+      .flex.justify-between.mb-10
+        .font-bold BANK OF LATVERIA
+        .text-5xl.opacity-10 ❁
+      .text-lg.mb-4.opacity-40 0210 8820 1150 0222
+      .flex.justify-between
+        %div
+          .text-xs.opacity-20 CARD HOLDER
+          %div VICTOR VON D.
+        %div
+          .text-xs.opacity-20 EXPIRES
+          %div 29/08
+
+
+= doc_example(title: "3D Hover Image Gallery") do |doc|
+  - doc.with_description do
+    :markdown
+      Use `daisy_hover` repeatedly to build an interactive gallery where each
+      image responds to the cursor independently.
+
+  .flex.flex-wrap.justify-center.gap-6
+    - %w[beach desert forest].each do |scene|
+      = daisy_hover do
+        %figure.w-60.rounded-2xl.overflow-hidden
+          = image_tag("landscapes/#{scene}.jpg", alt: "#{scene.capitalize} landscape")

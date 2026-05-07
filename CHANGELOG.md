@@ -11,6 +11,16 @@ changes as we don't consider the project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor
 releases** should be considered **breaking**!
 
+## [Unreleased]
+
+### Components Changes
+
+- add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
+
+### Demo / Docs Changes
+
+- add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
+
 ## [0.5.2] - 2026-03-05
 
 ### Fixed
