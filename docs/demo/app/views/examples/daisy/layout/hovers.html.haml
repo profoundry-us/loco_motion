@@ -49,4 +49,4 @@
   .flex.flex-wrap.justify-center.gap-6.py-4
     - %w[beach desert forest].each do |scene|
       = daisy_hover(css: "block w-60") do
-        = daisy_figure(src: image_path("landscapes/#{scene}.jpg"), css: "rounded-2xl overflow-hidden")
+        = daisy_figure(src: image_path("landscapes/#{scene}.jpg"), css: "rounded-2xl overflow-hidden h-40 [&>img]:size-full [&>img]:object-cover")
