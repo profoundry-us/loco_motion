@@ -11,6 +11,15 @@ changes as we don't consider the project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor
 releases** should be considered **breaking**!
 
+## [Unreleased]
+
+### Changed
+
+- **Heroku Configuration**: Added buildpack configuration to <code>app.json</code> for Heroku Review Apps
+  - Added custom <code>loco_motion-buildpack</code> to copy <code>docs/demo</code> subdirectory and gem files
+  - Added <code>heroku/ruby</code> and <code>heroku/nodejs</code> buildpacks
+  - Custom buildpack must run first to ensure files are in place before standard buildpacks execute
+
 ## [0.5.2] - 2026-03-05
 
 ### Fixed
