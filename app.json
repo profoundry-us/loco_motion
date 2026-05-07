@@ -1,3 +1,14 @@
 {
-  "stack": "heroku-24"
+  "stack": "heroku-24",
+  "buildpacks": [
+    {
+      "url": "https://github.com/profoundry-us/loco_motion-buildpack.git"
+    },
+    {
+      "url": "heroku/ruby"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
 }
