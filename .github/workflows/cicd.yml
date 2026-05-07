@@ -31,6 +31,12 @@ jobs:
         bundler-cache: true
         working-directory: docs/demo
 
+    - name: Setup database
+      run: bin/rails db:migrate
+      working-directory: docs/demo
+      env:
+        RAILS_ENV: test
+
     - name: Run RSpec tests in demo app
       run: bundle exec rspec spec
       working-directory: docs/demo
