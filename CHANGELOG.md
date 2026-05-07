@@ -28,6 +28,12 @@ releases** should be considered **breaking**!
   - Added <code>heroku/ruby</code> and <code>heroku/nodejs</code> buildpacks
   - Custom buildpack must run first to ensure files are in place before standard buildpacks execute
 
+## [Unreleased]
+
+### Added
+
+- feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
+
 ## [0.5.2] - 2026-03-05
 
 ### Fixed
