@@ -17,11 +17,13 @@ releases** should be considered **breaking**!
 
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
+- feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
 
 ### Demo / Docs Changes
 
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
 - add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
+- add(Navbar): Add "Custom Content Navbar" example demonstrating block-based custom content
 
 ### Changed
 

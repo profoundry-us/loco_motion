@@ -11,6 +11,7 @@ test('page loads', async ({ page }) => {
   await loco.expectPageTitle(page, /Navbars | LocoMotion/);
   await loco.expectPageHeadings(page, [
     'Basic Navbar',
+    'Custom Content Navbar',
     'Advanced Navbar'
   ]);
 });

@@ -29,6 +29,18 @@
           GitHub
 
 
+= doc_example(title: "Custom Content Navbar") do |doc|
+  - doc.with_description do
+    :markdown
+      In addition to the named `start`, `center`, and `end` slots, you can pass
+      custom content directly inside the component's block. This is useful for
+      simple navbars that don't need the three-section layout.
+
+  .w-full{ class: "max-w-[800px]" }
+    = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do
+      %a.btn.btn-ghost.text-xl LocoMotion
+
+
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
   - doc.with_description do
     :markdown

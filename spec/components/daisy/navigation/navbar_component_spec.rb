@@ -120,6 +120,51 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
     end
   end
 
+  context "with custom block content" do
+    let(:navbar) { described_class.new }
+
+    before do
+      render_inline(navbar) do
+        '<a class="btn btn-ghost text-xl">Brand</a>'.html_safe
+      end
+    end
+
+    describe "rendering" do
+      it "renders the custom content directly inside the navbar" do
+        expect(page).to have_selector(".navbar > a.btn.btn-ghost.text-xl", text: "Brand")
+      end
+
+      it "does not render any of the named sections" do
+        expect(page).not_to have_selector(".navbar-start")
+        expect(page).not_to have_selector(".navbar-center")
+        expect(page).not_to have_selector(".navbar-end")
+      end
+    end
+  end
+
+  context "with both slots and custom block content" do
+    let(:navbar) { described_class.new }
+
+    before do
+      render_inline(navbar) do |n|
+        n.with_start { "Start Content" }
+        n.with_end { "End Content" }
+        '<span class="extra-content">Extra</span>'.html_safe
+      end
+    end
+
+    describe "rendering" do
+      it "renders the named sections" do
+        expect(page).to have_selector(".navbar-start", text: "Start Content")
+        expect(page).to have_selector(".navbar-end", text: "End Content")
+      end
+
+      it "also renders the custom block content" do
+        expect(page).to have_selector(".navbar > .extra-content", text: "Extra")
+      end
+    end
+  end
+
   context "with complex content" do
     let(:navbar) { described_class.new }
 
