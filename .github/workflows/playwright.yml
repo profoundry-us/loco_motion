@@ -16,11 +16,29 @@ jobs:
     - uses: actions/checkout@v4
     - uses: niden/actions-memcached@v7
 
-    # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
-    - name: Create symlink to LocoMotion gem directory
+    # Stage the LocoMotion gem source under the demo's vendor directory.
+    #
+    # The demo's Gemfile uses `gem "loco_motion-rails", path: "vendor/loco_motion-rails"`,
+    # so the gem must exist at that path. We previously created a symlink from
+    # `docs/demo/vendor/loco_motion-rails` to the repo root, but the repo root
+    # itself contains `docs/demo/vendor/loco_motion-rails`, which makes the
+    # symlink point back into itself. In production Rails boot, bootsnap's
+    # path scanner walks through this loop and dies with `Errno::ELOOP`.
+    #
+    # rsync-copying just the gem-relevant files (excluding `docs/`, `tmp/`,
+    # `.git/`, `node_modules/`, etc.) avoids the loop while still providing
+    # the gemspec, `lib/`, and `app/` directories the demo needs.
+    - name: Stage LocoMotion gem source into demo vendor
       run: |
-        mkdir -p docs/demo/vendor
-        ln -sf $(pwd) docs/demo/vendor/loco_motion-rails
+        mkdir -p docs/demo/vendor/loco_motion-rails
+        rsync -a --delete \
+          --exclude='.git/' \
+          --exclude='/docs/' \
+          --exclude='/tmp/' \
+          --exclude='/log/' \
+          --exclude='/coverage/' \
+          --exclude='/node_modules/' \
+          ./ docs/demo/vendor/loco_motion-rails/
 
     # Setup Ruby similar to the CICD workflow
     - name: Set up Ruby
