@@ -22,6 +22,11 @@ releases** should be considered **breaking**!
 
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
 - add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
+- feat(Alert): Add auto-dismiss, clickable link, and Stimulus action features with examples
+- feat(Alert): Add AlertController to NPM package for client-side alert management
+- feat(Toast): Enhance Toast examples with closable, auto-dismiss, and clickable features
+- feat(Toast): Add Toast positions example and reset functionality
+- docs(Toast): Update documentation to warn about AlertController dependency
 
 ### Changed
 
