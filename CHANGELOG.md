@@ -15,6 +15,7 @@ releases** should be considered **breaking**!
 
 ### Components Changes
 
+- fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES` constant so `diff-item-1` / `diff-item-2` are detected as string literals by Tailwind v4's Ruby extractor ([Fixes #82](https://github.com/profoundry-us/loco_motion/issues/82))
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 - feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
