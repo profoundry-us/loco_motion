@@ -148,7 +148,7 @@
   = daisy_alert(icon: "star", css: "alert-info w-100", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", icon_html: { variant: :outline }) do
     Click this alert for a surprise! (opens in new tab)
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", href: "/api_docs", target: "_blank", icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", href: "/api-docs", target: "_blank", icon_html: { variant: :outline }) do
     Click to view documentation.
 
 
@@ -158,7 +158,7 @@
       Alerts can trigger custom Stimulus actions by providing an `action` parameter.
 
   %div{ data: { controller: "alert-demo" } }
-    = daisy_alert(icon: "sparkles", css: "alert-warning w-100", action: "click->alert-demo#celebrate", html: { data: { alert_demo_target: "alert" } }, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "sparkles", css: "alert-warning w-100 hover:cursor-pointer", action: "click->alert-demo#celebrate", html: { data: { alert_demo_target: "alert" } }, icon_html: { variant: :outline }) do
       Click to celebrate!
 
 

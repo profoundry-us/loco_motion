@@ -235,7 +235,7 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
     return unless closable?
 
     set_tag_name(:close, :button)
-    add_css(:close, "btn btn-link btn-xs where:absolute where:top-3 where:right-2")
+    add_css(:close, "btn btn-ghost btn-circle btn-xs where:absolute where:top-3 where:right-2")
     add_html(:close, { "data-action": "click->loco-alert#close" })
   end
 

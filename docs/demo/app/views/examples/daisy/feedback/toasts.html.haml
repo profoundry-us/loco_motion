@@ -2,26 +2,72 @@
   %p
     Toasts are used to show a message to the user that is not critical, but
     important. They are often used to show a message that is not part of the
-    main content flow and can be dismissed by the user.
+    main content flow and can be dismissed after a timeout or by a user.
 
-= doc_note(modifier: :todo, css: "mt-4 max-w-2xl") do
-  :markdown
-    Currently, the Toast component does **not** include any JavaScript to handle
-    showing / hiding the toast. We plan to implement a basic Stimulus
-    ToastController in the future.
+  = doc_note(modifier: :warning) do
+    :markdown
+      The Toast component relies on the Alert component's Stimulus controller
+      for auto-dismiss and manual close functionality. Ensure you have
+      registered the AlertController in your application's Stimulus controllers
+      index file.
 
-= doc_example(title: "Basic Toasts", example_css: "h-48") do |doc|
+    :markdown
+      For NPM package users, import and register the controller:
+
+    = doc_code(language: "js") do
+      :plain
+        import { AlertController } from 'loco_motion'
+
+        application.register('loco-alert', AlertController)
+
+= doc_example(title: "Basic Toasts", example_css: "h-48", allow_reset: true) do |doc|
   - doc.with_description do
     :markdown
       The Toast component is a simple wrapper that positions it's contents at
-      various spots on the page, usually in the bottom right corner.
+      various spots on the page, usually in the bottom right corner. Click the
+      **Reset** button to show the toasts again after they dismiss.
 
   :markdown
-    These toasts will appear at the bottom right of the entire page.
+    These toasts will appear at the top right of the entire page.
 
-  = daisy_toast(css: "z-10") do
-    = daisy_alert(icon: "check-circle", css: "alert-success text-white") do
+  = daisy_toast(css: "toast-top toast-end z-50") do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white", closable: true, icon_html: { variant: :outline }) do
       Yay! Something went well!
 
-    = daisy_alert(icon: "exclamation-circle", css: "alert-error text-white") do
-      Uh oh! Something went wrong...
+    = daisy_alert(icon: "exclamation-circle", css: "alert-error text-white", closable: true, icon_html: { variant: :outline }) do
+      Uh oh! Something went wrong... (click X to dismiss)
+
+
+= doc_example(title: "Toast Positions", example_css: "h-48", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Toasts can be positioned at various locations on the page using CSS
+      modifiers. Click the **Reset** button to show the toasts again after they
+      dismiss.
+
+  :markdown
+    This toast will appear at the top left of the entire page.
+
+  = daisy_toast(css: "toast-top toast-start z-50") do
+    = daisy_alert(icon: "information-circle", css: "alert-info text-white", closable: true, icon_html: { variant: :outline }) do
+      Top-left toast
+
+
+= doc_example(title: "Clickable Toast Alerts", example_css: "h-48", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Toasts can contain clickable link alerts that navigate to other pages or
+      resources. Click the **Reset** button to show the toasts again after they
+      dismiss.
+
+  .px-10
+    :markdown
+      These toasts will appear at the bottom right of the entire page and will
+      disappear after 20 & 25 seconds. Click **Reset** to show them again.
+
+  = daisy_toast(css: "z-50") do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white", href: "/api_docs", target: "_blank", autoclose: true, timeout: 20000, icon_html: { variant: :outline }) do
+      View API documentation (opens in new tab)
+
+    = daisy_alert(icon: "star", css: "alert-info text-white", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", autoclose: true, timeout: 25000, icon_html: { variant: :outline }) do
+      Click for a surprise! (opens in new tab)
