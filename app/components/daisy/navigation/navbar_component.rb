@@ -2,6 +2,11 @@
 # Creates a navigation bar component typically used at the top of a page to
 # organize navigation links and branding elements.
 #
+# In addition to the named `start`, `center`, and `end` slots, you can pass
+# custom content directly inside the component's block. This is useful for
+# simple navbars that don't need the three-section layout, or for adding
+# extra elements alongside the named slots.
+#
 # @slot start {LocoMotion::BasicComponent} The left section of the navbar.
 #   Automatically gets the `navbar-start` CSS class.
 #
@@ -33,6 +38,10 @@
 #         - dropdown.with_button(title: "Menu")
 #         - dropdown.with_item do
 #           = link_to "Item 1", "#"
+#
+# @loco_example Navbar with custom content (no slots)
+#   = daisy_navbar(css: "bg-base-100") do
+#     %a.btn.btn-ghost.text-xl daisyUI
 #
 class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
   renders_one :start, LocoMotion::BasicComponent.build(css: "navbar-start")
