@@ -6,11 +6,11 @@ import { Application } from "@hotwired/stimulus"
 const application = Application.start()
 
 // Import LocoMotion controllers
-import { CountdownController, ThemeController, CallyInputController, AlertController } from "@profoundry-us/loco_motion"
+import { AlertController, CallyInputController, CountdownController, ThemeController } from "@profoundry-us/loco_motion"
+application.register("loco-alert", AlertController)
+application.register("loco-cally-input", CallyInputController)
 application.register("loco-countdown", CountdownController)
 application.register("loco-theme", ThemeController)
-application.register("loco-cally-input", CallyInputController)
-application.register("loco-alert", AlertController)
 
 // Import demo app controllers
 
@@ -20,11 +20,14 @@ application.register("active-tab", ActiveTabController)
 import AdsController from "./ads_controller"
 application.register("ads", AdsController)
 
-import DocTitleController from "./doc_title_controller"
-application.register("doc-title", DocTitleController)
+import AlertDemoController from "./alert_demo_controller"
+application.register("alert-demo", AlertDemoController)
 
 import DocExampleController from "./doc_example_controller"
 application.register("doc-example", DocExampleController)
+
+import DocTitleController from "./doc_title_controller"
+application.register("doc-title", DocTitleController)
 
 import HighlightCodeController from "./highlight_code_controller"
 application.register("highlight-code", HighlightCodeController)
@@ -34,9 +37,6 @@ application.register("nav", NavController)
 
 import StackGapController from "./stack_gap_controller"
 application.register("stack-gap", StackGapController)
-
-import AlertDemoController from "./alert_demo_controller"
-application.register("alert-demo", AlertDemoController)
 
 // Configure Stimulus development experience
 application.debug = false
