@@ -18,12 +18,24 @@ releases** should be considered **breaking**!
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 - feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
+- feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout` parameters
+- feat(Alert): Add clickable link functionality with `href` and `target` parameters
+- feat(Alert): Add Stimulus action support with `action` parameter
+- feat(Alert): Add closable functionality with `closable` parameter and close button
+- feat(Alert): Add AlertController to NPM package for client-side alert management
+- feat(Configuration): Add comprehensive documentation to Configuration class
 
 ### Demo / Docs Changes
 
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
 - add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
 - add(Navbar): Add "Custom Content Navbar" example demonstrating block-based custom content
+- feat(Alert): Add closable, auto-dismissing, clickable link, and Stimulus action alert examples
+- feat(Alert): Add AlertDemoController for interactive click celebration demo
+- feat(Toast): Enhance Toast examples with closable, auto-dismiss, and clickable features
+- feat(Toast): Add Toast positions example and reset functionality
+- docs(Toast): Update documentation to warn about AlertController dependency
+- docs(Alert): Update Alert examples with improved descriptions and formatting
 
 ### Changed
 
