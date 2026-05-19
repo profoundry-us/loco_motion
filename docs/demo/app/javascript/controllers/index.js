@@ -6,10 +6,11 @@ import { Application } from "@hotwired/stimulus"
 const application = Application.start()
 
 // Import LocoMotion controllers
-import { CountdownController, ThemeController, CallyInputController } from "@profoundry-us/loco_motion"
+import { CountdownController, ThemeController, CallyInputController, AlertController } from "@profoundry-us/loco_motion"
 application.register("loco-countdown", CountdownController)
 application.register("loco-theme", ThemeController)
 application.register("loco-cally-input", CallyInputController)
+application.register("loco-alert", AlertController)
 
 // Import demo app controllers
 
@@ -33,6 +34,9 @@ application.register("nav", NavController)
 
 import StackGapController from "./stack_gap_controller"
 application.register("stack-gap", StackGapController)
+
+import AlertDemoController from "./alert_demo_controller"
+application.register("alert-demo", AlertDemoController)
 
 // Configure Stimulus development experience
 application.debug = false

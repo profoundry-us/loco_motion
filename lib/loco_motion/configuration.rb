@@ -26,10 +26,15 @@ module LocoMotion
   end
 
   #
-  # Unused for now. Was previously using to setup a base class for all
-  # LocoMotion components to inherit from.
+  # Configuration class for LocoMotion. Allows developers to customize
+  # default behavior across their application.
   #
   class Configuration
+    attr_accessor :default_alert_timeout
+
+    def initialize
+      @default_alert_timeout = 5000 # 5 seconds default
+    end
   end
 
 end
