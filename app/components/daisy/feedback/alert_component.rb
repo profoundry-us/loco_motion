@@ -115,7 +115,7 @@
 #     This is a dash error alert.
 #
 # @loco_example Closable Alert
-#   = daisy_alert(icon: "information-circle", css: "alert-info", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "information-circle", css: "alert-info", closable: true, icon_html: { variant: :outline }) do
 #     This alert can be closed manually.
 #
 # @loco_example Auto-dismissing Alert
@@ -135,6 +135,10 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LinkableComponent
 
   define_parts :icon, :content_wrapper, :close
+
+  # @return [Boolean] Whether or not this alert can be closed.
+  attr_reader :closable
+  alias :closable? :closable
 
   #
   # Creates a new Alert component.
@@ -173,7 +177,7 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
     @timeout = config_option(:timeout)
     @autoclose = config_option(:autoclose)
     @action = config_option(:action)
-    @closable = config_option(:closable)
+    @closable = config_option(:closable, false)
   end
 
   def default_icon_size
@@ -181,23 +185,27 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
   end
 
   def before_render
-    # Call super first to run concern setups (LinkableComponent)
-    super
+    setup_component
 
-    add_css(:component, "alert where:relative")
+    super
+  end
+
+  private
+
+  def setup_component
+    add_css(:component, "alert")
     add_html(:component, { role: "alert" })
 
     setup_stimulus_controller
     setup_timeout
     setup_action
-    setup_closable
     setup_close_button
     setup_closable_padding
   end
 
-  private
-
   def setup_stimulus_controller
+    return unless closable? || @autoclose
+
     add_stimulus_controller(:component, "loco-alert")
   end
 
@@ -210,9 +218,10 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
       @timeout
     end
 
-    # Only add data-timeout if autoclose is true
     if timeout_value && @autoclose
-      add_html(:component, { "data-timeout": timeout_value })
+      add_html(:component, {
+        "data-loco-alert-timeout-value": timeout_value
+      })
     end
   end
 
@@ -220,21 +229,6 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
     if @action
       add_html(:component, { "data-action": @action })
     end
-  end
-
-  def setup_closable
-    # Default to not closable unless explicitly set to true
-    should_be_closable = if @closable.nil?
-      false
-    else
-      @closable
-    end
-
-    @closable = should_be_closable
-  end
-
-  def closable?
-    @closable
   end
 
   def setup_close_button
@@ -248,6 +242,6 @@ class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
   def setup_closable_padding
     return unless closable?
 
-    add_css(:component, "where:pr-10")
+    add_css(:component, "where:relative where:pr-10")
   end
 end

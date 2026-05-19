@@ -149,12 +149,12 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
     end
 
     describe "rendering" do
-      it "includes the stimulus controller" do
-        expect(page).to have_selector("[data-controller='loco-alert']")
+      it "does not include the stimulus controller when autoclose is false" do
+        expect(page).not_to have_selector("[data-controller='loco-alert']")
       end
 
-      it "does not include data-timeout attribute when autoclose is false" do
-        expect(page).not_to have_selector("[data-timeout]")
+      it "does not include timeout value attribute when autoclose is false" do
+        expect(page).not_to have_selector("[data-loco-alert-timeout-value]")
       end
 
       it "does not show close button by default" do
@@ -175,8 +175,8 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
         expect(page).to have_selector("[data-controller='loco-alert']")
       end
 
-      it "includes the data-timeout attribute when autoclose is true" do
-        expect(page).to have_selector("[data-timeout='3000']")
+      it "includes the timeout value attribute when autoclose is true" do
+        expect(page).to have_selector("[data-loco-alert-timeout-value='3000']")
       end
 
       it "does not show close button by default" do
@@ -193,12 +193,12 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
     end
 
     describe "rendering" do
-      it "includes the stimulus controller" do
-        expect(page).to have_selector("[data-controller='loco-alert']")
+      it "does not include the stimulus controller" do
+        expect(page).not_to have_selector("[data-controller='loco-alert']")
       end
 
-      it "does not include data-timeout attribute" do
-        expect(page).not_to have_selector("[data-timeout]")
+      it "does not include timeout value attribute" do
+        expect(page).not_to have_selector("[data-loco-alert-timeout-value]")
       end
 
       it "does not show close button by default" do
@@ -215,12 +215,12 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
     end
 
     describe "rendering" do
-      it "includes the stimulus controller" do
-        expect(page).to have_selector("[data-controller='loco-alert']")
+      it "does not include the stimulus controller" do
+        expect(page).not_to have_selector("[data-controller='loco-alert']")
       end
 
-      it "does not include data-timeout attribute when autoclose is false" do
-        expect(page).not_to have_selector("[data-timeout]")
+      it "does not include timeout value attribute when autoclose is false" do
+        expect(page).not_to have_selector("[data-loco-alert-timeout-value]")
       end
 
       it "does not show close button by default" do
@@ -270,6 +270,10 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
       end
 
       describe "rendering" do
+        it "includes the stimulus controller" do
+          expect(page).to have_selector("[data-controller='loco-alert']")
+        end
+
         it "shows close button" do
           expect(page).to have_selector(".alert button")
         end
@@ -278,8 +282,8 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
           expect(page).to have_selector("button[data-action='click->loco-alert#close']")
         end
 
-        it "adds right padding to accommodate close button" do
-          expect(page).to have_selector(".alert.where\\:pr-10")
+        it "adds relative positioning and right padding" do
+          expect(page).to have_selector(".alert.where\\:relative.where\\:pr-10")
         end
       end
     end
@@ -292,11 +296,16 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
       end
 
       describe "rendering" do
+        it "does not include the stimulus controller" do
+          expect(page).not_to have_selector("[data-controller='loco-alert']")
+        end
+
         it "does not show close button" do
           expect(page).not_to have_selector(".alert button")
         end
 
-        it "does not add right padding" do
+        it "does not add relative positioning or right padding" do
+          expect(page).not_to have_selector(".alert.where\\:relative")
           expect(page).not_to have_selector(".alert.where\\:pr-10")
         end
       end

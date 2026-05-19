@@ -31,17 +31,14 @@ export default class AlertDemoController extends Controller {
     const emoji = emojis[Math.floor(Math.random() * emojis.length)]
 
     if (this.clickCountValue === 100) {
-      // Special 100 clicks celebration
-      this.alertTarget.innerHTML = `🎉🎊🎉 LEGENDARY! You reached 100 clicks! 🏆👑🎉🎊🎉`
+      this.alertTarget.textContent = "🎉🎊🎉 LEGENDARY! You reached 100 clicks! 🏆👑🎉🎊🎉"
       this.alertTarget.classList.add('animate-pulse')
-      // Make it rainbow colored
       this.alertTarget.style.background = 'linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
       this.alertTarget.style.backgroundSize = '400% 400%'
       this.alertTarget.style.animation = 'rainbow 3s ease infinite'
     } else {
-      this.alertTarget.innerHTML = `${message} ${emoji} (${this.clickCountValue} clicks)`
+      this.alertTarget.textContent = `${message} ${emoji} (${this.clickCountValue} clicks)`
 
-      // Add a fun animation class
       this.alertTarget.classList.add('animate-bounce')
       setTimeout(() => {
         this.alertTarget.classList.remove('animate-bounce')
