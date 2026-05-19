@@ -37,17 +37,17 @@ class Daisy::DataDisplay::DiffComponent < LocoMotion::BaseComponent
   # A component for rendering individual items within the diff comparison.
   #
   class ItemComponent < LocoMotion::BasicComponent
+    # Full class name strings are required here so Tailwind's scanner can detect
+    # them. String interpolation or comments are skipped by the Ruby extractor
+    # in Tailwind v4+.
+    ITEM_CLASSES = ["diff-item-1", "diff-item-2"].freeze
+
     def set_index(index)
       @index = index
     end
 
     def before_render
-      # Because we're using the same component for many items, we need to
-      # manually specify the item class names to make sure Tailwind picks them
-      # up and includes them in the final CSS.
-      #
-      # diff-item-1 diff-item-2
-      add_css(:component, "diff-item-#{@index}")
+      add_css(:component, ITEM_CLASSES[@index - 1])
     end
   end
 
