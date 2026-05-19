@@ -16,7 +16,7 @@
 
     = doc_code(language: "js") do
       :plain
-        import { AlertController } from 'loco_motion'
+        import { AlertController } from '@profoundry-us/loco_motion'
 
         application.register('loco-alert', AlertController)
 
@@ -66,7 +66,7 @@
       disappear after 20 & 25 seconds. Click **Reset** to show them again.
 
   = daisy_toast(css: "z-50") do
-    = daisy_alert(icon: "check-circle", css: "alert-success text-white", href: "/api_docs", target: "_blank", autoclose: true, timeout: 20000, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white", href: "/api-docs", target: "_blank", autoclose: true, timeout: 20000, icon_html: { variant: :outline }) do
       View API documentation (opens in new tab)
 
     = daisy_alert(icon: "star", css: "alert-info text-white", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", autoclose: true, timeout: 25000, icon_html: { variant: :outline }) do
