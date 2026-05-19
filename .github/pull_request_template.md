@@ -27,6 +27,7 @@
 - [ ] I have added appropriate YARD documentation (if applicable)
 - [ ] I have followed the project's documentation standards
 - [ ] I have reviewed my own code for potential improvements
+- [ ] I have updated the CHANGELOG.md file (if applicable)
 
 ## Additional Notes
 <!-- Add any additional notes, screenshots, or context about the changes -->

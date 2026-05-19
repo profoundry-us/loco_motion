@@ -113,3 +113,70 @@
 
   = daisy_alert(icon: "exclamation-circle", css: "alert-error alert-dash") do
     Error alert.
+
+
+= doc_example(title: "Closable Alerts", example_css: "flex-col space-y-8", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can be manually closed by clicking the X button. Set `closable:
+      true` to show the close button. Click the **Reset** button to show the
+      alerts again after they are closed.
+
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", closable: true, icon_html: { variant: :outline }) do
+    This alert can be closed manually. It has multiple lines of text to show the
+    close button positioning.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", closable: true, icon_html: { variant: :outline }) do
+    Success! Click the X to dismiss.
+
+
+= doc_example(title: "Auto-dismissing Alerts", example_css: "flex-col space-y-8", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can auto-dismiss after a specified timeout. Set `autoclose: true`
+      and `timeout` in milliseconds. Click the **Reset** button to show the
+      alerts again after they dismiss.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 3000, icon_html: { variant: :outline }) do
+    This alert will auto-dismiss in 3 seconds.
+
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", autoclose: true, timeout: 5000, icon_html: { variant: :outline }) do
+    This alert will auto-dismiss in 5 seconds.
+
+
+= doc_example(title: "Clickable Link Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can be converted to clickable links by providing an `href`
+      parameter. Use `target` to control where the link opens.
+
+  = daisy_alert(icon: "star", css: "alert-info w-100", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", icon_html: { variant: :outline }) do
+    Click this alert for a surprise! (opens in new tab)
+
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", href: "/api-docs", target: "_blank", icon_html: { variant: :outline }) do
+    Click to view documentation.
+
+
+= doc_example(title: "Stimulus Action Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      Alerts can trigger custom Stimulus actions by providing an `action`
+      parameter.
+
+  %div{ data: { controller: "alert-demo" } }
+    = daisy_alert(icon: "sparkles", css: "alert-warning w-100 hover:cursor-pointer", action: "click->alert-demo#celebrate", html: { data: { alert_demo_target: "alert" } }, icon_html: { variant: :outline }) do
+      Click to celebrate!
+
+
+= doc_example(title: "Custom Timeout Alerts", example_css: "flex-col space-y-8", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      You can customize the timeout for each alert. Set `autoclose: true` with a
+      custom `timeout` value. Click the **Reset** button to show the alerts
+      again after they dismiss.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 2000, icon_html: { variant: :outline }) do
+    Dismisses in 2 seconds.
+
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", timeout: 5000, icon_html: { variant: :outline }) do
+    This alert will not auto-dismiss (autoclose is false by default).
