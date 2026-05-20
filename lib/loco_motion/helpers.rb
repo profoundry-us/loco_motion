@@ -9,6 +9,7 @@ module LocoMotion
     # Actions
     "Daisy::Actions::ButtonComponent" => { names: "button", group: "Actions", title: "Buttons", example: "buttons" },
     "Daisy::Actions::DropdownComponent" => { names: "dropdown", group: "Actions", title: "Dropdowns", example: "dropdowns" },
+    "Daisy::Actions::FabComponent" => { names: "fab", group: "Actions", title: "FABs", example: "fabs" },
     "Daisy::Actions::ModalComponent" => { names: "modal", group: "Actions", title: "Modals", example: "modals" },
     "Daisy::Actions::SwapComponent" => { names: "swap", group: "Actions", title: "Swaps", example: "swaps" },
     "Daisy::Actions::ThemeControllerComponent" => { names: "theme_controller", group: "Actions", title: "Theme Controllers", example: "theme_controllers" },

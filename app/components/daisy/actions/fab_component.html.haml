@@ -1,0 +1,11 @@
+= part(:component) do
+  - if activator?
+    = activator
+  - elsif button?
+    = button
+  - else
+    = part(:trigger) do
+      = content
+
+  - actions.each do |action|
+    = action
