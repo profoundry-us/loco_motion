@@ -13,25 +13,25 @@
 
     = doc_note(css: "mb-8") do
       :markdown
-        You **must** manually add the `.join-item` CSS class to the items you
-        want to be joined since this could be complicated to do automatically in
-        many use-cases and would almost certainly cause rendering issues.
+        When using `with_item`, the `.join-item` CSS class is added
+        automatically. When using the `content` method, you must manually add
+        the class.
 
   = daisy_join do |join|
     - join.with_item do
-      = daisy_button(title: "Start", css: "join-item")
+      = daisy_button(title: "Start")
     - join.with_item do
-      = daisy_button(title: "Center", css: "join-item")
+      = daisy_button(title: "Center")
     - join.with_item do
-      = daisy_button(title: "End", css: "join-item")
+      = daisy_button(title: "End")
 
   = daisy_join do |join|
     - join.with_item do
-      = daisy_button(icon: "bars-3-bottom-left", css: "join-item")
+      = daisy_button(icon: "bars-3-bottom-left")
     - join.with_item do
-      = daisy_button(icon: "bars-3", css: "join-item")
+      = daisy_button(icon: "bars-3")
     - join.with_item do
-      = daisy_button(icon: "bars-3-bottom-right", css: "join-item")
+      = daisy_button(icon: "bars-3-bottom-right")
 
 
 = doc_example(title: "Vertical Joins") do |doc|
@@ -41,8 +41,20 @@
 
   = daisy_join(css: "join-vertical min-w-32") do |join|
     - join.with_item do
-      = daisy_button(title: "Top", css: "w-full join-item")
+      = daisy_button(title: "Top", css: "w-full")
     - join.with_item do
-      = daisy_button(title: "Middle", css: "w-full join-item btn-primary")
+      = daisy_button(title: "Middle", css: "w-full btn-primary")
     - join.with_item do
-      = daisy_button(title: "Bottom", css: "w-full join-item")
+      = daisy_button(title: "Bottom", css: "w-full")
+
+
+= doc_example(title: "Direct Content (without with_item)") do |doc|
+  - doc.with_description do
+    %p
+      When using the `content` method instead of `with_item`, you must manually
+      add the `.join-item` CSS class to each element.
+
+  = daisy_join do
+    = daisy_button(title: "Start", css: "join-item")
+    = daisy_button(title: "Center", css: "join-item")
+    = daisy_button(title: "End", css: "join-item")

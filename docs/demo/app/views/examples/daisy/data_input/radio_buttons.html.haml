@@ -25,6 +25,41 @@
       Option 3
 
 
+= doc_example(title: "Radio Buttons with Labels") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can use the `start` and `end` label options for inline labeling,
+      or custom blocks for more complex label content.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        While the
+        <a href="#{doc_url("LocoMotion/Concerns/LabelableComponent")}" target="_blank">LabelableComponent</a>
+        Concern does implement a `floating_label` attribute, it is not relevant
+        for radio buttons and is not implemented.
+
+  .my-2.flex.flex-col.gap-4
+    = daisy_radio(name: "radio_end", id: "radio_end", value: "1", checked: true, end: "Radio using end wrapper")
+
+    = daisy_radio(name: "radio_start", id: "radio_start", value: "2", checked: true, start: "Radio using start wrapper")
+
+    = daisy_radio(name: "radio_end_block", id: "radio_end_block", value: "3", checked: true) do |radio|
+      - radio.with_end do
+        :markdown
+          Radio using `end` block
+
+    = daisy_radio(name: "radio_both_labels", id: "radio_both_labels", value: "4", checked: true) do |radio|
+      - radio.with_start(css: "flex flex-row items-center") do
+        Using
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          start
+      - radio.with_end(css: "flex flex-row items-center") do
+        and
+        = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
+          end
+        blocks
+
+
 = doc_example(title: "Radio Buttons with Colors") do |doc|
   - doc.with_description do
     :markdown
@@ -42,6 +77,24 @@
     = daisy_label(for: "radio6") do
       = daisy_radio(name: "radio_group2", id: "radio6", value: "3", css: "radio-accent")
       Accent Radio Button
+
+
+= doc_example(title: "Join Radio Buttons with Button Style") do |doc|
+  - doc.with_description do
+    :markdown
+      Radio buttons can be grouped together using the `join` component with the
+      `with_radio` slot. This creates a segmented control where the radio buttons
+      appear as a single connected group of buttons.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        The `with_radio` slot automatically skips the `radio` class and adds the
+        `join-item` and `btn` classes for a button-style appearance.
+
+  = daisy_join(css: "") do |join|
+    - join.with_radio(name: "join_options", id: "join_radio1", value: "1", html: { aria: { label: "Radio 1" } })
+    - join.with_radio(name: "join_options", id: "join_radio2", value: "2", html: { aria: { label: "Radio 2" } })
+    - join.with_radio(name: "join_options", id: "join_radio3", value: "3", html: { aria: { label: "Radio 3" } })
 
 
 = doc_example(title: "Radio Button States") do |doc|
