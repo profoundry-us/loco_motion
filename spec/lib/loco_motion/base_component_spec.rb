@@ -187,4 +187,95 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
     end
   end
 
+  context ".build method" do
+    class BuildableComponent < LocoMotion::BaseComponent
+      def initialize(**kws)
+        super
+
+        @custom_option = config_option(:custom_option, "default")
+        @another_option = config_option(:another_option, nil)
+      end
+
+      def call
+        part(:component) do
+          content
+        end
+      end
+    end
+
+    context "creating a customized component" do
+      it "creates a named subclass" do
+        built_class = BuildableComponent.build(custom_option: "built_value")
+        expect(built_class.name).to include("BuildableComponent__Build")
+        expect(built_class.name).not_to eq(BuildableComponent.name)
+      end
+
+      it "creates a different name for each build" do
+        built_class1 = BuildableComponent.build(custom_option: "value1")
+        built_class2 = BuildableComponent.build(custom_option: "value2")
+        expect(built_class1.name).not_to eq(built_class2.name)
+      end
+    end
+
+    context "with build_kws" do
+      it "merges build_kws into the config" do
+        built_class = BuildableComponent.build(custom_option: "built_value")
+        component = built_class.new
+        expect(component.instance_variable_get(:@custom_option)).to eq("built_value")
+      end
+
+      it "allows instance_kws to override build_kws" do
+        built_class = BuildableComponent.build(custom_option: "built_value")
+        component = built_class.new(custom_option: "instance_value")
+        expect(component.instance_variable_get(:@custom_option)).to eq("built_value")
+      end
+
+      it "updates instance variables for build_kws" do
+        built_class = BuildableComponent.build(custom_option: "built_value", another_option: "another_value")
+        component = built_class.new
+        expect(component.instance_variable_get(:@custom_option)).to eq("built_value")
+        expect(component.instance_variable_get(:@another_option)).to eq("another_value")
+      end
+
+      it "does not create instance variables for non-existent keys" do
+        built_class = BuildableComponent.build(non_existent: "value")
+        component = built_class.new
+        expect(component.instance_variable_defined?(:@non_existent)).to be false
+      end
+    end
+
+    context "with skip_styling" do
+      class SkipStylableComponent < LocoMotion::BaseComponent
+        def call
+          part(:component) { content }
+        end
+      end
+
+      it "defaults skip_styling to false when not set" do
+        built_class = SkipStylableComponent.build
+        component = built_class.new
+        expect(component.instance_variable_get(:@skip_styling)).to be false
+      end
+
+      it "sets skip_styling to true when passed via build" do
+        built_class = SkipStylableComponent.build(skip_styling: true)
+        component = built_class.new
+        expect(component.instance_variable_get(:@skip_styling)).to be true
+      end
+
+      it "sets skip_styling to true when passed via instance" do
+        built_class = SkipStylableComponent.build
+        component = built_class.new(skip_styling: true)
+        expect(component.instance_variable_get(:@skip_styling)).to be true
+      end
+    end
+
+    context "with sidecar_files delegation" do
+      it "delegates sidecar_files to superclass" do
+        built_class = BuildableComponent.build(custom_option: "value")
+        expect(built_class).to respond_to(:sidecar_files)
+      end
+    end
+  end
+
 end
