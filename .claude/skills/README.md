@@ -1,50 +1,48 @@
 # LocoMotion Claude Skills
 
-AI-readable skill files that help Claude understand how to build,
-test, and ship LocoMotion components following all project conventions.
+Claude Skills for building LocoMotion DaisyUI ViewComponents consistently.
 
-## Skills
+## Available Skills
 
-| File                      | Purpose                                           |
-|---------------------------|---------------------------------------------------|
-| `new-component.md`        | Scaffold all files for a new DaisyUI component    |
-| `modify-component.md`     | Modify an existing component correctly            |
-| `document-component.md`   | Write YARD docs with proper tags and examples     |
-| `run-tests.md`            | Run RSpec and/or Playwright tests                 |
-| `commit-and-push.md`      | Test → stage → commit (Markdown message) → push   |
-| `create-plan.md`          | Create an implementation plan in `docs/plans/`    |
-| `start-issue.md`          | Read a GitHub issue and set up a branch           |
-| `create-pr.md`            | Generate PR description, update CHANGELOG, open   |
-| `update-changelog.md`     | Add categorized entries to `CHANGELOG.md`         |
-| `playwright-tests.md`     | Write and/or run Playwright e2e specs             |
-| `code-check.md`           | Audit changed files against coding standards      |
-| `release.md`              | Guide the full release process                    |
+| Skill | Purpose |
+|-------|---------|
+| `new-component` | Scaffold all files for a new component |
+| `modify-component` | Update an existing component |
+| `document-component` | Write or improve YARD docs |
+| `run-tests` | Run the RSpec suite (loco or demo) |
+| `commit-and-push` | Stage, commit, and push changes |
+| `create-plan` | Generate an implementation plan |
+| `start-issue` | Read a GitHub issue and set up a branch |
+| `create-pr` | Draft a PR description and open the PR |
+| `update-changelog` | Add entries to CHANGELOG.md |
+| `playwright-tests` | Write and run Playwright e2e tests |
+| `code-check` | Review code against project conventions |
+| `release` | Guide the version-bump and release flow |
 
 ## Shared Scripts
 
-Python utilities used by multiple skills:
+Reusable Python scripts live in `shared-scripts/`:
 
-```
-shared_scripts/
-  check_branch.py         Branch name convention validator
-  validate_component.py   Component file existence checker
-```
+| Script | Purpose |
+|--------|---------|
+| `check_branch.py` | Validates the current git branch name |
+| `validate_component.py` | Confirms all component files exist |
 
-**Run from the project root:**
+Run from the project root:
 
 ```bash
-# Check branch name
-python .claude/skills/shared_scripts/check_branch.py
-
-# Validate component files
-python .claude/skills/shared_scripts/validate_component.py button actions
-python .claude/skills/shared_scripts/validate_component.py text_input data_input
+python .claude/skills/shared-scripts/check_branch.py
+python .claude/skills/shared-scripts/validate_component.py button actions
 ```
 
-Python 3.6+ required; no third-party dependencies.
+## Key Conventions
 
-## Git Tracking
-
-The root `.gitignore` excludes only Claude-specific personal files
-(`settings.local.json`, `todos/`, `cache/`). Everything in `skills/`
-is tracked normally.
+- **DaisyUI variants**: Never add `size:` or `color:` params to components.
+  Use `css: "btn-primary btn-lg"` instead.
+- **YARD docs**: Use `@loco_example` (not `@example`). All `@param`/`@option`
+  tags go on `initialize`, not the class.
+- **Docker**: Library commands run in the `loco` container; demo commands in
+  the `demo` container.
+- **Playwright**: Always use `--reporter dot --workers 1`.
+- **Commits**: Surround messages in single quotes. Use the Markdown body for
+  details.
