@@ -1,0 +1,87 @@
+= doc_title(title: "FABs", comp: @comp) do |title|
+  :markdown
+    The FAB (Floating Action Button) stays in the bottom corner of the
+    screen. It includes a focusable and accessible element with the
+    `button` role. Clicking or focusing it shows additional buttons
+    (known as Speed Dial buttons) in a vertical arrangement or a flower
+    shape (quarter circle).
+
+
+= doc_example(title: "Simple FAB", comp: @comp) do |doc|
+  - doc.with_description do
+    :markdown
+      A simple FAB renders a single floating button. Pass DaisyUI
+      button classes like `btn-primary`, `btn-circle`, and `btn-lg` to
+      style the trigger.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+      = hero_icon "plus", css: "size-6"
+
+
+= doc_example(title: "FAB with Speed Dial", comp: @comp) do |doc|
+  - doc.with_description do
+    :markdown
+      Add action buttons that appear when the FAB is clicked or
+      focused. Action buttons are rendered as standard
+      `ButtonComponent` elements.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+      = hero_icon "plus", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = hero_icon "camera", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = hero_icon "photo", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = hero_icon "microphone", css: "size-6"
+
+
+= doc_example(title: "FAB Flower", comp: @comp) do |doc|
+  - doc.with_description do
+    :markdown
+      Add the `fab-flower` CSS class to arrange the speed dial buttons
+      in a quarter-circle (flower) pattern instead of a vertical stack.
+
+  = daisy_fab(css: "fab-flower") do |fab|
+    - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+      = hero_icon "plus", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      A
+    - fab.with_action(css: "btn-circle btn-lg") do
+      B
+    - fab.with_action(css: "btn-circle btn-lg") do
+      C
+
+
+= doc_example(title: "FAB with Main Action", comp: @comp) do |doc|
+  - doc.with_description do
+    :markdown
+      Add a `main_action` slot to show a primary action button when the
+      FAB is opened. Use either `main_action` or `close`, not both.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-circle btn-lg") do
+      = heroicon "plus", css: "size-6"
+    - fab.with_main_action do
+      = daisy_button(css: "btn-primary") { "Save" }
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = heroicon "camera", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = heroicon "photo", css: "size-6"
+
+
+= doc_example(title: "Custom Activator", comp: @comp) do |doc|
+  - doc.with_description do
+    :markdown
+      Use `with_activator` to provide a fully custom trigger element.
+      The `role="button"` and `tabindex="0"` attributes are
+      automatically added for accessibility.
+
+  = daisy_fab do |fab|
+    - fab.with_activator(css: "btn btn-secondary btn-circle btn-lg") do
+      = hero_icon "heart", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = hero_icon "share", css: "size-6"
+    - fab.with_action(css: "btn-circle btn-lg") do
+      = hero_icon "bookmark", css: "size-6"

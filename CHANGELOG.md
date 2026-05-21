@@ -31,6 +31,7 @@ releases** should be considered **breaking**!
 - feat(Alert): Add closable functionality with `closable` parameter and close button
 - feat(Alert): Add AlertController to NPM package for client-side alert management
 - feat(Configuration): Add comprehensive documentation to Configuration class
+- add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing the DaisyUI FAB / Speed Dial pattern with `button`, `activator`, and `action` slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
 
 ### General Changes
 
@@ -52,6 +53,7 @@ releases** should be considered **breaking**!
 - feat(Toast): Add Toast positions example and reset functionality
 - docs(Toast): Update documentation to warn about AlertController dependency
 - docs(Alert): Update Alert examples with improved descriptions and formatting
+- add(FAB): Add FAB demo page with simple, speed dial, flower, and custom activator examples
 
 ### Changed
 
