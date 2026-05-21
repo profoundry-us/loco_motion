@@ -25,12 +25,8 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
     end
 
     describe "rendering" do
-      it "renders the button as a div" do
-        expect(page).to have_css "div.btn.btn-primary.btn-circle.btn-lg"
-      end
-
-      it "adds accessibility attributes to button" do
-        expect(page).to have_css "[role='button'][tabindex='0']"
+      it "renders the button as a button element" do
+        expect(page).to have_css "button.btn.btn-primary.btn-circle.btn-lg"
       end
 
       it "renders button content" do
@@ -38,7 +34,7 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
       end
 
       it "does not render the default trigger" do
-        expect(page).to have_css("div.btn", count: 1)
+        expect(page).not_to have_css("div.btn[role='button']")
       end
     end
   end
@@ -79,12 +75,12 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
 
     describe "rendering" do
       it "renders the trigger button" do
-        expect(page).to have_css "div.btn.btn-primary"
+        expect(page).to have_css "button.btn.btn-primary"
         expect(page).to have_content "+"
       end
 
       it "renders all action buttons" do
-        expect(page).to have_css "button.btn", count: 3
+        expect(page).to have_css "button.btn", count: 4
       end
 
       it "renders action content" do
@@ -99,6 +95,46 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
         action_pos = fab_html.index("btn-circle btn-lg")
 
         expect(trigger_pos).to be < action_pos
+      end
+    end
+  end
+
+  context "with close slot" do
+    before do
+      render_inline(described_class.new) do |fab|
+        fab.with_button(css: "btn-circle btn-lg") { "F" }
+        fab.with_close { tag.button "X", class: "btn btn-circle" }
+        fab.with_action(css: "btn-circle btn-lg") { "A" }
+      end
+    end
+
+    describe "rendering" do
+      it "renders the close button in a fab-close wrapper" do
+        expect(page).to have_css ".fab-close"
+      end
+
+      it "renders the close content" do
+        expect(page).to have_content "X"
+      end
+    end
+  end
+
+  context "with main_action slot" do
+    before do
+      render_inline(described_class.new) do |fab|
+        fab.with_button(css: "btn-circle btn-lg") { "F" }
+        fab.with_main_action { tag.button "Save", class: "btn btn-primary" }
+        fab.with_action(css: "btn-circle btn-lg") { "A" }
+      end
+    end
+
+    describe "rendering" do
+      it "renders the main action in a fab-main-action wrapper" do
+        expect(page).to have_css ".fab-main-action"
+      end
+
+      it "renders the main action content" do
+        expect(page).to have_content "Save"
       end
     end
   end
@@ -119,11 +155,11 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
       end
 
       it "renders the trigger" do
-        expect(page).to have_css "div.btn.btn-primary"
+        expect(page).to have_css "button.btn.btn-primary"
       end
 
       it "renders all action buttons" do
-        expect(page).to have_css "button.btn", count: 3
+        expect(page).to have_css "button.btn", count: 4
       end
     end
   end
@@ -136,6 +172,20 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
     describe "rendering" do
       it "applies custom CSS to the wrapper" do
         expect(page).to have_css ".fab.custom-fab"
+      end
+    end
+  end
+
+  context "with custom HTML attributes" do
+    before do
+      render_inline(described_class.new(
+        html: { id: "my-fab", data: { test: "value" } }
+      ))
+    end
+
+    describe "rendering" do
+      it "passes attributes to the component" do
+        expect(page).to have_css ".fab#my-fab[data-test='value']"
       end
     end
   end
