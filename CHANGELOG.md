@@ -15,6 +15,15 @@ releases** should be considered **breaking**!
 
 ### Components Changes
 
+- feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
+- feat(RadioButton): Move rendering from call method to HAML template to match CheckboxComponent pattern
+- feat(Checkbox): Add label examples for start/end labels and custom content blocks
+- feat(Join): Add automatic `join-item` CSS class injection for items slot using `BasicComponent.build(css: "join-item")`
+- feat(Join): Add `buttons` slot using `ButtonComponent.build(css: "join-item")` for automatic CSS class injection
+- feat(Join): Add `radios` slot using `RadioButtonComponent.build(skip_styling: true, css: "join-item btn")` for automatic CSS class injection
+- feat(Join): Update call method to handle items, buttons, radios, or direct content
+- feat(BaseComponent): Improve `build` method to merge build_kws into config before initialize for proper precedence
+- feat(BaseComponent): Update instance variables for build_kws keys after initialize to ensure options like `skip_styling` are available during `setup_component`
 - fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES` constant so `diff-item-1` / `diff-item-2` are detected as string literals by Tailwind v4's Ruby extractor ([Fixes #82](https://github.com/profoundry-us/loco_motion/issues/82))
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
@@ -28,6 +37,9 @@ releases** should be considered **breaking**!
 
 ### Demo / Docs Changes
 
+- feat(Join): Update join examples to use `with_button` slot instead of `with_item` for buttons
+- feat(Join): Add expansive direct content example with input, select, and indicator components
+- feat(RadioButton): Add radio buttons with labels examples to demo
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
 - add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
 - add(Navbar): Add "Custom Content Navbar" example demonstrating block-based custom content
