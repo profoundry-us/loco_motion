@@ -25,9 +25,11 @@ releases** should be considered **breaking**!
 - feat(Alert): Add closable functionality with `closable` parameter and close button
 - feat(Alert): Add AlertController to NPM package for client-side alert management
 - feat(Configuration): Add comprehensive documentation to Configuration class
+- add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) wrapping DaisyUI's FAB / Speed Dial component with button, activator, action, close, and main_action slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
 
 ### Demo / Docs Changes
 
+- add(FAB): Add FAB demo page with simple, SVG icons, flower, main action, and custom activator examples
 - add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
 - add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g. Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from `node:20-slim` instead of installing via `nodesource`
 - add(Navbar): Add "Custom Content Navbar" example demonstrating block-based custom content

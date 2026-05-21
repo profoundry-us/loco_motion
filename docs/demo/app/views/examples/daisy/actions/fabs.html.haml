@@ -1,0 +1,99 @@
+= doc_title(title: "FABs", comp: @comp) do |title|
+  :markdown
+    A FAB (Floating Action Button) stays in the bottom corner of the
+    screen. It includes a focusable and accessible element that, when
+    clicked or focused, shows additional speed dial buttons in a
+    vertical arrangement or a flower shape.
+
+    **Note:** These examples are rendered inline for demonstration
+    purposes. In a real application, the FAB would be fixed to the
+    bottom corner of the screen using CSS utility classes.
+
+
+= doc_example(title: "Simple FAB") do |doc|
+  - doc.with_description do
+    :markdown
+      A simple FAB with a single trigger button. Click or focus the
+      button to see the speed dial actions appear.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+      F
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "A" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "B" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "C" }
+
+
+= doc_example(title: "FAB with SVG Icons") do |doc|
+  - doc.with_description do
+    :markdown
+      You can use SVG icons inside the FAB trigger and action buttons
+      for a more polished look.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-secondary btn-circle btn-lg") do
+      = heroicon "plus", class: "size-6", variant: :outline
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") do
+        = heroicon "camera", class: "size-6", variant: :outline
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") do
+        = heroicon "photo", class: "size-6", variant: :outline
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") do
+        = heroicon "microphone", class: "size-6", variant: :outline
+
+
+= doc_example(title: "FAB Flower") do |doc|
+  - doc.with_description do
+    :markdown
+      Add the `fab-flower` CSS class to arrange the speed dial
+      buttons in a quarter-circle (flower) pattern instead of the
+      default vertical arrangement.
+
+  = daisy_fab(css: "fab-flower") do |fab|
+    - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+      = heroicon "plus", class: "size-6", variant: :outline
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "A" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "B" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "C" }
+
+
+= doc_example(title: "FAB with Main Action") do |doc|
+  - doc.with_description do
+    :markdown
+      You can add a main action button that appears when the FAB is
+      opened. This is useful for providing a primary action alongside
+      other speed dial options.
+
+  = daisy_fab do |fab|
+    - fab.with_button(css: "btn-circle btn-lg") do
+      F
+    - fab.with_main_action do
+      = daisy_button(css: "btn-primary") { "Save" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "A" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "B" }
+
+
+= doc_example(title: "Custom Activator") do |doc|
+  - doc.with_description do
+    :markdown
+      Instead of using a button, you can provide a fully custom
+      activator element. The component automatically adds
+      `role="button"` and `tabindex="0"` for accessibility.
+
+  = daisy_fab do |fab|
+    - fab.with_activator(css: "btn btn-circle btn-accent btn-lg") do
+      = heroicon "heart", class: "size-6", variant: :solid
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "A" }
+    - fab.with_action do
+      = daisy_button(css: "btn-circle btn-lg") { "B" }
