@@ -163,7 +163,7 @@ Where:
 Run the following command to restart the demo app and see the new example file:
 
 ```bash
-make demo-restart
+just demo-restart
 ```
 
 ## Example Usage
