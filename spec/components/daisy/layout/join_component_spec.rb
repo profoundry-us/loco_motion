@@ -144,4 +144,34 @@ RSpec.describe Daisy::Layout::JoinComponent, type: :component do
       end
     end
   end
+
+  context "with buttons (with with_button)" do
+    let(:join) { described_class.new }
+
+    before do
+      render_inline(join) do |j|
+        j.with_button(title: "Previous")
+        j.with_button(title: "Current", css: "btn-active")
+        j.with_button(title: "Next")
+      end
+    end
+
+    describe "rendering" do
+      it "has the join class" do
+        expect(page).to have_selector(".join")
+      end
+
+      it "renders buttons" do
+        expect(page).to have_selector("button.btn", count: 3)
+      end
+
+      it "automatically adds join-item class to buttons" do
+        expect(page).to have_selector("button.join-item", count: 3)
+      end
+
+      it "preserves additional CSS classes" do
+        expect(page).to have_selector("button.btn-active")
+      end
+    end
+  end
 end

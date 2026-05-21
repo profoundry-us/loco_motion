@@ -12,10 +12,19 @@
 # @slot item+ [LocoMotion::BaseComponent] The elements to be joined together.
 #   The `join-item` CSS class is added automatically.
 #
+# @slot button+ [Daisy::Actions::ButtonComponent] Buttons to be joined together.
+#   The `join-item` CSS class is added automatically.
+#
 # @slot radio+ [Daisy::DataInput::RadioButtonComponent] Radio buttons to be joined
 #   together. Each radio will have the `skip_styling` option set to true to prevent
 #   the automatic `radio` class from being added, and the `join-item` and `btn`
 #   classes are added automatically.
+#
+# @loco_example Basic Button Group (with with_button)
+#   = daisy_join do |join|
+#     - join.with_button(title: "Previous")
+#     - join.with_button(title: "Current", css: "btn-active")
+#     - join.with_button(title: "Next")
 #
 # @loco_example Basic Button Group (with with_item)
 #   = daisy_join do |join|
@@ -58,6 +67,7 @@
 #
 class Daisy::Layout::JoinComponent < LocoMotion::BaseComponent
   renders_many :items, LocoMotion::BasicComponent.build(css: "join-item")
+  renders_many :buttons, Daisy::Actions::ButtonComponent.build(css: "join-item")
   renders_many :radios, Daisy::DataInput::RadioButtonComponent.build(skip_styling: true, css: "join-item btn")
 
   #
@@ -83,13 +93,17 @@ class Daisy::Layout::JoinComponent < LocoMotion::BaseComponent
   end
 
   #
-  # Renders all joined items or radios in sequence, or renders content if neither are provided.
+  # Renders all joined items, buttons, or radios in sequence, or renders content if none are provided.
   #
   def call
     part(:component) do
       if items?
         items.each do |item|
           concat(item)
+        end
+      elsif buttons?
+        buttons.each do |button|
+          concat(button)
         end
       elsif radios?
         radios.each do |radio|
