@@ -91,7 +91,7 @@
         The `with_radio` slot automatically skips the `radio` class and adds the
         `join-item` and `btn` classes for a button-style appearance.
 
-  = daisy_join(css: "") do |join|
+  = daisy_join do |join|
     - join.with_radio(name: "join_options", id: "join_radio1", value: "1", html: { aria: { label: "Radio 1" } })
     - join.with_radio(name: "join_options", id: "join_radio2", value: "2", html: { aria: { label: "Radio 2" } })
     - join.with_radio(name: "join_options", id: "join_radio3", value: "3", html: { aria: { label: "Radio 3" } })
