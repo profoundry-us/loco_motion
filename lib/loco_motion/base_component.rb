@@ -189,15 +189,33 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   # define a new class.
   #
   def self.build(*build_args, **build_kws, &build_block)
-    klass = Class.new(self)
+    # Create a named subclass instead of anonymous class to help ViewComponent
+    # find the component properly
+    build_counter = @build_counter ||= 0
+    @build_counter += 1
+    klass_name = "#{name}__Build#{build_counter}"
 
-    # Unless already defined, delegate the name method to the superclass so
-    # ViewComponent can find the sidecar partials and render them when no call
-    # method is defined.
-    unless klass.method_defined?(:name)
+    klass = Class.new(self) do
+      # Define the class name method to return the original component name
+      define_singleton_method(:name) do
+        klass_name
+      end
+    end
+
+    # Store the original superclass name for template lookup
+    superclass_name = name
+    superclass_component_name = @component_name if instance_variable_defined?(:@component_name)
+
+    # Set component_name directly on the class to avoid nil errors
+    if superclass_component_name
+      klass.instance_variable_set(:@component_name, superclass_component_name)
+    end
+
+    # Delegate sidecar_files to the superclass to avoid issues with anonymous classes
+    unless klass.method_defined?(:sidecar_files)
       klass.instance_eval do
-        def name
-          superclass.name
+        def sidecar_files(*args)
+          superclass.sidecar_files(*args)
         end
       end
     end
@@ -208,12 +226,20 @@ class LocoMotion::BaseComponent < ViewComponent::Base
 
       define_method(:initialize) do |*instance_args, **instance_kws, &instance_block|
         if original_initialize
-          original_initialize.bind(self).call
+          original_initialize.bind(self).call(*instance_args, **instance_kws, &instance_block)
         else
           super(*instance_args, **instance_kws, &instance_block)
         end
 
-        @config.smart_merge!(**build_kws)
+        # Merge build_kws into config after initialize (original behavior)
+        @config.smart_merge!(**build_kws) if instance_variable_defined?(:@config)
+
+        # Update instance variables for build_kws that correspond to instance variables
+        # This ensures options like skip_styling are available during setup_component
+        build_kws.each do |key, value|
+          instance_var = "@#{key}"
+          instance_variable_set(instance_var, value) if instance_variable_defined?(instance_var)
+        end
       end
     end
 

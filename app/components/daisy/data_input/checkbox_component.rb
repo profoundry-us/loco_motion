@@ -26,8 +26,21 @@
 # @loco_example Disabled Checkbox
 #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
 #
+# @loco_example With Start Label
+#   = daisy_checkbox(name: "accept", id: "accept", start: "Accept:")
+#
 # @loco_example With End Label (common for checkboxes)
 #   = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
+#
+# @loco_example With Custom Start Content
+#   = daisy_checkbox(name: "accept", id: "accept") do |checkbox|
+#     - checkbox.with_start do
+#       %span.text-primary Accept:
+#
+# @loco_example With Custom End Content
+#   = daisy_checkbox(name: "terms", id: "terms") do |checkbox|
+#     - checkbox.with_end do
+#       %span.text-secondary I agree to the terms
 #
 class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
