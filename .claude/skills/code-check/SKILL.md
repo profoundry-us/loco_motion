@@ -58,7 +58,9 @@ line number.
 
 #### HAML template
 
-- [ ] Root element is `= part(:component) do`.
+- [ ] Template contains `= part(:component) do` — typically the root element,
+      but components using `LabelableComponent` (or similar concerns) may wrap
+      the root with additional markup. Verify against the component's base class.
 - [ ] Logic is minimal — belongs in the Ruby class.
 
 #### Spec file
@@ -81,7 +83,7 @@ line number.
 ### Step 3: Run the test suite
 
 ```bash
-make loco-test
+just loco-test
 ```
 
 All tests must pass.

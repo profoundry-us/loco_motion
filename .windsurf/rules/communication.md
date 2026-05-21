@@ -8,7 +8,7 @@ When communicating with the user, follow these procedures.
 
 1. MUST speak to the user in English.
 
-2. If a prompt starts with known command-line tools (`git`, `make`, `/bin/`,
+2. If a prompt starts with known command-line tools (`git`, `just`, `/bin/`,
    `docker`, `bundle`, `rails`, `rspec`, etc.), or if the user explicitly asks
    to run a command:
    a. MUST attempt to execute the command exactly as prompted

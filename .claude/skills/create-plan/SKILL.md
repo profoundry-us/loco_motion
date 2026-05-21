@@ -54,7 +54,13 @@ extract context before writing.
 
 ### Step 4: Create the plan file
 
-Name the file descriptively, e.g. `docs/plans/add-badge-icon-part.md`.
+Name the file using the format `docs/plans/YYYYMM-N-short-description.md`,
+where `YYYYMM` is the current year and month, and `N` is a incrementing integer
+starting at 1 for the first plan of that month (e.g.
+`docs/plans/202605-1-add-badge-icon.md` for the first plan in June 2026, or
+`docs/plans/202605-2-update-card-slots.md` for the second). Check existing
+files in `docs/plans/` to find the next available integer for the current
+month.
 
 Populate every section from the template. Follow these formatting rules:
 
@@ -77,10 +83,11 @@ User: "Create a plan for a new Countdown component in the actions group."
 
 1. Read `docs/plans/templates/new_component.md`
 2. Check recent plans: `ls -lt docs/plans/*.md | head -5`
-3. Create `docs/plans/add-countdown-component.md`
-4. Fill in all template sections with Countdown-specific details
-5. Report: "Plan created at docs/plans/add-countdown-component.md — please
-   review before I start coding."
+3. Determine next integer for current month (e.g. `202605-1` if none yet)
+4. Create `docs/plans/202605-1-add-countdown-component.md`
+5. Fill in all template sections with Countdown-specific details
+6. Report: "Plan created at docs/plans/202605-1-add-countdown-component.md
+   — please review before I start coding."
 
 **Example 2 — plan from a GitHub issue**
 

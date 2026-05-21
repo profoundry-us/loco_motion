@@ -21,8 +21,8 @@ commit conventions.
 Before committing, both test suites must pass:
 
 ```bash
-make loco-test
-make demo-test
+just loco-test
+just demo-test
 ```
 
 If either suite fails, stop and fix the failures first.

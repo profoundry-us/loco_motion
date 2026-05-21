@@ -140,7 +140,7 @@ under the appropriate group section:
 Because `lib/loco_motion/helpers.rb` was modified, restart the demo app:
 
 ```bash
-make demo-restart
+just demo-restart
 ```
 
 ### Step 10: Validate
@@ -187,4 +187,4 @@ templates in Steps 4–7.
 is running. If not, run `docker compose up -d demo`.
 
 **Component not visible in demo nav** — Confirm the `helpers.rb` entry uses the
-exact class name string and that `make demo-restart` completed successfully.
+exact class name string and that `just demo-restart` completed successfully.

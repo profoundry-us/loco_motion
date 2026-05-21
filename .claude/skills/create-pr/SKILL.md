@@ -19,8 +19,8 @@ CHANGELOG, and pushes everything.
 ### Step 1: Ensure tests pass
 
 ```bash
-make loco-test
-make demo-test
+just loco-test
+just demo-test
 ```
 
 Stop if any tests fail.

@@ -2,7 +2,7 @@
 name: run-tests
 description: Runs the LocoMotion RSpec test suite inside the correct Docker
   container. Use when the user says "run tests", "run the test suite", "check
-  tests", "make loco-test", "make demo-test", or "run specs".
+  tests", "just loco-test", "just demo-test", or "run specs".
 metadata:
   author: profoundry-us
   version: 1.0.0
@@ -19,9 +19,9 @@ container and reports results.
 
 | Goal | Command |
 |------|---------|
-| Library unit tests (default) | `make loco-test` |
-| Demo application tests | `make demo-test` |
-| Both suites | Run `make loco-test` first, then `make demo-test` |
+| Library unit tests (default) | `just loco-test` |
+| Demo application tests | `just demo-test` |
+| Both suites | Run `just loco-test` first, then `just demo-test` |
 
 When in doubt, run both.
 
@@ -38,7 +38,7 @@ Use the exact recipe name from the file.
 ### Step 3: Run the library tests
 
 ```bash
-make loco-test
+just loco-test
 ```
 
 This executes `rspec` inside the `loco` Docker container. Equivalent manual
@@ -51,7 +51,7 @@ docker compose exec -it loco bundle exec rspec
 ### Step 4: Run the demo tests (if needed)
 
 ```bash
-make demo-test
+just demo-test
 ```
 
 Equivalent manual command:
@@ -80,8 +80,8 @@ suite to confirm.
 User: "Run the tests before I commit"
 
 ```bash
-make loco-test
-make demo-test
+just loco-test
+just demo-test
 ```
 
 Report: "All 142 examples pass. You are clear to commit."
@@ -99,7 +99,7 @@ docker compose exec -it loco bundle exec rspec spec/components/daisy/data_displa
 After creating a new component and its spec, run:
 
 ```bash
-make loco-test
+just loco-test
 ```
 
 If the new spec file is not picked up, verify it is inside `spec/components/`
@@ -116,6 +116,6 @@ install missing gems.
 **Tests time out** — Check for infinite loops or missing database seeds in the
 failing spec. Run the spec in isolation to confirm.
 
-**`make loco-test` command not found** — Check that `make` is installed and
+**`just loco-test` command not found** — Check that `just` is installed and
 you are running from the project root. Alternatively use the `docker compose
 exec` form directly.

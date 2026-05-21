@@ -71,7 +71,7 @@ render defined parts.
 Add or update tests for every new behavior. Run tests after changes:
 
 ```bash
-make loco-test
+just loco-test
 ```
 
 All tests must pass before proceeding.
@@ -96,7 +96,7 @@ behavior. Follow the existing pattern:
 Only restart if `lib/loco_motion/helpers.rb` was modified:
 
 ```bash
-make demo-restart
+just demo-restart
 ```
 
 ### Step 9: Review
@@ -130,7 +130,7 @@ User: "Add a header slot to CardComponent"
 used at the root of the template and that `part(:name)` matches the symbol
 passed to `define_part`.
 
-**Demo doesn't reflect changes** — Run `make demo-restart` only when
+**Demo doesn't reflect changes** — Run `just demo-restart` only when
 `lib/loco_motion` files changed. For component files, a browser refresh is
 sufficient.
 

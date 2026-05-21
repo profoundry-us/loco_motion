@@ -11,7 +11,6 @@
 @.windsurf/rules/generating_a_pr_description.md
 @.windsurf/rules/maintaining_rules.md
 @.windsurf/rules/non_code_documentation.md
-@.windsurf/rules/releasing.md
 @.windsurf/rules/running_commands.md
 @.windsurf/rules/running_playwright_tests.md
 @.windsurf/rules/starting_an_issue.md
