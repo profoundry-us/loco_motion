@@ -43,8 +43,8 @@ python .claude/skills/shared_scripts/validate_component.py text_input data_input
 
 Python 3.6+ required; no third-party dependencies.
 
-## Git Tracking Note
+## Git Tracking
 
-`.claude/` is excluded by the root `.gitignore` to keep personal session
-files out of version control. These skill files are force-tracked
-(`git add -f`) so all contributors share the same AI conventions.
+The root `.gitignore` excludes only Claude-specific personal files
+(`settings.local.json`, `todos/`, `cache/`). Everything in `skills/`
+is tracked normally.
