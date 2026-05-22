@@ -21,8 +21,9 @@
 #         class: "rounded-lg")
 #
 # @loco_example Tablet without Camera
-#   = daisy_device(css: "mockup-phone border-primary",
-#     display_css: "overflow-auto w-[736px] h-[414px]", show_camera: false) do
+#   = daisy_device(css: "mockup-phone border-primary max-w-none
+#     w-[600px] aspect-[16/10] rounded-[30px]",
+#     display_css: "overflow-auto rounded-[24px]", show_camera: false) do
 #     .flex.flex-col.gap-4.p-4.bg-white
 #       Tablet Content Here
 #
@@ -59,7 +60,6 @@ class Daisy::Mockup::DeviceComponent < LocoMotion::BaseComponent
   def before_render
     add_css(:camera, "mockup-phone-camera")
     add_css(:display, "mockup-phone-display")
-    add_css(:display, "!mt-0") if !@show_camera
   end
 
   #

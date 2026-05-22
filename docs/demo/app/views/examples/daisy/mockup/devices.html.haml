@@ -9,7 +9,7 @@
       You can use the `daisy_device` component to display a phone mockup.
 
   = daisy_device(css: "mockup-phone", display_css: "overflow-auto") do
-    .flex.flex-col.gap-4.p-4.pt-12.pb-8.bg-base-100
+    .flex.flex-col.gap-4.p-4.pt-14.pb-8.bg-base-100
       .text-center.text-2xl.font-bold
         Beautiful Landscapes
       = image_tag("landscapes/beach.jpg", class: "rounded-lg")
@@ -21,10 +21,13 @@
 = doc_example(title: "Tablet") do |doc|
   - doc.with_description do
     :markdown
-      You can also hide the camera by passing `show_camera: false` to the
-      component and add any colors you want to the device.
+      You can simulate a tablet by hiding the camera (`show_camera: false`)
+      and overriding the container's aspect ratio, max-width, and border
+      radius. Because DaisyUI v5 uses CSS Grid for the phone mockup layout,
+      the sizing must be applied to the container via `css:`, not the inner
+      display.
 
-  = daisy_device(css: "mockup-phone border-red-600", display_css: "overflow-auto w-[736px] h-[414px]", show_camera: false) do
+  = daisy_device(css: "mockup-phone border-primary max-w-none w-[600px] aspect-[16/10] rounded-[30px]", display_css: "overflow-auto rounded-[24px]", show_camera: false) do
     .flex.flex-col.gap-4.p-4.bg-base-100
       .text-center.text-2xl.font-bold
         Beautiful Landscapes
