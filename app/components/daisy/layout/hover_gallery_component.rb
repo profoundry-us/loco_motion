@@ -36,13 +36,13 @@ class Daisy::Layout::HoverGalleryComponent < LocoMotion::BaseComponent
   # Renders a single image inside the hover gallery.
   class ImageComponent < LocoMotion::BasicComponent
     def initialize(src: nil, alt: nil, **kws)
-      kws[:tag] = :img
       super(**kws)
       @src = src
       @alt = alt
     end
 
     def before_render
+      set_tag_name(:component, :img)
       add_html(:component, { src: @src, alt: @alt }.compact)
       super
     end
@@ -76,7 +76,7 @@ class Daisy::Layout::HoverGalleryComponent < LocoMotion::BaseComponent
   private
 
   def setup_component
-    set_tag(:component, :figure)
+    set_tag_name(:component, :figure)
     add_css(:component, "hover-gallery")
   end
 end
