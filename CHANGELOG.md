@@ -32,6 +32,7 @@ releases** should be considered **breaking**!
 - feat(Alert): Add AlertController to NPM package for client-side alert management
 - feat(Configuration): Add comprehensive documentation to Configuration class
 - add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing the DaisyUI FAB / Speed Dial pattern with `button`, `activator`, and `action` slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
+- fix(DeviceComponent): Fix tablet mockup for DaisyUI v5 by removing dead `!mt-0` hack and moving sizing to the container via `css:` (override `aspect-ratio`, `max-width`, `border-radius`) instead of `display_css` ([Fixes #99](https://github.com/profoundry-us/loco_motion/issues/99))
 
 ### General Changes
 
