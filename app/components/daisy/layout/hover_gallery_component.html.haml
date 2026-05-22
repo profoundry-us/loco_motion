@@ -1,0 +1,7 @@
+= part(:component) do
+  - if images.any?
+    - images.each do |image|
+      = image
+  - elsif @srcs
+    - @srcs.each do |src|
+      %img{ src: src }

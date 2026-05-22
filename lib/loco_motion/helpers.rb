@@ -73,6 +73,7 @@ module LocoMotion
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
     "Daisy::Layout::HeroComponent" => { names: "hero", group: "Layout", title: "Heroes", example: "heroes" },
     "Daisy::Layout::HoverComponent" => { names: "hover", group: "Layout", title: "Hover 3D", example: "hovers" },
+    "Daisy::Layout::HoverGalleryComponent" => { names: "hover_gallery", group: "Layout", title: "Hover Galleries", example: "hover_galleries" },
     "Daisy::Layout::IndicatorComponent" => { names: "indicator", group: "Layout", title: "Indicators", example: "indicators" },
     "Daisy::Layout::JoinComponent" => { names: "join", group: "Layout", title: "Joins", example: "joins" },
     "Daisy::Layout::MaskComponent" => { names: nil, group: "Layout", title: "Masks", example: "masks" },
