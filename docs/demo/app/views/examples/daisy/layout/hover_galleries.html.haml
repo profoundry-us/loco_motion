@@ -45,3 +45,16 @@
 
   - srcs = %w[beach desert forest].map { |s| image_path("landscapes/#{s}.jpg") }
   = daisy_hover_gallery(srcs: srcs, css: "max-w-60")
+
+
+= doc_example(title: "Hover Gallery with Custom Content") do |doc|
+  - doc.with_description do
+    :markdown
+      When neither `with_image` slots nor `srcs:` are provided, any block
+      content is rendered inside the figure. This allows full control over
+      the inner markup.
+
+  = daisy_hover_gallery(css: "max-w-60") do
+    %img{ src: image_path("landscapes/beach.jpg"), alt: "Beach", class: "hover:opacity-100" }
+    %img{ src: image_path("landscapes/desert.jpg"), alt: "Desert" }
+    %img{ src: image_path("landscapes/forest.jpg"), alt: "Forest" }

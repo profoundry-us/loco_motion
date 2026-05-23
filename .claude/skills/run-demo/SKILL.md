@@ -29,122 +29,68 @@ All commands run from `docs/demo/` unless stated otherwise.
 
 ## Instructions
 
-### Step 1: Install the correct Ruby (one-time)
+### Step 1: Run the setup hook (cloud sessions only)
 
-Check the required version:
-
-```bash
-head -3 docs/demo/Gemfile | grep ruby
-```
-
-Install via rbenv if it is not already present:
+In cloud sessions the `SessionStart` hook
+(`.claude/hooks/setup-demo.sh`) runs automatically on every session start.
+It handles Ruby installation, the vendor symlink, `bundle install`,
+`db:prepare`, and JS dependency installation. Check whether it already ran:
 
 ```bash
-rbenv install <version>   # e.g. rbenv install 3.4.4
+# Hook success leaves this message in the session startup log:
+# ==> [setup-demo] Setup complete. Start the demo server with the run-demo skill.
 ```
 
-Verify:
+If the hook has not run yet (or failed), run it manually:
 
 ```bash
-RBENV_VERSION=<version> rbenv exec ruby --version
+bash .claude/hooks/setup-demo.sh
 ```
 
-### Step 2: Set up the vendor symlink (one-time)
+If you are **not** in a cloud session (i.e. running locally), perform Steps
+1–5 from the manual instructions in `SKILL.md` history, or consult the
+hook script itself — it documents every step inline.
 
-Docker mounts the root repo into `docs/demo/vendor/loco_motion-rails`.
-Replicate that locally with a symlink:
+### Step 2: Build JavaScript
 
 ```bash
-mkdir -p docs/demo/vendor
-ln -s /home/user/loco_motion docs/demo/vendor/loco_motion-rails
+PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn --cwd docs/demo build
 ```
 
-Make sure the symlink is gitignored. If the line is missing, add and commit
-it:
+Expected: two `.js` bundles written to `docs/demo/app/assets/builds/`.
 
-```bash
-grep -q "vendor/loco_motion-rails" docs/demo/.gitignore || \
-  echo "vendor/loco_motion-rails" >> docs/demo/.gitignore
-git add docs/demo/.gitignore && git commit -m 'chore(demo): Ignore vendor symlink used for local dev'
-```
-
-### Step 3: Install Ruby gems
-
-```bash
-RBENV_VERSION=<version> rbenv exec bundle install
-```
-
-Confirm Rails loaded correctly:
-
-```bash
-RBENV_VERSION=<version> rbenv exec bundle exec rails --version
-```
-
-### Step 4: Prepare the database
-
-```bash
-RBENV_VERSION=<version> rbenv exec bundle exec rails db:prepare
-```
-
-### Step 5: Install JS dependencies
-
-The published npm package `@profoundry-us/loco_motion` cannot resolve its
-own `@hotwired/stimulus` dependency when installed via `npm link`. Instead,
-temporarily point `package.json` to the local source, install with
-`--no-lockfile` (so `yarn.lock` is never touched), then immediately revert
-`package.json`:
-
-```bash
-# Point to local source (temporary edit)
-sed -i 's|"@profoundry-us/loco_motion": ".*"|"@profoundry-us/loco_motion": "file:../.."|' \
-  docs/demo/package.json
-
-# Install without reading or writing yarn.lock
-PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn install \
-  --ignore-engines --no-lockfile
-
-# Revert package.json — yarn.lock was never touched
-git checkout -- docs/demo/package.json
-```
-
-The `node_modules/` directory is gitignored, so no further cleanup is needed.
-
-> **Why not `npm link`?** When using `npm link` or `yarn link`, Node
-> resolves the linked package's own imports (e.g. `@hotwired/stimulus`)
-> relative to the *link source* directory, which has no `node_modules`.
-> The `file:` + `--no-lockfile` pattern avoids this by installing the
-> package in-place inside the demo's own `node_modules`.
-
-### Step 6: Build JavaScript
-
-```bash
-PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn build
-```
-
-Expected: two `.js` bundles written to `app/assets/builds/`.
-
-### Step 7: Build CSS
+### Step 3: Build CSS
 
 The Tailwind config calls `bundle show loco_motion-rails`, so the correct
 Ruby version must be in scope:
 
 ```bash
-RBENV_VERSION=<version> rbenv exec bundle exec \
+RBENV_VERSION=3.4.4 rbenv exec bundle exec \
   node docs/demo/node_modules/.bin/tailwindcss \
+  -i ./app/assets/stylesheets/application.tailwind.css \
+  -o ./app/assets/builds/application.css
+```
+
+Run this command from inside `docs/demo/`:
+
+```bash
+cd docs/demo && \
+  RBENV_VERSION=3.4.4 rbenv exec bundle exec \
+  node node_modules/.bin/tailwindcss \
   -i ./app/assets/stylesheets/application.tailwind.css \
   -o ./app/assets/builds/application.css
 ```
 
 Expected: output ends with `Done in Xms`.
 
-### Step 8: Start the Rails server
+### Step 4: Start the Rails server
 
 Remove any stale PID file, then launch in the background:
 
 ```bash
 rm -f docs/demo/tmp/pids/server.pid
 
-RBENV_VERSION=<version> rbenv exec bundle exec rails server \
+cd docs/demo && RBENV_VERSION=3.4.4 rbenv exec bundle exec rails server \
   -p 3000 -b 127.0.0.1 > /tmp/rails-demo.log 2>&1 &
 
 echo $! > /tmp/rails-demo.pid
@@ -162,21 +108,12 @@ done
 
 If it never returns 200, check `/tmp/rails-demo.log` for errors.
 
-### Step 9: Stop the server (when done)
+### Step 5: Stop the server (when done)
 
 ```bash
 kill $(cat /tmp/rails-demo.pid) 2>/dev/null
 rm -f /tmp/rails-demo.pid docs/demo/tmp/pids/server.pid
 ```
-
-## Skipping Steps on Repeat Runs
-
-In cloud sessions, the `SessionStart` hook (`.claude/hooks/setup-demo.sh`)
-runs Steps 1–5 automatically on every session start. You only need to run
-Steps 6–8 manually to rebuild assets and start the server.
-
-If the hook has not run yet (or failed), run Steps 1–5 manually before
-proceeding.
 
 ## Troubleshooting
 
@@ -184,13 +121,14 @@ proceeding.
 stale PID from a previous run (`rm -f docs/demo/tmp/pids/server.pid`), or
 port 3000 already in use (`lsof -i :3000`).
 
-**CSS is unstyled** — Re-run Step 7. `tailwind.config.js` calls
+**CSS is unstyled** — Re-run Step 3. `tailwind.config.js` calls
 `bundle show loco_motion-rails`; if Ruby is not in scope that call fails
 silently and outputs an empty stylesheet.
 
 **JS build fails with "No matching export"** — The local loco_motion JS
-source was not picked up. Repeat Step 5 carefully and confirm the `sed`
-substitution succeeded before running `yarn install`.
+source was not picked up. Re-run the hook (`bash .claude/hooks/setup-demo.sh`)
+or repeat Step 5 of the hook manually and confirm the `sed` substitution
+succeeded before running `yarn install`.
 
 **`yarn.lock` shows as modified** — You ran `yarn install` without
 `--no-lockfile`. Revert with `git checkout -- docs/demo/yarn.lock`.

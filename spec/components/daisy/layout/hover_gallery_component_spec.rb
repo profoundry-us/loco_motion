@@ -70,4 +70,16 @@ RSpec.describe Daisy::Layout::HoverGalleryComponent, type: :component do
       expect(page).to have_selector("figure.hover-gallery#my-gallery[data-test='value']")
     end
   end
+
+  context "with block content fallback" do
+    before do
+      render_inline(described_class.new) do
+        "<img src='custom.jpg' alt='Custom'>".html_safe
+      end
+    end
+
+    it "renders the block content inside the figure" do
+      expect(page).to have_selector("figure.hover-gallery img[src='custom.jpg']")
+    end
+  end
 end
