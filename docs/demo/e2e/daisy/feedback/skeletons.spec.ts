@@ -1,16 +1,25 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { loco } from '../../spec_helpers';
 
+test.beforeEach(async ({ page }) => {
+  await page.goto('/examples/Daisy::Feedback::SkeletonComponent');
+});
+
 test('page loads', async ({ page }) => {
-  await page.goto('/');
-
-  // Click the Skeletons nav link
-  await loco.clickNavLink(page, 'Skeletons');
-
-  // Expect the title and key headings
   await loco.expectPageTitle(page, /Skeletons | LocoMotion/);
   await loco.expectPageHeadings(page, [
     'Basic Skeletons',
+    'Skeleton Text',
     'Component Skeletons'
   ]);
+});
+
+test('chat avatar skeleton does not have neutral background class', async ({ page }) => {
+  // When wrapper_css includes "skeleton", AvatarComponent suppresses the
+  // where:bg-neutral where:text-neutral-content defaults so the skeleton
+  // shimmer color shows correctly. Guard against that fix regressing.
+  const avatarWrapper = page.locator('.chat-image > div.skeleton').first();
+
+  await expect(avatarWrapper).toBeVisible();
+  await expect(avatarWrapper).not.toHaveClass(/where:bg-neutral/);
 });

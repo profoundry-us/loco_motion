@@ -76,7 +76,7 @@ RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
     end
   end
 
-  context "with hidden text" do
+  context "with hidden text using text-transparent" do
     let(:content) { "Loading..." }
     let(:skeleton) { described_class.new(css: "text-transparent") }
 
@@ -99,8 +99,31 @@ RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
     end
   end
 
+  context "with animated text using skeleton-text" do
+    let(:content) { "AI is thinking..." }
+    let(:skeleton) { described_class.new(css: "skeleton-text") }
+
+    before do
+      render_inline(skeleton) { content }
+    end
+
+    describe "rendering" do
+      it "includes skeleton-text class" do
+        expect(page).to have_selector(".skeleton.skeleton-text")
+      end
+
+      it "maintains default skeleton class" do
+        expect(page).to have_selector(".skeleton")
+      end
+
+      it "still renders the content" do
+        expect(page).to have_content(content)
+      end
+    end
+  end
+
   context "with multiple classes" do
-    let(:classes) { "w-36 h-20 rounded-lg text-transparent" }
+    let(:classes) { "w-36 h-20 rounded-lg skeleton-text" }
     let(:skeleton) { described_class.new(css: classes) }
 
     before do

@@ -23,6 +23,8 @@ releases** should be considered **breaking**!
 - feat(Join): Update call method to handle items, buttons, radios, or direct content
 - fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES` constant so `diff-item-1` / `diff-item-2` are detected as string literals by Tailwind v4's Ruby extractor ([Fixes #82](https://github.com/profoundry-us/loco_motion/issues/82))
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
+- fix(Avatar): Suppress `where:bg-neutral` default on placeholder wrapper when `skeleton` is in `wrapper_css`, preventing the neutral background from bleeding through the skeleton shimmer gradient ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
+- fix(Skeleton): Standardize text-hiding in component skeleton examples (`text-transparent` consistently); add `skeleton-text` example and docs for DaisyUI 5's animated text shimmer class ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 - feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
 - feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout` parameters
