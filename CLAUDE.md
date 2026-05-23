@@ -174,6 +174,7 @@ full step-by-step procedure, examples, and troubleshooting.
 | Open a pull request | `create-pr` |
 | Update the CHANGELOG | `update-changelog` |
 | Write or run Playwright tests | `playwright-tests` |
+| Screenshot / video a demo page | `screenshot-demo` |
 
 Skills live in `.claude/skills/{skill-name}/SKILL.md`. Shared helper
 scripts are in `.claude/skills/shared-scripts/`.
