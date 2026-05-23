@@ -122,24 +122,32 @@ issue (if one exists) and the nature of the change:
 | Documentation / demo only | `documentation` |
 | Enhancement to existing component | `enhancement` |
 | Test-only change | `test` |
+| Internal tooling / skills / chore | `documentation` |
 
 3. Never invent label names — only use labels that already exist on the
    repository. When in doubt, check existing issues and PRs for the label
    vocabulary in use.
+4. **Always apply at least one label.** If no row above matches, fall back to
+   `documentation` for internal/tooling changes or `enhancement` for anything
+   additive. Never skip labeling.
 
 ### Step 9: Open the PR
 
-Check the output of the last `git push` for a "Create a pull request" URL and
-present it as a clickable link to the user.
+Open the PR using `gh pr create` with the drafted description.
 
-If the GitHub MCP tools are available:
+After creation, **always** apply the labels determined in Step 8:
 
-1. Use `mcp__github__create_pull_request` to open the PR programmatically
-   with the drafted description.
-2. Immediately after creation, call `mcp__github__issue_write` (`method:
-   update`, `issue_number` set to the new PR number) to apply the labels
-   chosen in Step 8. The `create_pull_request` tool does not accept labels
-   directly — the follow-up `issue_write` call is always required.
+```bash
+gh pr edit {PR_NUMBER} --add-label "{label}"
+```
+
+Multiple labels can be comma-separated:
+
+```bash
+gh pr edit {PR_NUMBER} --add-label "bug,documentation"
+```
+
+Report the PR URL to the user.
 
 ## Examples
 
