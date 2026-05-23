@@ -14,8 +14,12 @@
 #   = daisy_skeleton(css: "w-36 h-20")
 #   = daisy_skeleton(css: "w-48 h-5")
 #
+# @loco_example Skeleton Text
+#   %span.skeleton.skeleton-text.text-2xl.font-bold AI is thinking...
+#   %span.skeleton.skeleton-text.text-base Loading your content...
+#
 # @loco_example Component Loading States
-#   = daisy_badge(css: "badge-lg skeleton text-slate-400") do
+#   = daisy_badge(css: "badge-lg skeleton text-transparent") do
 #     Loading...
 #
 #   = daisy_button(css: "skeleton text-transparent") do
@@ -40,8 +44,10 @@ class Daisy::Feedback::SkeletonComponent < LocoMotion::BaseComponent
   #   - Dimensions: `w-24`, `h-20`
   #   - Shapes: `rounded-full`, `rounded-lg`
   #   - Colors: `bg-base-200`
-  #   When using with other components, combine with `text-transparent` to
-  #   hide placeholder text.
+  #   - Text shimmer: `skeleton-text` (animates text with the shimmer
+  #     gradient — use alongside `skeleton` on the same element)
+  #   When using with other components, combine with `text-transparent`
+  #   to hide placeholder text.
   #
   def before_render
     add_css(:component, "skeleton")
