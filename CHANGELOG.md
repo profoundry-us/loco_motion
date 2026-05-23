@@ -24,6 +24,7 @@ releases** should be considered **breaking**!
 - fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES` constant so `diff-item-1` / `diff-item-2` are detected as string literals by Tailwind v4's Ruby extractor ([Fixes #82](https://github.com/profoundry-us/loco_motion/issues/82))
 - add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent` ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
 - feat(HoverGallery): Add new `Daisy::Layout::HoverGalleryComponent` (`daisy_hover_gallery`) with slot-based `with_image` API, `srcs:` convenience shorthand, and demo examples ([Fixes #96](https://github.com/profoundry-us/loco_motion/issues/96))
+- fix(HoverGallery): Replace non-existent `set_tag` with `set_tag_name` in `setup_component`, and move `ImageComponent` tag assignment from `initialize` to `before_render` via `set_tag_name(:component, :img)`
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 - feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
 - feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout` parameters
@@ -56,6 +57,10 @@ releases** should be considered **breaking**!
 - docs(Toast): Update documentation to warn about AlertController dependency
 - docs(Alert): Update Alert examples with improved descriptions and formatting
 - add(FAB): Add FAB demo page with simple, speed dial, flower, and custom activator examples
+- add(HoverGallery): Add Hover Galleries demo page with Basic, In a Card, and Shorthand (`srcs:`) examples
+- docs(Skills): Add `run-demo` skill for booting the demo Rails app locally without Docker, including Ruby/Node version handling, vendor symlink setup, and the `file:../..` + `--no-lockfile` yarn pattern to avoid polluting `yarn.lock`
+- docs(Skills): Add `screenshot-demo` skill for capturing full-page screenshots and videos of demo pages via Playwright, depending on `run-demo`
+- docs(Skills): Update `create-pr` skill with label-selection guidance and a follow-up `mcp__github__issue_write` step to apply labels after PR creation
 
 ### Changed
 
