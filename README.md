@@ -7,22 +7,13 @@ ViewComponent, TailwindCSS, DaisyUI and more!
 <img src="//loco-motion-docs.profoundry.us/images/loco-chats.png" width="500px" style="border: 1px solid #bbb; padding: 2px; border-radius: 10px;">
 
 <!-- omit from toc -->
-## DISCLAIMER / CURRENT STATUS
+## Current Status
 
 This project is in active development and many changes occur with every release!
 
-We've added a very basic / untested version of all DaisyUI 4 components. While
-we originally intended to take some time to flesh out and attempt to use these
-components, with the recent release of Tailwind 4 and DaisyUI 5, we feel our
-time is best spent updating all of the components and dependencies for these
-new releases.
-
-This means that we will **NOT** be making any bug fixes to the current branch
-(0.4.0), and will instead include any bug fixes / improvements into the 0.5.0
-branch which will also upgrade to Tailwind 4 and DaisyUI 5.
-
- - Current Release **(0.4.0)** - Works with DaisyUI 4 and Tailwind 3
- - Next Release **(0.5.0)** - Will work with DaisyUI 5 and Tailwind 4
+As of **v0.5.x**, LocoMotion ships with **Tailwind 4** and **DaisyUI 5**. The
+install approach has changed from previous versions — please follow the updated
+instructions below.
 
 <!-- omit from toc -->
 ## Additional Notes
@@ -30,11 +21,9 @@ branch which will also upgrade to Tailwind 4 and DaisyUI 5.
 ### DataInput Components
 
 Many of the DataInput elements (file input, text input, select dropdown, etc)
-were built rather hastily so that we would have a base version to start from.
-
-However, the new DaisyUI 5 components are implemented in a much cleaner way and
-we didn't want to invest too much time building these out and making them more
-ideal since we're about to change them.
+were built as a base version to start from. DaisyUI 5 redesigned these
+components significantly, so they are being incrementally improved as we use
+them in real projects.
 
 ### Hosting / Sites
 
@@ -342,25 +331,34 @@ scratch, we recommend that you stick with Tailwind by itself.
 However, if you're working on a project and want a good starting point for UI
 components, you might checkout DaisyUI or a simliar Tailwind-based UI library.
 
-DaisyUI is a plugin for Tailwind, so installing it is dead simple. Just open up
-an app shell by running `just app-shell` in the terminal and run the following
-command:
+With Tailwind 4, DaisyUI is configured directly in your CSS file rather than
+in `tailwind.config.js`. Open an app shell with `just app-shell` and install
+the packages:
 
 ```shell
-yarn add daisyui@latest --dev
+yarn add tailwindcss @tailwindcss/cli daisyui
 ```
 
-Next, edit your `tailwind.config.js` file to add it as a plugin:
+Then open your `application.tailwind.css` (or `application.css`) and add the
+`@import` and `@plugin` directives:
+
+```css
+/* Import the base Tailwind theme */
+@import 'tailwindcss';
+
+/* Include DaisyUI via @plugin directive */
+@plugin 'daisyui' {
+  themes: light --default, dark --prefersdark;
+}
+
+/* Point to tailwind.config.js for content scan paths only */
+@config "../tailwind.config.js";
+```
 
 > [!IMPORTANT]
-> Make sure to add a `,` to the previous line if you put it at the bottom.
-
-```js
-module.exports = {
-  //...
-  plugins: [require("daisyui")],
-}
-```
+> Tailwind 4 moves all plugin configuration into the CSS file. Do **not** add
+> DaisyUI to `tailwind.config.js` — that file is now only used to declare
+> content scan paths (see the LocoMotion Install section below).
 
 > [!IMPORTANT]
 > Moving forward, this guide will assume you have installed DaisyUI, so some of
@@ -743,46 +741,41 @@ In addition to the recommendations / suggestions above, LocoMotion also provides
 a full set of UI components to help you build robust and full-featured apps.
 
 > [!CAUTION]
-> The LocoMotion components are being actively developed and are NOT ready for
-> production / public use! We have finished basic versions of the DaisyUI
-> Actions, DataDisplay, Navigation, and Feedback components, but we expect these
-> to change (possibly quite a bit) as we begin to use them in projects.
+> LocoMotion is in active development. Components are functional but APIs may
+> change between minor releases. Pin to a specific version in production.
 
 ### Install
 
 Add the following to your `Gemfile` and re-run `bundle`:
 
-```Gemfile
+```ruby
 # Gemfile
 
-gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
-
-# or
-
-gem "loco_motion-rails", "0.4.0", require: "loco_motion"
+gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
 ```
 
-Next add the following lines to the `contents` section of your
-`tailwind.config.js` to import / build the proper files:
+Next, create or update your `tailwind.config.js` to tell Tailwind where to
+scan for component class names. In Tailwind 4, this file handles **only**
+content paths — plugins belong in your CSS file (see above).
 
 ```js
-  const { execSync } = require('child_process');
+const { execSync } = require('child_process');
+let locoBundlePath =
+  execSync('bundle show loco_motion-rails').toString().trim();
 
-  let locoBundlePath = execSync('bundle show loco_motion').toString().trim();
-
-  module.exports = {
-    content:[
-      `${locoBundlePath}/app/components/**/*.{rb,js,html.haml}`,
-
-      // ...
-    ]
-  }
+module.exports = {
+  content: [
+    `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
+    'app/components/**/*.{rb,js,html,haml}',
+    'app/views/**/*.{rb,js,html,haml}',
+  ]
+}
 ```
 
 > [!WARNING]
-> Note that this will not output anything if it fails to find the right
-> directory, so your CSS may not compile properly if this command fails or finds
-> the wrong gem or an older gem.
+> Note that `bundle show loco_motion-rails` will output nothing if the gem
+> is not installed or the name is wrong, causing Tailwind to skip all
+> component classes. Make sure the gem name matches exactly.
 
 Next, if you're using any of the components that require JavaScript (like the
 Countdown component), you'll need to add the library as a dependency and include
