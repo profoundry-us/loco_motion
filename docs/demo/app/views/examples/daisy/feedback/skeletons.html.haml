@@ -21,15 +21,33 @@
       = daisy_skeleton(css: "#{width} h-5")
 
 
+= doc_example(title: "Skeleton Text") do |doc|
+  - doc.with_description do
+    :markdown
+      Use `skeleton-text` alongside `skeleton` to animate placeholder text
+      with the same shimmer gradient. This is useful for text-only loading
+      states such as AI-generated content or dynamic labels.
+
+  .flex.flex-col.gap-4.w-72
+    %span.skeleton.skeleton-text.text-2xl.font-bold AI is thinking...
+    %span.skeleton.skeleton-text.text-base Loading your content...
+    %span.skeleton.skeleton-text.text-sm.w-48 Fetching results...
+
+
 = doc_example(title: "Component Skeletons") do |doc|
   - doc.with_description do
     :markdown
       You can also use skeletons to show placeholders for components by adding
       the `skeleton` class to many existing components.
 
+      When applying a skeleton to a placeholder avatar (one with no `src` or
+      `icon`), pass `wrapper_css: "skeleton"` — the avatar component detects
+      the `skeleton` class and automatically suppresses its default
+      `bg-neutral` so the skeleton shimmer color shows correctly.
+
   .flex.flex-col.gap-8
     .flex.items-center.gap-8
-      = daisy_badge(css: "badge-lg skeleton text-base-content/50") do
+      = daisy_badge(css: "badge-lg skeleton text-transparent") do
         Loading...
 
       .w-12.md:w-48

@@ -8,6 +8,14 @@
 # It utilizes the CSS `where()` pseudo-class to reduce the specificity to 0 to
 # allow for easy overriding while giving you some sane defaults.
 #
+# @note When using a placeholder avatar (no `src` or `icon`), the wrapper
+#   defaults to `where:bg-neutral where:text-neutral-content` so the
+#   placeholder text is readable. These defaults are suppressed whenever
+#   `skeleton` appears in `wrapper_css`, allowing the skeleton shimmer to
+#   render correctly without the neutral background bleeding through.
+#   Use `wrapper_css: "skeleton"` to display a properly colored skeleton
+#   avatar.
+#
 # @part wrapper The outer container that maintains the avatar's shape and size.
 # @part img The image element when an image source is provided.
 # @part icon The icon element when an icon is specified.
@@ -83,7 +91,12 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
       add_html(:img, { src: @src, title: @content })
     else
       add_css(:component, "avatar-placeholder")
-      add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
+
+      # Suppress neutral defaults when skeleton is present — where:bg-neutral
+      # bleeds through skeleton's transparent gradient due to CSS layer order.
+      unless config_option(:wrapper_css).to_s.match?(/\bskeleton/)
+        add_css(:wrapper, "where:bg-neutral where:text-neutral-content")
+      end
     end
 
     # Concern setup is handled by BaseComponent hook via super in before_render
