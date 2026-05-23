@@ -1,8 +1,9 @@
 ---
 name: run-demo
-description: Boots the LocoMotion demo Rails app locally without Docker,
-  building all assets and starting the server on port 3000. Use when the user
-  says "run the app", "start the demo", "boot the server", or as a prerequisite
+description: Boots the LocoMotion demo Rails app, serving it on port 3000.
+  Uses Docker locally (via `just demo`) and a no-Docker rbenv/node fallback
+  in cloud sessions where Docker is unavailable. Use when the user says
+  "run the app", "start the demo", "boot the server", or as a prerequisite
   before taking screenshots or videos.
 metadata:
   author: profoundry-us
@@ -11,67 +12,107 @@ metadata:
 
 # Run Demo
 
-Boots the LocoMotion demo Rails app using local Ruby (no Docker required),
-serving it on `http://127.0.0.1:3000`. This is a prerequisite for the
-`screenshot-demo` skill.
+Boots the LocoMotion demo Rails app, serving it on `http://127.0.0.1:3000`.
+This is a prerequisite for the `screenshot-demo` skill.
 
-## Environment Notes
+Two execution paths exist depending on environment:
 
-- **Ruby**: The demo requires the exact version in `docs/demo/Gemfile`
-  (currently `3.4.4`). Install it via rbenv if missing.
-- **Node**: The demo's `package.json` `engines` field requires Node `~20`.
-  Use `/opt/node20/bin` — not Node 21 or 22 which are also present.
-- **yarn**: Use the `yarn` binary from `/opt/node22/bin/yarn` but always
-  set `PATH="/opt/node20/bin:$PATH"` so esbuild and Tailwind pick up the
-  correct Node runtime.
+- **Local development (default)** — use Docker via the `justfile`. Docker
+  is installed locally; this matches the canonical dev workflow.
+- **Cloud sessions** — Docker is **not** available. Use the rbenv + Node
+  fallback documented below; setup is handled by the `SessionStart` hook.
 
-All commands run from `docs/demo/` unless stated otherwise.
+Detect which environment you are in via `CLAUDE_CODE_REMOTE`: if set to
+`true`, you are in a cloud session; otherwise you are local.
 
-## Instructions
+---
 
-### Step 1: Run the setup hook (cloud sessions only)
+## Path A — Local (Docker, preferred)
 
-In cloud sessions the `SessionStart` hook
-(`.claude/hooks/setup-demo.sh`) runs automatically on every session start.
-It handles Ruby installation, the vendor symlink, `bundle install`,
-`db:prepare`, and JS dependency installation. Check whether it already ran:
+All commands run from the repo root. Always use `just`, never raw
+`docker compose`.
+
+### Boot the demo container
 
 ```bash
-# Hook success leaves this message in the session startup log:
-# ==> [setup-demo] Setup complete. Start the demo server with the run-demo skill.
+just demo          # build + run the demo container (foreground)
+just demo-quick    # run without rebuilding
 ```
 
-If the hook has not run yet (or failed), run it manually:
+The first run builds the image (slow); subsequent runs reuse it. The demo
+is served at `http://127.0.0.1:3000` once Rails reports `Listening on`.
+
+### Restart after library changes
+
+Only required when files inside `lib/loco_motion/` change. Component or
+demo edits are picked up automatically.
+
+```bash
+just demo-restart
+```
+
+### Stop the demo
+
+```bash
+just down          # stop all containers
+```
+
+### Other useful targets
+
+```bash
+just demo-shell      # open a bash shell inside the demo container
+just demo-console    # open a Rails console
+just demo-test       # run the demo RSpec suite
+```
+
+If `just demo` fails, check Docker is running (`docker ps`) and that no
+other process is holding port 3000 (`lsof -i :3000`).
+
+---
+
+## Path B — Cloud Sessions (no Docker)
+
+In cloud sessions Docker is unavailable, so the demo runs directly against
+the host's Ruby and Node. The `SessionStart` hook
+(`.claude/hooks/setup-demo.sh`) handles all heavy setup automatically on
+every session start: rbenv install, vendor symlink, `bundle install`,
+`db:prepare`, and JS dependency installation.
+
+### Environment Notes (cloud only)
+
+- **Ruby**: required version from `docs/demo/Gemfile` (currently `3.4.4`),
+  installed via rbenv.
+- **Node**: the demo's `package.json` `engines` requires Node `~20`. Use
+  `/opt/node20/bin` — not Node 21 or 22 which are also present.
+- **yarn**: use `/opt/node22/bin/yarn` with `PATH="/opt/node20/bin:$PATH"`
+  so esbuild and Tailwind pick up the correct Node runtime.
+
+### Step 1: Verify the setup hook ran
+
+Check the session startup log for:
+
+```
+==> [setup-demo] Setup complete. Start the demo server with the run-demo skill.
+```
+
+If the hook did not run (or failed), trigger it manually:
 
 ```bash
 bash .claude/hooks/setup-demo.sh
 ```
 
-If you are **not** in a cloud session (i.e. running locally), perform Steps
-1–5 from the manual instructions in `SKILL.md` history, or consult the
-hook script itself — it documents every step inline.
-
 ### Step 2: Build JavaScript
 
 ```bash
-PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn --cwd docs/demo build
+cd docs/demo && PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn build
 ```
 
 Expected: two `.js` bundles written to `docs/demo/app/assets/builds/`.
 
 ### Step 3: Build CSS
 
-The Tailwind config calls `bundle show loco_motion-rails`, so the correct
-Ruby version must be in scope:
-
-```bash
-RBENV_VERSION=3.4.4 rbenv exec bundle exec \
-  node docs/demo/node_modules/.bin/tailwindcss \
-  -i ./app/assets/stylesheets/application.tailwind.css \
-  -o ./app/assets/builds/application.css
-```
-
-Run this command from inside `docs/demo/`:
+The Tailwind config calls `bundle show loco_motion-rails`, so Ruby must be
+in scope:
 
 ```bash
 cd docs/demo && \
@@ -115,20 +156,27 @@ kill $(cat /tmp/rails-demo.pid) 2>/dev/null
 rm -f /tmp/rails-demo.pid docs/demo/tmp/pids/server.pid
 ```
 
+---
+
 ## Troubleshooting
 
-**Server exits immediately** — Check `/tmp/rails-demo.log`. Common causes:
-stale PID from a previous run (`rm -f docs/demo/tmp/pids/server.pid`), or
-port 3000 already in use (`lsof -i :3000`).
+**Local: `just demo` exits immediately** — Run `docker compose logs demo`.
+Common causes: image build failed, port 3000 held by another process
+(`lsof -i :3000`), or stale containers (`just down` then retry).
 
-**CSS is unstyled** — Re-run Step 3. `tailwind.config.js` calls
+**Cloud: Server exits immediately** — Check `/tmp/rails-demo.log`. Common
+causes: stale PID from a previous run
+(`rm -f docs/demo/tmp/pids/server.pid`), or port 3000 already in use
+(`lsof -i :3000`).
+
+**Cloud: CSS is unstyled** — Re-run Step 3. `tailwind.config.js` calls
 `bundle show loco_motion-rails`; if Ruby is not in scope that call fails
 silently and outputs an empty stylesheet.
 
-**JS build fails with "No matching export"** — The local loco_motion JS
-source was not picked up. Re-run the hook (`bash .claude/hooks/setup-demo.sh`)
-or repeat Step 5 of the hook manually and confirm the `sed` substitution
-succeeded before running `yarn install`.
+**Cloud: JS build fails with "No matching export"** — The local
+loco_motion JS source was not picked up. Re-run the hook
+(`bash .claude/hooks/setup-demo.sh`) and confirm the `sed` substitution
+on `package.json` succeeded before `yarn install` ran.
 
-**`yarn.lock` shows as modified** — You ran `yarn install` without
+**Cloud: `yarn.lock` shows as modified** — You ran `yarn install` without
 `--no-lockfile`. Revert with `git checkout -- docs/demo/yarn.lock`.
