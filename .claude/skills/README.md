@@ -12,7 +12,8 @@ Claude Skills for building LocoMotion DaisyUI ViewComponents consistently.
 | `run-tests` | Run the RSpec suite (loco or demo) |
 | `commit-and-push` | Stage, commit, and push changes |
 | `create-plan` | Generate an implementation plan |
-| `start-issue` | Read a GitHub issue and set up a branch |
+| `create-issue` | Investigate a problem and post a GitHub issue |
+| `start-issue` | Read an existing issue, propose a branch, and optionally plan |
 | `create-pr` | Draft a PR description and open the PR |
 | `update-changelog` | Add entries to CHANGELOG.md |
 | `playwright-tests` | Write and run Playwright e2e tests |
