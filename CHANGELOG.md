@@ -13,6 +13,12 @@ releases** should be considered **breaking**!
 
 ## [Unreleased]
 
+### General Changes
+
+- chore(Skills): Split `start-issue` into two focused skills: `create-issue`
+  (investigate → draft → post a GitHub issue) and `start-issue` (read an
+  existing issue, propose a branch, optionally plan)
+
 ### Components Changes
 
 - feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
