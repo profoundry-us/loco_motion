@@ -1,0 +1,60 @@
+= doc_title(title: "Hover Galleries", comp: @comp) do |title|
+  :markdown
+    The Hover Gallery component displays a container of images where the first
+    image is visible by default. Hovering horizontally over the gallery reveals
+    the other images. DaisyUI supports up to 10 images.
+
+    Common use cases include product cards on e-commerce sites, portfolios,
+    and image galleries.
+
+
+= doc_example(title: "Basic Hover Gallery") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass images via the `with_image` slot. Hover left and right over the
+      gallery to reveal each image.
+
+  = daisy_hover_gallery(css: "max-w-60") do |gallery|
+    - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
+    - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
+    - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
+
+
+= doc_example(title: "Hover Gallery in a Card") do |doc|
+  - doc.with_description do
+    :markdown
+      Combine `daisy_hover_gallery` with `daisy_card` by placing it inside
+      `card.with_top_figure`. This replicates the DaisyUI "Hover Gallery in a
+      card" demo.
+
+  = daisy_card(css: "card-sm bg-base-200 max-w-60 shadow") do |card|
+    - card.with_top_figure do
+      = daisy_hover_gallery do |gallery|
+        - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
+        - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
+        - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
+    - card.with_title { "Gallery Card" }
+    %p A card with a hover gallery as the figure.
+
+
+= doc_example(title: "Hover Gallery with Shorthand") do |doc|
+  - doc.with_description do
+    :markdown
+      Use the `srcs:` convenience parameter to pass an array of image URLs
+      without a block. Useful for quick, uniform galleries.
+
+  - srcs = %w[beach desert forest].map { |s| image_path("landscapes/#{s}.jpg") }
+  = daisy_hover_gallery(srcs: srcs, css: "max-w-60")
+
+
+= doc_example(title: "Hover Gallery with Custom Content") do |doc|
+  - doc.with_description do
+    :markdown
+      When neither `with_image` slots nor `srcs:` are provided, any block
+      content is rendered inside the figure. This allows full control over
+      the inner markup.
+
+  = daisy_hover_gallery(css: "max-w-60") do
+    %img{ src: image_path("landscapes/beach.jpg"), alt: "Beach", class: "hover:opacity-100" }
+    %img{ src: image_path("landscapes/desert.jpg"), alt: "Desert" }
+    %img{ src: image_path("landscapes/forest.jpg"), alt: "Forest" }

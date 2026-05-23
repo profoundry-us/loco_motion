@@ -105,31 +105,72 @@ git commit -m 'docs: Update CHANGELOG'
 git push -u origin {branch-name}
 ```
 
-### Step 8: Open the PR
+### Step 8: Determine the correct labels
+
+Before opening the PR, identify the right labels by checking the source
+issue (if one exists) and the nature of the change:
+
+1. If the branch has an issue number, read that issue's labels with
+   `mcp__github__issue_read` (`method: get_labels`) and carry any
+   applicable labels over to the PR.
+2. Apply labels based on the change type:
+
+| Change type | Label(s) |
+|-------------|----------|
+| New component | `new component` |
+| Bug fix | `bug` |
+| Documentation / demo only | `documentation` |
+| Enhancement to existing component | `enhancement` |
+| Test-only change | `test` |
+
+3. Never invent label names — only use labels that already exist on the
+   repository. When in doubt, check existing issues and PRs for the label
+   vocabulary in use.
+
+### Step 9: Open the PR
 
 Check the output of the last `git push` for a "Create a pull request" URL and
 present it as a clickable link to the user.
 
-If the GitHub MCP tools are available, use `mcp__github__create_pull_request`
-to open the PR programmatically with the drafted description.
+If the GitHub MCP tools are available:
+
+1. Use `mcp__github__create_pull_request` to open the PR programmatically
+   with the drafted description.
+2. Immediately after creation, call `mcp__github__issue_write` (`method:
+   update`, `issue_number` set to the new PR number) to apply the labels
+   chosen in Step 8. The `create_pull_request` tool does not accept labels
+   directly — the follow-up `issue_write` call is always required.
 
 ## Examples
 
-**Example 1 — feature PR with issue**
+**Example 1 — new component PR with issue**
 
 Branch: `feat-45-add-badge-icon`
 
+- Issue labels: `new component` → carry over to PR
 - Issue: `Fixes #45`
-- Type: `[x] New feature`
+- Type: `[x] Component update/addition`
 - CHANGELOG section: Component Changes
+- Labels to apply: `new component`
 
-**Example 2 — documentation PR without issue**
+**Example 2 — bug fix PR with issue**
+
+Branch: `bug-102-fix-modal-close`
+
+- Issue labels: `bug` → carry over to PR
+- Issue: `Fixes #102`
+- Type: `[x] Bug fix`
+- CHANGELOG section: Component Changes
+- Labels to apply: `bug`
+
+**Example 3 — documentation PR without issue**
 
 Branch: `docs-update-card-docs`
 
 - No issue reference
 - Type: `[x] Documentation update`
 - CHANGELOG section: Demo / Docs Changes
+- Labels to apply: `documentation`
 
 ## Troubleshooting
 
