@@ -171,9 +171,12 @@ rm -f /tmp/rails-demo.pid docs/demo/tmp/pids/server.pid
 
 ## Skipping Steps on Repeat Runs
 
-Steps 1–5 are **one-time setup**. On subsequent runs (e.g. after editing a
-component), only Steps 6–8 are needed to rebuild assets and restart the
-server.
+In cloud sessions, the `SessionStart` hook (`.claude/hooks/setup-demo.sh`)
+runs Steps 1–5 automatically on every session start. You only need to run
+Steps 6–8 manually to rebuild assets and start the server.
+
+If the hook has not run yet (or failed), run Steps 1–5 manually before
+proceeding.
 
 ## Troubleshooting
 
