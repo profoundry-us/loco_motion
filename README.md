@@ -351,6 +351,12 @@ Then open your `application.tailwind.css` (or `application.css`) and add the
   themes: light --default, dark --prefersdark;
 }
 
+/* Custom variant to reduce selector specificity for component defaults */
+@custom-variant where (:where(&));
+
+/* Custom dark: variant for System-based & DaisyUI ThemeController dark mode */
+@custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+
 /* Point to tailwind.config.js for content scan paths only */
 @config "../tailwind.config.js";
 ```
