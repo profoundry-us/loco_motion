@@ -21,7 +21,7 @@
   = doc_code(language: "ruby") do
     :plain
       # Gemfile
-      gem "loco_motion-rails", "~> 0.5.0", require: "loco_motion"
+      gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
 
   :markdown
     Or if you want the latest and greatest:
@@ -88,11 +88,42 @@
   :markdown
     ## 3. TailwindCSS Installation
 
-    And finally, all of the components are built on top of TailwindCSS, so we
-    need to notify Tailwind of where to look for our components so that it can
-    properly setup and tree-shake all of our code into a minimal package.
+    LocoMotion uses Tailwind 4, which configures plugins directly in your CSS
+    file rather than in `tailwind.config.js`.
 
-    Add the following to your `tailwind.config.js` file.
+    ### 3a. CSS Setup
+
+    Add the following to your `application.tailwind.css` (or equivalent):
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "css") do
+    :plain
+      /* application.tailwind.css */
+
+      /* Import the base Tailwind theme */
+      @import 'tailwindcss';
+
+      /* Include DaisyUI via @plugin directive */
+      @plugin 'daisyui' {
+        themes: light --default, dark --prefersdark;
+      }
+
+      /* Custom variant to reduce selector specificity for component defaults */
+      @custom-variant where (:where(&));
+
+      /* Custom dark: variant for System-based & DaisyUI ThemeController dark mode */
+      @custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+
+      /* Point to tailwind.config.js for content scan paths */
+      @config "../tailwind.config.js";
+
+.mt-4.prose
+  :markdown
+    ### 3b. Content Path Setup
+
+    Next, create or update your `tailwind.config.js` to tell Tailwind where to
+    scan for class names. In Tailwind 4 this file handles **only** content
+    paths — plugins belong in your CSS file (see above).
 
 .max-w-prose
   = doc_code(css: "my-4", language: "javascript") do
@@ -103,8 +134,6 @@
       // Get the path to the loco_motion gem
       let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
 
-      console.log(" *** Importing LocoMotion gem Components into Tailwind: ", locoBundlePath);
-
       module.exports = {
         content: [
           `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
@@ -112,10 +141,6 @@
           'app/views/**/*.{rb,js,html,haml}',
         ]
       }
-
-  = doc_note(css: "mt-6") do
-    :markdown
-      You can remove the `console.log` once everything is working.
 
 .mt-4.prose
   :markdown
@@ -131,8 +156,6 @@
 
       // Get the path to the loco_motion gem
       let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
-
-      console.log(" *** Importing LocoMotion gem Components into Tailwind: ", locoBundlePath);
 
       module.exports = {
         content: [
