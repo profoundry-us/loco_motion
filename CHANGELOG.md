@@ -40,6 +40,9 @@ releases** should be considered **breaking**!
 
 ### General Changes
 
+- chore(Skills): Split `start-issue` into two focused skills: `create-issue`
+  (investigate → draft → post a GitHub issue) and `start-issue` (read an
+  existing issue, propose a branch, optionally plan)
 - feat(BaseComponent): Improve `build` method to merge build_kws into config before initialize for proper precedence
 - feat(BaseComponent): Update instance variables for build_kws keys after initialize to ensure options like `skip_styling` are available during `setup_component`
 - feat(RadioButton): Move rendering from call method to HAML template to match CheckboxComponent pattern

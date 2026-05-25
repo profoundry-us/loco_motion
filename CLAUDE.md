@@ -170,7 +170,8 @@ full step-by-step procedure, examples, and troubleshooting.
 | Stage, commit, and push | `commit-and-push` |
 | Write a pre-commit code review | `code-check` |
 | Create an implementation plan | `create-plan` |
-| Start work on a GitHub issue | `start-issue` |
+| Investigate and file a GitHub issue | `create-issue` |
+| Start work on an existing GitHub issue | `start-issue` |
 | Open a pull request | `create-pr` |
 | Update the CHANGELOG | `update-changelog` |
 | Write or run Playwright tests | `playwright-tests` |
