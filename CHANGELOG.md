@@ -49,6 +49,7 @@ releases** should be considered **breaking**!
 
 ### Demo / Docs Changes
 
+- add(Docs): Add missing page titles to Install, LLMs, Docker, HAML, and Debugging pages
 - feat(Join): Update join examples to use `with_button` slot instead of `with_item` for buttons
 - feat(Join): Add expansive direct content example with input, select, and indicator components
 - feat(RadioButton): Add radio buttons with labels examples to demo
