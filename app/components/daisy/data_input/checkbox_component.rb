@@ -44,6 +44,7 @@
 #
 class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
+  include LocoMotion::Concerns::AriableComponent
 
   attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
 

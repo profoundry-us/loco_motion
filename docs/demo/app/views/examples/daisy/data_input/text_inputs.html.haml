@@ -193,3 +193,28 @@
 
       = form.daisy_label(:password, css: "mt-4")
       = form.daisy_text_input(:password, type: "password")
+
+
+= doc_example(title: "Accessibility & ARIA Attributes") do |doc|
+  - doc.with_description do
+    :markdown
+      Every component accepts an `aria:` shorthand so you don't have to nest
+      attributes inside `html:` or hand-dasherize keys. Each key becomes an
+      `aria-*` attribute, so `aria: { describedby: "pw-help" }` renders
+      `aria-describedby="pw-help"`. A matching `data:` shorthand works the
+      same way for `data-*` attributes.
+
+    = doc_note(modifier: :tip, css: "mb-8") do
+      :markdown
+        Input components automatically add `aria-required="true"` when you pass
+        `required: true`, so you only need to set ARIA attributes that can't be
+        derived (like `aria-describedby` or `aria-label` on an unlabeled
+        input).
+
+  .flex.flex-col.gap-2
+    = daisy_label(for: "aria_password", title: "Password")
+    = daisy_text_input(name: "aria_password", id: "aria_password",
+      type: "password", required: true,
+      aria: { describedby: "aria_password_help" })
+    %span#aria_password_help.text-sm.opacity-70
+      Must be at least 12 characters.

@@ -69,9 +69,7 @@ module Daisy
           add_html(:component, { id: @id })
 
           # Add aria-label if specified
-          if @label.present?
-            add_html(:component, { "aria-label": @label })
-          end
+          add_aria(:component, label: @label) if @label.present?
         end
       end
 

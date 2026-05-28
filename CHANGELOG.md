@@ -15,6 +15,7 @@ releases** should be considered **breaking**!
 
 ### Components Changes
 
+- feat(DataInput): Add `AriableComponent` concern to Checkbox, Toggle, RadioButton, TextInput, TextArea, Select, Range, and FileInput that automatically sets `aria-required="true"` when `required: true` is passed (unless the user provides `aria-required` explicitly)
 - feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
 - feat(Checkbox): Add label examples for start/end labels and custom content blocks
 - feat(Join): Add automatic `join-item` CSS class injection for items slot using `BasicComponent.build(css: "join-item")`
@@ -43,6 +44,8 @@ releases** should be considered **breaking**!
 - chore(Skills): Split `start-issue` into two focused skills: `create-issue`
   (investigate → draft → post a GitHub issue) and `start-issue` (read an
   existing issue, propose a branch, optionally plan)
+- feat(BaseComponent): Add universal `aria:` / `data:` shorthands (and per-part `{part}_aria` / `{part}_data`) that deep-merge into a part's HTML, so `aria: { label: "Save" }` renders `aria-label="Save"` without nesting inside `html:`
+- feat(ComponentConfig): Add `add_aria` / `add_data` author helpers (delegated from `BaseComponent`) for setting default `aria-*` / `data-*` attributes on a part
 - feat(BaseComponent): Improve `build` method to merge build_kws into config before initialize for proper precedence
 - feat(BaseComponent): Update instance variables for build_kws keys after initialize to ensure options like `skip_styling` are available during `setup_component`
 - feat(RadioButton): Move rendering from call method to HAML template to match CheckboxComponent pattern

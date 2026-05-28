@@ -41,6 +41,7 @@
 #
 class Daisy::DataInput::SelectComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
+  include LocoMotion::Concerns::AriableComponent
 
   class SelectOptionComponent < LocoMotion::BasicComponent
     attr_reader :value, :label, :selected, :disabled

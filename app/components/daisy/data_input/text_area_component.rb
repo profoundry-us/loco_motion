@@ -41,6 +41,8 @@
 #   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
 #
 class Daisy::DataInput::TextAreaComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::AriableComponent
+
   attr_reader :name, :id, :value, :placeholder, :rows, :cols, :disabled, :required, :readonly
 
   #
@@ -87,6 +89,8 @@ class Daisy::DataInput::TextAreaComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
     setup_component
   end
 

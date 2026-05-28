@@ -122,13 +122,13 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
       input_attrs = {
         loco_parent: component_ref,
         css: ["where:mask where:mask-star", @inputs_css].compact.join(" "),
+        aria: { label: "#{rating} star" },
         html: {
           name: @name,
           value: rating,
           checked: @value == rating,
           required: @required && rating == 1,
           disabled: @disabled,
-          "aria-label": "#{rating} star",
           **@inputs_html
         }
       }

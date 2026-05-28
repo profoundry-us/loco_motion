@@ -59,6 +59,7 @@
 #
 class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
+  include LocoMotion::Concerns::AriableComponent
 
   attr_reader :name, :id, :value, :type, :disabled, :required, :readonly
 

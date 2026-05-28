@@ -16,6 +16,8 @@
 #   = daisy_range(name: "error_range", id: "error_range", css: "range-error")
 #
 class Daisy::DataInput::RangeComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::AriableComponent
+
   attr_reader :name, :id, :min, :max, :step, :value, :disabled, :required
 
   #
@@ -58,6 +60,8 @@ class Daisy::DataInput::RangeComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
     setup_component
   end
 

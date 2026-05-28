@@ -150,6 +150,7 @@ class Daisy::Layout::DrawerComponent < LocoMotion::BaseComponent
   def setup_overlay
     set_tag_name(:overlay, :label)
     add_css(:overlay, "drawer-overlay")
-    add_html(:overlay, { for: @id, "aria-label": "close sidebar" })
+    add_html(:overlay, { for: @id })
+    add_aria(:overlay, label: "close sidebar")
   end
 end

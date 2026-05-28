@@ -27,6 +27,14 @@ class LocoMotion::ComponentConfig
         user_tag_name: @options["#{part}_tag_name".to_sym],
         user_stimulus_controllers: @options["#{part}_controllers".to_sym] || [],
       }
+
+      # Allow users to pass `{part}_aria` / `{part}_data` as a shorthand for
+      # nesting `aria:` / `data:` hashes inside `{part}_html`.
+      part_aria = @options["#{part}_aria".to_sym]
+      part_data = @options["#{part}_data".to_sym]
+
+      @parts[part][:user_html] = @parts[part][:user_html].deep_merge(aria: part_aria) if part_aria
+      @parts[part][:user_html] = @parts[part][:user_html].deep_merge(data: part_data) if part_data
     end
 
     # Allow useres to pass some shortened attributes for the component part
@@ -40,6 +48,8 @@ class LocoMotion::ComponentConfig
     @parts[:component][:user_tag_name] = kws[:tag_name] if kws[:tag_name]
     @parts[:component][:user_css].push(kws[:css]) if kws[:css]
     @parts[:component][:user_html].deep_merge!(kws[:html]) if kws[:html]
+    @parts[:component][:user_html].deep_merge!(aria: kws[:aria]) if kws[:aria]
+    @parts[:component][:user_html].deep_merge!(data: kws[:data]) if kws[:data]
     @parts[:component][:user_stimulus_controllers].push(kws[:controller]) if kws[:controller]
     @parts[:component][:user_stimulus_controllers].push(kws[:controllers]) if kws[:controllers]
   end
@@ -56,6 +66,8 @@ class LocoMotion::ComponentConfig
       set_tag_name(part, kws["#{part}_tag_name".to_sym])
       add_css(part, kws["#{part}_css".to_sym])
       add_html(part, kws["#{part}_html".to_sym])
+      add_aria(part, kws["#{part}_aria".to_sym])
+      add_data(part, kws["#{part}_data".to_sym])
 
       controllers = kws["#{part}_controllers".to_sym] || []
 
@@ -95,6 +107,26 @@ class LocoMotion::ComponentConfig
   #
   def add_html(part_name, html)
     @parts[part_name][:default_html] = @parts[part_name][:default_html].deep_merge(html) if html
+  end
+
+  #
+  # Adds default `aria-*` attributes to the requested component part. This is a
+  # convenience wrapper around {add_html} that nests the given hash under the
+  # `aria:` key, so `add_aria(:component, label: "Save")` renders
+  # `aria-label="Save"`.
+  #
+  def add_aria(part_name, aria)
+    add_html(part_name, { aria: aria }) if aria
+  end
+
+  #
+  # Adds default `data-*` attributes to the requested component part. This is a
+  # convenience wrapper around {add_html} that nests the given hash under the
+  # `data:` key, so `add_data(:component, foo: "bar")` renders
+  # `data-foo="bar"`.
+  #
+  def add_data(part_name, data)
+    add_html(part_name, { data: data }) if data
   end
 
   #

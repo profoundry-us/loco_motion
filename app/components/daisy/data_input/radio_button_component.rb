@@ -42,6 +42,7 @@
 #
 class Daisy::DataInput::RadioButtonComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::LabelableComponent
+  include LocoMotion::Concerns::AriableComponent
 
   set_component_name :radio
 
