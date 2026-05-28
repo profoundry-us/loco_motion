@@ -137,7 +137,8 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
       set_tag_name(:component, :a)
       add_css(:component, "tab")
       add_css(:component, "tab-active") if @active || @checked
-      add_html(:component, { role: "tab", href: @href, target: @target, "aria-label": @simple_title })
+      add_html(:component, { role: "tab", href: @href, target: @target })
+      add_aria(:component, label: @simple_title)
       add_html(:component, { disabled: @disabled }) if @disabled
     end
 
@@ -147,11 +148,11 @@ class Daisy::Navigation::TabsComponent < LocoMotion::BaseComponent
       add_html(:component, {
         type: "radio",
         role: "tab",
-        "aria-label": @simple_title,
         name: @name,
         value: @value,
         checked: @active || @checked
       })
+      add_aria(:component, label: @simple_title)
       add_html(:component, { disabled: @disabled }) if @disabled
     end
 

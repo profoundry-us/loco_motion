@@ -24,11 +24,35 @@ class LocoMotion::BaseComponent < ViewComponent::Base
   #
   # Allow users to alter the config through the component itself
   #
-  delegate :set_tag_name, :add_css, :add_html, :add_stimulus_controller, :modifiers,
+  delegate :set_tag_name, :add_css, :add_html, :add_aria, :add_data,
+    :add_stimulus_controller, :modifiers,
     to: :config
 
   #
   # Create a new instance of a component.
+  #
+  # All components accept the following universal options for customizing the
+  # rendered HTML. Each is also available in a part-specific form by prefixing
+  # it with the part name (e.g. `title_css`, `overlay_html`, `wrapper_aria`).
+  #
+  # @option kws [String] :css Extra CSS classes for the component's main
+  #   element.
+  #
+  # @option kws [Hash] :html Extra HTML attributes for the component's main
+  #   element. Supports nested `aria:` / `data:` hashes, so
+  #   `html: { aria: { label: "Save" } }` renders `aria-label="Save"`.
+  #
+  # @option kws [Hash] :aria A shorthand for `html: { aria: { ... } }`. Each
+  #   key becomes an `aria-*` attribute, so `aria: { label: "Save" }` renders
+  #   `aria-label="Save"`. Values deep-merge with (and are overridden by
+  #   nothing except) any aria set by the component itself.
+  #
+  # @option kws [Hash] :data A shorthand for `html: { data: { ... } }`. Each
+  #   key becomes a `data-*` attribute, so `data: { foo: "bar" }` renders
+  #   `data-foo="bar"`.
+  #
+  # @option kws [Symbol] :tag_name Override the HTML tag for the component's
+  #   main element.
   #
   def initialize(*args, **kws, &block)
     super

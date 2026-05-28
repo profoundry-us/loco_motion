@@ -24,6 +24,8 @@
 #   = daisy_file_input(name: "document", id: "document", disabled: true)
 #
 class Daisy::DataInput::FileInputComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::AriableComponent
+
   attr_reader :name, :id, :accept, :multiple, :disabled, :required
 
   #
@@ -62,6 +64,8 @@ class Daisy::DataInput::FileInputComponent < LocoMotion::BaseComponent
   # Calls the {setup_component} method before rendering the component.
   #
   def before_render
+    super
+
     setup_component
   end
 
