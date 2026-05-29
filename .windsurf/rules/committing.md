@@ -17,9 +17,11 @@ When committing code changes, follow these procedures.
   g. Check the branch name to see if it has an issue number in it.
   h. Utilize a single-line message similar to `feat(Button): Add new feature`
      as the first line, providing a brief summary of the changes made.
-  i. Commit the changes.
-  j. Push the changes to the remote repository.
-  k. Prompt the user if they are ready to create a pull request.
+  i. Commit the changes using local `git`.
+  j. Push the changes to the remote repository using local `git` (NOT the
+     GitHub MCP server), per `.windsurf/rules/github_operations.md`.
+  k. Prompt the user if they are ready to create a pull request (which is then
+     created via the GitHub MCP server).
 
 3. MUST surround commit messages in single quotes so that we can use Markdown
    and backticks in the message, allowing for proper formatting and display.
