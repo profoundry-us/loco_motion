@@ -56,6 +56,9 @@
       = render partial: "ads/honeybook"
       = render partial: "ads/ftc_notice"
 
+    - # Ads preload script must run after the ads element exists in the DOM
+    - # Unlike theme_preload_script which can run in the head since it only needs
+    - # the document element, this script needs to query for specific elements.
     = ads_preload_script
 
     = daisy_modal(dialog_id: "al-search-modal", closable: false,
