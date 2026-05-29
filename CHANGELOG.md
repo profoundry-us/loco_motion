@@ -28,6 +28,7 @@ releases** should be considered **breaking**!
 - fix(HoverGallery): Replace non-existent `set_tag` with `set_tag_name` in `setup_component`, and move `ImageComponent` tag assignment from `initialize` to `before_render` via `set_tag_name(:component, :img)`
 - fix(Avatar): Suppress `where:bg-neutral` default on placeholder wrapper when `skeleton` is in `wrapper_css`, preventing the neutral background from bleeding through the skeleton shimmer gradient ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
 - fix(Skeleton): Standardize text-hiding in component skeleton examples (`text-transparent` consistently); add `skeleton-text` example and docs for DaisyUI 5's animated text shimmer class ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
+- feat(DataDisplay): Add new `Daisy::DataDisplay::TextRotateComponent` (`daisy_text_rotate`) with `ItemComponent` slot, `texts:` shorthand parameter, a `wrapper` part (`wrapper_css:`) around the items, tooltip support, custom block content (rendered after items), and per-item link (`href`) / icon (`left_icon`/`right_icon`) support via `LinkableComponent` and `IconableComponent` ([Fixes #110](https://github.com/profoundry-us/loco_motion/issues/110))
 - feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent` feature parity ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
 - feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the existing `start`, `center`, and `end` slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
 - feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout` parameters
@@ -67,6 +68,7 @@ releases** should be considered **breaking**!
 - docs(Alert): Update Alert examples with improved descriptions and formatting
 - add(FAB): Add FAB demo page with simple, speed dial, flower, and custom activator examples
 - add(HoverGallery): Add Hover Galleries demo page with Basic, In a Card, and Shorthand (`srcs:`) examples
+- add(TextRotate): Add Text Rotates demo page with examples for Basic usage, `texts:` shorthand, Centered Items (`wrapper_css:`), Icons and Links (per-item `icon`/`left_icon`/`right_icon` and `href`), Custom Content (custom block markup with inline `daisy_avatar`s beside the text), Custom Duration (3s/6s/10s), Inline in a Sentence, Different Font Sizes, and Custom Line Height
 - docs(Skills): Add `run-demo` skill for booting the demo Rails app locally without Docker, including Ruby/Node version handling, vendor symlink setup, and the `file:../..` + `--no-lockfile` yarn pattern to avoid polluting `yarn.lock`
 - docs(Skills): Add `screenshot-demo` skill for capturing full-page screenshots and videos of demo pages via Playwright, depending on `run-demo`
 - docs(Skills): Update `create-pr` skill with label-selection guidance and a follow-up `mcp__github__issue_write` step to apply labels after PR creation

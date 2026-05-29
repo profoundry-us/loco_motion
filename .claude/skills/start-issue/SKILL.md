@@ -17,7 +17,9 @@ branch name, and optionally kicks off an implementation plan.
 
 ### Step 1: Read the issue
 
-Fetch the issue using its URL or number:
+Fetch the issue using the GitHub MCP server (`get_issue` for
+`profoundry-us/loco_motion`), falling back to the `gh` CLI only if the MCP
+server is unavailable:
 
 ```bash
 gh issue view {number} --repo profoundry-us/loco_motion

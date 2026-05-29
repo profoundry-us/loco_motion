@@ -133,11 +133,18 @@ issue (if one exists) and the nature of the change:
 
 ### Step 9: Open the PR
 
-Open the PR using `gh pr create` with the drafted description.
+The branch must already be pushed to the remote with local `git` (Step 7).
 
-After creation, **always** apply the labels determined in Step 8:
+Open the PR using the GitHub MCP server's `create_pull_request` tool with the
+drafted description, then **always** apply the labels determined in Step 8 via
+the MCP server (e.g. its label/update-issue tools).
+
+Fall back to the `gh` CLI only if an MCP tool is unavailable or fails (for
+example, a `403` permissions error). When using the CLI, provide all arguments
+explicitly so `gh pr create` does not hang waiting for interactive input:
 
 ```bash
+gh pr create --title "{title}" --body "{body}" --head {branch-name} --base main
 gh pr edit {PR_NUMBER} --add-label "{label}"
 ```
 

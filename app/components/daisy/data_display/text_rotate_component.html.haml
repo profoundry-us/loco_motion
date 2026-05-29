@@ -1,0 +1,6 @@
+= part(:component) do
+  = part(:wrapper) do
+    - items.each do |item|
+      = item
+
+    = content if content?

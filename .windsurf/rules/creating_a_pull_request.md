@@ -6,9 +6,13 @@ trigger: manual
 
 When asked to create a Pull Request (PR), follow these procedures:
 
-1.  MUST check the output of the last `git push`. If it contains
-    `Create a pull request`, output a message to the user with a clickable link
-    to that URL.
+0.  MUST follow the split defined in `.windsurf/rules/github_operations.md`:
+    push the branch with local `git`, then create and label the PR using the
+    GitHub MCP server. Only fall back to the `gh` CLI if an MCP tool is
+    unavailable or fails (for example, a `403` permissions error).
+
+1.  MUST ensure the branch is pushed to the remote with local `git` before
+    creating the PR.
 
 2.  MUST utilize the existing PR description template in `.github/pull_request_template.md`.
 
@@ -36,4 +40,8 @@ When asked to create a Pull Request (PR), follow these procedures:
 8.  MUST commit the `CHANGELOG.md` changes with the message
     `'docs: Update CHANGELOG'`, using single quotes.
 
-9. MUST push the `CHANGELOG.md` commit to the remote repository.
+9. MUST push the `CHANGELOG.md` commit to the remote repository using local
+   `git`.
+
+10. MUST create the pull request using the GitHub MCP server, then apply the
+    appropriate labels via the MCP server.

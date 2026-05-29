@@ -91,6 +91,12 @@ for approval before posting. For straightforward issues, proceed directly.
 
 ### Step 6: Post the issue
 
+Create the issue using the GitHub MCP server's `create_issue` tool for
+`profoundry-us/loco_motion`, passing the drafted title, body, and any labels.
+
+Fall back to the `gh` CLI only if the MCP tool is unavailable or fails (for
+example, a `403` permissions error):
+
 ```bash
 gh issue create --title "{title}" --body "$(cat <<'EOF'
 {body}
