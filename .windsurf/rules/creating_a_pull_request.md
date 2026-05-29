@@ -6,6 +6,11 @@ trigger: manual
 
 When asked to create a Pull Request (PR), follow these procedures:
 
+0.  MUST prefer the GitHub MCP server to create and label the PR, per
+    `.windsurf/rules/github_operations.md`. Only fall back to the `gh` CLI if
+    an MCP tool is unavailable or fails (for example, a `403` permissions
+    error).
+
 1.  MUST check the output of the last `git push`. If it contains
     `Create a pull request`, output a message to the user with a clickable link
     to that URL.

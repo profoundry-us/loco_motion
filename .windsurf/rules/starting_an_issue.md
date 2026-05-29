@@ -2,7 +2,9 @@
 
 When asked to being work on a new GitHub issue, MUST follow these steps.
 
-1. MUST visit the provided URL
+1. MUST read the issue using the GitHub MCP server (per
+   `.windsurf/rules/github_operations.md`), falling back to visiting the
+   provided URL only if the MCP server is unavailable
 2. MUST read the issue description and comments
 3. MUST craft a relevant branch name using all of the following:
   a. The issue type (bug, feat, task, etc)
