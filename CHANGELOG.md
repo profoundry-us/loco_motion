@@ -16,6 +16,7 @@ releases** should be considered **breaking**!
 ### Components Changes
 
 - fix(Theme): Add `theme_preload_script` helper to prevent flash of content when loading with non-default theme ([Fixes #49](https://github.com/profoundry-us/loco_motion/issues/49))
+- fix(Theme): Update `clearTheme` method to remove `data-theme` attribute from document element, preventing need for page refresh when clearing theme
 
 - feat(DataInput): Add `AriableComponent` concern to Checkbox, Toggle, RadioButton, TextInput, TextArea, Select, Range, and FileInput that automatically sets `aria-required="true"` when `required: true` is passed (unless the user provides `aria-required` explicitly)
 - feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
@@ -41,6 +42,12 @@ releases** should be considered **breaking**!
 - feat(Configuration): Add comprehensive documentation to Configuration class
 - add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing the DaisyUI FAB / Speed Dial pattern with `button`, `activator`, and `action` slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
 - fix(DeviceComponent): Fix tablet mockup for DaisyUI v5 by removing dead `!mt-0` hack and moving sizing to the container via `css:` (override `aspect-ratio`, `max-width`, `border-radius`) instead of `display_css` ([Fixes #99](https://github.com/profoundry-us/loco_motion/issues/99))
+
+### Demo/Docs Changes
+
+- fix(demo): Add `ads_preload_script` helper to prevent flash of ads content when page loads
+- fix(demo): Move `ads_preload_script` after ads element in layout since it needs to query for specific DOM elements
+- fix(demo): Add Playwright test to verify ads visibility is set correctly on non-hidden pages
 
 ### General Changes
 
