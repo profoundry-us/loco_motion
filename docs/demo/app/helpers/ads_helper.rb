@@ -21,24 +21,35 @@ module AdsHelper
     <<~SCRIPT.html_safe
       <script>
         (function() {
-          try {
-            var hiddenTarget = document.querySelector('[data-ads-target="hidden"]');
-            var adsTarget = document.querySelector('[data-ads-target="ads"]');
-            var contentTarget = document.querySelector('[data-ads-target="content"]');
+          // Run immediately to set initial state before page renders
+          function setAdsVisibility() {
+            try {
+              var hiddenTarget = document.querySelector('[data-ads-target="hidden"]');
+              var adsTarget = document.querySelector('[data-ads-target="ads"]');
+              var contentTarget = document.querySelector('[data-ads-target="content"]');
 
-            if (adsTarget && contentTarget) {
-              if (hiddenTarget) {
-                // Hide ads by removing the lg:block! class
-                adsTarget.classList.remove('lg:block!');
-                contentTarget.classList.remove('lg:pr-64');
-              } else {
-                // Show ads by adding the lg:block! class
-                adsTarget.classList.add('lg:block!');
-                contentTarget.classList.add('lg:pr-64');
+              if (adsTarget && contentTarget) {
+                if (hiddenTarget) {
+                  // Hide ads by removing the lg:block! class
+                  adsTarget.classList.remove('lg:block!');
+                  contentTarget.classList.remove('lg:pr-64');
+                } else {
+                  // Show ads by adding the lg:block! class
+                  adsTarget.classList.add('lg:block!');
+                  contentTarget.classList.add('lg:pr-64');
+                }
               }
+            } catch (e) {
+              // Elements not available yet
             }
-          } catch (e) {
-            // Elements not available yet or localStorage not available
+          }
+
+          // Try immediately (might work if script is placed after elements)
+          setAdsVisibility();
+
+          // Also try on DOMContentLoaded as fallback
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setAdsVisibility);
           }
         })();
       </script>

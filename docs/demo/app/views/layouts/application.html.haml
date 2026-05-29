@@ -2,7 +2,6 @@
 %html.scroll-p-20
   %head
     = theme_preload_script
-    = ads_preload_script
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title
       = (yield :page_title || "")
@@ -56,6 +55,8 @@
       = render partial: "ads/privacy"
       = render partial: "ads/honeybook"
       = render partial: "ads/ftc_notice"
+
+    = ads_preload_script
 
     = daisy_modal(dialog_id: "al-search-modal", closable: false,
         backdrop_css: "backdrop-blur-xs",
