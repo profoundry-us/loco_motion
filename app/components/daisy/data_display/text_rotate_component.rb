@@ -22,7 +22,7 @@
 #   = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-7xl")
 #
 # @loco_example Text Rotate with Centered Items
-#   = daisy_text_rotate(css: "text-7xl", wrapper_css: "justify-items-center") do |rotate|
+#   = daisy_text_rotate(css: "text-7xl", container_css: "justify-items-center") do |rotate|
 #     - rotate.with_item { "DESIGN" }
 #     - rotate.with_item { "DEVELOP" }
 #     - rotate.with_item { "DEPLOY" }
@@ -32,64 +32,28 @@
 #     - rotate.with_item { "BLAZING" }
 #     - rotate.with_item(css: "font-bold italic") { "FAST" }
 #
-# @loco_example Text Rotate with Icons and Links
-#   = daisy_text_rotate(css: "text-7xl") do |rotate|
-#     - rotate.with_item(left_icon: "sparkles") { "DESIGN" }
-#     - rotate.with_item(href: "https://example.com", right_icon: "arrow-top-right-on-square") { "DEVELOP" }
-#
-# @loco_example Text Rotate with Custom Content
-#   = daisy_text_rotate(css: "text-7xl") do
-#     %span.text-rotate-item.text-primary CUSTOM
-#     %span.text-rotate-item.text-secondary CONTENT
+# @loco_example Text Rotate Inline in a Sentence
+#   %span Providing AI Agents for
+#   = daisy_text_rotate do |rotate|
+#     - rotate.with_item(css: "bg-teal-400 text-teal-800 px-2") { "Designers" }
+#     - rotate.with_item(css: "bg-red-400 text-red-800 px-2") { "Developers" }
+#     - rotate.with_item(css: "bg-blue-400 text-blue-800 px-2") { "Managers" }
 #
 class Daisy::DataDisplay::TextRotateComponent < LocoMotion::BaseComponent
   include LocoMotion::Concerns::TippableComponent
 
   set_component_name :text_rotate
 
-  define_part :wrapper, tag_name: :span
-
-  #
-  # Renders an individual text item within the rotation. Supports optional
-  # links (via {LocoMotion::Concerns::LinkableComponent}) and icons (via
-  # {LocoMotion::Concerns::IconableComponent}).
-  #
+  # A component for rendering individual text items within the rotation.
   class ItemComponent < LocoMotion::BasicComponent
-    include LocoMotion::Concerns::LinkableComponent
-    include LocoMotion::Concerns::IconableComponent
-
-    #
-    # Runs item-specific setup before rendering. Runs before `super` so that
-    # LinkableComponent can override the tag name to `<a>` when an href is set.
-    #
     def before_render
-      setup_component
-
-      super
-    end
-
-    #
-    # Renders the item, including optional left/right icons around the content.
-    #
-    def call
-      part(:component) do
-        concat(render_left_icon)
-        concat(content)
-        concat(render_right_icon)
-      end
-    end
-
-    private
-
-    def setup_component
-      set_tag_name(:component, :span)
       add_css(:component, "text-rotate-item")
     end
   end
 
   renders_many :items, ItemComponent
 
-  attr_reader :texts
+  attr_reader :texts, :container_css
 
   #
   # Creates a new Text Rotate component.
@@ -97,15 +61,17 @@ class Daisy::DataDisplay::TextRotateComponent < LocoMotion::BaseComponent
   # @param texts [Array<String>] An optional array of strings for simple usage.
   # @param kws [Hash] The keyword arguments for the component.
   #
-  # @option kws [String] :wrapper_css CSS classes to apply to the wrapper part
-  #   that surrounds all of the rotated items.
+  # @option kws [String] :container_css CSS classes to apply to the container.
   # @option kws [String] :tip The tooltip text to display when hovering over
   #   the component.
   #
-  def initialize(texts: nil, **kws, &block)
+  def initialize(texts: nil, container_css: nil, **kws, &block)
     super(**kws, &block)
 
     @texts = texts
+    @container_css = container_css
+
+    set_tag_name(:component, :span)
   end
 
   def before_render
@@ -118,7 +84,6 @@ class Daisy::DataDisplay::TextRotateComponent < LocoMotion::BaseComponent
   private
 
   def setup_component
-    set_tag_name(:component, :span)
     add_css(:component, "text-rotate")
   end
 

@@ -74,9 +74,9 @@ RSpec.describe Daisy::DataDisplay::TextRotateComponent, type: :component do
     end
   end
 
-  context "with wrapper CSS" do
-    let(:wrapper_css) { "justify-items-center" }
-    let(:text_rotate) { described_class.new(wrapper_css: wrapper_css) }
+  context "with container CSS" do
+    let(:container_css) { "justify-items-center" }
+    let(:text_rotate) { described_class.new(container_css: container_css) }
 
     before do
       render_inline(text_rotate) do |rotate|
@@ -86,69 +86,10 @@ RSpec.describe Daisy::DataDisplay::TextRotateComponent, type: :component do
     end
 
     describe "rendering" do
-      it "includes wrapper CSS classes on the wrapper part" do
-        wrapper_css.split.each do |css_class|
+      it "includes container CSS classes" do
+        container_css.split.each do |css_class|
           expect(page).to have_selector(".text-rotate span.#{css_class}")
         end
-      end
-    end
-  end
-
-  context "with item links" do
-    let(:text_rotate) { described_class.new }
-
-    before do
-      render_inline(text_rotate) do |rotate|
-        rotate.with_item(href: "https://example.com") { "DEVELOP" }
-        rotate.with_item { "DESIGN" }
-      end
-    end
-
-    describe "rendering" do
-      it "renders an item with an href as an anchor tag" do
-        expect(page).to have_selector("a.text-rotate-item[href='https://example.com']", text: "DEVELOP")
-      end
-
-      it "renders items without an href as span tags" do
-        expect(page).to have_selector("span.text-rotate-item", text: "DESIGN")
-      end
-    end
-  end
-
-  context "with item icons" do
-    let(:text_rotate) { described_class.new }
-
-    before do
-      render_inline(text_rotate) do |rotate|
-        rotate.with_item(left_icon: "sparkles") { "DESIGN" }
-        rotate.with_item(right_icon: "rocket-launch") { "DEPLOY" }
-      end
-    end
-
-    describe "rendering" do
-      it "renders the icons" do
-        expect(page).to have_selector(".text-rotate-item svg", count: 2)
-      end
-
-      it "renders the item content alongside the icons" do
-        expect(page).to have_content("DESIGN")
-        expect(page).to have_content("DEPLOY")
-      end
-    end
-  end
-
-  context "with custom content instead of items" do
-    let(:text_rotate) { described_class.new }
-
-    before do
-      render_inline(text_rotate) do
-        "<span class=\"text-rotate-item custom-item\">CUSTOM</span>".html_safe
-      end
-    end
-
-    describe "rendering" do
-      it "renders the custom content inside the wrapper" do
-        expect(page).to have_selector(".text-rotate span .custom-item", text: "CUSTOM")
       end
     end
   end
