@@ -46,6 +46,7 @@ export default class extends Controller {
   /**
    * Clears the user's theme preference from localStorage.
    * Removes the saved theme and dispatches an event to notify other controllers.
+   * Also removes the data-theme attribute from the document element.
    *
    * @param {Event} event - The triggering click event
    */
@@ -63,6 +64,9 @@ export default class extends Controller {
 
     // Remove the savedTheme from local storage
     localStorage.removeItem("savedTheme")
+
+    // Remove the data-theme attribute from the document element
+    document.documentElement.removeAttribute('data-theme')
 
     // Fire off an update
     const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: null } })
