@@ -21,6 +21,9 @@ When committing code changes, follow these procedures.
   i. Commit the changes using local `git` with the `-m` flag and single quotes:
      `git commit -m 'commit message here'`. Do NOT use `git commit` without `-m`
      as this would open an interactive editor which is not suitable for automation.
+     CRITICAL: Use simple single-quoted strings only. Do NOT use heredocs or
+     complex shell constructs like `$(cat <<'EOF' ... EOF)` as these can
+     cause the command to hang or fail.
   j. Push the changes to the remote repository using local `git` (NOT the
      GitHub MCP server), per `.windsurf/rules/github_operations.md`.
   k. Prompt the user if they are ready to create a pull request. If so, MUST

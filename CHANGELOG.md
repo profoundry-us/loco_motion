@@ -15,6 +15,8 @@ releases** should be considered **breaking**!
 
 ### Components Changes
 
+- fix(Theme): Add `theme_preload_script` helper to prevent flash of content when loading with non-default theme ([Fixes #49](https://github.com/profoundry-us/loco_motion/issues/49))
+
 - feat(DataInput): Add `AriableComponent` concern to Checkbox, Toggle, RadioButton, TextInput, TextArea, Select, Range, and FileInput that automatically sets `aria-required="true"` when `required: true` is passed (unless the user provides `aria-required` explicitly)
 - feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
 - feat(Checkbox): Add label examples for start/end labels and custom content blocks
