@@ -1,0 +1,112 @@
+= doc_title(title: "Text Rotates", comp: @comp) do |title|
+  %p
+    Display up to 6 lines of text, one at a time, with an infinite loop CSS
+    animation. The duration is 10 seconds by default and the animation pauses
+    on hover. Perfect for rotating hero headlines, cycling through feature
+    keywords, or animating taglines on marketing pages.
+
+
+= doc_example(title: "Basic Text Rotate") do |doc|
+  - doc.with_description do
+    :markdown
+      The Text Rotate component cycles through multiple text items with a
+      smooth animation. Use the block API to add items individually.
+
+  = daisy_text_rotate do |rotate|
+    - rotate.with_item { "ONE" }
+    - rotate.with_item { "TWO" }
+    - rotate.with_item { "THREE" }
+
+
+= doc_example(title: "Text Rotate with texts Shorthand") do |doc|
+  - doc.with_description do
+    :markdown
+      For simple use cases, you can pass an array of strings via the `texts`
+      parameter instead of using the block API.
+
+  = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-7xl")
+
+
+= doc_example(title: "Text Rotate with Centered Items") do |doc|
+  - doc.with_description do
+    :markdown
+      Use the `container_css` parameter to apply alignment utilities to the
+      container that wraps all text items.
+
+  = daisy_text_rotate(css: "text-7xl", container_css: "justify-items-center") do |rotate|
+    - rotate.with_item { "DESIGN" }
+    - rotate.with_item { "DEVELOP" }
+    - rotate.with_item { "DEPLOY" }
+
+
+= doc_example(title: "Text Rotate with Custom Duration") do |doc|
+  - doc.with_description do
+    :markdown
+      Override the default 10-second duration using Tailwind's duration
+      utilities like `duration-6000` for 6 seconds or `duration-3000` for 3
+      seconds.
+
+  .flex.flex-col.gap-8
+    = daisy_text_rotate(css: "text-7xl duration-3000") do |rotate|
+      - rotate.with_item { "3 SEC" }
+      - rotate.with_item { "FAST" }
+      - rotate.with_item { "ZOOM" }
+
+    = daisy_text_rotate(css: "text-7xl duration-6000") do |rotate|
+      - rotate.with_item { "6 SEC" }
+      - rotate.with_item { "MEDIUM" }
+      - rotate.with_item { "PACE" }
+
+    = daisy_text_rotate(css: "text-7xl") do |rotate|
+      - rotate.with_item { "10 SEC" }
+      - rotate.with_item { "DEFAULT" }
+      - rotate.with_item { "SPEED" }
+
+
+= doc_example(title: "Text Rotate Inline in a Sentence") do |doc|
+  - doc.with_description do
+    :markdown
+      Text Rotate works seamlessly inline within sentences. Apply custom
+      styling to individual items for visual variety.
+
+  .my-2.flex.flex-row.gap-2.items-center
+    %span Providing AI Agents for
+    = daisy_text_rotate do |rotate|
+      - rotate.with_item(css: "bg-teal-400 text-teal-800 px-2") { "Designers" }
+      - rotate.with_item(css: "bg-red-400 text-red-800 px-2") { "Developers" }
+      - rotate.with_item(css: "bg-blue-400 text-blue-800 px-2") { "Managers" }
+
+
+= doc_example(title: "With Different Font Sizes") do |doc|
+  - doc.with_description do
+    :markdown
+      Combine Text Rotate with Tailwind's font size utilities to create
+      dramatic hero headlines or subtle inline animations.
+
+  .flex.flex-col.gap-8
+    = daisy_text_rotate(css: "text-9xl") do |rotate|
+      - rotate.with_item { "HUGE" }
+      - rotate.with_item { "TEXT" }
+      - rotate.with_item { "HERE" }
+
+    = daisy_text_rotate(css: "text-4xl") do |rotate|
+      - rotate.with_item { "Medium" }
+      - rotate.with_item { "Sized" }
+      - rotate.with_item { "Text" }
+
+    = daisy_text_rotate(css: "text-xl") do |rotate|
+      - rotate.with_item { "Small" }
+      - rotate.with_item { "Text" }
+      - rotate.with_item { "Too" }
+
+
+= doc_example(title: "With Custom Line Height") do |doc|
+  - doc.with_description do
+    :markdown
+      Adjust line height using Tailwind's `leading-` utilities to control
+      vertical spacing between rotated items.
+
+  = daisy_text_rotate(css: "text-7xl leading-[2]") do |rotate|
+    - rotate.with_item { "SPACED" }
+    - rotate.with_item { "OUT" }
+    - rotate.with_item { "LINES" }

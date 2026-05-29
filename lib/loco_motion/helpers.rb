@@ -30,6 +30,7 @@ module LocoMotion
     "Daisy::DataDisplay::StatComponent" => { names: "stat", group: "Data Display", title: "Stats", example: "stats" },
     "Daisy::DataDisplay::StatusComponent" => { names: "status", group: "Data Display", title: "Statuses", example: "statuses" },
     "Daisy::DataDisplay::TableComponent" => { names: "table", group: "Data Display", title: "Tables", example: "tables" },
+    "Daisy::DataDisplay::TextRotateComponent" => { names: "text_rotate", group: "Data Display", title: "Text Rotates", example: "text_rotates" },
     "Daisy::DataDisplay::TimelineComponent" => { names: "timeline", group: "Data Display", title: "Timelines", example: "timelines" },
 
     # Data Input
