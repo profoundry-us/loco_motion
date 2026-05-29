@@ -20,8 +20,9 @@ When committing code changes, follow these procedures.
   i. Commit the changes using local `git`.
   j. Push the changes to the remote repository using local `git` (NOT the
      GitHub MCP server), per `.windsurf/rules/github_operations.md`.
-  k. Prompt the user if they are ready to create a pull request (which is then
-     created via the GitHub MCP server).
+  k. Prompt the user if they are ready to create a pull request. If so, MUST
+     follow `.windsurf/rules/creating_a_pull_request.md` in full (created via
+     the GitHub MCP server).
 
 3. MUST surround commit messages in single quotes so that we can use Markdown
    and backticks in the message, allowing for proper formatting and display.

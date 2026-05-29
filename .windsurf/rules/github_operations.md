@@ -24,6 +24,12 @@ commands and the GitHub MCP server as follows.
    c. Listing and applying labels.
    d. Inspecting CI / GitHub Actions runs and pulling failing logs.
 
+   When creating a pull request, MUST follow the full process defined in
+   `.windsurf/rules/creating_a_pull_request.md` (use the
+   `.github/pull_request_template.md` template, generate a complete description
+   from the commit history, and apply labels). MUST NOT create a PR with a
+   minimal or placeholder body, even when falling back to the `gh` CLI.
+
 4. MUST use the MCP server's Actions tools to inspect CI status and pull
    failing logs when a pull request's checks fail, rather than asking the user
    to copy / paste errors.
