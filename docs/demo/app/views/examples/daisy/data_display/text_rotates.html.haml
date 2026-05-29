@@ -30,13 +30,49 @@
 = doc_example(title: "Text Rotate with Centered Items") do |doc|
   - doc.with_description do
     :markdown
-      Use the `container_css` parameter to apply alignment utilities to the
-      container that wraps all text items.
+      Use the `wrapper_css` parameter to apply alignment utilities to the
+      wrapper part that surrounds all text items.
 
-  = daisy_text_rotate(css: "text-7xl", container_css: "justify-items-center") do |rotate|
+  = daisy_text_rotate(css: "text-7xl", wrapper_css: "justify-items-center") do |rotate|
     - rotate.with_item { "DESIGN" }
     - rotate.with_item { "DEVELOP" }
     - rotate.with_item { "DEPLOY" }
+
+
+= doc_example(title: "Text Rotate with Icons and Links") do |doc|
+  - doc.with_description do
+    :markdown
+      Each item supports icons (via `left_icon` / `right_icon`) and links (via
+      `href`). When an `href` is provided, the item is rendered as an `<a>`
+      tag automatically.
+
+  = daisy_text_rotate(css: "text-7xl") do |rotate|
+    - rotate.with_item(icon: "sparkles", icon_css: "size-16") { "DESIGN" }
+    - rotate.with_item(href: "https://example.com", left_icon: "arrow-top-right-on-square", left_icon_css: "size-16") { "DEVELOP" }
+    - rotate.with_item(right_icon: "rocket-launch", right_icon_css: "size-16") { "DEPLOY" }
+
+
+= doc_example(title: "Text Rotate with Custom Content") do |doc|
+  - doc.with_description do
+    :markdown
+      Instead of (or in addition to) using `with_item`, you can pass custom
+      content directly in the block. Add the `text-rotate-item` class to any
+      element you want to participate in the rotation, including other
+      components like Avatars.
+
+  - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpg") }
+  - classes = "text-rotate-item inline-flex items-center gap-4"
+
+  = daisy_text_rotate(css: "text-7xl") do
+    %span.text-primary{ class: classes }
+      = daisy_avatar(css: "size-14", src: ladies[1])
+      CUSTOM
+    %span.text-secondary{ class: classes }
+      = daisy_avatar(css: "size-14", src: ladies[2])
+      CONTENT
+    %span.text-accent{ class: classes }
+      = daisy_avatar(css: "size-14", src: ladies[3])
+      HERE
 
 
 = doc_example(title: "Text Rotate with Custom Duration") do |doc|

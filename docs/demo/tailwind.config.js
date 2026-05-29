@@ -8,7 +8,8 @@ console.log(" *** Importing LocoMotion gem Components into Tailwind: ", locoBund
 module.exports = {
   content: [
     `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
+    `${locoBundlePath}/lib/**/*.{rb}`,
     'app/components/**/*.{rb,js,html,haml}',
-    'app/views/**/*.{rb,js,html,haml}',
+    'app/views/**/*.{rb,js,html,haml}'
   ]
 }

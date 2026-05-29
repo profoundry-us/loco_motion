@@ -1,4 +1,6 @@
 = part(:component) do
-  %span{class: container_css}
+  = part(:wrapper) do
     - items.each do |item|
       = item
+
+    = content if content?
