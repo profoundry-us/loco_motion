@@ -1,4 +1,8 @@
 module LocoMotion
+  HELPERS = [
+    "Daisy::ThemeHelper"
+  ]
+
   COMPONENTS = {
     ### Hero Components
 

@@ -17,6 +17,16 @@
       sub-components, whereas typical components use the HAML `-` syntax to
       "pass" the component to a slot.
 
+  = doc_note(modifier: :info) do
+    :markdown
+      To prevent a flash of content when the page loads with a non-default
+      theme, add `= theme_preload_script` to your layout's `<head>` section.
+      This inline script runs before the page renders to set the theme from
+      localStorage.
+
+      See [GitHub Issue #49](https://github.com/profoundry-us/loco_motion/issues/49)
+      for more details.
+
 
 = doc_example(title: "Theme Preview Icons") do |doc|
   - doc.with_description do
