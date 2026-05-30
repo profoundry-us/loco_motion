@@ -42,6 +42,8 @@ releases** should be considered **breaking**!
 - feat(Configuration): Add comprehensive documentation to Configuration class
 - add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing the DaisyUI FAB / Speed Dial pattern with `button`, `activator`, and `action` slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
 - fix(DeviceComponent): Fix tablet mockup for DaisyUI v5 by removing dead `!mt-0` hack and moving sizing to the container via `css:` (override `aspect-ratio`, `max-width`, `border-radius`) instead of `display_css` ([Fixes #99](https://github.com/profoundry-us/loco_motion/issues/99))
+- fix(Theme): Auto-sync the selected theme across every theme selector on the page by watching `change` events and making `setInput` uncheck stale inputs, so a selection in one switcher is no longer silently overridden by another; radio inputs now persist to `localStorage` automatically with no `setTheme` action wiring ([Fixes #115](https://github.com/profoundry-us/loco_motion/issues/115))
+- fix(Theme): Namespace `build_radio_input` ids by input name (`"#{name}-#{theme}"`) to avoid duplicate ids when multiple theme controllers share a page
 
 ### Demo/Docs Changes
 
@@ -59,6 +61,7 @@ releases** should be considered **breaking**!
 - feat(BaseComponent): Improve `build` method to merge build_kws into config before initialize for proper precedence
 - feat(BaseComponent): Update instance variables for build_kws keys after initialize to ensure options like `skip_styling` are available during `setup_component`
 - feat(RadioButton): Move rendering from call method to HAML template to match CheckboxComponent pattern
+- chore(justfile): Rename the `*-quick` targets (`all-quick`, `loco-quick`, `demo-quick`, `yard-quick`) to `*-fast`
 
 ### Demo / Docs Changes
 
@@ -81,6 +84,8 @@ releases** should be considered **breaking**!
 - docs(Skills): Add `run-demo` skill for booting the demo Rails app locally without Docker, including Ruby/Node version handling, vendor symlink setup, and the `file:../..` + `--no-lockfile` yarn pattern to avoid polluting `yarn.lock`
 - docs(Skills): Add `screenshot-demo` skill for capturing full-page screenshots and videos of demo pages via Playwright, depending on `run-demo`
 - docs(Skills): Update `create-pr` skill with label-selection guidance and a follow-up `mcp__github__issue_write` step to apply labels after PR creation
+- docs(Theme): Update the Theme Controller "Theme Radio Inputs" example note to document the automatic syncing, and link the preload-script note to the `ThemeHelper` API docs
+- chore(demo): Switch the header version badge to a "View All Releases" tip linking to the GitHub releases page, and remove the stale issue #49 flash-of-content comment
 
 ### Changed
 
