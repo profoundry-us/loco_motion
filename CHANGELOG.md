@@ -45,12 +45,6 @@ releases** should be considered **breaking**!
 - fix(Theme): Auto-sync the selected theme across every theme selector on the page by watching `change` events and making `setInput` uncheck stale inputs, so a selection in one switcher is no longer silently overridden by another; radio inputs now persist to `localStorage` automatically with no `setTheme` action wiring ([Fixes #115](https://github.com/profoundry-us/loco_motion/issues/115))
 - fix(Theme): Namespace `build_radio_input` ids by input name (`"#{name}-#{theme}"`) to avoid duplicate ids when multiple theme controllers share a page
 
-### Demo/Docs Changes
-
-- fix(demo): Add `ads_preload_script` helper to prevent flash of ads content when page loads
-- fix(demo): Move `ads_preload_script` after ads element in layout since it needs to query for specific DOM elements
-- fix(demo): Add Playwright test to verify ads visibility is set correctly on non-hidden pages
-
 ### General Changes
 
 - chore(Skills): Split `start-issue` into two focused skills: `create-issue`
@@ -65,6 +59,9 @@ releases** should be considered **breaking**!
 
 ### Demo / Docs Changes
 
+- fix(demo): Add `ads_preload_script` helper to prevent flash of ads content when page loads
+- fix(demo): Move `ads_preload_script` after ads element in layout since it needs to query for specific DOM elements
+- fix(demo): Add Playwright test to verify ads visibility is set correctly on non-hidden pages
 - add(Docs): Add missing page titles to Install, LLMs, Docker, HAML, and Debugging pages
 - feat(Join): Update join examples to use `with_button` slot instead of `with_item` for buttons
 - feat(Join): Add expansive direct content example with input, select, and indicator components
