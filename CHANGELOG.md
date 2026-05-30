@@ -2,215 +2,162 @@
 
 All notable changes to LocoMotion will be documented in this file.
 
-The format is loosely based on
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 _mostly_ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-We say mostly because all versions before 1.0.0 will likely have breaking
-changes as we don't consider the project "released" until that point in time.
+We say mostly because all versions before 1.0.0 will likely have breaking changes as we don't consider the
+project "released" until that point in time.
 
-We plan to use patch versions only for bug fixes, and for now, all **minor
-releases** should be considered **breaking**!
+We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
+**breaking**!
 
 ## [Unreleased]
 
 ### Components Changes
 
-- fix(Theme): Add `theme_preload_script` helper to prevent flash of content when
-  loading with non-default theme
-  ([Fixes #49](https://github.com/profoundry-us/loco_motion/issues/49))
-- fix(Theme): Update `clearTheme` method to remove `data-theme` attribute from
-  document element, preventing need for page refresh when clearing theme
+- fix(Theme): Add `theme_preload_script` helper to prevent flash of content when loading with non-default
+  theme ([Fixes #49](https://github.com/profoundry-us/loco_motion/issues/49))
+- fix(Theme): Update `clearTheme` method to remove `data-theme` attribute from document element, preventing
+  need for page refresh when clearing theme
 
-- feat(DataInput): Add `AriableComponent` concern to Checkbox, Toggle,
-  RadioButton, TextInput, TextArea, Select, Range, and FileInput that
-  automatically sets `aria-required="true"` when `required: true` is passed
+- feat(DataInput): Add `AriableComponent` concern to Checkbox, Toggle, RadioButton, TextInput, TextArea,
+  Select, Range, and FileInput that automatically sets `aria-required="true"` when `required: true` is passed
   (unless the user provides `aria-required` explicitly)
-- feat(RadioButton): Add LabelableComponent concern with start/end label support
-  and custom content blocks
-- feat(Checkbox): Add label examples for start/end labels and custom content
-  blocks
+- feat(RadioButton): Add LabelableComponent concern with start/end label support and custom content blocks
+- feat(Checkbox): Add label examples for start/end labels and custom content blocks
 - feat(Join): Add automatic `join-item` CSS class injection for items slot using
   `BasicComponent.build(css: "join-item")`
-- feat(Join): Add `buttons` slot using `ButtonComponent.build(css: "join-item")`
+- feat(Join): Add `buttons` slot using `ButtonComponent.build(css: "join-item")` for automatic CSS class
+  injection
+- feat(Join): Add `radios` slot using `RadioButtonComponent.build(skip_styling: true, css: "join-item btn")`
   for automatic CSS class injection
-- feat(Join): Add `radios` slot using
-  `RadioButtonComponent.build(skip_styling: true, css: "join-item btn")` for
-  automatic CSS class injection
-- feat(Join): Update call method to handle items, buttons, radios, or direct
-  content
-- fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES`
-  constant so `diff-item-1` / `diff-item-2` are detected as string literals by
-  Tailwind v4's Ruby extractor
+- feat(Join): Update call method to handle items, buttons, radios, or direct content
+- fix(Diff): Replace comment-based Tailwind class safelist with `ITEM_CLASSES` constant so `diff-item-1` /
+  `diff-item-2` are detected as string literals by Tailwind v4's Ruby extractor
   ([Fixes #82](https://github.com/profoundry-us/loco_motion/issues/82))
-- add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping
-  DaisyUI's `hover-3d` effect, with optional `href:`/`target:` for clickable 3D
-  cards via `LinkableComponent`
+- add(Hover): Add new `Daisy::Layout::HoverComponent` (`daisy_hover`) wrapping DaisyUI's `hover-3d` effect,
+  with optional `href:`/`target:` for clickable 3D cards via `LinkableComponent`
   ([Fixes #80](https://github.com/profoundry-us/loco_motion/issues/80))
-- feat(HoverGallery): Add new `Daisy::Layout::HoverGalleryComponent`
-  (`daisy_hover_gallery`) with slot-based `with_image` API, `srcs:` convenience
-  shorthand, content fallback for custom block markup, and demo examples
+- feat(HoverGallery): Add new `Daisy::Layout::HoverGalleryComponent` (`daisy_hover_gallery`) with slot-based
+  `with_image` API, `srcs:` convenience shorthand, content fallback for custom block markup, and demo examples
   ([Fixes #96](https://github.com/profoundry-us/loco_motion/issues/96))
-- fix(HoverGallery): Replace non-existent `set_tag` with `set_tag_name` in
-  `setup_component`, and move `ImageComponent` tag assignment from `initialize`
-  to `before_render` via `set_tag_name(:component, :img)`
-- fix(Avatar): Suppress `where:bg-neutral` default on placeholder wrapper when
-  `skeleton` is in `wrapper_css`, preventing the neutral background from
-  bleeding through the skeleton shimmer gradient
+- fix(HoverGallery): Replace non-existent `set_tag` with `set_tag_name` in `setup_component`, and move
+  `ImageComponent` tag assignment from `initialize` to `before_render` via `set_tag_name(:component, :img)`
+- fix(Avatar): Suppress `where:bg-neutral` default on placeholder wrapper when `skeleton` is in `wrapper_css`,
+  preventing the neutral background from bleeding through the skeleton shimmer gradient
   ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
-- fix(Skeleton): Standardize text-hiding in component skeleton examples
-  (`text-transparent` consistently); add `skeleton-text` example and docs for
-  DaisyUI 5's animated text shimmer class
+- fix(Skeleton): Standardize text-hiding in component skeleton examples (`text-transparent` consistently); add
+  `skeleton-text` example and docs for DaisyUI 5's animated text shimmer class
   ([Fixes #98](https://github.com/profoundry-us/loco_motion/issues/98))
-- feat(DataDisplay): Add new `Daisy::DataDisplay::TextRotateComponent`
-  (`daisy_text_rotate`) with `ItemComponent` slot, `texts:` shorthand parameter,
-  a `wrapper` part (`wrapper_css:`) around the items, tooltip support, custom
-  block content (rendered after items), and per-item link (`href`) / icon
-  (`left_icon`/`right_icon`) support via `LinkableComponent` and
-  `IconableComponent`
+- feat(DataDisplay): Add new `Daisy::DataDisplay::TextRotateComponent` (`daisy_text_rotate`) with
+  `ItemComponent` slot, `texts:` shorthand parameter, a `wrapper` part (`wrapper_css:`) around the items,
+  tooltip support, custom block content (rendered after items), and per-item link (`href`) / icon
+  (`left_icon`/`right_icon`) support via `LinkableComponent` and `IconableComponent`
   ([Fixes #110](https://github.com/profoundry-us/loco_motion/issues/110))
-- feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to
-  `LinkComponent` via `IconableComponent` concern, matching `ButtonComponent`
-  feature parity
+- feat(Link): Add icon support (`icon`, `left_icon`, `right_icon`) to `LinkComponent` via `IconableComponent`
+  concern, matching `ButtonComponent` feature parity
   ([Fixes #84](https://github.com/profoundry-us/loco_motion/issues/84))
-- feat(Navbar): Allow custom content to be passed directly inside the
-  component's block in addition to the existing `start`, `center`, and `end`
-  slots ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
-- feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout`
-  parameters
-- feat(Alert): Add clickable link functionality with `href` and `target`
-  parameters
+- feat(Navbar): Allow custom content to be passed directly inside the component's block in addition to the
+  existing `start`, `center`, and `end` slots
+  ([Fixes #83](https://github.com/profoundry-us/loco_motion/issues/83))
+- feat(Alert): Add auto-dismiss functionality with `autoclose` and `timeout` parameters
+- feat(Alert): Add clickable link functionality with `href` and `target` parameters
 - feat(Alert): Add Stimulus action support with `action` parameter
-- feat(Alert): Add closable functionality with `closable` parameter and close
-  button
-- feat(Alert): Add AlertController to NPM package for client-side alert
-  management
+- feat(Alert): Add closable functionality with `closable` parameter and close button
+- feat(Alert): Add AlertController to NPM package for client-side alert management
 - feat(Configuration): Add comprehensive documentation to Configuration class
-- add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing
-  the DaisyUI FAB / Speed Dial pattern with `button`, `activator`, and `action`
-  slots ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
-- fix(DeviceComponent): Fix tablet mockup for DaisyUI v5 by removing dead
-  `!mt-0` hack and moving sizing to the container via `css:` (override
-  `aspect-ratio`, `max-width`, `border-radius`) instead of `display_css`
+- add(FAB): Add new `Daisy::Actions::FabComponent` (`daisy_fab`) implementing the DaisyUI FAB / Speed Dial
+  pattern with `button`, `activator`, and `action` slots
+  ([Fixes #93](https://github.com/profoundry-us/loco_motion/issues/93))
+- fix(DeviceComponent): Fix tablet mockup for DaisyUI v5 by removing dead `!mt-0` hack and moving sizing to
+  the container via `css:` (override `aspect-ratio`, `max-width`, `border-radius`) instead of `display_css`
   ([Fixes #99](https://github.com/profoundry-us/loco_motion/issues/99))
-- fix(Theme): Auto-sync the selected theme across every theme selector on the
-  page by watching `change` events and making `setInput` uncheck stale inputs,
-  so a selection in one switcher is no longer silently overridden by another;
-  radio inputs now persist to `localStorage` automatically with no `setTheme`
-  action wiring
+- fix(Theme): Auto-sync the selected theme across every theme selector on the page by watching `change` events
+  and making `setInput` uncheck stale inputs, so a selection in one switcher is no longer silently overridden
+  by another; radio inputs now persist to `localStorage` automatically with no `setTheme` action wiring
   ([Fixes #115](https://github.com/profoundry-us/loco_motion/issues/115))
-- fix(Theme): Namespace `build_radio_input` ids by input name
-  (`"#{name}-#{theme}"`) to avoid duplicate ids when multiple theme controllers
-  share a page
+- fix(Theme): Namespace `build_radio_input` ids by input name (`"#{name}-#{theme}"`) to avoid duplicate ids
+  when multiple theme controllers share a page
 
 ### General Changes
 
-- chore(Skills): Split `start-issue` into two focused skills: `create-issue`
-  (investigate → draft → post a GitHub issue) and `start-issue` (read an
-  existing issue, propose a branch, optionally plan)
-- feat(BaseComponent): Add universal `aria:` / `data:` shorthands (and per-part
-  `{part}_aria` / `{part}_data`) that deep-merge into a part's HTML, so
-  `aria: { label: "Save" }` renders `aria-label="Save"` without nesting inside
-  `html:`
-- feat(ComponentConfig): Add `add_aria` / `add_data` author helpers (delegated
-  from `BaseComponent`) for setting default `aria-*` / `data-*` attributes on a
-  part
-- feat(BaseComponent): Improve `build` method to merge build_kws into config
-  before initialize for proper precedence
-- feat(BaseComponent): Update instance variables for build_kws keys after
-  initialize to ensure options like `skip_styling` are available during
-  `setup_component`
-- feat(RadioButton): Move rendering from call method to HAML template to match
-  CheckboxComponent pattern
-- chore(justfile): Rename the `*-quick` targets (`all-quick`, `loco-quick`,
-  `demo-quick`, `yard-quick`) to `*-fast`
+- chore(Skills): Split `start-issue` into two focused skills: `create-issue` (investigate → draft → post a
+  GitHub issue) and `start-issue` (read an existing issue, propose a branch, optionally plan)
+- feat(BaseComponent): Add universal `aria:` / `data:` shorthands (and per-part `{part}_aria` / `{part}_data`)
+  that deep-merge into a part's HTML, so `aria: { label: "Save" }` renders `aria-label="Save"` without nesting
+  inside `html:`
+- feat(ComponentConfig): Add `add_aria` / `add_data` author helpers (delegated from `BaseComponent`) for
+  setting default `aria-*` / `data-*` attributes on a part
+- feat(BaseComponent): Improve `build` method to merge build_kws into config before initialize for proper
+  precedence
+- feat(BaseComponent): Update instance variables for build_kws keys after initialize to ensure options like
+  `skip_styling` are available during `setup_component`
+- feat(RadioButton): Move rendering from call method to HAML template to match CheckboxComponent pattern
+- chore(justfile): Rename the `*-quick` targets (`all-quick`, `loco-quick`, `demo-quick`, `yard-quick`) to
+  `*-fast`
 
 ### Demo / Docs Changes
 
-- fix(demo): Add `ads_preload_script` helper to prevent flash of ads content
-  when page loads
-- fix(demo): Move `ads_preload_script` after ads element in layout since it
-  needs to query for specific DOM elements
-- fix(demo): Add Playwright test to verify ads visibility is set correctly on
-  non-hidden pages
-- add(Docs): Add missing page titles to Install, LLMs, Docker, HAML, and
-  Debugging pages
-- feat(Join): Update join examples to use `with_button` slot instead of
-  `with_item` for buttons
-- feat(Join): Add expansive direct content example with input, select, and
-  indicator components
+- fix(demo): Add `ads_preload_script` helper to prevent flash of ads content when page loads
+- fix(demo): Move `ads_preload_script` after ads element in layout since it needs to query for specific DOM
+  elements
+- fix(demo): Add Playwright test to verify ads visibility is set correctly on non-hidden pages
+- add(Docs): Add missing page titles to Install, LLMs, Docker, HAML, and Debugging pages
+- feat(Join): Update join examples to use `with_button` slot instead of `with_item` for buttons
+- feat(Join): Add expansive direct content example with input, select, and indicator components
 - feat(RadioButton): Add radio buttons with labels examples to demo
-- add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image
-  gallery examples
-- add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in
-  network-restricted environments (e.g. Claude Code cloud) where OS package
-  repos are blocked; uses a multi-stage build to copy Node.js from
+- add(Hover): Add "Hover 3D" demo page with basic, clickable card, and image gallery examples
+- add(Demo): Add `Dockerfile.demo.cloud` for building the demo app in network-restricted environments (e.g.
+  Claude Code cloud) where OS package repos are blocked; uses a multi-stage build to copy Node.js from
   `node:20-slim` instead of installing via `nodesource`
-- add(Navbar): Add "Custom Content Navbar" example demonstrating block-based
-  custom content
-- feat(Alert): Add closable, auto-dismissing, clickable link, and Stimulus
-  action alert examples
+- add(Navbar): Add "Custom Content Navbar" example demonstrating block-based custom content
+- feat(Alert): Add closable, auto-dismissing, clickable link, and Stimulus action alert examples
 - feat(Alert): Add AlertDemoController for interactive click celebration demo
-- feat(Toast): Enhance Toast examples with closable, auto-dismiss, and clickable
-  features
+- feat(Toast): Enhance Toast examples with closable, auto-dismiss, and clickable features
 - feat(Toast): Add Toast positions example and reset functionality
 - docs(Toast): Update documentation to warn about AlertController dependency
 - docs(Alert): Update Alert examples with improved descriptions and formatting
-- add(FAB): Add FAB demo page with simple, speed dial, flower, and custom
-  activator examples
-- add(HoverGallery): Add Hover Galleries demo page with Basic, In a Card, and
-  Shorthand (`srcs:`) examples
-- add(TextRotate): Add Text Rotates demo page with examples for Basic usage,
-  `texts:` shorthand, Centered Items (`wrapper_css:`), Icons and Links (per-item
-  `icon`/`left_icon`/`right_icon` and `href`), Custom Content (custom block
-  markup with inline `daisy_avatar`s beside the text), Custom Duration
-  (3s/6s/10s), Inline in a Sentence, Different Font Sizes, and Custom Line
-  Height
-- docs(Skills): Add `run-demo` skill for booting the demo Rails app locally
-  without Docker, including Ruby/Node version handling, vendor symlink setup,
-  and the `file:../..` + `--no-lockfile` yarn pattern to avoid polluting
-  `yarn.lock`
-- docs(Skills): Add `screenshot-demo` skill for capturing full-page screenshots
-  and videos of demo pages via Playwright, depending on `run-demo`
-- docs(Skills): Update `create-pr` skill with label-selection guidance and a
-  follow-up `mcp__github__issue_write` step to apply labels after PR creation
-- docs(Theme): Update the Theme Controller "Theme Radio Inputs" example note to
-  document the automatic syncing, and link the preload-script note to the
-  `ThemeHelper` API docs
-- chore(demo): Switch the header version badge to a "View All Releases" tip
-  linking to the GitHub releases page, and remove the stale issue #49
-  flash-of-content comment
+- add(FAB): Add FAB demo page with simple, speed dial, flower, and custom activator examples
+- add(HoverGallery): Add Hover Galleries demo page with Basic, In a Card, and Shorthand (`srcs:`) examples
+- add(TextRotate): Add Text Rotates demo page with examples for Basic usage, `texts:` shorthand, Centered
+  Items (`wrapper_css:`), Icons and Links (per-item `icon`/`left_icon`/`right_icon` and `href`), Custom
+  Content (custom block markup with inline `daisy_avatar`s beside the text), Custom Duration (3s/6s/10s),
+  Inline in a Sentence, Different Font Sizes, and Custom Line Height
+- docs(Skills): Add `run-demo` skill for booting the demo Rails app locally without Docker, including
+  Ruby/Node version handling, vendor symlink setup, and the `file:../..` + `--no-lockfile` yarn pattern to
+  avoid polluting `yarn.lock`
+- docs(Skills): Add `screenshot-demo` skill for capturing full-page screenshots and videos of demo pages via
+  Playwright, depending on `run-demo`
+- docs(Skills): Update `create-pr` skill with label-selection guidance and a follow-up
+  `mcp__github__issue_write` step to apply labels after PR creation
+- docs(Theme): Update the Theme Controller "Theme Radio Inputs" example note to document the automatic
+  syncing, and link the preload-script note to the `ThemeHelper` API docs
+- chore(demo): Switch the header version badge to a "View All Releases" tip linking to the GitHub releases
+  page, and remove the stale issue #49 flash-of-content comment
 
 ### Changed
 
-- **Heroku Configuration**: Added buildpack configuration to
-  <code>app.json</code> for Heroku Review Apps
-  - Added custom <code>loco_motion-buildpack</code> to copy
-    <code>docs/demo</code> subdirectory and gem files
+- **Heroku Configuration**: Added buildpack configuration to <code>app.json</code> for Heroku Review Apps
+  - Added custom <code>loco_motion-buildpack</code> to copy <code>docs/demo</code> subdirectory and gem files
   - Added <code>heroku/ruby</code> and <code>heroku/nodejs</code> buildpacks
-  - Custom buildpack must run first to ensure files are in place before standard
-    buildpacks execute
-- **Developer Tooling**: Add `CLAUDE.md` at the repo root referencing all
-  Windsurf rule files so Claude Code sessions pick up the same coding
-  conventions as Windsurf
+  - Custom buildpack must run first to ensure files are in place before standard buildpacks execute
+- **Developer Tooling**: Add `CLAUDE.md` at the repo root referencing all Windsurf rule files so Claude Code
+  sessions pick up the same coding conventions as Windsurf
   ([Fixes #90](https://github.com/profoundry-us/loco_motion/issues/90))
 
 ## [0.5.2] - 2026-03-05
 
 ### Fixed
 
-- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes
-  and improvements
+- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes and improvements
   - DaisyUI: v5.5.14 → v5.5.19
   - TailwindCSS: v4.1.18 → v4.2.1
   - @tailwindcss/cli: v4.1.18 → v4.2.1
 
 ### Changed
 
-- **Branding**: Updated project logo to modern version across all documentation
-  and examples
-  - Replaced `loco-logo.png` with `loco-logo-modern.png` in navbar and frame
-    examples
+- **Branding**: Updated project logo to modern version across all documentation and examples
+  - Replaced `loco-logo.png` with `loco-logo-modern.png` in navbar and frame examples
   - Updated LLM documentation files to reflect new logo references
   - Added new modern favicon (`loco-favicon.jpg`)
 
@@ -218,27 +165,20 @@ releases** should be considered **breaking**!
 
 ### Fixed
 
-- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes
-  and improvements
-- Remove alpha status badge from the website header as the project is now
-  considered stable
+- Update DaisyUI and TailwindCSS to their latest patch versions for bug fixes and improvements
+- Remove alpha status badge from the website header as the project is now considered stable
 
 ### Improved
 
-- **Release Process**: Refactored release workflow to eliminate circular
-  dependency issues
-  - Split `make version-lock` into separate `loco-version-lock` and
-    `demo-version-lock` commands
-  - Added new `bin/update_demo_after_release` script for post-publication demo
-    updates
-  - Updated release documentation to use two-phase approach (package release →
-    demo update)
+- **Release Process**: Refactored release workflow to eliminate circular dependency issues
+  - Split `make version-lock` into separate `loco-version-lock` and `demo-version-lock` commands
+  - Added new `bin/update_demo_after_release` script for post-publication demo updates
+  - Updated release documentation to use two-phase approach (package release → demo update)
   - Reordered release steps to update changelog before building packages
   - Enhanced Makefile targets with NPM package availability checking
-  - **Automated checklist creation**: `make version-bump` and `make version-set`
-    now automatically create personalized release checklists
-- **Documentation**: Added comprehensive release checklist template and improved
-  release guide clarity
+  - **Automated checklist creation**: `make version-bump` and `make version-set` now automatically create
+    personalized release checklists
+- **Documentation**: Added comprehensive release checklist template and improved release guide clarity
 
 ## [0.5.0] - 2025-07-17
 
@@ -246,15 +186,15 @@ releases** should be considered **breaking**!
 
 This is a **MASSIVE** release which touches basically every component!
 
-We've upgraded both TailwindCSS and DaisyUI to the latest major versions (4.x
-and 5.x respectively) with lots of new features and components!
+We've upgraded both TailwindCSS and DaisyUI to the latest major versions (4.x and 5.x respectively) with lots
+of new features and components!
 
 > [!NOTE]
-> Please refer to the [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade)
-> for specific changes to the styling of components.
+> Please refer to the [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade) for specific changes to the
+> styling of components.
 
-We've overhauled the entire docs site to be easier to use (better navigation
-styling) and quicker to navigate (super-fast Algolia search :exploding_head:).
+We've overhauled the entire docs site to be easier to use (better navigation styling) and quicker to navigate
+(super-fast Algolia search :exploding_head:).
 
 We've also added some new components offered by DaisyUI 5 including:
 
@@ -264,8 +204,8 @@ We've also added some new components offered by DaisyUI 5 including:
 
 And we updated many examples to be more clear or show other usage scenarios.
 
-Lastly, we added a TON of tests to ensure that all of the components function as
-designed and will continue to as we add more features.
+Lastly, we added a TON of tests to ensure that all of the components function as designed and will continue to
+as we add more features.
 
 Read on for specific changes across the entire project! :tada:
 
@@ -278,16 +218,13 @@ Read on for specific changes across the entire project! :tada:
   ([Fixes #32](https://github.com/profoundry-us/loco_motion/issues/32))
 - add(Status): Add Status component for displaying visual status indicators
   ([Fixes #30](https://github.com/profoundry-us/loco_motion/issues/30))
-- feat(LabelableComponent): New concern to enable label functionality across
-  components
+- feat(LabelableComponent): New concern to enable label functionality across components
 - feat(Select): Enable start/end/floating label functionality
 - feat(Toggle): Enable start/end/floating label functionality
 - feat(Checkbox): Enable start/end label functionality
-- feat(Filter): Add Filter component for creating selection interfaces with
-  toggle functionality
+- feat(Filter): Add Filter component for creating selection interfaces with toggle functionality
   ([Fixes #33](https://github.com/profoundry-us/loco_motion/issues/33))
-- feat(Cally): Add new Daisy Cally and CallyInput components with date picker
-  functionality
+- feat(Cally): Add new Daisy Cally and CallyInput components with date picker functionality
 - feat(Select): Add support for array and hash options in select component
 - feat(Select): Add floating label support for select inputs
 - feat(Labelable): Enhance labelable component behavior for better form handling
@@ -300,72 +237,56 @@ Read on for specific changes across the entire project! :tada:
   ([PR #42](https://github.com/profoundry-us/loco_motion/pull/42))
 - **Breaking:** Update existing components for DaisyUI 5 compatibility
   ([PR #28](https://github.com/profoundry-us/loco_motion/pull/28))
-- **Breaking:** All inputs now have a border by default, use `input-ghost` (or
-  `*-input-ghost`) to remove (see
+- **Breaking:** All inputs now have a border by default, use `input-ghost` (or `*-input-ghost`) to remove (see
   [DaisyUI Upgrade Guide](https://daisyui.com/docs/upgrade))
-- **Breaking:** Migrated BottomNav component to Dock component to match DaisyUI
-  5 changes
+- **Breaking:** Migrated BottomNav component to Dock component to match DaisyUI 5 changes
   ([Fixes #40](https://github.com/profoundry-us/loco_motion/issues/40)):
   - `BottomNavComponent` → `DockComponent`
   - Helper method `daisy_bottom_nav` → `daisy_dock`
-  - Updated all CSS classes, slot/part names, and icon rendering to new
-    conventions
+  - Updated all CSS classes, slot/part names, and icon rendering to new conventions
   - Example views and tests updated accordingly
-  - This is a breaking change: update any usages of the old component and helper
-    to the new names and API
-- feat: Allow users to pass singular `controller:` keyword in addition to
-  `controllers:`
-- refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent
-  initialization and setup
+  - This is a breaking change: update any usages of the old component and helper to the new names and API
+- feat: Allow users to pass singular `controller:` keyword in addition to `controllers:`
+- refactor: Implement Concern Lifecycle Hooks in `BaseComponent` for consistent initialization and setup
   ([PR #54](https://github.com/profoundry-us/loco_motion/pull/54))
 - refactor: Move component concerns to lib directory for better organization
-- test: Add comprehensive tests for IconableComponent, LinkableComponent, and
-  TippableComponent
-- refactor: The Loco parent is now set automatically in slots
-  (`slot_loco_parent_patch.rb`) and you can pass the `loco_parent` option when
-  creating a new component to set it manually when needed
+- test: Add comprehensive tests for IconableComponent, LinkableComponent, and TippableComponent
+- refactor: The Loco parent is now set automatically in slots (`slot_loco_parent_patch.rb`) and you can pass
+  the `loco_parent` option when creating a new component to set it manually when needed
 
 #### Component Changes
 
-- **Breaking:** remove(Artboard): Remove Artboard component no longer offered by
-  DaisyUI 5 ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
-- **Breaking:** refactor(Device): Utilize standard Tailwind width/height classes
-  instead of Artboard
+- **Breaking:** remove(Artboard): Remove Artboard component no longer offered by DaisyUI 5
+  ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
+- **Breaking:** refactor(Device): Utilize standard Tailwind width/height classes instead of Artboard
   ([PR #43](https://github.com/profoundry-us/loco_motion/pull/43))
 - **Breaking:** refactor(ThemeController): Migrate to a "Builder" component
   ([Fixes #38](https://github.com/profoundry-us/loco_motion/issues/38))
-- **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4
-  `form-control` class (including specs)
-- **Breaking:** change(Modal): Modal titles now render as an `<h4>` instead of a
-  `<div>`
-- **Breaking:** change(Icon): Hero icons now use the
-  https://rubygems.org/gems/rails_heroicon library which means the existing
-  `heroicon_tag` helper is replaced with the `heroicon` helper
+- **Breaking:** remove(`form-control`): Remove all references to DaisyUI 4 `form-control` class (including
+  specs)
+- **Breaking:** change(Modal): Modal titles now render as an `<h4>` instead of a `<div>`
+- **Breaking:** change(Icon): Hero icons now use the https://rubygems.org/gems/rails_heroicon library which
+  means the existing `heroicon_tag` helper is replaced with the `heroicon` helper
   ([Fixes #47](https://github.com/profoundry-us/loco_motion/issues/47))
 
-- feat(Avatar): Add support for icons and linking via `IconableComponent` and
-  `LinkableComponent`
-- feat(Badge): Add support for icons and linking and styling, including new
-  `badge-soft` and `badge-dashed` variants
-- feat(Button): Enhanced with new features and styling, including new `btn-soft`
-  and `btn-dashed` variants
-- feat(Alert): Enhanced with new styling options, including `alert-soft` and
-  `alert-dashed` variants
+- feat(Avatar): Add support for icons and linking via `IconableComponent` and `LinkableComponent`
+- feat(Badge): Add support for icons and linking and styling, including new `badge-soft` and `badge-dashed`
+  variants
+- feat(Button): Enhanced with new features and styling, including new `btn-soft` and `btn-dashed` variants
+- feat(Alert): Enhanced with new styling options, including `alert-soft` and `alert-dashed` variants
 - feat(Breadcrumbs): Refined implementation for better usability
 - feat(Menu): Enhanced styling and functionality
 - feat(Steps): Enhanced for better visual presentation
 - feat(Tabs): Added five different size options (xs, sm, md, lg, xl)
 - feat(Input): Add `daisy_input` alias helper in addition to `daisy_text_input`
 - fix(Link): Tooltips now work correctly
-- fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant
-  CSS classes
+- fix(Dropdown): Simplify item rendering and add `where:` modifier to relevant CSS classes
 - fix(KBD): Accept a simple title
 - fix(Modal): Only show actions part if provided
 - fix(Modal): Remove unnecessary `:dialog` part from component definition
   ([Fixes #46](https://github.com/profoundry-us/loco_motion/issues/46))
 - fix(Navbar): Improved implementation and styling
-- refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and
-  improved code organization
+- refactor(DocExample): Renamed from `ExampleWrapper` for better semantics and improved code organization
 - fix(Fieldset): Fix issue with fieldset textarea rendering
 
 #### Demo / Docs Changes
@@ -376,8 +297,7 @@ Read on for specific changes across the entire project! :tada:
 - fix: Padding issue with ThemeController
 - fix: Issues with swaps (rotation issue remains)
 - fix: Navigation not updating active state on selection
-- fix: Padding issue on Dropdowns example by upgrading to latest Tailwind
-  insiders
+- fix: Padding issue on Dropdowns example by upgrading to latest Tailwind insiders
 - feat: Dark mode toggle functionality
 - fix: Device mockups in dark mode
 - fix: Header and buttons in dark mode
@@ -403,30 +323,23 @@ Read on for specific changes across the entire project! :tada:
 - fix: Border to bottom figure example
 - feat: Standardize H1/H2 doc headings
 - feat: Enhanced navigation with icons, colors, and improved padding
-- add: Algolia search indexing and UI
-  ([Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
-- feat(AlgoliaSearch): Add auto-selection of first search result on query for
-  improved UX
-- refactor: Renamed `ExampleWrapper` doc component to `DocExample` for better
-  semantics
-- fix: Converted most uses of code blocks to markdown backticks for improved
-  readability
+- add: Algolia search indexing and UI ([Fixes #37](https://github.com/profoundry-us/loco_motion/issues/37))
+- feat(AlgoliaSearch): Add auto-selection of first search result on query for improved UX
+- refactor: Renamed `ExampleWrapper` doc component to `DocExample` for better semantics
+- fix: Converted most uses of code blocks to markdown backticks for improved readability
 - fix(DocNote): Fix purple TODO variant text color.
 - refactor: Merge `application.js` functionality into `index.js`
 - feat: Add Theme Switcher dropdown to header
 - fix: Fix header item spacing / padding on smaller screens
-- fix: Rename `Data` group to `Data Display` to match component module & DaisyUI
-  5
+- fix: Rename `Data` group to `Data Display` to match component module & DaisyUI 5
 - fix: Make Label docs show better buttons for implementing components
 - fix: Add tooltips to header buttons and make logo a link
 - fix: Always enable BetterErrors in development
 - fix: Header Theme Switcher was using the wrong button size
-- feat: Add soft, outline, and dash style examples to Alert, Badge, and Button
-  examples ([Fixes #36](https://github.com/profoundry-us/loco_motion/issues/36))
-- feat: Updated component documentation to use `@loco_example` tag for better
-  organization
-- add(DocNote): Add new error modifier to doc_note component for improved
-  documentation
+- feat: Add soft, outline, and dash style examples to Alert, Badge, and Button examples
+  ([Fixes #36](https://github.com/profoundry-us/loco_motion/issues/36))
+- feat: Updated component documentation to use `@loco_example` tag for better organization
+- add(DocNote): Add new error modifier to doc_note component for improved documentation
 - fix: Fix issue with figures not showing captions
 - fix: Fix typo in select docs
 - fix: Add check in set_loco_parent_patch to ensure we catch nil references
@@ -436,15 +349,13 @@ Read on for specific changes across the entire project! :tada:
 
 ## [0.4.0] - 2025-03-07
 
-This version is a major milestone as it finishes out a basic version of all of
-the DaisyUI 4 components!
+This version is a major milestone as it finishes out a basic version of all of the DaisyUI 4 components!
 
-While this gives us a solid foundation to start using the components, we feel
-that our time will best be spent upgrading the configuration and components to
-utilize the new DaisyUI 5 framework that was recently released.
+While this gives us a solid foundation to start using the components, we feel that our time will best be spent
+upgrading the configuration and components to utilize the new DaisyUI 5 framework that was recently released.
 
-We will be migrating to the new version and all bug fixes / improvements will be
-made in a new LocoMotion 0.5.0 branch / release.
+We will be migrating to the new version and all bug fixes / improvements will be made in a new LocoMotion
+0.5.0 branch / release.
 
 ### Added
 
@@ -494,8 +405,7 @@ made in a new LocoMotion 0.5.0 branch / release.
 
 ### Fixed
 
-- Fixed Button component bug where styles were not always applied with icon
-  options
+- Fixed Button component bug where styles were not always applied with icon options
 - Fixed compatibility issues between the gem and the demo app
 - Fixed Gemfile.lock not getting saved properly during version updates
 

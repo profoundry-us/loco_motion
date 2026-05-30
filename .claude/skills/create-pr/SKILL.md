@@ -89,10 +89,10 @@ head -20 CHANGELOG.md
 - If it exists, append new bullet items to the bottom of that section.
 - If it does not exist, create the section header and add items beneath it.
 
-Wrap every entry at 80 characters (continuation lines indented to align with
+Wrap every entry at 110 characters (continuation lines indented to align with
 the text after the `- ` marker). Never split an inline code span, Markdown
 link, or `<code>` tag across lines — only those unbreakable tokens may push a
-line past 80. See the `update-changelog` skill for the full rules.
+line past 110. See the `update-changelog` skill for the full rules.
 
 Follow the categorization rules:
 
