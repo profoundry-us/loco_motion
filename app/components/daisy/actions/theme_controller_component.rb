@@ -54,7 +54,11 @@ class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
   #
   def build_radio_input(theme, **options)
     options[:css] = (options[:css] || "").concat(" theme-controller")
-    default_options = { name: "theme", id: "theme-#{theme}", value: theme }
+
+    # Namespace the id by the input name so multiple theme controllers can
+    # coexist on the same page without generating duplicate ids.
+    name = options[:name] || "theme"
+    default_options = { name: name, id: "#{name}-#{theme}", value: theme }
 
     render Daisy::DataInput::RadioButtonComponent.new(**default_options.deep_merge(options))
   end

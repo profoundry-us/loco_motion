@@ -51,8 +51,9 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
         
         def build_radio_input(theme, **options)
           options[:css] = (options[:css] || "").concat(" theme-controller")
-          default_options = { name: "theme", id: "theme-#{theme}", value: theme }
-          
+          name = options[:name] || "theme"
+          default_options = { name: name, id: "#{name}-#{theme}", value: theme }
+
           mock_render(Daisy::DataInput::RadioButtonComponent, **default_options.deep_merge(options))
         end
         
@@ -75,10 +76,17 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
       
       it "allows overriding options" do
         result = component.build_radio_input(test_theme, css: "custom-class", checked: true)
-        
+
         expect(result[:args][:css]).to include("custom-class")
         expect(result[:args][:css]).to include("theme-controller")
         expect(result[:args][:checked]).to be true
+      end
+
+      it "namespaces the id by the input name to avoid duplicate ids" do
+        result = component.build_radio_input(test_theme, name: "docs-radio-theme")
+
+        expect(result[:args][:name]).to eq("docs-radio-theme")
+        expect(result[:args][:id]).to eq("docs-radio-theme-#{test_theme}")
       end
     end
     

@@ -10,8 +10,9 @@
           %em> Loco
           %span.font-bold Motion
 
-    = link_to "https://github.com/profoundry-us/loco_motion/", target: "_blank", class: "flex items-center ml-2" do
-      = daisy_button("v#{LocoMotion::VERSION}", css: "px-4 tooltip tooltip-right btn-info btn-soft btn-xs rounded-full")
+    = daisy_tip("View All Releases", css: "tooltip-info tooltip-bottom md:tooltip-right") do
+      = daisy_button("v#{LocoMotion::VERSION}", css: "ml-2 px-4 btn-info btn-soft btn-xs rounded-full",
+        href: "https://github.com/profoundry-us/loco_motion/releases", target: "_blank")
 
   - bar.with_end(css: "w-auto! space-x-2") do
     = daisy_button(css: "btn-sm px-3 sm:px-6 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
@@ -22,10 +23,6 @@
         = hero_icon "magnifying-glass", css: "size-3.5"
         Search
 
-    - # Bug: There is a slight delay so the search bar and a few other
-    - # components may flash before the theme is set.
-    - #
-    - # https://github.com/profoundry-us/loco_motion/issues/49
     - button_css = "flex! btn-sm btn-ghost px-1 sm:px-3 max-lg:tooltip max-lg:tooltip-left max-lg:tooltip-secondary"
 
     = daisy_theme_controller do |tc|

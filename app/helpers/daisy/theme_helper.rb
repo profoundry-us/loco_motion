@@ -8,7 +8,7 @@ module Daisy
     # to prevent a flash of content when the page loads.
     #
     # This script runs synchronously in the head section before the page
-    # renders, setting the data-theme attribute on the html element if a
+    # renders, setting the `data-theme` attribute on the html element if a
     # theme has been saved in localStorage.
     #
     # @return [String] The inline script as a string

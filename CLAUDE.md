@@ -144,6 +144,14 @@ daisy_button(color: :primary, size: :lg)
 ## Markdown / Documentation
 
 - Wrap lines at 80 characters.
+- Exception: wrap `CHANGELOG.md` entries at 110 characters — the longer limit
+  keeps each entry readable. Indent continuation lines to align with the text
+  after the list marker (2 spaces under a top-level `- `, 4 under a nested
+  `  - `).
+- Never split an inline code span (`` `...` ``), a Markdown link
+  (`[text](url)`), or a `<code>` tag across lines. A line may exceed its limit
+  only when one such unbreakable token is itself too long; prose must always
+  wrap.
 - Add a newline after every header.
 - Use two newlines before H1 headings.
 

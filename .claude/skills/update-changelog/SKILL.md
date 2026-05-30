@@ -72,7 +72,14 @@ Rules:
 - Never delete or alter existing entries.
 - Append new items to the **bottom** of the relevant subsection.
 - Use sentence case for entry text and end with a period.
-- Wrap lines at 80 characters.
+- Wrap all entry descriptions at 110 characters. Indent continuation lines to
+  align with the text after the marker (2 spaces under a top-level `- ` item,
+  4 spaces under a nested `  - ` item).
+- Never break inside an inline code span (`` `...` ``), a Markdown link
+  (`[text](url)`), or a `<code>...</code>` tag — keep each on one line. A line
+  may exceed 110 characters only when a single one of these unbreakable tokens
+  is itself longer than the remaining space (code/links are allowed to run
+  long; prose is not).
 
 ### Step 6: Create the `[Unreleased]` section if missing
 
