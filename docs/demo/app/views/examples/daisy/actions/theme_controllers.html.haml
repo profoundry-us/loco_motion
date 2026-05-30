@@ -17,7 +17,9 @@
       sub-components, whereas typical components use the HAML `-` syntax to
       "pass" the component to a slot.
 
-  = doc_note(modifier: :tip) do
+  - theme_helper_docs_url = "#{Rails.configuration.api_docs_host}/Daisy/ThemeHelper#theme_preload_script-instance_method"
+  - theme_helper_docs_link = daisy_link(href: theme_helper_docs_url, target: "_blank", title: "ThemeHelper API Docs")
+  = doc_note(modifier: :warning, css: "mt-8") do
     :markdown
       To prevent a flash of content when the page loads with a non-default
       theme, add `= theme_preload_script` to your layout's `<head>` section.
@@ -25,7 +27,7 @@
       localStorage.
 
       See [GitHub Issue #49](https://github.com/profoundry-us/loco_motion/issues/49)
-      for more details.
+      and the #{theme_helper_docs_link} for more details.
 
 
 = doc_example(title: "Theme Preview Icons") do |doc|
@@ -47,17 +49,18 @@
 = doc_example(title: "Theme Radio Inputs") do |doc|
   - doc.with_description do
     :markdown
-      When a theme radio input is selected, the theme's page will change to the
-      value of the the input.
+      When a theme radio input is selected, the page's theme will change to the
+      value of the input.
 
-    = doc_note(modifier: :warning, css: "mb-8") do
+    = doc_note(modifier: :tip, css: "mb-8") do
       :markdown
-        We provide a custom name of `docs-radio-theme` so that this example
-        doesn't interfere with the header theme or other examples.
+        You do **not** need to wire up any `setTheme` action. The
+        `ThemeController` automatically watches its inputs for `change` events,
+        saves the selection to `localStorage`, and keeps every other theme
+        selector on the page (including the header switcher) in sync.
 
-        However, because we are **only** using the radio inputs, we do **NOT**
-        call the `setTheme()` method, and thus we do **NOT** save these changes
-        to `localStorage`.
+        We provide a custom name of `docs-radio-theme` so these inputs form
+        their own radio group, but selecting one still syncs everywhere.
 
   = daisy_theme_controller do |theme_controller|
     .flex.flex-col.sm:flex-row.gap-4.items-start.sm:items-center

@@ -18,8 +18,14 @@ export default class extends Controller {
     // Setup a custom listener to watch for changes on the page in case the
     // page has multiple theme selectors
     this.storageChangeListener = this.storageChanged.bind(this)
-
     window.addEventListener('localstorage-update', this.storageChangeListener)
+
+    // Automatically persist + sync whenever a theme input within this
+    // controller changes. This means consumers do NOT need to wire up a
+    // `setTheme` action on each radio/checkbox — simply changing the input is
+    // enough to save the theme and keep every other selector in sync.
+    this.inputChangeListener = this.handleInputChange.bind(this)
+    this.element.addEventListener('change', this.inputChangeListener)
   }
 
   /**
@@ -28,19 +34,22 @@ export default class extends Controller {
    */
   disconnect() {
     window.removeEventListener('localstorage-update', this.storageChangeListener)
+    this.element.removeEventListener('change', this.inputChangeListener)
   }
 
   /**
-   * Sets the appropriate radio input as checked based on the current theme.
-   * This ensures the UI reflects the active theme.
+   * Syncs the radio inputs within this controller to the current theme.
+   * The input matching the active theme is checked and every other
+   * theme-controller input is unchecked, so a selection made in one selector
+   * never leaves a stale `:checked` input behind in another.
    */
   setInput() {
     const theme = this.getCurrentTheme()
-    const input = this.element.querySelector(`input[value='${theme}']`);
+    const inputs = this.element.querySelectorAll('input.theme-controller')
 
-    if (input) {
-      input.checked = true;
-    }
+    inputs.forEach((input) => {
+      input.checked = input.value === theme
+    })
   }
 
   /**
@@ -77,19 +86,54 @@ export default class extends Controller {
    * Changes the theme based on user selection.
    * Updates localStorage and dispatches a custom event to notify other controllers.
    *
+   * Supports two markup patterns:
+   *   1. The action is placed on a wrapper element that contains an `<input>`
+   *      (e.g. the Custom Switcher's `<a>` links).
+   *   2. The action is placed directly on the `<input>` itself.
+   *
    * @param {Event} event - The triggering click event
    */
   setTheme(event) {
-    const input = event.currentTarget.querySelector('input')
+    const target = event.currentTarget
+    const input = target.matches && target.matches('input')
+      ? target
+      : target.querySelector('input')
 
     if (input) {
-      localStorage.setItem("savedTheme", input.value)
-
-      const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: input.value } })
-      window.dispatchEvent(updateEvent)
+      this.applyTheme(input.value)
     }
 
-    event.preventDefault();
+    event.preventDefault()
+  }
+
+  /**
+   * Handles `change` events bubbling up from any theme-controller input within
+   * this controller. Persists and broadcasts the newly selected theme so every
+   * other selector stays in sync — no per-input action wiring required.
+   *
+   * @param {Event} event - The triggering change event
+   */
+  handleInputChange(event) {
+    const input = event.target
+
+    if (!input || !input.classList || !input.classList.contains('theme-controller')) return
+    if (!input.checked) return
+
+    this.applyTheme(input.value)
+  }
+
+  /**
+   * Persists the given theme, applies it to the document, and notifies every
+   * other theme controller on the page so they can sync their inputs.
+   *
+   * @param {string} value - The theme name to apply
+   */
+  applyTheme(value) {
+    localStorage.setItem("savedTheme", value)
+    document.documentElement.setAttribute('data-theme', value)
+
+    const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: value } })
+    window.dispatchEvent(updateEvent)
   }
 
   /**

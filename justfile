@@ -23,7 +23,7 @@ all:
     docker compose up --build
 
 # Run all of the containers without rebuilding
-all-quick:
+all-fast:
     docker compose up
 
 # Run all of the tests (uses running containers)
@@ -56,7 +56,7 @@ loco:
     docker compose up loco --build
 
 # Run the loco container without rebuilding
-loco-quick:
+loco-fast:
     docker compose up loco
 
 # Open a Ruby console in the loco container
@@ -81,7 +81,7 @@ demo:
     docker compose up demo --build
 
 # Run the demo container without rebuilding
-demo-quick:
+demo-fast:
     docker compose up demo
 
 # Open a Ruby console in the demo container
@@ -145,7 +145,7 @@ yard-clean:
     rm -rf .yardoc
 
 # Run the yard container without building
-yard-quick:
+yard-fast:
     docker compose up yard
 
 # Open a bash shell in the running yard container
