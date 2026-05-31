@@ -77,7 +77,7 @@ gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
 Next, create or update your `tailwind.config.js` to tell Tailwind where to
 scan for component class names. In Tailwind 4, this file handles **only**
 content paths — plugins belong in your CSS file (see the
-[Getting Started guide](docs/guides/getting-started.md#install-daisyui-optional)).
+[Getting Started guide](https://loco-motion.profoundry.us/guides/getting_started)).
 
 ```js
 const { execSync } = require('child_process');
@@ -167,15 +167,21 @@ the [demo site](https://loco-motion.profoundry.us/) and the
 
 These optional guides cover the broader LocoMotion philosophies and a
 recommended, opinionated setup for a brand-new Rails project. You do **not**
-need them to use the gem — they live under
-[`docs/guides/`](docs/guides/):
+need them to use the gem — they are published on the
+[demo site](https://loco-motion.profoundry.us/guides/getting_started):
 
-- [Getting Started](docs/guides/getting-started.md) — Stand up a new
-  Dockerized Rails app with HAML, TailwindCSS, and DaisyUI.
-- [Debugging & Testing](docs/guides/debugging.md) — Set up RSpec, Playwright,
-  service objects, and the remote debugger.
-- [Authentication & Error Handling](docs/guides/authentication.md) — Wire up
-  OmniAuth, the Web Console, and BetterErrors.
+- [Getting Started](https://loco-motion.profoundry.us/guides/getting_started) —
+  Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI.
+- [Docker](https://loco-motion.profoundry.us/guides/docker) — A consistent,
+  reliable development environment for any OS.
+- [HAML](https://loco-motion.profoundry.us/guides/haml) — Cleaner,
+  indentation-based templates for a better developer experience.
+- [Debugging & Testing](https://loco-motion.profoundry.us/guides/debugging) —
+  Set up RSpec, Playwright, and the remote debugger.
+- [Service Objects](https://loco-motion.profoundry.us/guides/services) —
+  Structure your business logic with ActiveInteraction.
+- [Authentication](https://loco-motion.profoundry.us/guides/authentication) —
+  Wire up OmniAuth, the Web Console, and BetterErrors.
 
 ## Documentation & Demo
 

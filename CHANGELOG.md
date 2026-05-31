@@ -32,8 +32,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Documentation
 
-- docs(README): Split the generic Rails-setup content into `docs/guides/` and slim the README from ~1000 lines to
-  ~330 ([Fixes #73](https://github.com/profoundry-us/loco_motion/issues/73)).
+- docs(Guides): Move the generic Rails-setup content out of the README into demo-site guide pages under
+  `docs/demo/app/views/guides/` (Docker, HAML, Debugging, Getting Started, Services, Authentication), exposed via
+  the existing `/guides/:id` routes and linked from the demo home page; slim the README from ~1000 to ~330 lines
+  ([Fixes #73](https://github.com/profoundry-us/loco_motion/issues/73)).
 - docs(README): Fix the Stimulus integration example to register controllers under their required `loco-*`
   identifiers (previously `"countdown"`, which never connects) and document all four JS-backed components.
 - docs(LLM): Regenerate `llms.txt` / `llms-full.txt` for v0.5.2 — they were stale at v0.5.1 and the demo's
