@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The BasicComponent class is used for all slots that don't provide a component
 # so that users can pass in all of the same CSS and HTML options that a standard

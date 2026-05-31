@@ -6,9 +6,24 @@ on:
   push:
     branches:
     - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gemfile:
+        - gemfiles/rails_6_1.gemfile
+        - gemfiles/rails_7_1.gemfile
+        - gemfiles/rails_7_2.gemfile
+        - gemfiles/rails_8_0.gemfile
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/${{ matrix.gemfile }}
     steps:
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1

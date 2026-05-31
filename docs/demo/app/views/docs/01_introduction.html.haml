@@ -144,6 +144,24 @@
               end
             end
 
+    %h3.mt-32.text-4xl.font-bold
+      Guides &amp; Paradigms
+
+    %p.mt-2.text-xl
+      Beyond the components, we share the broader philosophies and tooling we
+      recommend for building Rails applications the <em>Loco</em><strong>Motion</strong> way.
+
+    - # The routing key must be the full filename (with numeric prefix) — the
+    - # guides/docs controllers render the template id verbatim. See the
+    - # DocFooterButtonsComponent which navigates via item[:filename] too.
+    - guides = [["🚀 Getting Started", "04_getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳 Docker", "01_docker", "A consistent, reliable development environment for any OS."], ["📝 HAML", "02_haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛 Debugging & Testing", "03_debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️ Service Objects", "05_services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒 Authentication", "06_authentication", "Wire up OmniAuth sign-in plus Web Console and BetterErrors."]]
+
+    .mt-8.grid.gap-4.sm:grid-cols-2.lg:grid-cols-3
+      - guides.each do |title, filename, description|
+        %a.block.p-4.rounded-box.bg-base-200.no-underline.hover:bg-base-300.transition-colors{ href: guide_path(filename), data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+          %h4.text-lg.font-bold= title
+          %p.mt-1{ class: "text-base-content/70" }= description
+
     - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
     %h3.mt-24.text-center.text-4xl.font-bold.italic
       More Coming Soon!

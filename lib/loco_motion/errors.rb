@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LocoMotion
   class UnknownPartError < StandardError
     def initialize(part, component, custom_message = nil)

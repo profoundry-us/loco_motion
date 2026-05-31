@@ -128,6 +128,8 @@ class Daisy::Navigation::DockComponent < LocoMotion::BaseComponent
   # Adds the dock CSS class to the component.
   def before_render
     add_css(:component, "dock")
+
+    super
   end
 
   # Render the dock component with all its sections and content.

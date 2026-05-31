@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails"
 require "haml-rails"
 require "rails_heroicon"

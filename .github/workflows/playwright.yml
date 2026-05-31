@@ -8,6 +8,10 @@ on:
     branches:
     - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   playwright:
     name: 'Playwright Tests'
@@ -33,7 +37,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version-file: .node-version
         cache: 'yarn'
         cache-dependency-path: 'docs/demo/yarn.lock'
 

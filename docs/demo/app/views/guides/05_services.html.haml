@@ -1,0 +1,101 @@
+= content_for(:page_title) do
+  Service Objects
+
+.max-w-prose
+  = doc_info(url: "https://github.com/AaronLasseigne/active_interaction", icon: "cog-6-tooth", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** encourages keeping business logic out of your
+      controllers and models by extracting it into **Service Objects**.
+
+.prose
+  :markdown
+    # Service Objects
+
+    It is best practice to separate your business logic into **Service
+    Objects** rather than shoving all of it into your controllers and models.
+    This keeps each layer focused: controllers handle HTTP, models handle
+    persistence, and services orchestrate the actual work.
+
+.mt-12.prose
+  :markdown
+    ## 1. ActiveInteraction
+
+    One solution we really like is
+    [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction).
+    It is very stable, has wonderful documentation, and gives you a clean way
+    to build service objects with support for things like composed
+    interactions and even ActiveModel validations.
+
+    Add the gem to your `Gemfile` and run `bundle install`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "active_interaction", "~> 5.3"
+
+.mt-12.prose
+  :markdown
+    ## 2. A Base Interaction
+
+    Create a base `ApplicationInteraction` class that all of your service
+    objects can inherit from. This gives you a single place to add shared
+    behavior later:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/interactions/application_interaction.rb
+      class ApplicationInteraction < ActiveInteraction::Base
+        # Your interactions will inherit from this class!
+      end
+
+.mt-12.prose
+  :markdown
+    ## 3. Writing an Interaction
+
+    Each interaction declares its inputs with typed filters, runs validations,
+    and implements an `execute` method. Here is a small example:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/interactions/users/sign_up.rb
+      module Users
+        class SignUp < ApplicationInteraction
+          string :email
+          string :name
+
+          validates :email, presence: true
+
+          def execute
+            User.create!(email: email, name: name)
+          end
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    Call it with `.run` (which returns an outcome you can check) or `.run!`
+    (which raises on failure):
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      outcome = Users::SignUp.run(email: "ada@example.com", name: "Ada")
+
+      if outcome.valid?
+        user = outcome.result
+      else
+        # outcome.errors holds the validation messages
+      end
+
+= doc_note(css: "mt-8", modifier: :tip, title: "Pro Tip") do
+  :markdown
+    Because interactions support **composed** interactions, you can call one
+    service from another with `compose`, building larger workflows out of
+    small, well-tested pieces.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

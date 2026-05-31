@@ -33,12 +33,17 @@ class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
   # @option kws position [Symbol] Position of the image relative to content.
   #   Must be :top (default) or :bottom.
   #
+  # @option kws alt [String] The alt text for the image, used by screen
+  #   readers and shown when the image fails to load. Omitted when not
+  #   provided.
+  #
   # @option kws css [String] Additional CSS classes for styling.
   #
   def initialize(**kws, &block)
     super
 
     @src = kws[:src]
+    @alt = kws[:alt]
     @position = kws[:position] || :top
 
     validate_position!
@@ -46,7 +51,7 @@ class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
 
   def before_render
     set_tag_name(:component, :figure)
-    add_html(:image, src: @src) if @src
+    add_html(:image, { src: @src, alt: @alt }) if @src
 
     super
   end

@@ -1,0 +1,210 @@
+= content_for(:page_title) do
+  Authentication
+
+.max-w-prose
+  = doc_info(url: "https://github.com/omniauth/omniauth", icon: "lock-closed", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** recommends starting with **OmniAuth** for authentication
+      — its `:developer` strategy gets you signing in fast.
+
+.prose
+  :markdown
+    # Authentication &amp; Error Handling
+
+    This guide covers adding user authentication with **OmniAuth**, plus the
+    in-browser error tools (**Web Console** and **BetterErrors**) that make
+    debugging the sign-in flow painless. It assumes you have already followed
+    the [Getting Started guide](#{guide_path("getting_started")}) and have a
+    running Dockerized Rails app.
+
+.mt-12.prose
+  :markdown
+    ## 1. Authentication with OmniAuth
+
+    There are a **lot** of ways to handle authentication in Rails. The two
+    most popular gems are
+    [OmniAuth](https://github.com/omniauth/omniauth) and
+    [Devise](https://github.com/heartcombo/devise).
+
+    We recommend starting with OmniAuth because its `:developer` strategy lets
+    you get going very quickly, and you can
+    [integrate it with Devise](https://github.com/heartcombo/devise#omniauth)
+    or a service like [Auth0](https://auth0.com/) later if you choose.
+
+    Add the relevant gems to your `Gemfile` and re-run `bundle install`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "omniauth"
+      gem "omniauth-rails_csrf_protection"
+
+= doc_note(modifier: :tip, title: "Restarting Quickly", css: "mt-6") do
+  :markdown
+    After installing, you will need to restart your Rails server. Rather than
+    a full restart, you can restart just the web process by touching a file:
+    <br /><br />
+    ```
+    touch tmp/restart.txt
+    ```
+
+.mt-6.prose
+  :markdown
+    Next, create an OmniAuth initializer:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/omniauth.rb
+      Rails.application.config.middleware.use OmniAuth::Builder do
+        provider :developer if Rails.env.development?
+      end
+
+.mt-6.prose
+  :markdown
+    Add the routes for the login page and the provider callback:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/routes.rb
+      get "/auth/:provider/callback", to: "sessions#create"
+      get "/login", to: "sessions#new"
+
+.mt-6.prose
+  :markdown
+    Then add a sessions controller and a simple login view:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/controllers/sessions_controller.rb
+      class SessionsController < ApplicationController
+        def new
+          render :new
+        end
+
+        def create
+          user_info = request.env["omniauth.auth"]
+          raise user_info # Your own session management should be placed here.
+
+          session[:user_info] = user_info.to_hash
+
+          redirect_to root_path
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# app/views/sessions/new.html.haml
+      - if Rails.env.development?
+        = form_tag("/auth/developer", method: "post", data: { turbo: false }) do
+          %button.btn{ type: "submit" }
+            Login with Developer
+
+.mt-6.prose
+  :markdown
+    Visit [http://localhost:3000/login](http://localhost:3000/login), click
+    the button, and enter any name and email. Because of the `raise user_info`
+    line, the app will throw an error and show you exactly where it stopped —
+    which is the perfect excuse to wire up better error tooling before we
+    finish the flow.
+
+    When you are ready for sign-in to actually work, delete or comment out the
+    `raise user_info` line and integrate `session[:user_info]` into your app.
+
+.mt-12.prose
+  :markdown
+    ## 2. Web Console
+
+    Rails ships with [Web Console](https://github.com/rails/web-console), which
+    inserts an IRB prompt right into your browser whenever an exception is
+    raised. When running inside Docker, you will usually see a log line like:
+
+.mt-6.max-w-prose
+  = doc_code(language: "text") do
+    :plain
+      Cannot render console from 172.23.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+
+.mt-6.prose
+  :markdown
+    Because we are on a different network than Rails expects, the console is
+    blocked. Add the following to `config/environments/development.rb` to
+    allow it no matter which IP the container uses:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Fix console permissions for Docker so Web Console works no matter the IP
+      config.web_console.permissions = "0.0.0.0/0"
+
+.mt-6.prose
+  :markdown
+    Restart the app (using `just app-restart`) and refresh the login flow.
+    You should now see a black, interactive console at the bottom of the error
+    page. Type the following and hit enter to inspect the user you just signed
+    in as:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      user_info.to_hash
+
+.mt-6.prose
+  :markdown
+    You can run almost any code here that you could run in your controllers,
+    views, or models. A handy trick: drop a non-existent reference like `asdf`
+    just above the code you want to inspect and refresh — Rails will stop
+    there and let you poke around the live application state.
+
+.mt-12.prose
+  :markdown
+    ## 3. BetterErrors (Optional)
+
+    [BetterErrors](https://github.com/BetterErrors/better_errors) provides (in
+    our humble opinion) a nicer interface for the errors that crop up in a
+    Rails app. We particularly like how it lays the stack trace out to the
+    left of the code and console.
+
+    Add the following to the `:development` group of your `Gemfile`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      group :development do
+        gem "better_errors"
+        gem "binding_of_caller"
+      end
+
+= doc_note(modifier: :error, title: "Security Note", css: "mt-6") do
+  :markdown
+    It is **imperative** that these live in the `:development` group so they
+    can never load in production — otherwise you create a **massive** security
+    risk!
+
+.mt-6.prose
+  :markdown
+    Run `bundle install` inside the app container (`just app-shell`), or
+    simply kill and restart it with `just app-fast`, which installs new gems
+    for you. Because we are inside Docker, BetterErrors will also refuse
+    connections from the host machine. Add the following to
+    `config/environments/development.rb`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Allow BetterErrors to render
+      BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
+
+.mt-6.prose
+  :markdown
+    Restart your container (e.g. `just app-restart`) and refresh the page to
+    get the fully-featured error screen — perfect for inspecting that
+    `raise user_info` line before you finish wiring up sign-in.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

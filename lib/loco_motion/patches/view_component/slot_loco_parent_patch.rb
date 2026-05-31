@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Monkey patch ViewComponent::Slot to save the parent component
 
 module LocoMotion

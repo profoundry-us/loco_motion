@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LocoMotion::ComponentConfig
   attr_reader :component, :parts, :options, :modifiers, :size
 

@@ -83,11 +83,11 @@ def check_prerequisites(dry_run: false)
 
   # Check if tests pass (skip in dry run as it runs commands)
   if dry_run
-    puts "DRY RUN: Skipping test execution (would run 'make test')"
+    puts "DRY RUN: Skipping test execution (would run 'just test')"
   else
     response = prompt_yes_no("Run tests to ensure everything is working?", default: 'y')
     if response == 'y'
-      execute_command("Running all tests", "make test")
+      execute_command("Running all tests", "just test")
     end
   end
 
@@ -136,10 +136,10 @@ def update_version(dry_run: false)
   end
 
   # Update version
-  execute_command("Updating version to #{new_version}", "make version-set NEW_VERSION=#{new_version}")
+  execute_command("Updating version to #{new_version}", "just version-set #{new_version}")
 
   # Update loco container
-  execute_command("Updating loco container", "make loco-version-lock")
+  execute_command("Updating loco container", "just loco-version-lock")
 
   # Show changes
   puts "\nCHANGES: Changes made:"
@@ -251,7 +251,7 @@ def build_packages(dry_run: false)
 
   # Build Ruby gem if needed
   unless gem_exists
-    execute_command("Building Ruby gem", "make gem-build")
+    execute_command("Building Ruby gem", "just gem-build")
   else
     puts "INFO: Ruby gem already exists: #{gem_path}"
   end
@@ -264,7 +264,7 @@ def build_packages(dry_run: false)
 
   # Build NPM package if needed
   unless npm_exists
-    execute_command("Building NPM package", "make npm-build")
+    execute_command("Building NPM package", "just npm-build")
   else
     puts "INFO: NPM package already exists: #{npm_path}"
   end
@@ -391,7 +391,7 @@ def publish_packages(dry_run: false)
   puts "INFO: Publishing Ruby Gem to RubyGems.org..."
   response = prompt_yes_no("Continue with gem publishing?", default: 'y')
   if response == 'y'
-    execute_command("Publishing Ruby gem", "make gem-publish", exit_on_failure: false)
+    execute_command("Publishing Ruby gem", "just gem-publish", exit_on_failure: false)
     puts "   Verify at: https://rubygems.org/gems/loco_motion-rails"
   end
 
@@ -399,7 +399,7 @@ def publish_packages(dry_run: false)
   puts "\nINFO: Publishing NPM package to npmjs.com..."
   response = prompt_yes_no("Continue with NPM publishing?", default: 'y')
   if response == 'y'
-    execute_command("Publishing NPM package", "make npm-publish", exit_on_failure: false)
+    execute_command("Publishing NPM package", "just npm-publish", exit_on_failure: false)
     puts "   Verify at: https://www.npmjs.com/package/@profoundry-us/loco_motion"
   end
 
@@ -489,7 +489,7 @@ def update_checklist(version, dry_run: false)
   content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
 
   # Mark version update steps as completed
-  content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `make version-set NEW_VERSION=' + version + '`')
+  content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `just version-set ' + version + '`')
   content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
   content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
 
@@ -515,8 +515,8 @@ def update_checklist(version, dry_run: false)
   content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
 
   # Add notes about manual publishing
-  content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `make gem-publish` (requires manual execution with credentials)')
-  content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `make npm-publish` (requires manual execution with credentials)')
+  content.gsub!(/- \[ \] Publish Ruby gem:.*$/, '- [x] Publish Ruby gem: `just gem-publish` (requires manual execution with credentials)')
+  content.gsub!(/- \[ \] Publish NPM package:.*$/, '- [x] Publish NPM package: `just npm-publish` (requires manual execution with credentials)')
 
   # Update release info
   content.gsub!(/\*\*Release Date\*\*:.*$/, "**Release Date**: #{Date.today.strftime('%Y-%m-%d')}")
@@ -623,7 +623,7 @@ def main
       puts "   What's next:"
       puts "   1. Monitor demo app deployment"
       puts "   2. Verify Algolia indexing"
-      puts "   3. Generate LLM documentation: make llm"
+      puts "   3. Generate llms.txt documentation: just llm"
       puts "   4. Test the demo site"
     end
 
