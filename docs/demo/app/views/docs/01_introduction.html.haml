@@ -163,7 +163,7 @@
       - guides.each do |title, id, description|
         %a.block.p-4.rounded-box.bg-base-200.no-underline.hover:bg-base-300.transition-colors{ href: guide_path(id), data: { action: "click->nav#refresh", "turbo-action": "replace" } }
           %h4.text-lg.font-bold= title
-          %p.mt-1.text-base-content/70= description
+          %p.mt-1{ class: "text-base-content/70" }= description
 
     - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
     %h3.mt-24.text-center.text-4xl.font-bold.italic
