@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/concern"
 
 module LocoMotion
@@ -55,7 +57,7 @@ module LocoMotion
 
         @left_icon = config_option(:left_icon, @icon)
         @left_icon_css = config_option(:left_icon_css, @icon_css)
-        @left_icon_options = config_option(:left_icon_options, @icon_html)
+        @left_icon_options = config_option(:left_icon_options, @icon_options)
         @left_icon_html = config_option(:left_icon_html, @icon_html)
 
         @right_icon = config_option(:right_icon)

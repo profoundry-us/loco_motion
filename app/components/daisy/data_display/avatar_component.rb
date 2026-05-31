@@ -64,10 +64,15 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
   # @option kws tip [String] The tooltip text to display when hovering over
   #   the component.
   #
+  # @option kws alt [String] The alt text for the image, used by screen
+  #   readers and shown when the image fails to load. Omitted when not
+  #   provided.
+  #
   def initialize(**kws, &block)
     super
 
     @src = config_option(:src)
+    @alt = config_option(:alt)
   end
 
   def before_render
@@ -88,7 +93,7 @@ class Daisy::DataDisplay::AvatarComponent < LocoMotion::BaseComponent
 
     if @src.present?
       set_tag_name(:img, :img)
-      add_html(:img, { src: @src, title: @content })
+      add_html(:img, { src: @src, title: @content, alt: @alt })
     else
       add_css(:component, "avatar-placeholder")
 

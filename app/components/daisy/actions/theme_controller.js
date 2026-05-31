@@ -72,7 +72,7 @@ export default class extends Controller {
     }
 
     // Remove the savedTheme from local storage
-    localStorage.removeItem("savedTheme")
+    this.safeStorageRemove("savedTheme")
 
     // Remove the data-theme attribute from the document element
     document.documentElement.removeAttribute('data-theme')
@@ -129,7 +129,7 @@ export default class extends Controller {
    * @param {string} value - The theme name to apply
    */
   applyTheme(value) {
-    localStorage.setItem("savedTheme", value)
+    this.safeStorageSet("savedTheme", value)
     document.documentElement.setAttribute('data-theme', value)
 
     const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: value } })
@@ -139,13 +139,61 @@ export default class extends Controller {
   /**
    * Retrieves the current theme from localStorage.
    *
-   * @returns {string} The current theme name
+   * @returns {?string} The current theme name, or null if none is saved
    */
   getCurrentTheme() {
-    const savedTheme = localStorage.getItem('savedTheme')
+    const savedTheme = this.safeStorageGet('savedTheme')
 
     if (savedTheme) {
       return savedTheme
+    }
+
+    return null
+  }
+
+  /**
+   * Safely reads a value from localStorage. Access can throw in some
+   * environments (e.g. Safari private browsing), so failures are swallowed
+   * and treated as if no value were saved.
+   *
+   * @param {string} key - The localStorage key to read
+   * @returns {?string} The stored value, or null if unavailable
+   */
+  safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key)
+    } catch (e) {
+      return null
+    }
+  }
+
+  /**
+   * Safely writes a value to localStorage. Access can throw in some
+   * environments (e.g. Safari private browsing), so failures are swallowed
+   * to avoid aborting theme application.
+   *
+   * @param {string} key - The localStorage key to write
+   * @param {string} value - The value to store
+   */
+  safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value)
+    } catch (e) {
+      // localStorage not available (e.g., private browsing mode)
+    }
+  }
+
+  /**
+   * Safely removes a value from localStorage. Access can throw in some
+   * environments (e.g. Safari private browsing), so failures are swallowed.
+   *
+   * @param {string} key - The localStorage key to remove
+   */
+  safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key)
+    } catch (e) {
+      // localStorage not available (e.g., private browsing mode)
     }
   }
 

@@ -94,6 +94,8 @@ class Daisy::DataInput::RatingComponent < LocoMotion::BaseComponent
   def before_render
     setup_component
     setup_hidden_input
+
+    super
   end
 
   #

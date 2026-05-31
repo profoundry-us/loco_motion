@@ -71,6 +71,10 @@ loco-shell:
 loco-test:
     docker compose exec -it loco bundle exec rspec spec
 
+# Run RuboCop inside the loco container (config tuned to conventions; not a CI gate)
+lint:
+    docker compose exec -it loco bundle exec rubocop
+
 
 ##############################
 # demo commands
@@ -165,7 +169,7 @@ algolia-index args="":
 algolia-clear args="":
     docker compose exec -it demo bundle exec rake algolia:clear ARGS="{{args}}"
 
-# Generate LLM.txt documentation file
+# Generate llms.txt documentation file
 llm args="":
     docker compose exec -it demo bundle exec rake algolia:llm ARGS="{{args}}"
 
@@ -188,6 +192,25 @@ version := `grep -o '".*"' lib/loco_motion/version.rb | tr -d '"'`
 # Print the current version
 version:
     @echo {{version}}
+
+# Verify the version sources agree (canonical source is lib/loco_motion/version.rb)
+version-check:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    canonical=$(grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
+    version_file=$(tr -d '[:space:]' < VERSION)
+    pkg=$(grep -o '"version": *"[^"]*"' package.json | head -1 | sed -E 's/.*"version": *"([^"]*)".*/\1/')
+    demo_dep=$(grep -o '"@profoundry-us/loco_motion": *"[^"]*"' docs/demo/package.json | head -1 | sed -E 's/.*: *"\^?([^"]*)".*/\1/')
+    echo "version.rb (canonical):                  $canonical"
+    echo "VERSION file:                            $version_file"
+    echo "package.json:                            $pkg"
+    echo "docs/demo/package.json (loco_motion dep): $demo_dep"
+    if [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ]; then
+        echo "✓ All version sources agree ($canonical)"
+    else
+        echo "✗ Version mismatch! Run bin/update_version to sync them." >&2
+        exit 1
+    fi
 
 # Helper target to create release checklist for a given version
 create-checklist version:

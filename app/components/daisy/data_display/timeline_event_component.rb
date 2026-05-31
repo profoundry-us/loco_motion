@@ -22,6 +22,21 @@
 # @note The middle and middle_icon options are mutually exclusive. If both are
 #   provided, middle takes precedence.
 #
+# @loco_example Simple Event
+#   = daisy_timeline do |timeline|
+#     - timeline.with_event(start: "2023", middle: "🚀", end: "Launched product")
+#     - timeline.with_event(start: "2024", middle: "🎉", end: "1M users")
+#
+# @loco_example Event with Custom Content
+#   = daisy_timeline do |timeline|
+#     - timeline.with_event do |event|
+#       - event.with_start do
+#         .font-bold Jan 2024
+#       - event.with_middle do
+#         = heroicon "star"
+#       - event.with_end do
+#         %h3.font-bold Milestone Reached
+#
 class Daisy::DataDisplay::TimelineEventComponent < LocoMotion::BaseComponent
   renders_one :start, LocoMotion::BasicComponent.build(css: "timeline-start")
   renders_one :middle, LocoMotion::BasicComponent.build(css: "timeline-middle")
@@ -63,6 +78,8 @@ class Daisy::DataDisplay::TimelineEventComponent < LocoMotion::BaseComponent
 
     setup_parts
     setup_separator
+
+    super
   end
 
   def setup_parts

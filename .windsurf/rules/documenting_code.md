@@ -4,6 +4,11 @@ trigger: manual
 
 # Documenting Code
 
+> **Canonical source:** The authoritative documentation conventions live in
+> [`CLAUDE.md`](../../CLAUDE.md) (see the "YARD Documentation" section). The
+> rules below restate those conventions for Windsurf; if they ever conflict with
+> `CLAUDE.md`, `CLAUDE.md` wins.
+
 When documenting code, follow these procedures.
 
 1. MUST utilize YARD documentation for Ruby files.

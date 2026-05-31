@@ -191,4 +191,43 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
       end
     end
   end
+
+  # Regression: BreadcrumbItemComponent includes the Tippable and Iconable
+  # concerns, whose setup hooks only run when its `before_render` calls
+  # `super`. These specs ensure the concern setup actually runs.
+  context "with an item tip" do
+    let(:breadcrumbs) { described_class.new }
+
+    before do
+      render_inline(breadcrumbs) do |b|
+        b.with_item(tip: "Go home") { "Home" }
+      end
+    end
+
+    describe "rendering" do
+      it "adds the tooltip class to the item" do
+        expect(page).to have_selector(".breadcrumbs ul li.tooltip")
+      end
+
+      it "adds the data-tip attribute to the item" do
+        expect(page).to have_selector(".breadcrumbs ul li[data-tip='Go home']")
+      end
+    end
+  end
+
+  context "with an item icon" do
+    let(:breadcrumbs) { described_class.new }
+
+    before do
+      render_inline(breadcrumbs) do |b|
+        b.with_item(icon: "home") { "Home" }
+      end
+    end
+
+    describe "rendering" do
+      it "renders the icon SVG inside the item" do
+        expect(page).to have_selector(".breadcrumbs ul li svg")
+      end
+    end
+  end
 end

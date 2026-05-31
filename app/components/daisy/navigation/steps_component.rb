@@ -46,7 +46,7 @@ class Daisy::Navigation::StepsComponent < LocoMotion::BaseComponent
   #       Complete
   #
   class Daisy::Navigation::StepComponent < LocoMotion::BaseComponent
-    attr_reader :simple
+    attr_reader :simple_title
 
     # Create a new instance of the StepComponent.
     #
@@ -75,6 +75,8 @@ class Daisy::Navigation::StepsComponent < LocoMotion::BaseComponent
       set_tag_name(:component, :li)
       add_css(:component, "step")
       add_html(:component, { data: { content: @number } }) if @number
+
+      super
     end
 
     def call
@@ -104,6 +106,8 @@ class Daisy::Navigation::StepsComponent < LocoMotion::BaseComponent
   def before_render
     set_tag_name(:component, :ul)
     add_css(:component, "steps")
+
+    super
   end
 
   def call

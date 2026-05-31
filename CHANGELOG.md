@@ -13,7 +13,53 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
+### Tooling & Standards
+
+- chore(Lint): Add RuboCop with an intentionally minimal, opt-in `.rubocop.yml` (most cops are commented out as a
+  catalog you can enable gradually) plus a `just lint` recipe. It is a developer aid, not a blocking CI gate.
+- chore(Lib): Add `# frozen_string_literal: true` to every `lib/loco_motion` file that was missing it.
+- chore(Gemspec): Align the development `rails` constraint with the runtime constraint (`< 8.1`) and add `rubocop`,
+  `rubocop-rails`, and `appraisal` as development dependencies.
+- chore(CI): Add a Rails version matrix (6.1, 7.1, 7.2, 8.0) via Appraisal and per-version gemfiles so the advertised
+  support range is actually exercised; add `concurrency` cancellation and `.node-version`-driven Node setup to the
+  workflows; add a Dependabot configuration.
+- chore(Version): Add a `just version-check` guard that fails when the version drifts across `version.rb`, `VERSION`,
+  and the npm package files, and document that `version.rb` is the canonical source (`VERSION` exists for the Heroku
+  buildpack).
+- chore(Release): Replace the `make` targets in `bin/release` with their `just` equivalents to match the project's
+  task runner.
+- chore(Repo): Fix the `.gitignore` `.DS_Store` pattern and remove a stray `.DS_Store` from `lib/loco_motion/patches`.
+
+### Documentation
+
+- docs(README): Split the generic Rails-setup content into `docs/guides/` and slim the README from ~1000 lines to
+  ~330 ([Fixes #73](https://github.com/profoundry-us/loco_motion/issues/73)).
+- docs(README): Fix the Stimulus integration example to register controllers under their required `loco-*`
+  identifiers (previously `"countdown"`, which never connects) and document all four JS-backed components.
+- docs(LLM): Regenerate `llms.txt` / `llms-full.txt` for v0.5.2 — they were stale at v0.5.1 and the demo's
+  `/llms-v0.5.2.txt` download link pointed at a missing file.
+- docs(Algolia): Correct `ALGOLIA.md` to match the real `llms.txt` / `llms-full.txt` filenames and `Llm*` service
+  constants, and document `usage_patterns.md` as a required hand-maintained input.
+- docs(Agents): Replace the incorrect `AGENTS.md` boilerplate with a pointer to `CLAUDE.md` and the project's
+  convention sources; fix broken `.windsurfrules` links and mark `CLAUDE.md` as the canonical source.
+- docs(Plans): Move completed plans into `docs/plans/archive/` and add an active-vs-archive README.
+
 ### Components Changes
+
+- fix(Breadcrumbs): Call `super` in `before_render` so the `IconableComponent` and `TippableComponent` setup hooks
+  run — breadcrumb item `tip:` tooltips and icons were silently dropped before.
+- fix(Rating, TimelineEvent, Steps, Dock): Call `super` in `before_render` overrides so concern setup hooks are no
+  longer silently skipped.
+- fix(Countdown): Add `disconnect()` to the Stimulus controller to clear its interval and prevent a timer leak on
+  Turbo navigation.
+- fix(ThemeController): Guard `localStorage` access (Safari private-browsing mode) and return `null` from
+  `getCurrentTheme` when no theme is saved.
+- fix(Avatar, Figure): Add an `alt:` option for the image so avatar and figure images are accessible to screen
+  readers.
+- fix(Steps): Correct the `StepComponent` `attr_reader` to reference the actual `@simple_title` ivar instead of a
+  nonexistent `@simple`.
+- fix(Iconable): Default `left_icon_options` to `icon_options` instead of `icon_html` (copy-paste error).
+- docs(TimelineEvent): Add the missing `@loco_example` documentation blocks.
 
 - fix(Theme): Add `theme_preload_script` helper to prevent flash of content when loading with non-default
   theme ([Fixes #49](https://github.com/profoundry-us/loco_motion/issues/49))
