@@ -151,15 +151,9 @@
       Beyond the components, we share the broader philosophies and tooling we
       recommend for building Rails applications the _Loco_**Motion** way.
 
+    - guides = [["🚀 Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳 Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝 HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛 Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️ Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒 Authentication", "authentication", "Wire up OmniAuth sign-in plus Web Console and BetterErrors."]]
+
     .mt-8.grid.gap-4.sm:grid-cols-2.lg:grid-cols-3
-      - guides = [
-        ["🚀 Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."],
-        ["🐳 Docker", "docker", "A consistent, reliable development environment for any OS."],
-        ["📝 HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."],
-        ["🐛 Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."],
-        ["⚙️ Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."],
-        ["🔒 Authentication", "authentication", "Wire up OmniAuth sign-in plus Web Console and BetterErrors."]
-      ]
       - guides.each do |title, id, description|
         %a.block.p-4.rounded-box.bg-base-200.no-underline.hover:bg-base-300.transition-colors{ href: guide_path(id), data: { action: "click->nav#refresh", "turbo-action": "replace" } }
           %h4.text-lg.font-bold= title
