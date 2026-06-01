@@ -1,0 +1,116 @@
+= content_for(:page_title) do
+  Error Handling
+
+.max-w-prose
+  = doc_info(url: "https://github.com/BetterErrors/better_errors", icon: "exclamation-triangle", icon_css: "text-warning") do
+    :markdown
+      _Loco_**Motion** encourages rich, in-browser error tooling so you can
+      inspect and fix problems without ever leaving the page.
+
+.prose
+  :markdown
+    # Error Handling
+
+    When something goes wrong, a good error page turns a frustrating dead end
+    into a quick fix. This guide sets up two in-browser tools — **Web Console**
+    and **BetterErrors** — that let you read the stack trace and poke at live
+    application state right where the exception happened.
+
+    It assumes you have already followed the
+    [Getting Started guide](#{guide_path("04_getting_started")}) and have a
+    running Dockerized Rails app. These tools pair especially well with the
+    [Authentication guide](#{guide_path("06_authentication")}), where a
+    deliberate `raise` lets you inspect the signed-in user.
+
+.mt-12.prose
+  :markdown
+    ## 1. Web Console
+
+    Rails ships with [Web Console](https://github.com/rails/web-console), which
+    inserts an IRB prompt right into your browser whenever an exception is
+    raised. When running inside Docker, you will usually see a log line like:
+
+.mt-6.max-w-prose
+  = doc_code(language: "text") do
+    :plain
+      Cannot render console from 172.23.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+
+.mt-6.prose
+  :markdown
+    Because we are on a different network than Rails expects, the console is
+    blocked. Add the following to `config/environments/development.rb` to
+    allow it no matter which IP the container uses:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Fix console permissions for Docker so Web Console works no matter the IP
+      config.web_console.permissions = "0.0.0.0/0"
+
+.mt-6.prose
+  :markdown
+    Restart the app (using `just app-restart`) and trigger an error. You
+    should now see a black, interactive console at the bottom of the error
+    page. Type a Ruby expression and hit enter to inspect any variable that was
+    in scope when the exception was raised, for example:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      user_info.to_hash
+
+.mt-6.prose
+  :markdown
+    You can run almost any code here that you could run in your controllers,
+    views, or models. A handy trick: drop a non-existent reference like `asdf`
+    just above the code you want to inspect and refresh — Rails will stop
+    there and let you poke around the live application state.
+
+.mt-12.prose
+  :markdown
+    ## 2. BetterErrors (Optional)
+
+    [BetterErrors](https://github.com/BetterErrors/better_errors) provides (in
+    our humble opinion) a nicer interface for the errors that crop up in a
+    Rails app. We particularly like how it lays the stack trace out to the
+    left of the code and console.
+
+    Add the following to the `:development` group of your `Gemfile`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      group :development do
+        gem "better_errors"
+        gem "binding_of_caller"
+      end
+
+= doc_note(modifier: :error, title: "Security Note", css: "mt-6") do
+  :markdown
+    It is **imperative** that these live in the `:development` group so they
+    can never load in production — otherwise you create a **massive** security
+    risk!
+
+.mt-6.prose
+  :markdown
+    Run `bundle install` inside the app container (`just app-shell`), or
+    simply kill and restart it with `just app-fast`, which installs new gems
+    for you. Because we are inside Docker, BetterErrors will also refuse
+    connections from the host machine. Add the following to
+    `config/environments/development.rb`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Allow BetterErrors to render
+      BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
+
+.mt-6.prose
+  :markdown
+    Restart your container (e.g. `just app-restart`) and refresh the page to
+    get the fully-featured error screen.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

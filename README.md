@@ -181,7 +181,9 @@ need them to use the gem — they are published on the
 - [Service Objects](https://loco-motion.profoundry.us/guides/05_services) —
   Structure your business logic with ActiveInteraction.
 - [Authentication](https://loco-motion.profoundry.us/guides/06_authentication) —
-  Wire up OmniAuth, the Web Console, and BetterErrors.
+  Wire up OmniAuth sign-in with the developer strategy.
+- [Error Handling](https://loco-motion.profoundry.us/guides/07_error_handling) —
+  Inspect errors in the browser with Web Console and BetterErrors.
 
 ## Documentation & Demo
 
