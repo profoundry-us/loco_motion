@@ -226,6 +226,21 @@ The gemspec advertises `rails >= 6.1, < 8.1`, but `Gemfile.lock` resolves
 **Fix:** add a CI matrix (Appraisal or per-version `BUNDLE_GEMFILE`) covering at
 least 6.1, 7.1, 7.2, and 8.0.
 
+**Status (deferred):** An initial Appraisal-based attempt was reverted. Two
+problems make this more than a config tweak and need real verification:
+
+1. **Ruby/Rails compatibility.** The CI runner and the project pin Ruby 3.4,
+   but Rails 6.1 and 7.1 fail to boot on Ruby 3.4 (e.g. ActiveSupport's
+   `logger_thread_safe_level` patch). A real matrix must pair each Rails
+   version with a Ruby it actually supports (e.g. Rails 6.1 → Ruby 3.0/3.1),
+   so the matrix needs a Ruby axis too.
+2. **Lockfiles.** Hand-written `gemfiles/*.gemfile` without committed
+   `.lock`s resolve unpredictably and break `Bundler.require` (the `appraisal`
+   gem is loaded at spec boot via `rails_helper.rb`). Run
+   `bundle exec appraisal generate` and commit the locks.
+
+Until both are sorted, CI keeps the single locked-version `rspec` job.
+
 ### 2.5 Reconcile dev vs runtime Rails constraint
 
 **Severity:** Medium

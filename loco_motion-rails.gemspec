@@ -48,7 +48,4 @@ Gem::Specification.new do |s|
   # Linting (RuboCop config is tuned to existing conventions; not a CI gate)
   s.add_development_dependency 'rubocop', '~> 1.60'
   s.add_development_dependency 'rubocop-rails', '~> 2.23'
-
-  # Multi-version Rails testing matrix
-  s.add_development_dependency 'appraisal', '~> 2.5'
 end

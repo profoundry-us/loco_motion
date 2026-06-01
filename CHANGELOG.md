@@ -18,11 +18,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - chore(Lint): Add RuboCop with an intentionally minimal, opt-in `.rubocop.yml` (most cops are commented out as a
   catalog you can enable gradually) plus a `just lint` recipe. It is a developer aid, not a blocking CI gate.
 - chore(Lib): Add `# frozen_string_literal: true` to every `lib/loco_motion` file that was missing it.
-- chore(Gemspec): Align the development `rails` constraint with the runtime constraint (`< 8.1`) and add `rubocop`,
-  `rubocop-rails`, and `appraisal` as development dependencies.
-- chore(CI): Add a Rails version matrix (6.1, 7.1, 7.2, 8.0) via Appraisal and per-version gemfiles so the advertised
-  support range is actually exercised; add `concurrency` cancellation and `.node-version`-driven Node setup to the
-  workflows; add a Dependabot configuration.
+- chore(Gemspec): Align the development `rails` constraint with the runtime constraint (`< 8.1`) and add `rubocop`
+  and `rubocop-rails` as development dependencies.
+- chore(CI): Add `concurrency` cancellation and `.node-version`-driven Node setup to the workflows; add a Dependabot
+  configuration. (A multi-version Rails test matrix is deferred — see
+  `docs/plans/202605-4-architecture-and-standards-review.md` — because Rails 6.1/7.1 do not boot on the runner's
+  Ruby 3.4 and the matrix needs verified Ruby/Rails pairings.)
 - chore(Version): Add a `just version-check` guard that fails when the version drifts across `version.rb`, `VERSION`,
   and the npm package files, and document that `version.rb` is the canonical source (`VERSION` exists for the Heroku
   buildpack).
