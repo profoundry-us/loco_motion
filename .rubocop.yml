@@ -9,7 +9,7 @@
 # want to adopt — many mirror conventions already documented in CLAUDE.md.
 # Enabling them gradually keeps the first `rubocop` run from exploding.
 
-require:
+plugins:
   - rubocop-rails
 
 AllCops:
@@ -18,7 +18,6 @@ AllCops:
   NewCops: disable
   SuggestExtensions: false
   Exclude:
-    - 'docs/demo/**/*'
     - 'node_modules/**/*'
     - 'builds/**/*'
     - 'bin/**/*'
@@ -27,6 +26,62 @@ AllCops:
     - 'spec/internal/**/*'
     - 'gemfiles/**/*'
     - '*.gemspec'
+    - 'docs/demo/bin/bundle'
+
+# Disable metrics and complexity cops by default (opt-in only)
+Metrics:
+  Enabled: false
+
+# Disable documentation cop by default (opt-in only)
+Style/Documentation:
+  Enabled: false
+
+# Disable Rails cops by default (opt-in only)
+Rails:
+  Enabled: false
+
+# Disable Layout/LineLength by default (opt-in only)
+Layout/LineLength:
+  Enabled: false
+
+# Disable Naming/PredicatePrefix by default (opt-in only)
+Naming/PredicatePrefix:
+  Enabled: false
+
+# Disable Style/IfUnlessModifier by default (opt-in only)
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Disable Lint/UnusedMethodArgument by default (opt-in only)
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Disable Lint/ConstantDefinitionInBlock by default (opt-in only)
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+
+# Re-enable specific cops with 6 or fewer instances for manual review
+Rails/OutputSafety:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'docs/demo/app/helpers/algolia_helper.rb'
+    - 'app/components/daisy/data_input/filter_component.rb'
+    - 'app/components/daisy/data_input/select_component.rb'
+Naming/AccessorMethodName:
+  Enabled: true
+# TODO: Re-enable Metrics/PerceivedComplexity and refactor using Builder class pattern
+# See README for details
+Metrics/PerceivedComplexity:
+  Enabled: false
+Style/StringConcatenation:
+  Enabled: true
+Metrics/ParameterLists:
+  Enabled: true
+Rails/SkipsModelValidations:
+  Enabled: true
+Metrics/ModuleLength:
+  Enabled: true
 
 # ===========================================================================
 # OPTIONAL CATALOG — all disabled by default. Uncomment to adopt.
@@ -43,8 +98,8 @@ AllCops:
 #   Enabled: true
 
 # Disallow trailing whitespace.
-# Layout/TrailingWhitespace:
-#   Enabled: true
+Layout/TrailingWhitespace:
+  Enabled: true
 
 # --- Style: documentation & nesting ---------------------------------------
 
@@ -59,19 +114,19 @@ AllCops:
 #   Enabled: false
 
 # We add `# frozen_string_literal: true` across lib/. Enable to enforce it.
-# Style/FrozenStringLiteralComment:
-#   Enabled: true
-#   EnforcedStyle: always
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
 
 # --- Style: syntax preferences --------------------------------------------
 
 # The project predominantly uses double-quoted strings.
-# Style/StringLiterals:
-#   EnforcedStyle: double_quotes
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
 
 # Prefer Ruby 1.9 hash syntax (`key: value`).
-# Style/HashSyntax:
-#   EnforcedStyle: ruby19
+Style/HashSyntax:
+  EnforcedStyle: ruby19
 
 # Allow both `%i[]` and `[:a, :b]` — set if you want one enforced.
 # Style/SymbolArray:

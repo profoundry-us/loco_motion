@@ -77,7 +77,7 @@ gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
 Next, create or update your `tailwind.config.js` to tell Tailwind where to
 scan for component class names. In Tailwind 4, this file handles **only**
 content paths — plugins belong in your CSS file (see the
-[Getting Started guide](https://loco-motion.profoundry.us/guides/04_getting_started)).
+[Getting Started guide](https://loco-motion.profoundry.us/guides/getting_started)).
 
 ```js
 const { execSync } = require('child_process');
@@ -168,21 +168,21 @@ the [demo site](https://loco-motion.profoundry.us/) and the
 These optional guides cover the broader LocoMotion philosophies and a
 recommended, opinionated setup for a brand-new Rails project. You do **not**
 need them to use the gem — they are published on the
-[demo site](https://loco-motion.profoundry.us/guides/04_getting_started):
+[demo site](https://loco-motion.profoundry.us/guides/getting_started):
 
-- [Getting Started](https://loco-motion.profoundry.us/guides/04_getting_started) —
+- [Getting Started](https://loco-motion.profoundry.us/guides/getting_started) —
   Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI.
-- [Docker](https://loco-motion.profoundry.us/guides/01_docker) — A consistent,
+- [Docker](https://loco-motion.profoundry.us/guides/docker) — A consistent,
   reliable development environment for any OS.
-- [HAML](https://loco-motion.profoundry.us/guides/02_haml) — Cleaner,
+- [HAML](https://loco-motion.profoundry.us/guides/haml) — Cleaner,
   indentation-based templates for a better developer experience.
-- [Debugging & Testing](https://loco-motion.profoundry.us/guides/03_debugging) —
+- [Debugging & Testing](https://loco-motion.profoundry.us/guides/debugging) —
   Set up RSpec, Playwright, and the remote debugger.
-- [Service Objects](https://loco-motion.profoundry.us/guides/05_services) —
+- [Service Objects](https://loco-motion.profoundry.us/guides/services) —
   Structure your business logic with ActiveInteraction.
-- [Authentication](https://loco-motion.profoundry.us/guides/06_authentication) —
+- [Authentication](https://loco-motion.profoundry.us/guides/authentication) —
   Wire up OmniAuth sign-in with the developer strategy.
-- [Error Handling](https://loco-motion.profoundry.us/guides/07_error_handling) —
+- [Error Handling](https://loco-motion.profoundry.us/guides/error_handling) —
   Inspect errors in the browser with Web Console and BetterErrors.
 
 ## Documentation & Demo
@@ -322,20 +322,42 @@ your solution is aligned with our goals.
 
 ## TODO / Next Steps
 
-There is a LOT left to be done. We're not currently seeking assistance, but if
-you feel very strongly that you'd like to contribute, please reach out through
-the GitHub Discussions feature and let us know!
+We're actively building out LocoMotion and have made significant progress on the
+core component library and documentation. Here's what we're working on next:
 
-- [ ] Choose, recommend, and document a pagination gem
-- [ ] Discuss caching techniques / setup
-- [ ] Build some docs / guides / examples for using playwright-ruby-client
-- [ ] See if we can update the Join component to auto-add the `join-item` CSS
-      under certain conditions
-- [ ] Add title and description content_for blocks to all examples for SEO
-      purposes
-- [ ] Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
-- [ ] Make the tooltips documentation button a component and use it for the
-      Labelable concern docs too
+### Completed ✅
+- Full component library with DaisyUI wrappers
+- Live demo application with all components
+- Comprehensive guides (Getting Started, Docker, HAML, Debugging & Testing,
+  Service Objects, Authentication, Error Handling)
+- YARD documentation with custom examples
+- RSpec test suite
+- Playwright E2E tests
+- RuboCop configuration
+- Docker-based development environment
+
+### In Progress 🚧
+- Expanding component coverage for remaining DaisyUI components
+- Enhancing documentation and examples
+- Improving test coverage
+
+### Future Plans 📋
+- Choose, recommend, and document a pagination gem
+- Discuss caching techniques / setup
+- Build some docs / guides / examples for using playwright-ruby-client
+- See if we can update the Join component to auto-add the `join-item` CSS
+  under certain conditions
+- Add title and description content_for blocks to all examples for SEO
+  purposes
+- Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
+- Make the tooltips documentation button a component and use it for the
+  Labelable concern docs too
+- **RuboCop Metrics/PerceivedComplexity**: Currently disabled due to complexity
+  in BaseComponent.build method. Investigate refactoring using a Builder class
+  pattern to reduce complexity and re-enable the cop. See .rubocop.yml for details.
+
+If you feel very strongly that you'd like to contribute, please reach out through
+the GitHub Discussions feature and let us know!
 
 [1]: https://loco-motion.profoundry.us/
 [2]: https://loco-motion-demo-staging.profoundry.us/

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
@@ -59,12 +61,14 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
 
   context "with icons" do
     let(:breadcrumbs) { described_class.new }
-    let(:links) { [
-      ["Home", "home"],
-      ["Docs", "document"],
-      ["Components", "cube"],
-      ["Breadcrumbs", "squares-2x2"]
-    ] }
+    let(:links) do
+      [
+        %w[Home home],
+        %w[Docs document],
+        %w[Components cube],
+        %w[Breadcrumbs squares-2x2]
+      ]
+    end
     let(:icon_css) { "size-4 mr-1 text-slate-600" }
 
     before do
@@ -73,9 +77,9 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
           b.with_item do
             link_to "#" do
               safe_join([
-                heroicon(icon, variant: :mini, class: icon_css),
-                text
-              ])
+                          heroicon(icon, variant: :mini, class: icon_css),
+                          text
+                        ])
             end
           end
         end
@@ -88,7 +92,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
       end
 
       it "renders all icons" do
-        links.each do |_, icon|
+        links.each do |_, _icon|
           expect(page).to have_selector(".breadcrumbs ul li svg")
         end
       end
@@ -98,7 +102,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
       end
 
       it "renders all text labels" do
-        links.each do |text, _|
+        links.each_key do |text|
           expect(page).to have_content(text)
         end
       end
@@ -164,9 +168,9 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
         b.with_item do
           link_to "#" do
             safe_join([
-              heroicon("cube", variant: :mini, class: "size-4 mr-1 text-slate-600"),
-              "Categories"
-            ])
+                        heroicon("cube", variant: :mini, class: "size-4 mr-1 text-slate-600"),
+                        "Categories"
+                      ])
           end
         end
       end
@@ -187,7 +191,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
 
       it "maintains content order" do
         items = page.all(".breadcrumbs ul li").map { |li| li.text.strip }
-        expect(items).to eq(["Home", "Products", "Categories"])
+        expect(items).to eq(%w[Home Products Categories])
       end
     end
   end
