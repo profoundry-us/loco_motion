@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
@@ -169,7 +171,11 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
     let(:src) { "https://example.com/avatar.jpg" }
     let(:alt_text) { "User Avatar" }
     let(:size_classes) { "size-16" }
-    let(:avatar) { described_class.new(src: src, css: "#{size_classes} avatar-online", tip: "Online User") { alt_text } }
+    let(:avatar) do
+      described_class.new(src: src, css: "#{size_classes} avatar-online", tip: "Online User") do
+        alt_text
+      end
+    end
 
     before do
       render_inline(avatar)
@@ -185,7 +191,7 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       end
 
       it "sets the tooltip" do
-        expect(page).to have_css("[data-tip=\"Online User\"]")
+        expect(page).to have_css('[data-tip="Online User"]')
       end
 
       it "maintains default classes" do

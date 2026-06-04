@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
@@ -13,7 +15,7 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
     expect(page).to have_css(".timeline-start", text: "College")
     expect(page).to have_css(".timeline-end", text: "Topher Born")
     expect(page).to have_css(".timeline-end", text: "2006")
-    expect(page).to have_css("svg", count: 2)  # For the middle icons
+    expect(page).to have_css("svg", count: 2) # For the middle icons
   end
 
   it "renders a timeline with custom blocks" do
@@ -65,7 +67,7 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
     end
 
     expect(page).to have_css("li", count: 3)
-    expect(page).to have_css("hr")  # Separator between events
+    expect(page).to have_css("hr") # Separator between events
     expect(page).to have_css(".timeline-start", text: "Event 0")
     expect(page).to have_css(".timeline-start", text: "Event 1")
     expect(page).to have_css(".timeline-start", text: "Event 2")

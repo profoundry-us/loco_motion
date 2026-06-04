@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
@@ -59,7 +61,9 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
   context "modifiers" do
     context "with arrow" do
       let(:content_text) { "Arrow collapse content" }
-      let(:collapse) { described_class.new(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-arrow") }
+      let(:collapse) do
+        described_class.new(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-arrow")
+      end
 
       before do
         render_inline(collapse) do
@@ -82,7 +86,9 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
 
     context "with plus" do
       let(:content_text) { "Plus collapse content" }
-      let(:collapse) { described_class.new(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-plus") }
+      let(:collapse) do
+        described_class.new(title: "Click to Open", css: "bg-base-100 border border-gray-200 collapse-plus")
+      end
 
       before do
         render_inline(collapse) do
@@ -109,28 +115,28 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
     let(:collapse) { described_class.new(css: "collapse-arrow bg-gray-100") }
     let(:title_content) do
       safe_join([
-        content_tag(:div, class: "flex gap-x-2 items-center") do
-          safe_join([
-            content_tag(:svg, "", class: "size-6"),
-            content_tag(:strong, "User Profile")
-          ])
-        end
-      ])
+                  content_tag(:div, class: "flex gap-x-2 items-center") do
+                    safe_join([
+                                content_tag(:svg, "", class: "size-6"),
+                                content_tag(:strong, "User Profile")
+                              ])
+                  end
+                ])
     end
     let(:body_content) do
       safe_join([
-        content_tag(:div, class: "mt-4 flex gap-x-4 items-center") do
-          safe_join([
-            content_tag(:div, "", class: "avatar"),
-            content_tag(:div) do
-              safe_join([
-                content_tag(:div, "Jane Oliver", class: "text-xl font-bold"),
-                content_tag(:div, "jane@oliver.test", class: "italic")
-              ])
-            end
-          ])
-        end
-      ])
+                  content_tag(:div, class: "mt-4 flex gap-x-4 items-center") do
+                    safe_join([
+                                content_tag(:div, "", class: "avatar"),
+                                content_tag(:div) do
+                                  safe_join([
+                                              content_tag(:div, "Jane Oliver", class: "text-xl font-bold"),
+                                              content_tag(:div, "jane@oliver.test", class: "italic")
+                                            ])
+                                end
+                              ])
+                  end
+                ])
     end
 
     before do
@@ -152,14 +158,14 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
         let(:title) do
           content_tag(:div, class: "mt-4 flex gap-x-4 items-center") do
             safe_join([
-              content_tag(:div, "", class: "avatar"),
-              content_tag(:div) do
-                safe_join([
-                  content_tag(:div, "Jane Oliver", class: "text-xl font-bold"),
-                  content_tag(:div, "jane@oliver.test", class: "italic")
-                ])
-              end
-            ])
+                        content_tag(:div, "", class: "avatar"),
+                        content_tag(:div) do
+                          safe_join([
+                                      content_tag(:div, "Jane Oliver", class: "text-xl font-bold"),
+                                      content_tag(:div, "jane@oliver.test", class: "italic")
+                                    ])
+                        end
+                      ])
           end
         end
       end

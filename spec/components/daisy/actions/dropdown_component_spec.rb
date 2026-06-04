@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
@@ -203,5 +205,4 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
       end
     end
   end
-
 end

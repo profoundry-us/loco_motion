@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::StepsComponent, type: :component do
@@ -143,6 +145,26 @@ RSpec.describe Daisy::Navigation::StepsComponent, type: :component do
 
       it "includes custom step classes" do
         expect(page).to have_selector(".step.step-lg")
+      end
+    end
+  end
+
+  context "step component" do
+    describe "simple_title attr_reader" do
+      it "exposes the title via simple_title reader" do
+        steps = described_class.new
+        render_inline(steps) do |s|
+          s.with_step(title: "Test Title")
+        end
+        step = steps.steps.first
+        expect(step.simple_title).to eq("Test Title")
+      end
+
+      it "returns nil when no title is provided" do
+        steps = described_class.new
+        render_inline(steps, &:with_step)
+        step = steps.steps.first
+        expect(step.simple_title).to be_nil
       end
     end
   end

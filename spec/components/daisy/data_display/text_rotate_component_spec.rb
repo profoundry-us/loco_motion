@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::TextRotateComponent, type: :component do
@@ -142,7 +144,7 @@ RSpec.describe Daisy::DataDisplay::TextRotateComponent, type: :component do
 
     before do
       render_inline(text_rotate) do
-        "<span class=\"text-rotate-item custom-item\">CUSTOM</span>".html_safe
+        '<span class="text-rotate-item custom-item">CUSTOM</span>'.html_safe
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::MenuComponent, type: :component do
@@ -59,11 +61,13 @@ RSpec.describe Daisy::Navigation::MenuComponent, type: :component do
 
   context "with links" do
     let(:menu) { described_class.new }
-    let(:links) { [
-      ["Home", "/"],
-      ["About", "/about"],
-      ["Contact", "/contact"]
-    ] }
+    let(:links) do
+      [
+        ["Home", "/"],
+        ["About", "/about"],
+        ["Contact", "/contact"]
+      ]
+    end
 
     before do
       render_inline(menu) do |m|

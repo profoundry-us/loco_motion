@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Layout::JoinComponent, type: :component do
@@ -65,7 +67,7 @@ RSpec.describe Daisy::Layout::JoinComponent, type: :component do
 
       it "renders items in order" do
         items = page.all(".join-item").map(&:text)
-        expect(items).to eq(["Top", "Middle", "Bottom"])
+        expect(items).to eq(%w[Top Middle Bottom])
       end
     end
   end

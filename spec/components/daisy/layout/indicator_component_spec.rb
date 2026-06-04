@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Layout::IndicatorComponent, type: :component do
@@ -76,8 +78,8 @@ RSpec.describe Daisy::Layout::IndicatorComponent, type: :component do
     let(:indicator) { described_class.new }
     let(:positions) do
       {
-        vertical: ["indicator-top", "indicator-middle", "indicator-bottom"],
-        horizontal: ["indicator-start", "indicator-center", "indicator-end"]
+        vertical: %w[indicator-top indicator-middle indicator-bottom],
+        horizontal: %w[indicator-start indicator-center indicator-end]
       }
     end
 

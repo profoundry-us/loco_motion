@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::ModalComponent, type: :component do
@@ -45,7 +47,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
     before do
       render_inline(modal) do |m|
         m.with_close_icon do
-          content_tag(:span, "!", class: 'custom-icon')
+          content_tag(:span, "!", class: "custom-icon")
         end
       end
     end

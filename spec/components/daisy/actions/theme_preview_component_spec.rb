@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::ThemePreviewComponent, type: :component do
@@ -50,7 +52,7 @@ RSpec.describe Daisy::Actions::ThemePreviewComponent, type: :component do
 
       component.setup_dots
 
-      [:dot_base, :dot_primary, :dot_secondary, :dot_accent].each do |dot|
+      %i[dot_base dot_primary dot_secondary dot_accent].each do |dot|
         base_class = dot == :dot_base ? "where:bg-base-content" : "where:bg-#{dot.to_s.sub('dot_', '')}"
         expected_classes = "#{base_class} where:size-1 where:rounded-full"
         expect(component).to have_received(:add_css).with(dot, expected_classes)
@@ -107,7 +109,7 @@ RSpec.describe Daisy::Actions::ThemePreviewComponent, type: :component do
 
     context "with different themes" do
       it "applies the theme data attribute correctly" do
-        themes = ["dark", "cyberpunk", "forest"]
+        themes = %w[dark cyberpunk forest]
 
         themes.each do |theme_name|
           themed_component = described_class.new(theme_name)

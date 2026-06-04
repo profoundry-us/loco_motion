@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::FormBuilderHelper, type: :helper do
@@ -104,7 +106,8 @@ RSpec.describe Daisy::FormBuilderHelper, type: :helper do
       end
 
       it "renders a radio button component" do
-        expect(template).to receive(:daisy_radio).with(value: "test", id: "user_gender_test", name: "user[gender]", checked: false)
+        expect(template).to receive(:daisy_radio).with(value: "test", id: "user_gender_test", name: "user[gender]",
+                                                       checked: false)
 
         builder.daisy_radio("gender", value: "test")
       end

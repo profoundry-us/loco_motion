@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Mockup::FrameComponent, type: :component do
@@ -119,7 +121,7 @@ RSpec.describe Daisy::Mockup::FrameComponent, type: :component do
       include_examples "a frame component"
 
       it "applies responsive width classes" do
-        expect(page).to have_selector(".w-full.md\\:w-3\\/4.lg\\:w-1\\/2")
+        expect(page).to have_selector('.w-full.md\\:w-3\\/4.lg\\:w-1\\/2')
       end
     end
   end

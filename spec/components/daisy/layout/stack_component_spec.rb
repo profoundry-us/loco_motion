@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Layout::StackComponent, type: :component do
@@ -27,10 +29,10 @@ RSpec.describe Daisy::Layout::StackComponent, type: :component do
     before do
       render_inline(stack) do
         safe_join([
-          content_tag(:div, "Top Stack", class: "card"),
-          content_tag(:div, "Middle Stack", class: "card"),
-          content_tag(:div, "Bottom Stack", class: "card")
-        ])
+                    content_tag(:div, "Top Stack", class: "card"),
+                    content_tag(:div, "Middle Stack", class: "card"),
+                    content_tag(:div, "Bottom Stack", class: "card")
+                  ])
       end
     end
 
@@ -57,7 +59,7 @@ RSpec.describe Daisy::Layout::StackComponent, type: :component do
 
     describe "rendering" do
       it "applies custom CSS classes" do
-        expect(page).to have_selector(".stack.bg-base-100\\/80")
+        expect(page).to have_selector('.stack.bg-base-100\\/80')
       end
     end
   end

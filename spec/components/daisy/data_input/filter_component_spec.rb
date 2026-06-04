@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
@@ -41,9 +43,9 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
   context "with custom HTML attributes" do
     it "passes attributes to the component" do
       render_inline(described_class.new(
-        name: "filters",
-        html: { id: "custom-filter", data: { test: "value" } }
-      ))
+                      name: "filters",
+                      html: { id: "custom-filter", data: { test: "value" } }
+                    ))
 
       expect(page).to have_css("div#custom-filter")
       expect(page).to have_css("div[data-test='value']")
@@ -53,9 +55,9 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
   context "with options parameter" do
     it "renders options from array" do
       render_inline(described_class.new(
-        name: "filters",
-        options: ["Option A", "Option B", "Option C"]
-      ))
+                      name: "filters",
+                      options: ["Option A", "Option B", "Option C"]
+                    ))
 
       expect(page).to have_css(".filter input[type='radio'][aria-label='Option A']")
       expect(page).to have_css(".filter input[type='radio'][aria-label='Option B']")
@@ -64,12 +66,12 @@ RSpec.describe Daisy::DataInput::FilterComponent, type: :component do
 
     it "renders options from hash with labels" do
       render_inline(described_class.new(
-        name: "filters",
-        options: [
-          { label: "Custom Label 1", value: "value1" },
-          { label: "Custom Label 2", value: "value2" }
-        ]
-      ))
+                      name: "filters",
+                      options: [
+                        { label: "Custom Label 1", value: "value1" },
+                        { label: "Custom Label 2", value: "value2" }
+                      ]
+                    ))
 
       expect(page).to have_css(".filter input[type='radio'][aria-label='Custom Label 1'][value='value1']")
       expect(page).to have_css(".filter input[type='radio'][aria-label='Custom Label 2'][value='value2']")

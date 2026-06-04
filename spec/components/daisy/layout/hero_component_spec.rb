@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Layout::HeroComponent, type: :component do
@@ -60,7 +62,7 @@ RSpec.describe Daisy::Layout::HeroComponent, type: :component do
 
     describe "rendering" do
       it "applies the custom CSS to the content wrapper" do
-        expect(page).to have_selector(".hero-content.flex-col.md\\:flex-row")
+        expect(page).to have_selector('.hero-content.flex-col.md\\:flex-row')
       end
 
       it "renders the content" do
