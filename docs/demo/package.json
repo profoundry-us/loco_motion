@@ -17,7 +17,7 @@
     "daisyui": "^5.5.19",
     "esbuild": "^0.20.2",
     "instantsearch.js": "^4.78.0",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.3.0"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
