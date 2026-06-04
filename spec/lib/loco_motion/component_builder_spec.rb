@@ -84,7 +84,7 @@ RSpec.describe LocoMotion::ComponentBuilder do
         custom_method_added = true
       end
 
-      klass = builder.build
+      builder.build
       expect(custom_method_added).to be true
     end
 

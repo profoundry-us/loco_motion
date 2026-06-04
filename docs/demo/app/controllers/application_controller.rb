@@ -85,7 +85,6 @@ class ApplicationController < ActionController::Base
       id = file_id.gsub(/^\d+_/, "")
 
       # The display_id keeps the numeric prefix for proper routing
-      display_id = file_id
 
       # Create a title from the id (capitalize, replace underscores with spaces)
       title = id.humanize

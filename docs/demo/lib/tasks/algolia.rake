@@ -316,6 +316,7 @@ namespace :algolia do
   #
   # @param file_path [String] Path to the generated documentation file
   #
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.validate_content_quality(file_path)
     return unless File.exist?(file_path)
 
@@ -363,4 +364,5 @@ namespace :algolia do
       puts "   Consider reviewing the generated documentation"
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 end

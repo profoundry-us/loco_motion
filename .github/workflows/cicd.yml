@@ -45,3 +45,12 @@ jobs:
     - name: Run RSpec tests in demo app
       run: bundle exec rspec spec
       working-directory: docs/demo
+
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - run: bundle exec rubocop

@@ -63,6 +63,7 @@ class DocExampleComponent < ApplicationComponent
     add_stimulus_controller(:code, "highlight-code")
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
   def setup_code_block
     file_lines = Rails.cache.fetch(@calling_file, force: @skip_cache) { File.readlines(@calling_file) }
 
@@ -133,6 +134,7 @@ class DocExampleComponent < ApplicationComponent
       current_line += 1
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def tab_content_css
     "tab-content border-base-300 overflow-x-auto #{@tab_content_css}"
