@@ -218,62 +218,8 @@ module LocoMotion
     # define a new class.
     #
     def self.build(*_build_args, **build_kws, &build_block)
-      # Create a named subclass instead of anonymous class to help ViewComponent
-      # find the component properly
-      build_counter = @build_counter ||= 0
-      @build_counter += 1
-      klass_name = "#{name}__Build#{build_counter}"
-
-      klass = Class.new(self) do
-        # Define the class name method to return the original component name
-        define_singleton_method(:name) do
-          klass_name
-        end
-      end
-
-      # Store the original superclass name for template lookup
-      name
-      superclass_component_name = @component_name if instance_variable_defined?(:@component_name)
-
-      # Set component_name directly on the class to avoid nil errors
-      klass.instance_variable_set(:@component_name, superclass_component_name) if superclass_component_name
-
-      # Delegate sidecar_files to the superclass to avoid issues with anonymous classes
-      unless klass.method_defined?(:sidecar_files)
-        klass.instance_eval do
-          def sidecar_files(*args)
-            superclass.sidecar_files(*args)
-          end
-        end
-      end
-
-      # Override the initialize method to combine the build and instance args
-      klass.class_eval do
-        original_initialize = method_defined?(:initialize) ? instance_method(:initialize) : nil
-
-        define_method(:initialize) do |*instance_args, **instance_kws, &instance_block|
-          if original_initialize
-            original_initialize.bind(self).call(*instance_args, **instance_kws, &instance_block)
-          else
-            super(*instance_args, **instance_kws, &instance_block)
-          end
-
-          # Merge build_kws into config after initialize (original behavior)
-          @config.smart_merge!(**build_kws) if instance_variable_defined?(:@config)
-
-          # Update instance variables for build_kws that correspond to instance variables
-          # This ensures options like skip_styling are available during setup_component
-          build_kws.each do |key, value|
-            instance_var = "@#{key}"
-            instance_variable_set(instance_var, value) if instance_variable_defined?(instance_var)
-          end
-        end
-      end
-
-      # Finally, execute any block they passed in to allow for customizations
-      klass.class_eval(&build_block) if block_given?
-
-      klass
+      builder = ComponentBuilder.new(self, build_kws, &build_block)
+      builder.build
     end
 
     #

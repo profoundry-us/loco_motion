@@ -102,7 +102,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
       end
 
       it "renders all text labels" do
-        links.each_key do |text|
+        links.each do |text, _icon|
           expect(page).to have_content(text)
         end
       end

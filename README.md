@@ -352,9 +352,6 @@ core component library and documentation. Here's what we're working on next:
 - Rename the `Dockerfile` to `Dockerfile.loco` to be more concise
 - Make the tooltips documentation button a component and use it for the
   Labelable concern docs too
-- **RuboCop Metrics/PerceivedComplexity**: Currently disabled due to complexity
-  in BaseComponent.build method. Investigate refactoring using a Builder class
-  pattern to reduce complexity and re-enable the cop. See .rubocop.yml for details.
 
 If you feel very strongly that you'd like to contribute, please reach out through
 the GitHub Discussions feature and let us know!

@@ -70,10 +70,8 @@ Rails/OutputSafety:
     - 'app/components/daisy/data_input/select_component.rb'
 Naming/AccessorMethodName:
   Enabled: true
-# TODO: Re-enable Metrics/PerceivedComplexity and refactor using Builder class pattern
-# See README for details
 Metrics/PerceivedComplexity:
-  Enabled: false
+  Enabled: true
 Style/StringConcatenation:
   Enabled: true
 Metrics/ParameterLists:
