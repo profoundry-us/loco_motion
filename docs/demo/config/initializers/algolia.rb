@@ -7,12 +7,12 @@
 
 if defined?(Rails) && defined?(AlgoliaSearch)
   # Only attempt to configure if we have credentials
-  if ENV['ALGOLIA_APPLICATION_ID'].present? && ENV['ALGOLIA_API_KEY'].present?
+  if ENV["ALGOLIA_APPLICATION_ID"].present? && ENV["ALGOLIA_API_KEY"].present?
     AlgoliaSearch.configuration = {
-      application_id: ENV['ALGOLIA_APPLICATION_ID'],
-      api_key: ENV['ALGOLIA_API_KEY']
+      application_id: ENV["ALGOLIA_APPLICATION_ID"],
+      api_key: ENV["ALGOLIA_API_KEY"]
     }
-    
+
     Rails.logger.info "Algolia search initialized with application ID: #{ENV['ALGOLIA_APPLICATION_ID']}"
   else
     Rails.logger.warn "Algolia search not configured. Set ALGOLIA_APPLICATION_ID and ALGOLIA_API_KEY environment variables."

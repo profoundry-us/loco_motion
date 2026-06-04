@@ -79,6 +79,14 @@
     specs in Ruby via the
     [playwright-ruby-client](https://playwright-ruby-client.vercel.app/).
 
+= doc_note(modifier: :warning, title: "Playwright Ruby Client", css: "mt-6") do
+  :markdown
+    After evaluating the [playwright-ruby-client](https://playwright-ruby-client.vercel.app/),
+    we do **not** recommend it due to multiple issues with running tests
+    concurrently and reverting the database after test runs. We recommend
+    using the official [Playwright for TypeScript/JavaScript](https://playwright.dev/)
+    instead.
+
 = doc_note(modifier: :note, title: "Why not Cypress?", css: "mt-6") do
   :markdown
     We used to recommend [Cypress](https://www.cypress.io) for end-to-end

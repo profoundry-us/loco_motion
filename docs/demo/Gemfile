@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 ruby "3.4.4"
@@ -39,7 +41,7 @@ gem "jbuilder"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -52,12 +54,12 @@ gem "algoliasearch-rails"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem "debug", platforms: %i[mri windows]
 
   # RSpec for testing
-  gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
+  gem "rspec-rails"
   gem "simplecov", require: false
 end
 
@@ -72,10 +74,10 @@ group :development do
   # gem "spring"
 
   # App-Specific Gems
-  gem 'html2haml'
   gem "better_errors"
   gem "binding_of_caller"
   gem "hotwire-livereload"
+  gem "html2haml"
 end
 
 group :test do
@@ -85,15 +87,14 @@ group :test do
 end
 
 # Add some things that are no longer part of the standard Ruby distribution
-gem 'ostruct'
-gem 'fiddle'
+gem "fiddle"
+gem "ostruct"
 
 # App-Specific Gems
 gem "dalli" # For use on Heroku
 gem "haml-rails", "~> 2.0"
-gem 'unsplash'
-gem 'redcarpet', '~> 3.6'
-
+gem "redcarpet", "~> 3.6"
+gem "unsplash"
 
 #############################################
 #

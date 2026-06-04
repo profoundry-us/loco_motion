@@ -13,13 +13,15 @@
 
     This guide walks you through standing up a brand-new Rails application
     using the philosophies and tooling that LocoMotion recommends: Docker for
-    a stable development environment, HAML for templates, and TailwindCSS +
-    DaisyUI for styling.
+    a stable development environment,
+    [Just](https://github.com/casey/just){:target="_blank"} for command running,
+    HAML for templates, and TailwindCSS + DaisyUI for styling.
 
     You do **not** need to follow this guide to use the LocoMotion gem — see
     the [Install guide](#{doc_path("install")}) for adding the component
-    library to an existing app. This guide is for developers who want a
-    recommended, opinionated starting point for a new project.
+    library to an existing app. This guide presents an opinionated starting
+    point for new projects, but you should feel free to adapt these
+    recommendations to suit your preferences and requirements.
 
 .mt-12.prose
   :markdown
@@ -36,6 +38,13 @@
     `just dev` to build the containers and `just dev-shell` to open a shell
     inside the development container, come back here.
 
+= doc_note(modifier: :note, title: "Why Just?", css: "mt-6") do
+  :markdown
+    We use [Just](https://github.com/casey/just){:target="_blank"} as our command runner
+    instead of Make. It provides a cleaner, more readable syntax for defining
+    commands, better error handling, and is easier to maintain than complex
+    Makefiles.
+
 .mt-12.prose
   :markdown
     ## 2. Creating the Rails App
@@ -46,7 +55,7 @@
 
 .mt-6.max-w-prose
   = daisy_code(prefix: "$") do
-    cd /home/app &amp;&amp; rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
+    cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
 
 = doc_note(modifier: :tip, title: "Versions &amp; Databases", css: "mt-6") do
   :markdown
@@ -64,7 +73,7 @@
 
 .mt-6.max-w-prose
   = doc_code(language: "bash", css: "my-4") do
-    :preserve
+    :plain
       rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
 
 .mt-12.prose
@@ -116,7 +125,7 @@
     ## 5. Install HAML (Optional)
 
     While you can use the default ERB templating system, we highly recommend
-    [HAML](https://haml.info/) — it provides a much cleaner language for your
+    [HAML](https://haml.info/){:target="_blank"} — it provides a much cleaner language for your
     template files. Add the gems to your `Gemfile`:
 
 .mt-6.max-w-prose
@@ -168,12 +177,12 @@
   :markdown
     ## 6. Install DaisyUI (Optional)
 
-    [TailwindCSS](https://tailwindcss.com/) is a utility-based CSS framework
+    [TailwindCSS](https://tailwindcss.com/){:target="_blank"} is a utility-based CSS framework
     that lets you build components by composing utility classes. It is already
     installed via the `rails new` command above, and we _highly_ recommend it
     for every project.
 
-    [DaisyUI](https://daisyui.com/) builds on top of Tailwind by providing
+    [DaisyUI](https://daisyui.com/){:target="_blank"} builds on top of Tailwind by providing
     ready-made component classes, so a button becomes as simple as
     `%button.btn`. With Tailwind 4, DaisyUI is configured directly in your CSS
     file rather than in `tailwind.config.js`. Open an app shell with

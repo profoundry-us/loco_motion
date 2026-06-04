@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # AdsHelper provides helper methods for ads-related functionality.
 #

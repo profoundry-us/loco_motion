@@ -1,5 +1,6 @@
-class DocCodeTabComponent < ApplicationComponent
+# frozen_string_literal: true
 
+class DocCodeTabComponent < ApplicationComponent
   define_parts :pre, :code
 
   def initialize(*args, **kws, &block)
@@ -19,5 +20,4 @@ class DocCodeTabComponent < ApplicationComponent
     set_tag_name(:code, :code)
     set_tag_name(:pre, :pre)
   end
-
 end

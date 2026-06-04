@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'fileutils'
+require "fileutils"
 
 module Algolia
   # Service for exporting component data to LLM.txt format
@@ -30,7 +30,7 @@ module Algolia
     # @return [Boolean] Whether the export was successful
     #
     def export_index(components, output_path)
-      return false if components.nil? || components.empty? || output_path.nil? || output_path.empty?
+      return false if components.blank? || output_path.nil? || output_path.empty?
 
       begin
         # Ensure the directory exists
@@ -38,14 +38,14 @@ module Algolia
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
         # Write the llms.txt file
-        File.open(output_path, 'w:UTF-8') do |file|
+        File.open(output_path, "w:UTF-8") do |file|
           write_index_header(file)
           write_component_index(file, components)
         end
 
         Rails.logger.debug "llms.txt exported to #{output_path}"
         true
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error exporting llms.txt: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
         false
@@ -60,7 +60,7 @@ module Algolia
     # @return [Boolean] Whether the export was successful
     #
     def export_full(components, output_path)
-      return false if components.nil? || components.empty? || output_path.nil? || output_path.empty?
+      return false if components.blank? || output_path.nil? || output_path.empty?
 
       begin
         # Ensure the directory exists
@@ -68,14 +68,14 @@ module Algolia
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
         # Write the llms-full.txt file
-        File.open(output_path, 'w:UTF-8') do |file|
+        File.open(output_path, "w:UTF-8") do |file|
           write_full_header(file)
           write_component_details(file, components)
         end
 
         Rails.logger.debug "llms-full.txt exported to #{output_path}"
         true
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error exporting llms-full.txt: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
         false
@@ -138,7 +138,7 @@ module Algolia
       file.puts ""
 
       components.each do |component|
-        section_text = component[:section].present? ? component[:section] : component[:framework]
+        section_text = component[:section].presence || component[:framework]
         short_desc = truncate_description(component[:description], 80)
 
         file.puts "- **#{component[:component]}** (#{section_text}): #{short_desc}"
@@ -186,7 +186,7 @@ module Algolia
     #
     def write_component_section(file, component)
       file.puts "=== Component: #{component[:component]}"
-      file.puts "Group: #{component[:section].present? ? component[:section] : component[:framework]}"
+      file.puts "Group: #{component[:section].presence || component[:framework]}"
       file.puts "Title: #{component[:title]}" if component[:title].present?
       file.puts "API URL: #{component[:api_url]}"
       file.puts "Examples URL: #{component[:examples_url]}"
@@ -246,7 +246,7 @@ module Algolia
       file.puts ""
 
       component[:examples].each do |example|
-        next unless example[:title].present?
+        next if example[:title].blank?
 
         file.puts "-- Example: #{example[:title]}"
 
@@ -282,7 +282,7 @@ module Algolia
     # @return [String] Code with description block removed
     #
     def strip_description_block(code)
-      return code if code.nil? || code.empty?
+      return code if code.blank?
 
       lines = code.split("\n")
       result = []
@@ -298,20 +298,18 @@ module Algolia
         # If we're in a description block, skip until we find actual HAML code
         if in_description
           # Empty lines are part of the description
-          if line.strip.empty?
-            next
-          end
+          next if line.strip.empty?
 
           # Check if this line looks like HAML code (starts with =, -, %, ., or #)
           # We need to check at the indentation level of the doc_example block (typically 2 spaces)
-          if line.match?(/^\s{0,2}[=\-%#\.]/)
-            # This is actual HAML code, exit description mode
-            in_description = false
-            # Don't skip this line - it's actual code
-          else
-            # This is still description text, skip it
-            next
-          end
+          next unless line.match?(/^\s{0,2}[=\-%#.]/)
+
+          # This is actual HAML code, exit description mode
+          in_description = false
+          # Don't skip this line - it's actual code
+
+          # This is still description text, skip it
+
         end
 
         result << line
@@ -327,7 +325,7 @@ module Algolia
     # @return [String] Code with doc_example wrapper removed
     #
     def strip_doc_example_wrapper(code)
-      return code if code.nil? || code.empty?
+      return code if code.blank?
 
       lines = code.split("\n")
       result = []
@@ -373,7 +371,7 @@ module Algolia
     # @return [String] Truncated text
     #
     def truncate_description(text, max_length)
-      return "" if text.nil? || text.empty?
+      return "" if text.blank?
 
       # If text is already short enough, return as-is
       return text if text.length <= max_length
@@ -394,7 +392,7 @@ module Algolia
 
       if last_space && last_space > max_length * 0.8
         # Found a good space, truncate there
-        return text[0...last_space].strip + "..."
+        return "#{text[0...last_space].strip}..."
       end
 
       # No good breaking point found, truncate at max length
@@ -407,7 +405,7 @@ module Algolia
     # @param component [Hash] Component data bundle
     #
     def write_api_signature_section(file, component)
-      return unless component[:api_signature].present?
+      return if component[:api_signature].blank?
 
       file.puts "API Signature:"
 
@@ -455,7 +453,7 @@ module Algolia
     # @param component [Hash] Component data bundle
     #
     def write_rails_integration_section(file, component)
-      return unless component[:rails_integration].present?
+      return if component[:rails_integration].blank?
 
       file.puts "Rails Integration:"
 
@@ -463,9 +461,7 @@ module Algolia
         file.puts "- Base Class: #{component[:rails_integration][:base_class]}"
       end
 
-      if component[:rails_integration][:view_component]
-        file.puts "- ViewComponent: Yes"
-      end
+      file.puts "- ViewComponent: Yes" if component[:rails_integration][:view_component]
 
       if component[:rails_integration][:includes].present? && component[:rails_integration][:includes].any?
         file.puts "- Includes: #{component[:rails_integration][:includes].join(', ')}"
@@ -479,33 +475,31 @@ module Algolia
     # @param file [File] The output file
     #
     def write_usage_patterns_section(file)
-      patterns_file = Rails.root.join('data', 'usage_patterns.md')
+      patterns_file = Rails.root.join("data/usage_patterns.md")
 
-      if File.exist?(patterns_file)
-        file.puts "## Common Usage Patterns"
-        file.puts ""
+      return unless File.exist?(patterns_file)
 
-        # Read and process the patterns file to remove leading empty line
-        patterns_content = File.read(patterns_file)
-        lines = patterns_content.split("\n")
+      file.puts "## Common Usage Patterns"
+      file.puts ""
 
-        # Skip the markdown header and any leading empty lines
-        processing_started = false
-        lines.each do |line|
-          # Skip the markdown header since we already have one
-          next if line.start_with?('# LocoMotion Usage Patterns')
+      # Read and process the patterns file to remove leading empty line
+      patterns_content = File.read(patterns_file)
+      lines = patterns_content.split("\n")
 
-          # Skip leading empty lines
-          if !processing_started && line.strip.empty?
-            next
-          end
+      # Skip the markdown header and any leading empty lines
+      processing_started = false
+      lines.each do |line|
+        # Skip the markdown header since we already have one
+        next if line.start_with?("# LocoMotion Usage Patterns")
 
-          processing_started = true
-          file.puts line
-        end
+        # Skip leading empty lines
+        next if !processing_started && line.strip.empty?
 
-        file.puts ""
+        processing_started = true
+        file.puts line
       end
+
+      file.puts ""
     end
 
     # Write the categorized component index
@@ -520,7 +514,7 @@ module Algolia
       # Group components by category
       categories = {}
       components.each do |component|
-        category = component[:section].present? ? component[:section] : component[:framework]
+        category = component[:section].presence || component[:framework]
         categories[category] ||= []
         categories[category] << component
       end

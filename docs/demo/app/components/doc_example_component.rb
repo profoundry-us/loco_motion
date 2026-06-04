@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocExampleComponent < ApplicationComponent
   define_parts :title, :template, :example, :pre, :code
 
@@ -37,9 +39,9 @@ class DocExampleComponent < ApplicationComponent
     add_css(:title, "text-xl text-base font-bold")
     add_html(:title, { id: (@simple_title || "").parameterize })
 
-    if description?
-      add_css(:title, "-mb-2")
-    end
+    return unless description?
+
+    add_css(:title, "-mb-2")
   end
 
   def setup_template
@@ -79,7 +81,7 @@ class DocExampleComponent < ApplicationComponent
 
     # Setup a proc to add lines to the code block since we do it in different
     # places in the loop
-    add_line = Proc.new { |line, indent| @code << line.sub("  " * indent, "") }
+    add_line = proc { |line, indent| @code << line.sub("  " * indent, "") }
 
     # Iterate over the lines of the file
     while current_line < file_lines.length
@@ -171,19 +173,18 @@ class DocExampleComponent < ApplicationComponent
   end
 
   def active_tab_html
-    { data: { "active-tab-target": "tab", action: "active-tab#activate" }}
+    { data: { "active-tab-target": "tab", action: "active-tab#activate" } }
   end
 
   def reset_css
     cssify([
-      "absolute top-1.5 right-4 h-5 border-0! flex items-center justify-center",
-      "hover:bg-base-200 active:bg-base-300 rounded-xs ps-2! pe-2!",
-      "tooltip tooltip-left before:text-xs",
-    ])
+             "absolute top-1.5 right-4 h-5 border-0! flex items-center justify-center",
+             "hover:bg-base-200 active:bg-base-300 rounded-xs ps-2! pe-2!",
+             "tooltip tooltip-left before:text-xs"
+           ])
   end
 
   def reset_html
     { data: { action: "doc-example#reset", tip: "Reset example" } }
   end
-
 end

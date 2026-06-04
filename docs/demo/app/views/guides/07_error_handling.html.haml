@@ -17,7 +17,7 @@
     application state right where the exception happened.
 
     It assumes you have already followed the
-    [Getting Started guide](#{guide_path("04_getting_started")}) and have a
+    [Getting Started guide](#{guide_path("getting_started")}) and have a
     running Dockerized Rails app. These tools pair especially well with the
     [Authentication guide](#{guide_path("06_authentication")}), where a
     deliberate `raise` lets you inspect the signed-in user.
@@ -26,7 +26,7 @@
   :markdown
     ## 1. Web Console
 
-    Rails ships with [Web Console](https://github.com/rails/web-console), which
+    Rails ships with [Web Console](https://github.com/rails/web-console){:target="_blank"}, which
     inserts an IRB prompt right into your browser whenever an exception is
     raised. When running inside Docker, you will usually see a log line like:
 
@@ -62,15 +62,19 @@
 .mt-6.prose
   :markdown
     You can run almost any code here that you could run in your controllers,
-    views, or models. A handy trick: drop a non-existent reference like `asdf`
-    just above the code you want to inspect and refresh — Rails will stop
-    there and let you poke around the live application state.
+    views, or models.
+
+= doc_note(modifier: :tip, title: "Handy Trick", css: "mt-6") do
+  :markdown
+    Drop a non-existent reference like `asdf` just above the code you want to
+    inspect and refresh — Rails will stop there and let you poke around the
+    live application state.
 
 .mt-12.prose
   :markdown
     ## 2. BetterErrors (Optional)
 
-    [BetterErrors](https://github.com/BetterErrors/better_errors) provides (in
+    [BetterErrors](https://github.com/BetterErrors/better_errors){:target="_blank"} provides (in
     our humble opinion) a nicer interface for the errors that crop up in a
     Rails app. We particularly like how it lays the stack trace out to the
     left of the code and console.

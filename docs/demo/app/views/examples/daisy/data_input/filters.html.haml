@@ -1,0 +1,62 @@
+= doc_title(title: "Filters", comp: @comp) do |title|
+  :markdown
+    The Filter component is a group of radio buttons where choosing one option
+    hides the others and shows a reset button.
+
+= doc_example(title: "Basic Usage") do |doc|
+  - doc.with_description do
+    :markdown
+      The basic filter component takes an `options` array and uses a div element
+      with radio buttons styled as buttons.
+
+  = daisy_filter(name: "frameworks", options: ["Svelte", "Vue", "React"])
+
+
+= doc_example(title: "With Hash Options") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also provide options as a hash with values and labels to customize
+      the display.
+
+  :ruby
+    options = [
+      { label: "Ruby", value: "ruby" },
+      { label: "JavaScript", value: "js" },
+      { label: "Python", value: "py" }
+    ]
+
+  = daisy_filter(name: "languages", options: options)
+
+
+= doc_example(title: "Custom Button Styles") do |doc|
+  - doc.with_description do
+    :markdown
+      You can customize the styles of the buttons and reset button using CSS classes.
+
+  = daisy_filter(name: "priorities", css: "items-center") do |f|
+    - f.with_reset_button(css: "btn-accent btn-sm rounded-full")
+    - f.with_option(label: "Low", css: "btn-outline btn-success")
+    - f.with_option(label: "Medium", css: "btn-outline btn-warning")
+    - f.with_option(label: "High", css: "btn-outline btn-error")
+
+
+= doc_example(title: "Filter Within Form") do |doc|
+  - doc.with_description do
+    :markdown
+      Filters can be used within forms to submit the selected value.
+
+  = form_with(url: "", method: :get, scope: :search, class: "mb-4") do |form|
+    = daisy_filter(name: "categories") do |f|
+      - f.with_option(label: "Category 1")
+      - f.with_option(label: "Category 2")
+    = form.submit "Apply Filters", class: "btn btn-primary mt-4"
+
+
+= doc_example(title: "Form Builder") do |doc|
+  - doc.with_description do
+    :markdown
+      You can also use the form builder to create a filter.
+
+  = form_with(url: "", method: :get, scope: :search, class: "mb-4") do |form|
+    = form.daisy_filter(:category, options: ["Technology", "Science", "Arts"])
+    = form.submit "Apply Filters", class: "btn btn-primary mt-4"

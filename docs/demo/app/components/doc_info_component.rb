@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocInfoComponent < ApplicationComponent
   attr_reader :url, :image_path, :image_alt
 

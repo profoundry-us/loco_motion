@@ -13,7 +13,7 @@
 
     This guide covers adding user authentication with **OmniAuth** and its
     `:developer` strategy. It assumes you have already followed the
-    [Getting Started guide](#{guide_path("04_getting_started")}) and have a
+    [Getting Started guide](#{guide_path("getting_started")}) and have a
     running Dockerized Rails app.
 
 .mt-12.prose
@@ -22,13 +22,14 @@
 
     There are a **lot** of ways to handle authentication in Rails. The two
     most popular gems are
-    [OmniAuth](https://github.com/omniauth/omniauth) and
-    [Devise](https://github.com/heartcombo/devise).
+    [OmniAuth](https://github.com/omniauth/omniauth){:target="_blank"} and
+    [Devise](https://github.com/heartcombo/devise){:target="_blank"}.
 
     We recommend starting with OmniAuth because its `:developer` strategy lets
     you get going very quickly, and you can
-    [integrate it with Devise](https://github.com/heartcombo/devise#omniauth)
-    or a service like [Auth0](https://auth0.com/) later if you choose.
+    [integrate it with Devise](https://github.com/heartcombo/devise#omniauth){:target="_blank"}
+    or a service like [Auth0](https://auth0.com/){:target="_blank"} or
+    [Frontegg](https://frontegg.com/){:target="_blank"} later if you choose.
 
     Add the relevant gems to your `Gemfile` and re-run `bundle install`:
 
@@ -41,8 +42,9 @@
 
 = doc_note(modifier: :tip, title: "Restarting Quickly", css: "mt-6") do
   :markdown
-    After installing, you will need to restart your Rails server. Rather than
-    a full restart, you can restart just the web process by touching a file:
+    After installing, you will need to restart your Rails server. You can use
+    `just app-restart` for a quick restart, or touch a file to restart just the
+    web process:
     <br /><br />
     ```
     touch tmp/restart.txt

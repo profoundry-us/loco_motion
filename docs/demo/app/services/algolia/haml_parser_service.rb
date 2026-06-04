@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'haml'
+require "haml"
 
 module Algolia
   # Service for parsing HAML files using the HAML library
@@ -42,14 +42,14 @@ module Algolia
         read_file
         generate_ast
         process_ast
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error rendering HAML: #{e.message}"
         Rails.logger.debug e.backtrace.join("\n")
       end
 
       Rails.logger.debug "[DEBUG] parse result: #{@result}"
 
-      return @result
+      @result
     end
 
     # Read the file content
@@ -134,7 +134,7 @@ module Algolia
 
       # Add the values as an example
       @result[:examples] << {
-        type: 'example',
+        type: "example",
         title: clean_string((title || "").strip),
         anchor: clean_string((title || "").parameterize.strip),
         description: clean_string((description || "").strip),
@@ -207,9 +207,7 @@ module Algolia
       my_desc = clean_string(is_tag_node?(node) ? node.value[:value] : node.value[:text])
       my_desc = "" if my_desc.nil?
 
-      my_desc + " " + (node.children || []).map do |child|
-        extract_description(child)
-      end.join(" ")
+      "#{my_desc} #{(node.children || []).map { |child| extract_description(child) }.join(' ')}"
     end
 
     # Extract code from a node
@@ -227,15 +225,13 @@ module Algolia
       code += "=" if node.type == :script
 
       # Add the node's text if it has any
-      code += node.value[:text] if node.value.has_key?(:text)
+      code += node.value[:text] if node.value.key?(:text)
 
       # Add generated code if it is a tag node
       code += generate_code_from_tag(node, level) if node.type == :tag
 
       # Add all children and return
-      code + "\n" + node.children.map do |child|
-        extract_code(child, level + 1)
-      end.join("\n")
+      "#{code}\n#{node.children.map { |child| extract_code(child, level + 1) }.join("\n")}"
     end
 
     # Generate HAML code from a tag node
@@ -255,16 +251,21 @@ module Algolia
       code += "%#{node.value[:name]}" unless node.value[:name] == "div"
 
       # Render the standard HAML class syntax if classes are provided
-      code += ".#{node.value[:attributes]["class"].split(" ").join(".")}" if node.value[:attributes] && node.value[:attributes]["class"]
+      if node.value[:attributes] && node.value[:attributes]["class"]
+        code += ".#{node.value[:attributes]['class'].split(' ').join('.')}"
+      end
 
       # Add any non-class attributes
       code += non_class_attrs.inspect if non_class_attrs.present?
 
       # Add any dynamic attributes (like data-controller)
-      code += node.value[:dynamic_attributes].old.gsub("\n", "\n" + indent) if node.value[:dynamic_attributes]&.old.present?
+      if node.value[:dynamic_attributes]&.old.present?
+        code += node.value[:dynamic_attributes].old.gsub("\n",
+                                                         "\n#{indent}")
+      end
 
       # Add a value if present (text inside the tag)
-      code += (" " + node.value[:value]) if node.value[:value].present?
+      code += " #{node.value[:value]}" if node.value[:value].present?
 
       # Return the generated code line
       code
@@ -371,9 +372,7 @@ module Algolia
       # Clean up any remaining odd spacing
       cleaned = cleaned.gsub("  ", " ").strip
       cleaned = cleaned.gsub(" .", ".").strip
-      cleaned = cleaned.gsub(" ,", ",").strip
-
-      cleaned
+      cleaned.gsub(" ,", ",").strip
     end
   end
 end

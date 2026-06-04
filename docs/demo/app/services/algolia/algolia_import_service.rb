@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'json'
-require 'fileutils'
+require "json"
+require "fileutils"
 
 module Algolia
   # Service to handle importing data into Algolia
@@ -18,21 +18,20 @@ module Algolia
   class AlgoliaImportService
     # Initialize the service
     #
-    def initialize
-    end
+    def initialize; end
 
     # Check if Algolia is configured
     #
     # @return [Boolean] Whether Algolia credentials are available
     #
     def algolia_configured?
-      app_id = ENV['ALGOLIA_APPLICATION_ID']
-      api_key = ENV['ALGOLIA_API_KEY']
+      app_id = ENV["ALGOLIA_APPLICATION_ID"]
+      api_key = ENV["ALGOLIA_API_KEY"]
 
       Rails.logger.debug "ALGOLIA_APPLICATION_ID: #{app_id ? 'Present' : 'Missing'}"
       Rails.logger.debug "ALGOLIA_API_KEY: #{api_key ? 'Present' : 'Missing'}"
 
-      !app_id.blank? && !api_key.blank?
+      app_id.present? && api_key.present?
     end
 
     # Import records into Algolia
@@ -42,7 +41,7 @@ module Algolia
     #
     # @return [Boolean] Whether the operation was successful
     #
-    def import(records, source_file, index_name = Algolia::Index::DEFAULT_INDEX)
+    def import(records, _source_file, index_name = Algolia::Index::DEFAULT_INDEX)
       return true if records.empty?
       return false unless algolia_configured?
 
@@ -53,11 +52,11 @@ module Algolia
         index = Algolia::Index.new(index_name)
 
         # Add the examples to the index
-        response = index.save_objects(records)
+        index.save_objects(records)
 
         Rails.logger.debug "Successfully indexed #{records.length} examples to Algolia (index: #{index_name})"
         true
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error sending to Algolia: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
         false
@@ -81,7 +80,7 @@ module Algolia
 
         Rails.logger.debug "Index cleared successfully. Response: #{response}"
         true
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error clearing Algolia index: #{e.message}"
         Rails.logger.debug e.backtrace.join("\n")
         false
