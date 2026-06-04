@@ -183,6 +183,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   syncing, and link the preload-script note to the `ThemeHelper` API docs
 - chore(demo): Switch the header version badge to a "View All Releases" tip linking to the GitHub releases
   page, and remove the stale issue #49 flash-of-content comment
+- fix(demo): Restore plain-Ruby guard in `docs/demo/bin/bundle` — `.present?` (ActiveSupport) is not
+  available when the binstub runs, causing a `NoMethodError` on Heroku during `bundle install`
 
 ### Changed
 
