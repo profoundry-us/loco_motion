@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The HoverComponent wraps any content with the DaisyUI `hover-3d` effect,
 # tilting and rotating the content based on the mouse position to create an
@@ -34,45 +36,46 @@
 #       = daisy_hover(css: "block w-60") do
 #         = daisy_figure(src: image_path(img), css: "rounded-2xl overflow-hidden")
 #
-class Daisy::Layout::HoverComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::LinkableComponent
+module Daisy
+  module Layout
+    class HoverComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::LinkableComponent
 
-  # The number of empty hover zones DaisyUI's `hover-3d` requires.
-  HOVER_ZONE_COUNT = 8
+      # The number of empty hover zones DaisyUI's `hover-3d` requires.
+      HOVER_ZONE_COUNT = 8
 
-  #
-  # Creates a new Hover (3D) component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Sizing: `w-96`, `max-w-md`
-  #   - Spacing: `m-4`, `mx-2 my-12`
-  #   - Cursor: `cursor-pointer` (recommended when also passing `href:`)
-  #
-  # @option kws href [String] When provided, the wrapper renders as an `<a>`
-  #   tag. Use this to make the entire 3D card clickable rather than placing
-  #   interactive elements inside the wrapper.
-  #
-  # @option kws target [String] The link target (e.g., `_blank`). Only applied
-  #   when `href:` is also provided.
-  #
-  def initialize(**kws)
-    super(**kws)
-  end
+      #
+      # Creates a new Hover (3D) component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Sizing: `w-96`, `max-w-md`
+      #   - Spacing: `m-4`, `mx-2 my-12`
+      #   - Cursor: `cursor-pointer` (recommended when also passing `href:`)
+      #
+      # @option kws href [String] When provided, the wrapper renders as an `<a>`
+      #   tag. Use this to make the entire 3D card clickable rather than placing
+      #   interactive elements inside the wrapper.
+      #
+      # @option kws target [String] The link target (e.g., `_blank`). Only applied
+      #   when `href:` is also provided.
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    setup_component
-    super
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        setup_component
+        super
+      end
 
-  private
+      private
 
-  def setup_component
-    add_css(:component, "hover-3d")
+      def setup_component
+        add_css(:component, "hover-3d")
+      end
+    end
   end
 end

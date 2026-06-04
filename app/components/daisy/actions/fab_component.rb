@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The FAB (Floating Action Button) component renders a floating button
 # that stays in the corner of the screen. When clicked or focused, it
@@ -73,61 +75,61 @@
 #     - fab.with_action(css: "btn-circle btn-lg") do
 #       B
 #
-class Daisy::Actions::FabComponent < LocoMotion::BaseComponent
+module Daisy
+  module Actions
+    class FabComponent < LocoMotion::BaseComponent
+      include ViewComponent::SlotableDefault
 
-  include ViewComponent::SlotableDefault
+      define_parts :trigger
 
-  define_parts :trigger
+      renders_one :activator, LocoMotion::BasicComponent.build(
+        html: { role: "button", tabindex: 0 }
+      )
 
-  renders_one :activator, LocoMotion::BasicComponent.build(
-    html: { role: "button", tabindex: 0 }
-  )
+      renders_one :button, Daisy::Actions::ButtonComponent
 
-  renders_one :button, Daisy::Actions::ButtonComponent
+      renders_many :actions, Daisy::Actions::ButtonComponent
 
-  renders_many :actions, Daisy::Actions::ButtonComponent
+      renders_one :close, LocoMotion::BasicComponent.build(css: "fab-close")
 
-  renders_one :close, LocoMotion::BasicComponent.build(css: "fab-close")
+      renders_one :main_action, LocoMotion::BasicComponent.build(
+        css: "fab-main-action"
+      )
 
-  renders_one :main_action, LocoMotion::BasicComponent.build(
-    css: "fab-main-action"
-  )
+      #
+      # Creates a new instance of the FabComponent.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
 
-  #
-  # Creates a new instance of the FabComponent.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  def initialize(**kws)
-    super(**kws)
-  end
+      #
+      # Adds the relevant DaisyUI classes to the component and sets up the
+      # default trigger part.
+      #
+      def before_render
+        setup_component
+        setup_trigger
+      end
 
-  #
-  # Adds the relevant DaisyUI classes to the component and sets up the
-  # default trigger part.
-  #
-  def before_render
-    setup_component
-    setup_trigger
-  end
+      private
 
-  private
+      #
+      # Adds the `fab` CSS class to the component wrapper.
+      #
+      def setup_component
+        add_css(:component, "fab")
+      end
 
-  #
-  # Adds the `fab` CSS class to the component wrapper.
-  #
-  def setup_component
-    add_css(:component, "fab")
-  end
-
-  #
-  # Configures the default trigger part as a focusable `<div>` with
-  # `role="button"` and `tabindex="0"` for cross-browser focus support.
-  # Only used when no `button` or `activator` slot is provided.
-  #
-  def setup_trigger
-    set_tag_name(:trigger, :div)
-    add_html(:trigger, { role: "button", tabindex: 0 })
-    add_css(:trigger, "btn")
+      #
+      # Configures the default trigger part as a focusable `<div>` with
+      # `role="button"` and `tabindex="0"` for cross-browser focus support.
+      # Only used when no `button` or `activator` slot is provided.
+      #
+      def setup_trigger
+        set_tag_name(:trigger, :div)
+        add_html(:trigger, { role: "button", tabindex: 0 })
+        add_css(:trigger, "btn")
+      end
+    end
   end
 end

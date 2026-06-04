@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The FrameComponent creates a simple window-like container for showcasing
 # content. Similar to the BrowserComponent but without the toolbar, it's
@@ -29,34 +31,35 @@
 #       = image_tag("screenshot.jpg",
 #         class: "w-full")
 #
-class Daisy::Mockup::FrameComponent < LocoMotion::BaseComponent
-  #
-  # Creates a new Frame component.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Size: `w-full`, `max-w-4xl`
-  #   - Border: `border`, `border-primary`
-  #   - Background: `bg-base-100`, `bg-primary`
-  #   - Shadow: `shadow-lg`, `shadow-xl`
-  #
-  def initialize(**kws)
-    super(**kws)
-  end
+module Daisy
+  module Mockup
+    class FrameComponent < LocoMotion::BaseComponent
+      #
+      # Creates a new Frame component.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Size: `w-full`, `max-w-4xl`
+      #   - Border: `border`, `border-primary`
+      #   - Background: `bg-base-100`, `bg-primary`
+      #   - Shadow: `shadow-lg`, `shadow-xl`
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "mockup-window")
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "mockup-window")
+      end
 
-  #
-  # Renders the frame with its content.
-  #
-  def call
-    part(:component) do
-      content
+      #
+      # Renders the frame with its content.
+      #
+      def call
+        part(:component) do
+          content
+        end
+      end
     end
   end
 end

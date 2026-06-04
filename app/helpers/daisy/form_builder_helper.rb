@@ -17,9 +17,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name)
-          end
+          options[:checked] = @object.send(name) if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the checkbox component
           @template.daisy_checkbox(**options)
@@ -37,9 +35,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name)
-          end
+          options[:checked] = @object.send(name) if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the toggle component
           @template.daisy_toggle(**options)
@@ -58,9 +54,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name).to_s == value
-          end
+          options[:checked] = @object.send(name).to_s == value if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the radio button component
           @template.daisy_radio(**options)
@@ -113,7 +107,7 @@ module Daisy
 
         # Add the daisy_select method to FormBuilder
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
-                           options_css: nil, options_html: {}, **args, &block)
+                         options_css: nil, options_html: {}, **args, &block)
           # Extract the name from the form builder's object_name and method
           name = "#{object_name}[#{method}]"
 

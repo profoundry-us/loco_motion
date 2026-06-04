@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The StatusComponent displays a small icon to visually show the current status of an element,
 # such as online, offline, error, etc. It follows the DaisyUI status component pattern.
@@ -23,25 +25,25 @@
 #
 # @loco_example Status with Accessibility
 #   = daisy_status(css: "status-success", html: { aria: { label: "Status: Online" } })
-class Daisy::DataDisplay::StatusComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class StatusComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  def initialize(**kws)
-    super(**kws)
-  end
+      def before_render
+        setup_component
+        super # Call super after setup
+      end
 
-  def before_render
-    setup_component
-    super # Call super after setup
-  end
+      def call
+        part(:component)
+      end
 
-  def call
-    part(:component)
-  end
+      private
 
-  private
-
-  def setup_component
-    add_css(:component, "status")
+      def setup_component
+        add_css(:component, "status")
+      end
+    end
   end
 end

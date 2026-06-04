@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Carousel component displays a horizontal scrolling list of items, such as
 # images, cards, or any other content. It's useful for showcasing multiple
@@ -35,21 +37,25 @@
 #         %h2.text-2xl Second Slide
 #         %p Some content for the second slide
 #
-class Daisy::DataDisplay::CarouselComponent < LocoMotion::BaseComponent
-  # A component for rendering individual items within the carousel.
-  class ItemComponent < LocoMotion::BasicComponent
-    def before_render
-      add_css(:component, "carousel-item")
+module Daisy
+  module DataDisplay
+    class CarouselComponent < LocoMotion::BaseComponent
+      # A component for rendering individual items within the carousel.
+      class ItemComponent < LocoMotion::BasicComponent
+        def before_render
+          add_css(:component, "carousel-item")
+        end
+      end
+
+      renders_many :items, ItemComponent
+
+      def before_render
+        setup_component
+      end
+
+      def setup_component
+        add_css(:component, "carousel")
+      end
     end
-  end
-
-  renders_many :items, ItemComponent
-
-  def before_render
-    setup_component
-  end
-
-  def setup_component
-    add_css(:component, "carousel")
   end
 end

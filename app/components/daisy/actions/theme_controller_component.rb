@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The ThemeComponent serves as a foundation for building a full Theme Switcher.
 # It provides the building blocks that you will use such as the Theme Preview,
@@ -9,80 +11,84 @@
 #       = tc.build_theme_preview(theme)
 #       = tc.build_radio_input(theme)
 #
-class Daisy::Actions::ThemeControllerComponent < LocoMotion::BaseComponent
-  # Default list of themes to display in the controller
-  SOME_THEMES = ["light", "dark", "synthwave", "retro", "cyberpunk", "wireframe"].freeze
+module Daisy
+  module Actions
+    class ThemeControllerComponent < LocoMotion::BaseComponent
+      # Default list of themes to display in the controller
+      SOME_THEMES = %w[light dark synthwave retro cyberpunk wireframe].freeze
 
-  attr_reader :themes
+      attr_reader :themes
 
-  #
-  # Creates a new instance of the ThemeControllerComponent.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws [Array<String>] :themes List of DaisyUI theme names to include
-  #   in the controller. Defaults to {SOME_THEMES}.
-  #
-  def initialize(**kws, &block)
-    super
+      #
+      # Creates a new instance of the ThemeControllerComponent.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [Array<String>] :themes List of DaisyUI theme names to include
+      #   in the controller. Defaults to {SOME_THEMES}.
+      #
+      def initialize(**kws, &block)
+        super
 
-    @themes = config_option(:themes, SOME_THEMES)
-  end
+        @themes = config_option(:themes, SOME_THEMES)
+      end
 
-  #
-  # Sets up the component with theme Stimulus controller.
-  #
-  def before_render
-    add_stimulus_controller(:component, "loco-theme")
-  end
+      #
+      # Sets up the component with theme Stimulus controller.
+      #
+      def before_render
+        add_stimulus_controller(:component, "loco-theme")
+      end
 
-  #
-  # Renders the component and its content.
-  #
-  def call
-    part(:component) { content }
-  end
+      #
+      # Renders the component and its content.
+      #
+      def call
+        part(:component) { content }
+      end
 
-  #
-  # Builder method to create a radio input for use in selecting themes.
-  #
-  # @param theme [String] The name of the theme that the input controls.
-  # @param options [Hash] Additional options to pass to the component.
-  #
-  # @return [Daisy::DataInput::RadioButtonComponent] A new radio button
-  #   component instance.
-  #
-  def build_radio_input(theme, **options)
-    options[:css] = (options[:css] || "").concat(" theme-controller")
+      #
+      # Builder method to create a radio input for use in selecting themes.
+      #
+      # @param theme [String] The name of the theme that the input controls.
+      # @param options [Hash] Additional options to pass to the component.
+      #
+      # @return [Daisy::DataInput::RadioButtonComponent] A new radio button
+      #   component instance.
+      #
+      def build_radio_input(theme, **options)
+        options[:css] = (options[:css] || "").concat(" theme-controller")
 
-    # Namespace the id by the input name so multiple theme controllers can
-    # coexist on the same page without generating duplicate ids.
-    name = options[:name] || "theme"
-    default_options = { name: name, id: "#{name}-#{theme}", value: theme }
+        # Namespace the id by the input name so multiple theme controllers can
+        # coexist on the same page without generating duplicate ids.
+        name = options[:name] || "theme"
+        default_options = { name: name, id: "#{name}-#{theme}", value: theme }
 
-    render Daisy::DataInput::RadioButtonComponent.new(**default_options.deep_merge(options))
-  end
+        render Daisy::DataInput::RadioButtonComponent.new(**default_options.deep_merge(options))
+      end
 
-  #
-  # Builder method to create a theme preview showing the theme's colors in a 2x2
-  # grid.
-  #
-  # @param theme [String] The theme name to preview.
-  #
-  # @option options [Integer] :size Size of the preview in Tailwind size units.
-  #   Defaults to 4 (1rem).
-  #
-  # @option options [Boolean] :shadow Whether to add a shadow. Defaults to true.
-  #
-  # @option options [String] :css Additional CSS classes.
-  #
-  # @return [Daisy::Actions::ThemePreviewComponent] A new theme preview
-  #   component instance.
-  #
-  def build_theme_preview(theme, **options)
-    render Daisy::Actions::ThemePreviewComponent.new(
-      theme: theme,
-      **options
-    )
+      #
+      # Builder method to create a theme preview showing the theme's colors in a 2x2
+      # grid.
+      #
+      # @param theme [String] The theme name to preview.
+      #
+      # @option options [Integer] :size Size of the preview in Tailwind size units.
+      #   Defaults to 4 (1rem).
+      #
+      # @option options [Boolean] :shadow Whether to add a shadow. Defaults to true.
+      #
+      # @option options [String] :css Additional CSS classes.
+      #
+      # @return [Daisy::Actions::ThemePreviewComponent] A new theme preview
+      #   component instance.
+      #
+      def build_theme_preview(theme, **options)
+        render Daisy::Actions::ThemePreviewComponent.new(
+          theme: theme,
+          **options
+        )
+      end
+    end
   end
 end

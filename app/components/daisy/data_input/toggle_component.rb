@@ -29,20 +29,24 @@
 # @loco_example With End Label (common for toggles)
 #   = daisy_toggle(name: "notifications", id: "notifications", end: "Enable notifications")
 #
-class Daisy::DataInput::ToggleComponent < Daisy::DataInput::CheckboxComponent
-  #
-  # Instantiate a new Toggle component.
-  #
-  # This component accepts the same options as {Daisy::DataInput::CheckboxComponent},
-  # but always sets `toggle: true` to render the checkbox as a toggle switch.
-  #
-  # @param kws [Hash] The keyword arguments for the component. See
-  #   {Daisy::DataInput::CheckboxComponent#initialize} for available options.
-  #
-  def initialize(**kws)
-    # Always force toggle to be true
-    kws[:toggle] = true
+module Daisy
+  module DataInput
+    class ToggleComponent < Daisy::DataInput::CheckboxComponent
+      #
+      # Instantiate a new Toggle component.
+      #
+      # This component accepts the same options as {Daisy::DataInput::CheckboxComponent},
+      # but always sets `toggle: true` to render the checkbox as a toggle switch.
+      #
+      # @param kws [Hash] The keyword arguments for the component. See
+      #   {Daisy::DataInput::CheckboxComponent#initialize} for available options.
+      #
+      def initialize(**kws)
+        # Always force toggle to be true
+        kws[:toggle] = true
 
-    super(**kws)
+        super(**kws)
+      end
+    end
   end
 end

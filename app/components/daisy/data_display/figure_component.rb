@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The FigureComponent is used to display images with optional captions. It is
 # commonly used within cards and other content containers.
@@ -19,62 +21,66 @@
 #   = daisy_figure(src: "example.jpg", position: :bottom) do
 #     Caption appears above the image
 #
-class Daisy::DataDisplay::FigureComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::LinkableComponent
+module Daisy
+  module DataDisplay
+    class FigureComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::LinkableComponent
 
-  define_part :image, tag_name: :img
+      define_part :image, tag_name: :img
 
-  # Creates a new figure component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws src [String] URL of the image to display in the figure.
-  #
-  # @option kws position [Symbol] Position of the image relative to content.
-  #   Must be :top (default) or :bottom.
-  #
-  # @option kws alt [String] The alt text for the image, used by screen
-  #   readers and shown when the image fails to load. Omitted when not
-  #   provided.
-  #
-  # @option kws css [String] Additional CSS classes for styling.
-  #
-  def initialize(**kws, &block)
-    super
+      # Creates a new figure component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws src [String] URL of the image to display in the figure.
+      #
+      # @option kws position [Symbol] Position of the image relative to content.
+      #   Must be :top (default) or :bottom.
+      #
+      # @option kws alt [String] The alt text for the image, used by screen
+      #   readers and shown when the image fails to load. Omitted when not
+      #   provided.
+      #
+      # @option kws css [String] Additional CSS classes for styling.
+      #
+      def initialize(**kws, &block)
+        super
 
-    @src = kws[:src]
-    @alt = kws[:alt]
-    @position = kws[:position] || :top
+        @src = kws[:src]
+        @alt = kws[:alt]
+        @position = kws[:position] || :top
 
-    validate_position!
-  end
-
-  def before_render
-    set_tag_name(:component, :figure)
-    add_html(:image, { src: @src, alt: @alt }) if @src
-
-    super
-  end
-
-  def call
-    part(:component) do
-      if @position == :bottom
-        # Show content first, then image
-        concat(content)
-        concat(part(:image)) if @src
-      else
-        # Default: show image first, then content
-        concat(part(:image)) if @src
-        concat(content)
+        validate_position!
       end
-    end
-  end
 
-  private
+      def before_render
+        set_tag_name(:component, :figure)
+        add_html(:image, { src: @src, alt: @alt }) if @src
 
-  def validate_position!
-    unless %i[top bottom].include?(@position)
-      raise ArgumentError, "position must be :top or :bottom, got '#{@position}'"
+        super
+      end
+
+      def call
+        part(:component) do
+          if @position == :bottom
+            # Show content first, then image
+            concat(content)
+            concat(part(:image)) if @src
+          else
+            # Default: show image first, then content
+            concat(part(:image)) if @src
+            concat(content)
+          end
+        end
+      end
+
+      private
+
+      def validate_position!
+        return if %i[top bottom].include?(@position)
+
+        raise ArgumentError, "position must be :top or :bottom, got '#{@position}'"
+      end
     end
   end
 end

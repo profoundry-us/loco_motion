@@ -57,87 +57,91 @@
 # @loco_example Disabled Text Input
 #   = daisy_text_input(name: "username", id: "username", disabled: true)
 #
-class Daisy::DataInput::TextInputComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::LabelableComponent
-  include LocoMotion::Concerns::AriableComponent
+module Daisy
+  module DataInput
+    class TextInputComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::LabelableComponent
+      include LocoMotion::Concerns::AriableComponent
 
-  attr_reader :name, :id, :value, :type, :disabled, :required, :readonly
+      attr_reader :name, :id, :value, :type, :disabled, :required, :readonly
 
-  #
-  # Instantiate a new TextInput component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws name [String] The name attribute for the text input.
-  #
-  # @option kws id [String] The ID attribute for the text input.
-  #
-  # @option kws value [String] The initial value of the text input.
-  #
-  # @option kws type [String] The type of input (text, password, email, etc.).
-  #   Defaults to "text".
-  #
-  # @option kws disabled [Boolean] Whether the text input is disabled. Defaults to
-  #   false.
-  #
-  # @option kws required [Boolean] Whether the text input is required for form
-  #   validation. Defaults to false.
-  #
-  # @option kws readonly [Boolean] Whether the text input is read-only. Defaults to
-  #   false.
-  #
-  def initialize(**kws)
-    super
+      #
+      # Instantiate a new TextInput component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws name [String] The name attribute for the text input.
+      #
+      # @option kws id [String] The ID attribute for the text input.
+      #
+      # @option kws value [String] The initial value of the text input.
+      #
+      # @option kws type [String] The type of input (text, password, email, etc.).
+      #   Defaults to "text".
+      #
+      # @option kws disabled [Boolean] Whether the text input is disabled. Defaults to
+      #   false.
+      #
+      # @option kws required [Boolean] Whether the text input is required for form
+      #   validation. Defaults to false.
+      #
+      # @option kws readonly [Boolean] Whether the text input is read-only. Defaults to
+      #   false.
+      #
+      def initialize(**kws)
+        super
 
-    @name = config_option(:name)
-    @id = config_option(:id)
-    @value = config_option(:value, nil)
-    @type = config_option(:type, "text")
-    @disabled = config_option(:disabled, false)
-    @required = config_option(:required, false)
-    @readonly = config_option(:readonly, false)
-    @change = config_option(:change)
-  end
+        @name = config_option(:name)
+        @id = config_option(:id)
+        @value = config_option(:value, nil)
+        @type = config_option(:type, "text")
+        @disabled = config_option(:disabled, false)
+        @required = config_option(:required, false)
+        @readonly = config_option(:readonly, false)
+        @change = config_option(:change)
+      end
 
-  #
-  # Calls the {setup_component} method before rendering the component.
-  #
-  def before_render
-    super
+      #
+      # Calls the {setup_component} method before rendering the component.
+      #
+      def before_render
+        super
 
-    setup_component
-  end
+        setup_component
+      end
 
-  #
-  # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes. Sets the tag to input with appropriate type and adds the 'input'
-  # CSS class.
-  #
-  # This configures various attributes of the text input including name, id, value,
-  # placeholder, type, and states like disabled, required, and readonly.
-  #
-  def setup_component
-    set_tag_name(:component, :input)
+      #
+      # Sets up the component by configuring the tag name, CSS classes, and HTML
+      # attributes. Sets the tag to input with appropriate type and adds the 'input'
+      # CSS class.
+      #
+      # This configures various attributes of the text input including name, id, value,
+      # placeholder, type, and states like disabled, required, and readonly.
+      #
+      def setup_component
+        set_tag_name(:component, :input)
 
-    if has_floating_label?
-      add_css(:label_wrapper, "floating-label input")
-    elsif has_start_label? || has_end_label?
-      add_css(:label_wrapper, "input")
-    else
-      add_css(:component, "input")
+        if has_floating_label?
+          add_css(:label_wrapper, "floating-label input")
+        elsif has_start_label? || has_end_label?
+          add_css(:label_wrapper, "input")
+        else
+          add_css(:component, "input")
+        end
+
+        add_html(:component, {
+                   type: @type,
+                   name: @name,
+                   id: @id,
+                   value: @value,
+                   placeholder: @placeholder,
+                   disabled: @disabled,
+                   required: @required,
+                   readonly: @readonly
+                 })
+
+        add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
+      end
     end
-
-    add_html(:component, {
-      type: @type,
-      name: @name,
-      id: @id,
-      value: @value,
-      placeholder: @placeholder,
-      disabled: @disabled,
-      required: @required,
-      readonly: @readonly
-    })
-
-    add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
   end
 end

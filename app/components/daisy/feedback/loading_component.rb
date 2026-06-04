@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The LoadingComponent displays an animated indicator to show that a process is
 # running in the background. It supports multiple animation styles and can be
@@ -19,39 +21,43 @@
 # @note The helper method is also aliased as `daisy_loader` for better
 #   readability, but CSS classes must still use the `loading-*` prefix.
 #
-class Daisy::Feedback::LoadingComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module Feedback
+    class LoadingComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  #
-  # Creates a new Loading component.
-  #
-  # @param args [Array] Positional arguments passed to the parent class.
-  # @param kws  [Hash]  Keyword arguments for customizing the loader.
-  #
-  # @option kws css   [String] Additional CSS classes for the loader. Available
-  #   styles include: `loading-spinner`, `loading-dots`, `loading-ring`,
-  #   `loading-ball`, `loading-bars`, and `loading-infinity`. Can be combined
-  #   with color classes like `text-primary` or `text-success`.
-  #
-  # @option kws tip   [String] Optional tooltip text to display when hovering
-  #   over the loader. Added by the TippableComponent module.
-  #
-  def initialize(*args, **kws, &block)
-    super
-  end
+      #
+      # Creates a new Loading component.
+      #
+      # @param args [Array] Positional arguments passed to the parent class.
+      # @param kws  [Hash]  Keyword arguments for customizing the loader.
+      #
+      # @option kws css   [String] Additional CSS classes for the loader. Available
+      #   styles include: `loading-spinner`, `loading-dots`, `loading-ring`,
+      #   `loading-ball`, `loading-bars`, and `loading-infinity`. Can be combined
+      #   with color classes like `text-primary` or `text-success`.
+      #
+      # @option kws tip   [String] Optional tooltip text to display when hovering
+      #   over the loader. Added by the TippableComponent module.
+      #
+      def initialize(*args, **kws, &block)
+        super
+      end
 
-  def before_render
-    setup_component
-    super
-  end
-  
-  def call
-    part(:component)
-  end
-  
-  private
-  
-  def setup_component
-    add_css(:component, "loading")
+      def before_render
+        setup_component
+        super
+      end
+
+      def call
+        part(:component)
+      end
+
+      private
+
+      def setup_component
+        add_css(:component, "loading")
+      end
+    end
   end
 end

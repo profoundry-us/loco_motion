@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Creates a styled link component that can be used for navigation or inline text
 # links. This component is designed to work similarly to Rails' `link_to` helper.
@@ -22,117 +24,121 @@
 # @loco_example Link with left and right icons
 #   = daisy_link(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
 #
-class Daisy::Navigation::LinkComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
-  include LocoMotion::Concerns::LinkableComponent
-  include LocoMotion::Concerns::IconableComponent
+module Daisy
+  module Navigation
+    class LinkComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
+      include LocoMotion::Concerns::LinkableComponent
+      include LocoMotion::Concerns::IconableComponent
 
-  # Create a new instance of the LinkComponent.
-  #
-  # @param args [Array] Looks for **one** or **two** positional arguments.
-  #   - If passed **two** positional arguments, the first is considered the `title`
-  #   and the second is considered the `href`.
-  #   - If passed only **one** positional argument, it is treated as the `href`
-  #   and we assume the `title` will be provided in the block.
-  #   - If no text is passed in the block, we will use the `href` as the title.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws title [String] The text to display in the link. Not required if
-  #   providing block content.
-  #
-  # @option kws href [String] The URL to visit when the link is clicked.
-  #
-  # @option kws target [String] The target attribute for the anchor tag (e.g., "_blank").
-  #
-  # @option kws icon [String] The name of Hero icon to render inside the
-  #   link. This is an alias of `left_icon`.
-  #
-  # @option kws icon_css [String] The CSS classes to apply to the icon.
-  #   This is an alias of `left_icon_css`.
-  #
-  # @option kws icon_html [Hash] Additional HTML attributes to apply to
-  #   the icon. This is an alias of `left_icon_html`.
-  #
-  # @option kws left_icon [String] The name of Hero icon to render inside
-  #   the link to the left of the text.
-  #
-  # @option kws left_icon_css [String] The CSS classes to apply to the left
-  #   icon.
-  #
-  # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
-  #   the left icon.
-  #
-  # @option kws right_icon [String] The name of Hero icon to render inside
-  #   the link to the right of the text.
-  #
-  # @option kws right_icon_css [String] The CSS classes to apply to the
-  #   right icon.
-  #
-  # @option kws right_icon_html [Hash] Additional HTML attributes to apply
-  #   to the right icon.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Style: `link-primary`, `link-secondary`, `link-accent`
-  #   - State: `link-hover`
-  #   - Text: `text-sm`, `text-xl`, `text-2xl`
-  #
-  # @option kws tip [String] The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(*args, **kws)
-    super
+      # Create a new instance of the LinkComponent.
+      #
+      # @param args [Array] Looks for **one** or **two** positional arguments.
+      #   - If passed **two** positional arguments, the first is considered the `title`
+      #   and the second is considered the `href`.
+      #   - If passed only **one** positional argument, it is treated as the `href`
+      #   and we assume the `title` will be provided in the block.
+      #   - If no text is passed in the block, we will use the `href` as the title.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws title [String] The text to display in the link. Not required if
+      #   providing block content.
+      #
+      # @option kws href [String] The URL to visit when the link is clicked.
+      #
+      # @option kws target [String] The target attribute for the anchor tag (e.g., "_blank").
+      #
+      # @option kws icon [String] The name of Hero icon to render inside the
+      #   link. This is an alias of `left_icon`.
+      #
+      # @option kws icon_css [String] The CSS classes to apply to the icon.
+      #   This is an alias of `left_icon_css`.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes to apply to
+      #   the icon. This is an alias of `left_icon_html`.
+      #
+      # @option kws left_icon [String] The name of Hero icon to render inside
+      #   the link to the left of the text.
+      #
+      # @option kws left_icon_css [String] The CSS classes to apply to the left
+      #   icon.
+      #
+      # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
+      #   the left icon.
+      #
+      # @option kws right_icon [String] The name of Hero icon to render inside
+      #   the link to the right of the text.
+      #
+      # @option kws right_icon_css [String] The CSS classes to apply to the
+      #   right icon.
+      #
+      # @option kws right_icon_html [Hash] Additional HTML attributes to apply
+      #   to the right icon.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Style: `link-primary`, `link-secondary`, `link-accent`
+      #   - State: `link-hover`
+      #   - Text: `text-sm`, `text-xl`, `text-2xl`
+      #
+      # @option kws tip [String] The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(*args, **kws)
+        super
 
-    if args.size == 1
-      # If given one arg, assume it's the href and / or the title (if no block is given)
-      @title = args[0]
-      @href = args[0]
-    elsif args.size == 2
-      # If given two args, assume the first is the title and the second is the href
-      @title = args[0]
-      @href = args[1]
-    else
-      # Otherwise, assume they pass everything as keyword arguments
-      @title = config_option(:title)
-      @href = config_option(:href)
-    end
+        if args.size == 1
+          # If given one arg, assume it's the href and / or the title (if no block is given)
+          @title = args[0]
+          @href = args[0]
+        elsif args.size == 2
+          # If given two args, assume the first is the title and the second is the href
+          @title = args[0]
+          @href = args[1]
+        else
+          # Otherwise, assume they pass everything as keyword arguments
+          @title = config_option(:title)
+          @href = config_option(:href)
+        end
 
-    @target = config_option(:target)
-  end
+        @target = config_option(:target)
+      end
 
-  #
-  # Adds the relevant Daisy classes and applies the href and target attributes
-  # if provided.
-  #
-  def before_render
-    super
+      #
+      # Adds the relevant Daisy classes and applies the href and target attributes
+      # if provided.
+      #
+      def before_render
+        super
 
-    setup_component
-  end
+        setup_component
+      end
 
-  #
-  # Renders the link component.
-  #
-  # Because this is an inline component which might be utlized alongside text,
-  # we utilize the `call` method instead of a template to ensure that no
-  # additional whitespace gets added to the output.
-  #
-  def call
-    if content?
-      part(:component) { content }
-    else
-      part(:component) do
-        concat(render_left_icon)
-        concat(@title)
-        concat(render_right_icon)
+      #
+      # Renders the link component.
+      #
+      # Because this is an inline component which might be utlized alongside text,
+      # we utilize the `call` method instead of a template to ensure that no
+      # additional whitespace gets added to the output.
+      #
+      def call
+        if content?
+          part(:component) { content }
+        else
+          part(:component) do
+            concat(render_left_icon)
+            concat(@title)
+            concat(render_right_icon)
+          end
+        end
+      end
+
+      private
+
+      def setup_component
+        add_css(:component, "link")
       end
     end
-  end
-
-  private
-
-  def setup_component
-    add_css(:component, "link")
   end
 end

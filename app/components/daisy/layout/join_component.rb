@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The JoinComponent combines multiple elements into a cohesive group without
 # gaps between them. Common use cases include:
@@ -65,52 +67,53 @@
 #     - join.with_item do
 #       = daisy_button(title: "Account", css: "w-full")
 #
-class Daisy::Layout::JoinComponent < LocoMotion::BaseComponent
-  renders_many :items, LocoMotion::BasicComponent.build(css: "join-item")
-  renders_many :buttons, Daisy::Actions::ButtonComponent.build(css: "join-item")
-  renders_many :radios, Daisy::DataInput::RadioButtonComponent.build(skip_styling: true, css: "join-item btn")
+module Daisy
+  module Layout
+    class JoinComponent < LocoMotion::BaseComponent
+      renders_many :items, LocoMotion::BasicComponent.build(css: "join-item")
+      renders_many :buttons, Daisy::Actions::ButtonComponent.build(css: "join-item")
+      renders_many :radios, Daisy::DataInput::RadioButtonComponent.build(skip_styling: true, css: "join-item btn")
 
-  #
-  # Creates a new Join component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the join.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Direction: `join-vertical` for vertical stacking
-  #   - Size: `min-w-32`, `w-full`
-  #   - Spacing: `gap-0`, `gap-px` (if gaps are needed)
-  #
-  def initialize(**kws)
-    super
-  end
+      #
+      # Creates a new Join component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the join.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Direction: `join-vertical` for vertical stacking
+      #   - Size: `min-w-32`, `w-full`
+      #   - Spacing: `gap-0`, `gap-px` (if gaps are needed)
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "join")
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "join")
+      end
 
-  #
-  # Renders all joined items, buttons, or radios in sequence, or renders content if none are provided.
-  #
-  def call
-    part(:component) do
-      if items?
-        items.each do |item|
-          concat(item)
+      #
+      # Renders all joined items, buttons, or radios in sequence, or renders content if none are provided.
+      #
+      def call
+        part(:component) do
+          if items?
+            items.each do |item|
+              concat(item)
+            end
+          elsif buttons?
+            buttons.each do |button|
+              concat(button)
+            end
+          elsif radios?
+            radios.each do |radio|
+              concat(radio)
+            end
+          else
+            content
+          end
         end
-      elsif buttons?
-        buttons.each do |button|
-          concat(button)
-        end
-      elsif radios?
-        radios.each do |radio|
-          concat(radio)
-        end
-      else
-        content
       end
     end
   end

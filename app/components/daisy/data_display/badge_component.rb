@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Badge component renders as a small, rounded element used to display status,
 # labels, or notifications. It supports various background colors and can be used
@@ -101,89 +103,93 @@
 #   = daisy_badge(icon: "check") { "Icon Badge" }
 #
 # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
-class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::IconableComponent
-  include LocoMotion::Concerns::LinkableComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class BadgeComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::IconableComponent
+      include LocoMotion::Concerns::LinkableComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  set_component_name :badge
+      set_component_name :badge
 
-  #
-  # Create a new Badge component.
-  #
-  # @param title [String] The text to display in the badge. You can also pass
-  #   the title as a keyword argument or provide content via a block.
-  #
-  # @param kwargs [Hash] The keyword arguments for the component.
-  #
-  # @option kwargs title [String] The text to display in the badge. You can also
-  #   pass the title as the first argument or provide content via a block.
-  #
-  # @option kwargs href [String] A path or URL to which the user will be
-  #   directed when the badge is clicked. Forces the Badge to use an `<a>` tag.
-  #
-  # @option kwargs target [String] The HTML `target` of for the `<a>` tag
-  #   (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
-  #
-  # @option kwargs icon [String] The name of Hero icon to render inside the
-  #   badge. This is an alias of `left_icon`.
-  #
-  # @option kwargs icon_css [String] The CSS classes to apply to the icon.
-  #   This is an alias of `left_icon_css`.
-  #
-  # @option kwargs icon_html [Hash] Additional HTML attributes to apply to the
-  #   icon. This is an alias of `left_icon_html`.
-  #
-  # @option kwargs left_icon [String] The name of Hero icon to render inside
-  #   the badge to the left of the text.
-  #
-  # @option kwargs left_icon_css [String] The CSS classes to apply to the left
-  #   icon.
-  #
-  # @option kwargs left_icon_html [Hash] Additional HTML attributes to apply to
-  #   the left icon.
-  #
-  # @option kwargs right_icon [String] The name of Hero icon to render inside
-  #   the badge to the right of the text.
-  #
-  # @option kwargs right_icon_css [String] The CSS classes to apply to the
-  #   right icon.
-  #
-  # @option kwargs right_icon_html [Hash] Additional HTML attributes to apply
-  #   to the right icon.
-  #
-  def initialize(title = nil, **kws, &block)
-    super
+      #
+      # Create a new Badge component.
+      #
+      # @param title [String] The text to display in the badge. You can also pass
+      #   the title as a keyword argument or provide content via a block.
+      #
+      # @param kwargs [Hash] The keyword arguments for the component.
+      #
+      # @option kwargs title [String] The text to display in the badge. You can also
+      #   pass the title as the first argument or provide content via a block.
+      #
+      # @option kwargs href [String] A path or URL to which the user will be
+      #   directed when the badge is clicked. Forces the Badge to use an `<a>` tag.
+      #
+      # @option kwargs target [String] The HTML `target` of for the `<a>` tag
+      #   (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
+      #
+      # @option kwargs icon [String] The name of Hero icon to render inside the
+      #   badge. This is an alias of `left_icon`.
+      #
+      # @option kwargs icon_css [String] The CSS classes to apply to the icon.
+      #   This is an alias of `left_icon_css`.
+      #
+      # @option kwargs icon_html [Hash] Additional HTML attributes to apply to the
+      #   icon. This is an alias of `left_icon_html`.
+      #
+      # @option kwargs left_icon [String] The name of Hero icon to render inside
+      #   the badge to the left of the text.
+      #
+      # @option kwargs left_icon_css [String] The CSS classes to apply to the left
+      #   icon.
+      #
+      # @option kwargs left_icon_html [Hash] Additional HTML attributes to apply to
+      #   the left icon.
+      #
+      # @option kwargs right_icon [String] The name of Hero icon to render inside
+      #   the badge to the right of the text.
+      #
+      # @option kwargs right_icon_css [String] The CSS classes to apply to the
+      #   right icon.
+      #
+      # @option kwargs right_icon_html [Hash] Additional HTML attributes to apply
+      #   to the right icon.
+      #
+      def initialize(title = nil, **kws, &block)
+        super
 
-    @simple_title = config_option(:title, title)
-  end
+        @simple_title = config_option(:title, title)
+      end
 
-  def before_render
-    # Run component setup *before* super to allow LinkableComponent to override tag
-    setup_component
+      def before_render
+        # Run component setup *before* super to allow LinkableComponent to override tag
+        setup_component
 
-    super
-  end
+        super
+      end
 
-  #
-  # Renders the badge component.
-  #
-  # Because this is an inline component which might be utlized alongside text,
-  # we utilize the `call` method instead of a template to ensure that no
-  # additional whitespace gets added to the output.
-  #
-  def call
-    part(:component) do
-      concat(render_left_icon)
-      concat(content || @simple_title)
-      concat(render_right_icon)
+      #
+      # Renders the badge component.
+      #
+      # Because this is an inline component which might be utlized alongside text,
+      # we utilize the `call` method instead of a template to ensure that no
+      # additional whitespace gets added to the output.
+      #
+      def call
+        part(:component) do
+          concat(render_left_icon)
+          concat(content || @simple_title)
+          concat(render_right_icon)
+        end
+      end
+
+      private
+
+      def setup_component
+        set_tag_name(:component, :span)
+        add_css(:component, "badge")
+      end
     end
-  end
-
-  private
-
-  def setup_component
-    set_tag_name(:component, :span)
-    add_css(:component, "badge")
   end
 end

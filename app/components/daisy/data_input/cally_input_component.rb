@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Daisy
   module DataInput
     # A specialized input component that combines a text input with a calendar
@@ -40,16 +42,16 @@ module Daisy
           super
 
           add_html(:component, {
-            popovertarget: loco_parent.popover_id,
-            id: @id || loco_parent.input_id,
-            name: @name || loco_parent.name,
-            value: @value || parent_config.options[:value],
-            placeholder: @placeholder,
-            style: "anchor-name:--#{loco_parent.anchor}",
-            data: {
-              "loco-cally-input-target": "input"
-            }
-          })
+                     popovertarget: loco_parent.popover_id,
+                     id: @id || loco_parent.input_id,
+                     name: @name || loco_parent.name,
+                     value: @value || parent_config.options[:value],
+                     placeholder: @placeholder,
+                     style: "anchor-name:--#{loco_parent.anchor}",
+                     data: {
+                       "loco-cally-input-target": "input"
+                     }
+                   })
         end
 
         def call
@@ -68,12 +70,12 @@ module Daisy
           super
 
           add_html(:component, {
-            id: @id || loco_parent.calendar_id,
-            value: @value || loco_parent.value,
-            data: {
-              "loco-cally-input-target": "calendar"
-            }
-          })
+                     id: @id || loco_parent.calendar_id,
+                     value: @value || loco_parent.value,
+                     data: {
+                       "loco-cally-input-target": "calendar"
+                     }
+                   })
         end
 
         def call
@@ -131,7 +133,7 @@ module Daisy
       #
       # @return [CallyCalendarComponent] A new instance of the default calendar component
       def default_calendar
-         CallyCalendarComponent.new
+        CallyCalendarComponent.new
       end
 
       # Provides a default input component instance.
@@ -155,7 +157,8 @@ module Daisy
 
         # Add relevant popover part HTML
         add_html(:popover, { id: @popover_id, popover: "auto", style: "position-anchor:--#{@anchor}" })
-        add_html(:popover, { data: { "loco-cally-input-target": "popover", "auto-scroll-padding": @auto_scroll_padding } })
+        add_html(:popover,
+                 { data: { "loco-cally-input-target": "popover", "auto-scroll-padding": @auto_scroll_padding } })
 
         # Note that we NEED the dropdown class so that the anchor positioning works properly
         add_css(:popover, "where:dropdown where:bg-base-100 where:rounded where:shadow-lg")

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Creates a navigation bar component typically used at the top of a page to
 # organize navigation links and branding elements.
@@ -43,29 +45,30 @@
 #   = daisy_navbar(css: "bg-base-100") do
 #     %a.btn.btn-ghost.text-xl daisyUI
 #
-class Daisy::Navigation::NavbarComponent < LocoMotion::BaseComponent
-  renders_one :start, LocoMotion::BasicComponent.build(css: "navbar-start")
+module Daisy
+  module Navigation
+    class NavbarComponent < LocoMotion::BaseComponent
+      renders_one :start, LocoMotion::BasicComponent.build(css: "navbar-start")
 
-  renders_one :center, LocoMotion::BasicComponent.build(css: "navbar-center")
+      renders_one :center, LocoMotion::BasicComponent.build(css: "navbar-center")
 
-  renders_one :end, LocoMotion::BasicComponent.build(css: "navbar-end")
+      renders_one :end, LocoMotion::BasicComponent.build(css: "navbar-end")
 
-  # Create a new instance of the NavbarComponent.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Background: `bg-base-100`, `bg-neutral`
-  #   - Border: `border`, `border-base-200`, `rounded-lg`
-  #   - Shadow: `shadow`, `shadow-lg`
-  #   - Min Height: `min-h-8`, `min-h-16`
-  #
-  def initialize(**kws)
-    super(**kws)
-  end
+      # Create a new instance of the NavbarComponent.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Background: `bg-base-100`, `bg-neutral`
+      #   - Border: `border`, `border-base-200`, `rounded-lg`
+      #   - Shadow: `shadow`, `shadow-lg`
+      #   - Min Height: `min-h-8`, `min-h-16`
+      #
 
-  def before_render
-    add_css(:component, "navbar")
+      def before_render
+        add_css(:component, "navbar")
+      end
+    end
   end
 end

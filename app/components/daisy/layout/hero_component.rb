@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The HeroComponent creates an eye-catching, full-width section typically used
 # at the top of a page. Common use cases include:
@@ -41,43 +43,44 @@
 #       %h1.text-5xl.font-bold Discover
 #       %p.my-6 Start your journey today.
 #
-class Daisy::Layout::HeroComponent < LocoMotion::BaseComponent
-  define_part :content_wrapper
+module Daisy
+  module Layout
+    class HeroComponent < LocoMotion::BaseComponent
+      define_part :content_wrapper
 
-  renders_one :overlay, LocoMotion::BasicComponent.build(css: "hero-overlay")
+      renders_one :overlay, LocoMotion::BasicComponent.build(css: "hero-overlay")
 
-  #
-  # Creates a new Hero component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the hero.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Height: `min-h-screen`, `min-h-[50vh]`
-  #   - Background: `bg-base-200`, `bg-primary`
-  #   - Text: `text-center`, `text-primary-content`
-  #
-  # @option kws content_wrapper_css [String] CSS classes for the content
-  #   wrapper. Common options include:
-  #   - Layout: `flex-col`, `flex-col md:flex-row`
-  #   - Spacing: `gap-4`, `space-y-4`
-  #   - Alignment: `items-center`, `justify-between`
-  #
-  # @option kws html [Hash] HTML attributes for the hero container.
-  #   Commonly used for background images:
-  #   ```ruby
-  #   html: { style: "background-image: url('image.jpg')" }
-  #   ```
-  #
-  def initialize(**kws)
-    super
-  end
+      #
+      # Creates a new Hero component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the hero.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Height: `min-h-screen`, `min-h-[50vh]`
+      #   - Background: `bg-base-200`, `bg-primary`
+      #   - Text: `text-center`, `text-primary-content`
+      #
+      # @option kws content_wrapper_css [String] CSS classes for the content
+      #   wrapper. Common options include:
+      #   - Layout: `flex-col`, `flex-col md:flex-row`
+      #   - Spacing: `gap-4`, `space-y-4`
+      #   - Alignment: `items-center`, `justify-between`
+      #
+      # @option kws html [Hash] HTML attributes for the hero container.
+      #   Commonly used for background images:
+      #   ```ruby
+      #   html: { style: "background-image: url('image.jpg')" }
+      #   ```
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "hero")
-    add_css(:content_wrapper, "hero-content")
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "hero")
+        add_css(:content_wrapper, "hero-content")
+      end
+    end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The AlertComponent displays an important message to users. It can be used to
 # show information, success messages, warnings, or errors. Alerts can include
@@ -130,118 +132,122 @@
 #   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", action: "click->my-controller#handle", icon_html: { variant: :outline }) do
 #     Click to trigger custom action.
 #
-class Daisy::Feedback::AlertComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::IconableComponent
-  include LocoMotion::Concerns::LinkableComponent
+module Daisy
+  module Feedback
+    class AlertComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::IconableComponent
+      include LocoMotion::Concerns::LinkableComponent
 
-  define_parts :icon, :content_wrapper, :close
+      define_parts :icon, :content_wrapper, :close
 
-  # @return [Boolean] Whether or not this alert can be closed.
-  attr_reader :closable
-  alias :closable? :closable
+      # @return [Boolean] Whether or not this alert can be closed.
+      attr_reader :closable
+      alias closable? closable
 
-  #
-  # Creates a new Alert component.
-  #
-  # @param args [Array] Positional arguments passed to the parent class.
-  # @param kws  [Hash]  Keyword arguments for customizing the alert.
-  #
-  # @option kws icon      [String] The name of the Heroicon to display at the
-  #   start of the alert.
-  #
-  # @option kws icon_html [Hash] Additional HTML attributes for the icon
-  #   element. Options include `variant: :outline` or `variant: :solid`.
-  #
-  # @option kws css      [String] Additional CSS classes for the alert. Use
-  #   `alert-info`, `alert-success`, `alert-warning`, or `alert-error` for
-  #   different alert types.
-  #
-  # @option kws style    [String] The style of the alert.
-  #   [:info, :success, :warning, :error, :default]
-  # @option kws soft     [Boolean] Use the soft style variant.
-  # @option kws outline  [Boolean] Use the outline style variant.
-  # @option kws dash     [Boolean] Use the dash style variant.
-  # @option kws timeout  [Integer] Auto-dismiss timeout in milliseconds.
-  #   If nil, uses global configuration default. If false, no auto-dismiss.
-  # @option kws autoclose [Boolean] Enable auto-dismiss using timeout.
-  #   Must be true for auto-dismiss to work.
-  # @option kws href     [String] Converts alert to a clickable link.
-  # @option kws action   [String] Stimulus action to fire on click.
-  # @option kws closable [Boolean] Show close button. Set to true to enable
-  #   manual dismissal.
-  #
-  def initialize(*args, **kws, &block)
-    super
+      #
+      # Creates a new Alert component.
+      #
+      # @param args [Array] Positional arguments passed to the parent class.
+      # @param kws  [Hash]  Keyword arguments for customizing the alert.
+      #
+      # @option kws icon      [String] The name of the Heroicon to display at the
+      #   start of the alert.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes for the icon
+      #   element. Options include `variant: :outline` or `variant: :solid`.
+      #
+      # @option kws css      [String] Additional CSS classes for the alert. Use
+      #   `alert-info`, `alert-success`, `alert-warning`, or `alert-error` for
+      #   different alert types.
+      #
+      # @option kws style    [String] The style of the alert.
+      #   [:info, :success, :warning, :error, :default]
+      # @option kws soft     [Boolean] Use the soft style variant.
+      # @option kws outline  [Boolean] Use the outline style variant.
+      # @option kws dash     [Boolean] Use the dash style variant.
+      # @option kws timeout  [Integer] Auto-dismiss timeout in milliseconds.
+      #   If nil, uses global configuration default. If false, no auto-dismiss.
+      # @option kws autoclose [Boolean] Enable auto-dismiss using timeout.
+      #   Must be true for auto-dismiss to work.
+      # @option kws href     [String] Converts alert to a clickable link.
+      # @option kws action   [String] Stimulus action to fire on click.
+      # @option kws closable [Boolean] Show close button. Set to true to enable
+      #   manual dismissal.
+      #
+      def initialize(*args, **kws, &block)
+        super
 
-    @icon = config_option(:icon)
-    @timeout = config_option(:timeout)
-    @autoclose = config_option(:autoclose)
-    @action = config_option(:action)
-    @closable = config_option(:closable, false)
-  end
+        @icon = config_option(:icon)
+        @timeout = config_option(:timeout)
+        @autoclose = config_option(:autoclose)
+        @action = config_option(:action)
+        @closable = config_option(:closable, false)
+      end
 
-  def default_icon_size
-    "where:size-6"
-  end
+      def default_icon_size
+        "where:size-6"
+      end
 
-  def before_render
-    setup_component
+      def before_render
+        setup_component
 
-    super
-  end
+        super
+      end
 
-  private
+      private
 
-  def setup_component
-    add_css(:component, "alert")
-    add_html(:component, { role: "alert" })
+      def setup_component
+        add_css(:component, "alert")
+        add_html(:component, { role: "alert" })
 
-    setup_stimulus_controller
-    setup_timeout
-    setup_action
-    setup_close_button
-    setup_closable_padding
-  end
+        setup_stimulus_controller
+        setup_timeout
+        setup_action
+        setup_close_button
+        setup_closable_padding
+      end
 
-  def setup_stimulus_controller
-    return unless closable? || @autoclose
+      def setup_stimulus_controller
+        return unless closable? || @autoclose
 
-    add_stimulus_controller(:component, "loco-alert")
-  end
+        add_stimulus_controller(:component, "loco-alert")
+      end
 
-  def setup_timeout
-    timeout_value = if @timeout == false
-      nil
-    elsif @timeout.nil?
-      LocoMotion.configuration.default_alert_timeout
-    else
-      @timeout
+      def setup_timeout
+        timeout_value = if @timeout == false
+                          nil
+                        elsif @timeout.nil?
+                          LocoMotion.configuration.default_alert_timeout
+                        else
+                          @timeout
+                        end
+
+        return unless timeout_value && @autoclose
+
+        add_html(:component, {
+                   "data-loco-alert-timeout-value": timeout_value
+                 })
+      end
+
+      def setup_action
+        return unless @action
+
+        add_html(:component, { "data-action": @action })
+      end
+
+      def setup_close_button
+        return unless closable?
+
+        set_tag_name(:close, :button)
+        add_css(:close, "btn btn-ghost btn-circle btn-xs where:absolute where:top-3 where:right-2")
+        add_html(:close, { "data-action": "click->loco-alert#close" })
+      end
+
+      def setup_closable_padding
+        return unless closable?
+
+        add_css(:component, "where:relative where:pr-10")
+      end
     end
-
-    if timeout_value && @autoclose
-      add_html(:component, {
-        "data-loco-alert-timeout-value": timeout_value
-      })
-    end
-  end
-
-  def setup_action
-    if @action
-      add_html(:component, { "data-action": @action })
-    end
-  end
-
-  def setup_close_button
-    return unless closable?
-
-    set_tag_name(:close, :button)
-    add_css(:close, "btn btn-ghost btn-circle btn-xs where:absolute where:top-3 where:right-2")
-    add_html(:close, { "data-action": "click->loco-alert#close" })
-  end
-
-  def setup_closable_padding
-    return unless closable?
-
-    add_css(:component, "where:relative where:pr-10")
   end
 end

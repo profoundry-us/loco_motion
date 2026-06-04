@@ -42,79 +42,83 @@
 #     - checkbox.with_end do
 #       %span.text-secondary I agree to the terms
 #
-class Daisy::DataInput::CheckboxComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::LabelableComponent
-  include LocoMotion::Concerns::AriableComponent
+module Daisy
+  module DataInput
+    class CheckboxComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::LabelableComponent
+      include LocoMotion::Concerns::AriableComponent
 
-  attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
+      attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
 
-  #
-  # Instantiate a new Checkbox component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws name [String] The name attribute for the checkbox input.
-  #
-  # @option kws id [String] The ID attribute for the checkbox input.
-  #
-  # @option kws value [String] The value attribute for the checkbox input.
-  #   Defaults to "1".
-  #
-  # @option kws checked [Boolean] Whether the checkbox is checked. Defaults to
-  #   false.
-  #
-  # @option kws toggle [Boolean] Whether the checkbox should be styled as a
-  #   toggle switch. Defaults to false.
-  #
-  # @option kws disabled [Boolean] Whether the checkbox is disabled. Defaults to
-  #   false.
-  #
-  # @option kws required [Boolean] Whether the checkbox is required for form
-  #   validation. Defaults to false.
-  #
-  def initialize(**kws)
-    super
+      #
+      # Instantiate a new Checkbox component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws name [String] The name attribute for the checkbox input.
+      #
+      # @option kws id [String] The ID attribute for the checkbox input.
+      #
+      # @option kws value [String] The value attribute for the checkbox input.
+      #   Defaults to "1".
+      #
+      # @option kws checked [Boolean] Whether the checkbox is checked. Defaults to
+      #   false.
+      #
+      # @option kws toggle [Boolean] Whether the checkbox should be styled as a
+      #   toggle switch. Defaults to false.
+      #
+      # @option kws disabled [Boolean] Whether the checkbox is disabled. Defaults to
+      #   false.
+      #
+      # @option kws required [Boolean] Whether the checkbox is required for form
+      #   validation. Defaults to false.
+      #
+      def initialize(**kws)
+        super
 
-    @name = config_option(:name)
-    @id = config_option(:id)
-    @value = config_option(:value, "1")
-    @checked = config_option(:checked, false)
-    @toggle = config_option(:toggle, false)
-    @disabled = config_option(:disabled, false)
-    @required = config_option(:required, false)
-  end
+        @name = config_option(:name)
+        @id = config_option(:id)
+        @value = config_option(:value, "1")
+        @checked = config_option(:checked, false)
+        @toggle = config_option(:toggle, false)
+        @disabled = config_option(:disabled, false)
+        @required = config_option(:required, false)
+      end
 
-  #
-  # Calls the {setup_component} method before rendering the component.
-  #
-  def before_render
-    super
+      #
+      # Calls the {setup_component} method before rendering the component.
+      #
+      def before_render
+        super
 
-    setup_labels
-    setup_component
-  end
+        setup_labels
+        setup_component
+      end
 
-  def setup_labels
-    add_css(:label_wrapper, "label") if has_any_label?
-  end
+      def setup_labels
+        add_css(:label_wrapper, "label") if has_any_label?
+      end
 
-  #
-  # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes.
-  #
-  def setup_component
-    set_tag_name(:component, :input)
+      #
+      # Sets up the component by configuring the tag name, CSS classes, and HTML
+      # attributes.
+      #
+      def setup_component
+        set_tag_name(:component, :input)
 
-    add_css(:component, @toggle ? "toggle" : "checkbox")
+        add_css(:component, @toggle ? "toggle" : "checkbox")
 
-    add_html(:component, {
-      type: "checkbox",
-      name: @name,
-      id: @id,
-      value: @value,
-      checked: @checked,
-      disabled: @disabled,
-      required: @required
-    })
+        add_html(:component, {
+                   type: "checkbox",
+                   name: @name,
+                   id: @id,
+                   value: @value,
+                   checked: @checked,
+                   disabled: @disabled,
+                   required: @required
+                 })
+      end
+    end
   end
 end

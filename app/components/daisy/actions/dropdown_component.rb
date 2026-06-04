@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Dropdown component shows a Button, or any other component you wish, with a
 # hovering menu that opens on click (or hover). It provides a flexible way to
@@ -54,61 +56,65 @@
 #         = heroicon "arrow-right-on-rectangle"
 #         Logout
 #
-class Daisy::Actions::DropdownComponent < LocoMotion::BaseComponent
+module Daisy
+  module Actions
+    class DropdownComponent < LocoMotion::BaseComponent
+      include ViewComponent::SlotableDefault
 
-  include ViewComponent::SlotableDefault
+      define_parts :menu
 
-  define_parts :menu
+      renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
+      renders_one :button, Daisy::Actions::ButtonComponent
+      renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li, css: "menu-item")
 
-  renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
-  renders_one :button, Daisy::Actions::ButtonComponent
-  renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li, css: "menu-item")
+      #
+      # Creates a new instance of the DropdownComponent.
+      #
+      # @param title [String] The title of the dropdown. Will be used as the button
+      #   text if no custom button or activator is provided.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws title [String] The title of the dropdown. You can also pass this
+      #   as the first argument.
+      #
+      def initialize(title = nil, **kws, &block)
+        super
 
-  #
-  # Creates a new instance of the DropdownComponent.
-  #
-  # @param title [String] The title of the dropdown. Will be used as the button
-  #   text if no custom button or activator is provided.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws title [String] The title of the dropdown. You can also pass this
-  #   as the first argument.
-  #
-  def initialize(title = nil, **kws, &block)
-    super
+        @simple_title = config_option(:title, title)
+      end
 
-    @simple_title = config_option(:title, title)
-  end
+      #
+      # Adds the relevant Daisy classes to the component.
+      #
+      def before_render
+        setup_component
+        setup_menu
+      end
 
-  #
-  # Adds the relevant Daisy classes to the component.
-  #
-  def before_render
-    setup_component
-    setup_menu
-  end
+      #
+      # Add the `dropdown` CSS class to the component.
+      #
+      def setup_component
+        add_css(:component, "dropdown")
+      end
 
-  #
-  # Add the `dropdown` CSS class to the component.
-  #
-  def setup_component
-    add_css(:component, "dropdown")
-  end
+      #
+      # Make the menu a `<ul> / <li>` element and add the relevant Daisy classes.
+      #
+      def setup_menu
+        # Setup menu itself
+        set_tag_name(:menu, :ul)
+        add_css(:menu,
+                "dropdown-content where:menu where:bg-base-100 where:rounded-box where:shadow where:w-52 where:p-2 where:z-[1]")
+      end
 
-  #
-  # Make the menu a `<ul> / <li>` element and add the relevant Daisy classes.
-  #
-  def setup_menu
-    # Setup menu itself
-    set_tag_name(:menu, :ul)
-    add_css(:menu, "dropdown-content where:menu where:bg-base-100 where:rounded-box where:shadow where:w-52 where:p-2 where:z-[1]")
-  end
-
-  #
-  # Provides a default button if no button or custom activator is provided.
-  #
-  def default_button
-    Daisy::Actions::ButtonComponent.new(title: @simple_title)
+      #
+      # Provides a default button if no button or custom activator is provided.
+      #
+      def default_button
+        Daisy::Actions::ButtonComponent.new(title: @simple_title)
+      end
+    end
   end
 end

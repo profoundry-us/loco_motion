@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Stat component displays a statistic or metric with optional title,
 # description, and figure. It's perfect for dashboards, summaries, or any
@@ -43,72 +45,76 @@
 #       .text-success
 #         = heroicon "check-circle", class: "size-10"
 #
-class Daisy::DataDisplay::StatComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::IconableComponent
-  include LocoMotion::Concerns::LinkableComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class StatComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::IconableComponent
+      include LocoMotion::Concerns::LinkableComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  set_component_name :stat
+      set_component_name :stat
 
-  define_parts :title, :value, :description, :figure
+      define_parts :title, :value, :description, :figure
 
-  renders_one :title
-  renders_one :description
-  renders_one :figure
+      renders_one :title
+      renders_one :description
+      renders_one :figure
 
-  # @return [String] The title text when using the simple title option.
-  attr_reader :simple_title
+      # @return [String] The title text when using the simple title option.
+      attr_reader :simple_title
 
-  # @return [String] The description text when using the simple description
-  #   option.
-  attr_reader :simple_description
+      # @return [String] The description text when using the simple description
+      #   option.
+      attr_reader :simple_description
 
-  #
-  # Creates a new stat component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws [String] :title The text to display in the title section.
-  #   You can also provide custom title content using the title slot.
-  #
-  # @option kws [String] :description The text to display in the description
-  #   section. You can also provide custom description content using the
-  #   description slot.
-  #
-  # @option kws [String] :src URL of an image to display in the figure
-  #   section.
-  #
-  # @option kws [String] :icon Name of a heroicon to display in the figure
-  #   section.
-  #
-  # @option kws [String] :tip The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(*args, **kws, &block)
-    super
+      #
+      # Creates a new stat component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [String] :title The text to display in the title section.
+      #   You can also provide custom title content using the title slot.
+      #
+      # @option kws [String] :description The text to display in the description
+      #   section. You can also provide custom description content using the
+      #   description slot.
+      #
+      # @option kws [String] :src URL of an image to display in the figure
+      #   section.
+      #
+      # @option kws [String] :icon Name of a heroicon to display in the figure
+      #   section.
+      #
+      # @option kws [String] :tip The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(*args, **kws, &block)
+        super
 
-    @simple_title = config_option(:title)
-    @simple_description = config_option(:description)
-    @src = config_option(:src)
-  end
+        @simple_title = config_option(:title)
+        @simple_description = config_option(:description)
+        @src = config_option(:src)
+      end
 
-  def before_render
-    setup_component
+      def before_render
+        setup_component
 
-    super
-  end
+        super
+      end
 
-  def default_icon_size
-    "where:size-8"
-  end
+      def default_icon_size
+        "where:size-8"
+      end
 
-  private
+      private
 
-  def setup_component
-    add_css(:component, "stat")
-    add_css(:title, "stat-title")
-    add_css(:value, "stat-value")
-    add_css(:description, "stat-desc")
-    add_css(:figure, "stat-figure")
+      def setup_component
+        add_css(:component, "stat")
+        add_css(:title, "stat-title")
+        add_css(:value, "stat-value")
+        add_css(:description, "stat-desc")
+        add_css(:figure, "stat-figure")
+      end
+    end
   end
 end

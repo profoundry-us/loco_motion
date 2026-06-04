@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The BrowserComponent creates a realistic browser window mockup, perfect for:
 # - Showcasing web applications.
@@ -40,39 +42,38 @@
 #     .p-4
 #       Simple browser frame without toolbar
 #
-class Daisy::Mockup::BrowserComponent < LocoMotion::BaseComponent
+module Daisy
+  module Mockup
+    class BrowserComponent < LocoMotion::BaseComponent
+      renders_one :toolbar, LocoMotion::BasicComponent.build(css: "mockup-browser-toolbar")
 
-  renders_one :toolbar, LocoMotion::BasicComponent.build(css: "mockup-browser-toolbar")
+      #
+      # Creates a new Browser component.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Size: `w-full`, `max-w-4xl`
+      #   - Border: `border`, `border-2`, `border-primary`
+      #   - Background: `bg-base-100`, `bg-primary`
+      #   - Shadow: `shadow`, `shadow-lg`
+      #
 
-  #
-  # Creates a new Browser component.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Size: `w-full`, `max-w-4xl`
-  #   - Border: `border`, `border-2`, `border-primary`
-  #   - Background: `bg-base-100`, `bg-primary`
-  #   - Shadow: `shadow`, `shadow-lg`
-  #
-  def initialize(**kws)
-    super(**kws)
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "mockup-browser")
+      end
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "mockup-browser")
-  end
-
-  #
-  # Renders the toolbar (if present) and content.
-  #
-  def call
-    part(:component) do
-      concat(toolbar) if toolbar
-      concat(content)
+      #
+      # Renders the toolbar (if present) and content.
+      #
+      def call
+        part(:component) do
+          concat(toolbar) if toolbar
+          concat(content)
+        end
+      end
     end
   end
-
 end

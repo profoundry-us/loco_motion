@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The DividerComponent creates a visual separator between content sections,
 # either horizontally or vertically. It can include optional text or content
@@ -36,39 +38,41 @@
 #   = daisy_divider(css: "divider-success") do
 #     Success
 #
-class Daisy::Layout::DividerComponent < LocoMotion::BaseComponent
+module Daisy
+  module Layout
+    class DividerComponent < LocoMotion::BaseComponent
+      #
+      # Creates a new Divider component.
+      #
+      # @param args [Array] Positional arguments passed to the parent class.
+      # @param kws  [Hash]  Keyword arguments for customizing the divider.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Orientation: `divider-horizontal` for vertical divider
+      #   - Colors: `divider-neutral`, `divider-primary`, `divider-secondary`,
+      #     `divider-accent`, `divider-info`, `divider-success`,
+      #     `divider-warning`, `divider-error`
+      #
+      def initialize(title = nil, **kws, &block)
+        super
 
-  #
-  # Creates a new Divider component.
-  #
-  # @param args [Array] Positional arguments passed to the parent class.
-  # @param kws  [Hash]  Keyword arguments for customizing the divider.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Orientation: `divider-horizontal` for vertical divider
-  #   - Colors: `divider-neutral`, `divider-primary`, `divider-secondary`,
-  #     `divider-accent`, `divider-info`, `divider-success`,
-  #     `divider-warning`, `divider-error`
-  #
-  def initialize(title = nil, **kws, &block)
-    super
+        @simple_title = config_option(:title, title)
+      end
 
-    @simple_title = config_option(:title, title)
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "divider")
+      end
+
+      #
+      # Renders the component and its content.
+      #
+      def call
+        part(:component) { content || @simple_title }
+      end
+    end
   end
-
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "divider")
-  end
-
-  #
-  # Renders the component and its content.
-  #
-  def call
-    part(:component) { content || @simple_title }
-  end
-
 end

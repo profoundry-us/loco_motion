@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The FooterComponent creates a responsive container for page footer content.
 # Common use cases include:
@@ -35,35 +37,36 @@
 #       Copyright &copy; 2024 Company Name.
 #       All rights reserved.
 #
-class Daisy::Layout::FooterComponent < LocoMotion::BaseComponent
-  #
-  # Creates a new Footer component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the footer.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Background: `bg-neutral`, `bg-base-200`
-  #   - Text color: `text-neutral-content`, `text-base-content`
-  #   - Spacing: `p-4`, `p-10`
-  #   - Layout: `text-center`, `footer-horizontal` (or `lg:footer-horizontal` for large screens)
-  #
-  def initialize(**kws)
-    super
-  end
+module Daisy
+  module Layout
+    class FooterComponent < LocoMotion::BaseComponent
+      #
+      # Creates a new Footer component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the footer.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Background: `bg-neutral`, `bg-base-200`
+      #   - Text color: `text-neutral-content`, `text-base-content`
+      #   - Spacing: `p-4`, `p-10`
+      #   - Layout: `text-center`, `footer-horizontal` (or `lg:footer-horizontal` for large screens)
+      #
 
-  #
-  # Sets up the component's CSS classes and HTML tag.
-  #
-  def before_render
-    add_css(:component, "footer")
-    set_tag_name(:component, :footer)
-  end
+      #
+      # Sets up the component's CSS classes and HTML tag.
+      #
+      def before_render
+        add_css(:component, "footer")
+        set_tag_name(:component, :footer)
+      end
 
-  #
-  # Renders the component and its content.
-  #
-  def call
-    part(:component) { content }
+      #
+      # Renders the component and its content.
+      #
+      def call
+        part(:component) { content }
+      end
+    end
   end
 end

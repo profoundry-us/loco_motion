@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The CodeComponent creates stylized code blocks for displaying code snippets,
 # terminal output, or any text that benefits from monospace formatting.
@@ -44,98 +46,105 @@
 #         end
 #       end
 #
-class Daisy::Mockup::CodeComponent < LocoMotion::BaseComponent
+module Daisy
+  module Mockup
+    class CodeComponent < LocoMotion::BaseComponent
+      #
+      # A component for rendering individual lines within a code block.
+      #
+      # @part code The code content for this line.
+      #
+      module Daisy
+        module Mockup
+          class CodeLineComponent < LocoMotion::BaseComponent
+            define_parts :code
 
-  #
-  # A component for rendering individual lines within a code block.
-  #
-  # @part code The code content for this line.
-  #
-  class Daisy::Mockup::CodeLineComponent < LocoMotion::BaseComponent
-    define_parts :code
+            #
+            # Creates a new code line.
+            #
+            # @option kws prefix [String] Optional prefix for the line (e.g., "$",
+            #   ">", or line numbers).
+            # @option kws css [String] Additional CSS classes for styling the line.
+            #
+            def initialize(**kws)
+              super(**kws)
 
-    #
-    # Creates a new code line.
-    #
-    # @option kws prefix [String] Optional prefix for the line (e.g., "$",
-    #   ">", or line numbers).
-    # @option kws css [String] Additional CSS classes for styling the line.
-    #
-    def initialize(**kws)
-      super(**kws)
+              @prefix = config_option(:prefix)
+            end
 
-      @prefix = config_option(:prefix)
-    end
+            #
+            # Sets up the component's HTML tags and attributes.
+            #
+            def before_render
+              set_tag_name(:component, :pre)
+              set_tag_name(:code, :code)
 
-    #
-    # Sets up the component's HTML tags and attributes.
-    #
-    def before_render
-      set_tag_name(:component, :pre)
-      set_tag_name(:code, :code)
+              add_html(:component, { "data-prefix": @prefix }) if @prefix
+            end
 
-      add_html(:component, { "data-prefix": @prefix }) if @prefix
-    end
-
-    #
-    # Renders the line with its code content.
-    #
-    def call
-      part(:component) do
-        part(:code) do
-          content
+            #
+            # Renders the line with its code content.
+            #
+            def call
+              part(:component) do
+                part(:code) do
+                  content
+                end
+              end
+            end
+          end
         end
       end
-    end
-  end
 
-  define_parts :pre, :code
-  renders_many :lines, Daisy::Mockup::CodeLineComponent
+      define_parts :pre, :code
+      renders_many :lines, Daisy::Mockup::CodeLineComponent
 
-  #
-  # Creates a new code block component.
-  #
-  # @option kws prefix [String] Optional prefix for all lines (if not using
-  #   individual line prefixes).
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Size: `w-full`, `max-w-3xl`
-  #   - Background: `bg-base-300`, `bg-neutral`
-  #   - Text: `text-sm`, `text-base-content`
-  #
-  def initialize(**kws)
-    super(**kws)
+      #
+      # Creates a new code block component.
+      #
+      # @option kws prefix [String] Optional prefix for all lines (if not using
+      #   individual line prefixes).
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Size: `w-full`, `max-w-3xl`
+      #   - Background: `bg-base-300`, `bg-neutral`
+      #   - Text: `text-sm`, `text-base-content`
+      #
+      def initialize(**kws)
+        super(**kws)
 
-    @prefix = config_option(:prefix)
-  end
+        @prefix = config_option(:prefix)
+      end
 
-  #
-  # Sets up the component's CSS classes and HTML attributes.
-  #
-  def before_render
-    add_css(:component, "mockup-code")
+      #
+      # Sets up the component's CSS classes and HTML attributes.
+      #
+      def before_render
+        add_css(:component, "mockup-code")
 
-    set_tag_name(:pre, :pre)
-    set_tag_name(:code, :code)
+        set_tag_name(:pre, :pre)
+        set_tag_name(:code, :code)
 
-    add_html(:pre, { "data-prefix": @prefix }) if @prefix
+        add_html(:pre, { "data-prefix": @prefix }) if @prefix
 
-    # If the prefix is blank, add some left margin and hide the :before
-    # pseudo-element used for the prefix
-    add_css(:pre, "before:!hidden ml-6") if @prefix.blank?
-  end
+        # If the prefix is blank, add some left margin and hide the :before
+        # pseudo-element used for the prefix
+        add_css(:pre, "before:!hidden ml-6") if @prefix.blank?
+      end
 
-  #
-  # Renders the code block with its lines or direct content.
-  #
-  def call
-    part(:component) do
-      if lines.any?
-        lines.each { |line| concat(line) }
-      else
-        part(:pre) do
-          part(:code) do
-            content
+      #
+      # Renders the code block with its lines or direct content.
+      #
+      def call
+        part(:component) do
+          if lines.any?
+            lines.each { |line| concat(line) }
+          else
+            part(:pre) do
+              part(:code) do
+                content
+              end
+            end
           end
         end
       end
