@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Daisy::DataDisplay::StatusComponent, type: :component do
   it "renders basic component" do
     render_inline(described_class.new)

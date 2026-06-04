@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def full_page_title
     page_title = yield :page_title
 
-    page_title ? page_title + " | LocoMotion" : "LocoMotion"
+    page_title ? "#{page_title} | LocoMotion" : "LocoMotion"
   end
 
   def doc_url(path)
@@ -28,7 +30,7 @@ module ApplicationHelper
   def doc_title(*args, **kws, &block)
     render(DocTitleComponent.new(*args, **kws), &block)
   end
-  
+
   def doc_buttons(*args, **kws, &block)
     render(DocFooterButtonsComponent.new(*args, **kws), &block)
   end

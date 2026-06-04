@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
@@ -64,8 +66,8 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
 
     it "renders image before content by default" do
       html = page.native.to_html
-      image_index = html.index('<img')
-      content_index = html.index('Figure caption')
+      image_index = html.index("<img")
+      content_index = html.index("Figure caption")
       expect(image_index).to be < content_index
     end
   end
@@ -79,8 +81,8 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
 
     it "renders image before content" do
       html = page.native.to_html
-      image_index = html.index('<img')
-      content_index = html.index('Figure caption')
+      image_index = html.index("<img")
+      content_index = html.index("Figure caption")
       expect(image_index).to be < content_index
     end
   end
@@ -94,8 +96,8 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
 
     it "renders content before image" do
       html = page.native.to_html
-      content_index = html.index('Figure caption')
-      image_index = html.index('<img')
+      content_index = html.index("Figure caption")
+      image_index = html.index("<img")
       expect(content_index).to be < image_index
     end
 
@@ -135,9 +137,9 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
 
   context "with invalid position" do
     it "raises an ArgumentError" do
-      expect {
+      expect do
         described_class.new(position: :invalid)
-      }.to raise_error(ArgumentError, "position must be :top or :bottom, got 'invalid'")
+      end.to raise_error(ArgumentError, "position must be :top or :bottom, got 'invalid'")
     end
   end
 
@@ -150,8 +152,8 @@ RSpec.describe Daisy::DataDisplay::FigureComponent, type: :component do
 
     it "defaults to top positioning" do
       html = page.native.to_html
-      image_index = html.index('<img')
-      content_index = html.index('Figure caption')
+      image_index = html.index("<img")
+      content_index = html.index("Figure caption")
       expect(image_index).to be < content_index
     end
   end

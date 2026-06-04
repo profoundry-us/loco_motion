@@ -1,5 +1,6 @@
-class DocCodeComponent < ApplicationComponent
+# frozen_string_literal: true
 
+class DocCodeComponent < ApplicationComponent
   define_parts :pre, :code
 
   def initialize(*args, **kws, &block)
@@ -30,5 +31,4 @@ class DocCodeComponent < ApplicationComponent
       end
     end
   end
-
 end

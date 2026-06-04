@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
@@ -79,7 +81,9 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
     end
 
     context "with left and right icons" do
-      let(:link) { described_class.new(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right") }
+      let(:link) do
+        described_class.new(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
+      end
 
       before do
         render_inline(link)

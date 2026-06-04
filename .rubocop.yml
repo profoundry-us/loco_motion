@@ -1,0 +1,158 @@
+# LocoMotion RuboCop configuration
+#
+# This config is intentionally MINIMAL. RuboCop is a developer aid here, not a
+# CI gate — run it locally with `just lint`. The ACTIVE section below only sets
+# the Ruby target and excludes generated / vendored / demo code.
+#
+# Everything else lives in the OPTIONAL CATALOG further down: each cop is
+# commented out with a one-line note on what it does. Uncomment the ones you
+# want to adopt — many mirror conventions already documented in CLAUDE.md.
+# Enabling them gradually keeps the first `rubocop` run from exploding.
+
+plugins:
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.0
+  # Don't auto-opt-in to brand-new cops; review and enable them deliberately.
+  NewCops: disable
+  SuggestExtensions: false
+  Exclude:
+    - 'node_modules/**/*'
+    - 'builds/**/*'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'spec/internal/**/*'
+    - 'gemfiles/**/*'
+    - '*.gemspec'
+    - 'docs/demo/bin/bundle'
+
+# Disable metrics and complexity cops by default (opt-in only)
+Metrics:
+  Enabled: false
+
+# Disable documentation cop by default (opt-in only)
+Style/Documentation:
+  Enabled: false
+
+# Disable Rails cops by default (opt-in only)
+Rails:
+  Enabled: false
+
+# Disable Layout/LineLength by default (opt-in only)
+Layout/LineLength:
+  Enabled: false
+
+# Disable Naming/PredicatePrefix by default (opt-in only)
+Naming/PredicatePrefix:
+  Enabled: false
+
+# Disable Style/IfUnlessModifier by default (opt-in only)
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Disable Lint/UnusedMethodArgument by default (opt-in only)
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Disable Lint/ConstantDefinitionInBlock by default (opt-in only)
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+
+# Re-enable specific cops with 6 or fewer instances for manual review
+Rails/OutputSafety:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'docs/demo/app/helpers/algolia_helper.rb'
+    - 'app/components/daisy/data_input/filter_component.rb'
+    - 'app/components/daisy/data_input/select_component.rb'
+Naming/AccessorMethodName:
+  Enabled: true
+Metrics/PerceivedComplexity:
+  Enabled: true
+Style/StringConcatenation:
+  Enabled: true
+Metrics/ParameterLists:
+  Enabled: true
+Rails/SkipsModelValidations:
+  Enabled: true
+Metrics/ModuleLength:
+  Enabled: true
+
+# ===========================================================================
+# OPTIONAL CATALOG — all disabled by default. Uncomment to adopt.
+# ===========================================================================
+
+# --- Layout ----------------------------------------------------------------
+
+# Enforce the 80-character wrap CLAUDE.md already documents for Ruby code.
+# Layout/LineLength:
+#   Max: 80
+
+# Require a single trailing newline at end of file.
+# Layout/TrailingEmptyLines:
+#   Enabled: true
+
+# Disallow trailing whitespace.
+Layout/TrailingWhitespace:
+  Enabled: true
+
+# --- Style: documentation & nesting ---------------------------------------
+
+# The codebase documents classes with YARD banners, not plain top-level
+# comments — leave this OFF (recommended) to avoid false positives.
+# Style/Documentation:
+#   Enabled: false
+
+# Components use the compact `Class::Name <` form. Keep this OFF (recommended)
+# so RuboCop doesn't push the nested `module/class` style.
+# Style/ClassAndModuleChildren:
+#   Enabled: false
+
+# We add `# frozen_string_literal: true` across lib/. Enable to enforce it.
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+# --- Style: syntax preferences --------------------------------------------
+
+# The project predominantly uses double-quoted strings.
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Prefer Ruby 1.9 hash syntax (`key: value`).
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+# Allow both `%i[]` and `[:a, :b]` — set if you want one enforced.
+# Style/SymbolArray:
+#   EnforcedStyle: brackets
+
+# --- Metrics (size/complexity) --------------------------------------------
+#
+# These are the noisiest cops for an established component library. They are
+# OFF by default here. Either keep them off, or uncomment with generous Max
+# values and tighten over time.
+#
+# Metrics/MethodLength:
+#   Max: 25
+# Metrics/ClassLength:
+#   Max: 250
+# Metrics/ModuleLength:
+#   Max: 250
+# Metrics/AbcSize:
+#   Max: 30
+# Metrics/CyclomaticComplexity:
+#   Max: 12
+# Metrics/PerceivedComplexity:
+#   Max: 12
+# Metrics/BlockLength:
+#   Enabled: false  # spec files and DSLs legitimately use long blocks
+
+# --- rubocop-rails ---------------------------------------------------------
+
+# Enable Rails-aware cops once you've reviewed their suggestions.
+# Rails:
+#   Enabled: true

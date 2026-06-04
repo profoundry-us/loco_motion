@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
@@ -148,7 +150,7 @@ RSpec.describe Daisy::Feedback::SkeletonComponent, type: :component do
     let(:complex_content) do
       content_tag(:div, class: "flex items-center gap-2") do
         content_tag(:span, "Title", class: "font-bold") +
-        content_tag(:span, "Description", class: "text-sm")
+          content_tag(:span, "Description", class: "text-sm")
       end
     end
 

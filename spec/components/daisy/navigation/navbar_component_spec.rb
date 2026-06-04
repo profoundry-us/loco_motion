@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
@@ -95,7 +97,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
       it "maintains proper section order" do
         sections = page.all(".navbar > *").map { |el| el[:class] }
-        expect(sections).to eq(["navbar-start", "navbar-center", "navbar-end"])
+        expect(sections).to eq(%w[navbar-start navbar-center navbar-end])
       end
     end
   end

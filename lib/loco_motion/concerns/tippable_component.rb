@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/concern"
 
 module LocoMotion
@@ -31,10 +33,10 @@ module LocoMotion
       # Adds the `tooltip` CSS class and the `data-tip` attribute if a tip is provided.
       #
       def _setup_tippable_component
-        if @tip
-          add_css(:component, "tooltip")
-          add_html(:component, { data: { tip: @tip } })
-        end
+        return unless @tip
+
+        add_css(:component, "tooltip")
+        add_html(:component, { data: { tip: @tip } })
       end
     end
   end

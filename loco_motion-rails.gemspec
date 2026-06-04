@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'combustion', '~> 1.3'
   s.add_development_dependency 'rails_heroicon', '~> 2.3.0'
   s.add_development_dependency 'pry', '~> 0.15.0'
-  s.add_development_dependency 'rails', '>= 6.1', '< 8.0'
+  s.add_development_dependency 'rails', '>= 6.1', '< 8.1'
   s.add_development_dependency 'redcarpet', '~> 3.6'
   s.add_development_dependency 'rspec', '~> 3.13.0'
   s.add_development_dependency 'rspec-rails', '~> 6.1.1'
@@ -44,4 +44,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webrick', '~> 1.8.1'
   s.add_development_dependency 'yard', '~> 0.9.34'
   s.add_development_dependency 'algoliasearch-rails', '~> 2.2'
+
+  # Linting (RuboCop config is tuned to existing conventions; not a CI gate)
+  s.add_development_dependency 'rubocop', '~> 1.60'
+  s.add_development_dependency 'rubocop-rails', '~> 2.23'
 end

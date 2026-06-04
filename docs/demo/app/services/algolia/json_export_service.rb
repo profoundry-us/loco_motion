@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'json'
-require 'fileutils'
+require "json"
+require "fileutils"
 
 module Algolia
   # Service for exporting Algolia records to JSON files
@@ -17,8 +17,7 @@ module Algolia
   class JsonExportService
     # Initialize the service
     #
-    def initialize
-    end
+    def initialize; end
 
     # Export records to a JSON file
     #
@@ -35,13 +34,13 @@ module Algolia
         FileUtils.mkdir_p(directory) unless File.directory?(directory)
 
         # Write the records to the file
-        File.open(output_path, 'w') do |file|
+        File.open(output_path, "w") do |file|
           file.write(JSON.pretty_generate(records))
         end
 
         Rails.logger.debug "Data exported to #{output_path}"
         true
-      rescue => e
+      rescue StandardError => e
         Rails.logger.debug "Error exporting to JSON: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
         false

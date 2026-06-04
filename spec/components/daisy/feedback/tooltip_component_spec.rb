@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Feedback::TooltipComponent, type: :component do
@@ -63,7 +65,7 @@ RSpec.describe Daisy::Feedback::TooltipComponent, type: :component do
 
     describe "rendering" do
       it "includes custom classes" do
-        expect(page).to have_selector(".tooltip.#{custom_class.gsub(" ", ".")}")
+        expect(page).to have_selector(".tooltip.#{custom_class.gsub(' ', '.')}")
       end
 
       it "maintains default classes" do
@@ -77,7 +79,7 @@ RSpec.describe Daisy::Feedback::TooltipComponent, type: :component do
     let(:custom_content) do
       content_tag(:div, class: "wrapper") do
         content_tag(:span, "Hover", class: "text") +
-        content_tag(:strong, "Me")
+          content_tag(:strong, "Me")
       end
     end
 

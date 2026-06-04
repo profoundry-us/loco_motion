@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Collapse component creates an expandable/collapsible section of content
 # with a title that toggles visibility. It's similar to the Accordion component
@@ -39,62 +41,66 @@
 #   = daisy_collapse(title: "Expandable Section", css: "collapse-plus") do
 #     This section has a plus/minus indicator.
 #
-class Daisy::DataDisplay::CollapseComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class CollapseComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  define_parts :title, :wrapper
+      define_parts :title, :wrapper
 
-  renders_one :title
+      renders_one :title
 
-  # @return [String] The title text when using the simple title option.
-  attr_reader :simple_title
+      # @return [String] The title text when using the simple title option.
+      attr_reader :simple_title
 
-  # @return [Boolean] Whether to use a checkbox for toggle state (true) or
-  #   focus/tabindex mode (false).
-  attr_reader :checkbox
+      # @return [Boolean] Whether to use a checkbox for toggle state (true) or
+      #   focus/tabindex mode (false).
+      attr_reader :checkbox
 
-  #
-  # Creates a new collapse component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws title [String] The text to display in the title bar. You can
-  #   also provide custom title content using the title slot.
-  #
-  # @option kws checkbox [Boolean] Whether to use a checkbox for toggle state
-  #   (true) or focus/tabindex mode (false). Defaults to true.
-  #
-  # @option kws tip [String] The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(*args, **kws, &block)
-    super
+      #
+      # Creates a new collapse component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws title [String] The text to display in the title bar. You can
+      #   also provide custom title content using the title slot.
+      #
+      # @option kws checkbox [Boolean] Whether to use a checkbox for toggle state
+      #   (true) or focus/tabindex mode (false). Defaults to true.
+      #
+      # @option kws tip [String] The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(*args, **kws, &block)
+        super
 
-    @simple_title = config_option(:title)
-    @checkbox = config_option(:checkbox, true)
-  end
+        @simple_title = config_option(:title)
+        @checkbox = config_option(:checkbox, true)
+      end
 
-  def before_render
-    setup_component # Set base styles/attributes
-    super           # Run concern setup hooks
-    setup_title     # Set title part styles
-    setup_wrapper   # Set wrapper part styles
-  end
+      def before_render
+        setup_component # Set base styles/attributes
+        super           # Run concern setup hooks
+        setup_title     # Set title part styles
+        setup_wrapper   # Set wrapper part styles
+      end
 
-  def setup_component
-    add_css(:component, "collapse")
-    add_html(:component, { tabindex: 0 }) unless @checkbox
-  end
+      def setup_component
+        add_css(:component, "collapse")
+        add_html(:component, { tabindex: 0 }) unless @checkbox
+      end
 
-  def setup_title
-    add_css(:title, "collapse-title")
-  end
+      def setup_title
+        add_css(:title, "collapse-title")
+      end
 
-  def setup_wrapper
-    add_css(:wrapper, "collapse-content")
-  end
+      def setup_wrapper
+        add_css(:wrapper, "collapse-content")
+      end
 
-  def has_title?
-    title? || @simple_title.present?
+      def has_title?
+        title? || @simple_title.present?
+      end
+    end
   end
 end

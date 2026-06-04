@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Chat component renders a messaging interface with support for avatars,
 # message bubbles, and optional header and footer content. It's perfect for
@@ -45,21 +47,27 @@
 #     - chat.with_bubble do
 #       Sure! The settings page is under your profile menu.
 #
-class Daisy::DataDisplay::ChatComponent < LocoMotion::BaseComponent
-  renders_one :avatar, Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100", wrapper_css: "w-10 rounded-full")
-  renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header where:text-neutral-500")
-  renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer where:text-neutral-500")
+module Daisy
+  module DataDisplay
+    class ChatComponent < LocoMotion::BaseComponent
+      renders_one :avatar,
+                  Daisy::DataDisplay::AvatarComponent.build(css: "chat-image", icon_css: "size-6 text-base-100",
+                                                            wrapper_css: "w-10 rounded-full")
+      renders_one :header, LocoMotion::BasicComponent.build(css: "chat-header where:text-neutral-500")
+      renders_one :footer, LocoMotion::BasicComponent.build(css: "chat-footer where:text-neutral-500")
 
-  renders_many :bubbles, LocoMotion::BasicComponent.build(css: "chat-bubble")
+      renders_many :bubbles, LocoMotion::BasicComponent.build(css: "chat-bubble")
 
-  #
-  # Sets up the component with various CSS classes and HTML attributes.
-  #
-  #  - `chat` is always added
-  #  - `chat-start` is added if the component does not already have `chat-start` or `chat-end`
-  #
-  def before_render
-    add_css(:component, "chat")
-    add_css(:component, "chat-start") unless rendered_css(:component).match?("chat-(start|end)")
+      #
+      # Sets up the component with various CSS classes and HTML attributes.
+      #
+      #  - `chat` is always added
+      #  - `chat-start` is added if the component does not already have `chat-start` or `chat-end`
+      #
+      def before_render
+        add_css(:component, "chat")
+        add_css(:component, "chat-start") unless rendered_css(:component).match?("chat-(start|end)")
+      end
+    end
   end
 end

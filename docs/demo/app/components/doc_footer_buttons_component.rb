@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocFooterButtonsComponent < ApplicationComponent
   attr_reader :current_id, :current_num, :nav_items
 
@@ -6,10 +8,10 @@ class DocFooterButtonsComponent < ApplicationComponent
 
     @current_id = config_option(:current_id, "")
     @section = config_option(:section, "guides")
-    
+
     # Extract the number from the current ID (e.g., "01_docker" -> 1)
     @current_num = @current_id.to_s.match(/^(\d+)_/).to_a[1].to_i
-    
+
     # Load navigation items once
     @nav_items = load_nav_items
   end
@@ -28,18 +30,18 @@ class DocFooterButtonsComponent < ApplicationComponent
 
   def previous_id
     return nil unless current_num > 1
-    
+
     # Use string interpolation with zero-padding instead of format
-    prev_num = "#{current_num - 1}".rjust(2, '0')
-    
+    prev_num = (current_num - 1).to_s.rjust(2, "0")
+
     # Find the item in the nav items that has this number prefix
     nav_items.find { |item| item[:id].start_with?(prev_num) }&.dig(:id)
   end
 
   def next_id
     # Use string interpolation with zero-padding instead of format
-    next_num = "#{current_num + 1}".rjust(2, '0')
-    
+    next_num = (current_num + 1).to_s.rjust(2, "0")
+
     # Find the item in the nav items that has this number prefix
     nav_items.find { |item| item[:id].start_with?(next_num) }&.dig(:id)
   end
@@ -48,14 +50,14 @@ class DocFooterButtonsComponent < ApplicationComponent
     return nil unless previous_id
 
     # Get the title by removing the numeric prefix and converting to title case
-    previous_id.gsub(/^\d+_/, '').humanize
+    previous_id.gsub(/^\d+_/, "").humanize
   end
 
   def next_title
     return nil unless next_id
 
     # Get the title by removing the numeric prefix and converting to title case
-    next_id.gsub(/^\d+_/, '').humanize
+    next_id.gsub(/^\d+_/, "").humanize
   end
 
   def path_helper
@@ -72,7 +74,7 @@ class DocFooterButtonsComponent < ApplicationComponent
     files.map do |file|
       file_id = File.basename(file, ".*").split(".").first
       id = file_id
-      { id: id, title: id.gsub(/^\d+_/, '').humanize }
+      { id: id, title: id.gsub(/^\d+_/, "").humanize }
     end
   end
 end

@@ -169,7 +169,7 @@ module Daisy
             label: label,
             value: value,
             checked: checked,
-            index: index.to_s  # Ensure index is a string
+            index: index.to_s # Ensure index is a string
           )
         end
       end
@@ -181,16 +181,12 @@ module Daisy
       # @return [String] The HTML for all options in the filter.
       #
       def render_filter_options
-        result = ""
+        result = +""
 
         if options?
-          options.each do |option|
-            result += render(option)
-          end
+          options.each { |option| result << render(option) }
         elsif standard_options.present?
-          standard_options.each do |option|
-            result += render(option)
-          end
+          standard_options.each { |option| result << render(option) }
         end
 
         result.html_safe

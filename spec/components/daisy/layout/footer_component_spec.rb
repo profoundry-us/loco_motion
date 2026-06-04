@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Layout::FooterComponent, type: :component do
@@ -30,7 +32,7 @@ RSpec.describe Daisy::Layout::FooterComponent, type: :component do
 
     describe "rendering" do
       it "applies custom classes" do
-        expect(page).to have_css "footer.footer.#{custom_class.gsub(/\s+/, ".")}"
+        expect(page).to have_css "footer.footer.#{custom_class.gsub(/\s+/, '.')}"
       end
     end
   end
@@ -55,15 +57,15 @@ RSpec.describe Daisy::Layout::FooterComponent, type: :component do
 
   context "with navigation content" do
     let(:title) { "Navigation" }
-    let(:links) { ["Home", "About", "Contact"] }
+    let(:links) { %w[Home About Contact] }
 
     before do
       render_inline(described_class.new) do
         content_tag(:nav) do
           safe_join([
-            content_tag(:h6, title, class: "footer-title"),
-            *links.map { |link| content_tag(:a, link, href: "#", class: "link-hover") }
-          ])
+                      content_tag(:h6, title, class: "footer-title"),
+                      *links.map { |link| content_tag(:a, link, href: "#", class: "link-hover") }
+                    ])
         end
       end
     end
@@ -102,9 +104,9 @@ RSpec.describe Daisy::Layout::FooterComponent, type: :component do
         safe_join(sections.map do |section|
           content_tag(:nav) do
             safe_join([
-              content_tag(:h6, section[:title], class: "footer-title"),
-              *section[:links].map { |link| content_tag(:a, link, href: "#", class: "link-hover") }
-            ])
+                        content_tag(:h6, section[:title], class: "footer-title"),
+                        *section[:links].map { |link| content_tag(:a, link, href: "#", class: "link-hover") }
+                      ])
           end
         end)
       end
@@ -143,19 +145,19 @@ RSpec.describe Daisy::Layout::FooterComponent, type: :component do
     let(:copyright) { "Copyright 2024" }
 
     before do
-      render_inline(described_class.new(css: custom_class)) do |footer|
+      render_inline(described_class.new(css: custom_class)) do |_footer|
         content_tag(:div, class: "text-center") do
           safe_join([
-            content_tag(:h2, title, class: "text-xl font-bold mb-4"),
-            content_tag(:p, copyright, class: "text-sm")
-          ])
+                      content_tag(:h2, title, class: "text-xl font-bold mb-4"),
+                      content_tag(:p, copyright, class: "text-sm")
+                    ])
         end
       end
     end
 
     describe "rendering" do
       it "applies custom styles" do
-        expect(page).to have_css "footer.footer.#{custom_class.gsub(/\s+/, ".")}"
+        expect(page).to have_css "footer.footer.#{custom_class.gsub(/\s+/, '.')}"
       end
 
       it "renders complex content structure" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
@@ -87,11 +89,11 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
       end
 
       it "adds gap class" do
-        expect(page).to have_selector(".where\\:gap-x-2")
+        expect(page).to have_selector('.where\\:gap-x-2')
       end
 
       it "adds gap class to parts" do
-        expect(page).to have_selector(".countdown.where\\:gap-x-1")
+        expect(page).to have_selector('.countdown.where\\:gap-x-1')
       end
     end
   end
@@ -143,7 +145,7 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
   end
 
   context "with individual part customization" do
-    let(:duration) { ActiveSupport::Duration.build(90061) } # 1d 1h 1m 1s
+    let(:duration) { ActiveSupport::Duration.build(90_061) } # 1d 1h 1m 1s
     let(:days_css) { "days-custom" }
     let(:hours_css) { "hours-custom" }
     let(:minutes_css) { "minutes-custom" }
@@ -151,12 +153,12 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
 
     before do
       render_inline(described_class.new(
-        duration: duration,
-        days_css: days_css,
-        hours_css: hours_css,
-        minutes_css: minutes_css,
-        seconds_css: seconds_css
-      ))
+                      duration: duration,
+                      days_css: days_css,
+                      hours_css: hours_css,
+                      minutes_css: minutes_css,
+                      seconds_css: seconds_css
+                    ))
     end
 
     describe "rendering" do

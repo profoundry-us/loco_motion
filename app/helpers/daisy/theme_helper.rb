@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # ThemeHelper provides helper methods for theme-related functionality.
 #

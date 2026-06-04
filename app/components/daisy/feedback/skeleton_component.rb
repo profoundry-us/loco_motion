@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The SkeletonComponent creates loading placeholder elements that mimic the
 # shape and size of content that is being loaded. This provides users with a
@@ -32,28 +34,32 @@
 #     - chat.with_bubble(css: "skeleton text-transparent") do
 #       Loading...
 #
-class Daisy::Feedback::SkeletonComponent < LocoMotion::BaseComponent
-  #
-  # Creates a new Skeleton component.
-  #
-  # @param args [Array] Positional arguments passed to the parent class.
-  # @param kws  [Hash]  Keyword arguments for customizing the skeleton.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Dimensions: `w-24`, `h-20`
-  #   - Shapes: `rounded-full`, `rounded-lg`
-  #   - Colors: `bg-base-200`
-  #   - Text shimmer: `skeleton-text` (animates text with the shimmer
-  #     gradient — use alongside `skeleton` on the same element)
-  #   When using with other components, combine with `text-transparent`
-  #   to hide placeholder text.
-  #
-  def before_render
-    add_css(:component, "skeleton")
-  end
+module Daisy
+  module Feedback
+    class SkeletonComponent < LocoMotion::BaseComponent
+      #
+      # Creates a new Skeleton component.
+      #
+      # @param args [Array] Positional arguments passed to the parent class.
+      # @param kws  [Hash]  Keyword arguments for customizing the skeleton.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Dimensions: `w-24`, `h-20`
+      #   - Shapes: `rounded-full`, `rounded-lg`
+      #   - Colors: `bg-base-200`
+      #   - Text shimmer: `skeleton-text` (animates text with the shimmer
+      #     gradient — use alongside `skeleton` on the same element)
+      #   When using with other components, combine with `text-transparent`
+      #   to hide placeholder text.
+      #
+      def before_render
+        add_css(:component, "skeleton")
+      end
 
-  def call
-    part(:component) { content }
+      def call
+        part(:component) { content }
+      end
+    end
   end
 end

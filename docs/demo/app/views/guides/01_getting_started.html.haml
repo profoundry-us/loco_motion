@@ -1,0 +1,322 @@
+= content_for(:page_title) do
+  Getting Started
+
+.max-w-prose
+  = doc_info(url: "https://rubyonrails.org", image_path: "logos/rails.svg", image_alt: "Rails Logo") do
+    :markdown
+      _Loco_**Motion** recommends an opinionated starting point for brand-new
+      Rails apps: Docker, HAML, and TailwindCSS + DaisyUI.
+
+.prose
+  :markdown
+    # Getting Started with a New Rails App
+
+    This guide walks you through standing up a brand-new Rails application
+    using the philosophies and tooling that LocoMotion recommends: Docker for
+    a stable development environment,
+    <a href="https://github.com/casey/just" target="_blank">Just</a> for command running,
+    HAML for templates, and TailwindCSS + DaisyUI for styling.
+
+    You do **not** need to follow this guide to use the LocoMotion gem — see
+    the [Install guide](#{doc_path("install")}) for adding the component
+    library to an existing app. This guide presents an opinionated starting
+    point for new projects, but you should feel free to adapt these
+    recommendations to suit your preferences and requirements.
+
+.mt-12.prose
+  :markdown
+    ## 1. A Dockerized Foundation
+
+    We recommend using Docker from the very beginning — even before you run
+    `rails new`. This gives you a stable development environment regardless of
+    your OS, and keeps the dev container small and simple so troubleshooting
+    is easy.
+
+    For the full Docker walkthrough — installing Docker, copying the example
+    config files, and booting the containers — follow the
+    [Docker guide](#{guide_path("docker")}) first. Once you can run
+    `just dev` to build the containers and `just dev-shell` to open a shell
+    inside the development container, come back here.
+
+= doc_note(modifier: :note, title: "Why Just?", css: "mt-6") do
+  :markdown
+    We use <a href="https://github.com/casey/just" target="_blank">Just</a> as our command runner
+    instead of Make. It provides a cleaner, more readable syntax for defining
+    commands, better error handling, and is easier to maintain than complex
+    Makefiles.
+
+.mt-12.prose
+  :markdown
+    ## 2. Creating the Rails App
+
+    Inside the development container, everything is set up and ready for you
+    to install Rails. Change into the app directory (which is mapped to your
+    local machine) and run `rails new`:
+
+.mt-6.max-w-prose
+  = daisy_code(prefix: "$") do
+    cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
+
+= doc_note(modifier: :tip, title: "Versions &amp; Databases", css: "mt-6") do
+  :markdown
+    If you want something other than PostgreSQL or TailwindCSS, you can change
+    that here — these are just our recommendations.
+    <br /><br />
+    We also tend to recommend lagging slightly behind the latest Ruby version,
+    as the newest release occasionally has trouble building the Rails project.
+    You can change it in `dev/Dockerfile` via the `FROM` line at the top.
+
+.mt-6.prose
+  :markdown
+    If you run into trouble with the `rails new` command, this resets the
+    generated files so you can try again without losing your dev config:
+
+.mt-6.max-w-prose
+  = doc_code(language: "bash", css: "my-4") do
+    :plain
+      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
+
+.mt-12.prose
+  :markdown
+    ## 3. Database Configuration
+
+    Open the newly created `config/database.yml` and add the following three
+    lines under the `default` key so Rails can reach the Postgres container:
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # Under the default section in config/database.yml
+      host: db
+      username: postgres
+      password: password
+
+.mt-6.prose
+  :markdown
+    Now uncomment the `app` section in your `docker-compose.yml` file and run
+    `just app` to build and start the application. After a minute or two you
+    should see Puma listening on port 3000, and you can visit
+    [http://localhost:3000](http://localhost:3000) to view your running app!
+
+= doc_note(css: "mt-6") do
+  :markdown
+    Once the container is built, you can run `just app-fast` to simply start
+    the containers without rebuilding. This is **much** faster than a full
+    build every time.
+
+.mt-12.prose
+  :markdown
+    ## 4. Using UUIDs by Default
+
+    We believe strongly in using UUIDs for primary keys to increase security
+    and avoid potential scaling issues down the road. To enable this by
+    default for all generated models, create the following initializer:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/generators.rb
+      Rails.application.config.generators do |generator|
+        generator.orm :active_record, primary_key_type: :uuid
+      end
+
+.mt-12.prose
+  :markdown
+    ## 5. Install HAML (Optional)
+
+    While you can use the default ERB templating system, we highly recommend
+    <a href="https://haml.info" target="_blank">HAML</a> — it provides a much cleaner language for your
+    template files. Add the gems to your `Gemfile`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # App-Specific Gems
+      gem "haml-rails", "~> 2.0"
+
+      # For development only (helps convert ERB to HAML)
+      group :development do
+        gem "html2haml"
+      end
+
+.mt-6.prose
+  :markdown
+    Open a Docker shell in the app container with `just app-shell` and run
+    `bundle` to install the gems. Then point Tailwind at your HAML views by
+    updating `tailwind.config.js`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "javascript") do
+    :plain
+      module.exports = {
+        content: [
+          './app/views/**/*.html.haml',
+          // ...
+        ]
+      }
+
+.mt-6.prose
+  :markdown
+    Finally, convert any existing `.erb` files to `.haml`:
+
+= doc_note(modifier: :error, title: "Warning", css: "mt-6") do
+  :markdown
+    This deletes your ERB files, so make sure you have a backup or can easily
+    do a `git revert`.
+
+.mt-6.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    HAML_RAILS_DELETE_ERB=true rails haml:erb2haml
+
+.mt-6.prose
+  :markdown
+    For a deeper dive into HAML syntax and conventions, see the
+    [HAML guide](#{guide_path("haml")}).
+
+.mt-12.prose
+  :markdown
+    ## 6. Install DaisyUI (Optional)
+
+    <a href="https://tailwindcss.com" target="_blank">TailwindCSS</a> is a utility-based CSS framework
+    that lets you build components by composing utility classes. It is already
+    installed via the `rails new` command above, and we _highly_ recommend it
+    for every project.
+
+    <a href="https://daisyui.com" target="_blank">DaisyUI</a> builds on top of Tailwind by providing
+    ready-made component classes, so a button becomes as simple as
+    `%button.btn`. With Tailwind 4, DaisyUI is configured directly in your CSS
+    file rather than in `tailwind.config.js`. Open an app shell with
+    `just app-shell` and install the packages:
+
+.mt-6.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    yarn add tailwindcss @tailwindcss/cli daisyui
+
+.mt-6.prose
+  :markdown
+    Then add the `@import` and `@plugin` directives to your
+    `application.tailwind.css`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "css") do
+    :plain
+      /* Import the base Tailwind theme */
+      @import 'tailwindcss';
+
+      /* Include DaisyUI via @plugin directive */
+      @plugin 'daisyui' {
+        themes: light --default, dark --prefersdark;
+      }
+
+      /* Custom variant to reduce selector specificity for component defaults */
+      @custom-variant where (:where(&));
+
+      /* Custom dark: variant for System-based & DaisyUI ThemeController dark mode */
+      @custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+
+      /* Point to tailwind.config.js for content scan paths only */
+      @config "../tailwind.config.js";
+
+= doc_note(modifier: :warning, title: "Tailwind 4 Configuration", css: "mt-6") do
+  :markdown
+    Tailwind 4 moves all plugin configuration into the CSS file. Do **not**
+    add DaisyUI to `tailwind.config.js` — that file is now only used to
+    declare content scan paths.
+
+.mt-12.prose
+  :markdown
+    ## 7. Try It Out!
+
+    With everything installed, let's confirm it all works. First, tell the
+    Rails server to bind to all interfaces in your `Procfile.dev`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "text") do
+    :plain
+      web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
+
+.mt-6.prose
+  :markdown
+    Update your `Dockerfile` to start the app using Foreman:
+
+.mt-6.max-w-prose
+  = doc_code(language: "dockerfile") do
+    :plain
+      # Change this line:
+      CMD ["rails", "server", "-b", "0.0.0.0"]
+
+      # To this:
+      CMD ["./bin/dev"]
+
+.mt-6.prose
+  :markdown
+    Since we are using Docker, it also helps to clear out stale PID files on
+    boot. Add these lines to `bin/setup`, just above the lines that restart
+    the application server:
+
+.mt-6.max-w-prose
+  = doc_code(language: "bash") do
+    :plain
+      puts "\n== Removing old PID files =="
+      system! "rm -rf /home/app/tmp/pids/server.pid"
+
+.mt-6.prose
+  :markdown
+    Restart with `just app` (a full rebuild is required because we changed the
+    `Dockerfile`). Now wire up a quick test route and controller action:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/routes.rb
+      root "application#test"
+
+      # app/controllers/application_controller.rb
+      class ApplicationController < ActionController::Base
+        def test
+          render html: "Test", layout: true
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    And modify your layout's body to show some Tailwind styling (and, if you
+    installed it, a DaisyUI button):
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      - # app/views/layouts/application.html.haml
+      %body
+        .m-2.p-2.rounded.bg-red-400
+          = yield
+
+        - # If you installed DaisyUI, add this too:
+        .btn
+          Test Button
+
+.mt-6.prose
+  :markdown
+    Visit [http://localhost:3000](http://localhost:3000) — you should see a
+    red, rounded box with the word "Test", and a gray DaisyUI button that
+    reacts when you hover and click it!
+
+= doc_note(modifier: :error, title: "Clean Up", css: "mt-6") do
+  :markdown
+    Once you are done playing around, undo these layout and routing changes so
+    they do not cause confusion later.
+
+.mt-8.prose
+  :markdown
+    ## Success!
+
+    You now have a fully-configured Rails app the LocoMotion way. From here,
+    set up a solid foundation with the
+    [Debugging &amp; Testing guide](#{guide_path("debugging")}), structure
+    your business logic with the
+    [Service Objects guide](#{guide_path("services")}), and add user sign-in
+    with the [Authentication guide](#{guide_path("authentication")}).
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

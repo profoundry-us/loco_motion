@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe LocoMotion::BasicComponent, type: :component do
@@ -61,7 +63,7 @@ RSpec.describe LocoMotion::BasicComponent, type: :component do
           def call
             part(:component) do
               part(:wrapper) do
-                [some_slot, content].join(' ').html_safe
+                [some_slot, content].join(" ").html_safe
               end
             end
           end

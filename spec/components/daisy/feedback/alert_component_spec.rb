@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
@@ -105,7 +107,7 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
     let(:custom_content) do
       content_tag(:div, class: "custom-wrapper") do
         content_tag(:span, "Custom", class: "label") +
-        content_tag(:strong, "Content")
+          content_tag(:strong, "Content")
       end
     end
 
@@ -283,7 +285,7 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
         end
 
         it "adds relative positioning and right padding" do
-          expect(page).to have_selector(".alert.where\\:relative.where\\:pr-10")
+          expect(page).to have_selector('.alert.where\\:relative.where\\:pr-10')
         end
       end
     end
@@ -305,8 +307,8 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
         end
 
         it "does not add relative positioning or right padding" do
-          expect(page).not_to have_selector(".alert.where\\:relative")
-          expect(page).not_to have_selector(".alert.where\\:pr-10")
+          expect(page).not_to have_selector('.alert.where\\:relative')
+          expect(page).not_to have_selector('.alert.where\\:pr-10')
         end
       end
     end

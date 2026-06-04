@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The IndicatorComponent positions notification elements around its content to
 # draw attention to important information. Common use cases include:
@@ -44,40 +46,41 @@
 #
 #     .w-40.h-40.bg-base-200
 #
-class Daisy::Layout::IndicatorComponent < LocoMotion::BaseComponent
-  renders_many :items, LocoMotion::BasicComponent.build(css: "indicator-item")
+module Daisy
+  module Layout
+    class IndicatorComponent < LocoMotion::BaseComponent
+      renders_many :items, LocoMotion::BasicComponent.build(css: "indicator-item")
 
-  #
-  # Creates a new Indicator component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the indicator.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Spacing: `p-2`, `m-4`
-  #   - Alignment: `inline-flex`, `inline-grid`
-  #
-  def initialize(**kws)
-    super
-  end
+      #
+      # Creates a new Indicator component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the indicator.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Spacing: `p-2`, `m-4`
+      #   - Alignment: `inline-flex`, `inline-grid`
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "indicator")
-  end
-
-  #
-  # Renders the component, all indicator items, and the main content.
-  #
-  def call
-    part(:component) do
-      items.each do |item|
-        concat(item)
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "indicator")
       end
 
-      concat(content) if content?
+      #
+      # Renders the component, all indicator items, and the main content.
+      #
+      def call
+        part(:component) do
+          items.each do |item|
+            concat(item)
+          end
+
+          concat(content) if content?
+        end
+      end
     end
   end
 end

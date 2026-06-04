@@ -40,92 +40,96 @@
 # @loco_example Readonly TextArea
 #   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
 #
-class Daisy::DataInput::TextAreaComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::AriableComponent
+module Daisy
+  module DataInput
+    class TextAreaComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::AriableComponent
 
-  attr_reader :name, :id, :value, :placeholder, :rows, :cols, :disabled, :required, :readonly
+      attr_reader :name, :id, :value, :placeholder, :rows, :cols, :disabled, :required, :readonly
 
-  #
-  # Instantiate a new TextArea component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws name [String] The name attribute for the textarea.
-  #
-  # @option kws id [String] The ID attribute for the textarea.
-  #
-  # @option kws value [String] The initial value of the textarea.
-  #
-  # @option kws placeholder [String] Placeholder text for the textarea.
-  #
-  # @option kws rows [Integer] The number of visible text lines. Defaults to 4.
-  #
-  # @option kws cols [Integer] The visible width of the textarea. Defaults to nil.
-  #
-  # @option kws disabled [Boolean] Whether the textarea is disabled. Defaults to
-  #   false.
-  #
-  # @option kws required [Boolean] Whether the textarea is required for form
-  #   validation. Defaults to false.
-  #
-  # @option kws readonly [Boolean] Whether the textarea is read-only. Defaults to
-  #   false.
-  #
-  def initialize(**kws)
-    super
+      #
+      # Instantiate a new TextArea component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws name [String] The name attribute for the textarea.
+      #
+      # @option kws id [String] The ID attribute for the textarea.
+      #
+      # @option kws value [String] The initial value of the textarea.
+      #
+      # @option kws placeholder [String] Placeholder text for the textarea.
+      #
+      # @option kws rows [Integer] The number of visible text lines. Defaults to 4.
+      #
+      # @option kws cols [Integer] The visible width of the textarea. Defaults to nil.
+      #
+      # @option kws disabled [Boolean] Whether the textarea is disabled. Defaults to
+      #   false.
+      #
+      # @option kws required [Boolean] Whether the textarea is required for form
+      #   validation. Defaults to false.
+      #
+      # @option kws readonly [Boolean] Whether the textarea is read-only. Defaults to
+      #   false.
+      #
+      def initialize(**kws)
+        super
 
-    @name = config_option(:name)
-    @id = config_option(:id)
-    @value = config_option(:value, nil)
-    @placeholder = config_option(:placeholder, nil)
-    @rows = config_option(:rows, 4)
-    @cols = config_option(:cols, nil)
-    @disabled = config_option(:disabled, false)
-    @required = config_option(:required, false)
-    @readonly = config_option(:readonly, false)
-  end
+        @name = config_option(:name)
+        @id = config_option(:id)
+        @value = config_option(:value, nil)
+        @placeholder = config_option(:placeholder, nil)
+        @rows = config_option(:rows, 4)
+        @cols = config_option(:cols, nil)
+        @disabled = config_option(:disabled, false)
+        @required = config_option(:required, false)
+        @readonly = config_option(:readonly, false)
+      end
 
-  #
-  # Calls the {setup_component} method before rendering the component.
-  #
-  def before_render
-    super
+      #
+      # Calls the {setup_component} method before rendering the component.
+      #
+      def before_render
+        super
 
-    setup_component
-  end
+        setup_component
+      end
 
-  #
-  # Sets up the component by configuring the tag name, CSS classes, and HTML
-  # attributes. Sets the tag to textarea and adds the 'textarea' CSS class.
-  #
-  # This configures various attributes of the textarea including name, id, value,
-  # placeholder, rows, cols, and states like disabled, required, and readonly.
-  #
-  def setup_component
-    set_tag_name(:component, :textarea)
+      #
+      # Sets up the component by configuring the tag name, CSS classes, and HTML
+      # attributes. Sets the tag to textarea and adds the 'textarea' CSS class.
+      #
+      # This configures various attributes of the textarea including name, id, value,
+      # placeholder, rows, cols, and states like disabled, required, and readonly.
+      #
+      def setup_component
+        set_tag_name(:component, :textarea)
 
-    add_css(:component, "textarea")
+        add_css(:component, "textarea")
 
-    add_html(:component, {
-      name: @name,
-      id: @id,
-      placeholder: @placeholder,
-      rows: @rows,
-      cols: @cols,
-      disabled: @disabled,
-      required: @required,
-      readonly: @readonly
-    })
-  end
+        add_html(:component, {
+                   name: @name,
+                   id: @id,
+                   placeholder: @placeholder,
+                   rows: @rows,
+                   cols: @cols,
+                   disabled: @disabled,
+                   required: @required,
+                   readonly: @readonly
+                 })
+      end
 
-  #
-  # Renders the component with its value as content.
-  #
-  def call
-    if @value
-      part(:component) { @value }
-    else
-      part(:component)
+      #
+      # Renders the component with its value as content.
+      #
+      def call
+        if @value
+          part(:component) { @value }
+        else
+          part(:component)
+        end
+      end
     end
   end
 end

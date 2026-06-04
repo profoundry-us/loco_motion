@@ -20,6 +20,12 @@ export default class extends Controller {
     this.startCountdown()
   }
 
+  disconnect() {
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
+  }
+
   getPartValue(part) {
     let target = null
 

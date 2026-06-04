@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Kbd (Keyboard) component displays keyboard inputs or shortcuts in a
 # visually distinct way. It's perfect for showing keyboard shortcuts,
@@ -41,51 +43,55 @@
 #     = daisy_kbd("Enter")
 #     to confirm.
 #
-class Daisy::DataDisplay::KbdComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class KbdComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  set_component_name :kbd
+      set_component_name :kbd
 
-  attr_reader :simple_title
+      attr_reader :simple_title
 
-  #
-  # Creates a new kbd component.
-  #
-  # @param text [String] The text to display in the keyboard component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws [String] :tip The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(*args, **kws, &block)
-    super
+      #
+      # Creates a new kbd component.
+      #
+      # @param text [String] The text to display in the keyboard component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [String] :tip The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(*args, **kws, &block)
+        super
 
-    @simple_title = args[0]
+        @simple_title = args[0]
 
-    set_tag_name(:component, :span)
-  end
+        set_tag_name(:component, :span)
+      end
 
-  def before_render
-    super
+      def before_render
+        super
 
-    setup_component
-  end
+        setup_component
+      end
 
-  #
-  # Renders the kbd (Keyboard) component.
-  #
-  # Because this is an inline component which might be utlized alongside text,
-  # we utilize the `call` method instead of a template to ensure that no
-  # additional whitespace gets added to the output.
-  #
-  def call
-    part(:component) { content || simple_title }
-  end
+      #
+      # Renders the kbd (Keyboard) component.
+      #
+      # Because this is an inline component which might be utlized alongside text,
+      # we utilize the `call` method instead of a template to ensure that no
+      # additional whitespace gets added to the output.
+      #
+      def call
+        part(:component) { content || simple_title }
+      end
 
-  private
+      private
 
-  def setup_component
-    add_css(:component, "kbd")
+      def setup_component
+        add_css(:component, "kbd")
+      end
+    end
   end
 end

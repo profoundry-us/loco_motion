@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The DrawerComponent provides a sliding sidebar panel that can be toggled
 # open and closed. It's commonly used for:
@@ -56,101 +58,109 @@
 #             icon: "x-mark",
 #             html: { for: drawer.id })
 #
-class Daisy::Layout::DrawerComponent < LocoMotion::BaseComponent
-  #
-  # The DrawerSidebarComponent is a child of the {DrawerComponent} and renders
-  # the drawer sidebar and the overlay.
-  #
-  class Daisy::Layout::DrawerSidebarComponent < LocoMotion::BaseComponent
-    #
-    # Sets up the component's CSS classes.
-    #
-    def before_render
-      add_css(:component, "drawer-side")
-    end
+module Daisy
+  module Layout
+    class DrawerComponent < LocoMotion::BaseComponent
+      #
+      # The DrawerSidebarComponent is a child of the {DrawerComponent} and renders
+      # the drawer sidebar and the overlay.
+      #
+      module Daisy
+        module Layout
+          class DrawerSidebarComponent < LocoMotion::BaseComponent
+            #
+            # Sets up the component's CSS classes.
+            #
+            def before_render
+              add_css(:component, "drawer-side")
+            end
 
-    #
-    # Renders the sidebar, the overlay, and its content.
-    #
-    def call
-      part(:component) do
-        # We need to render the parent component's overlay inside of the sidebar
-        concat(loco_parent.part(:overlay))
-        concat(content)
+            #
+            # Renders the sidebar, the overlay, and its content.
+            #
+            def call
+              part(:component) do
+                # We need to render the parent component's overlay inside of the sidebar
+                concat(loco_parent.part(:overlay))
+                concat(content)
+              end
+            end
+          end
+        end
+      end
+
+      define_parts :input, :content_wrapper, :overlay
+
+      renders_one :sidebar, Daisy::Layout::DrawerSidebarComponent
+
+      #
+      # The ID of the drawer. Can be passed in as a configuration option, but
+      # defaults to a random UUID.
+      #
+      attr_reader :id
+
+      #
+      # Creates a new Drawer component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the drawer.
+      #
+      # @option kws id  [String] The ID of the drawer. Defaults to a random UUID.
+      #   This is used to connect the toggle button with the drawer.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Position: `drawer-end` to slide from right instead of left
+      #   - Responsive: `lg:drawer-open` to keep drawer open on large screens
+      #   - Z-index: `z-[100]` to control stacking order
+      #
+      def initialize(**kws)
+        super
+
+        @id = config_option(:id, SecureRandom.uuid)
+      end
+
+      #
+      # Sets up the various parts of the component.
+      #
+      def before_render
+        setup_component
+        setup_input
+        setup_content_wrapper
+        setup_overlay
+      end
+
+      #
+      # Adds the `drawer` class to the component itself.
+      #
+      def setup_component
+        add_css(:component, "drawer")
+      end
+
+      #
+      # Sets up the input checkbox that toggles the sidebar.
+      #
+      def setup_input
+        set_tag_name(:input, :input)
+        add_css(:input, "drawer-toggle")
+        add_html(:input, { type: "checkbox", id: @id })
+      end
+
+      #
+      # Adds the `drawer-content` class to the content wrapper.
+      #
+      def setup_content_wrapper
+        add_css(:content_wrapper, "drawer-content")
+      end
+
+      #
+      # Sets up the overlay that covers the page when the sidebar is open.
+      #
+      def setup_overlay
+        set_tag_name(:overlay, :label)
+        add_css(:overlay, "drawer-overlay")
+        add_html(:overlay, { for: @id })
+        add_aria(:overlay, label: "close sidebar")
       end
     end
-  end
-
-  define_parts :input, :content_wrapper, :overlay
-
-  renders_one :sidebar, Daisy::Layout::DrawerSidebarComponent
-
-  #
-  # The ID of the drawer. Can be passed in as a configuration option, but
-  # defaults to a random UUID.
-  #
-  attr_reader :id
-
-  #
-  # Creates a new Drawer component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the drawer.
-  #
-  # @option kws id  [String] The ID of the drawer. Defaults to a random UUID.
-  #   This is used to connect the toggle button with the drawer.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Position: `drawer-end` to slide from right instead of left
-  #   - Responsive: `lg:drawer-open` to keep drawer open on large screens
-  #   - Z-index: `z-[100]` to control stacking order
-  #
-  def initialize(**kws)
-    super
-
-    @id = config_option(:id, SecureRandom.uuid)
-  end
-
-  #
-  # Sets up the various parts of the component.
-  #
-  def before_render
-    setup_component
-    setup_input
-    setup_content_wrapper
-    setup_overlay
-  end
-
-  #
-  # Adds the `drawer` class to the component itself.
-  #
-  def setup_component
-    add_css(:component, "drawer")
-  end
-
-  #
-  # Sets up the input checkbox that toggles the sidebar.
-  #
-  def setup_input
-    set_tag_name(:input, :input)
-    add_css(:input, "drawer-toggle")
-    add_html(:input, { type: "checkbox", id: @id })
-  end
-
-  #
-  # Adds the `drawer-content` class to the content wrapper.
-  #
-  def setup_content_wrapper
-    add_css(:content_wrapper, "drawer-content")
-  end
-
-  #
-  # Sets up the overlay that covers the page when the sidebar is open.
-  #
-  def setup_overlay
-    set_tag_name(:overlay, :label)
-    add_css(:overlay, "drawer-overlay")
-    add_html(:overlay, { for: @id })
-    add_aria(:overlay, label: "close sidebar")
   end
 end

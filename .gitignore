@@ -9,6 +9,6 @@ docs/demo/.env.local
 docs/yard/generated
 node_modules
 builds/
-**/*/.DS_Store
+.DS_Store
 spec/internal/
 NEXT_SESSION.md

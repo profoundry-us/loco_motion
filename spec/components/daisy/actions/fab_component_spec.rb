@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::FabComponent, type: :component do
@@ -179,8 +181,8 @@ RSpec.describe Daisy::Actions::FabComponent, type: :component do
   context "with custom HTML attributes" do
     before do
       render_inline(described_class.new(
-        html: { id: "my-fab", data: { test: "value" } }
-      ))
+                      html: { id: "my-fab", data: { test: "value" } }
+                    ))
     end
 
     describe "rendering" do

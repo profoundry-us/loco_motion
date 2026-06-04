@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require "fileutils"
 
 # path to your application root.
@@ -15,7 +17,7 @@ FileUtils.chdir APP_ROOT do
 
   # Make sure our dev environment is setup to use our local version of loco_motion
   puts "== Linking Local Yarn Packages =="
-  system!('cd /home/loco_motion; yarn link')
+  system!("cd /home/loco_motion; yarn link")
   system!('cd /home/loco_demo; yarn link "@profoundry-us/loco_motion"')
 
   puts "== Installing dependencies =="
@@ -43,7 +45,7 @@ FileUtils.chdir APP_ROOT do
     system! "rm -rf /home/loco_demo/tmp/pids/server.pid"
 
     puts "\n== Starting development server =="
-    STDOUT.flush # flush the output before exec(2) so that it displays
+    $stdout.flush # flush the output before exec(2) so that it displays
     exec "bin/rails restart"
   end
 end

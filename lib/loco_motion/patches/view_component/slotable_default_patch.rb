@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Monkey patch ViewComponent::SlotableDefault to modify get_slot behavior
 
 module LocoMotion

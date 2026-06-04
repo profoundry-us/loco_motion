@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Swap component allows toggling between two states, "on" and "off", with an
 # optional indeterminate state. It provides a flexible way to create animated
@@ -62,110 +64,114 @@
 #         = heroicon "clock"
 #         %span Processing
 #
-class Daisy::Actions::SwapComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module Actions
+    class SwapComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  class SwapOn < LocoMotion::BasicComponent
-    def before_render
-      add_css(:component, "swap-on")
+      class SwapOn < LocoMotion::BasicComponent
+        def before_render
+          add_css(:component, "swap-on")
+        end
+      end
+
+      class SwapOff < LocoMotion::BasicComponent
+        def before_render
+          add_css(:component, "swap-off")
+        end
+      end
+
+      class SwapIndeterminate < LocoMotion::BasicComponent
+        def before_render
+          add_css(:component, "swap-indeterminate")
+        end
+      end
+
+      define_parts :checkbox, :on, :off
+
+      renders_one :on, SwapOn
+      renders_one :off, SwapOff
+      renders_one :indeterminate, SwapIndeterminate
+
+      # @return [String] The value of the `on` option. Usually text or emoji.
+      attr_reader :simple_on
+
+      # @return [String] The value of the `off` option. Usually text or emoji.
+      attr_reader :simple_off
+
+      #
+      # Creates a new instance of the SwapComponent.
+      #
+      # @param on [String] Simple text/emoji to display in the "on" state. If provided
+      #   along with `off`, enables simple text swap mode.
+      #
+      # @param off [String] Simple text/emoji to display in the "off" state. If provided
+      #   along with `on`, enables simple text swap mode.
+      #
+      # @param checked [Boolean] Whether the swap should start in the checked ("on")
+      #   state. Defaults to false.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws on [String] Simple text/emoji for the "on" state. Alternative to
+      #   providing it as the first argument.
+      #
+      # @option kws off [String] Simple text/emoji for the "off" state. Alternative to
+      #   providing it as the second argument.
+      #
+      # @option kws checked [Boolean] Whether the swap should start checked. Alternative
+      #   to providing it as the third argument.
+      #
+      # @option kws indeterminate [Boolean] If true, starts the swap in an indeterminate
+      #   state. Requires the indeterminate slot to be meaningful.
+      #
+      # @option kws tip [String] The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(on = nil, off = nil, checked = nil, **kws, &block)
+        super
+
+        @checked = config_option(:checked, checked || false)
+        @simple_on = config_option(:on, on)
+        @simple_off = config_option(:off, off)
+      end
+
+      #
+      # Sets up the component with various CSS classes and HTML attributes.
+      #
+      def before_render
+        setup_component # Set tag, base CSS
+        setup_checkbox  # Setup the hidden checkbox part
+        setup_on_off    # Setup the on/off part CSS
+        super           # Run TippableComponent hook
+      end
+
+      private
+
+      #
+      # Sets up the main component structure. The component is rendered as a label
+      # element to allow clicking anywhere on it to toggle the checkbox.
+      #
+      def setup_component
+        set_tag_name(:component, :label)
+        add_css(:component, "swap")
+      end
+
+      #
+      # Sets up the checkbox input element that handles the toggle state.
+      #
+      def setup_checkbox
+        set_tag_name(:checkbox, :input)
+        add_html(:checkbox, { type: "checkbox", checked: @checked })
+      end
+
+      #
+      # Sets up the CSS classes for the "on" and "off" states.
+      #
+      def setup_on_off
+        add_css(:on, "swap-on")
+        add_css(:off, "swap-off")
+      end
     end
-  end
-
-  class SwapOff < LocoMotion::BasicComponent
-    def before_render
-      add_css(:component, "swap-off")
-    end
-  end
-
-  class SwapIndeterminate < LocoMotion::BasicComponent
-    def before_render
-      add_css(:component, "swap-indeterminate")
-    end
-  end
-
-  define_parts :checkbox, :on, :off
-
-  renders_one :on, SwapOn
-  renders_one :off, SwapOff
-  renders_one :indeterminate, SwapIndeterminate
-
-  # @return [String] The value of the `on` option. Usually text or emoji.
-  attr_reader :simple_on
-
-  # @return [String] The value of the `off` option. Usually text or emoji.
-  attr_reader :simple_off
-
-  #
-  # Creates a new instance of the SwapComponent.
-  #
-  # @param on [String] Simple text/emoji to display in the "on" state. If provided
-  #   along with `off`, enables simple text swap mode.
-  #
-  # @param off [String] Simple text/emoji to display in the "off" state. If provided
-  #   along with `on`, enables simple text swap mode.
-  #
-  # @param checked [Boolean] Whether the swap should start in the checked ("on")
-  #   state. Defaults to false.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws on [String] Simple text/emoji for the "on" state. Alternative to
-  #   providing it as the first argument.
-  #
-  # @option kws off [String] Simple text/emoji for the "off" state. Alternative to
-  #   providing it as the second argument.
-  #
-  # @option kws checked [Boolean] Whether the swap should start checked. Alternative
-  #   to providing it as the third argument.
-  #
-  # @option kws indeterminate [Boolean] If true, starts the swap in an indeterminate
-  #   state. Requires the indeterminate slot to be meaningful.
-  #
-  # @option kws tip [String] The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(on = nil, off = nil, checked = nil, **kws, &block)
-    super
-
-    @checked = config_option(:checked, checked || false)
-    @simple_on = config_option(:on, on)
-    @simple_off = config_option(:off, off)
-  end
-
-  #
-  # Sets up the component with various CSS classes and HTML attributes.
-  #
-  def before_render
-    setup_component # Set tag, base CSS
-    setup_checkbox  # Setup the hidden checkbox part
-    setup_on_off    # Setup the on/off part CSS
-    super           # Run TippableComponent hook
-  end
-
-  private
-
-  #
-  # Sets up the main component structure. The component is rendered as a label
-  # element to allow clicking anywhere on it to toggle the checkbox.
-  #
-  def setup_component
-    set_tag_name(:component, :label)
-    add_css(:component, "swap")
-  end
-
-  #
-  # Sets up the checkbox input element that handles the toggle state.
-  #
-  def setup_checkbox
-    set_tag_name(:checkbox, :input)
-    add_html(:checkbox, { type: "checkbox", checked: @checked })
-  end
-
-  #
-  # Sets up the CSS classes for the "on" and "off" states.
-  #
-  def setup_on_off
-    add_css(:on, "swap-on")
-    add_css(:off, "swap-off")
   end
 end

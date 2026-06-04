@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::CarouselComponent, type: :component do
@@ -101,7 +103,7 @@ RSpec.describe Daisy::DataDisplay::CarouselComponent, type: :component do
         c.with_item(css: "relative") do |item|
           item.tag.div(class: "image-container") do
             item.tag.img(src: "test.jpg", alt: "Test Image", class: "rounded-lg h-96") +
-            item.tag.div("Caption", class: "caption")
+              item.tag.div("Caption", class: "caption")
           end
         end
       end

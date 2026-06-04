@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The StackComponent creates a 3D stacking effect by layering elements on top
 # of each other. Common use cases include:
@@ -36,33 +38,34 @@
 #     %img{ src: "image2.jpg" }
 #     %img{ src: "image3.jpg" }
 #
-class Daisy::Layout::StackComponent < LocoMotion::BaseComponent
-  #
-  # Creates a new Stack component.
-  #
-  # @param kws [Hash] Keyword arguments for customizing the stack.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Size: `w-96`, `h-64`
-  #   - Spacing: `gap-2`, `space-y-4`
-  #   - Position: `relative`, `absolute`
-  #
-  def initialize(**kws)
-    super
-  end
+module Daisy
+  module Layout
+    class StackComponent < LocoMotion::BaseComponent
+      #
+      # Creates a new Stack component.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the stack.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Size: `w-96`, `h-64`
+      #   - Spacing: `gap-2`, `space-y-4`
+      #   - Position: `relative`, `absolute`
+      #
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:component, "stack")
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:component, "stack")
+      end
 
-  #
-  # Renders the component and its stacked content.
-  #
-  def call
-    part(:component) { content }
+      #
+      # Renders the component and its stacked content.
+      #
+      def call
+        part(:component) { content }
+      end
+    end
   end
 end

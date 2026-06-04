@@ -74,6 +74,12 @@ LocoMotion is split into three main directories:
 The `examples` directory gives developers a starting point for building their
 own applications, and is not used directly by LocoMotion.
 
+> [!IMPORTANT]
+> **Example views belong in the demo app.** All component example views should
+> live under `docs/demo/app/views/examples/`, not in the gem itself. The demo
+> app is what renders the live examples and feeds the search/LLM documentation
+> pipeline.
+
 ## Getting Started
 
 The best way to contribute is to create a new Pull Request on our GitHub
@@ -134,6 +140,12 @@ features of LocoMotion.
    ```
 
 ## Documentation
+
+> [!NOTE]
+> The full, canonical documentation conventions live in
+> [`CLAUDE.md`](../../CLAUDE.md) (see the "YARD Documentation" section). The
+> summary below is for quick reference; if it ever conflicts with `CLAUDE.md`,
+> `CLAUDE.md` wins.
 
 All new features should include appropriate documentation:
 

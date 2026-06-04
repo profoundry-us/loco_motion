@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
   let(:component) { described_class.new }
   let(:test_theme) { "light" }
-  
+
   describe "initialization" do
     it "sets up default themes" do
       expect(component.themes).to eq(described_class::SOME_THEMES)
     end
-    
+
     it "allows custom themes" do
-      custom_themes = ["custom1", "custom2"]
+      custom_themes = %w[custom1 custom2]
       custom_component = described_class.new(themes: custom_themes)
       expect(custom_component.themes).to eq(custom_themes)
     end
@@ -29,7 +31,7 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
       content = "Test Content"
       allow(component).to receive(:part).with(:component).and_yield
       allow(component).to receive(:content).and_return(content)
-      
+
       expect(component.call).to eq(content)
     end
   end
@@ -42,38 +44,38 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
       module TestHelpers
         def mock_render(component_class, **args)
           # Return a simple object that can be inspected
-          {component: component_class, args: args}
+          { component: component_class, args: args }
         end
       end
-      
+
       Daisy::Actions::ThemeControllerComponent.prepend(Module.new do
         include TestHelpers
-        
+
         def build_radio_input(theme, **options)
-          options[:css] = (options[:css] || "").concat(" theme-controller")
+          options[:css] = "#{options[:css] || ''} theme-controller"
           name = options[:name] || "theme"
           default_options = { name: name, id: "#{name}-#{theme}", value: theme }
 
           mock_render(Daisy::DataInput::RadioButtonComponent, **default_options.deep_merge(options))
         end
-        
+
         def build_theme_preview(theme, **options)
           mock_render(Daisy::Actions::ThemePreviewComponent, theme: theme, **options)
         end
       end)
     end
-    
+
     describe "#build_radio_input" do
       it "correctly configures the radio input" do
         result = component.build_radio_input(test_theme)
-        
+
         expect(result[:component]).to eq(Daisy::DataInput::RadioButtonComponent)
         expect(result[:args][:name]).to eq("theme")
         expect(result[:args][:id]).to eq("theme-#{test_theme}")
         expect(result[:args][:value]).to eq(test_theme)
         expect(result[:args][:css]).to include("theme-controller")
       end
-      
+
       it "allows overriding options" do
         result = component.build_radio_input(test_theme, css: "custom-class", checked: true)
 
@@ -89,32 +91,32 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
         expect(result[:args][:id]).to eq("docs-radio-theme-#{test_theme}")
       end
     end
-    
+
     describe "#build_theme_preview" do
       it "correctly configures the theme preview" do
         result = component.build_theme_preview(test_theme)
-        
+
         expect(result[:component]).to eq(Daisy::Actions::ThemePreviewComponent)
         expect(result[:args][:theme]).to eq(test_theme)
       end
-      
+
       it "allows overriding options" do
         custom_options = { size: 8, shadow: false }
         result = component.build_theme_preview(test_theme, **custom_options)
-        
+
         expect(result[:args][:theme]).to eq(test_theme)
         expect(result[:args][:size]).to eq(8)
         expect(result[:args][:shadow]).to be false
       end
     end
   end
-  
+
   describe "rendering" do
     it "can be rendered with a simple block" do
       render_inline(component) { "Simple test content" }
       expect(page).to have_content("Simple test content")
     end
-    
+
     it "gets stimulus controller attributes" do
       render_inline(component)
       expect(page).to have_css("[data-controller='loco-theme']")

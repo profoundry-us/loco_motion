@@ -13,8 +13,7 @@ module Algolia
   class ComponentMetadataExtractor
     # Initialize the metadata extractor
     #
-    def initialize
-    end
+    def initialize; end
 
     # Extract comprehensive metadata for a component
     #
@@ -50,7 +49,7 @@ module Algolia
         ui_library: "DaisyUI v5",
         total_components: component_count,
         component_categories: categories,
-        helper_prefixes: ["daisy_", "hero_"],
+        helper_prefixes: %w[daisy_ hero_],
         file_conventions: {
           components: "app/components/",
           examples: "app/views/examples/",
@@ -111,7 +110,7 @@ module Algolia
       end
 
       "initialize(#{param_list.join(', ')})"
-    rescue => e
+    rescue StandardError => e
       Rails.logger.debug "Error analyzing initialize method: #{e.message}"
       "initialize()"
     end
@@ -148,7 +147,7 @@ module Algolia
       end
 
       common_params
-    rescue => e
+    rescue StandardError => e
       Rails.logger.debug "Error extracting parameters: #{e.message}"
       []
     end
@@ -168,9 +167,7 @@ module Algolia
 
       # Find components in the same section
       LocoMotion::COMPONENTS.each do |name, meta|
-        if meta[:group] == section && name != component_name
-          related << name
-        end
+        related << name if meta[:group] == section && name != component_name
       end
 
       # Add commonly used together components based on patterns
@@ -279,9 +276,9 @@ module Algolia
     #
     def extract_included_modules(component_class)
       component_class.included_modules
-        .select { |mod| mod.name&.start_with?("LocoMotion") }
-        .map(&:name)
-    rescue
+                     .select { |mod| mod.name&.start_with?("LocoMotion") }
+                     .map(&:name)
+    rescue StandardError
       []
     end
 
@@ -296,7 +293,7 @@ module Algolia
 
       # This is a simplified approach - in practice, helper detection is more complex
       component_class.public_instance_methods(false).map(&:to_s)
-    rescue
+    rescue StandardError
       []
     end
 

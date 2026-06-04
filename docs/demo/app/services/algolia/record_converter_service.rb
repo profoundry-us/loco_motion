@@ -14,8 +14,7 @@ module Algolia
   class RecordConverterService
     # Initialize the converter service
     #
-    def initialize
-    end
+    def initialize; end
 
     # Convert parsed HAML data to searchable records
     #
@@ -40,7 +39,7 @@ module Algolia
       # Create a record for the component itself
       if data[:title].present?
         component_record = {
-          type: 'component',
+          type: "component",
           objectID: base_name,
           framework: framework,
           section: section,
@@ -58,11 +57,11 @@ module Algolia
       # Create records for each example
       if data[:examples].present?
         data[:examples].each_with_index do |example, idx|
-          next unless example[:title].present?
+          next if example[:title].blank?
 
           # Create a separate record for this example
           example_record = {
-            type: 'example',
+            type: "example",
             objectID: "#{base_name}-#{example[:anchor]}",
             framework: framework,
             section: section,

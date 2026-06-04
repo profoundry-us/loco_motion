@@ -36,12 +36,12 @@ class DocFigureComponent < ApplicationComponent
   def call
     part(:component) do
       safe_join([
-        part(:figure_wrapper) do
-          daisy_figure(src: @src, alt: @alt, href: @href, target: @target)
-        end,
+                  part(:figure_wrapper) do
+                    daisy_figure(src: @src, alt: @alt, href: @href, target: @target)
+                  end,
 
-        part(:caption) { @alt }
-      ])
+                  part(:caption) { @alt }
+                ])
     end
   end
 end

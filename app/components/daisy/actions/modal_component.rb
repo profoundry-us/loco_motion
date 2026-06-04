@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Modal component renders a modal dialog that can be opened and closed. It
 # provides a structured way to display content that requires user attention or
@@ -67,117 +69,122 @@
 #       %form{ method: :dialog }
 #         = daisy_button { "Close" }
 #
-class Daisy::Actions::ModalComponent < LocoMotion::BaseComponent
-  set_component_name :modal
+module Daisy
+  module Actions
+    class ModalComponent < LocoMotion::BaseComponent
+      set_component_name :modal
 
-  define_parts :box, :actions, :close_icon_wrapper, :close_icon,
-    :backdrop, :title, :start_actions, :end_actions
+      define_parts :box, :actions, :close_icon_wrapper, :close_icon,
+                   :backdrop, :title, :start_actions, :end_actions
 
-  renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
-  renders_one :button, Daisy::Actions::ButtonComponent
-  renders_one :close_icon
-  renders_one :title
-  renders_one :start_actions
-  renders_one :end_actions
+      renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
+      renders_one :button, Daisy::Actions::ButtonComponent
+      renders_one :close_icon
+      renders_one :title
+      renders_one :start_actions
+      renders_one :end_actions
 
-  # @return [Boolean] Whether or not this dialog can be closed.
-  attr_reader :closable
-  alias :closable? :closable
+      # @return [Boolean] Whether or not this dialog can be closed.
+      attr_reader :closable
+      alias closable? closable
 
-  # @return [String] The unique ID for the `<dialog>` element.
-  attr_reader :dialog_id
+      # @return [String] The unique ID for the `<dialog>` element.
+      attr_reader :dialog_id
 
-  # @return [String] Accessor for the `title` string passed via the component
-  #   config.
-  attr_reader :simple_title
+      # @return [String] Accessor for the `title` string passed via the component
+      #   config.
+      attr_reader :simple_title
 
-  #
-  # Creates a new instance of the ModalComponent.
-  #
-  # @param title [String] The title of the modal. Used in both the modal header
-  #   and the default trigger button.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws title [String] The title of the modal. You can also pass this as
-  #   the first argument.
-  #
-  # @option kws closable [Boolean] If true (default), shows a close icon in the
-  #   top-right corner.
-  #
-  # @option kws dialog_id [String] A custom ID for the dialog element. If not
-  #   provided, a unique ID will be generated.
-  #
-  def initialize(title = nil, **kws, &block)
-    super
+      #
+      # Creates a new instance of the ModalComponent.
+      #
+      # @param title [String] The title of the modal. Used in both the modal header
+      #   and the default trigger button.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws title [String] The title of the modal. You can also pass this as
+      #   the first argument.
+      #
+      # @option kws closable [Boolean] If true (default), shows a close icon in the
+      #   top-right corner.
+      #
+      # @option kws dialog_id [String] A custom ID for the dialog element. If not
+      #   provided, a unique ID will be generated.
+      #
+      def initialize(title = nil, **kws, &block)
+        super
 
-    @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
-    @closable = config_option(:closable, true)
-    @simple_title = config_option(:title, title)
-  end
+        @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
+        @closable = config_option(:closable, true)
+        @simple_title = config_option(:title, title)
+      end
 
-  #
-  # Sets up the component with various CSS classes and HTML attributes.
-  #
-  def before_render
-    setup_activator_or_button
-    setup_component
-    setup_backdrop
-    setup_box
-    setup_close_icon
-    setup_title
-    setup_actions
-  end
+      #
+      # Sets up the component with various CSS classes and HTML attributes.
+      #
+      def before_render
+        setup_activator_or_button
+        setup_component
+        setup_backdrop
+        setup_box
+        setup_close_icon
+        setup_title
+        setup_actions
+      end
 
-  private
+      private
 
-  def setup_activator_or_button
-    onclick = "document.getElementById('#{dialog_id}').showModal()"
+      def setup_activator_or_button
+        onclick = "document.getElementById('#{dialog_id}').showModal()"
 
-    element = if activator?
-      activator
-    else
-      button || default_button
+        element = if activator?
+                    activator
+                  else
+                    button || default_button
+                  end
+
+        element.add_html(:component, { onclick: onclick })
+      end
+
+      def setup_component
+        set_tag_name(:component, :dialog)
+        add_html(:component, id: dialog_id)
+        add_css(:component, "modal")
+      end
+
+      def setup_backdrop
+        set_tag_name(:backdrop, :form)
+        add_html(:backdrop, { method: "dialog" })
+        add_css(:backdrop, "modal-backdrop")
+      end
+
+      def setup_box
+        add_css(:box, "modal-box relative")
+      end
+
+      def setup_close_icon
+        set_tag_name(:close_icon_wrapper, :form)
+        add_html(:close_icon_wrapper, { method: "dialog" })
+
+        set_tag_name(:close_icon, :button)
+        add_css(:close_icon,
+                "where:absolute where:top-2 where:right-2 where:p-1 where:btn where:btn-circle where:btn-ghost where:btn-xs")
+      end
+
+      def setup_title
+        set_tag_name(:title, "h4")
+        add_css(:title, "where:mb-2 where:text-xl where:font-bold")
+      end
+
+      def setup_actions
+        add_css(:actions, "where:mt-2 where:flex where:flex-row where:items-center where:justify-between")
+      end
+
+      # Provide a default button if no button is supplied.
+      def default_button
+        with_button(simple_title)
+      end
     end
-
-    element.add_html(:component, { onclick: onclick })
-  end
-
-  def setup_component
-    set_tag_name(:component, :dialog)
-    add_html(:component, id: dialog_id)
-    add_css(:component, "modal")
-  end
-
-  def setup_backdrop
-    set_tag_name(:backdrop, :form)
-    add_html(:backdrop, { method: "dialog" })
-    add_css(:backdrop, "modal-backdrop")
-  end
-
-  def setup_box
-    add_css(:box, "modal-box relative")
-  end
-
-  def setup_close_icon
-    set_tag_name(:close_icon_wrapper, :form)
-    add_html(:close_icon_wrapper, { method: "dialog" })
-
-    set_tag_name(:close_icon, :button)
-    add_css(:close_icon, "where:absolute where:top-2 where:right-2 where:p-1 where:btn where:btn-circle where:btn-ghost where:btn-xs")
-  end
-
-  def setup_title
-    set_tag_name(:title, 'h4')
-    add_css(:title, "where:mb-2 where:text-xl where:font-bold")
-  end
-
-  def setup_actions
-    add_css(:actions, "where:mt-2 where:flex where:flex-row where:items-center where:justify-between")
-  end
-
-  # Provide a default button if no button is supplied.
-  def default_button
-    with_button(simple_title)
   end
 end

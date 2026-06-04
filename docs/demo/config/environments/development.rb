@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -7,8 +9,8 @@ Rails.application.configure do
   config.enable_reloading = true
 
   # Reload the LocoMotion gem that we are building when changes are made
-  config.autoload_paths += %W(/home/loco_motion/app/**/*)
-  config.autoload_paths += %W(/home/loco_motion/lib/**/*)
+  config.autoload_paths += %w[/home/loco_motion/app/**/*]
+  config.autoload_paths += %w[/home/loco_motion/lib/**/*]
 
   # Do not eager load code on boot.
   config.eager_load = false

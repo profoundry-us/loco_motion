@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Navigation::DockComponent, type: :component do
@@ -99,7 +101,7 @@ RSpec.describe Daisy::Navigation::DockComponent, type: :component do
       end
 
       it "applies custom hex colors" do
-        expect(page).to have_selector(".text-\\[\\#449944\\]")
+        expect(page).to have_selector('.text-\\[\\#449944\\]')
       end
     end
   end

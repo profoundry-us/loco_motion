@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Text Rotate component displays up to 6 lines of text, one at a time,
 # with an infinite loop CSS animation. The duration is 10 seconds by default
@@ -42,89 +44,93 @@
 #     %span.text-rotate-item.text-primary CUSTOM
 #     %span.text-rotate-item.text-secondary CONTENT
 #
-class Daisy::DataDisplay::TextRotateComponent < LocoMotion::BaseComponent
-  include LocoMotion::Concerns::TippableComponent
+module Daisy
+  module DataDisplay
+    class TextRotateComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::TippableComponent
 
-  set_component_name :text_rotate
+      set_component_name :text_rotate
 
-  define_part :wrapper, tag_name: :span
+      define_part :wrapper, tag_name: :span
 
-  #
-  # Renders an individual text item within the rotation. Supports optional
-  # links (via {LocoMotion::Concerns::LinkableComponent}) and icons (via
-  # {LocoMotion::Concerns::IconableComponent}).
-  #
-  class ItemComponent < LocoMotion::BasicComponent
-    include LocoMotion::Concerns::LinkableComponent
-    include LocoMotion::Concerns::IconableComponent
+      #
+      # Renders an individual text item within the rotation. Supports optional
+      # links (via {LocoMotion::Concerns::LinkableComponent}) and icons (via
+      # {LocoMotion::Concerns::IconableComponent}).
+      #
+      class ItemComponent < LocoMotion::BasicComponent
+        include LocoMotion::Concerns::LinkableComponent
+        include LocoMotion::Concerns::IconableComponent
 
-    #
-    # Runs item-specific setup before rendering. Runs before `super` so that
-    # LinkableComponent can override the tag name to `<a>` when an href is set.
-    #
-    def before_render
-      setup_component
+        #
+        # Runs item-specific setup before rendering. Runs before `super` so that
+        # LinkableComponent can override the tag name to `<a>` when an href is set.
+        #
+        def before_render
+          setup_component
 
-      super
-    end
+          super
+        end
 
-    #
-    # Renders the item, including optional left/right icons around the content.
-    #
-    def call
-      part(:component) do
-        concat(render_left_icon)
-        concat(content)
-        concat(render_right_icon)
+        #
+        # Renders the item, including optional left/right icons around the content.
+        #
+        def call
+          part(:component) do
+            concat(render_left_icon)
+            concat(content)
+            concat(render_right_icon)
+          end
+        end
+
+        private
+
+        def setup_component
+          set_tag_name(:component, :span)
+          add_css(:component, "text-rotate-item")
+        end
       end
-    end
 
-    private
+      renders_many :items, ItemComponent
 
-    def setup_component
-      set_tag_name(:component, :span)
-      add_css(:component, "text-rotate-item")
-    end
-  end
+      attr_reader :texts
 
-  renders_many :items, ItemComponent
+      #
+      # Creates a new Text Rotate component.
+      #
+      # @param texts [Array<String>] An optional array of strings for simple usage.
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [String] :wrapper_css CSS classes to apply to the wrapper part
+      #   that surrounds all of the rotated items.
+      # @option kws [String] :tip The tooltip text to display when hovering over
+      #   the component.
+      #
+      def initialize(texts: nil, **kws, &block)
+        super(**kws, &block)
 
-  attr_reader :texts
+        @texts = texts
+      end
 
-  #
-  # Creates a new Text Rotate component.
-  #
-  # @param texts [Array<String>] An optional array of strings for simple usage.
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws [String] :wrapper_css CSS classes to apply to the wrapper part
-  #   that surrounds all of the rotated items.
-  # @option kws [String] :tip The tooltip text to display when hovering over
-  #   the component.
-  #
-  def initialize(texts: nil, **kws, &block)
-    super(**kws, &block)
+      def before_render
+        super
 
-    @texts = texts
-  end
+        setup_component
+        setup_texts if texts
+      end
 
-  def before_render
-    super
+      private
 
-    setup_component
-    setup_texts if texts
-  end
+      def setup_component
+        set_tag_name(:component, :span)
+        add_css(:component, "text-rotate")
+      end
 
-  private
-
-  def setup_component
-    set_tag_name(:component, :span)
-    add_css(:component, "text-rotate")
-  end
-
-  def setup_texts
-    texts.each do |text|
-      with_item { text }
+      def setup_texts
+        texts.each do |text|
+          with_item { text }
+        end
+      end
     end
   end
 end

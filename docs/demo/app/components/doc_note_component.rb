@@ -1,5 +1,6 @@
-class DocNoteComponent < ApplicationComponent
+# frozen_string_literal: true
 
+class DocNoteComponent < ApplicationComponent
   define_modifiers :note, :tip, :todo, :warning, :error
 
   define_parts :icon, :content_wrapper

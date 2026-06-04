@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::DataDisplay::DiffComponent, type: :component do
@@ -54,7 +56,7 @@ RSpec.describe Daisy::DataDisplay::DiffComponent, type: :component do
 
     describe "rendering" do
       it "includes custom container classes" do
-        expect(page).to have_selector(".diff.aspect-video.max-w-\\[800px\\].max-h-\\[450px\\]")
+        expect(page).to have_selector('.diff.aspect-video.max-w-\\[800px\\].max-h-\\[450px\\]')
       end
 
       it "renders items with different text sizes" do

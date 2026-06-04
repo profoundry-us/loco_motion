@@ -3,6 +3,7 @@
 module Daisy
   module FormBuilderHelper
     # Extends ActionView::Helpers::FormBuilder with Daisy UI component methods
+    # rubocop:disable Metrics/PerceivedComplexity
     def self.included(base)
       base.class_eval do
         # Add the daisy_checkbox method to FormBuilder
@@ -17,9 +18,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name)
-          end
+          options[:checked] = @object.send(name) if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the checkbox component
           @template.daisy_checkbox(**options)
@@ -37,9 +36,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name)
-          end
+          options[:checked] = @object.send(name) if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the toggle component
           @template.daisy_toggle(**options)
@@ -58,9 +55,7 @@ module Daisy
           options[:name] = "#{object_name}[#{name}]"
 
           # Pass the form builder's object to the component if it exists
-          if @object && @object.respond_to?(name) && !options.key?(:checked)
-            options[:checked] = @object.send(name).to_s == value
-          end
+          options[:checked] = @object.send(name).to_s == value if @object.respond_to?(name) && !options.key?(:checked)
 
           # Render the radio button component
           @template.daisy_radio(**options)
@@ -112,8 +107,9 @@ module Daisy
         end
 
         # Add the daisy_select method to FormBuilder
+        # rubocop:disable Metrics/ParameterLists
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
-                           options_css: nil, options_html: {}, **args, &block)
+                         options_css: nil, options_html: {}, **args, &block)
           # Extract the name from the form builder's object_name and method
           name = "#{object_name}[#{method}]"
 
@@ -136,6 +132,7 @@ module Daisy
             &block
           )
         end
+        # rubocop:enable Metrics/ParameterLists
 
         # Add the daisy_filter method to FormBuilder
         def daisy_filter(method, options: nil, **args, &block)
@@ -179,6 +176,7 @@ module Daisy
         end
       end
     end
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end
 

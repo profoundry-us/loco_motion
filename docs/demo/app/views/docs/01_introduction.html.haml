@@ -144,6 +144,23 @@
               end
             end
 
+    %h3.mt-32.text-4xl.font-bold
+      Guides &amp; Paradigms
+
+    %p.mt-2.text-xl
+      Beyond the components, we share the broader philosophies and tooling we
+      recommend for building Rails applications the <em>Loco</em><strong>Motion</strong> way.
+
+    - # The routing key can now be either the full filename (with numeric prefix) or
+    - # just the name without numbers. The guides/docs controllers will resolve both.
+    - # See the DocFooterButtonsComponent which navigates via item[:filename] too.
+    - guides = [["🚀 Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳 Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝 HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛 Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️ Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒 Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️ Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
+
+    .mt-8.grid.gap-4.sm:grid-cols-2.lg:grid-cols-3
+      - guides.each do |title, filename, description|
+        = daisy_card(title: title, css: "bg-base-200 hover:bg-base-300 transition-colors", href: guide_path(filename), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }) do
+          %p{ class: "text-base-content/70" }= description
+
     - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
     %h3.mt-24.text-center.text-4xl.font-bold.italic
       More Coming Soon!

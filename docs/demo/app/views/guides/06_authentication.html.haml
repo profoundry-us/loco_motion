@@ -1,0 +1,127 @@
+= content_for(:page_title) do
+  Authentication
+
+.max-w-prose
+  = doc_info(url: "https://github.com/omniauth/omniauth", icon: "lock-closed", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** recommends starting with **OmniAuth** for authentication
+      — its `:developer` strategy gets you signing in fast.
+
+.prose
+  :markdown
+    # Authentication
+
+    This guide covers adding user authentication with **OmniAuth** and its
+    `:developer` strategy. It assumes you have already followed the
+    [Getting Started guide](#{guide_path("getting_started")}) and have a
+    running Dockerized Rails app.
+
+.mt-12.prose
+  :markdown
+    ## 1. Authentication with OmniAuth
+
+    There are a **lot** of ways to handle authentication in Rails. The two
+    most popular gems are
+    <a href="https://github.com/omniauth/omniauth" target="_blank">OmniAuth</a> and
+    <a href="https://github.com/heartcombo/devise" target="_blank">Devise</a>.
+
+    We recommend starting with OmniAuth because its `:developer` strategy lets
+    you get going very quickly, and you can
+    <a href="https://github.com/heartcombo/devise#omniauth" target="_blank">integrate it with Devise</a>
+    or a service like <a href="https://auth0.com" target="_blank">Auth0</a> or
+    <a href="https://frontegg.com" target="_blank">Frontegg</a> later if you choose.
+
+    Add the relevant gems to your `Gemfile` and re-run `bundle install`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "omniauth"
+      gem "omniauth-rails_csrf_protection"
+
+= doc_note(modifier: :tip, title: "Restarting Quickly", css: "mt-6") do
+  :markdown
+    After installing, you will need to restart your Rails server. You can use
+    `just app-restart` for a quick restart, or touch a file to restart just the
+    web process:
+    <br /><br />
+    ```
+    touch tmp/restart.txt
+    ```
+
+.mt-6.prose
+  :markdown
+    Next, create an OmniAuth initializer:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/omniauth.rb
+      Rails.application.config.middleware.use OmniAuth::Builder do
+        provider :developer if Rails.env.development?
+      end
+
+.mt-6.prose
+  :markdown
+    Add the routes for the login page and the provider callback:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/routes.rb
+      get "/auth/:provider/callback", to: "sessions#create"
+      get "/login", to: "sessions#new"
+
+.mt-6.prose
+  :markdown
+    Then add a sessions controller and a simple login view:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/controllers/sessions_controller.rb
+      class SessionsController < ApplicationController
+        def new
+          render :new
+        end
+
+        def create
+          user_info = request.env["omniauth.auth"]
+          raise user_info # Your own session management should be placed here.
+
+          session[:user_info] = user_info.to_hash
+
+          redirect_to root_path
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# app/views/sessions/new.html.haml
+      - if Rails.env.development?
+        = form_tag("/auth/developer", method: "post", data: { turbo: false }) do
+          %button.btn{ type: "submit" }
+            Login with Developer
+
+.mt-6.prose
+  :markdown
+    Visit [http://localhost:3000/login](http://localhost:3000/login), click
+    the button, and enter any name and email. Because of the `raise user_info`
+    line, the app will throw an error and show you exactly where it stopped.
+
+    When you are ready for sign-in to actually work, delete or comment out the
+    `raise user_info` line and integrate `session[:user_info]` into your app.
+
+= doc_note(modifier: :tip, title: "Inspecting the Error", css: "mt-6") do
+  :markdown
+    That deliberate `raise user_info` is a great chance to inspect the
+    signed-in user in your browser. See the
+    [Error Handling guide](#{guide_path("07_error_handling")}) for setting up
+    **Web Console** and **BetterErrors**, which let you read the stack trace
+    and poke at live state right on the error page.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

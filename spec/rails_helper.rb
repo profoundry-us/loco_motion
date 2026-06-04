@@ -1,10 +1,12 @@
-require 'spec_helper'
-require 'bundler'
+# frozen_string_literal: true
+
+require "spec_helper"
+require "bundler"
 require "view_component/test_helpers"
 require "view_component/system_test_helpers"
 # require "capybara/rspec"
 
-require 'loco_motion'
+require "loco_motion"
 
 Bundler.require :default, :development
 
@@ -13,7 +15,7 @@ Bundler.require :default, :development
 # Or, load just what you need:
 Combustion.initialize! :action_controller, :action_view
 
-require 'rspec/rails'
+require "rspec/rails"
 # If you're using Capybara:
 # require 'capybara/rails'
 

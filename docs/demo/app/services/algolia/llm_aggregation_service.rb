@@ -43,9 +43,7 @@ module Algolia
     #
     # @return [Hash] Library metadata
     #
-    def extract_library_metadata
-      @metadata_extractor.extract_library_metadata
-    end
+    delegate :extract_library_metadata, to: :@metadata_extractor
 
     # Aggregate a single component
     #
@@ -60,7 +58,7 @@ module Algolia
       metadata = LocoMotion::COMPONENTS[component_name]
       return nil unless metadata
 
-      split = component_name.split('::')
+      split = component_name.split("::")
       framework = split[0]
       section = split.length == 3 ? split[1] : ""
       base_name = split.last
@@ -69,7 +67,8 @@ module Algolia
       framework_path = framework.underscore
       group_path = section.present? ? "#{section.underscore}/" : ""
       example_name = metadata[:example]
-      file_path = Rails.root.join('app', 'views', 'examples', framework_path, group_path, "#{example_name}.html.haml").to_s
+      file_path = Rails.root.join("app", "views", "examples", framework_path, group_path,
+                                  "#{example_name}.html.haml").to_s
 
       # Check if file exists
       unless File.exist?(file_path)
@@ -87,7 +86,7 @@ module Algolia
 
       # Build GitHub URL for the component file
       # e.g. https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/button_component.rb
-      github_path = component_name.underscore + ".rb"
+      github_path = "#{component_name.underscore}.rb"
       github_url = "https://github.com/profoundry-us/loco_motion/blob/main/app/components/#{github_path}"
 
       # Extract enhanced metadata

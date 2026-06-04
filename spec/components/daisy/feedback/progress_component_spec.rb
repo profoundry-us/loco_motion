@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Feedback::ProgressComponent, type: :component do
@@ -109,7 +111,7 @@ RSpec.describe Daisy::Feedback::ProgressComponent, type: :component do
 
     describe "rendering" do
       it "includes the animation delay class" do
-        expect(page).to have_selector(".progress.\\!\\[animation-delay\\:250ms\\]")
+        expect(page).to have_selector('.progress.\\!\\[animation-delay\\:250ms\\]')
       end
 
       it "maintains default classes" do

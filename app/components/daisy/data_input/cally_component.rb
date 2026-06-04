@@ -136,20 +136,18 @@ module Daisy
         add_html(:component, { months: @month_count }) if @month_count
 
         add_html(:component, {
-          id: @id,
-          value: @value,
-          min: @min,
-          max: @max,
-          today: @today
-        })
+                   id: @id,
+                   value: @value,
+                   min: @min,
+                   max: @max,
+                   today: @today
+                 })
 
-        if @change
-          add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" })
-        end
+        add_html(:component, { onchange: "document.getElementById('#{@change}').value = this.value" }) if @change
 
-        if @update
-          add_html(:component, { onchange: "document.getElementById('#{@update}').innerHTML = this.value" })
-        end
+        return unless @update
+
+        add_html(:component, { onchange: "document.getElementById('#{@update}').innerHTML = this.value" })
       end
 
       # Generates options for a month component at the given index.
@@ -159,7 +157,7 @@ module Daisy
       def month_options(index)
         options = {}
 
-        options[:offset] = index if index > 0
+        options[:offset] = index if index.positive?
 
         options
       end

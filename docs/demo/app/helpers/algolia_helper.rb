@@ -5,7 +5,7 @@ module AlgoliaHelper
   # Generate JavaScript tag that injects Algolia credentials as window variables
   def algolia_credentials_tag
     # Use raw JavaScript content instead of javascript_tag helper
-    env = ENV['ALGOLIA_ENV'] || Rails.env
+    env = ENV["ALGOLIA_ENV"] || Rails.env
     content = <<-JS
       <script type="text/javascript">
         window.algoliaCredentials = {
@@ -16,6 +16,6 @@ module AlgoliaHelper
       </script>
     JS
 
-    content.html_safe
+    raw(content)
   end
 end

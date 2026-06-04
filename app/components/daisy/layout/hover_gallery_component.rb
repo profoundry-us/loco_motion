@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The HoverGalleryComponent displays a container of images where the first
 # image is visible by default and hovering horizontally reveals the others.
@@ -32,51 +34,55 @@
 #     - card.with_title { "Gallery Card" }
 #     %p A card with a hover gallery as the figure.
 #
-class Daisy::Layout::HoverGalleryComponent < LocoMotion::BaseComponent
-  # Renders a single image inside the hover gallery.
-  class ImageComponent < LocoMotion::BasicComponent
-    def initialize(src: nil, alt: nil, **kws)
-      super(**kws)
-      @src = src
-      @alt = alt
+module Daisy
+  module Layout
+    class HoverGalleryComponent < LocoMotion::BaseComponent
+      # Renders a single image inside the hover gallery.
+      class ImageComponent < LocoMotion::BasicComponent
+        def initialize(src: nil, alt: nil, **kws)
+          super(**kws)
+          @src = src
+          @alt = alt
+        end
+
+        def before_render
+          set_tag_name(:component, :img)
+          add_html(:component, { src: @src, alt: @alt }.compact)
+          super
+        end
+      end
+
+      renders_many :images, ImageComponent
+
+      #
+      # Creates a new HoverGalleryComponent.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws srcs [Array<String>] An optional array of image source URLs
+      #   for simple usage without blocks. Each URL is rendered as an `<img>`
+      #   inside the gallery. The block-based slot API takes precedence when
+      #   images are added via `with_image`.
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include sizing utilities such as `max-w-60` or `w-full`.
+      #
+      def initialize(srcs: nil, **kws)
+        super(**kws)
+        @srcs = srcs
+      end
+
+      def before_render
+        setup_component
+        super
+      end
+
+      private
+
+      def setup_component
+        set_tag_name(:component, :figure)
+        add_css(:component, "hover-gallery")
+      end
     end
-
-    def before_render
-      set_tag_name(:component, :img)
-      add_html(:component, { src: @src, alt: @alt }.compact)
-      super
-    end
-  end
-
-  renders_many :images, ImageComponent
-
-  #
-  # Creates a new HoverGalleryComponent.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws srcs [Array<String>] An optional array of image source URLs
-  #   for simple usage without blocks. Each URL is rendered as an `<img>`
-  #   inside the gallery. The block-based slot API takes precedence when
-  #   images are added via `with_image`.
-  #
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include sizing utilities such as `max-w-60` or `w-full`.
-  #
-  def initialize(srcs: nil, **kws)
-    super(**kws)
-    @srcs = srcs
-  end
-
-  def before_render
-    setup_component
-    super
-  end
-
-  private
-
-  def setup_component
-    set_tag_name(:component, :figure)
-    add_css(:component, "hover-gallery")
   end
 end

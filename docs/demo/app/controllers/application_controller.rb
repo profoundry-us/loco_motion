@@ -1,5 +1,6 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
+class ApplicationController < ActionController::Base
   before_action :setup_nav_sections
 
   def home
@@ -9,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def setup_nav_sections
-    daisy_components = LocoMotion::COMPONENTS.select { |comp,config| comp.include? "Daisy" }
+    daisy_components = LocoMotion::COMPONENTS.select { |comp, _config| comp.include? "Daisy" }
 
     # Group daisy components by their group
     grouped_components = {}
@@ -27,13 +28,13 @@ class ApplicationController < ActionController::Base
         title: "Docs",
         icon: "book-open",
         icon_color: "accent",
-        items: generate_doc_items('docs')
+        items: generate_doc_items("docs")
       },
       {
         title: "Guides",
         icon: "document-text",
         icon_color: "secondary",
-        items: generate_doc_items('guides')
+        items: generate_doc_items("guides")
       },
       {
         title: "Hero",
@@ -78,13 +79,12 @@ class ApplicationController < ActionController::Base
     # Transform file paths into navigation items
     files.map do |file|
       # Extract the id from the filename (without extension)
-      file_id = File.basename(file, ".*").split('.').first
+      file_id = File.basename(file, ".*").split(".").first
 
       # Strip any numeric prefix (e.g., "01_introduction" -> "introduction")
-      id = file_id.gsub(/^\d+_/, '')
+      id = file_id.gsub(/^\d+_/, "")
 
       # The display_id keeps the numeric prefix for proper routing
-      display_id = file_id
 
       # Create a title from the id (capitalize, replace underscores with spaces)
       title = id.humanize
@@ -93,7 +93,8 @@ class ApplicationController < ActionController::Base
       title = "LLMs" if id == "llms"
 
       # Create the navigation item hash with the appropriate path helper
-      path = directory == 'docs' ? doc_path(display_id) : guide_path(display_id)
+      # Use the stripped id (without numeric prefix) for paths to match actual URLs
+      path = directory == "docs" ? doc_path(id) : guide_path(id)
       { title: title, path: path }
     end
   end

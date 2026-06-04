@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # A component for rendering individual events within a timeline. Each event can
 # have three sections: start (typically a date or time), middle (an icon or
@@ -22,64 +24,87 @@
 # @note The middle and middle_icon options are mutually exclusive. If both are
 #   provided, middle takes precedence.
 #
-class Daisy::DataDisplay::TimelineEventComponent < LocoMotion::BaseComponent
-  renders_one :start, LocoMotion::BasicComponent.build(css: "timeline-start")
-  renders_one :middle, LocoMotion::BasicComponent.build(css: "timeline-middle")
-  renders_one :end, LocoMotion::BasicComponent.build(css: "timeline-end")
+# @loco_example Simple Event
+#   = daisy_timeline do |timeline|
+#     - timeline.with_event(start: "2023", middle: "🚀", end: "Launched product")
+#     - timeline.with_event(start: "2024", middle: "🎉", end: "1M users")
+#
+# @loco_example Event with Custom Content
+#   = daisy_timeline do |timeline|
+#     - timeline.with_event do |event|
+#       - event.with_start do
+#         .font-bold Jan 2024
+#       - event.with_middle do
+#         = heroicon "star"
+#       - event.with_end do
+#         %h3.font-bold Milestone Reached
+#
+module Daisy
+  module DataDisplay
+    class TimelineEventComponent < LocoMotion::BaseComponent
+      renders_one :start, LocoMotion::BasicComponent.build(css: "timeline-start")
+      renders_one :middle, LocoMotion::BasicComponent.build(css: "timeline-middle")
+      renders_one :end, LocoMotion::BasicComponent.build(css: "timeline-end")
 
-  define_parts :start, :middle, :middle_icon, :end, :separator
+      define_parts :start, :middle, :middle_icon, :end, :separator
 
-  #
-  # Creates a new timeline event component.
-  #
-  # @param kws [Hash] The keyword arguments for the component.
-  #
-  # @option kws [String] :start Text to display in the start section. You can
-  #   also provide custom content using the start slot.
-  #
-  # @option kws [String] :middle Text to display in the middle section. You
-  #   can also provide custom content using the middle slot.
-  #
-  # @option kws [String] :middle_icon Name of a heroicon to display in the
-  #   middle section. Ignored if middle is provided.
-  #
-  # @option kws [String] :end Text to display in the end section. You can
-  #   also provide custom content using the end slot.
-  #
-  def initialize(*args, **kws, &block)
-    super(*args, **kws, &block)
+      #
+      # Creates a new timeline event component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [String] :start Text to display in the start section. You can
+      #   also provide custom content using the start slot.
+      #
+      # @option kws [String] :middle Text to display in the middle section. You
+      #   can also provide custom content using the middle slot.
+      #
+      # @option kws [String] :middle_icon Name of a heroicon to display in the
+      #   middle section. Ignored if middle is provided.
+      #
+      # @option kws [String] :end Text to display in the end section. You can
+      #   also provide custom content using the end slot.
+      #
+      def initialize(*args, **kws, &block)
+        super(*args, **kws, &block)
 
-    @event_index = nil
-    @events_length = nil
+        @event_index = nil
+        @events_length = nil
 
-    @simple_start = config_option(:start)
-    @simple_middle = config_option(:middle)
-    @simple_middle_icon = config_option(:middle_icon)
-    @simple_end = config_option(:end)
-  end
+        @simple_start = config_option(:start)
+        @simple_middle = config_option(:middle)
+        @simple_middle_icon = config_option(:middle_icon)
+        @simple_end = config_option(:end)
+      end
 
-  def before_render
-    set_tag_name(:component, :li)
+      def before_render
+        set_tag_name(:component, :li)
 
-    setup_parts
-    setup_separator
-  end
+        setup_parts
+        setup_separator
 
-  def setup_parts
-    add_css(:start, "timeline-start")
-    add_css(:middle, "timeline-middle")
-    add_css(:end, "timeline-end")
-  end
+        super
+      end
 
-  def setup_separator
-    set_tag_name(:separator, :hr)
-  end
+      def setup_parts
+        add_css(:start, "timeline-start")
+        add_css(:middle, "timeline-middle")
+        add_css(:end, "timeline-end")
+      end
 
-  def set_event_index(index)
-    @event_index = index
-  end
+      def setup_separator
+        set_tag_name(:separator, :hr)
+      end
 
-  def set_events_length(length)
-    @events_length = length
+      # rubocop:disable Naming/AccessorMethodName
+      def set_event_index(index)
+        @event_index = index
+      end
+
+      def set_events_length(length)
+        @events_length = length
+      end
+      # rubocop:enable Naming/AccessorMethodName
+    end
   end
 end

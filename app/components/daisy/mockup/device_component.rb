@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The DeviceComponent creates realistic device mockups for showcasing mobile
 # and tablet applications. Common use cases include:
@@ -33,46 +35,48 @@
 #     .flex.flex-col.p-4.bg-gradient-to-br.from-primary.to-accent
 #       Premium App Design
 #
-class Daisy::Mockup::DeviceComponent < LocoMotion::BaseComponent
+module Daisy
+  module Mockup
+    class DeviceComponent < LocoMotion::BaseComponent
+      define_parts :camera, :display
 
-  define_parts :camera, :display
+      #
+      # Creates a new Device component.
+      #
+      # @option kws show_camera [Boolean] Whether to show the camera element
+      #   (default: true).
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Type: `mockup-phone`
+      #   - Border: `border-2`, `border-primary`
+      #   - Shadow: `shadow-lg`, `shadow-xl`
+      #
+      def initialize(**kws)
+        super(**kws)
 
-  #
-  # Creates a new Device component.
-  #
-  # @option kws show_camera [Boolean] Whether to show the camera element
-  #   (default: true).
-  # @option kws css [String] Additional CSS classes for styling. Common
-  #   options include:
-  #   - Type: `mockup-phone`
-  #   - Border: `border-2`, `border-primary`
-  #   - Shadow: `shadow-lg`, `shadow-xl`
-  #
-  def initialize(**kws)
-    super(**kws)
+        @show_camera = config_option(:show_camera, true)
+      end
 
-    @show_camera = config_option(:show_camera, true)
-  end
+      #
+      # Sets up the component's CSS classes.
+      #
+      def before_render
+        add_css(:camera, "mockup-phone-camera")
+        add_css(:display, "mockup-phone-display")
+      end
 
-  #
-  # Sets up the component's CSS classes.
-  #
-  def before_render
-    add_css(:camera, "mockup-phone-camera")
-    add_css(:display, "mockup-phone-display")
-  end
+      #
+      # Renders the device with its camera (if enabled) and display content.
+      #
+      def call
+        part(:component) do
+          concat(part(:camera)) if @show_camera
 
-  #
-  # Renders the device with its camera (if enabled) and display content.
-  #
-  def call
-    part(:component) do
-      concat(part(:camera)) if @show_camera
-
-      concat(part(:display) do
-        content
-      end)
+          concat(part(:display) do
+            content
+          end)
+        end
+      end
     end
   end
-
 end

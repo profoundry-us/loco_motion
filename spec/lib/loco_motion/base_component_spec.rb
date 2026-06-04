@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe LocoMotion::BaseComponent, type: :component do
@@ -100,7 +102,7 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
         end
 
         it "does not render the attributes as text" do
-          expect(page).not_to have_text("{:class=>\"nonblock\", :data=>{}}")
+          expect(page).not_to have_text('{:class=>"nonblock", :data=>{}}')
         end
 
         # If you pass a :div tag to the
@@ -277,5 +279,4 @@ RSpec.describe LocoMotion::BaseComponent, type: :component do
       end
     end
   end
-
 end

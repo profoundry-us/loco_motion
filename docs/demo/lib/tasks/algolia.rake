@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'optparse'
-require 'fileutils'
+require "optparse"
+require "fileutils"
 
 namespace :algolia do
-  desc 'Index component examples to Algolia'
-  task :index => :environment do
+  desc "Index component examples to Algolia"
+  task index: :environment do
     # Default options
     options = {
       skip_upload: false,
       component: nil,
-      output_path: nil,
+      output_path: nil
     }
 
     # Parse command-line arguments
@@ -21,19 +21,20 @@ namespace :algolia do
         options[:skip_upload] = true
       end
 
-      parser.on("-c", "--component COMPONENT_NAME", "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
-        options[:component] = name if name && !name.empty?
+      parser.on("-c", "--component COMPONENT_NAME",
+                "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
+        options[:component] = name if name.present?
       end
 
       parser.on("-o", "--output FILEPATH", "Save the results to a JSON file at the specified path") do |path|
-        options[:output_path] = path if path && !path.empty?
+        options[:output_path] = path if path.present?
       end
     end.parse!(ENV["ARGS"]&.split || [])
 
     # Check for Algolia credentials
-    application_id = ENV['ALGOLIA_APPLICATION_ID']
-    api_key = ENV['ALGOLIA_API_KEY']
-    algolia_configured = !application_id.blank? && !api_key.blank?
+    application_id = ENV["ALGOLIA_APPLICATION_ID"]
+    api_key = ENV["ALGOLIA_API_KEY"]
+    algolia_configured = application_id.present? && api_key.present?
 
     if algolia_configured
       puts "Algolia credentials found."
@@ -45,9 +46,9 @@ namespace :algolia do
 
     # Use tmp/algolia directory for temporary files if no specific output path is given
     if options[:output_path].nil?
-      tmp_dir = Rails.root.join('tmp', 'algolia')
+      tmp_dir = Rails.root.join("tmp/algolia")
       FileUtils.mkdir_p(tmp_dir)
-      options[:output_path] = tmp_dir.join('algolia_index.json').to_s
+      options[:output_path] = tmp_dir.join("algolia_index.json").to_s
     end
 
     # Create the services
@@ -83,14 +84,14 @@ namespace :algolia do
       puts "\n\nProcessing component: #{component_name}"
 
       metadata = LocoMotion::COMPONENTS[component_name]
-      split = component_name.split('::')
+      split = component_name.split("::")
 
       framework = split[0].underscore
       group_path = split.length == 3 ? split[1].underscore : ""
       example_name = metadata[:example]
 
       # Construct the file path for this component including the framework
-      file_path = Rails.root.join('app', 'views', 'examples', framework, group_path, "#{example_name}.html.haml").to_s
+      file_path = Rails.root.join("app", "views", "examples", framework, group_path, "#{example_name}.html.haml").to_s
 
       # Debug the path we're looking for
       puts "Looking for example file at: #{file_path}"
@@ -140,29 +141,27 @@ namespace :algolia do
 
   # Process a single file and return the records
   def self.process_file(file_path, component_name, converter_service, position)
-    begin
-      # Parse the file
-      parser = Algolia::HamlParserService.new(file_path)
-      result = parser.parse
+    # Parse the file
+    parser = Algolia::HamlParserService.new(file_path)
+    result = parser.parse
 
-      # Convert the parsed result to records, passing the component name
-      converter_service.convert(result, file_path, component_name, position)
-    rescue => e
-      puts "Error processing file: #{e.message}"
-      puts e.backtrace
-      []
-    end
+    # Convert the parsed result to records, passing the component name
+    converter_service.convert(result, file_path, component_name, position)
+  rescue StandardError => e
+    puts "Error processing file: #{e.message}"
+    puts e.backtrace
+    []
   end
 
   desc "Clear the Algolia search index"
-  task :clear, [:force] => [:environment] do |t, args|
-    require 'optparse'
+  task :clear, [:force] => [:environment] do |_t, args|
+    require "optparse"
 
     # Parse any additional arguments from ENV['ARGS']
-    options = { force: false, index_name: 'components' }
+    options = { force: false, index_name: "components" }
 
-    if ENV['ARGS']
-      args_array = ENV['ARGS'].split(' ')
+    if ENV["ARGS"]
+      args_array = ENV["ARGS"].split(" ")
       parser = OptionParser.new do |opts|
         opts.on("-f", "--force", "Skip confirmation prompt") do
           options[:force] = true
@@ -177,15 +176,15 @@ namespace :algolia do
     end
 
     # Override options with task arguments if provided
-    options[:force] = true if args[:force] == 'true'
+    options[:force] = true if args[:force] == "true"
 
     # Ask for confirmation unless force option is provided
     unless options[:force]
       puts "WARNING: This will clear all Algolia records from index '#{options[:index_name]}'."
       puts "Are you sure you want to continue? [y/N]"
-      input = STDIN.gets.chomp.downcase
+      input = $stdin.gets.chomp.downcase
 
-      unless input == 'y'
+      unless input == "y"
         puts "Operation cancelled."
         exit 0
       end
@@ -206,25 +205,26 @@ namespace :algolia do
   end
 
   desc "Generate llms.txt and llms-full.txt documentation files"
-  task :llm => :environment do
-    require 'optparse'
+  task llm: :environment do
+    require "optparse"
 
     # Default options
     options = {
       component: nil,
-      output_dir: nil,
+      output_dir: nil
     }
 
     # Parse command-line arguments
     OptionParser.new do |parser|
       parser.banner = "Usage: rake algolia:llm [options]"
 
-      parser.on("-c", "--component COMPONENT_NAME", "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
-        options[:component] = name if name && !name.empty?
+      parser.on("-c", "--component COMPONENT_NAME",
+                "Component to process (e.g. 'Daisy::DataDisplay::ChatBubble')") do |name|
+        options[:component] = name if name.present?
       end
 
       parser.on("-o", "--output DIR", "Save the results to the specified directory (default: public/)") do |path|
-        options[:output_dir] = path if path && !path.empty?
+        options[:output_dir] = path if path.present?
       end
 
       parser.on("-h", "--help", "Display this help message") do
@@ -234,9 +234,7 @@ namespace :algolia do
     end.parse!(ENV["ARGS"]&.split || [])
 
     # Set default output directory if not specified
-    if options[:output_dir].nil?
-      options[:output_dir] = Rails.root.join('public').to_s
-    end
+    options[:output_dir] = Rails.root.join("public").to_s if options[:output_dir].nil?
 
     # Define output paths
     version = LocoMotion::VERSION
@@ -318,6 +316,7 @@ namespace :algolia do
   #
   # @param file_path [String] Path to the generated documentation file
   #
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.validate_content_quality(file_path)
     return unless File.exist?(file_path)
 
@@ -325,27 +324,25 @@ namespace :algolia do
     issues = []
 
     # Check for HAML syntax contamination in component descriptions only
-    if content.include?('succeed "." do')
-      issues << "Found HAML syntax contamination in descriptions"
-    end
+    issues << "Found HAML syntax contamination in descriptions" if content.include?('succeed "." do')
 
     # Check for component helper calls in component descriptions (not usage patterns)
     # Split by component sections to avoid false positives in usage patterns
-    component_sections = content.split('=== Component:')
+    component_sections = content.split("=== Component:")
     component_sections.shift # Skip the header section
 
     component_sections.each do |section|
       # Look for descriptions before "API Signature:" or "Helpers:"
       description_part = section.split(/API Signature:|Helpers:/).first
 
-      if description_part.include?('daisy_link(') || description_part.include?('hero_icon(')
+      if description_part.include?("daisy_link(") || description_part.include?("hero_icon(")
         issues << "Found component helper calls in component descriptions"
         break
       end
     end
 
     # Check for documentation boilerplate in code examples
-    if content.include?('doc_example(') || content.include?('example_css:')
+    if content.include?("doc_example(") || content.include?("example_css:")
       issues << "Found documentation boilerplate in code examples"
     end
 
@@ -367,4 +364,5 @@ namespace :algolia do
       puts "   Consider reviewing the generated documentation"
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
 end

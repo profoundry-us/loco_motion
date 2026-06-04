@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # The Timeline component displays a list of events in chronological order,
 # either vertically or horizontally. It's perfect for showing history,
@@ -43,11 +45,15 @@
 #         %h3.font-bold Milestone Reached
 #         %div{ class: "text-base-content/70" } Exceeded quarterly goals
 #
-class Daisy::DataDisplay::TimelineComponent < LocoMotion::BaseComponent
-  renders_many :events, Daisy::DataDisplay::TimelineEventComponent
+module Daisy
+  module DataDisplay
+    class TimelineComponent < LocoMotion::BaseComponent
+      renders_many :events, Daisy::DataDisplay::TimelineEventComponent
 
-  def before_render
-    set_tag_name(:component, :ul)
-    add_css(:component, "timeline")
+      def before_render
+        set_tag_name(:component, :ul)
+        add_css(:component, "timeline")
+      end
+    end
   end
 end

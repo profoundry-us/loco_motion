@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Daisy::Feedback::ToastComponent, type: :component do
@@ -71,7 +73,7 @@ RSpec.describe Daisy::Feedback::ToastComponent, type: :component do
     let(:alerts_html) do
       content_tag(:div, class: "flex flex-col gap-2") do
         content_tag(:div, success_content, class: "alert alert-success") +
-        content_tag(:div, error_content, class: "alert alert-error")
+          content_tag(:div, error_content, class: "alert alert-error")
       end
     end
 
@@ -143,7 +145,7 @@ RSpec.describe Daisy::Feedback::ToastComponent, type: :component do
         content_tag(:div, class: "alert alert-info") do
           content_tag(:div, class: "flex items-center gap-2") do
             content_tag(:span, "Info", class: "font-bold") +
-            content_tag(:span, "Description", class: "text-sm")
+              content_tag(:span, "Description", class: "text-sm")
           end
         end
       end

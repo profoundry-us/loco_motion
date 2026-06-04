@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 # Test class that includes the concern
@@ -31,7 +33,7 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
 
     it "renders without icon classes" do
       expect(page).to have_css("div.test-component")
-      expect(page).not_to have_css(".where\\:inline-flex")
+      expect(page).not_to have_css('.where\\:inline-flex')
       expect(page).not_to have_css("svg")
     end
 
@@ -47,7 +49,7 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
     end
 
     it "adds flex classes for proper icon alignment" do
-      expect(page).to have_css(".where\\:inline-flex.where\\:items-center.where\\:gap-2")
+      expect(page).to have_css('.where\\:inline-flex.where\\:items-center.where\\:gap-2')
     end
 
     it "renders the icon" do
@@ -66,7 +68,7 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
     end
 
     it "adds flex classes for proper icon alignment" do
-      expect(page).to have_css(".where\\:inline-flex.where\\:items-center.where\\:gap-2")
+      expect(page).to have_css('.where\\:inline-flex.where\\:items-center.where\\:gap-2')
     end
 
     it "renders the icon" do
@@ -77,9 +79,9 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
   context "with both left and right icons" do
     before do
       render_inline(IconableTestComponent.new(
-        left_icon: "star",
-        right_icon: "arrow-right"
-      ))
+                      left_icon: "star",
+                      right_icon: "arrow-right"
+                    ))
     end
 
     it "renders both icons" do
@@ -100,9 +102,9 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
   context "with custom icon classes" do
     before do
       render_inline(IconableTestComponent.new(
-        left_icon: "star",
-        left_icon_css: "text-blue-500 size-6"
-      ))
+                      left_icon: "star",
+                      left_icon_css: "text-blue-500 size-6"
+                    ))
     end
 
     it "applies custom CSS classes to the icon" do
@@ -121,5 +123,23 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
 
     # We don't need to test the actual rendering since that depends on the heroicon helper
     # which is tested separately
+  end
+
+  context "with icon_options" do
+    let(:component) { IconableTestComponent.new(icon: "star", icon_options: { variant: "solid" }) }
+
+    it "defaults left_icon_options to icon_options" do
+      # When icon_options is provided, it should be used as the default for left_icon_options
+      # This is tested indirectly through the render_left_icon method which uses @left_icon_options
+      expect(component.instance_variable_get(:@left_icon_options)).to eq({ variant: "solid" })
+    end
+  end
+
+  context "with left_icon_options" do
+    let(:component) { IconableTestComponent.new(left_icon: "star", left_icon_options: { variant: "solid" }) }
+
+    it "uses the provided left_icon_options" do
+      expect(component.instance_variable_get(:@left_icon_options)).to eq({ variant: "solid" })
+    end
   end
 end

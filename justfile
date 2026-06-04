@@ -71,6 +71,14 @@ loco-shell:
 loco-test:
     docker compose exec -it loco bundle exec rspec spec
 
+# Run RuboCop inside the loco container (config tuned to conventions; not a CI gate)
+lint:
+    docker compose exec -it loco bundle exec rubocop
+
+# Run RuboCop with auto-fix inside the loco container
+lint-fix:
+    docker compose exec -it loco bundle exec rubocop -A
+
 
 ##############################
 # demo commands
@@ -165,7 +173,7 @@ algolia-index args="":
 algolia-clear args="":
     docker compose exec -it demo bundle exec rake algolia:clear ARGS="{{args}}"
 
-# Generate LLM.txt documentation file
+# Generate llms.txt documentation file
 llm args="":
     docker compose exec -it demo bundle exec rake algolia:llm ARGS="{{args}}"
 
@@ -188,6 +196,10 @@ version := `grep -o '".*"' lib/loco_motion/version.rb | tr -d '"'`
 # Print the current version
 version:
     @echo {{version}}
+
+# Verify the version sources agree (canonical source is lib/loco_motion/version.rb)
+version-check:
+    ./bin/version-check
 
 # Helper target to create release checklist for a given version
 create-checklist version:

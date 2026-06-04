@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'algoliasearch-rails'
+require "algoliasearch-rails"
 
 module Algolia
   # Handles configuration and access to the Algolia API.
@@ -41,8 +41,8 @@ module Algolia
       end
 
       @client.batch(@name, Algolia::Search::BatchWriteParams.new(
-        requests: requests
-      ))
+                             requests: requests
+                           ))
     end
 
     # Clears all objects from the index
@@ -71,9 +71,9 @@ module Algolia
       indices = @client.list_indices
       index_exists = indices&.items&.map(&:name)&.include?(@name)
 
-      if !index_exists
-        @client.set_settings(@name, Algolia::Search::IndexSettings.new(default_index_settings), true)
-      end
+      return if index_exists
+
+      @client.set_settings(@name, Algolia::Search::IndexSettings.new(default_index_settings), true)
     end
 
     # Generate the full index name including environment prefix.
@@ -82,7 +82,7 @@ module Algolia
     # @return [String] The full index name (including LocoMotion version)
     #
     def index_name(name)
-      env = ENV['ALGOLIA_ENV'] || Rails.env
+      env = ENV["ALGOLIA_ENV"] || Rails.env
       "loco_motion_#{env}_#{name}_#{LocoMotion::VERSION}"
     end
 
@@ -92,24 +92,24 @@ module Algolia
     #
     def default_index_settings
       {
-        searchable_attributes: [
-          'title',
-          'description',
-          'framework',
-          'section',
-          'component',
-          'code'
+        searchable_attributes: %w[
+          title
+          description
+          framework
+          section
+          component
+          code
         ],
         attributes_for_faceting: [
-          'filterOnly(framework)',
-          'filterOnly(section)'
+          "filterOnly(framework)",
+          "filterOnly(section)"
         ],
         custom_ranking: [
-          'asc(priority)',
-          'asc(title)'
+          "asc(priority)",
+          "asc(title)"
         ],
         highlight_pre_tag: '<em class="highlight">',
-        highlight_post_tag: '</em>'
+        highlight_post_tag: "</em>"
       }
     end
   end
