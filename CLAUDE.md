@@ -104,6 +104,45 @@ docker compose exec -it demo yarn playwright test 'e2e/...' \
 - Append `Fixes #N` when the branch contains an issue number.
 
 
+## Pull Request Size & Scope
+
+**Hard limits:**
+
+- **500 lines or fewer** (additions + deletions combined)
+- **10 files or fewer** (including tests and docs)
+
+If a PR exceeds either limit, stop and split it before opening.
+
+**The core rule:** if you need the word "and" to describe a PR, it should
+be two PRs. One PR → one logical concern.
+
+**How to split large changes:**
+
+1. **Infrastructure first** — refactoring, extractions, base-class changes,
+   and config updates each get their own PR. Land them before the feature
+   that depends on them.
+2. **One component per PR** — when adding or migrating ViewComponents, each
+   component (class + template + spec + demo example) is one PR. Never batch
+   multiple components.
+3. **Docs/YARD separately** — if documentation is substantial, open a
+   follow-up PR rather than bloating the implementation PR.
+4. **Tests can lead** — it is fine (and encouraged) to open a spec-only PR
+   first, then the implementation PR.
+5. **Migrations and setup standalone** — dependency bumps, initializers, and
+   schema changes each deserve their own reviewed PR.
+
+**Warning signs a PR is too big:**
+
+- The PR description has more than three bullet points under "Changes".
+- A reviewer would need to context-switch between unrelated areas of the
+  codebase.
+- CI touches files in more than two component groups.
+
+**Why it matters:** Review quality drops sharply above 400 lines — defect
+detection falls from ~87% (small PRs) to ~42% (600+ lines). Smaller PRs
+also unblock teammates faster and make git bisect reliable.
+
+
 ## Component Conventions
 
 **DaisyUI variants — critical rule:**
