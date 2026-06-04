@@ -63,7 +63,9 @@ jobs:
     - name: Build assets
       env:
         # Secrets
-        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+        # Fallback allows Dependabot PRs to compile assets (secrets are
+        # withheld from Dependabot workflows by GitHub's security model)
+        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE || 'ci_placeholder_not_used_in_production' }}
         ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
         UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
@@ -82,7 +84,7 @@ jobs:
     - name: Start Rails server
       env:
         # Secrets
-        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+        SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE || 'ci_placeholder_not_used_in_production' }}
         ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
         UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
