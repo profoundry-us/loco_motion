@@ -94,7 +94,8 @@ class ApplicationController < ActionController::Base
       title = "LLMs" if id == "llms"
 
       # Create the navigation item hash with the appropriate path helper
-      path = directory == "docs" ? doc_path(display_id) : guide_path(display_id)
+      # Use the stripped id (without numeric prefix) for paths to match actual URLs
+      path = directory == "docs" ? doc_path(id) : guide_path(id)
       { title: title, path: path }
     end
   end
