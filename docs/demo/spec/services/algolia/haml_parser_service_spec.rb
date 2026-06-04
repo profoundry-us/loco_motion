@@ -228,7 +228,7 @@ RSpec.describe Algolia::HamlParserService do
       expect(ast).to be_a(Haml::Parser::ParseNode)
       expect(ast.type).to eq(:root)
       expect(ast.children).to be_an(Array)
-      expect(ast.children.length).to be.positive?
+      expect(ast.children.length).to be_positive
     end
   end
 

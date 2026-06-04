@@ -57,7 +57,7 @@ module Daisy
       #   component instance.
       #
       def build_radio_input(theme, **options)
-        options[:css] = (options[:css] || "").concat(" theme-controller")
+        options[:css] = "#{options[:css]} theme-controller".lstrip
 
         # Namespace the id by the input name so multiple theme controllers can
         # coexist on the same page without generating duplicate ids.
