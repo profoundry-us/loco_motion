@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def init
   super
   sections.place(:loco_examples).before(:constant_summary)

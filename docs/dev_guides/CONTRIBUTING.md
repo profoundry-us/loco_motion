@@ -79,13 +79,6 @@ own applications, and is not used directly by LocoMotion.
 > live under `docs/demo/app/views/examples/`, not in the gem itself. The demo
 > app is what renders the live examples and feeds the search/LLM documentation
 > pipeline.
->
-> There is currently one stray exception:
-> `app/views/examples/daisy/data_input/filters.html.haml` lives in the gem
-> while all of the other examples live in the demo app. This inconsistency
-> should be consolidated by moving that example into
-> `docs/demo/app/views/examples/daisy/data_input/`. Until that happens, treat
-> the demo-app location as the canonical convention for any new examples.
 
 ## Getting Started
 

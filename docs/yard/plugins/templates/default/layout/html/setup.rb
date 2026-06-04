@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def stylesheets
   super + [
     "css/highlight-11.9.0.min.css",
