@@ -75,6 +75,10 @@ loco-test:
 lint:
     docker compose exec -it loco bundle exec rubocop
 
+# Run RuboCop with auto-fix inside the loco container
+lint-fix:
+    docker compose exec -it loco bundle exec rubocop -A
+
 
 ##############################
 # demo commands
@@ -195,22 +199,7 @@ version:
 
 # Verify the version sources agree (canonical source is lib/loco_motion/version.rb)
 version-check:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    canonical=$(grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
-    version_file=$(tr -d '[:space:]' < VERSION)
-    pkg=$(grep -o '"version": *"[^"]*"' package.json | head -1 | sed -E 's/.*"version": *"([^"]*)".*/\1/')
-    demo_dep=$(grep -o '"@profoundry-us/loco_motion": *"[^"]*"' docs/demo/package.json | head -1 | sed -E 's/.*: *"\^?([^"]*)".*/\1/')
-    echo "version.rb (canonical):                  $canonical"
-    echo "VERSION file:                            $version_file"
-    echo "package.json:                            $pkg"
-    echo "docs/demo/package.json (loco_motion dep): $demo_dep"
-    if [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ]; then
-        echo "✓ All version sources agree ($canonical)"
-    else
-        echo "✗ Version mismatch! Run bin/update_version to sync them." >&2
-        exit 1
-    fi
+    ./bin/version-check
 
 # Helper target to create release checklist for a given version
 create-checklist version:

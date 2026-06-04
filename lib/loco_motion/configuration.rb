@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module LocoMotion
-
   class << self
     def configure
       yield(configuration)
@@ -19,7 +18,7 @@ module LocoMotion
     # Mostly used for internal testing; not needed in Rails
     #
     def require_components
-      comp_files = Dir.glob(File.dirname(__FILE__) + '/../../app/components/**/*.rb')
+      comp_files = Dir.glob("#{File.dirname(__FILE__)}/../../app/components/**/*.rb")
 
       comp_files.each do |file|
         require file
@@ -50,5 +49,4 @@ module LocoMotion
       @default_alert_timeout = 5000 # 5 seconds default
     end
   end
-
 end

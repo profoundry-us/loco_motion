@@ -71,9 +71,9 @@ module LocoMotion
       # This adds necessary classes for proper icon spacing and alignment.
       #
       def _setup_iconable_component
-        if @icon || @left_icon || @right_icon
-          add_css(:component, "where:inline-flex where:items-center where:gap-2")
-        end
+        return unless @icon || @left_icon || @right_icon
+
+        add_css(:component, "where:inline-flex where:items-center where:gap-2")
       end
 
       def default_icon_size
@@ -115,11 +115,11 @@ module LocoMotion
       # @return [String] The rendered HTML for the icon
       #
       def render_left_icon
-        return unless @left_icon.present?
+        return if @left_icon.blank?
 
         hero_icon(@left_icon, css: @left_icon_css, html: @left_icon_html, **@left_icon_options)
       end
-      alias_method :render_icon, :render_left_icon
+      alias render_icon render_left_icon
 
       #
       # Renders the right icon using a hero icon.
@@ -127,7 +127,7 @@ module LocoMotion
       # @return [String] The rendered HTML for the icon
       #
       def render_right_icon
-        return unless @right_icon.present?
+        return if @right_icon.blank?
 
         hero_icon(@right_icon, css: @right_icon_css, html: @right_icon_html, **@right_icon_options)
       end

@@ -6,7 +6,6 @@ module LocoMotion
   module Patches
     module ViewComponent
       module SlotPatch
-
         # Set the loco parent any time the instance changes
         def __vc_component_instance=(instance)
           # Call the original implementation
@@ -29,7 +28,6 @@ module LocoMotion
 
           @__vc_component_instance.set_loco_parent(parent)
         end
-
       end
     end
   end

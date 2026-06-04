@@ -32,10 +32,10 @@ module LocoMotion
       # appropriate HTML attributes.
       #
       def _setup_linkable_component
-        if @href
-          set_tag_name(:component, :a)
-          add_html(:component, { href: @href, target: @target, title: @title })
-        end
+        return unless @href
+
+        set_tag_name(:component, :a)
+        add_html(:component, { href: @href, target: @target, title: @title })
       end
     end
   end

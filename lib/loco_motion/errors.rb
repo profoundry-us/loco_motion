@@ -10,8 +10,8 @@ module LocoMotion
 
       default_message = [
         "Unknown part #{part.inspect}.",
-        "#{has_parts ? default_explanation : no_parts_explanation}"
-      ].join(' ')
+        (has_parts ? default_explanation : no_parts_explanation).to_s
+      ].join(" ")
 
       super(custom_message || default_message)
     end
@@ -26,8 +26,8 @@ module LocoMotion
 
       default_message = [
         "Unknown modifier #{modifier.inspect}.",
-        "#{has_modifiers ? default_explanation : no_modifiers_explanation}"
-      ].join(' ')
+        (has_modifiers ? default_explanation : no_modifiers_explanation).to_s
+      ].join(" ")
 
       super(custom_message || default_message)
     end

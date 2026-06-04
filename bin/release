@@ -202,6 +202,29 @@ def update_changelog(version, dry_run: false)
   end
 end
 
+def generate_llms_docs(version, dry_run: false)
+  puts "\nSTEP 2.5: Generate LLM Documentation"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would generate llms.txt documentation"
+    puts "   Running: just llm"
+    return
+  end
+
+  response = prompt_yes_no("Generate llms.txt documentation?", default: 'y')
+  if response == 'y'
+    execute_command("Generating llms.txt", "just llm")
+
+    response = prompt_yes_no("Commit llms.txt changes?", default: 'y')
+    if response == 'y'
+      execute_command("Committing llms.txt", "git add llms.txt llms-full.txt && git commit -m 'docs: Update llms.txt for release v#{version}'")
+    end
+  else
+    puts "INFO: Skipping llms.txt generation (you can run it later with 'just llm')"
+  end
+end
+
 def build_packages(dry_run: false)
   puts "\nSTEP 3: Build Packages"
   puts "=" * 50
@@ -605,6 +628,7 @@ def main
 
     version = version_arg || update_version(dry_run: dry_run)
     update_changelog(version, dry_run: dry_run)
+    generate_llms_docs(version, dry_run: dry_run)
     build_packages(dry_run: dry_run)
     create_and_merge_pr(dry_run: dry_run)
     tag_release(version, dry_run: dry_run)
@@ -623,8 +647,7 @@ def main
       puts "   What's next:"
       puts "   1. Monitor demo app deployment"
       puts "   2. Verify Algolia indexing"
-      puts "   3. Generate llms.txt documentation: just llm"
-      puts "   4. Test the demo site"
+      puts "   3. Test the demo site"
     end
 
   rescue Interrupt

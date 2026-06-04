@@ -17,7 +17,8 @@ for previewing and testing every component.
 - `lib/loco_motion/` — core library helpers and component registry
 - `lib/loco_motion/helpers.rb` — component registration map
 - `.claude/skills/` — Claude Skills (see below)
-- `.windsurf/rules/` — detailed rule files (additional reference)
+- `.devin/rules/` — detailed rule files (additional reference)
+- `docs/plans/` — implementation plans for larger features and refactoring
 
 
 ## Tech Stack

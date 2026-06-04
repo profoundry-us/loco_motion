@@ -4,12 +4,13 @@ require "rails"
 require "haml-rails"
 require "rails_heroicon"
 
-require Gem::Specification.find_by_name("rails_heroicon").gem_dir + "/lib/rails_heroicon/helper.rb"
+require "#{Gem::Specification.find_by_name('rails_heroicon').gem_dir}/lib/rails_heroicon/helper.rb"
 
 require "view_component"
 
 require "loco_motion/errors"
 require "loco_motion/configuration"
+require "loco_motion/concerns/inspectable_component"
 require "loco_motion/component_config"
 require "loco_motion/base_component"
 require "loco_motion/basic_component"
