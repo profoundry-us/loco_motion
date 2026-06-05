@@ -31,7 +31,7 @@ jobs:
         run: ls -la ./docs/yard/generated
 
       - name: 📂 Sync Generated Files to SiteGround
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.SITEGROUND_FTP_HOST }}
           username: ${{ secrets.SITEGROUND_FTP_USERNAME }}
