@@ -32,3 +32,21 @@
 .prose {
   max-width: var(--max-prose-width);
 }
+
+/*
+ * Reveal tooltips on keyboard focus when the `tooltip` class is applied
+ * directly to a focusable element (e.g. via LocoMotion's `tip:` attribute on a
+ * button or link). DaisyUI v5 only reveals tooltips through `:has(:focus-visible)`,
+ * which requires the focused element to be a *descendant* of `.tooltip` — so a
+ * tooltip placed on the element itself never appears on focus. This mirrors
+ * DaisyUI's own reveal rule for when the tooltip element itself is focus-visible.
+ * See the Getting Started guide for details.
+ */
+.tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
+  &[data-tip]::before,
+  &::after,
+  & > .tooltip-content {
+    opacity: 1;
+    --tt-pos: 0rem;
+  }
+}
