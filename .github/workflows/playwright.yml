@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - uses: niden/actions-memcached@v7
+    - uses: niden/actions-memcached@v8
 
     # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
     - name: Create symlink to LocoMotion gem directory
