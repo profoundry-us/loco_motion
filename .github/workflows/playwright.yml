@@ -17,7 +17,7 @@ jobs:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: niden/actions-memcached@v7
 
     # Create symlink to LocoMotion gem directory (similar to demo-rspec job)
