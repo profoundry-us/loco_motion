@@ -225,6 +225,41 @@
 
 .mt-12.prose
   :markdown
+    ### Reveal Tooltips on Keyboard Focus
+
+    LocoMotion lets you attach a tooltip to many components with the `tip:`
+    attribute, which adds the `tooltip` class and `data-tip` directly to the
+    element. DaisyUI 5, however, only reveals a tooltip on keyboard focus when
+    the focused element is a **child** of the `.tooltip` element — so tooltips
+    placed directly on a focusable element (a button, link, etc.) show on hover
+    but not when a keyboard user tabs to them.
+
+    Add this small rule to your `application.tailwind.css` so those tooltips
+    also appear on focus. It mirrors DaisyUI's own reveal rule for the case
+    where the tooltip element itself is focused:
+
+.mt-6.max-w-prose
+  = doc_code(language: "css") do
+    :plain
+      /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
+      .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
+        &[data-tip]::before,
+        &::after,
+        & > .tooltip-content {
+          opacity: 1;
+          --tt-pos: 0rem;
+        }
+      }
+
+= doc_note(modifier: :note, title: "Prefer Wrapping?", css: "mt-6") do
+  :markdown
+    If you'd rather not add custom CSS, wrap the element in the
+    `daisy_tooltip` (aliased `daisy_tip`) component instead. That follows
+    DaisyUI's recommended structure — the focusable element becomes a child of
+    the `.tooltip`, so focus works without any extra rule.
+
+.mt-12.prose
+  :markdown
     ## 7. Try It Out!
 
     With everything installed, let's confirm it all works. First, tell the

@@ -49,6 +49,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- fix(Tooltip): Reveal `tip:` tooltips on keyboard focus. DaisyUI 5 only shows focus tooltips when the
+  focusable element is a child of `.tooltip`, so tooltips applied via `tip:` appeared on hover but not on
+  focus. The demo now ships a `.tooltip:focus-visible` rule and the Getting Started guide documents it for
+  your own app ([Fixes #116](https://github.com/profoundry-us/loco_motion/issues/116)).
 - fix(Breadcrumbs): Call `super` in `before_render` so the `IconableComponent` and `TippableComponent` setup hooks
   run — breadcrumb item `tip:` tooltips and icons were silently dropped before.
 - fix(Rating, TimelineEvent, Steps, Dock): Call `super` in `before_render` overrides so concern setup hooks are no
