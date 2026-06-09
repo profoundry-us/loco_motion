@@ -1,0 +1,152 @@
+# =============================================================================
+# loco-new-component
+# =============================================================================
+# Builds a complete new LocoMotion DaisyUI ViewComponent end-to-end and opens a
+# DRAFT pull request for human review.
+#
+# WHY worktree is OFF:
+#   The `loco` and `demo` containers bind-mount the PROJECT ROOT (`.:/home/...`)
+#   and we `docker compose exec` into the long-running containers. An Archon
+#   worktree is a *separate* directory the containers can't see, so tests run
+#   from a worktree would not reflect the worktree's changes. We therefore pin
+#   worktree OFF and create our own feature branch in the `prep` node.
+#
+#   Invoke WITHOUT --branch (a --branch flag will hard-error while pinned off):
+#     archon workflow run loco-new-component "stat in data_display"
+#
+# WHY `docker compose exec -T` instead of `just loco-test`:
+#   Every `just` test target uses `docker compose exec -it`. The `-t` allocates
+#   a TTY, which fails in Archon's non-interactive bash nodes ("the input device
+#   is not a TTY"). `-T` disables the pseudo-TTY and is the correct CI form. This
+#   is the one sanctioned deviation from the repo's "always use just" rule.
+# =============================================================================
+
+name: loco-new-component
+description: |
+  Build a brand-new LocoMotion DaisyUI ViewComponent from scratch, end-to-end:
+  component class + HAML template + RSpec spec + demo example + helpers.rb
+  registration + YARD docs + Playwright e2e + CHANGELOG, then open a DRAFT PR.
+  Use when the user wants to ADD a new Daisy component, e.g. "create a stat
+  component in data_display", "add a timeline component", "scaffold a kbd
+  component". Honors the repo's conventions: no size:/color: variant params,
+  define_part, one-component-per-PR, <=500 lines / <=10 files.
+  Does NOT modify existing components (that is loco-modify-component) and does
+  NOT fix bugs or implement from an issue plan (use the Archon default
+  workflows for those).
+
+provider: claude
+model: sonnet
+
+worktree:
+  enabled: false
+
+nodes:
+  # ── Extract the component name + group from the natural-language request ──
+  - id: parse-input
+    prompt: |
+      Extract the new-component request from this message:
+
+      $ARGUMENTS
+
+      Rules:
+      - component_name: SINGULAR snake_case (e.g. "text_input", "stat", "fab").
+      - component_group: exactly one of the enum values. Infer the best fit from
+        the request; if the user named a group, use it.
+      - component_title: Title Case, singular (e.g. "Text Input", "Stat").
+      - plural_name: snake_case PLURAL used for the demo view file name
+        (e.g. "text_inputs", "stats", "fabs", "categories").
+      - branch_name: literally "feat-add-" followed by component_name
+        (e.g. "feat-add-stat").
+    model: haiku
+    allowed_tools: []
+    output_format:
+      type: object
+      properties:
+        component_name: { type: string }
+        component_group:
+          type: string
+          enum: [actions, data_display, data_input, feedback, layout, navigation, mockup]
+        component_title: { type: string }
+        plural_name: { type: string }
+        branch_name: { type: string }
+      required: [component_name, component_group, component_title, plural_name, branch_name]
+
+  # ── Deterministic setup: feature branch, containers up, persist naming ──
+  - id: prep
+    depends_on: [parse-input]
+    timeout: 240000
+    bash: |
+      set -e
+      # Create (or switch to) the feature branch on the live checkout.
+      git checkout -b $parse-input.output.branch_name 2>/dev/null \
+        || git checkout $parse-input.output.branch_name
+      # Ensure the test containers are running (idempotent; no-op if already up).
+      docker compose up -d loco demo >/dev/null 2>&1 || true
+      # Persist the canonical naming for every downstream step to read.
+      printf '%s\n' $parse-input.output > "$ARTIFACTS_DIR/naming.json"
+      echo "branch: $parse-input.output.branch_name"
+      echo "naming written to $ARTIFACTS_DIR/naming.json"
+      cat "$ARTIFACTS_DIR/naming.json"
+
+  # ── Research the DaisyUI markup + closest existing component; write plan.md ─
+  - id: plan
+    command: loco-plan-component
+    depends_on: [prep]
+    context: fresh
+
+  # ── Scaffold the 6 stub files using the project's new-component skill ──
+  - id: scaffold
+    command: loco-scaffold-component
+    skills: [new-component]
+    depends_on: [plan]
+    context: fresh
+
+  # ── Implement the real component logic, template, spec, demo + YARD docs ──
+  - id: implement
+    command: loco-implement-component
+    skills: [modify-component, document-component]
+    depends_on: [scaffold]
+    context: fresh
+
+  # ── Run both RSpec suites; fix until green (deterministic gate) ──
+  - id: verify
+    depends_on: [implement]
+    idle_timeout: 600000
+    loop:
+      prompt: |
+        Make the new component's tests pass. Run BOTH suites:
+
+          docker compose exec -T loco bundle exec rspec spec
+          docker compose exec -T demo bundle exec rspec spec
+
+        Read the canonical naming from $ARTIFACTS_DIR/naming.json and the design
+        from $ARTIFACTS_DIR/plan.md. Fix ONLY the new component, its spec, its
+        demo example, or its helpers.rb entry — never unrelated code or specs.
+
+        Hard conventions (do not violate to make a test pass):
+        - No size:/color:/variant params — Daisy classes come via the css: kwarg.
+        - Use define_part; never define part(:component); no _css/_html for parts.
+        - The HAML template's root is `= part(:component) do`.
+
+        When BOTH suites pass with zero failures: <promise>GREEN</promise>.
+      until: GREEN
+      max_iterations: 6
+      fresh_context: false
+      until_bash: |
+        docker compose exec -T loco bundle exec rspec spec >/dev/null 2>&1 \
+          && docker compose exec -T demo bundle exec rspec spec >/dev/null 2>&1
+
+  # ── Write + run a Playwright e2e test for the demo page ──
+  - id: e2e
+    command: loco-e2e-component
+    skills: [playwright-tests]
+    depends_on: [verify]
+    context: fresh
+
+  # ── Update CHANGELOG and open a DRAFT PR using the repo template ──
+  - id: open-pr
+    command: loco-open-pr
+    skills: [create-pr]
+    depends_on: [implement, verify, e2e]
+    trigger_rule: all_done
+    context: fresh
