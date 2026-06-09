@@ -188,6 +188,9 @@ daisy_button(color: :primary, size: :lg)
   keeps each entry readable. Indent continuation lines to align with the text
   after the list marker (2 spaces under a top-level `- `, 4 under a nested
   `  - `).
+- Exception: pull request descriptions are exempt from line wrapping — GitHub
+  renders them as flowing prose, so the 80-character limit does not apply. Write
+  natural paragraphs and let them wrap on render.
 - Never split an inline code span (`` `...` ``), a Markdown link
   (`[text](url)`), or a `<code>` tag across lines. A line may exceed its limit
   only when one such unbreakable token is itself too long; prose must always
