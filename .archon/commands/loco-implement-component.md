@@ -1,5 +1,5 @@
 ---
-description: Implement the real component logic, template, spec, demo, and YARD docs from the plan.
+description: Implement the real component logic, template, spec, and demo from the plan.
 argument-hint: (no arguments — reads $ARTIFACTS_DIR/plan.md and naming.json)
 ---
 
@@ -7,8 +7,8 @@ argument-hint: (no arguments — reads $ARTIFACTS_DIR/plan.md and naming.json)
 
 **Workflow ID**: $WORKFLOW_ID
 
-The `modify-component` and `document-component` skills are preloaded. Turn the
-stubs into a real, documented component that matches the plan.
+The `modify-component` skill is preloaded. Turn the stubs into a real component
+that matches the plan.
 
 ## Phase 1: LOAD
 
@@ -19,7 +19,9 @@ stubs into a real, documented component that matches the plan.
 
 ## Phase 2: IMPLEMENT
 
-Edit the four component files to match the plan. Keep every related file in sync.
+Edit the four component files to match the plan. Keep every related file in
+sync. Do NOT write the YARD documentation here — the workflow's next step
+(`loco-document-component`) owns that; brief inline comments are fine.
 
 **Component class** (`*_component.rb`):
 - Declare parts with `define_part :name`. NEVER define `part(:component)` and
@@ -42,15 +44,7 @@ Edit the four component files to match the plan. Keep every related file in sync
   `:markdown` block and a working `daisy_{component_name}` invocation.
 - Write real, helpful prose in the descriptions (no TODOs left behind).
 
-## Phase 3: DOCUMENT (YARD)
-
-Add YARD docs per the `document-component` skill:
-- Class-level order: description → `@note` → `@part` → `@slot` → `@loco_example`.
-- Use `@loco_example` (NOT `@example`); examples in HAML with `daisy_` helpers.
-- Put ALL `@param`/`@option` tags on `initialize`, blank line between each.
-- Wrap doc lines at 80 characters.
-
-## Phase 4: SELF-CHECK
+## Phase 3: SELF-CHECK
 
 Run just this component's spec to catch obvious breakage early (the workflow's
 `verify` step runs the full suites next):
@@ -61,13 +55,12 @@ docker compose exec -T loco bundle exec rspec spec/components/daisy/{component_g
 
 Fix anything red. Confirm the total diff is still within 10 files / 500 lines.
 
-### PHASE_4_CHECKPOINT
+### PHASE_3_CHECKPOINT
 - [ ] Class, template, spec, and demo example fully implemented (no TODOs)
-- [ ] YARD docs complete, `@loco_example` used, params on `initialize`
 - [ ] Zero size:/color:/variant params; no `part(:component)` definition
 - [ ] This component's spec passes
 
-## Phase 5: REPORT
+## Phase 4: REPORT
 
 Write `$ARTIFACTS_DIR/implementation.md` summarizing what was built (parts,
 slots, options, demo examples) and the current file/line count of the diff.

@@ -16,7 +16,10 @@ page and make it pass.
 2. Read the demo example view:
    `docs/demo/app/views/examples/daisy/{component_group}/{plural_name}.html.haml`
    — your tests mirror its `doc_example` blocks.
-3. Read one existing e2e spec in `docs/demo/e2e/daisy/` as a style template.
+3. Read THREE existing e2e specs in `docs/demo/e2e/daisy/` as style templates —
+   prefer specs from the same component group when available. Three reveal the
+   shared conventions (structure, selectors, assertions) rather than one
+   author's quirks.
 
 ## Phase 2: WRITE
 

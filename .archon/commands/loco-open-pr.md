@@ -71,6 +71,9 @@ git push -u origin $(git branch --show-current)
      (tests passed, YARD added, CHANGELOG updated). Leave unverified items `[ ]`.
    - **Additional Notes** — state the RSpec result and the Playwright e2e
      result from `validation.md`. If anything is red or skipped, say so plainly.
+   - **Formatting** — PR descriptions are EXEMPT from the repo's 80-character
+     wrap rule. Write natural flowing paragraphs and let GitHub's interface
+     wrap them; do not hard-wrap the body text.
    Write the filled template to `$ARTIFACTS_DIR/pr-body.md`.
 2. Confirm the PR is within limits (**<= 10 files, <= 500 changed lines**). If it
    exceeds either, note it prominently in Additional Notes so the maintainer can
@@ -84,8 +87,17 @@ gh pr create --draft \
   --body-file "$ARTIFACTS_DIR/pr-body.md"
 ```
 
-4. Apply a label if available: `gh pr edit <number> --add-label "enhancement"`
-   (skip silently if the label does not exist — never invent labels).
+4. Discover the repository's existing labels, then pick the most relevant:
+
+   ```bash
+   gh label list --limit 100
+   ```
+
+   Choose only from what the list returns — for a brand-new component prefer a
+   `new component`-style label if one exists, otherwise the closest fit (e.g.
+   `enhancement`). Apply with `gh pr edit <number> --add-label "<label>"`.
+   Never invent label names; if nothing genuinely fits, apply none and say so
+   in the report.
 
 ### PHASE_5_CHECKPOINT
 - [ ] CHANGELOG updated under [Unreleased] › Component Changes

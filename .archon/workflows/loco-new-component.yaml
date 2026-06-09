@@ -89,10 +89,17 @@ nodes:
       cat "$ARTIFACTS_DIR/naming.json"
 
   # ── Research the DaisyUI markup + closest existing component; write plan.md ─
+  # NOTE on `context: fresh` (here and below): it starts a fresh AI *session*
+  # (no memory of prior nodes — state flows through $ARTIFACTS_DIR artifacts).
+  # It does NOT create a git worktree; isolation is controlled solely by
+  # `worktree.enabled` above, which we pin off.
+  # Model: the plan's artifact steers every downstream node, so this single
+  # short node gets Fable (~2x Opus cost) — highest leverage per token.
   - id: plan
     command: loco-plan-component
     depends_on: [prep]
     context: fresh
+    model: claude-fable-5
 
   # ── Scaffold the 6 stub files using the project's new-component skill ──
   - id: scaffold
@@ -101,16 +108,28 @@ nodes:
     depends_on: [plan]
     context: fresh
 
-  # ── Implement the real component logic, template, spec, demo + YARD docs ──
+  # ── Implement the real component logic, template, spec, and demo ──
+  # Model: the bulk of the code generation — Opus-worthy. Fable here would
+  # double the cost of the longest node for little gain over a strong plan.
   - id: implement
     command: loco-implement-component
-    skills: [modify-component, document-component]
+    skills: [modify-component]
     depends_on: [scaffold]
+    context: fresh
+    model: opus
+
+  # ── Add the full YARD documentation as its own focused step ──
+  - id: document
+    command: loco-document-component
+    skills: [document-component]
+    depends_on: [implement]
     context: fresh
 
   # ── Run both RSpec suites; fix until green (deterministic gate) ──
+  # (Loop nodes ignore per-node model overrides — this runs at the workflow
+  # default, sonnet, which suits the mechanical run-fix cycle.)
   - id: verify
-    depends_on: [implement]
+    depends_on: [document]
     idle_timeout: 600000
     loop:
       prompt: |
@@ -147,6 +166,6 @@ nodes:
   - id: open-pr
     command: loco-open-pr
     skills: [create-pr]
-    depends_on: [implement, verify, e2e]
+    depends_on: [implement, document, verify, e2e]
     trigger_rule: all_done
     context: fresh
