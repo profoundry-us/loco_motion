@@ -34,6 +34,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   workflow plus six command files that build a DaisyUI component end-to-end (plan, scaffold, implement,
   document, verify, e2e, draft PR) by reusing the existing Claude skills. Also gitignore the vendored
   `.claude/skills/archon/` skill and Archon runtime artifacts (`.archon/state/`, `.archon/.env`).
+- fix(Release): In `bin/release`, always run the version-update step even when a version is passed as a
+  CLI argument (previously `bin/release 0.6.0` skipped `just version-set` and `just loco-version-lock`,
+  releasing stale artifacts), and fix the checklist auto-check `gsub!` patterns that used regex escapes
+  inside plain strings and therefore never matched any checkbox lines.
 
 ### Documentation
 
