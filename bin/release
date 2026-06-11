@@ -506,33 +506,33 @@ def update_checklist(version, dry_run: false)
   content = File.read(checklist_path)
 
   # Mark pre-release preparation as completed
-  content.gsub!('- \[ \] All tests are passing locally', '- [x] All tests are passing locally')
-  content.gsub!('- \[ \] All documentation is up to date', '- [x] All documentation is up to date')
-  content.gsub!('- \[ \] All changes are committed and pushed', '- [x] All changes are committed and pushed')
-  content.gsub!('- \[ \] Review any breaking changes', '- [x] Review any breaking changes')
+  content.gsub!('- [ ] All tests are passing locally', '- [x] All tests are passing locally')
+  content.gsub!('- [ ] All documentation is up to date', '- [x] All documentation is up to date')
+  content.gsub!('- [ ] All changes are committed and pushed', '- [x] All changes are committed and pushed')
+  content.gsub!('- [ ] Review any breaking changes', '- [x] Review any breaking changes')
 
   # Mark version update steps as completed
   content.gsub!(/- \[ \] Update version:.*$/, '- [x] Update version: `just version-set ' + version + '`')
-  content.gsub!('- \[ \] Review version changes', '- [x] Review version changes')
-  content.gsub!('- \[ \] Update loco container', '- [x] Update loco container')
+  content.gsub!('- [ ] Review version changes', '- [x] Review version changes')
+  content.gsub!('- [ ] Update loco container', '- [x] Update loco container')
 
   # Mark changelog as completed
-  content.gsub!('- \[ \] Add new version section', '- [x] Add new version section')
-  content.gsub!('- \[ \] Include all relevant changes', '- [x] Include all relevant changes')
-  content.gsub!('- \[ \] Use proper formatting', '- [x] Use proper formatting')
+  content.gsub!('- [ ] Add new version section', '- [x] Add new version section')
+  content.gsub!('- [ ] Include all relevant changes', '- [x] Include all relevant changes')
+  content.gsub!('- [ ] Use proper formatting', '- [x] Use proper formatting')
 
   # Mark building steps as completed
-  content.gsub!('- \[ \] Build Ruby gem', '- [x] Build Ruby gem')
-  content.gsub!('- \[ \] Verify gem build', '- [x] Verify gem build')
-  content.gsub!('- \[ \] Build NPM package', '- [x] Build NPM package')
-  content.gsub!('- \[ \] Verify NPM package', '- [x] Verify NPM package')
+  content.gsub!('- [ ] Build Ruby gem', '- [x] Build Ruby gem')
+  content.gsub!('- [ ] Verify gem build', '- [x] Verify gem build')
+  content.gsub!('- [ ] Build NPM package', '- [x] Build NPM package')
+  content.gsub!('- [ ] Verify NPM package', '- [x] Verify NPM package')
 
   # Mark PR steps as completed
   content.gsub!(/- \[ \] Commit all changes:.*$/, '- [x] Commit all changes: `git commit -am "Release version ' + version + '"`')
-  content.gsub!('- \[ \] Create pull request', '- [x] Create pull request')
-  content.gsub!('- \[ \] Get pull request reviewed', '- [x] Get pull request reviewed')
-  content.gsub!('- \[ \] Merge pull request', '- [x] Merge pull request')
-  content.gsub!('- \[ \] Pull latest main locally', '- [x] Pull latest main locally')
+  content.gsub!('- [ ] Create pull request', '- [x] Create pull request')
+  content.gsub!('- [ ] Get pull request reviewed', '- [x] Get pull request reviewed')
+  content.gsub!('- [ ] Merge pull request', '- [x] Merge pull request')
+  content.gsub!('- [ ] Pull latest main locally', '- [x] Pull latest main locally')
 
   # Mark tag as completed
   content.gsub!(/- \[ \] Create and push version tag:.*$/, '- [x] Create and push version tag: `git tag v' + version + ' && git push origin v' + version + '`')
@@ -580,7 +580,6 @@ def main
 
   # Parse arguments
   dry_run = ARGV.include?('--dry-run')
-  version_arg = ARGV.find { |arg| !arg.start_with?('--') && !arg.start_with?('-') }
 
   # Show help if requested
   if ARGV.include?('--help') || ARGV.include?('-h')
@@ -626,7 +625,7 @@ def main
   begin
     check_prerequisites(dry_run: dry_run)
 
-    version = version_arg || update_version(dry_run: dry_run)
+    version = update_version(dry_run: dry_run)
     update_changelog(version, dry_run: dry_run)
     generate_llms_docs(version, dry_run: dry_run)
     build_packages(dry_run: dry_run)
