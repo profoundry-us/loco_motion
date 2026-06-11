@@ -16,7 +16,7 @@
     "cally": "^0.8.0",
     "daisyui": "^5.5.20",
     "esbuild": "^0.20.2",
-    "instantsearch.js": "^4.78.0",
+    "instantsearch.js": "^4.101.1",
     "tailwindcss": "^4.3.0"
   },
   "scripts": {
