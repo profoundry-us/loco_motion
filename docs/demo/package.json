@@ -11,7 +11,7 @@
     "@profoundry-us/loco_motion": "^0.5.2",
     "@tailwindcss/cli": "^4.2.1",
     "@tailwindcss/typography": "^0.5.19",
-    "algoliasearch": "^5.53.0",
+    "algoliasearch": "^5.54.0",
     "autoprefixer": "^10.4.18",
     "cally": "^0.8.0",
     "daisyui": "^5.5.20",
