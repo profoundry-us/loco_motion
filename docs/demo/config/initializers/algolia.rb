@@ -3,7 +3,9 @@
 # This initializer configures the Algolia search integration for LocoMotion.
 # You need to set the following environment variables:
 # - ALGOLIA_APPLICATION_ID: Your Algolia application ID
-# - ALGOLIA_API_KEY: Your Algolia API key (write access for indexing, read-only for search)
+# - ALGOLIA_API_KEY: Your write-capable Algolia API key, used server-side only
+#   for indexing (rake tasks / release phase). Never expose it to the browser;
+#   the frontend search uses the separate ALGOLIA_SEARCH_API_KEY instead.
 
 if defined?(Rails) && defined?(AlgoliaSearch)
   # Only attempt to configure if we have credentials

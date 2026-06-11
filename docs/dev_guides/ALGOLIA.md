@@ -19,15 +19,23 @@ demo application.
 
 ## Environment Variables
 
-To upload data to Algolia, you need to set the following environment variables
-in the demo application's `.env.local` file:
+The integration uses two separate API keys with different permission levels:
 
 - `ALGOLIA_APPLICATION_ID`: Your Algolia application ID
-- `ALGOLIA_API_KEY`: Your Algolia API key with write access
+- `ALGOLIA_API_KEY`: A **write-capable** key (`addObject`, `deleteObject`,
+  etc.) used only by the server-side indexing rake tasks and the Heroku
+  release phase. This key must **never** be exposed to the browser.
+- `ALGOLIA_SEARCH_API_KEY`: A **search-only** key injected into every demo
+  page (via `algolia_credentials_tag`) to power the frontend search UI. Create
+  it in the Algolia dashboard with only the `search` ACL.
 - `DEBUG`: Set to 'true' to enable verbose debug output (optional)
 
-If these credentials are not provided, the indexing operation will still
-generate a JSON file locally, but data won't be uploaded to Algolia.
+Set all of these in the demo application's `.env.local` file for local
+development, and in the Heroku config vars for deployed environments.
+
+If the write credentials are not provided, the indexing operation will still
+generate a JSON file locally, but data won't be uploaded to Algolia. If the
+search key is not provided, the frontend search box won't return results.
 
 
 ## Available Commands
@@ -98,7 +106,8 @@ The following environment variables control the Algolia integration:
 | Variable | Description |
 | -------- | ----------- |
 | `ALGOLIA_APPLICATION_ID` | Your Algolia application ID |
-| `ALGOLIA_API_KEY` | Your Algolia API key with write permissions |
+| `ALGOLIA_API_KEY` | Write-capable API key, server-side indexing only — never sent to the browser |
+| `ALGOLIA_SEARCH_API_KEY` | Search-only API key exposed to the browser for the frontend search UI |
 | `ALGOLIA_ENV` | Environment name used in the index name (e.g., `production`, `staging`) |
 
 ### algolia-clear

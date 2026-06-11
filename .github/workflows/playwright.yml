@@ -87,6 +87,7 @@ jobs:
         SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE || 'ci_placeholder_not_used_in_production' }}
         ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
         ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+        ALGOLIA_SEARCH_API_KEY: ${{ secrets.ALGOLIA_SEARCH_API_KEY }}
         UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         UNSPLASH_SECRET_KEY: ${{ secrets.UNSPLASH_SECRET_KEY }}
         # Variables
