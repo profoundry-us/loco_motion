@@ -121,7 +121,7 @@ jobs:
     # Always upload server logs
     - name: Upload server logs
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: server-logs
         path: docs/demo/log/production.log
@@ -130,7 +130,7 @@ jobs:
     # Always upload assets
     - name: Upload assets
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: assets
         path: docs/demo/public/assets
@@ -140,7 +140,7 @@ jobs:
     # Always upload test results
     - name: Upload test results
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: playwright-report
         path: docs/demo/playwright-report/
