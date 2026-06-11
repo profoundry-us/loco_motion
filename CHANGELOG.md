@@ -30,6 +30,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - chore(Release): Replace the `make` targets in `bin/release` with their `just` equivalents to match the project's
   task runner.
 - chore(Repo): Fix the `.gitignore` `.DS_Store` pattern and remove a stray `.DS_Store` from `lib/loco_motion/patches`.
+- chore(Archon): Add Archon (archon.diy) workflow tooling under `.archon/` — the `loco-new-component`
+  workflow plus six command files that build a DaisyUI component end-to-end (plan, scaffold, implement,
+  document, verify, e2e, draft PR) by reusing the existing Claude skills. Also gitignore the vendored
+  `.claude/skills/archon/` skill and Archon runtime artifacts (`.archon/state/`, `.archon/.env`).
 
 ### Documentation
 

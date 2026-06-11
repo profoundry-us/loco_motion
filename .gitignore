@@ -12,3 +12,9 @@ builds/
 .DS_Store
 spec/internal/
 NEXT_SESSION.md
+
+# Archon (archon.diy) — vendored skill + runtime artifacts (not project source).
+# Workflow/command/script definitions under .archon/ ARE committed.
+.claude/skills/archon/
+.archon/state/
+.archon/.env
