@@ -193,6 +193,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   page, and remove the stale issue #49 flash-of-content comment
 - fix(demo): Restore plain-Ruby guard in `docs/demo/bin/bundle` — `.present?` (ActiveSupport) is not
   available when the binstub runs, causing a `NoMethodError` on Heroku during `bundle install`
+- fix(demo): Stop exposing the write-capable Algolia API key to the browser — `algolia_credentials_tag` now
+  injects a new search-only `ALGOLIA_SEARCH_API_KEY`, while `ALGOLIA_API_KEY` (write access) stays
+  server-side for the indexing rake tasks and Heroku release phase
+- docs(Algolia): Document the write/search API key split in `docs/dev_guides/ALGOLIA.md` and pass the new
+  search key through the Playwright CI workflow
 
 ### Changed
 
