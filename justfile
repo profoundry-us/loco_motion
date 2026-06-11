@@ -209,7 +209,7 @@ create-checklist version:
     @sed -i '' 's/Release Checklist Template/Release Checklist for v{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
     @sed -i '' 's/x\.y\.z/{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
     @sed -i '' 's/\[VERSION\]/{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
-    @sed -i '' 's/___________/{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
+    @sed -i '' '/\*\*Release Version\*\*/s/___________/{{version}}/' docs/checklists/release-checklist-v{{version}}.md
     @echo "✓ Created release checklist: docs/checklists/release-checklist-v{{version}}.md"
 
 # Bump the version using the update_version script
