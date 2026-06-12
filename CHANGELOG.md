@@ -41,6 +41,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - fix(Release): Anchor the `create-checklist` placeholder `sed` to the `**Release Version**` line so the
   version is no longer stamped into the `**Release Date**` and `**Released By**` footer lines, and set those
   template placeholders to `TBD` (the v0.5.2 checklist ended up with `**Release Date**: 0.5.2`).
+- fix(Release): In `bin/update_demo_after_release`, run `just demo-version-lock` instead of the removed
+  `make` target — the Makefile no longer exists, so Phase 2 (the demo app update) of every release failed.
+- chore(Release): Remove the auto-generated release checklist machinery — the `create-checklist` justfile
+  target (and its calls in `version-bump`/`version-set`), the checklist-stamping step in `bin/release`, and
+  `docs/templates/release_checklist.md`. The interactive `bin/release` wizard and `RELEASING.md` are now the
+  single source of truth for the release process.
 
 ### Documentation
 
