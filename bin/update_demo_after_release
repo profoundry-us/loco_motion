@@ -36,7 +36,7 @@ def update_demo_after_release
   
   # Run demo version lock
   puts "🔒 Running demo version lock..."
-  unless system('make demo-version-lock')
+  unless system('just demo-version-lock')
     puts "❌ Error: Failed to update demo app versions"
     exit 1
   end
@@ -91,7 +91,7 @@ if ARGV.include?('--help') || ARGV.include?('-h')
     1. Checks that you're on the main branch (with warning if not)
     2. Ensures there are no uncommitted changes
     3. Pulls the latest changes from origin/main
-    4. Runs 'make demo-version-lock' to update demo dependencies
+    4. Runs 'just demo-version-lock' to update demo dependencies
     5. Commits and pushes the changes
     
     Prerequisites:

@@ -201,21 +201,9 @@ version:
 version-check:
     ./bin/version-check
 
-# Helper target to create release checklist for a given version
-create-checklist version:
-    @echo "Creating release checklist..."
-    @mkdir -p docs/checklists
-    @cp docs/templates/release_checklist.md docs/checklists/release-checklist-v{{version}}.md
-    @sed -i '' 's/Release Checklist Template/Release Checklist for v{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
-    @sed -i '' 's/x\.y\.z/{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
-    @sed -i '' 's/\[VERSION\]/{{version}}/g' docs/checklists/release-checklist-v{{version}}.md
-    @sed -i '' '/\*\*Release Version\*\*/s/___________/{{version}}/' docs/checklists/release-checklist-v{{version}}.md
-    @echo "✓ Created release checklist: docs/checklists/release-checklist-v{{version}}.md"
-
 # Bump the version using the update_version script
 version-bump:
     docker compose exec -it loco bin/update_version
-    just create-checklist {{version}}
 
 # Bump the version to a specific version
 version-set new_version:
@@ -223,7 +211,6 @@ version-set new_version:
         echo "Usage: just version-set NEW_VERSION=x.y.z"; \
     else \
         docker compose exec -it loco bin/update_version {{new_version}}; \
-        just create-checklist {{new_version}}; \
     fi
 
 # Update only the loco container to use the new gem version (safe to run anytime)

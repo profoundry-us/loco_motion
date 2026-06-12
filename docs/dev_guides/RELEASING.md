@@ -5,7 +5,6 @@ This guide will walk you through the process of releasing a new version of
 LocoMotion.
 
 - [Preparation](#preparation)
-- [Release Checklist](#release-checklist)
 - [Step 1 - Version Update](#step-1---version-update)
   - [Using Justfile Commands (Recommended)](#using-justfile-commands-recommended)
   - [Using the Script Directly](#using-the-script-directly)
@@ -15,10 +14,9 @@ LocoMotion.
   - [Ruby Gem](#ruby-gem)
   - [NPM Package](#npm-package)
 - [Step 5 - GitHub Release](#step-5---github-release)
-- [Step 6 - Update Release Checklist](#step-6---update-release-checklist)
-- [Step 7 - Demo App Update](#step-7---demo-app-update)
-- [Step 8 - Algolia Indexing](#step-8---algolia-indexing)
-- [Step 9 - LLM Documentation Generation](#step-9---llm-documentation-generation)
+- [Step 6 - Demo App Update](#step-6---demo-app-update)
+- [Step 7 - Algolia Indexing](#step-7---algolia-indexing)
+- [Step 8 - LLM Documentation Generation](#step-8---llm-documentation-generation)
 
 ## Preparation
 
@@ -34,18 +32,10 @@ Before releasing a new version, ensure:
 3. All changes are committed and pushed to the main branch.
 4. You have the necessary credentials for both RubyGems.org and NPM.
 
-## Release Checklist
-
-A personalized release checklist is automatically created when you run the
-version update commands. The checklist will be created at:
-
-```
-docs/checklists/release-checklist-v[VERSION].md
-```
-
-The checklist includes all the steps from this guide in a checkable format,
-plus troubleshooting tips and verification steps. You can check off items as
-you complete them and keep the file as a record of the release process.
+> [!TIP]
+> The interactive release wizard at `bin/release` walks you through all of the
+> steps below. Run `bin/release [VERSION]` and follow the prompts, or
+> `bin/release --dry-run` to preview what it would do.
 
 ## Step 1 - Version Update
 
@@ -134,7 +124,7 @@ git commands to build a relevant changelog update.
 
 > [!IMPORTANT]
 > This step publishes the packages to their respective registries. The demo app
-> will be updated in Step 7 after publication to avoid circular dependencies.
+> will be updated in Step 6 after publication to avoid circular dependencies.
 >
 > **AI Assistance**: The AI assistant will prepare the packages for publishing
 > but will **NOT** execute the actual publishing commands. You must manually run
@@ -197,25 +187,7 @@ After both packages are published, create a new release on GitHub:
 4. Add release notes describing the changes (GitHub has an AI tool to do this)
 5. Publish the release
 
-## Step 6 - Update Release Checklist
-
-After completing the automated preparation steps, update the generated
-release checklist to reflect the current status:
-
-1. **Mark completed items**: Update `docs/checklists/release-checklist-v[VERSION].md`
-   - Mark all automated preparation steps as completed `[x]`
-   - Add notes about manual publishing requirements
-   - Update release date and preparer information
-
-2. **Verify checklist accuracy**: Ensure the checklist accurately shows:
-   - What was completed by AI assistance
-   - What requires manual execution
-   - Current status of each release phase
-
-> **Note**: The checklist serves as both a process guide and a record of what
-> was completed during the release preparation.
-
-## Step 7 - Demo App Update
+## Step 6 - Demo App Update
 
 After both packages are published, update the demo app to use the new versions:
 
@@ -252,7 +224,7 @@ After both packages are published, update the demo app to use the new versions:
 > The demo app auto-deploys on every commit, so this step creates a separate
 > commit after the packages are published to avoid circular dependencies.
 
-## Step 8 - Algolia Indexing
+## Step 7 - Algolia Indexing
 
 When the demo application is deployed to Heroku after a new release, the Algolia
 indexing process will run automatically to update the component documentation
@@ -275,7 +247,7 @@ heroku run bin/reindex_algolia -a your-app-name
 Or you can alter your `env.local` file to set the `ALGOLIA_ENV` variable to the
 environment you want to use.
 
-## Step 9 - LLM Documentation Generation
+## Step 8 - LLM Documentation Generation
 
 After the demo app is deployed and Algolia indexing is complete, generate the
 LLM-friendly documentation files:
