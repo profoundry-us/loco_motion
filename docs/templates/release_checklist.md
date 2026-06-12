@@ -104,5 +104,5 @@ Use this checklist to ensure all steps are completed for a LocoMotion release.
 ---
 
 **Release Version**: ___________
-**Release Date**: ___________
-**Released By**: ___________
+**Release Date**: TBD
+**Released By**: TBD

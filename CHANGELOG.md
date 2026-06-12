@@ -38,6 +38,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   CLI argument (previously `bin/release 0.6.0` skipped `just version-set` and `just loco-version-lock`,
   releasing stale artifacts), and fix the checklist auto-check `gsub!` patterns that used regex escapes
   inside plain strings and therefore never matched any checkbox lines.
+- fix(Release): Anchor the `create-checklist` placeholder `sed` to the `**Release Version**` line so the
+  version is no longer stamped into the `**Release Date**` and `**Released By**` footer lines, and set those
+  template placeholders to `TBD` (the v0.5.2 checklist ended up with `**Release Date**: 0.5.2`).
 
 ### Documentation
 
