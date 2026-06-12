@@ -47,6 +47,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   target (and its calls in `version-bump`/`version-set`), the checklist-stamping step in `bin/release`, and
   `docs/templates/release_checklist.md`. The interactive `bin/release` wizard and `RELEASING.md` are now the
   single source of truth for the release process.
+- fix(Release): Read interactive prompts from `$stdin` in `bin/release` and
+  `bin/update_demo_after_release` — bare `gets` reads from `ARGF`, so with a version argument the first
+  prompt crashed trying to open a file named after the version (e.g. `0.6.0`).
 
 ### Documentation
 

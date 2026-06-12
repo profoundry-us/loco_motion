@@ -20,7 +20,7 @@ def update_demo_after_release
   unless current_branch == 'main'
     puts "⚠️  Warning: You're not on the main branch (currently on: #{current_branch})"
     print "Continue anyway? (y/N): "
-    response = gets.strip.downcase
+    response = $stdin.gets.strip.downcase
     exit unless response == 'y' || response == 'yes'
   end
 

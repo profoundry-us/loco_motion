@@ -13,7 +13,7 @@ end
 def prompt_user(message, required: true)
   loop do
     print "#{message} "
-    input = gets.strip
+    input = $stdin.gets.strip
     return input if !required && input.empty?
     return input unless input.empty?
     puts "WARNING: This field is required. Please enter a value."
@@ -23,7 +23,7 @@ end
 def prompt_yes_no(message, default: 'n')
   loop do
     print "#{message} (y/N): "
-    response = gets.strip.downcase
+    response = $stdin.gets.strip.downcase
     response = default if response.empty?
     return response if %w[y yes n no].include?(response)
     puts "WARNING: Please enter 'y' or 'n'."
@@ -39,7 +39,7 @@ def execute_command(description, command, exit_on_failure: true)
     if exit_on_failure
       puts "   This step is required for the release process."
       print "   Continue anyway? (y/N): "
-      response = gets.strip.downcase
+      response = $stdin.gets.strip.downcase
       exit unless response == 'y' || response == 'yes'
     end
     return false
