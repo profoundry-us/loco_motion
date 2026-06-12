@@ -218,7 +218,10 @@ def generate_llms_docs(version, dry_run: false)
 
     response = prompt_yes_no("Commit llms.txt changes?", default: 'y')
     if response == 'y'
-      execute_command("Committing llms.txt", "git add llms.txt llms-full.txt && git commit -m 'docs: Update llms.txt for release v#{version}'")
+      # `just llm` writes the files into docs/demo/public/ (llms.txt,
+      # llms-full.txt, and versioned copies). It also boots the demo
+      # container, which can refresh docs/demo/Gemfile.lock, so include it.
+      execute_command("Committing llms.txt", "git add docs/demo/public/llms*.txt docs/demo/Gemfile.lock && git commit -m 'docs: Update llms.txt for release v#{version}'")
     end
   else
     puts "INFO: Skipping llms.txt generation (you can run it later with 'just llm')"

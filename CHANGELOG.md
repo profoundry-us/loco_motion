@@ -50,6 +50,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - fix(Release): Read interactive prompts from `$stdin` in `bin/release` and
   `bin/update_demo_after_release` — bare `gets` reads from `ARGF`, so with a version argument the first
   prompt crashed trying to open a file named after the version (e.g. `0.6.0`).
+- fix(Release): Point the `bin/release` llms.txt commit step at the actual generated files
+  (`docs/demo/public/llms*.txt`) instead of the repo-root `llms.txt`/`llms-full.txt` — the v0.6.0 release
+  failed with `fatal: pathspec 'llms.txt' did not match any files` — and include `docs/demo/Gemfile.lock`,
+  which `just llm` can dirty by refreshing the demo container's bundle stamp. Also fix the `LLM*.txt`
+  filename casing in `RELEASING.md` (the generated files are lowercase `llms*.txt`).
 
 ### Documentation
 
