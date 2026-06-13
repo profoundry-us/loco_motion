@@ -37,6 +37,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `NODE_EXTRA_CA_CERTS` into a local `ruby:3.4.4` base so in-container HTTPS verifies, then builds and starts
   the `loco` and `demo` containers. Idempotent and a no-op locally; documented in `CLAUDE.md`.
 
+### Components Changes
+
+- feat(HoverGallery): Give `HoverGalleryComponent` a default 3:2 aspect ratio so galleries with mixed-aspect
+  images no longer shift height as each image is revealed on hover. The default uses DaisyUI's
+  zero-specificity `where:aspect-[3/2]` and is skipped when you pass your own `aspect-*` utility via `css:`,
+  so it stays easy to override. The demo examples drop their now-redundant explicit `aspect-[3/2]`.
+
 ### Demo / Docs Changes
 
 - fix(Demo): Fix the broken 3D tilt in the Hover 3D "3D Hover Image Gallery" example. The wrapper passed a

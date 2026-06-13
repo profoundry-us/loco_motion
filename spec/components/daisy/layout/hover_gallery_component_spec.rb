@@ -63,6 +63,19 @@ RSpec.describe Daisy::Layout::HoverGalleryComponent, type: :component do
     end
   end
 
+  context "default aspect ratio" do
+    it "applies a default aspect ratio to prevent hover height shift" do
+      render_inline(described_class.new)
+      expect(page).to have_selector("figure.hover-gallery[class*='aspect-']")
+    end
+
+    it "omits the default when a custom aspect ratio is supplied" do
+      render_inline(described_class.new(css: "aspect-square"))
+      expect(page).to have_selector("figure.hover-gallery[class*='aspect-square']")
+      expect(page).not_to have_selector("figure[class*='3/2']")
+    end
+  end
+
   context "with custom HTML attributes" do
     before do
       render_inline(described_class.new(html: { id: "my-gallery", data: { test: "value" } }))
