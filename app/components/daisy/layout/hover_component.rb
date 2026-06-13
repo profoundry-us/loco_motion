@@ -20,6 +20,12 @@
 # interactive elements (buttons, links) inside the wrapper since they will
 # conflict with the hover zones.
 #
+# @note The `hover-3d` effect relies on DaisyUI's `display: inline-grid`.
+#   Passing a `display` utility such as `block` or `flex` via `css:` overrides
+#   it and collapses the eight hover zones, so the content only scales instead
+#   of tilting. Use sizing and spacing utilities (`w-60`, `max-w-100`, `m-4`)
+#   without changing `display`.
+#
 # @loco_example Basic Usage
 #   = daisy_hover(css: "max-w-100") do
 #     = daisy_figure(src: image_path("creditcard.webp"), css: "rounded-2xl overflow-hidden")
@@ -33,7 +39,7 @@
 # @loco_example Image Gallery
 #   .flex.gap-4
 #     - %w[card-1.webp card-2.webp card-3.webp].each do |img|
-#       = daisy_hover(css: "block w-60") do
+#       = daisy_hover(css: "w-60") do
 #         = daisy_figure(src: image_path(img), css: "rounded-2xl overflow-hidden")
 #
 module Daisy
@@ -54,6 +60,9 @@ module Daisy
       #   - Sizing: `w-96`, `max-w-md`
       #   - Spacing: `m-4`, `mx-2 my-12`
       #   - Cursor: `cursor-pointer` (recommended when also passing `href:`)
+      #
+      #   Avoid `display` utilities (`block`, `flex`); they override the
+      #   effect's `inline-grid` and break the tilt (see the note above).
       #
       # @option kws href [String] When provided, the wrapper renders as an `<a>`
       #   tag. Use this to make the entire 3D card clickable rather than placing

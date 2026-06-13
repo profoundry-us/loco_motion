@@ -52,6 +52,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   five on one page they all escaped to the viewport's bottom-right corner and their preview boxes collapsed
   to 0px. Wrapped each example in a `relative` box with a fixed height (`h-48`) and a `[&_.fab]:absolute`
   override so each FAB sits in the bottom-right of its own box; documented why on the demo page intro.
+- docs(Hover): Document that passing a `display` utility (`block`, `flex`) via `css:` overrides the
+  `hover-3d` effect's `display: inline-grid` and breaks the 3D tilt. Added a `@note` to the component's
+  YARD docs and a callout to the demo page intro, and corrected the YARD "Image Gallery" example that still
+  used `block`.
 
 ### Fixed
 

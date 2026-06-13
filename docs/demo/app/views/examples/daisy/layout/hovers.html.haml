@@ -8,6 +8,11 @@
     whole card to be clickable, pass an `href:` option so the wrapper is
     rendered as an `<a>` tag (the DaisyUI-recommended approach).
 
+    **Avoid `display` utilities in `css:`.** The effect relies on DaisyUI's
+    `display: inline-grid`; passing `block`, `flex`, or similar overrides it
+    and collapses the hover zones, so the content only scales instead of
+    tilting. Stick to sizing utilities like `w-60` or `max-w-100`.
+
 
 = doc_example(title: "Basic Hover 3D") do |doc|
   - doc.with_description do
