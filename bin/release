@@ -94,6 +94,10 @@ def check_prerequisites(dry_run: false)
     puts "DRY RUN: Running read-only prerequisite checks..."
   end
 
+  # Track fatal prerequisite failures so every problem surfaces in one pass
+  # and the script still exits non-zero at the end.
+  prerequisites_ok = true
+
   # Check if we're on main branch (safe to run in dry run)
   current_branch = `git branch --show-current`.strip
   unless current_branch == 'main'
@@ -119,13 +123,22 @@ def check_prerequisites(dry_run: false)
   end
 
   # Check that CHANGELOG.md exists (the release wizard rewrites its
-  # [Unreleased] heading later, so a missing file is a hard blocker). Exit
-  # even in dry run since the CHANGELOG step would otherwise fail to read it.
+  # [Unreleased] heading later, so a missing file is a hard blocker). Flag it
+  # loudly but keep running; the deferred check at the end aborts with a
+  # failure code so the CHANGELOG step never reads a missing file.
   if File.exist?('CHANGELOG.md')
     puts "SUCCESS: CHANGELOG.md found"
   else
-    puts "ERROR: CHANGELOG.md not found in the project root."
-    exit 1
+    puts
+    puts "!" * 60
+    puts "ERROR: CHANGELOG.md not found in the project root!"
+    puts
+    puts "   The release wizard finalizes the CHANGELOG by rewriting its"
+    puts "   '## [Unreleased]' heading, so this file is required. Create it"
+    puts "   before running the release."
+    puts "!" * 60
+    puts
+    prerequisites_ok = false
   end
 
   # Warn early about missing publishing credentials so they can be fixed
@@ -144,6 +157,11 @@ def check_prerequisites(dry_run: false)
     if response == 'y'
       execute_command("Running all tests", "just test")
     end
+  end
+
+  unless prerequisites_ok
+    puts "ERROR: Required prerequisites are missing — aborting release."
+    exit 1
   end
 
   if dry_run
