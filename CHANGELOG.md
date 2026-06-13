@@ -68,6 +68,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   config files, `just dev` / `just dev-shell`) and ends by pointing at Getting Started, which owns the
   app-creation flow (`rails new`, database config, running the app). The duplicated Tailwind 4 + DaisyUI CSS
   block was removed from Getting Started, which now links to the Install guide as the canonical source.
+- docs(Install): Refresh the install instructions for v0.6.0. Bumped the stale `~> 0.5.2` gem pin (which
+  excluded 0.6.0) to `~> 0.6.0` in the README and the Install guide, refreshed the README's "v0.5.x" status
+  note and the `CLAUDE.md` version reference, and trimmed the README's duplicated install walkthrough to a
+  quickstart that points at the Install guide as the canonical source (the `bundle show` gotcha moved into
+  that guide).
 
 ### Fixed
 
