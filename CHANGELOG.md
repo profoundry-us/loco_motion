@@ -21,6 +21,17 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   can fix credentials in another terminal and retry without restarting the wizard. The same checks run as
   early non-fatal warnings in the prerequisites step, and the dry-run output describes the new behavior.
 
+### Fixed
+
+- fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
+  that crashed the Playwright CI job's production server boot. Rails adds `vendor` to `$LOAD_PATH` by default,
+  but ours holds only the `loco_motion-rails` symlink, which points back at the repo root and so makes
+  `vendor` a self-referential directory cycle (`vendor/loco_motion-rails` -> repo ->
+  `docs/demo/vendor/loco_motion-rails` -> ...). Bootsnap's path scanner follows symlinks with no cycle
+  detection, recursing until the call stack overflowed — whether it overflowed or merely wasted time depended
+  on the runner's stack size and path length, hence the flakiness. Bundler already loads the gem through its
+  own `lib`/`app` require paths, so nothing requireable lives in `vendor` and skipping it is safe.
+
 ## [0.6.0] - 2026-06-12
 
 ### Tooling & Standards
