@@ -11,6 +11,16 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### General Changes
+
+- Added publishing auth pre-checks and a Retry / Skip / Abort loop to `bin/release` — before each publish
+  the wizard now verifies credentials (`npm whoami` for NPM, a readable `~/.gem/credentials` for RubyGems)
+  and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
+  can fix credentials in another terminal and retry without restarting the wizard. The same checks run as
+  early non-fatal warnings in the prerequisites step, and the dry-run output describes the new behavior.
+
 ## [0.6.0] - 2026-06-12
 
 ### Tooling & Standards
