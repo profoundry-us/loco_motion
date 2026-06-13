@@ -3,7 +3,7 @@
 
 ## Project Overview
 
-LocoMotion is a Rails ViewComponent library (v0.5.2) that wraps DaisyUI
+LocoMotion is a Rails ViewComponent library (v0.6.0) that wraps DaisyUI
 components with a clean Ruby API. It generates semantic, accessible UI
 elements using Tailwind CSS classes and ships with a live demo application
 for previewing and testing every component.

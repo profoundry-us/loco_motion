@@ -51,9 +51,9 @@ opinionated project setup, start with the [Guides](#guides).
 
 This project is in active development and many changes occur with every release!
 
-As of **v0.5.x**, LocoMotion ships with **Tailwind 4** and **DaisyUI 5**. The
-install approach has changed from previous versions, so please follow the
-updated instructions below.
+As of **v0.6.x**, LocoMotion ships with **Tailwind 4** and **DaisyUI 5**. The
+install approach changed with Tailwind 4, so be sure to follow the current
+installation instructions below.
 
 > [!CAUTION]
 > LocoMotion is in active development. Components are functional but APIs may
@@ -66,77 +66,18 @@ them in real projects.
 
 ## Installation
 
-Add the following to your `Gemfile` and re-run `bundle`:
+Add the gem to your `Gemfile` and run `bundle`:
 
 ```ruby
 # Gemfile
-
-gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
+gem "loco_motion-rails", "~> 0.6.0", require: "loco_motion"
 ```
 
-Next, create or update your `tailwind.config.js` to tell Tailwind where to
-scan for component class names. In Tailwind 4, this file handles **only**
-content paths — plugins belong in your CSS file (see the
-[Getting Started guide](https://loco-motion.profoundry.us/guides/getting_started)).
-
-```js
-const { execSync } = require('child_process');
-let locoBundlePath =
-  execSync('bundle show loco_motion-rails').toString().trim();
-
-module.exports = {
-  content: [
-    `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
-    'app/components/**/*.{rb,js,html,haml}',
-    'app/views/**/*.{rb,js,html,haml}',
-  ]
-}
-```
-
-> [!WARNING]
-> Note that `bundle show loco_motion-rails` will output nothing if the gem
-> is not installed or the name is wrong, causing Tailwind to skip all
-> component classes. Make sure the gem name matches exactly.
-
-Next, if you're using any of the components that require JavaScript (like the
-Countdown component), you'll need to add the library as a dependency and include
-those controllers in your `application.js` file.
-
-```sh
-npm add @profoundry-us/loco_motion
-```
-
-or
-
-```sh
-yarn add @profoundry-us/loco_motion
-```
-
-Then inside your `application.js` file, make sure to import and register the
-relevant controllers.
-
-```js
-import { Application } from "@hotwired/stimulus"
-
-import {
-  CountdownController,
-  ThemeController,
-  AlertController,
-  CallyInputController
-} from "@profoundry-us/loco_motion"
-
-const application = Application.start()
-
-// Register each controller under its `loco-*` Stimulus identifier. These
-// names are required: the components render `data-controller="loco-..."`, so
-// registering under any other name means the controller never connects.
-application.register("loco-countdown", CountdownController)
-application.register("loco-theme", ThemeController)
-application.register("loco-alert", AlertController)
-application.register("loco-cally-input", CallyInputController)
-
-export { application }
-```
+Some components also need a JavaScript package (for their Stimulus controllers)
+and a small Tailwind 4 / DaisyUI configuration. For the complete setup — the
+JavaScript install, Stimulus controller registration, and the Tailwind
+content-path and CSS directives — follow the
+[Install guide](https://loco-motion.profoundry.us/docs/install).
 
 ## Using Components
 

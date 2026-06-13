@@ -24,7 +24,7 @@
   = doc_code(language: "ruby") do
     :plain
       # Gemfile
-      gem "loco_motion-rails", "~> 0.5.2", require: "loco_motion"
+      gem "loco_motion-rails", "~> 0.6.0", require: "loco_motion"
 
   :markdown
     Or if you want the latest and greatest:
@@ -144,6 +144,12 @@
           'app/views/**/*.{rb,js,html,haml}',
         ]
       }
+
+= doc_note(css: "mt-6", modifier: :warning, title: "Gem Name Must Match") do
+  :markdown
+    `bundle show loco_motion-rails` outputs nothing if the gem is not installed
+    or the name is wrong, which makes Tailwind silently skip every component
+    class. Make sure the gem name matches exactly.
 
 .mt-4.prose
   :markdown
