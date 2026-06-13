@@ -5,11 +5,21 @@ canonical=$(grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
 version_file=$(tr -d '[:space:]' < VERSION)
 pkg=$(grep -o '"version": *"[^"]*"' package.json | head -1 | sed -E 's/.*"version": *"([^"]*)".*/\1/')
 demo_dep=$(grep -o '"@profoundry-us/loco_motion": *"[^"]*"' docs/demo/package.json | head -1 | sed -E 's/.*: *"\^?([^"]*)".*/\1/')
+
+# The documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins. These must
+# track the released version, or new installs following the docs resolve to the
+# previous minor series (e.g. a stale "~> 0.5.2" excludes 0.6.0).
+install_guide=docs/demo/app/views/docs/02_install.html.haml
+readme_pin=$(grep -oE 'loco_motion-rails", *"~> *[0-9]+\.[0-9]+\.[0-9]+' README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)
+install_pin=$(grep -oE 'loco_motion-rails", *"~> *[0-9]+\.[0-9]+\.[0-9]+' "$install_guide" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)
+
 echo "version.rb (canonical):                  $canonical"
 echo "VERSION file:                            $version_file"
 echo "package.json:                            $pkg"
 echo "docs/demo/package.json (loco_motion dep): $demo_dep"
-if [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ]; then
+echo "README install pin (~>):                 ${readme_pin:-<none>}"
+echo "Install guide install pin (~>):          ${install_pin:-<none>}"
+if [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ] && [ "$canonical" = "$readme_pin" ] && [ "$canonical" = "$install_pin" ]; then
     echo "✓ All version sources agree ($canonical)"
 else
     echo "✗ Version mismatch! Run bin/update_version to sync them." >&2

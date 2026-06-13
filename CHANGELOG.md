@@ -36,6 +36,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   Hub pulls avoid the HTTP 429 rate limit), installs `just`, bakes the environment's egress-proxy CAs and
   `NODE_EXTRA_CA_CERTS` into a local `ruby:3.4.4` base so in-container HTTPS verifies, then builds and starts
   the `loco` and `demo` containers. Idempotent and a no-op locally; documented in `CLAUDE.md`.
+- chore(Release): Keep the documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins in sync with the
+  released version. `bin/update_version` now rewrites the pins in `README.md` and the Install guide when it
+  bumps the version, and `bin/version-check` (`just version-check`) verifies those two pins alongside
+  `version.rb` / `VERSION` / the npm packages — so a stale pin (which silently excludes the new release, like
+  `~> 0.5.2` excluding 0.6.0) fails the check instead of shipping.
 
 ### Components Changes
 
