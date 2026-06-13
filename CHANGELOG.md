@@ -20,12 +20,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
   can fix credentials in another terminal and retry without restarting the wizard. The same checks run as
   early non-fatal warnings in the prerequisites step, and the dry-run output describes the new behavior.
-- fix(Release): In `bin/release`, make the `create_and_merge_pr` step branch on the current branch.
-  Releases run directly on `main`, so when on `main` the wizard now just pushes `origin main`, confirms
-  success, and skips the PR instructions and merged-confirmation gate (the push already lands the commits).
-  When on a feature branch it pushes that branch (previously it always pushed `origin main`, even from a
-  feature branch), prints a correct compare URL built from the branch name, keeps the "Have you merged the
-  PR?" gate, and still checks out and pulls `main` afterward. The dry-run output describes both paths.
+- fix(Release): In `bin/release`, simplify the release-push step to require running from `main`. Releases
+  run directly on `main`, so the step now just pushes `origin main` and confirms success — the push lands
+  the commits and there is no PR to open or merge. It errors out if you are not on `main`. This replaces the
+  old flow that printed a nonsensical `main...main` self-compare URL and blocked on a "Have you merged the
+  PR?" gate even though the commits had already been pushed.
 
 ## [0.6.0] - 2026-06-12
 

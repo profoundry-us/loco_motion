@@ -352,49 +352,28 @@ def build_packages(dry_run: false)
 end
 
 def create_and_merge_pr(dry_run: false)
-  puts "\nSTEP 4: Create and Merge PR"
+  puts "\nSTEP 4: Push to Main"
   puts "=" * 50
 
-  current_branch = `git branch --show-current`.strip
-
   if dry_run
-    if current_branch == 'main'
-      puts "DRY RUN: On main - would push origin main directly (no PR needed)"
-    else
-      puts "DRY RUN: On feature branch '#{current_branch}' - would push it, prompt"
-      puts "   to open/merge a PR, then check out and pull main"
-    end
+    puts "DRY RUN: Would push origin main directly (releases run from main; no PR needed)"
     return
   end
 
-  if current_branch == 'main'
-    # Releases run directly on main: the push lands the commits, so there is no
-    # PR to open or merge - just push and confirm success.
-    response = prompt_yes_no("Push release commits to main?", default: 'y')
-    if response == 'y'
-      execute_command("Pushing changes to origin/main", "git push origin main")
-      puts "SUCCESS: Release commits pushed to main."
-    end
-  else
-    # Releasing from a feature branch: push that branch and gate on the PR merge.
-    response = prompt_yes_no("Push changes and create PR?", default: 'y')
-    if response == 'y'
-      execute_command("Pushing changes to origin", "git push origin #{current_branch}")
+  # Releases run directly on main: the push lands the commits, so there is no
+  # PR to open or merge. Refuse to run from any other branch so a feature
+  # branch's commits never get pushed to main.
+  current_branch = `git branch --show-current`.strip
+  unless current_branch == 'main'
+    puts "ERROR: Releases must be run from the 'main' branch (currently on: #{current_branch})."
+    puts "   Check out main and re-run the release."
+    exit 1
+  end
 
-      puts "\nINFO: Please create a pull request with your changes:"
-      puts "   1. Go to: https://github.com/profoundry-us/loco_motion/compare/main...#{current_branch}"
-      puts "   2. Create pull request"
-      puts "   3. Get it reviewed and approved"
-      puts "   4. Merge it to main"
-
-      response = prompt_yes_no("Have you merged the PR to main?", default: 'n')
-      unless response == 'y'
-        puts "WARNING: Please merge the PR before continuing."
-        exit 1
-      end
-
-      execute_command("Pulling latest changes from main", "git checkout main && git pull origin main")
-    end
+  response = prompt_yes_no("Push release commits to main?", default: 'y')
+  if response == 'y'
+    execute_command("Pushing changes to origin/main", "git push origin main")
+    puts "SUCCESS: Release commits pushed to main."
   end
 end
 
@@ -609,7 +588,7 @@ def main
       2. Update version
       3. Update CHANGELOG
       4. Build packages
-      5. Create and merge PR
+      5. Push to main
       6. Tag release
       7. Publish packages (requires credentials)
       8. Create GitHub release
