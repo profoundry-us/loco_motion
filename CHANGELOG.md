@@ -34,6 +34,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Fix the broken 3D tilt in the Hover 3D "3D Hover Image Gallery" example. The wrapper passed a
+  `block` display utility, which overrode DaisyUI's `display: inline-grid` on `.hover-3d` and collapsed the
+  eight hover zones that drive the tilt, so cards only scaled instead of rotating. Dropped `block` so the
+  grid (and the tilt) survive — the cards already lay out correctly as flex items without it.
 - fix(Demo): Stop the Hover Gallery examples from jumping in height while hovering. The sample landscape
   images have different aspect ratios, and DaisyUI leaves the gallery container at `height: auto`, so the
   rendered height (and everything below it) shifted as each image became visible. Added `aspect-[3/2]` to
