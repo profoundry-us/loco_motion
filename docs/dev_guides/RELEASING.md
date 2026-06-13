@@ -259,8 +259,9 @@ LLM-friendly documentation files:
    ```
 
    This will:
-   - Generate comprehensive LLM.txt files with all component documentation
-   - Create both versioned (`LLM-vX.X.X.txt`) and versionless (`LLM.txt`) copies
+   - Generate comprehensive llms.txt files with all component documentation
+   - Create both versioned (`llms-vX.X.X.txt` / `llms-full-vX.X.X.txt`) and
+     versionless (`llms.txt` / `llms-full.txt`) copies
    - Include usage patterns, component examples, and helper method documentation
    - Place files in the demo public directory for HTTP access
 
@@ -268,7 +269,7 @@ LLM-friendly documentation files:
 
    ```bash
    # Check that files were generated
-   ls -la docs/demo/public/LLM*.txt
+   ls -la docs/demo/public/llms*.txt
 
    # Verify content quality
    docker compose exec -it demo bundle exec rake algolia:llm
@@ -277,10 +278,14 @@ LLM-friendly documentation files:
 3. **Commit the generated files**:
 
    ```bash
-   git add docs/demo/public/LLM*.txt
+   git add docs/demo/public/llms*.txt docs/demo/Gemfile.lock
    git commit -m "Generate LLM documentation for version X.X.X"
    git push
    ```
+
+   Note: running `just llm` boots the demo container, which can refresh
+   `docs/demo/Gemfile.lock` (the demo bundle stamp). If it is dirty at this
+   point, include it in the commit as shown above.
 
 The LLM documentation is used by AI assistants to provide better code
 generation and support for LocoMotion components.
