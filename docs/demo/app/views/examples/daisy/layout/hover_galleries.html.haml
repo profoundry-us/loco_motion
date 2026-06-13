@@ -14,7 +14,7 @@
       Pass images via the `with_image` slot. Hover left and right over the
       gallery to reveal each image.
 
-  = daisy_hover_gallery(css: "max-w-60") do |gallery|
+  = daisy_hover_gallery(css: "max-w-60 aspect-[3/2]") do |gallery|
     - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
     - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
     - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
@@ -29,7 +29,7 @@
 
   = daisy_card(css: "card-sm bg-base-200 max-w-60 shadow") do |card|
     - card.with_top_figure do
-      = daisy_hover_gallery do |gallery|
+      = daisy_hover_gallery(css: "aspect-[3/2]") do |gallery|
         - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
         - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
         - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
@@ -44,7 +44,7 @@
       without a block. Useful for quick, uniform galleries.
 
   - srcs = %w[beach desert forest].map { |s| image_path("landscapes/#{s}.jpg") }
-  = daisy_hover_gallery(srcs: srcs, css: "max-w-60")
+  = daisy_hover_gallery(srcs: srcs, css: "max-w-60 aspect-[3/2]")
 
 
 = doc_example(title: "Hover Gallery with Custom Content") do |doc|
@@ -54,7 +54,7 @@
       content is rendered inside the figure. This allows full control over
       the inner markup.
 
-  = daisy_hover_gallery(css: "max-w-60") do
+  = daisy_hover_gallery(css: "max-w-60 aspect-[3/2]") do
     %img{ src: image_path("landscapes/beach.jpg"), alt: "Beach", class: "hover:opacity-100" }
     %img{ src: image_path("landscapes/desert.jpg"), alt: "Desert" }
     %img{ src: image_path("landscapes/forest.jpg"), alt: "Forest" }

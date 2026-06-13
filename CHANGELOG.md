@@ -37,6 +37,22 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `NODE_EXTRA_CA_CERTS` into a local `ruby:3.4.4` base so in-container HTTPS verifies, then builds and starts
   the `loco` and `demo` containers. Idempotent and a no-op locally; documented in `CLAUDE.md`.
 
+### Demo / Docs Changes
+
+- fix(Demo): Fix the broken 3D tilt in the Hover 3D "3D Hover Image Gallery" example. The wrapper passed a
+  `block` display utility, which overrode DaisyUI's `display: inline-grid` on `.hover-3d` and collapsed the
+  eight hover zones that drive the tilt, so cards only scaled instead of rotating. Dropped `block` so the
+  grid (and the tilt) survive — the cards already lay out correctly as flex items without it.
+- fix(Demo): Stop the Hover Gallery examples from jumping in height while hovering. The sample landscape
+  images have different aspect ratios, and DaisyUI leaves the gallery container at `height: auto`, so the
+  rendered height (and everything below it) shifted as each image became visible. Added `aspect-[3/2]` to
+  every `daisy_hover_gallery` wrapper so the height depends only on the width and `object-cover` crops each
+  image to fill the fixed box.
+- fix(Demo): Keep the FAB demo examples inside their own preview boxes. A FAB is `position: fixed`, so with
+  five on one page they all escaped to the viewport's bottom-right corner and their preview boxes collapsed
+  to 0px. Wrapped each example in a `relative` box with a fixed height (`h-48`) and a `[&_.fab]:absolute`
+  override so each FAB sits in the bottom-right of its own box; documented why on the demo page intro.
+
 ### Fixed
 
 - fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
