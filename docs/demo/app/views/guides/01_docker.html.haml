@@ -82,93 +82,16 @@
 
 .prose.mt-12
   :markdown
-    ## 4. Creating a Rails Application
+    ## Next: Create Your App
 
-    Once inside the development container, you can create a new Rails application:
+    With the containers built and a shell open via `just dev-shell`, your
+    development environment is ready — consistent across any OS, simple to
+    debug, and isolated from your host system's dependencies.
 
-.max-w-prose.mt-4
-  = daisy_code(prefix: "$") do
-    cd /home/app && rails new . --skip --database=postgresql --javascript=esbuild --css=tailwind
-
-.max-w-prose.mt-4
-  :markdown
-    If you run into trouble with the Rails command, you can reset the files and
-    try again by running the following `rm` command:
-
-  = daisy_code(css: "mt-4", prefix: "$") do
-    rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
-
-.prose.mt-12
-  :markdown
-    ## 5. Database Configuration
-
-    After creating your Rails application, update the database configuration in
-    `config/database.yml`:
-
-  = doc_code(language: "yaml") do
-    :plain
-      # Under the default section in config/database.yml
-      host: db
-      username: postgres
-      password: password
-
-.prose.mt-12
-  :markdown
-    ## 6. Running Your Application
-
-    Now you can uncomment the `app` section in your `docker-compose.yml` file and
-    start your application:
-
-.max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    just app
-
-.prose
-  :markdown
-    After the application builds and starts, you should see output indicating that
-    Rails is running. You can now visit [http://localhost:3000](http://localhost:3000)
-    in your web browser to see your application.
-
-.max-w-prose.mt-6
-  = doc_note do
-    :markdown
-      Once the container is built, you can run `just app-fast` to simply start
-      the containers. This is **much** faster than running the full build every
-      time.
-
-.prose.mt-12
-  :markdown
-    ## 7. Building JavaScript and CSS
-
-    To ensure JavaScript and CSS assets are properly bundled, update your
-    `Procfile.dev` to bind to all interfaces:
-
-  = doc_code(language: "text") do
-    :plain
-      web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
-
-.prose
-  :markdown
-    Also update your `Dockerfile` to use Foreman for starting the application:
-
-  = doc_code(language: "dockerfile") do
-    :plain
-      # Change this line:
-      CMD ["rails", "server", "-b", "0.0.0.0"]
-
-      # To this:
-      CMD ["./bin/dev"]
-
-  :markdown
-    ## Success!
-
-    You now have a complete Docker development environment for your Rails
-    application! This setup provides:
-
-    - Consistent development environment across any OS or system
-    - Simple debugging and troubleshooting
-    - Easy onboarding for new team members
-    - Isolation from your host system's dependencies
+    From here, the [Getting Started guide](#{guide_path("getting_started")})
+    picks up exactly where this one leaves off: creating the Rails app with
+    `rails new`, configuring the database, and applying the
+    LocoMotion-recommended setup (UUIDs, HAML, DaisyUI, and more).
 
 = daisy_divider
 
