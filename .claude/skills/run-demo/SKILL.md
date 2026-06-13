@@ -2,9 +2,8 @@
 name: run-demo
 description: Boots the LocoMotion demo Rails app, serving it on port 3000.
   Uses Docker locally (via `just demo`) and a no-Docker rbenv/node fallback
-  in cloud sessions where Docker is unavailable. Use when the user says
-  "run the app", "start the demo", "boot the server", or as a prerequisite
-  before taking screenshots or videos.
+  for cloud sessions. Use when the user says "run the app", "start the demo",
+  "boot the server", or as a prerequisite before taking screenshots or videos.
 metadata:
   author: profoundry-us
   version: 1.0.0
@@ -19,8 +18,12 @@ Two execution paths exist depending on environment:
 
 - **Local development (default)** — use Docker via the `justfile`. Docker
   is installed locally; this matches the canonical dev workflow.
-- **Cloud sessions** — Docker is **not** available. Use the rbenv + Node
-  fallback documented below; setup is handled by the `SessionStart` hook.
+- **Cloud sessions** — Docker is installed but not started by default. You
+  have two options: run `bin/setup-docker` once to bootstrap the full
+  Docker-based `just` workflow (then Path A works exactly as it does
+  locally), or use the lighter no-Docker rbenv + Node fallback below (Path B)
+  to just serve the demo; that fallback's setup is handled by the
+  `SessionStart` hook.
 
 Detect which environment you are in via `CLAUDE_CODE_REMOTE`: if set to
 `true`, you are in a cloud session; otherwise you are local.
@@ -72,11 +75,13 @@ other process is holding port 3000 (`lsof -i :3000`).
 
 ## Path B — Cloud Sessions (no Docker)
 
-In cloud sessions Docker is unavailable, so the demo runs directly against
-the host's Ruby and Node. The `SessionStart` hook
-(`.claude/hooks/setup-demo.sh`) handles all heavy setup automatically on
-every session start: rbenv install, vendor symlink, `bundle install`,
-`db:prepare`, and JS dependency installation.
+This path runs the demo directly against the host's Ruby and Node — no
+Docker — which is the quickest way to just serve the demo in a cloud session.
+(To instead use the full Docker-based `just` workflow there, run
+`bin/setup-docker` once and follow Path A; see `CLAUDE.md`.) The
+`SessionStart` hook (`.claude/hooks/setup-demo.sh`) handles all heavy setup
+automatically on every session start: rbenv install, vendor symlink,
+`bundle install`, `db:prepare`, and JS dependency installation.
 
 ### Environment Notes (cloud only)
 
