@@ -32,6 +32,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `[Unreleased]` section. The prerequisites step now verifies `CHANGELOG.md` exists up front so the update
   step can assume it.
 
+### Demo / Docs Changes
+
+- fix(Demo): Fix the broken 3D tilt in the Hover 3D "3D Hover Image Gallery" example. The wrapper passed a
+  `block` display utility, which overrode DaisyUI's `display: inline-grid` on `.hover-3d` and collapsed the
+  eight hover zones that drive the tilt, so cards only scaled instead of rotating. Dropped `block` so the
+  grid (and the tilt) survive — the cards already lay out correctly as flex items without it.
+
 ### Fixed
 
 - fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
