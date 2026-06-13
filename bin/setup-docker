@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+#
+# LocoMotion — Docker bootstrap for remote / cloud Claude Code sessions.
+#
+# In the "Claude Code on the web" remote execution environment the Docker
+# CLI is installed but nothing is set up to use it: the daemon is NOT
+# started, `just` is NOT installed, anonymous Docker Hub pulls are
+# rate-limited (HTTP 429), and egress runs through a TLS-intercepting proxy
+# whose CA the stock base images do not trust. All of that makes the
+# documented `just` workflow (`just loco-test`, `just demo-test`,
+# `just playwright`, `just demo`) fail out of the box.
+#
+# This script bootstraps a working Docker environment so that workflow runs
+# exactly as it does locally. It is idempotent and safe to re-run — every
+# step is skipped when already satisfied — and is effectively a no-op on a
+# local machine where Docker and `just` are already set up.
+#
+# Usage:
+#   bin/setup-docker              start daemon, install just, build + start
+#                                 the loco and demo containers
+#   bin/setup-docker --skip-build  daemon + just only (no image build / up)
+#   bin/setup-docker --help        show this help
+#
+# Optional environment variables:
+#   DOCKERHUB_USERNAME / DOCKERHUB_TOKEN
+#       When both are set the script runs `docker login` so base-image
+#       pulls are authenticated. Not normally required — the registry
+#       mirror below already avoids Docker Hub's anonymous rate limit.
+#
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_ROOT"
+
+# Docker Hub pull-through cache so anonymous base-image pulls don't hit the
+# unauthenticated rate limit (HTTP 429).
+REGISTRY_MIRROR="https://mirror.gcr.io"
+
+# Base image shared by the loco and demo Dockerfiles. Keep in sync with
+# their `FROM` lines; it is patched with the egress CAs when needed.
+BASE_IMAGE="ruby:3.4.4"
+
+SKIP_BUILD=false
+
+log()  { echo "==> [setup-docker] $*"; }
+warn() { echo "==> [setup-docker] WARNING: $*" >&2; }
+die()  { echo "==> [setup-docker] ERROR: $*" >&2; exit 1; }
+
+for arg in "$@"; do
+  case "$arg" in
+    --skip-build|--daemon-only) SKIP_BUILD=true ;;
+    -h|--help)
+      grep -E '^# ' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    *) die "Unknown argument: $arg (try --help)" ;;
+  esac
+done
+
+# Retry a command with exponential backoff (2s, 4s, 8s, 16s).
+retry() {
+  local max="$1"; shift
+  local attempt=1 delay=2
+  until "$@"; do
+    if [ "$attempt" -ge "$max" ]; then
+      return 1
+    fi
+    warn "command failed (attempt ${attempt}/${max}); retrying in ${delay}s..."
+    sleep "$delay"
+    attempt=$((attempt + 1))
+    delay=$((delay * 2))
+  done
+}
+
+# ---------------------------------------------------------------------------
+# 1. Docker daemon
+# ---------------------------------------------------------------------------
+if docker info >/dev/null 2>&1; then
+  log "Docker daemon already running."
+else
+  command -v dockerd >/dev/null 2>&1 || die "dockerd not found on PATH."
+
+  # Configure the pull-through mirror before the daemon boots.
+  if [ ! -f /etc/docker/daemon.json ]; then
+    log "Configuring registry mirror ${REGISTRY_MIRROR} in /etc/docker/daemon.json..."
+    mkdir -p /etc/docker
+    printf '{\n  "registry-mirrors": ["%s"]\n}\n' "$REGISTRY_MIRROR" \
+      > /etc/docker/daemon.json
+  fi
+
+  log "Starting the Docker daemon..."
+  nohup dockerd >/var/log/dockerd.log 2>&1 &
+
+  log "Waiting for the daemon to become ready..."
+  for _ in $(seq 1 60); do
+    if docker info >/dev/null 2>&1; then break; fi
+    sleep 1
+  done
+  docker info >/dev/null 2>&1 \
+    || { tail -n 20 /var/log/dockerd.log >&2; die "Docker daemon did not start."; }
+  log "Docker daemon is up."
+fi
+
+# ---------------------------------------------------------------------------
+# 2. just
+# ---------------------------------------------------------------------------
+if command -v just >/dev/null 2>&1; then
+  log "just already installed ($(just --version))."
+else
+  log "Installing just..."
+  if command -v apt-get >/dev/null 2>&1 && apt-get install -y just >/dev/null 2>&1; then
+    log "Installed just via apt ($(just --version))."
+  else
+    warn "apt install failed; falling back to the official installer."
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+      | bash -s -- --to /usr/local/bin
+    log "Installed just ($(just --version))."
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# 3. Optional Docker Hub authentication
+# ---------------------------------------------------------------------------
+if [ -n "${DOCKERHUB_USERNAME:-}" ] && [ -n "${DOCKERHUB_TOKEN:-}" ]; then
+  log "Logging in to Docker Hub as ${DOCKERHUB_USERNAME}..."
+  echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+fi
+
+# ---------------------------------------------------------------------------
+# 4. Trust the egress-proxy CAs inside the base image
+#
+# This environment routes egress through a TLS-intercepting proxy. The host
+# trusts its CAs (installed under /usr/local/share/ca-certificates), but a
+# stock `ruby:3.4.4` does not, so in-container HTTPS (NodeSource, RubyGems,
+# yarn) fails certificate verification during the build. Bake those CAs into
+# a local `ruby:3.4.4` so the checked-in Dockerfiles inherit a trusting base
+# without any edits. NODE_EXTRA_CA_CERTS is also set because npm/yarn/Node
+# use their own bundled CAs rather than the OS trust store. Skipped
+# automatically when no extra CAs are present (e.g. local development).
+# ---------------------------------------------------------------------------
+shopt -s nullglob
+EGRESS_CAS=(/usr/local/share/ca-certificates/*.crt)
+shopt -u nullglob
+
+if [ "$SKIP_BUILD" = false ] && [ "${#EGRESS_CAS[@]}" -gt 0 ]; then
+  log "Baking ${#EGRESS_CAS[@]} egress CA cert(s) into ${BASE_IMAGE}..."
+  CA_CTX="$(mktemp -d)"
+  trap 'rm -rf "$CA_CTX"' EXIT
+  cp "${EGRESS_CAS[@]}" "$CA_CTX/"
+  cat > "$CA_CTX/Dockerfile" <<EOF
+FROM ${BASE_IMAGE}
+COPY *.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+EOF
+  retry 4 docker build -t "${BASE_IMAGE}" "$CA_CTX" \
+    || die "Failed to build the CA-patched ${BASE_IMAGE} base image."
+fi
+
+# ---------------------------------------------------------------------------
+# 5. Build and start the containers
+# ---------------------------------------------------------------------------
+if [ "$SKIP_BUILD" = true ]; then
+  log "--skip-build set; leaving containers untouched."
+else
+  # Do NOT pass --pull: that would replace the CA-patched local base image.
+  log "Building the loco and demo images (first run is slow)..."
+  retry 4 docker compose build loco demo \
+    || die "Image build failed. If this is an HTTP 429 from Docker Hub, set DOCKERHUB_USERNAME/DOCKERHUB_TOKEN and re-run."
+
+  log "Starting the loco and demo containers..."
+  docker compose up -d loco demo
+
+  log "Container status:"
+  docker compose ps
+fi
+
+cat <<'EOF'
+
+==> [setup-docker] Done. The Docker-based just workflow is ready:
+
+      just loco-test     # library RSpec suite (loco container)
+      just demo-test     # demo RSpec suite (demo container)
+      just playwright    # Playwright e2e tests (demo container)
+      just demo          # serve the demo app on http://localhost:3000
+
+EOF

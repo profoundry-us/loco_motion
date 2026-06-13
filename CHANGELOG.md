@@ -31,6 +31,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   when the version section already exists and falls back to offering `$EDITOR` when there is no
   `[Unreleased]` section. The prerequisites step now verifies `CHANGELOG.md` exists up front so the update
   step can assume it.
+- chore(Dev): Add `bin/setup-docker` to bootstrap the Docker-based `just` workflow in remote / cloud Claude
+  Code sessions. It starts the Docker daemon with a `mirror.gcr.io` pull-through cache (so anonymous Docker
+  Hub pulls avoid the HTTP 429 rate limit), installs `just`, bakes the environment's egress-proxy CAs and
+  `NODE_EXTRA_CA_CERTS` into a local `ruby:3.4.4` base so in-container HTTPS verifies, then builds and starts
+  the `loco` and `demo` containers. Idempotent and a no-op locally; documented in `CLAUDE.md`.
 
 ### Fixed
 

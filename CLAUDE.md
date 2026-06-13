@@ -85,6 +85,30 @@ docker compose exec -it demo yarn playwright test 'e2e/...' \
   commands.
 - Only restart the demo app when files inside `lib/loco_motion/` change.
 
+### Remote / cloud sessions (Claude Code on the web)
+
+In the remote execution environment (`CLAUDE_CODE_REMOTE=true`) the Docker
+CLI is present but the daemon is **not** started and `just` is **not**
+installed, so the targets above fail until the session is bootstrapped. Run
+this once at the start of the session:
+
+```bash
+bin/setup-docker
+```
+
+It starts the Docker daemon (with a `mirror.gcr.io` pull-through cache so
+anonymous base-image pulls avoid Docker Hub's rate limit), installs `just`,
+bakes the environment's egress-proxy CAs into the `ruby:3.4.4` base so
+in-container HTTPS verifies, and builds and starts the `loco` and `demo`
+containers. Afterwards the `just` targets above work as normal.
+
+- The script is idempotent — re-running skips anything already done, and it
+  is a no-op locally where Docker and `just` already exist.
+- `bin/setup-docker --skip-build` starts the daemon and installs `just`
+  without building or starting any containers.
+- If base-image pulls still fail with `HTTP 429`, set `DOCKERHUB_USERNAME`
+  and `DOCKERHUB_TOKEN` in the environment config and re-run.
+
 
 ## Branch & Commit Conventions
 
