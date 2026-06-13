@@ -13,13 +13,29 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
-### Tooling & Standards
+### General Changes
 
+- Added publishing auth pre-checks and a Retry / Skip / Abort loop to `bin/release` — before each publish
+  the wizard now verifies credentials (`npm whoami` for NPM, a readable `~/.gem/credentials` for RubyGems)
+  and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
+  can fix credentials in another terminal and retry without restarting the wizard. The same checks run as
+  early non-fatal warnings in the prerequisites step, and the dry-run output describes the new behavior.
 - feat(Release): Automate the CHANGELOG finalization step in `bin/release` — the wizard now replaces the
   `## [Unreleased]` heading with `## [VERSION] - YYYY-MM-DD` itself and shows the resulting diff before the
   existing commit confirmation, instead of opening `$EDITOR` for a manual edit. It skips with an INFO message
   when the version section already exists and falls back to offering `$EDITOR` when there is no
   `[Unreleased]` section.
+
+### Fixed
+
+- fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
+  that crashed the Playwright CI job's production server boot. Rails adds `vendor` to `$LOAD_PATH` by default,
+  but ours holds only the `loco_motion-rails` symlink, which points back at the repo root and so makes
+  `vendor` a self-referential directory cycle (`vendor/loco_motion-rails` -> repo ->
+  `docs/demo/vendor/loco_motion-rails` -> ...). Bootsnap's path scanner follows symlinks with no cycle
+  detection, recursing until the call stack overflowed — whether it overflowed or merely wasted time depended
+  on the runner's stack size and path length, hence the flakiness. Bundler already loads the gem through its
+  own `lib`/`app` require paths, so nothing requireable lives in `vendor` and skipping it is safe.
 
 ## [0.6.0] - 2026-06-12
 
@@ -60,6 +76,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - fix(Release): Read interactive prompts from `$stdin` in `bin/release` and
   `bin/update_demo_after_release` — bare `gets` reads from `ARGF`, so with a version argument the first
   prompt crashed trying to open a file named after the version (e.g. `0.6.0`).
+- fix(Release): Point the `bin/release` llms.txt commit step at the actual generated files
+  (`docs/demo/public/llms*.txt`) instead of the repo-root `llms.txt`/`llms-full.txt` — the v0.6.0 release
+  failed with `fatal: pathspec 'llms.txt' did not match any files` — and include `docs/demo/Gemfile.lock`,
+  which `just llm` can dirty by refreshing the demo container's bundle stamp. Also fix the `LLM*.txt`
+  filename casing in `RELEASING.md` (the generated files are lowercase `llms*.txt`).
 
 ### Documentation
 

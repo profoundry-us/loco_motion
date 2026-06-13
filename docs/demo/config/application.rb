@@ -18,6 +18,17 @@ module LocoDemo
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Drop `vendor` from the load path. Rails adds `vendor` to `$LOAD_PATH` by
+    # default, but ours holds only the `loco_motion-rails` symlink, which points
+    # back at the repo root (so the demo can use the gem via Bundler's `path:`).
+    # That makes `vendor` a self-referential directory cycle
+    # (vendor/loco_motion-rails -> repo -> docs/demo/vendor/loco_motion-rails ->
+    # ...). Bootsnap's path scanner follows the symlink and recurses until the
+    # boot crashes with `SystemStackError`. Bundler already adds the gem's own
+    # `lib`/`app` require paths, so nothing requireable lives in `vendor` and
+    # skipping it is safe.
+    config.paths["vendor"].skip_load_path!
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
