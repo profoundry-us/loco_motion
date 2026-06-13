@@ -43,6 +43,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   rendered height (and everything below it) shifted as each image became visible. Added `aspect-[3/2]` to
   every `daisy_hover_gallery` wrapper so the height depends only on the width and `object-cover` crops each
   image to fill the fixed box.
+- fix(Demo): Keep the FAB demo examples inside their own preview boxes. A FAB is `position: fixed`, so with
+  five on one page they all escaped to the viewport's bottom-right corner and their preview boxes collapsed
+  to 0px. Wrapped each example in a `relative` box with a fixed height (`h-48`) and a `[&_.fab]:absolute`
+  override so each FAB sits in the bottom-right of its own box; documented why on the demo page intro.
 
 ### Fixed
 
