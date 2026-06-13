@@ -10,6 +10,13 @@
 # creates invisible columns over the figure; hovering each column reveals the
 # corresponding image.
 #
+# @note By default the gallery is rendered with a 3:2 aspect ratio
+#   (`where:aspect-[3/2]`) so that images with differing aspect ratios don't
+#   shift the container's height as they are revealed on hover. The default
+#   uses DaisyUI's zero-specificity `where:` variant and is skipped entirely
+#   when you pass your own `aspect-*` utility (e.g. `aspect-square`) via
+#   `css:`, so it is easy to override.
+#
 # @slot image+ One or more images to display in the gallery. Each image
 #   accepts `src:` and `alt:` keyword arguments along with any standard HTML
 #   attribute via `html:`.
@@ -65,11 +72,14 @@ module Daisy
       #   images are added via `with_image`.
       #
       # @option kws css [String] Additional CSS classes for styling. Common
-      #   options include sizing utilities such as `max-w-60` or `w-full`.
+      #   options include sizing utilities such as `max-w-60` or `w-full`. Pass
+      #   an `aspect-*` utility (e.g. `aspect-square`) to override the default
+      #   3:2 aspect ratio.
       #
       def initialize(srcs: nil, **kws)
         super(**kws)
         @srcs = srcs
+        @css = config_option(:css, "")
       end
 
       def before_render
@@ -82,6 +92,12 @@ module Daisy
       def setup_component
         set_tag_name(:component, :figure)
         add_css(:component, "hover-gallery")
+
+        # Default to a 3:2 aspect ratio so images with different aspect
+        # ratios don't shift the gallery's height as each is revealed on
+        # hover. The zero-specificity `where:` variant plus this guard keep
+        # it easy to override; pass any `aspect-*` utility via `css:`.
+        add_css(:component, "where:aspect-[3/2]") unless @css.include?("aspect-")
       end
     end
   end
