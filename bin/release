@@ -158,16 +158,17 @@ def update_changelog(version, dry_run: false)
   puts "\nSTEP 2: Update CHANGELOG"
   puts "=" * 50
 
+  release_header = "## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
+
   if dry_run
     puts "DRY RUN: Checking if CHANGELOG update is needed..."
 
-    # Check if CHANGELOG exists and has unreleased section
     if File.exist?('CHANGELOG.md')
       changelog_content = File.read('CHANGELOG.md')
-      if changelog_content.include?('[Unreleased]')
-        puts "INFO: CHANGELOG has [Unreleased] section that needs to be updated to [#{version}]"
-      elsif changelog_content.include?("[#{version}]")
+      if changelog_content.include?("[#{version}]")
         puts "SUCCESS: CHANGELOG already has [#{version}] section"
+      elsif changelog_content.include?('## [Unreleased]')
+        puts "INFO: Would replace '## [Unreleased]' with '#{release_header}'"
       else
         puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
       end
@@ -177,23 +178,31 @@ def update_changelog(version, dry_run: false)
     return
   end
 
-  # Check if CHANGELOG already has the version
-  if File.exist?('CHANGELOG.md')
-    changelog_content = File.read('CHANGELOG.md')
-    if changelog_content.include?("[#{version}]")
-      puts "INFO: CHANGELOG already has [#{version}] section"
-      response = prompt_yes_no("Continue with existing CHANGELOG?", default: 'y')
-      return if response == 'y'
-    end
+  unless File.exist?('CHANGELOG.md')
+    puts "WARNING: CHANGELOG.md not found, skipping CHANGELOG update"
+    return
   end
 
-  puts "   Please update CHANGELOG.md to replace '[Unreleased]' with the new version header:"
-  puts "   ## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
-  puts
+  changelog_content = File.read('CHANGELOG.md')
 
-  response = prompt_yes_no("Open CHANGELOG.md for editing?", default: 'y')
-  if response == 'y'
-    system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
+  if changelog_content.include?("[#{version}]")
+    puts "INFO: CHANGELOG already has [#{version}] section, skipping update"
+    return
+  end
+
+  if changelog_content.include?('## [Unreleased]')
+    puts "   Replacing '## [Unreleased]' with '#{release_header}'..."
+    File.write('CHANGELOG.md', changelog_content.sub('## [Unreleased]', release_header))
+
+    puts "\nCHANGES: Resulting CHANGELOG diff:"
+    system('git diff CHANGELOG.md')
+    puts
+  else
+    puts "WARNING: CHANGELOG.md has no '## [Unreleased]' section to replace."
+    response = prompt_yes_no("Open CHANGELOG.md for manual editing?", default: 'y')
+    if response == 'y'
+      system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
+    end
   end
 
   response = prompt_yes_no("Commit CHANGELOG changes?", default: 'y')

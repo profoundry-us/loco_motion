@@ -11,6 +11,16 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### Tooling & Standards
+
+- feat(Release): Automate the CHANGELOG finalization step in `bin/release` — the wizard now replaces the
+  `## [Unreleased]` heading with `## [VERSION] - YYYY-MM-DD` itself and shows the resulting diff before the
+  existing commit confirmation, instead of opening `$EDITOR` for a manual edit. It skips with an INFO message
+  when the version section already exists and falls back to offering `$EDITOR` when there is no
+  `[Unreleased]` section.
+
 ## [0.6.0] - 2026-06-12
 
 ### Tooling & Standards
