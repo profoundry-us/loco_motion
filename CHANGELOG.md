@@ -24,7 +24,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `## [Unreleased]` heading with `## [VERSION] - YYYY-MM-DD` itself and shows the resulting diff before the
   existing commit confirmation, instead of opening `$EDITOR` for a manual edit. It skips with an INFO message
   when the version section already exists and falls back to offering `$EDITOR` when there is no
-  `[Unreleased]` section.
+  `[Unreleased]` section. The prerequisites step now verifies `CHANGELOG.md` exists up front so the update
+  step can assume it.
 
 ### Fixed
 

@@ -118,6 +118,16 @@ def check_prerequisites(dry_run: false)
     puts "SUCCESS: No uncommitted changes"
   end
 
+  # Check that CHANGELOG.md exists (the release wizard rewrites its
+  # [Unreleased] heading later, so a missing file is a hard blocker). Exit
+  # even in dry run since the CHANGELOG step would otherwise fail to read it.
+  if File.exist?('CHANGELOG.md')
+    puts "SUCCESS: CHANGELOG.md found"
+  else
+    puts "ERROR: CHANGELOG.md not found in the project root."
+    exit 1
+  end
+
   # Warn early about missing publishing credentials so they can be fixed
   # before the release work starts. Non-fatal: publishing (step 6) re-checks
   # and offers a retry loop.
@@ -208,23 +218,14 @@ def update_changelog(version, dry_run: false)
   if dry_run
     puts "DRY RUN: Checking if CHANGELOG update is needed..."
 
-    if File.exist?('CHANGELOG.md')
-      changelog_content = File.read('CHANGELOG.md')
-      if changelog_content.include?("[#{version}]")
-        puts "SUCCESS: CHANGELOG already has [#{version}] section"
-      elsif changelog_content.include?('## [Unreleased]')
-        puts "INFO: Would replace '## [Unreleased]' with '#{release_header}'"
-      else
-        puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
-      end
+    changelog_content = File.read('CHANGELOG.md')
+    if changelog_content.include?("[#{version}]")
+      puts "SUCCESS: CHANGELOG already has [#{version}] section"
+    elsif changelog_content.include?('## [Unreleased]')
+      puts "INFO: Would replace '## [Unreleased]' with '#{release_header}'"
     else
-      puts "WARNING: CHANGELOG.md not found"
+      puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
     end
-    return
-  end
-
-  unless File.exist?('CHANGELOG.md')
-    puts "WARNING: CHANGELOG.md not found, skipping CHANGELOG update"
     return
   end
 
