@@ -38,6 +38,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `block` display utility, which overrode DaisyUI's `display: inline-grid` on `.hover-3d` and collapsed the
   eight hover zones that drive the tilt, so cards only scaled instead of rotating. Dropped `block` so the
   grid (and the tilt) survive — the cards already lay out correctly as flex items without it.
+- fix(Demo): Stop the Hover Gallery examples from jumping in height while hovering. The sample landscape
+  images have different aspect ratios, and DaisyUI leaves the gallery container at `height: auto`, so the
+  rendered height (and everything below it) shifted as each image became visible. Added `aspect-[3/2]` to
+  every `daisy_hover_gallery` wrapper so the height depends only on the width and `object-cover` crops each
+  image to fill the fixed box.
 
 ### Fixed
 
