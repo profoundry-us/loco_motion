@@ -64,6 +64,32 @@ def update_version(new_version = nil)
       end
     end
 
+    # Update the documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins
+    # so the README and Install guide track the released version. A stale pin
+    # silently excludes the new release (e.g. "~> 0.5.2" excludes 0.6.0), so
+    # new installs following the docs resolve to the previous minor series.
+    install_pin_files = [
+      'README.md',
+      File.join('docs', 'demo', 'app', 'views', 'docs', '02_install.html.haml')
+    ]
+    install_pin_files.each do |rel_path|
+      path = File.join(root_dir, rel_path)
+      next unless File.exist?(path)
+
+      # Read/write as UTF-8 explicitly: these docs contain non-ASCII bytes
+      # (em dashes, emoji), and a US-ASCII default external encoding would
+      # otherwise raise "invalid byte sequence" on the gsub.
+      content = File.read(path, encoding: 'UTF-8')
+      updated = content.gsub(
+        /(gem\s+["']loco_motion-rails["'],\s*["']~>\s*)\d+\.\d+\.\d+/,
+        "\\1#{new_version}"
+      )
+      next if updated == content
+
+      File.write(path, updated, encoding: 'UTF-8')
+      puts "✓ Updated install pin in #{rel_path}"
+    end
+
     puts "\nSuccessfully updated version to #{new_version}"
     puts "\n📋 Next steps for release:"
     puts "1. Review the changes: git diff"
