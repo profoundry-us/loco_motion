@@ -13,15 +13,19 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
-### Tooling & Standards
+### General Changes
 
+- Added publishing auth pre-checks and a Retry / Skip / Abort loop to `bin/release` — before each publish
+  the wizard now verifies credentials (`npm whoami` for NPM, a readable `~/.gem/credentials` for RubyGems)
+  and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
+  can fix credentials in another terminal and retry without restarting the wizard. The same checks run as
+  early non-fatal warnings in the prerequisites step, and the dry-run output describes the new behavior.
 - fix(Release): In `bin/release`, make the `create_and_merge_pr` step branch on the current branch.
   Releases run directly on `main`, so when on `main` the wizard now just pushes `origin main`, confirms
   success, and skips the PR instructions and merged-confirmation gate (the push already lands the commits).
   When on a feature branch it pushes that branch (previously it always pushed `origin main`, even from a
   feature branch), prints a correct compare URL built from the branch name, keeps the "Have you merged the
   PR?" gate, and still checks out and pulls `main` afterward. The dry-run output describes both paths.
-
 
 ## [0.6.0] - 2026-06-12
 
@@ -62,6 +66,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - fix(Release): Read interactive prompts from `$stdin` in `bin/release` and
   `bin/update_demo_after_release` — bare `gets` reads from `ARGF`, so with a version argument the first
   prompt crashed trying to open a file named after the version (e.g. `0.6.0`).
+- fix(Release): Point the `bin/release` llms.txt commit step at the actual generated files
+  (`docs/demo/public/llms*.txt`) instead of the repo-root `llms.txt`/`llms-full.txt` — the v0.6.0 release
+  failed with `fatal: pathspec 'llms.txt' did not match any files` — and include `docs/demo/Gemfile.lock`,
+  which `just llm` can dirty by refreshing the demo container's bundle stamp. Also fix the `LLM*.txt`
+  filename casing in `RELEASING.md` (the generated files are lowercase `llms*.txt`).
 
 ### Documentation
 

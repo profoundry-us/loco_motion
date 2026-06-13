@@ -30,6 +30,43 @@ def prompt_yes_no(message, default: 'n')
   end
 end
 
+def prompt_retry_skip_abort(message)
+  loop do
+    print "#{message} (r)etry / (s)kip / (a)bort: "
+    response = $stdin.gets.strip.downcase
+    return 'retry' if %w[r retry].include?(response)
+    return 'skip' if %w[s skip].include?(response)
+    return 'abort' if %w[a abort].include?(response)
+    puts "WARNING: Please enter 'r', 's', or 'a'."
+  end
+end
+
+def check_npm_auth
+  output = `npm whoami 2>&1`.strip
+  if $?.success?
+    puts "SUCCESS: NPM authenticated as '#{output}'"
+    true
+  else
+    puts "WARNING: NPM auth pre-check failed (npm whoami):"
+    output.each_line { |line| puts "   #{line.rstrip}" }
+    puts "   Your npm login is missing or expired. Run 'npm login' in another terminal."
+    puts "   Note: 'npm publish' reports a misleading E404 for scoped packages when auth fails."
+    false
+  end
+end
+
+def check_gem_auth
+  credentials_path = File.expand_path('~/.gem/credentials')
+  if File.readable?(credentials_path)
+    puts "SUCCESS: RubyGems credentials found at #{credentials_path}"
+    true
+  else
+    puts "WARNING: RubyGems credentials not found (or not readable) at #{credentials_path}"
+    puts "   Run 'gem signin' in another terminal to authenticate."
+    false
+  end
+end
+
 def execute_command(description, command, exit_on_failure: true)
   puts "\nEXEC: #{description}"
   puts "   Running: #{command}"
@@ -80,6 +117,14 @@ def check_prerequisites(dry_run: false)
   else
     puts "SUCCESS: No uncommitted changes"
   end
+
+  # Warn early about missing publishing credentials so they can be fixed
+  # before the release work starts. Non-fatal: publishing (step 6) re-checks
+  # and offers a retry loop.
+  puts "\nCHECK: Checking publishing credentials (warnings only)..."
+  check_gem_auth
+  check_npm_auth
+  puts
 
   # Check if tests pass (skip in dry run as it runs commands)
   if dry_run
@@ -218,7 +263,10 @@ def generate_llms_docs(version, dry_run: false)
 
     response = prompt_yes_no("Commit llms.txt changes?", default: 'y')
     if response == 'y'
-      execute_command("Committing llms.txt", "git add llms.txt llms-full.txt && git commit -m 'docs: Update llms.txt for release v#{version}'")
+      # `just llm` writes the files into docs/demo/public/ (llms.txt,
+      # llms-full.txt, and versioned copies). It also boots the demo
+      # container, which can refresh docs/demo/Gemfile.lock, so include it.
+      execute_command("Committing llms.txt", "git add docs/demo/public/llms*.txt docs/demo/Gemfile.lock && git commit -m 'docs: Update llms.txt for release v#{version}'")
     end
   else
     puts "INFO: Skipping llms.txt generation (you can run it later with 'just llm')"
@@ -411,43 +459,91 @@ def tag_release(version, dry_run: false)
   execute_command("Pushing tag to origin", "git push origin v#{version}")
 end
 
+def publish_with_retries(name, command, auth_check:, fix_hint:)
+  loop do
+    failure = nil
+
+    if send(auth_check)
+      if execute_command("Publishing #{name}", command, exit_on_failure: false)
+        return true
+      end
+      puts "   #{fix_hint}"
+      failure = "publish failed"
+    else
+      failure = "auth pre-check failed"
+    end
+
+    puts
+    case prompt_retry_skip_abort("#{name}: #{failure}. Fix credentials in another terminal, then:")
+    when 'retry'
+      next
+    when 'skip'
+      puts "INFO: Skipping #{name} publishing."
+      return false
+    when 'abort'
+      puts "WARNING: Aborting release. Resolve publishing issues and re-run bin/release."
+      exit 1
+    end
+  end
+end
+
 def publish_packages(dry_run: false)
   puts "\nSTEP 6: Publish Packages"
   puts "=" * 50
 
   if dry_run
     puts "DRY RUN: Skipping package publishing"
+    puts "   Would run an auth pre-check before each publish:"
+    puts "   - RubyGems: verify ~/.gem/credentials exists ('gem signin' to fix)"
+    puts "   - NPM: run 'npm whoami' ('npm login' to fix)"
     puts "   Would publish:"
     puts "   - Ruby gem to RubyGems.org"
     puts "   - NPM package to npmjs.com"
+    puts "   On a failed pre-check or publish, would prompt Retry / Skip / Abort"
+    puts "   so credentials can be fixed without restarting the wizard."
     return
   end
 
   puts "   This step requires your credentials for both RubyGems and NPM."
-  puts "   The script will run the publishing commands, but you may need to"
-  puts "   authenticate when prompted."
+  puts "   Each publish runs an auth pre-check first. If a pre-check or a"
+  puts "   publish fails, you can fix your credentials in another terminal"
+  puts "   and retry without restarting the wizard."
   puts
 
   # Publish Ruby gem
+  gem_published = false
   puts "INFO: Publishing Ruby Gem to RubyGems.org..."
   response = prompt_yes_no("Continue with gem publishing?", default: 'y')
   if response == 'y'
-    execute_command("Publishing Ruby gem", "just gem-publish", exit_on_failure: false)
-    puts "   Verify at: https://rubygems.org/gems/loco_motion-rails"
+    gem_published = publish_with_retries(
+      "Ruby gem", "just gem-publish",
+      auth_check: :check_gem_auth,
+      fix_hint: "If this is an auth problem, run 'gem signin' in another terminal."
+    )
+    puts "   Verify at: https://rubygems.org/gems/loco_motion-rails" if gem_published
   end
 
   # Publish NPM package
+  npm_published = false
   puts "\nINFO: Publishing NPM package to npmjs.com..."
   response = prompt_yes_no("Continue with NPM publishing?", default: 'y')
   if response == 'y'
-    execute_command("Publishing NPM package", "just npm-publish", exit_on_failure: false)
-    puts "   Verify at: https://www.npmjs.com/package/@profoundry-us/loco_motion"
+    npm_published = publish_with_retries(
+      "NPM package", "just npm-publish",
+      auth_check: :check_npm_auth,
+      fix_hint: "An E404 here usually means expired auth ('npm whoami' to check, 'npm login' to fix)."
+    )
+    puts "   Verify at: https://www.npmjs.com/package/@profoundry-us/loco_motion" if npm_published
   end
 
-  response = prompt_yes_no("Were both packages published successfully?", default: 'n')
-  unless response == 'y'
-    puts "WARNING: Please resolve any publishing issues before continuing."
-    exit 1
+  unless gem_published && npm_published
+    skipped = []
+    skipped << "Ruby gem ('just gem-publish')" unless gem_published
+    skipped << "NPM package ('just npm-publish')" unless npm_published
+    puts "\nWARNING: Not published: #{skipped.join(', ')}."
+    puts "   You can publish manually later with the commands above."
+    response = prompt_yes_no("Continue with the rest of the release anyway?", default: 'n')
+    exit 1 unless response == 'y'
   end
 end
 
