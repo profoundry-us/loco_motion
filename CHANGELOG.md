@@ -11,6 +11,18 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### Tooling & Standards
+
+- fix(Release): In `bin/release`, make the `create_and_merge_pr` step branch on the current branch.
+  Releases run directly on `main`, so when on `main` the wizard now just pushes `origin main`, confirms
+  success, and skips the PR instructions and merged-confirmation gate (the push already lands the commits).
+  When on a feature branch it pushes that branch (previously it always pushed `origin main`, even from a
+  feature branch), prints a correct compare URL built from the branch name, keeps the "Have you merged the
+  PR?" gate, and still checks out and pulls `main` afterward. The dry-run output describes both paths.
+
+
 ## [0.6.0] - 2026-06-12
 
 ### Tooling & Standards
