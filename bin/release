@@ -351,7 +351,7 @@ def build_packages(dry_run: false)
   exit unless response == 'y'
 end
 
-def create_and_merge_pr(dry_run: false)
+def push_to_main(dry_run: false)
   puts "\nSTEP 4: Push to Main"
   puts "=" * 50
 
@@ -625,7 +625,7 @@ def main
     update_changelog(version, dry_run: dry_run)
     generate_llms_docs(version, dry_run: dry_run)
     build_packages(dry_run: dry_run)
-    create_and_merge_pr(dry_run: dry_run)
+    push_to_main(dry_run: dry_run)
     tag_release(version, dry_run: dry_run)
     publish_packages(dry_run: dry_run)
     create_github_release(version, dry_run: dry_run)
