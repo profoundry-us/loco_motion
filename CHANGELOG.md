@@ -32,6 +32,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `[Unreleased]` section. The prerequisites step now verifies `CHANGELOG.md` exists up front so the update
   step can assume it.
 
+### Demo / Docs Changes
+
+- fix(Demo): Stop the Hover Gallery examples from jumping in height while hovering. The sample landscape
+  images have different aspect ratios, and DaisyUI leaves the gallery container at `height: auto`, so the
+  rendered height (and everything below it) shifted as each image became visible. Added `aspect-[3/2]` to
+  every `daisy_hover_gallery` wrapper so the height depends only on the width and `object-cover` crops each
+  image to fill the fixed box.
+
 ### Fixed
 
 - fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
