@@ -25,6 +25,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   the commits and there is no PR to open or merge. It errors out if you are not on `main`. This replaces the
   old flow that printed a nonsensical `main...main` self-compare URL and blocked on a "Have you merged the
   PR?" gate even though the commits had already been pushed.
+- feat(Release): Automate the CHANGELOG finalization step in `bin/release` — the wizard now replaces the
+  `## [Unreleased]` heading with `## [VERSION] - YYYY-MM-DD` itself and shows the resulting diff before the
+  existing commit confirmation, instead of opening `$EDITOR` for a manual edit. It skips with an INFO message
+  when the version section already exists and falls back to offering `$EDITOR` when there is no
+  `[Unreleased]` section. The prerequisites step now verifies `CHANGELOG.md` exists up front so the update
+  step can assume it.
 
 ### Fixed
 

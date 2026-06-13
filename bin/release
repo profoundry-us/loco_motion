@@ -94,6 +94,10 @@ def check_prerequisites(dry_run: false)
     puts "DRY RUN: Running read-only prerequisite checks..."
   end
 
+  # Track fatal prerequisite failures so every problem surfaces in one pass
+  # and the script still exits non-zero at the end.
+  prerequisites_ok = true
+
   # Check if we're on main branch (safe to run in dry run)
   current_branch = `git branch --show-current`.strip
   unless current_branch == 'main'
@@ -118,6 +122,25 @@ def check_prerequisites(dry_run: false)
     puts "SUCCESS: No uncommitted changes"
   end
 
+  # Check that CHANGELOG.md exists (the release wizard rewrites its
+  # [Unreleased] heading later, so a missing file is a hard blocker). Flag it
+  # loudly but keep running; the deferred check at the end aborts with a
+  # failure code so the CHANGELOG step never reads a missing file.
+  if File.exist?('CHANGELOG.md')
+    puts "SUCCESS: CHANGELOG.md found"
+  else
+    puts
+    puts "!" * 60
+    puts "ERROR: CHANGELOG.md not found in the project root!"
+    puts
+    puts "   The release wizard finalizes the CHANGELOG by rewriting its"
+    puts "   '## [Unreleased]' heading, so this file is required. Create it"
+    puts "   before running the release."
+    puts "!" * 60
+    puts
+    prerequisites_ok = false
+  end
+
   # Warn early about missing publishing credentials so they can be fixed
   # before the release work starts. Non-fatal: publishing (step 6) re-checks
   # and offers a retry loop.
@@ -134,6 +157,11 @@ def check_prerequisites(dry_run: false)
     if response == 'y'
       execute_command("Running all tests", "just test")
     end
+  end
+
+  unless prerequisites_ok
+    puts "ERROR: Required prerequisites are missing — aborting release."
+    exit 1
   end
 
   if dry_run
@@ -203,42 +231,42 @@ def update_changelog(version, dry_run: false)
   puts "\nSTEP 2: Update CHANGELOG"
   puts "=" * 50
 
+  release_header = "## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
+
   if dry_run
     puts "DRY RUN: Checking if CHANGELOG update is needed..."
 
-    # Check if CHANGELOG exists and has unreleased section
-    if File.exist?('CHANGELOG.md')
-      changelog_content = File.read('CHANGELOG.md')
-      if changelog_content.include?('[Unreleased]')
-        puts "INFO: CHANGELOG has [Unreleased] section that needs to be updated to [#{version}]"
-      elsif changelog_content.include?("[#{version}]")
-        puts "SUCCESS: CHANGELOG already has [#{version}] section"
-      else
-        puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
-      end
+    changelog_content = File.read('CHANGELOG.md')
+    if changelog_content.include?("[#{version}]")
+      puts "SUCCESS: CHANGELOG already has [#{version}] section"
+    elsif changelog_content.include?('## [Unreleased]')
+      puts "INFO: Would replace '## [Unreleased]' with '#{release_header}'"
     else
-      puts "WARNING: CHANGELOG.md not found"
+      puts "WARNING: CHANGELOG missing both [Unreleased] and [#{version}] sections"
     end
     return
   end
 
-  # Check if CHANGELOG already has the version
-  if File.exist?('CHANGELOG.md')
-    changelog_content = File.read('CHANGELOG.md')
-    if changelog_content.include?("[#{version}]")
-      puts "INFO: CHANGELOG already has [#{version}] section"
-      response = prompt_yes_no("Continue with existing CHANGELOG?", default: 'y')
-      return if response == 'y'
-    end
+  changelog_content = File.read('CHANGELOG.md')
+
+  if changelog_content.include?("[#{version}]")
+    puts "INFO: CHANGELOG already has [#{version}] section, skipping update"
+    return
   end
 
-  puts "   Please update CHANGELOG.md to replace '[Unreleased]' with the new version header:"
-  puts "   ## [#{version}] - #{Date.today.strftime('%Y-%m-%d')}"
-  puts
+  if changelog_content.include?('## [Unreleased]')
+    puts "   Replacing '## [Unreleased]' with '#{release_header}'..."
+    File.write('CHANGELOG.md', changelog_content.sub('## [Unreleased]', release_header))
 
-  response = prompt_yes_no("Open CHANGELOG.md for editing?", default: 'y')
-  if response == 'y'
-    system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
+    puts "\nCHANGES: Resulting CHANGELOG diff:"
+    system('git diff CHANGELOG.md')
+    puts
+  else
+    puts "WARNING: CHANGELOG.md has no '## [Unreleased]' section to replace."
+    response = prompt_yes_no("Open CHANGELOG.md for manual editing?", default: 'y')
+    if response == 'y'
+      system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
+    end
   end
 
   response = prompt_yes_no("Commit CHANGELOG changes?", default: 'y')
