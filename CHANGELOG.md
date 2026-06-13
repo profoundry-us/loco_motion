@@ -63,6 +63,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `hover-3d` effect's `display: inline-grid` and breaks the 3D tilt. Added a `@note` to the component's
   YARD docs and a callout to the demo page intro, and corrected the YARD "Image Gallery" example that still
   used `block`.
+- docs(Guides): Reconcile overlap between the Install, Getting Started, and Docker guides left over from
+  folding the README in. The Docker guide is now scoped to environment setup only (install Docker, copy the
+  config files, `just dev` / `just dev-shell`) and ends by pointing at Getting Started, which owns the
+  app-creation flow (`rails new`, database config, running the app). The duplicated Tailwind 4 + DaisyUI CSS
+  block was removed from Getting Started, which now links to the Install guide as the canonical source.
 
 ### Fixed
 

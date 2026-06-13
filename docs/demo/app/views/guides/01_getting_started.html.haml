@@ -194,28 +194,10 @@
 
 .mt-6.prose
   :markdown
-    Then add the `@import` and `@plugin` directives to your
-    `application.tailwind.css`:
-
-.mt-6.max-w-prose
-  = doc_code(language: "css") do
-    :plain
-      /* Import the base Tailwind theme */
-      @import 'tailwindcss';
-
-      /* Include DaisyUI via @plugin directive */
-      @plugin 'daisyui' {
-        themes: light --default, dark --prefersdark;
-      }
-
-      /* Custom variant to reduce selector specificity for component defaults */
-      @custom-variant where (:where(&));
-
-      /* Custom dark: variant for System-based & DaisyUI ThemeController dark mode */
-      @custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
-
-      /* Point to tailwind.config.js for content scan paths only */
-      @config "../tailwind.config.js";
+    Then add the Tailwind 4 + DaisyUI directives to your
+    `application.tailwind.css` — import Tailwind, register the DaisyUI plugin,
+    and add the `where` and `dark` custom variants. The
+    [Install guide](#{doc_path("install")}) lists the exact CSS block to copy.
 
 = doc_note(modifier: :warning, title: "Tailwind 4 Configuration", css: "mt-6") do
   :markdown
