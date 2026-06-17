@@ -1,4 +1,4 @@
-import { expect, test, Locator } from '@playwright/test';
+import { expect, test, Locator, Page } from '@playwright/test';
 import { loco } from '../../spec_helpers';
 
 /**
@@ -14,7 +14,8 @@ test('page loads', async ({ page }) => {
   await loco.expectPageTitle(page, /Modals | LocoMotion/);
   await loco.expectPageHeadings(page, [
     'Simple Modal',
-    'Custom Activator'
+    'Custom Activator',
+    'Global Modal'
   ]);
 });
 
@@ -71,3 +72,67 @@ test.describe('simple modal', () => {
   })
 
 })
+
+/**
+ * Invoke the global modal's `loco-modal` Stimulus controller once it has
+ * connected, so tests can open/close it programmatically.
+ */
+async function callController(page: Page, method: 'open' | 'close') {
+  await page.waitForFunction(() => {
+    const dialog = document.getElementById('global-demo');
+    return !!(dialog && (window as any).Stimulus
+      && (window as any).Stimulus.getControllerForElementAndIdentifier(dialog, 'loco-modal'));
+  });
+
+  await page.evaluate((m) => {
+    const dialog = document.getElementById('global-demo');
+    (window as any).Stimulus
+      .getControllerForElementAndIdentifier(dialog, 'loco-modal')[m]();
+  }, method);
+}
+
+/**
+ * Test suite for the Global Modal (`trigger: false`) and its `loco-modal`
+ * controller: the programmatic open/close API and the bubbling
+ * `loco-modal:close` lifecycle event.
+ */
+test.describe('global modal controller', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/examples/Daisy::Actions::ModalComponent');
+  });
+
+  test('opens programmatically through the controller', async ({ page }) => {
+    const modal = page.locator('#global-demo');
+    await expect(modal).toBeHidden();
+
+    await callController(page, 'open');
+
+    await expect(modal).toBeVisible();
+  });
+
+  test('closes programmatically through the controller', async ({ page }) => {
+    const modal = page.locator('#global-demo');
+
+    await page.click('button:has-text("Open Global Modal")');
+    await expect(modal).toBeVisible();
+
+    await callController(page, 'close');
+
+    await expect(modal).toBeHidden();
+  });
+
+  test('re-dispatches a bubbling loco-modal:close on close', async ({ page }) => {
+    const modal = page.locator('#global-demo');
+
+    await page.click('button:has-text("Open Global Modal")');
+    await expect(modal).toBeVisible();
+
+    // Close through the dialog's own Close button (a native dialog-method form).
+    await modal.getByRole('button', { name: 'Close' }).click();
+    await expect(modal).toBeHidden();
+
+    // The controller turned the non-bubbling native `close` into a bubbling
+    // `loco-modal:close`, which the demo's document-level listener caught.
+    await expect(page.getByText('loco-modal:close fired', { exact: false })).toBeVisible();
+  });
+});

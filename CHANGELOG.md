@@ -52,6 +52,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   built-in trigger button — so one modal can live in a layout and be opened from anywhere on the page (a
   link, another component, or JavaScript). Also lets a call-time `html: { tabindex: -1 }` on the activator
   override the default `tabindex="0"`, which the build-time default previously clobbered. Refs #161.
+- feat(Modal): Add an optional `loco-modal` Stimulus controller that opens and closes the `<dialog>` from
+  JavaScript (`loco-modal#open` / `loco-modal#close`) and dispatches bubbling `loco-modal:open` /
+  `loco-modal:close` lifecycle events. The controller re-dispatches the dialog's non-bubbling native `close`
+  event, so `loco-modal:close` fires for every close (Escape, backdrop, a `<form method="dialog">` submit, or
+  the `close` action). It is attached to every modal automatically but stays inert until an app registers it,
+  so existing modals are unaffected. Refs #161, #16.
 
 ### Demo / Docs Changes
 
@@ -82,6 +88,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   note and the `CLAUDE.md` version reference, and trimmed the README's duplicated install walkthrough to a
   quickstart that points at the Install guide as the canonical source (the `bundle show` gotcha moved into
   that guide).
+- docs(Install): Document registering the `loco-modal` controller in the install guide, and update the
+  Modals demo's "Global Modal" example to surface its `loco-modal:close` lifecycle event.
 
 ### Fixed
 
