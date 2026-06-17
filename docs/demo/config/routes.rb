@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   # Dynamic route which shows various examples
   get "/examples/:id", to: "examples#discover"
 
+  # Demo-only endpoints backing the Modal "Global Modal (Turbo Frame)" example.
+  resources :modal_contacts, only: %i[edit update], path: "modal-contacts"
+
   get "/api-docs", to: "api_docs#index"
 
   # Guides route that matches /guides/some-guide to the corresponding guide file

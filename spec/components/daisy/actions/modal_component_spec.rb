@@ -235,4 +235,22 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
       expect(page).not_to have_css '[tabindex="0"]'
     end
   end
+
+  context "with a turbo_frame" do
+    let(:modal) { described_class.new(trigger: false, turbo_frame: "contact-modal") }
+
+    before do
+      render_inline(modal)
+    end
+
+    describe "rendering" do
+      it "renders an empty turbo-frame with the given id inside the box" do
+        expect(page).to have_css "dialog.modal .modal-box turbo-frame#contact-modal"
+      end
+
+      it "exposes the frame id to the controller via a Stimulus value" do
+        expect(page).to have_css 'dialog.modal[data-loco-modal-turbo-frame-value="contact-modal"]'
+      end
+    end
+  end
 end

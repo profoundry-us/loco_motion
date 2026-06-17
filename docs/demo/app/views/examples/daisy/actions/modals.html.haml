@@ -107,6 +107,26 @@
           = daisy_button(css: "btn-primary", action: "loco-modal#close") do
             Close
 
+%turbo-frame#global-turbo-frame-modal
+  = doc_example(title: "Global Modal (Turbo Frame)") do |doc|
+    - doc.with_description do
+      :markdown
+        The canonical Hotwire pattern: one Global Modal in your layout, filled on
+        demand by a `<turbo-frame>`. Pass a `turbo_frame:` id (with
+        `trigger: false`) and the modal renders an empty frame and wires the
+        `loco-modal` controller to **open the dialog when the frame loads** and
+        clear it on close. Each link below carries `data-turbo-frame`, so its
+        remote content streams into the same shared modal and pops it open — no
+        per-row modals and no inline JavaScript.
+
+    .flex.flex-col.items-center.gap-4
+      %ul.menu.bg-base-200.rounded-box.w-72
+        - %w[1 2 3].each do |id|
+          %li
+            = link_to "Edit Contact #{id}", edit_modal_contact_path(id), data: { turbo_frame: "contact-modal" }
+
+      = daisy_modal(trigger: false, turbo_frame: "contact-modal", dialog_id: "contact-modal-dialog")
+
 :javascript
   // Demo only: surface the modal's lifecycle event. The loco-modal controller
   // re-dispatches the dialog's native `close` as a bubbling `loco-modal:close`,

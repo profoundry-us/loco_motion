@@ -87,13 +87,21 @@
 #
 #   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
 #
+# @loco_example Global Modal with a Turbo Frame
+#   -# One shared modal; each link streams its content into the frame, which
+#   -# opens the dialog on load. No per-row modals, no inline JavaScript.
+#   = daisy_modal(trigger: false, turbo_frame: "contact", dialog_id: "contact-modal")
+#
+#   = link_to "Edit Contact", edit_contact_path(1), data: { turbo_frame: "contact" }
+#
 module Daisy
   module Actions
     class ModalComponent < LocoMotion::BaseComponent
       set_component_name :modal
 
       define_parts :box, :actions, :close_icon_wrapper, :close_icon,
-                   :backdrop, :title, :start_actions, :end_actions
+                   :backdrop, :title, :start_actions, :end_actions,
+                   :turbo_frame
 
       renders_one :activator, LocoMotion::BasicComponent
       renders_one :button, Daisy::Actions::ButtonComponent
@@ -110,6 +118,15 @@ module Daisy
       #   false, only the `<dialog>` is rendered (a "Global Modal").
       attr_reader :trigger
       alias trigger? trigger
+
+      # @return [String, nil] The id of the `<turbo-frame>` rendered inside the
+      #   modal for the Turbo Frame "Global Modal" pattern, or nil when unused.
+      attr_reader :turbo_frame
+
+      # @return [Boolean] Whether a `turbo_frame:` id was supplied.
+      def turbo_frame?
+        @turbo_frame.present?
+      end
 
       # @return [String] The unique ID for the `<dialog>` element.
       attr_reader :dialog_id
@@ -141,12 +158,20 @@ module Daisy
       #   with no built-in trigger — a "Global Modal" that you place once and
       #   open from elsewhere (a link, another component, or JavaScript).
       #
+      # @option kws turbo_frame [String] Renders an empty `<turbo-frame>` with
+      #   this id inside the modal and wires the `loco-modal` controller to open
+      #   the dialog when that frame loads (and clear it on close). Combine with
+      #   `trigger: false` for the Hotwire "Global Modal" pattern: place one
+      #   modal in your layout and point `data-turbo-frame` links at this id to
+      #   stream remote content into it. Requires the registered controller.
+      #
       def initialize(title = nil, **kws, &block)
         super
 
         @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
         @closable = config_option(:closable, true)
         @trigger = config_option(:trigger, true)
+        @turbo_frame = config_option(:turbo_frame, nil)
         @simple_title = config_option(:title, title)
       end
 
@@ -158,6 +183,7 @@ module Daisy
         setup_component
         setup_backdrop
         setup_box
+        setup_turbo_frame
         setup_close_icon
         setup_title
         setup_actions
@@ -206,6 +232,18 @@ module Daisy
 
       def setup_box
         add_css(:box, "modal-box relative")
+      end
+
+      def setup_turbo_frame
+        return unless turbo_frame?
+
+        set_tag_name(:turbo_frame, "turbo-frame")
+        add_html(:turbo_frame, id: @turbo_frame)
+
+        # Hand the frame id to the `loco-modal` controller (as its `turboFrame`
+        # value) so it can open the dialog on `turbo:frame-load` and clear the
+        # frame on close.
+        add_data(:component, "loco-modal-turbo-frame-value": @turbo_frame)
       end
 
       def setup_close_icon
