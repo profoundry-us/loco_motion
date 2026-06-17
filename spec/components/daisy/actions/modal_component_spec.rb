@@ -237,7 +237,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
   end
 
   context "with a turbo_frame" do
-    let(:modal) { described_class.new(trigger: false, turbo_frame: "contact-modal") }
+    let(:modal) { described_class.new(trigger: false, turbo_frame_id: "contact-modal") }
 
     before do
       render_inline(modal)
@@ -249,7 +249,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
       end
 
       it "exposes the frame id to the controller via a Stimulus value" do
-        expect(page).to have_css 'dialog.modal[data-loco-modal-turbo-frame-value="contact-modal"]'
+        expect(page).to have_css 'dialog.modal[data-loco-modal-turbo-frame-id-value="contact-modal"]'
       end
     end
   end

@@ -90,7 +90,7 @@
 # @loco_example Global Modal with a Turbo Frame
 #   -# One shared modal; each link streams its content into the frame, which
 #   -# opens the dialog on load. No per-row modals, no inline JavaScript.
-#   = daisy_modal(trigger: false, turbo_frame: "contact", dialog_id: "contact-modal")
+#   = daisy_modal(trigger: false, turbo_frame_id: "contact", dialog_id: "contact-modal")
 #
 #   = link_to "Edit Contact", edit_contact_path(1), data: { turbo_frame: "contact" }
 #
@@ -119,11 +119,9 @@ module Daisy
       attr_reader :trigger
       alias trigger? trigger
 
-      # @return [String, nil] Accessor for the `turbo_frame` id passed via the
-      #   component config. Stored under a `simple_` prefix (like
-      #   {#simple_title}) so the option does not collide with the `:turbo_frame`
-      #   part it configures. Nil when unused.
-      attr_reader :simple_turbo_frame
+      # @return [String, nil] The id for the `<turbo-frame>` rendered inside the
+      #   modal (the Turbo Frame "Global Modal" pattern), or nil when unused.
+      attr_reader :turbo_frame_id
 
       # @return [String] The unique ID for the `<dialog>` element.
       attr_reader :dialog_id
@@ -155,7 +153,7 @@ module Daisy
       #   with no built-in trigger — a "Global Modal" that you place once and
       #   open from elsewhere (a link, another component, or JavaScript).
       #
-      # @option kws turbo_frame [String] Renders an empty `<turbo-frame>` with
+      # @option kws turbo_frame_id [String] Renders an empty `<turbo-frame>` with
       #   this id inside the modal and wires the `loco-modal` controller to open
       #   the dialog when that frame loads (and clear it on close). Combine with
       #   `trigger: false` for the Hotwire "Global Modal" pattern: place one
@@ -168,7 +166,7 @@ module Daisy
         @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
         @closable = config_option(:closable, true)
         @trigger = config_option(:trigger, true)
-        @simple_turbo_frame = config_option(:turbo_frame, nil)
+        @turbo_frame_id = config_option(:turbo_frame_id, nil)
         @simple_title = config_option(:title, title)
       end
 
@@ -232,15 +230,15 @@ module Daisy
       end
 
       def setup_turbo_frame
-        return unless @simple_turbo_frame.present?
+        return unless @turbo_frame_id.present?
 
         set_tag_name(:turbo_frame, "turbo-frame")
-        add_html(:turbo_frame, id: @simple_turbo_frame)
+        add_html(:turbo_frame, id: @turbo_frame_id)
 
-        # Hand the frame id to the `loco-modal` controller (as its `turboFrame`
+        # Hand the frame id to the `loco-modal` controller (as its `turboFrameId`
         # value) so it can open the dialog on `turbo:frame-load` and clear the
         # frame on close.
-        add_data(:component, "loco-modal-turbo-frame-value": @simple_turbo_frame)
+        add_data(:component, "loco-modal-turbo-frame-id-value": @turbo_frame_id)
       end
 
       def setup_close_icon

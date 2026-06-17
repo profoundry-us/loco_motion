@@ -125,7 +125,7 @@
           %li
             = link_to "Edit Contact #{id}", edit_modal_contact_path(id), data: { turbo_frame: "contact-modal" }
 
-      = daisy_modal(trigger: false, turbo_frame: "contact-modal", dialog_id: "contact-modal-dialog")
+      = daisy_modal(trigger: false, turbo_frame_id: "contact-modal", dialog_id: "contact-modal-dialog")
 
 :javascript
   // Demo only: surface the modal's lifecycle event. The loco-modal controller

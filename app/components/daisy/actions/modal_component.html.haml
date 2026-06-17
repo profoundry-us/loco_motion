@@ -19,7 +19,7 @@
       = part(:title) do
         = @simple_title
 
-    - if @simple_turbo_frame.present?
+    - if @turbo_frame_id.present?
       = part(:turbo_frame) do
         = content
     - else

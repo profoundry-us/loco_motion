@@ -25,13 +25,13 @@ import { Controller } from "@hotwired/stimulus"
  *     `close` action). The native `<dialog>` `close` event does not bubble, so
  *     the controller re-dispatches a bubbling `loco-modal:close` in its place.
  *
- * Turbo Frame (Global Modal): set the `turboFrame` value
- * (`data-loco-modal-turbo-frame-value`) to a `<turbo-frame>` id and the
+ * Turbo Frame (Global Modal): set the `turboFrameId` value
+ * (`data-loco-modal-turbo-frame-id-value`) to a `<turbo-frame>` id and the
  * controller opens the dialog when that frame finishes loading and clears it on
  * close — the canonical Hotwire pattern for one shared, lazily-filled modal.
  */
 export default class extends Controller {
-  static values = { turboFrame: String }
+  static values = { turboFrameId: String }
 
   /**
    * Binds the dialog's native `close` event so every close — however it is
@@ -102,9 +102,9 @@ export default class extends Controller {
    * @returns {void}
    */
   connectTurboFrame() {
-    if (!this.hasTurboFrameValue) return
+    if (!this.hasTurboFrameIdValue) return
 
-    this.frame = document.getElementById(this.turboFrameValue)
+    this.frame = document.getElementById(this.turboFrameIdValue)
     if (!this.frame) return
 
     this.boundOpen = this.open.bind(this)
