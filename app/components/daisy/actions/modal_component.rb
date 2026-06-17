@@ -21,7 +21,8 @@
 # @part end_actions Container for right (end) aligned action buttons.
 #
 # @slot activator A custom element that opens the modal. Automatically adds
-#   `role="button"` and `tabindex="0"` attributes for accessibility.
+#   `role="button"` and a default `tabindex="0"` for accessibility; pass
+#   `html: { tabindex: -1 }` (etc.) to override either default.
 # @slot button The button that opens the modal. Defaults to a standard Daisy
 #   button with the modal's title.
 # @slot close_icon A custom close button to replace the default 'X' icon.
@@ -69,6 +70,15 @@
 #       %form{ method: :dialog }
 #         = daisy_button { "Close" }
 #
+# @loco_example Global Modal
+#   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
+#     %p This modal has no built-in trigger — open it from anywhere.
+#     - modal.with_end_actions do
+#       %form{ method: :dialog }
+#         = daisy_button { "Close" }
+#
+#   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
+#
 module Daisy
   module Actions
     class ModalComponent < LocoMotion::BaseComponent
@@ -77,7 +87,7 @@ module Daisy
       define_parts :box, :actions, :close_icon_wrapper, :close_icon,
                    :backdrop, :title, :start_actions, :end_actions
 
-      renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
+      renders_one :activator, LocoMotion::BasicComponent
       renders_one :button, Daisy::Actions::ButtonComponent
       renders_one :close_icon
       renders_one :title
@@ -87,6 +97,11 @@ module Daisy
       # @return [Boolean] Whether or not this dialog can be closed.
       attr_reader :closable
       alias closable? closable
+
+      # @return [Boolean] Whether or not a built-in trigger is rendered. When
+      #   false, only the `<dialog>` is rendered (a "Global Modal").
+      attr_reader :trigger
+      alias trigger? trigger
 
       # @return [String] The unique ID for the `<dialog>` element.
       attr_reader :dialog_id
@@ -112,11 +127,18 @@ module Daisy
       # @option kws dialog_id [String] A custom ID for the dialog element. If not
       #   provided, a unique ID will be generated.
       #
+      # @option kws trigger [Boolean] When true (default) and no custom activator
+      #   or button slot is given, a default button (labeled with the title) is
+      #   rendered to open the modal. Pass false to render only the `<dialog>`
+      #   with no built-in trigger — a "Global Modal" that you place once and
+      #   open from elsewhere (a link, another component, or JavaScript).
+      #
       def initialize(title = nil, **kws, &block)
         super
 
         @dialog_id = config_option(:dialog_id, SecureRandom.uuid)
         @closable = config_option(:closable, true)
+        @trigger = config_option(:trigger, true)
         @simple_title = config_option(:title, title)
       end
 
@@ -136,15 +158,26 @@ module Daisy
       private
 
       def setup_activator_or_button
+        element =
+          if activator?
+            activator
+          elsif button?
+            button
+          elsif trigger?
+            default_button
+          end
+
+        # Global Modal mode (`trigger: false`) with no activator or button has
+        # nothing to wire — render just the `<dialog>`.
+        return unless element
+
+        # Accessibility defaults for a custom activator live in the part's
+        # default HTML so a call-time `html:` (e.g. `tabindex: -1`) overrides
+        # them.
+        element.add_html(:component, role: "button", tabindex: 0) if activator?
+
         onclick = "document.getElementById('#{dialog_id}').showModal()"
-
-        element = if activator?
-                    activator
-                  else
-                    button || default_button
-                  end
-
-        element.add_html(:component, { onclick: onclick })
+        element.add_html(:component, onclick: onclick)
       end
 
       def setup_component

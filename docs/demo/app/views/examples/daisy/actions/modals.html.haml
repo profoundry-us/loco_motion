@@ -64,3 +64,30 @@
           %form{ method: :dialog }
             = daisy_button do
               I'm Done
+
+%turbo-frame#global-modal
+  = doc_example(title: "Global Modal") do |doc|
+    - doc.with_description do
+      :markdown
+        Pass `trigger: false` to render the dialog on its own, with **no
+        built-in button**. Drop a single modal in your layout and open it from
+        anywhere on the page — a link, another component, or JavaScript.
+
+      = doc_note(css: "mb-8") do
+        Until the `loco-modal` Stimulus controller lands, open it however you
+        like. Here we use a small inline `onclick` for demonstration; a later
+        PR will replace this with a Stimulus action.
+
+    .flex.flex-col.items-center.gap-4
+      = daisy_button(css: "btn-primary", html: { onclick: "document.getElementById('global-demo').showModal()" }) do
+        Open Global Modal
+
+      = daisy_modal(title: "Global Modal", trigger: false, dialog_id: "global-demo") do |modal|
+        This modal has no built-in trigger. It was opened by a separate button
+        on the page — the same dialog could just as easily be opened from a
+        navbar, a table row, or anywhere else.
+
+        - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+          %form{ method: :dialog }
+            = daisy_button(css: "btn-primary") do
+              Close

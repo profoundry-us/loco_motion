@@ -48,6 +48,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   images no longer shift height as each image is revealed on hover. The default uses DaisyUI's
   zero-specificity `where:aspect-[3/2]` and is skipped when you pass your own `aspect-*` utility via `css:`,
   so it stays easy to override. The demo examples drop their now-redundant explicit `aspect-[3/2]`.
+- feat(Modal): Add a `trigger: false` option that renders a "Global Modal" — just the `<dialog>` with no
+  built-in trigger button — so one modal can live in a layout and be opened from anywhere on the page (a
+  link, another component, or JavaScript). Also lets a call-time `html: { tabindex: -1 }` on the activator
+  override the default `tabindex="0"`, which the build-time default previously clobbered. Refs #161.
 
 ### Demo / Docs Changes
 
