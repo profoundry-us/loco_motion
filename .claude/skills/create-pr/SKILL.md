@@ -68,6 +68,10 @@ Fixes #45
 
 Rules:
 
+- Do NOT hard-wrap the PR body at 80 characters. GitHub reflows it as prose,
+  so write natural paragraphs (one line per paragraph) and let them wrap on
+  render. Repo Markdown files still wrap at 80 — this exception applies only to
+  text posted to GitHub (PR descriptions, issue bodies, comments).
 - Use `Fixes #N` (not "Closes" or "Resolves") if an issue number is available.
 - Mark the correct type with `[x]` (no spaces inside the brackets).
 - Skip "Screenshots" and "Additional Notes" sections.

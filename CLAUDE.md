@@ -212,9 +212,12 @@ daisy_button(color: :primary, size: :lg)
   keeps each entry readable. Indent continuation lines to align with the text
   after the list marker (2 spaces under a top-level `- `, 4 under a nested
   `  - `).
-- Exception: pull request descriptions are exempt from line wrapping — GitHub
-  renders them as flowing prose, so the 80-character limit does not apply. Write
-  natural paragraphs and let them wrap on render.
+- Exception: text that GitHub renders — pull request descriptions, issue
+  bodies, and PR / issue comments — is exempt from line wrapping. GitHub
+  reflows it as prose, so the 80-character limit does not apply; do NOT
+  hard-wrap it. Write natural paragraphs (one line each) and let them wrap on
+  render. This covers only content posted to GitHub — Markdown files in the
+  repo (`README`, `docs/`, `CLAUDE.md`, the skills) still wrap at 80.
 - Never split an inline code span (`` `...` ``), a Markdown link
   (`[text](url)`), or a `<code>` tag across lines. A line may exceed its limit
   only when one such unbreakable token is itself too long; prose must always
