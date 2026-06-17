@@ -82,6 +82,11 @@ Explain what is currently wrong, with code snippets if helpful.
 Point to any files or links that show the correct approach.
 ```
 
+Do NOT hard-wrap the issue body at 80 characters — GitHub reflows it as prose.
+Write natural paragraphs (one line each) and let them wrap on render. (Repo
+Markdown files still wrap at 80; this exception is only for text posted to
+GitHub.)
+
 Keep the title short and imperative: "Update X for Y", "Fix Z in W".
 
 ### Step 5: Confirm with the user (optional)
