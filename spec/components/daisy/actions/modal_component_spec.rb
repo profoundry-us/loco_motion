@@ -184,4 +184,55 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
       end
     end
   end
+
+  context "when trigger is false" do
+    let(:modal) { described_class.new(title: "Global", trigger: false) }
+
+    before do
+      render_inline(modal)
+    end
+
+    describe "rendering" do
+      it "still renders the dialog and box" do
+        expect(page).to have_css "dialog.modal .modal-box"
+      end
+
+      it "still renders the close icon" do
+        expect(page).to have_selector "dialog.modal svg"
+      end
+
+      it "does not render a trigger (no element is wired to open it)" do
+        expect(page).not_to have_css "[onclick]"
+      end
+    end
+  end
+
+  context "with a default activator" do
+    let(:modal) { described_class.new }
+
+    before do
+      render_inline(modal) do |m|
+        m.with_activator { "Open" }
+      end
+    end
+
+    it "adds role=button and a default tabindex=0" do
+      expect(page).to have_css '[role="button"][tabindex="0"]'
+    end
+  end
+
+  context "with an activator and an overridden tabindex" do
+    let(:modal) { described_class.new }
+
+    before do
+      render_inline(modal) do |m|
+        m.with_activator(html: { tabindex: -1 }) { "Open" }
+      end
+    end
+
+    it "lets the call-time tabindex win over the default" do
+      expect(page).to have_css '[role="button"][tabindex="-1"]'
+      expect(page).not_to have_css '[tabindex="0"]'
+    end
+  end
 end
