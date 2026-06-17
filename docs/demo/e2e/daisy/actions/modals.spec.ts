@@ -128,7 +128,8 @@ test.describe('global modal controller', () => {
     await expect(modal).toBeVisible();
 
     // Close through the dialog's own Close button (a native dialog-method form).
-    await modal.getByRole('button', { name: 'Close' }).click();
+    // Scope to the box so we don't match the dialog's "close" backdrop button.
+    await modal.locator('.modal-box').getByRole('button', { name: 'Close', exact: true }).click();
     await expect(modal).toBeHidden();
 
     // The controller turned the non-bubbling native `close` into a bubbling

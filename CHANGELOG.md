@@ -89,7 +89,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   quickstart that points at the Install guide as the canonical source (the `bundle show` gotcha moved into
   that guide).
 - docs(Install): Document registering the `loco-modal` controller in the install guide, and update the
-  Modals demo's "Global Modal" example to surface its `loco-modal:close` lifecycle event.
+  Modals demo's "Global Modal" example to close via the `loco-modal#close` action and surface its
+  `loco-modal:close` lifecycle event.
 
 ### Fixed
 

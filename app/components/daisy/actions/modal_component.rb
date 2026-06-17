@@ -83,8 +83,7 @@
 #   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
 #     %p This modal has no built-in trigger — open it from anywhere.
 #     - modal.with_end_actions do
-#       %form{ method: :dialog }
-#         = daisy_button { "Close" }
+#       = daisy_button(action: "loco-modal#close") { "Close" }
 #
 #   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
 #

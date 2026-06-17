@@ -101,9 +101,11 @@
         navbar, a table row, or anywhere else.
 
         - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
-          %form{ method: :dialog }
-            = daisy_button(css: "btn-primary") do
-              Close
+          -# `action:` attaches a Stimulus action — Stimulus infers the button's
+          -# `click`, so this in-dialog button drives the controller's `close`
+          -# action directly, with no wrapper `<form method="dialog">` needed.
+          = daisy_button(css: "btn-primary", action: "loco-modal#close") do
+            Close
 
 :javascript
   // Demo only: surface the modal's lifecycle event. The loco-modal controller
