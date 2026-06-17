@@ -82,6 +82,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   note and the `CLAUDE.md` version reference, and trimmed the README's duplicated install walkthrough to a
   quickstart that points at the Install guide as the canonical source (the `bundle show` gotcha moved into
   that guide).
+- docs(Button): Document `ButtonComponent`'s `action:` parameter, which attaches a Stimulus action via the
+  button's `data-action` attribute. Added the missing `@option action` entry to the `initialize` YARD (noting
+  that Stimulus infers the `click` event for buttons, so `action: "my-controller#handle"` is shorthand for
+  `action: "click->my-controller#handle"`) plus a "Stimulus Action" `@loco_example`. The parameter already
+  worked and was spec-covered, but was previously undocumented.
 
 ### Fixed
 
