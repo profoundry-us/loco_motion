@@ -28,6 +28,10 @@
 #     = daisy_button do
 #       Button 2
 #
+# @loco_example Stimulus Action
+#   %div{ data: { controller: "greeter" } }
+#     = daisy_button("Say Hello", action: "greeter#greet")
+#
 # @loco_example Default Button
 #   = daisy_button { "Default Button" }
 #
@@ -127,6 +131,11 @@ module Daisy
       #
       # @option kws target          [String] The HTML `target` of for the `<a>` tag
       #   (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
+      #
+      # @option kws action          [String] A Stimulus action wired to the
+      #   button via its `data-action` attribute. Stimulus infers the `click`
+      #   event for buttons, so `action: "my-controller#handle"` works as a
+      #   shorthand for `action: "click->my-controller#handle"`.
       #
       # @option kws icon            [String] The name of Hero icon to render inside
       #   the button.  This is an alias of `left_icon`.
