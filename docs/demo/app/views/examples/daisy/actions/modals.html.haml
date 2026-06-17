@@ -73,14 +73,27 @@
         built-in button**. Drop a single modal in your layout and open it from
         anywhere on the page — a link, another component, or JavaScript.
 
+        Register the `loco-modal` Stimulus controller (see the Install guide)
+        and the dialog gains `loco-modal#open` / `loco-modal#close` actions plus
+        bubbling `loco-modal:open` / `loco-modal:close` events. Because the
+        controller re-dispatches the native `<dialog>` `close` event,
+        `loco-modal:close` fires no matter how the modal closes — the status
+        line below updates whether you use the **Close** button, the backdrop,
+        or the Escape key.
+
       = doc_note(css: "mb-8") do
-        Until the `loco-modal` Stimulus controller lands, open it however you
-        like. Here we use a small inline `onclick` for demonstration; a later
-        PR will replace this with a Stimulus action.
+        :markdown
+          The opener below is a one-line `onclick`, because a *distant* trigger
+          can't reach the dialog's controller through a Stimulus action. A
+          follow-up Turbo Frame example will open the same modal with no custom
+          JavaScript.
 
     .flex.flex-col.items-center.gap-4
       = daisy_button(css: "btn-primary", html: { onclick: "document.getElementById('global-demo').showModal()" }) do
         Open Global Modal
+
+      %p.text-sm.opacity-70{ data: { global_modal_status: true } }
+        Close the modal to see its loco-modal:close event.
 
       = daisy_modal(title: "Global Modal", trigger: false, dialog_id: "global-demo") do |modal|
         This modal has no built-in trigger. It was opened by a separate button
@@ -88,6 +101,21 @@
         navbar, a table row, or anywhere else.
 
         - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
-          %form{ method: :dialog }
-            = daisy_button(css: "btn-primary") do
-              Close
+          -# `action:` attaches a Stimulus action — Stimulus infers the button's
+          -# `click`, so this in-dialog button drives the controller's `close`
+          -# action directly, with no wrapper `<form method="dialog">` needed.
+          = daisy_button(css: "btn-primary", action: "loco-modal#close") do
+            Close
+
+:javascript
+  // Demo only: surface the modal's lifecycle event. The loco-modal controller
+  // re-dispatches the dialog's native `close` as a bubbling `loco-modal:close`,
+  // so a single document-level listener catches every close.
+  document.addEventListener("loco-modal:close", (event) => {
+    if (event.target.id !== "global-demo") return
+
+    const status = document.querySelector("[data-global-modal-status]")
+    if (status) {
+      status.textContent = "loco-modal:close fired — the dialog closed."
+    }
+  })

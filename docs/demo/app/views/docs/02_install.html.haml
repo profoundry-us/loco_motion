@@ -68,11 +68,17 @@
       const application = Application.start()
 
       // Import LocoMotion controllers
-      import { CountdownController, ThemeController, CallyInputController } from "@profoundry-us/loco_motion"
+      import { CountdownController, ThemeController, CallyInputController, ModalController } from "@profoundry-us/loco_motion"
 
       application.register("loco-countdown", CountdownController)
       application.register("loco-theme", ThemeController)
       application.register("loco-cally-input", CallyInputController)
+      application.register("loco-modal", ModalController)
+
+  .prose.mt-4
+    :markdown
+      The `loco-modal` controller is only required for the Modal's programmatic
+      open/close API and Global Modal features — basic modals work without it.
 
 .max-w-prose
   = doc_note(css: "mt-6", modifier: :warning, title: "Cally Javascript Setup") do

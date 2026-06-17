@@ -9,6 +9,15 @@
 # (`showModal()` and `close()`). This provides better accessibility and keyboard
 # navigation compared to div-based modals.
 #
+# @note Register the `loco-modal` Stimulus controller (see the Install guide)
+#   to drive the dialog from JavaScript. It is attached to the `<dialog>`
+#   automatically but stays inert until registered, so basic modals keep
+#   working without it. The controller adds `loco-modal#open` and
+#   `loco-modal#close` actions and dispatches bubbling `loco-modal:open` /
+#   `loco-modal:close` events. Because the native `<dialog>` `close` event does
+#   not bubble, `loco-modal:close` fires for every close — the Escape key, the
+#   backdrop, a `<form method="dialog">` submit, or the `close` action.
+#
 # @part box The container for the modal content, providing padding and layout.
 # @part close_icon_wrapper The container for the close icon, positioned in the
 #   top-right corner.
@@ -74,8 +83,7 @@
 #   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
 #     %p This modal has no built-in trigger — open it from anywhere.
 #     - modal.with_end_actions do
-#       %form{ method: :dialog }
-#         = daisy_button { "Close" }
+#       = daisy_button(action: "loco-modal#close") { "Close" }
 #
 #   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
 #
@@ -184,6 +192,10 @@ module Daisy
         set_tag_name(:component, :dialog)
         add_html(:component, id: dialog_id)
         add_css(:component, "modal")
+
+        # Attach the optional `loco-modal` Stimulus controller. It is inert
+        # until an app registers it, so modals keep working without any JS.
+        add_stimulus_controller(:component, "loco-modal")
       end
 
       def setup_backdrop
