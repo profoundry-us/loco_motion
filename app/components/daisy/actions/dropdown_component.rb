@@ -18,8 +18,9 @@
 #   and is styled automatically.
 # @slot activator A custom (i.e. non-button) activator for the dropdown.
 #   Automatically adds the `role="button"` and `tabindex="0"` attributes.
-# @slot item+ The items in the dropdown. Each item will be styled consistently
-#   with proper spacing and hover states.
+# @slot item+ The items in the dropdown. Pass a block for fully custom content,
+#   or use the structured options (`label:`, `href:`, `selected:`) and the
+#   item's `start` / `end` slots to build a selectable row.
 #
 # @loco_example Basic Usage
 #   = daisy_dropdown do |dropdown|
@@ -56,16 +57,112 @@
 #         = heroicon "arrow-right-on-rectangle"
 #         Logout
 #
+# @loco_example Selectable Items (start / label / end / selected)
+#   = daisy_dropdown(title: "Sort by") do |dropdown|
+#     - dropdown.with_item(label: "Newest", href: "#", selected: true) do |item|
+#       - item.with_end do
+#         = heroicon "check", css: "size-4"
+#     - dropdown.with_item(label: "Oldest", href: "#")
+#     - dropdown.with_item(href: "#") do |item|
+#       - item.with_start do
+#         = heroicon "star", css: "size-4"
+#       Favorites
+#
 module Daisy
   module Actions
     class DropdownComponent < LocoMotion::BaseComponent
       include ViewComponent::SlotableDefault
 
+      #
+      # A single dropdown menu item (`<li class="menu-item">`). Pass a block for
+      # fully custom content (the original behavior), or use the structured
+      # options/slots to build a selectable row: a `start` slot, a label, an
+      # `end` slot, and an active (`selected`) state.
+      #
+      # @slot start Content rendered before the label (e.g. an icon or color
+      #   swatch).
+      #
+      # @slot end Content rendered after the label (e.g. a checkmark or a
+      #   shortcut hint).
+      #
+      class ItemComponent < LocoMotion::BasicComponent
+        renders_one :start
+        renders_one :end
+
+        # @option kws label [String] Text for the item's label. You can also
+        #   pass the label as block content.
+        #
+        # @option kws href [String] When present, the row is rendered as an
+        #   `<a>` link to this URL.
+        #
+        # @option kws selected [Boolean] Marks the row active, adding DaisyUI's
+        #   `menu-active` class. Defaults to false.
+        def initialize(label: nil, href: nil, selected: false, **kws)
+          @label = label
+          @href = href
+          @selected = selected
+
+          super(**kws)
+        end
+
+        def before_render
+          set_tag_name(:component, :li)
+          add_css(:component, "menu-item")
+
+          super
+        end
+
+        def call
+          part(:component) do
+            structured? ? render_row : content
+          end
+        end
+
+        private
+
+        # Render the structured row only when a structured affordance is used; a
+        # bare content block stays verbatim for backwards compatibility.
+        def structured?
+          @label.present? || @href.present? || @selected || start? || send(:end?)
+        end
+
+        def render_row
+          body = safe_join([start_content, label_content, end_content].compact)
+
+          if @href
+            link_to(@href, class: row_css) { body }
+          else
+            content_tag(:span, body, class: row_css)
+          end
+        end
+
+        def start_content
+          start if start?
+        end
+
+        def label_content
+          text = @label.presence || content
+          content_tag(:span, text, class: "grow") if text.present?
+        end
+
+        # NOTE: `end` is a reserved word, so the slot's reader/predicate (defined
+        # by `renders_one :end`) must be invoked via `send`.
+        def end_content
+          send(:end) if send(:end?)
+        end
+
+        def row_css
+          classes = %w[flex items-center gap-2]
+          classes << "menu-active" if @selected
+          classes.join(" ")
+        end
+      end
+
       define_parts :menu
 
       renders_one :activator, LocoMotion::BasicComponent.build(html: { role: "button", tabindex: 0 })
       renders_one :button, Daisy::Actions::ButtonComponent
-      renders_many :items, LocoMotion::BasicComponent.build(tag_name: :li, css: "menu-item")
+      renders_many :items, ItemComponent
 
       #
       # Creates a new instance of the DropdownComponent.
