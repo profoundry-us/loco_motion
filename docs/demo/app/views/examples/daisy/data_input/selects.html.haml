@@ -156,13 +156,16 @@
 = doc_example(title: "Pre-Selected Value") do |doc|
   - doc.with_description do
     :markdown
-      Select inputs can have a pre-selected value by setting the `value` attribute.
+      Select inputs can have a pre-selected value by setting the `value`
+      attribute. The matching option is selected automatically whether the
+      options come from the `options:` array or are defined with the block
+      form. Pass `selected:` on an individual `with_option` to override it.
 
   .my-2.space-y-2
     = daisy_label(for: "preselected_select", title: "Pre-Selected Select")
-    = daisy_select(name: "preselected_select", id: "preselected_select", placeholder: "Select a country") do |select|
+    = daisy_select(name: "preselected_select", id: "preselected_select", value: "ca", placeholder: "Select a country") do |select|
       - select.with_option(value: "us", label: "United States")
-      - select.with_option(value: "ca", label: "Canada", selected: true)
+      - select.with_option(value: "ca", label: "Canada")
       - select.with_option(value: "mx", label: "Mexico")
 
 

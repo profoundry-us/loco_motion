@@ -46,7 +46,12 @@ module Daisy
       include LocoMotion::Concerns::AriableComponent
 
       class SelectOptionComponent < LocoMotion::BasicComponent
-        attr_reader :value, :label, :selected, :disabled
+        attr_reader :value, :label, :disabled
+
+        # Writable so the parent {SelectComponent} can default it from its
+        # `value:` when the caller didn't set it explicitly (see
+        # {SelectComponent#render_select_options}).
+        attr_accessor :selected
 
         #
         # Initialize a new select option component.
@@ -55,7 +60,10 @@ module Daisy
         #
         # @param label [String] The label to display for the option.
         #
-        # @param selected [Boolean] Whether the option is selected. Defaults to false.
+        # @param selected [Boolean, nil] Whether the option is selected. Defaults
+        #   to `nil`, which means "inherit" — the parent select marks the option
+        #   selected when its `value` matches the select's `value:`. Pass `true`
+        #   or `false` to override that and force the option's selected state.
         #
         # @param disabled [Boolean] Whether the option is disabled. Defaults to false.
         #
@@ -64,7 +72,7 @@ module Daisy
         # @param html [Hash] HTML attributes to apply to the option.
         #
         # rubocop:disable Metrics/ParameterLists
-        def initialize(value:, label:, selected: false, disabled: false, css: "", html: {}, **kws)
+        def initialize(value:, label:, selected: nil, disabled: false, css: "", html: {}, **kws)
           @value = value
           @label = label
           @selected = selected
@@ -268,6 +276,13 @@ module Daisy
 
         # Add options from the block or default options
         if options?
+          # Block options render verbatim, so default each one's `selected`
+          # state from the parent `value:` (matching the `options:` array path)
+          # unless the caller set it explicitly.
+          options.each do |option|
+            option.selected = (option.value.to_s == @value.to_s) if option.selected.nil?
+          end
+
           result << safe_join(options.map(&:call))
         elsif default_options.present?
           result << safe_join(default_options.map { |option| render(option) })

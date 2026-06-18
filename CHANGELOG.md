@@ -63,6 +63,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `trigger: false` this delivers the canonical Hotwire "Global Modal" pattern: one modal in your layout,
   opened by pointing `data-turbo-frame` links at the frame id — no per-row modals or inline JavaScript.
   Refs #161, #16.
+- fix(Select): Honor the select's `value:` when options are defined with the block form
+  (`select.with_option`). Previously only the `options:` array form preselected the matching option; block
+  options always rendered unselected unless you passed `selected:` on every one — so form-builder edit forms
+  (`f.daisy_select :branch_id`) showed the first option instead of the record's saved value. Block options now
+  default their selected state from the parent `value:`, and an explicit `selected:` on an option still wins.
+  Fixes #171.
 
 ### Demo / Docs Changes
 
@@ -104,6 +110,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Modal): Add a "Global Modal (Turbo Frame)" demo example — a contact list whose edit links stream an
   edit form into one shared modal via a `<turbo-frame>` — backed by a small demo-only `ModalContacts`
   controller, plus a Turbo Frame `@loco_example` and `@option turbo_frame_id` in the component's YARD.
+- docs(Demo): Update the Selects "Pre-Selected Value" example to preselect through the select's `value:`
+  attribute (now honored for block options) instead of a per-option `selected:`, matching what the example's
+  description already described.
 
 ### Fixed
 
