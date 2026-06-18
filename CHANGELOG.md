@@ -58,6 +58,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   event, so `loco-modal:close` fires for every close (Escape, backdrop, a `<form method="dialog">` submit, or
   the `close` action). It is attached to every modal automatically but stays inert until an app registers it,
   so existing modals are unaffected. Refs #161, #16.
+- feat(Modal): Add a `turbo_frame_id:` option that renders an empty `<turbo-frame>` inside the modal and wires
+  the `loco-modal` controller to open the dialog when that frame loads (and clear it on close). Combined with
+  `trigger: false` this delivers the canonical Hotwire "Global Modal" pattern: one modal in your layout,
+  opened by pointing `data-turbo-frame` links at the frame id — no per-row modals or inline JavaScript.
+  Refs #161, #16.
 
 ### Demo / Docs Changes
 
@@ -96,6 +101,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Install): Document registering the `loco-modal` controller in the install guide, and update the
   Modals demo's "Global Modal" example to close via the `loco-modal#close` action and surface its
   `loco-modal:close` lifecycle event.
+- docs(Modal): Add a "Global Modal (Turbo Frame)" demo example — a contact list whose edit links stream an
+  edit form into one shared modal via a `<turbo-frame>` — backed by a small demo-only `ModalContacts`
+  controller, plus a Turbo Frame `@loco_example` and `@option turbo_frame_id` in the component's YARD.
 
 ### Fixed
 

@@ -19,7 +19,11 @@
       = part(:title) do
         = @simple_title
 
-    = content
+    - if @turbo_frame_id.present?
+      = part(:turbo_frame) do
+        = content
+    - else
+      = content
 
     - if start_actions? || end_actions?
       = part(:actions) do

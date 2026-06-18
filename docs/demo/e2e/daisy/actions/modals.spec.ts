@@ -14,9 +14,13 @@ test('page loads', async ({ page }) => {
   await loco.expectPageTitle(page, /Modals | LocoMotion/);
   await loco.expectPageHeadings(page, [
     'Simple Modal',
-    'Custom Activator',
-    'Global Modal'
+    'Custom Activator'
   ]);
+
+  // "Global Modal" is a prefix of "Global Modal (Turbo Frame)", so assert each
+  // exactly to avoid an ambiguous (non-exact) heading match.
+  await expect(page.getByRole('heading', { name: 'Global Modal', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Global Modal (Turbo Frame)', exact: true })).toBeVisible();
 });
 
 /**
@@ -135,5 +139,41 @@ test.describe('global modal controller', () => {
     // The controller turned the non-bubbling native `close` into a bubbling
     // `loco-modal:close`, which the demo's document-level listener caught.
     await expect(page.getByText('loco-modal:close fired', { exact: false })).toBeVisible();
+  });
+});
+
+/**
+ * Test suite for the Global Modal Turbo Frame pattern: a remote link streams an
+ * edit form into the modal's `<turbo-frame>`, the `loco-modal` controller opens
+ * the dialog on `turbo:frame-load`, and a successful submit closes it
+ * (`turbo:submit-end -> loco-modal#close`).
+ */
+test.describe('global modal turbo frame', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/examples/Daisy::Actions::ModalComponent');
+
+    // Wait for the dialog's controller to connect so its frame-load listener is
+    // wired before we trigger a frame navigation.
+    await page.waitForFunction(() => {
+      const dialog = document.getElementById('contact-modal-dialog');
+      return !!(dialog && (window as any).Stimulus
+        && (window as any).Stimulus.getControllerForElementAndIdentifier(dialog, 'loco-modal'));
+    });
+  });
+
+  test('opens when a link loads the frame, and closes on submit', async ({ page }) => {
+    const dialog = page.locator('#contact-modal-dialog');
+    await expect(dialog).toBeHidden();
+
+    // A remote edit link streams its form into the modal's turbo-frame.
+    await page.getByRole('link', { name: 'Edit Contact 1' }).click();
+
+    // The controller opens the dialog once the frame finishes loading.
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByText('Edit Alice Anderson')).toBeVisible();
+
+    // Submitting the form closes the dialog (turbo:submit-end -> loco-modal#close).
+    await dialog.getByRole('button', { name: 'Save' }).click();
+    await expect(dialog).toBeHidden();
   });
 });
