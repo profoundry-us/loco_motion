@@ -52,6 +52,25 @@
       = daisy_text_input(name: "fax_floating_input", id: "fax_floating_input", floating: "Fax", placeholder: "fax: (123) 456-7890")
 
 
+= doc_example(title: "Sticky Floating Label") do |doc|
+  - doc.with_description do
+    :markdown
+      By default a floating label collapses back into the field while it is empty
+      and showing a placeholder, only rising on focus. Add the `floating-sticky`
+      class (a LocoMotion variant) via `label_wrapper_css:` to pin the label in
+      its raised position, so the label and the placeholder hint show at the same
+      time.
+
+      Tip: for an always-raised label with **no** placeholder, just pass
+      `floating:` without a `placeholder:` — DaisyUI keeps that label raised on
+      its own (see the first group of the previous example).
+
+  .flex.flex-col.gap-4
+    .space-y-4
+      = daisy_text_input(name: "email_sticky_input", id: "email_sticky_input", floating: "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")
+      = daisy_text_input(name: "company_sticky_input", id: "company_sticky_input", floating: "Company", placeholder: "Acme, Inc.", label_wrapper_css: "floating-sticky")
+
+
 = doc_example(title: "Different Input Types") do |doc|
   - doc.with_description do
     :markdown
