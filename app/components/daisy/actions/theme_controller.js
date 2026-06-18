@@ -137,9 +137,16 @@ export default class extends Controller {
   }
 
   /**
-   * Retrieves the current theme from localStorage.
+   * Retrieves the current (effective) theme.
    *
-   * @returns {?string} The current theme name, or null if none is saved
+   * Prefers the user's saved choice from localStorage. When nothing is saved
+   * yet — e.g. on a first visit — it falls back to whatever theme is already
+   * applied to the document via the `data-theme` attribute (set by a
+   * server-rendered theme, the `theme_preload_script`, or another controller).
+   * That way the active row / checkmark reflects the theme the user is actually
+   * seeing instead of being left blank until they pick one.
+   *
+   * @returns {?string} The current theme name, or null if none can be determined
    */
   getCurrentTheme() {
     const savedTheme = this.safeStorageGet('savedTheme')
@@ -148,7 +155,7 @@ export default class extends Controller {
       return savedTheme
     }
 
-    return null
+    return document.documentElement.getAttribute('data-theme')
   }
 
   /**

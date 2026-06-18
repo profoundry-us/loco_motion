@@ -69,6 +69,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (`f.daisy_select :branch_id`) showed the first option instead of the record's saved value. Block options now
   default their selected state from the parent `value:`, and an explicit `selected:` on an option still wins.
   Fixes #171.
+- feat(ThemeController): The `loco-theme` controller's `getCurrentTheme` now falls back to the document's
+  applied `data-theme` when nothing is saved in `localStorage`, so `setInput` marks the active row/checkmark
+  on first visit (e.g. a server-rendered or preload-applied theme) instead of leaving every option unmarked
+  until the user picks one. Saved choices still win. Refs #165.
 
 ### Demo / Docs Changes
 
