@@ -73,6 +73,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   applied `data-theme` when nothing is saved in `localStorage`, so `setInput` marks the active row/checkmark
   on first visit (e.g. a server-rendered or preload-applied theme) instead of leaving every option unmarked
   until the user picks one. Saved choices still win. Refs #165.
+- feat(ThemePreview): Register a top-level `daisy_theme_preview` helper for `ThemePreviewComponent`, so theme
+  swatches can be composed anywhere instead of only via `tc.build_theme_preview` or rendering the class
+  directly. (The component's YARD already documented `daisy_theme_preview`; the helper now actually exists.)
+  Refs #165.
 
 ### Demo / Docs Changes
 
@@ -123,6 +127,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule lives in the
   demo's `application.tailwind.css` for now and is slated to move into the shipped LocoMotion CSS file (#170).
   Added a "Sticky Floating Label" demo example and a Playwright check that the label stays raised. Fixes #169.
+- docs(ThemePreview): Add a "Theme Previews" demo page (registered under Actions) showing the
+  `daisy_theme_preview` helper across themes and sizes, with a Playwright page-loads check.
 
 ### Fixed
 

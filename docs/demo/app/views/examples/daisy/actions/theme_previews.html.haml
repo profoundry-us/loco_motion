@@ -1,0 +1,33 @@
+= doc_title(title: "Theme Previews", comp: @comp) do |title|
+  :markdown
+    The Theme Preview shows a small swatch of a DaisyUI theme's colors — a 2×2
+    grid of dots for the `base-content`, `primary`, `secondary`, and `accent`
+    colors. Use it on its own with the `daisy_theme_preview` helper, or as a
+    building block inside a custom theme switcher (see the
+    #{component_link("Theme Controller", "Daisy::Actions::ThemeControllerComponent")}).
+
+
+= doc_example(title: "Basic Usage") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass a `theme:` name (as a positional or keyword argument) to preview any
+      DaisyUI theme that's enabled in your `daisyui` plugin config.
+
+  .flex.flex-wrap.gap-4.items-start
+    - %w[light dark synthwave retro cyberpunk wireframe].each do |theme|
+      .flex.flex-col.items-center.gap-1
+        = daisy_theme_preview(theme: theme)
+        %span.text-xs.capitalize= theme
+
+
+= doc_example(title: "Custom Size") do |doc|
+  - doc.with_description do
+    :markdown
+      The preview uses a zero-specificity `where:size-4` default, so any `size-*`
+      utility you pass via `css:` overrides it.
+
+  .flex.gap-4.items-end
+    = daisy_theme_preview(theme: "synthwave", css: "size-4")
+    = daisy_theme_preview(theme: "synthwave", css: "size-6")
+    = daisy_theme_preview(theme: "synthwave", css: "size-8")
+    = daisy_theme_preview("synthwave", css: "size-12")

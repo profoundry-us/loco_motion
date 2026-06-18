@@ -22,6 +22,8 @@ module LocoMotion
     "Daisy::Actions::SwapComponent" => { names: "swap", group: "Actions", title: "Swaps", example: "swaps" },
     "Daisy::Actions::ThemeControllerComponent" => { names: "theme_controller", group: "Actions",
                                                     title: "Theme Controllers", example: "theme_controllers" },
+    "Daisy::Actions::ThemePreviewComponent" => { names: "theme_preview", group: "Actions",
+                                                 title: "Theme Previews", example: "theme_previews" },
 
     # Data
     "Daisy::DataDisplay::AccordionComponent" => { names: "accordion", group: "Data Display", title: "Accordions",
