@@ -36,20 +36,30 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
     end
   end
 
-  # For these tests, we'll patch the component methods to avoid the dependency issues
+  describe "#build_radio_input with a block" do
+    it "forwards the block to the radio so its slots can be filled" do
+      render_inline(described_class.new) do |tc|
+        tc.build_radio_input("light") do |radio|
+          radio.with_end { "Light theme" }
+        end
+      end
+
+      expect(page).to have_css("input[type='radio'][value='light'].theme-controller")
+      expect(page).to have_text("Light theme")
+    end
+  end
+
+  # These tests verify the builder methods pass the right arguments to `render`
+  # without actually rendering (which needs a real view context). The builders
+  # are mocked on a throwaway subclass so they never leak onto the real
+  # component class — which keeps every test order-independent.
   describe "component as a factory" do
-    before do
-      # We need to patch the render method to avoid the dependency issues
-      # while still testing that the component is properly passing arguments
-      module TestHelpers
+    let(:factory_class) do
+      Class.new(described_class) do
         def mock_render(component_class, **args)
           # Return a simple object that can be inspected
           { component: component_class, args: args }
         end
-      end
-
-      Daisy::Actions::ThemeControllerComponent.prepend(Module.new do
-        include TestHelpers
 
         def build_radio_input(theme, **options)
           options[:css] = "#{options[:css] || ''} theme-controller"
@@ -62,8 +72,10 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
         def build_theme_preview(theme, **options)
           mock_render(Daisy::Actions::ThemePreviewComponent, theme: theme, **options)
         end
-      end)
+      end
     end
+
+    let(:component) { factory_class.new }
 
     describe "#build_radio_input" do
       it "correctly configures the radio input" do

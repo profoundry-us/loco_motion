@@ -70,6 +70,23 @@
           = theme.humanize
 
 
+= doc_example(title: "Theme Radio with Inline Preview") do |doc|
+  - doc.with_description do
+    :markdown
+      `build_radio_input` accepts a block, which it forwards to the radio. That
+      lets you drop a preview swatch and label **inside** the radio's own label
+      (its `end` slot), so the whole row is a single clickable control — no
+      separate wrapping `<label>` needed.
+
+  = daisy_theme_controller do |theme_controller|
+    .flex.flex-col.gap-2.items-start
+      - theme_controller.themes.each do |theme|
+        = theme_controller.build_radio_input(theme, name: "docs-inline-theme") do |radio|
+          - radio.with_end do
+            = theme_controller.build_theme_preview(theme)
+            %span.capitalize= theme.humanize
+
+
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
   - doc.with_description do
     :markdown
