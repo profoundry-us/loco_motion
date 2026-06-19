@@ -71,6 +71,48 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
     expect(page).to have_css("option[value='option2']", text: "Option 2")
   end
 
+  it "selects the block option matching the parent value:" do
+    component = described_class.new(name: "test", id: "test", value: "option2")
+    render_inline(component) do |c|
+      c.with_option(value: "option1", label: "Option 1")
+      c.with_option(value: "option2", label: "Option 2")
+    end
+
+    expect(page).to have_css("option[value='option1']:not([selected])")
+    expect(page).to have_css("option[value='option2'][selected]")
+  end
+
+  it "matches the parent value: against block options regardless of type" do
+    component = described_class.new(name: "test", id: "test", value: 2)
+    render_inline(component) do |c|
+      c.with_option(value: 1, label: "One")
+      c.with_option(value: 2, label: "Two")
+    end
+
+    expect(page).to have_css("option[value='2'][selected]")
+  end
+
+  it "lets an explicit selected: on a block option override the parent value:" do
+    component = described_class.new(name: "test", id: "test", value: "option2")
+    render_inline(component) do |c|
+      c.with_option(value: "option1", label: "Option 1", selected: true)
+      c.with_option(value: "option2", label: "Option 2", selected: false)
+    end
+
+    expect(page).to have_css("option[value='option1'][selected]")
+    expect(page).to have_css("option[value='option2']:not([selected])")
+  end
+
+  it "selects no block option when the parent value: is absent" do
+    component = described_class.new(name: "test", id: "test")
+    render_inline(component) do |c|
+      c.with_option(value: "option1", label: "Option 1")
+      c.with_option(value: "option2", label: "Option 2")
+    end
+
+    expect(page).to have_css("option:not([selected])", count: 2)
+  end
+
   it "renders a select component with options_css applied to each option" do
     options = ["Option 1", "Option 2"]
     component = described_class.new(name: "test", id: "test", options: options, options_css: "text-primary")
