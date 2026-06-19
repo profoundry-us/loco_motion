@@ -196,8 +196,10 @@
   :markdown
     Then add the Tailwind 4 + DaisyUI directives to your
     `application.tailwind.css` — import Tailwind, register the DaisyUI plugin,
-    and add the `where` and `dark` custom variants. The
-    [Install guide](#{doc_path("install")}) lists the exact CSS block to copy.
+    and import LocoMotion's CSS (`@import '@profoundry-us/loco_motion/loco.css'`),
+    which provides the `where` and `dark` custom variants and the
+    component-required utilities. The [Install guide](#{doc_path("install")})
+    lists the exact CSS block to copy.
 
 = doc_note(modifier: :warning, title: "Tailwind 4 Configuration", css: "mt-6") do
   :markdown
@@ -216,9 +218,11 @@
     placed directly on a focusable element (a button, link, etc.) show on hover
     but not when a keyboard user tabs to them.
 
-    Add this small rule to your `application.tailwind.css` so those tooltips
-    also appear on focus. It mirrors DaisyUI's own reveal rule for the case
-    where the tooltip element itself is focused:
+    LocoMotion's shipped CSS handles this for you: importing
+    `@profoundry-us/loco_motion/loco.css` (per the setup above) includes the
+    rule below, so `tip:` tooltips reveal on keyboard focus automatically — no
+    manual CSS needed. It mirrors DaisyUI's own reveal rule for the case where
+    the tooltip element itself is focused:
 
 .mt-6.max-w-prose
   = doc_code(language: "css") do

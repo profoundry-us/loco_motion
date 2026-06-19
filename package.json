@@ -9,11 +9,17 @@
   },
   "author": "Topher Fangio",
   "license": "MIT",
+  "exports": {
+    ".": "./index.js",
+    "./loco.css": "./app/assets/stylesheets/loco.css",
+    "./package.json": "./package.json"
+  },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2"
   },
   "files": [
     "index.js",
+    "app/assets/stylesheets/loco.css",
     "app/components/daisy/feedback/alert_controller.js",
     "app/components/daisy/data_input/cally_input_controller.js",
     "app/components/daisy/data_display/countdown_controller.js",

@@ -10,11 +10,10 @@
   themes: light --default, dark --prefersdark, synthwave, retro, cyberpunk, wireframe;
 }
 
-/* Setup custom variant to reduce selector specificity for component defaults */
-@custom-variant where (:where(&));
-
-/* Setup standard dark: variant to work for both System-based & DaisyUI Theme-based dark mode */
-@custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+/* Pull in LocoMotion's custom variants (`where`, `dark`) and component-required
+ * utilities (the tooltip keyboard-focus reveal and `floating-sticky`) from the
+ * shipped CSS file instead of duplicating them here. */
+@import '@profoundry-us/loco_motion/loco.css';
 
 /* Point to our custom config which pulls in some of the LocoMotion files */
 @config "../../../tailwind.config.js";
@@ -31,48 +30,4 @@
 
 .prose {
   max-width: var(--max-prose-width);
-}
-
-/*
- * Reveal tooltips on keyboard focus when the `tooltip` class is applied
- * directly to a focusable element (e.g. via LocoMotion's `tip:` attribute on a
- * button or link). DaisyUI v5 only reveals tooltips through `:has(:focus-visible)`,
- * which requires the focused element to be a *descendant* of `.tooltip` — so a
- * tooltip placed on the element itself never appears on focus. This mirrors
- * DaisyUI's own reveal rule for when the tooltip element itself is focus-visible.
- * See the Getting Started guide for details.
- */
-.tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
-  &[data-tip]::before,
-  &::after,
-  & > .tooltip-content {
-    opacity: 1;
-    --tt-pos: 0rem;
-  }
-}
-
-/*
- * `floating-sticky` — keep a DaisyUI floating label in its raised position even
- * while the field is empty and showing a placeholder. By default DaisyUI only
- * raises the label on focus or once the field has a value (an empty field with
- * a placeholder matches `:placeholder-shown`, which keeps the label collapsed),
- * so a placeholder hint and a raised floating label never appear together. Add
- * `floating-sticky` alongside `floating-label` (e.g. via `label_wrapper_css:`)
- * to pin the label up, leaving the placeholder visible inside the empty field
- * for a Material-style label.
- *
- * Mirrors DaisyUI's own raised-state declaration; the raised values are
- * size-independent, so this single rule covers every input size. Because it is
- * unlayered it also wins over DaisyUI's disabled rule
- * (`:has(:disabled) > span { opacity: 0 }`), so the label stays visible on
- * disabled fields too. Slated to move into the shipped LocoMotion CSS file
- * (#170); see #169.
- */
-.floating-label.floating-sticky > span {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 2;
-  top: 0;
-  translate: -12.5% calc(-50% - .125em);
-  scale: .75;
 }

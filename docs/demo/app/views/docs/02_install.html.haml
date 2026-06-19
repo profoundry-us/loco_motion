@@ -117,14 +117,23 @@
         themes: light --default, dark --prefersdark;
       }
 
-      /* Custom variant to reduce selector specificity for component defaults */
-      @custom-variant where (:where(&));
-
-      /* Custom dark: variant for System-based & DaisyUI ThemeController dark mode */
-      @custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+      /* LocoMotion's custom variants (`where`, `dark`) and component-required
+         utilities, shipped as a single versioned file via the npm package. */
+      @import '@profoundry-us/loco_motion/loco.css';
 
       /* Point to tailwind.config.js for content scan paths */
       @config "../tailwind.config.js";
+
+= doc_note(css: "mt-6", title: "Why the @import?") do
+  :markdown
+    `@import '@profoundry-us/loco_motion/loco.css'` pulls in the custom variants
+    and component-required utility rules that LocoMotion's components depend on
+    (the `where` and `dark` variants, the `floating-sticky` label helper, and
+    the keyboard-focus tooltip reveal). It resolves through the
+    `@profoundry-us/loco_motion` npm package you installed above, so you stay in
+    sync across upgrades instead of hand-copying a growing block of CSS. Keep
+    `@import 'tailwindcss'`, the `daisyui` plugin, and `@config` in your own
+    entry — those are app-level choices.
 
 .mt-4.prose
   :markdown
