@@ -73,6 +73,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   applied `data-theme` when nothing is saved in `localStorage`, so `setInput` marks the active row/checkmark
   on first visit (e.g. a server-rendered or preload-applied theme) instead of leaving every option unmarked
   until the user picks one. Saved choices still win. Refs #165.
+- feat(Dropdown): Give `with_item` a structured builder for selectable menu rows. Pass `label:`, `href:`, and
+  `selected:` and use the item's `start` / `end` slots (matching our other components), and the dropdown
+  renders a proper `<li class="menu-item"><a class="… menu-active">` row instead of making you hand-roll the
+  markup. Bare content-block items (`with_item do … end`) render exactly as before, so this is fully backward
+  compatible. Refs #165.
 - feat(Fieldset): Add a caption / helper-text slot to `daisy_fieldset`. Provide it with the `caption` slot
   (`fieldset.with_caption`) or the `caption:` argument, and it renders below the controls using DaisyUI's
   `.fieldset-label`. Unlike `.label` (`daisy_label`), `.fieldset-label` is not `white-space: nowrap`, so long
@@ -128,6 +133,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule lives in the
   demo's `application.tailwind.css` for now and is slated to move into the shipped LocoMotion CSS file (#170).
   Added a "Sticky Floating Label" demo example and a Playwright check that the label stays raised. Fixes #169.
+- docs(Dropdown): Add a "Selectable Items" demo example using the new structured `with_item` builder
+  (`start` icon, label, `end` checkmark, and a `selected` active row).
 - docs(Fieldset): Add two Fieldsets demo examples for the new caption slot — one using the `caption:` argument
   and one using the `caption` slot with `css: "block"` for a caption containing an inline link — plus a smoke
   check for both in the Playwright spec.

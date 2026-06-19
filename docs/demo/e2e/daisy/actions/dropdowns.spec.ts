@@ -12,6 +12,7 @@ test('page loads', async ({ page }) => {
   await loco.expectPageHeadings(page, [
     'Basic Dropdown',
     'Custom Button',
+    'Selectable Items',
     'Fully Custom Dropdown'
   ]);
 });

@@ -170,6 +170,59 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
     end
   end
 
+  context "with structured items" do
+    before do
+      render_inline(described_class.new) do |d|
+        d.with_item(label: "Newest", href: "/n", selected: true)
+        d.with_item(href: "/f") do |item|
+          item.with_start { tag.span "S", class: "start-slot" }
+          item.with_end { tag.span "E", class: "end-slot" }
+          "Favorites"
+        end
+      end
+    end
+
+    describe "rendering" do
+      it "renders a labeled link item" do
+        expect(page).to have_css "li.menu-item a[href='/n']", text: "Newest"
+      end
+
+      it "marks the selected item active" do
+        expect(page).to have_css "li.menu-item a[href='/n'].menu-active"
+      end
+
+      it "does not mark unselected items active" do
+        expect(page).to have_css "li.menu-item a[href='/f']:not(.menu-active)"
+      end
+
+      it "renders start and end slots around the label" do
+        expect(page).to have_css "li.menu-item a[href='/f'] .start-slot"
+        expect(page).to have_css "li.menu-item a[href='/f'] .end-slot"
+        expect(page).to have_css "li.menu-item a[href='/f']", text: "Favorites"
+      end
+    end
+  end
+
+  context "mixing a structured item with a plain content item" do
+    before do
+      render_inline(described_class.new) do |d|
+        d.with_item { "Plain" }
+        d.with_item(label: "Structured", selected: true)
+      end
+    end
+
+    describe "rendering" do
+      it "renders the plain content item verbatim, with no link wrapper" do
+        expect(page).to have_css "li.menu-item", text: "Plain"
+        expect(page).not_to have_css "li.menu-item a", text: "Plain"
+      end
+
+      it "renders the structured item as an active row" do
+        expect(page).to have_css "li.menu-item span.menu-active", text: "Structured"
+      end
+    end
+  end
+
   context "with complex configuration" do
     let(:title) { "Complex Dropdown" }
     let(:custom_class) { "custom-dropdown" }
