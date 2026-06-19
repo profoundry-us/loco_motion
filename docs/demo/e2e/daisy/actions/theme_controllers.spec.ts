@@ -96,3 +96,20 @@ test('theme-controller inputs have unique ids', async ({ page }) => {
 
   expect(duplicateIds, 'each theme-controller input should have a unique id').toEqual([]);
 });
+
+test('setInput reflects the applied data-theme when nothing is saved', async ({ page }) => {
+  await page.goto(PAGE);
+
+  // Simulate a first visit: a theme is applied to the document (e.g. a
+  // server-rendered data-theme) but the user has not saved a choice yet.
+  await page.evaluate(() => {
+    localStorage.removeItem('savedTheme');
+    document.documentElement.setAttribute('data-theme', 'retro');
+    // Nudge every loco-theme controller to re-sync its inputs (calls setInput).
+    window.dispatchEvent(new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: null } }));
+  });
+
+  // The radio for the applied theme is now checked even though nothing is saved
+  // — before the fallback, getCurrentTheme() returned null and no row was marked.
+  await expect(page.locator('input.theme-controller[value="retro"]').first()).toBeChecked();
+});
