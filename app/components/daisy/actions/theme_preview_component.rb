@@ -6,16 +6,23 @@
 # dots representing the base-content, primary, secondary, and accent colors of
 # the theme.
 #
+# @note There is no top-level `daisy_theme_preview` helper. Render previews
+#   through {Daisy::Actions::ThemeControllerComponent}'s `build_theme_preview`
+#   builder (the usual way, inside a `daisy_theme_controller`), or render the
+#   component directly for a one-off / read-only swatch.
+#
 # @part dot_base The dot showing the base-content color of the theme.
 # @part dot_primary The dot showing the primary color of the theme.
 # @part dot_secondary The dot showing the secondary color of the theme.
 # @part dot_accent The dot showing the accent color of the theme.
 #
-# @loco_example Basic Usage
-#   = daisy_theme_preview(theme: "light")
+# @loco_example Inside a Theme Controller (the usual way)
+#   = daisy_theme_controller do |tc|
+#     - tc.themes.each do |theme|
+#       = tc.build_theme_preview(theme)
 #
-# @loco_example Custom CSS
-#   = daisy_theme_preview(theme: "dark", css: "size-6")
+# @loco_example Rendered directly (read-only swatch, custom size)
+#   = render Daisy::Actions::ThemePreviewComponent.new(theme: "dark", css: "size-6")
 #
 module Daisy
   module Actions
