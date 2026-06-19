@@ -113,6 +113,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Demo): Update the Selects "Pre-Selected Value" example to preselect through the select's `value:`
   attribute (now honored for block options) instead of a per-option `selected:`, matching what the example's
   description already described.
+- feat(Demo): Add a `floating-sticky` CSS variant that pins a DaisyUI floating label in its raised position
+  even while the field is empty and showing a placeholder, so the label and the placeholder hint show at once
+  (a Material-style label). Opt in by adding it to the label wrapper, e.g. `daisy_text_input(floating:
+  "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule lives in the
+  demo's `application.tailwind.css` for now and is slated to move into the shipped LocoMotion CSS file (#170).
+  Added a "Sticky Floating Label" demo example and a Playwright check that the label stays raised. Fixes #169.
 
 ### Fixed
 

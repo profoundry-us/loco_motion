@@ -50,3 +50,29 @@
     --tt-pos: 0rem;
   }
 }
+
+/*
+ * `floating-sticky` — keep a DaisyUI floating label in its raised position even
+ * while the field is empty and showing a placeholder. By default DaisyUI only
+ * raises the label on focus or once the field has a value (an empty field with
+ * a placeholder matches `:placeholder-shown`, which keeps the label collapsed),
+ * so a placeholder hint and a raised floating label never appear together. Add
+ * `floating-sticky` alongside `floating-label` (e.g. via `label_wrapper_css:`)
+ * to pin the label up, leaving the placeholder visible inside the empty field
+ * for a Material-style label.
+ *
+ * Mirrors DaisyUI's own raised-state declaration; the raised values are
+ * size-independent, so this single rule covers every input size. Because it is
+ * unlayered it also wins over DaisyUI's disabled rule
+ * (`:has(:disabled) > span { opacity: 0 }`), so the label stays visible on
+ * disabled fields too. Slated to move into the shipped LocoMotion CSS file
+ * (#170); see #169.
+ */
+.floating-label.floating-sticky > span {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+  top: 0;
+  translate: -12.5% calc(-50% - .125em);
+  scale: .75;
+}
