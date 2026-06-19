@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 #
-# The ThemeComponent serves as a foundation for building a full Theme Switcher.
-# It provides the building blocks that you will use such as the Theme Preview,
-# Theme Radio, and Stimulus ThemeController.
+# The ThemeController is the foundation for theme switching. For a complete,
+# ready-made switcher, use the {#build_switcher_dropdown} builder; to build a
+# custom switcher, compose the lower-level builders ({#build_theme_preview},
+# {#build_radio_input}) yourself. Either way it wires up the `loco-theme`
+# Stimulus controller for you.
 #
-# @loco_example Basic Usage
+# @loco_example A complete switcher in one line
+#   = daisy_theme_controller(themes: %w[light dark]) do |tc|
+#     = tc.build_switcher_dropdown
+#
+# @loco_example Composing the lower-level builders
 #   = daisy_theme_controller do |tc|
 #     - tc.themes.each do |theme|
 #       = tc.build_theme_preview(theme)
@@ -100,6 +106,92 @@ module Daisy
           theme: theme,
           **options
         )
+      end
+
+      #
+      # Builder method that renders a complete, ready-to-use theme switcher
+      # dropdown: a trigger button and a menu with one row per theme (a color
+      # preview, the theme name, and a checkmark on the active theme), all wired
+      # to the `loco-theme` controller. Because it is rendered inside this
+      # component, it inherits the `loco-theme` Stimulus controller, so no extra
+      # setup is required.
+      #
+      # @option options [String] :icon The Heroicon name for the trigger button.
+      #   Defaults to "swatch".
+      #
+      # @option options [String] :label Optional text shown beside the trigger
+      #   icon. When omitted, the trigger is an icon-only circle button.
+      #
+      # @option options [Boolean] :clear Whether to append a "Clear Theme" row
+      #   that resets to the default theme. Defaults to false.
+      #
+      # @option options [String] :name The shared `name` for the theme radios.
+      #   Defaults to "theme".
+      #
+      # @option options [String] :css Extra CSS classes for the dropdown (e.g. a
+      #   placement modifier like "dropdown-end"). Defaults to "dropdown-end".
+      #
+      # @return [String] The rendered dropdown.
+      #
+      # @loco_example A one-line theme switcher
+      #   = daisy_theme_controller(themes: %w[light dark synthwave]) do |tc|
+      #     = tc.build_switcher_dropdown
+      #
+      # @loco_example With a label and a Clear Theme row
+      #   = daisy_theme_controller do |tc|
+      #     = tc.build_switcher_dropdown(label: "Theme", clear: true)
+      #
+      def build_switcher_dropdown(icon: "swatch", label: nil, clear: false, name: "theme", css: "dropdown-end")
+        button_css = label ? "btn-ghost" : "btn-ghost btn-circle"
+
+        render(Daisy::Actions::DropdownComponent.new(css: css)) do |dropdown|
+          dropdown.with_button(icon: icon, title: label, css: button_css,
+                               html: { title: "Switch theme", "aria-label": "Switch theme" })
+
+          dropdown.with_item { clear_row(name) } if clear
+
+          themes.each do |theme|
+            dropdown.with_item { switcher_row(theme, name) }
+          end
+        end
+      end
+
+      private
+
+      # Renders a single theme row for {build_switcher_dropdown}: a clickable
+      # link wrapping a hidden `.theme-controller` radio (the `peer` that drives
+      # the checkmark) plus the preview, name, and checkmark. The explicit
+      # `setTheme` action is what makes selection reliable inside a focus
+      # dropdown (a hidden radio's `change` event does not propagate there).
+      def switcher_row(theme, name)
+        parts = [
+          build_radio_input(theme, name: name, css: "hidden peer"),
+          build_theme_preview(theme, css: "size-5"),
+          content_tag(:span, theme.humanize, class: "grow capitalize"),
+          helpers.hero_icon("check", css: "size-4 text-primary invisible peer-checked:visible")
+        ]
+
+        link_to("#", class: "flex items-center gap-3 no-underline",
+                     data: { action: "click->loco-theme#setTheme" }) { safe_join(parts) }
+      end
+
+      # Renders the optional, danger-styled "Clear Theme" row, shown at the top
+      # of the menu. Uses a `<button>` (not a link) because
+      # `loco-theme#clearTheme` does not `preventDefault`, so an `href="#"`
+      # would jump the page. The `themeName` param lets the controller uncheck
+      # this switcher's radios immediately.
+      def clear_row(name)
+        parts = [
+          helpers.hero_icon("trash", css: "size-4"),
+          content_tag(:span, "Clear Theme", class: "grow text-left")
+        ]
+
+        content_tag(:button, type: "button",
+                             class: "flex items-center gap-3 w-full text-error",
+                             data: { action: "loco-theme#clearTheme",
+                                     "loco-theme-theme-name-param": name }) do
+          safe_join(parts)
+        end
       end
     end
   end

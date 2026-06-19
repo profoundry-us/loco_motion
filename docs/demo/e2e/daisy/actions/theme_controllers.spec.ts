@@ -12,8 +12,26 @@ test('page loads', async ({ page }) => {
   await loco.expectPageHeadings(page, [
     'Theme Preview Icons',
     'Theme Radio Inputs',
+    'Switcher Dropdown (Builder)',
     'Custom Switcher'
   ]);
+});
+
+test('build_switcher_dropdown switches the theme and marks the active row', async ({ page }) => {
+  await page.goto(PAGE);
+  await page.evaluate(() => localStorage.removeItem('savedTheme'));
+
+  // The first builder switcher's radios are named "docs-switcher". Open it,
+  // then pick "synthwave" (the row's link fires loco-theme#setTheme).
+  const switcher = page.locator('.dropdown', { has: page.locator('input[name="docs-switcher"]') });
+  await switcher.getByRole('button').first().click();
+  await switcher.locator('a:has(input[value="synthwave"])').click();
+
+  // The theme is applied + persisted, and the active row's radio is checked
+  // (which drives its peer-checked checkmark).
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
+  expect(await page.evaluate(() => localStorage.getItem('savedTheme'))).toBe('synthwave');
+  await expect(page.locator('input[name="docs-switcher"][value="synthwave"]')).toBeChecked();
 });
 
 test('clear theme removes data-theme attribute', async ({ page }) => {
