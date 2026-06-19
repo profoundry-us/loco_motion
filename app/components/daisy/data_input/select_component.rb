@@ -276,19 +276,26 @@ module Daisy
 
         # Add options from the block or default options
         if options?
-          # Block options render verbatim, so default each one's `selected`
-          # state from the parent `value:` (matching the `options:` array path)
-          # unless the caller set it explicitly.
-          options.each do |option|
-            option.selected = (option.value.to_s == @value.to_s) if option.selected.nil?
-          end
-
-          result << safe_join(options.map(&:call))
+          result << safe_join(block_options.map(&:call))
         elsif default_options.present?
           result << safe_join(default_options.map { |option| render(option) })
         end
 
         result.html_safe
+      end
+
+      #
+      # Returns the block-form options, defaulting each one's `selected` state
+      # from the parent `value:` (matching the `options:` array path) unless the
+      # caller set `selected:` explicitly. Block options render verbatim, so
+      # this is where they inherit the select's value.
+      #
+      # @return [Array<SelectOptionComponent>] The options to render.
+      #
+      def block_options
+        options.each do |option|
+          option.selected = (option.value.to_s == @value.to_s) if option.selected.nil?
+        end
       end
 
       #
