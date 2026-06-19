@@ -14,7 +14,7 @@
     "algoliasearch": "^5.55.0",
     "autoprefixer": "^10.5.0",
     "cally": "^0.9.2",
-    "daisyui": "^5.5.20",
+    "daisyui": "^5.5.23",
     "esbuild": "^0.28.1",
     "instantsearch.js": "^4.101.1",
     "tailwindcss": "^4.3.0"
