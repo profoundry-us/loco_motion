@@ -57,3 +57,31 @@
     = daisy_label("API Key")
     = daisy_input(placeholder: "asdf1234")
     = daisy_button("Save Settings", css: "mt-4")
+
+
+= doc_example(title: "Fieldset with Caption (Argument)") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `caption:` to add caption / helper text below the controls. It
+      renders DaisyUI's `.fieldset-label`, which — unlike `.label`
+      (`daisy_label`) — is not `nowrap`, so long help text wraps instead of
+      overflowing the form.
+
+  = daisy_fieldset(legend: "Display Name", caption: "This is shown publicly on your profile and in comments.", css: "w-80") do
+    = daisy_input(placeholder: "Ada Lovelace")
+
+
+= doc_example(title: "Fieldset Caption with an Inline Link") do |doc|
+  - doc.with_description do
+    :markdown
+      `.fieldset-label` is `display: flex`, which splits a sentence and an
+      inline link into separate flex items. For prose that contains a link, use
+      the `caption` slot and pass `css: "block"` so the link flows inside the
+      sentence.
+
+  = daisy_fieldset(legend: "Theme", css: "w-80") do |fieldset|
+    = daisy_select(options: ["Light", "Dark", "System"], placeholder: "Select a theme")
+    - fieldset.with_caption(css: "block") do
+      Pick the palette used for new charts. Manage your saved themes on the
+      = daisy_link("Themes", href: "#")
+      page.

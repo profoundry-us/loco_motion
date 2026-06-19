@@ -6,3 +6,9 @@
 
   -# Render the main content passed to the component block
   = content
+
+  -# Render the caption / helper text (.fieldset-label) below the content
+  - if caption?
+    = caption
+  - elsif @simple_caption
+    = part(:caption) { @simple_caption }
