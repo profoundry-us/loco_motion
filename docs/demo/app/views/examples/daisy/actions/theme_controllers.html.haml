@@ -87,6 +87,24 @@
             %span.capitalize= theme.humanize
 
 
+= doc_example(title: "Switcher Dropdown (Builder)", example_css: "pb-64") do |doc|
+  - doc.with_description do
+    :markdown
+      `build_switcher_dropdown` renders a complete, working theme switcher in one
+      line — a trigger button plus a menu with a color preview, name, and a
+      checkmark on the active theme for every theme, all wired to the
+      `loco-theme` controller. Pass `label:`, `icon:`, `clear:`, or a placement
+      via `css:` to customize it. (Everything below is hand-rolled from the
+      sub-components for comparison.)
+
+  .flex.gap-6.items-start
+    = daisy_theme_controller(themes: %w[light dark synthwave retro]) do |theme_controller|
+      = theme_controller.build_switcher_dropdown(css: "dropdown-start", name: "docs-switcher")
+
+    = daisy_theme_controller(themes: %w[light dark synthwave retro]) do |theme_controller|
+      = theme_controller.build_switcher_dropdown(label: "Theme", clear: true, css: "dropdown-start", name: "docs-switcher-labeled")
+
+
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
   - doc.with_description do
     :markdown

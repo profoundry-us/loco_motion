@@ -87,6 +87,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `.fieldset-label`. Unlike `.label` (`daisy_label`), `.fieldset-label` is not `white-space: nowrap`, so long
   help text wraps instead of pushing the form off-screen. `.fieldset-label` is `display: flex`; for prose with
   an inline link, pass `caption_css: "block"` so the link flows inside the sentence. Fixes #162.
+- feat(ThemeController): Add a `build_switcher_dropdown` builder that renders a complete, working theme
+  switcher in one line — a trigger button plus a menu with a color preview, name, and an active checkmark for
+  every theme, all wired to the `loco-theme` controller. Supports `label:`, `icon:`, `clear:` (a "Clear Theme"
+  row), `name:`, and a `css:` placement. It's a builder method on the existing component (composing
+  `build_radio_input` and `build_theme_preview`), not a new component or subclass. Fixes #165.
 
 ### Demo / Docs Changes
 
@@ -144,6 +149,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Fieldset): Add two Fieldsets demo examples for the new caption slot — one using the `caption:` argument
   and one using the `caption` slot with `css: "block"` for a caption containing an inline link — plus a smoke
   check for both in the Playwright spec.
+- docs(ThemeController): Add a "Switcher Dropdown (Builder)" demo example showing `build_switcher_dropdown`
+  (plain, and with a label + Clear Theme row), plus a Playwright test that picking a theme applies, persists,
+  and marks the active row.
 
 ### Fixed
 

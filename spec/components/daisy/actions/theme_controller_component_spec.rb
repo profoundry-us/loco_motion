@@ -123,6 +123,51 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
     end
   end
 
+  describe "#build_switcher_dropdown" do
+    it "renders a dropdown with a trigger and one row per theme" do
+      render_inline(described_class.new(themes: %w[light dark]), &:build_switcher_dropdown)
+
+      expect(page).to have_css("[data-controller='loco-theme'] .dropdown")
+      expect(page).to have_css(".dropdown button.btn") # trigger
+      expect(page).to have_css(".dropdown-content li.menu-item", count: 2)
+      expect(page).to have_css("a[data-action='click->loco-theme#setTheme']", count: 2)
+    end
+
+    it "gives each row a hidden theme-controller radio, a preview, and a name" do
+      render_inline(described_class.new(themes: %w[light dark])) do |tc|
+        tc.build_switcher_dropdown(name: "switch")
+      end
+
+      expect(page).to have_css("input.theme-controller.hidden[name='switch'][value='light']")
+      expect(page).to have_css("[data-theme='light']") # the preview swatch
+      expect(page).to have_css(".dropdown-content", text: "Light")
+      expect(page).to have_css(".dropdown-content", text: "Dark")
+      # checkmark visibility is driven by the radio's checked state
+      expect(page).to have_css("a [class*='peer-checked']")
+    end
+
+    it "shows a danger Clear Theme button at the top when clear: true" do
+      render_inline(described_class.new(themes: %w[light])) do |tc|
+        tc.build_switcher_dropdown(clear: true, name: "switch")
+      end
+
+      # First item, danger-styled, wired to clearTheme with the radio name.
+      expect(page).to have_css(
+        ".dropdown-content li.menu-item:first-child button.text-error[data-action='loco-theme#clearTheme']",
+        text: "Clear Theme"
+      )
+      expect(page).to have_css("button[data-loco-theme-theme-name-param='switch']")
+    end
+
+    it "shows a label on the trigger when given" do
+      render_inline(described_class.new(themes: %w[light])) do |tc|
+        tc.build_switcher_dropdown(label: "Theme")
+      end
+
+      expect(page).to have_css(".dropdown button", text: "Theme")
+    end
+  end
+
   describe "rendering" do
     it "can be rendered with a simple block" do
       render_inline(component) { "Simple test content" }
