@@ -284,8 +284,13 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
           expect(page).to have_selector("button[data-action='click->loco-alert#close']")
         end
 
-        it "adds relative positioning and right padding" do
-          expect(page).to have_selector('.alert.where\\:relative.where\\:pr-10')
+        it "places the close button in the trailing grid column, not absolutely" do
+          expect(page).to have_selector('.alert button.where\\:justify-self-end')
+          expect(page).not_to have_selector('.alert button.where\\:absolute')
+        end
+
+        it "does not reserve right padding on the alert" do
+          expect(page).not_to have_selector('.alert.where\\:pr-10')
         end
       end
     end
@@ -306,9 +311,9 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
           expect(page).not_to have_selector(".alert button")
         end
 
-        it "does not add relative positioning or right padding" do
-          expect(page).not_to have_selector('.alert.where\\:relative')
+        it "does not render close-button placement styling" do
           expect(page).not_to have_selector('.alert.where\\:pr-10')
+          expect(page).not_to have_selector('.alert button.where\\:justify-self-end')
         end
       end
     end

@@ -204,7 +204,6 @@ module Daisy
         setup_timeout
         setup_action
         setup_close_button
-        setup_closable_padding
       end
 
       def setup_stimulus_controller
@@ -239,14 +238,12 @@ module Daisy
         return unless closable?
 
         set_tag_name(:close, :button)
-        add_css(:close, "btn btn-ghost btn-circle btn-xs where:absolute where:top-3 where:right-2")
+        # `.alert` is `display:grid; grid-auto-flow:column`, so the close button
+        # flows into its own trailing column with the existing `gap` — no
+        # overlap and no padding hack. `justify-self-end` pins it to the trailing
+        # edge when it lands in the stretchy `1fr` column (the icon-less case).
+        add_css(:close, "btn btn-ghost btn-circle btn-xs where:justify-self-end")
         add_html(:close, { "data-action": "click->loco-alert#close" })
-      end
-
-      def setup_closable_padding
-        return unless closable?
-
-        add_css(:component, "where:relative where:pr-10")
       end
     end
   end
