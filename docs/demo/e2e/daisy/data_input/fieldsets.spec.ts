@@ -14,6 +14,8 @@ test('page loads', async ({ page }) => {
     'Fieldset with Legend (Argument)',
     'Fieldset with Legend (Slot)',
     'Fieldset with Various Inputs',
-    'Fieldset with Custom Styling'
+    'Fieldset with Custom Styling',
+    'Fieldset with Caption (Argument)',
+    'Fieldset Caption with an Inline Link'
   ]);
 });
