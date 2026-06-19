@@ -73,6 +73,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   applied `data-theme` when nothing is saved in `localStorage`, so `setInput` marks the active row/checkmark
   on first visit (e.g. a server-rendered or preload-applied theme) instead of leaving every option unmarked
   until the user picks one. Saved choices still win. Refs #165.
+- feat(ThemeController): `build_radio_input` now forwards a block to the underlying radio, so you can fill the
+  radio's `start` / `end` slots — e.g. drop a theme preview swatch and label inside the radio's own label so
+  the whole row is one clickable control, instead of a separate wrapping `<label>` plus a `hidden peer` radio.
+  Refs #165.
 - feat(Dropdown): Give `with_item` a structured builder for selectable menu rows. Pass `label:`, `href:`, and
   `selected:` and use the item's `start` / `end` slots (matching our other components), and the dropdown
   renders a proper `<li class="menu-item"><a class="… menu-active">` row instead of making you hand-roll the
@@ -133,6 +137,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule lives in the
   demo's `application.tailwind.css` for now and is slated to move into the shipped LocoMotion CSS file (#170).
   Added a "Sticky Floating Label" demo example and a Playwright check that the label stays raised. Fixes #169.
+- docs(ThemeController): Add a "Theme Radio with Inline Preview" demo example demonstrating the new
+  `build_radio_input` block form (preview + label inside the radio's own label).
 - docs(Dropdown): Add a "Selectable Items" demo example using the new structured `with_item` builder
   (`start` icon, label, `end` checkmark, and a `selected` active row).
 - docs(Fieldset): Add two Fieldsets demo examples for the new caption slot — one using the `caption:` argument

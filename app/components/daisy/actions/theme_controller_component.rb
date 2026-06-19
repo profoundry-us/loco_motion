@@ -53,10 +53,22 @@ module Daisy
       # @param theme [String] The name of the theme that the input controls.
       # @param options [Hash] Additional options to pass to the component.
       #
+      # @yield [radio] An optional block forwarded to the radio so you can fill
+      #   its `start` / `end` slots (e.g. drop a preview swatch or label inside
+      #   the radio's label and make the whole row one clickable control).
+      #
       # @return [Daisy::DataInput::RadioButtonComponent] A new radio button
       #   component instance.
       #
-      def build_radio_input(theme, **options)
+      # @loco_example Put a preview + label inside the radio
+      #   = daisy_theme_controller do |tc|
+      #     - tc.themes.each do |theme|
+      #       = tc.build_radio_input(theme) do |radio|
+      #         - radio.with_end do
+      #           = tc.build_theme_preview(theme)
+      #           %span.capitalize= theme.humanize
+      #
+      def build_radio_input(theme, **options, &block)
         options[:css] = "#{options[:css]} theme-controller".lstrip
 
         # Namespace the id by the input name so multiple theme controllers can
@@ -64,7 +76,7 @@ module Daisy
         name = options[:name] || "theme"
         default_options = { name: name, id: "#{name}-#{theme}", value: theme }
 
-        render Daisy::DataInput::RadioButtonComponent.new(**default_options.deep_merge(options))
+        render(Daisy::DataInput::RadioButtonComponent.new(**default_options.deep_merge(options)), &block)
       end
 
       #
