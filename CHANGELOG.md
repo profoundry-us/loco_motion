@@ -156,6 +156,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   helper that was never registered. They now show the real usage — `tc.build_theme_preview` inside a
   `daisy_theme_controller`, or rendering the component directly — plus a `@note` that there is no top-level
   helper. (Follows the decision in #176 not to ship a standalone preview helper.)
+- docs(Toast): Fix `ToastComponent`'s misleading `@note`, which promised toast show/hide in a "future Stimulus
+  ToastController". Dismissal already ships via the Alert component's `loco-alert` controller, so the note now
+  points at the Alert's `autoclose` / `closable` options (and the required `AlertController` registration), and
+  a new "Auto-dismissing, Closable Toast" `@loco_example` makes that path discoverable. Fixes #185.
 
 ### Fixed
 
