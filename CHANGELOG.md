@@ -92,11 +92,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   every theme, all wired to the `loco-theme` controller. Supports `label:`, `icon:`, `clear:` (a "Clear Theme"
   row), `name:`, and a `css:` placement. It's a builder method on the existing component (composing
   `build_radio_input` and `build_theme_preview`), not a new component or subclass. Fixes #165.
-- fix(Alert): Stop the close button on a `closable` alert from overlapping the message text. The ✕ was
-  absolutely positioned with a zero-specificity `where:pr-10` padding reservation that lost the cascade to
-  DaisyUI's `.alert` padding, so no space was actually reserved. It now flows as a normal trailing child of
-  the `.alert` grid (`display:grid; grid-auto-flow:column`), getting its own column and the existing `gap`,
-  with `where:justify-self-end` pinning it to the trailing edge in the icon-less case. Fixes #186.
+- fix(Alert): Stop the close button on a `closable` alert from overlapping the message text. The ✕ reserved
+  room with a zero-specificity `where:pr-10` rule that lost the cascade to DaisyUI's `.alert` padding, so no
+  space was actually reserved and the button rode the message. It is now pinned to the alert's top-right
+  corner (`where:absolute where:top-2 where:right-2`) so it is always right-aligned and stays at the top of
+  tall, multi-line alerts, and the reserved `pr-10` is now a plain (non-`where`) utility that wins the cascade,
+  so the message never slides under it. Fixes #186.
 
 ### Demo / Docs Changes
 

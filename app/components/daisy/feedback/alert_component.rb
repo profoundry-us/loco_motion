@@ -204,6 +204,7 @@ module Daisy
         setup_timeout
         setup_action
         setup_close_button
+        setup_closable_padding
       end
 
       def setup_stimulus_controller
@@ -238,12 +239,23 @@ module Daisy
         return unless closable?
 
         set_tag_name(:close, :button)
-        # `.alert` is `display:grid; grid-auto-flow:column`, so the close button
-        # flows into its own trailing column with the existing `gap` — no
-        # overlap and no padding hack. `justify-self-end` pins it to the trailing
-        # edge when it lands in the stretchy `1fr` column (the icon-less case).
-        add_css(:close, "btn btn-ghost btn-circle btn-xs where:justify-self-end")
+        # Pin the close button to the alert's top-right corner so it is always
+        # right-aligned and stays at the top of tall, multi-line alerts instead
+        # of riding the vertical center of the `.alert` grid.
+        add_css(:close, "btn btn-ghost btn-circle btn-xs where:absolute where:top-2 where:right-2")
         add_html(:close, { "data-action": "click->loco-alert#close" })
+      end
+
+      def setup_closable_padding
+        return unless closable?
+
+        # Reserve room for the absolutely-positioned close button so it never
+        # overlaps the message. `where:relative` only establishes the positioning
+        # context (nothing else sets `position` on `.alert`), but the padding is
+        # functional and must beat DaisyUI's `.alert { padding-inline: 1rem }` —
+        # so it is a plain (non-`where`) utility, not a zero-specificity
+        # `:where()` rule the cascade would discard.
+        add_css(:component, "where:relative pr-10")
       end
     end
   end
