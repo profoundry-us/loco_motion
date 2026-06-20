@@ -28,6 +28,12 @@ module LocoMotion
       # @option kws icon_css   [String] The CSS classes to apply to the icon. This
       #   is an alias of `left_icon_css`.
       #
+      # @option kws icon_options [Hash] Options forwarded to the underlying
+      #   {Hero::IconComponent} constructor — most notably `variant: :outline`
+      #   or `variant: :solid` to pick the icon style. Use this (not
+      #   `icon_html`) for icon component options; `icon_html` is for HTML
+      #   attributes on the `<svg>`. This is an alias of `left_icon_options`.
+      #
       # @option kws icon_html  [Hash] Additional HTML attributes to apply to the
       #   icon. This is an alias of `left_icon_html`.
       #
@@ -37,6 +43,9 @@ module LocoMotion
       # @option kws left_icon_css  [String] The CSS classes to apply to the left
       #   icon.
       #
+      # @option kws left_icon_options [Hash] Options forwarded to the left
+      #   {Hero::IconComponent} constructor (e.g. `variant: :outline`).
+      #
       # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
       #   the left icon.
       #
@@ -45,6 +54,9 @@ module LocoMotion
       #
       # @option kws right_icon_css [String] The CSS classes to apply to the right
       #   icon.
+      #
+      # @option kws right_icon_options [Hash] Options forwarded to the right
+      #   {Hero::IconComponent} constructor (e.g. `variant: :outline`).
       #
       # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
       #   the right icon.

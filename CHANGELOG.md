@@ -160,6 +160,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   ToastController". Dismissal already ships via the Alert component's `loco-alert` controller, so the note now
   points at the Alert's `autoclose` / `closable` options (and the required `AlertController` registration), and
   a new "Auto-dismissing, Closable Toast" `@loco_example` makes that path discoverable. Fixes #185.
+- docs(Iconable): Document the previously-undocumented `icon_options` / `left_icon_options` /
+  `right_icon_options` parameters on icon-bearing components (Alert, Button, Badge, etc.). These forward
+  options to the underlying `Hero::IconComponent` constructor — most notably `variant: :outline` /
+  `variant: :solid` to pick the icon style — and are distinct from `icon_html`, which sets HTML
+  attributes on the `<svg>`. `icon_options` is the intended way to set icon component options.
 
 ### Fixed
 
