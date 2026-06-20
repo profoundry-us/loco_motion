@@ -311,7 +311,7 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
         end
 
         it "does not render close-button placement styling" do
-          expect(page).not_to have_selector('.alert.pr-10')
+          expect(page).not_to have_selector(".alert.pr-10")
           expect(page).not_to have_selector('.alert button.where\\:absolute')
         end
       end
