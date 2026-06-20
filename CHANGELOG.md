@@ -98,6 +98,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   corner (`where:absolute where:top-2 where:right-2`) so it is always right-aligned and stays at the top of
   tall, multi-line alerts, and the reserved `pr-10` is now a plain (non-`where`) utility that wins the cascade,
   so the message never slides under it. Fixes #186.
+- fix(Iconable): Stop icons from being squished next to long content. `IconableComponent` lays components out
+  as an `inline-flex` row, so an icon (a flex item with the default `flex-shrink: 1`) shrank horizontally when
+  the adjacent text was long — e.g. a multi-line `daisy_alert`'s leading icon collapsed to roughly half its
+  width while its height stayed fixed. Icons rendered through the concern now default to `where:shrink-0`
+  (prepended, so an explicit `shrink`/`grow` via `icon_css` still wins), keeping them at their intended size
+  across every icon-bearing component (Alert, Button, Badge, etc.).
 
 ### Demo / Docs Changes
 
