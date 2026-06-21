@@ -41,6 +41,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   bumps the version, and `bin/version-check` (`just version-check`) verifies those two pins alongside
   `version.rb` / `VERSION` / the npm packages — so a stale pin (which silently excludes the new release, like
   `~> 0.5.2` excluding 0.6.0) fails the check instead of shipping.
+- feat(CSS): Ship an importable LocoMotion CSS file — the CSS peer of the npm package's JS controllers —
+  collecting the custom variants (`where`, `dark`) and component-required utility rules (the `floating-sticky`
+  label helper and the keyboard-focus tooltip reveal) that components depend on. Consumers now
+  `@import '@profoundry-us/loco_motion/loco.css'` once instead of hand-copying a growing `@custom-variant`
+  block out of the Install guide, so they stay in sync across upgrades. The file lives at
+  `app/assets/stylesheets/loco.css` (so it ships in the gem automatically) and is exposed to npm through a new
+  `exports` map plus the `files` list; `@import 'tailwindcss'`, the `daisyui` plugin, and `@config` stay in
+  the consumer's own entry since they are app-level choices. The Install and Getting Started guides now point
+  at the import, and the demo consumes the shared file instead of duplicating the rules. Fixes #170.
 
 ### Components Changes
 
@@ -151,9 +160,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - feat(Demo): Add a `floating-sticky` CSS variant that pins a DaisyUI floating label in its raised position
   even while the field is empty and showing a placeholder, so the label and the placeholder hint show at once
   (a Material-style label). Opt in by adding it to the label wrapper, e.g. `daisy_text_input(floating:
-  "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule lives in the
-  demo's `application.tailwind.css` for now and is slated to move into the shipped LocoMotion CSS file (#170).
-  Added a "Sticky Floating Label" demo example and a Playwright check that the label stays raised. Fixes #169.
+  "Email", placeholder: "you@example.com", label_wrapper_css: "floating-sticky")`. The rule now ships in the
+  importable LocoMotion CSS file (see the General Changes entry for #170). Added a "Sticky Floating Label" demo
+  example and a Playwright check that the label stays raised. Fixes #169.
 - docs(ThemeController): Add a "Theme Radio with Inline Preview" demo example demonstrating the new
   `build_radio_input` block form (preview + label inside the radio's own label).
 - docs(Dropdown): Add a "Selectable Items" demo example using the new structured `with_item` builder

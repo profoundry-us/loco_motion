@@ -1,0 +1,78 @@
+/*
+ * LocoMotion — shared CSS
+ * ========================
+ *
+ * The CSS peer of the npm package's JavaScript controllers. Import it once
+ * from your Tailwind entry (after `@import 'tailwindcss'` and the `daisyui`
+ * plugin) to pull in the custom variants and component-required utility rules
+ * that LocoMotion's components depend on:
+ *
+ *   @import 'tailwindcss';
+ *   @plugin 'daisyui';
+ *   @import '@profoundry-us/loco_motion/loco.css';
+ *
+ * Keeping this in one versioned file means you stay in sync across upgrades
+ * instead of hand-copying a growing block out of the Install guide.
+ *
+ * Note: `@import 'tailwindcss'`, the `daisyui` plugin, and your `@config`
+ * content paths are app-level choices and stay in your own entry file — only
+ * the LocoMotion-specific variants and utilities live here.
+ */
+
+/*
+ * `where` variant — wraps a selector in `:where()` so it compiles to a
+ * zero-specificity rule. Components apply their visual defaults through this
+ * variant (e.g. `where:size-6`) so a plain utility you pass via `css:` always
+ * wins. 15+ components rely on it, so it is required, not optional.
+ */
+@custom-variant where (:where(&));
+
+/*
+ * `dark` variant — make `dark:` utilities respond to both an OS-level dark
+ * preference and a DaisyUI ThemeController set to a dark theme, so manual theme
+ * switching and system preference stay in sync.
+ */
+@custom-variant dark (@media (prefers-color-scheme: dark), :root:has(input.theme-controller[value=dark]:checked) &);
+
+/*
+ * Reveal tooltips on keyboard focus when the `tooltip` class is applied
+ * directly to a focusable element (e.g. via LocoMotion's `tip:` attribute on a
+ * button or link). DaisyUI v5 only reveals tooltips through
+ * `:has(:focus-visible)`, which requires the focused element to be a
+ * *descendant* of `.tooltip` — so a tooltip placed on the element itself never
+ * appears on focus. This mirrors DaisyUI's own reveal rule for when the tooltip
+ * element itself is focus-visible.
+ */
+.tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
+  &[data-tip]::before,
+  &::after,
+  & > .tooltip-content {
+    opacity: 1;
+    --tt-pos: 0rem;
+  }
+}
+
+/*
+ * `floating-sticky` — keep a DaisyUI floating label in its raised position even
+ * while the field is empty and showing a placeholder. By default DaisyUI only
+ * raises the label on focus or once the field has a value (an empty field with
+ * a placeholder matches `:placeholder-shown`, which keeps the label collapsed),
+ * so a placeholder hint and a raised floating label never appear together. Add
+ * `floating-sticky` alongside `floating-label` (e.g. via `label_wrapper_css:`)
+ * to pin the label up, leaving the placeholder visible inside the empty field
+ * for a Material-style label.
+ *
+ * Mirrors DaisyUI's own raised-state declaration; the raised values are
+ * size-independent, so this single rule covers every input size. Because it is
+ * unlayered it also wins over DaisyUI's disabled rule
+ * (`:has(:disabled) > span { opacity: 0 }`), so the label stays visible on
+ * disabled fields too.
+ */
+.floating-label.floating-sticky > span {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+  top: 0;
+  translate: -12.5% calc(-50% - .125em);
+  scale: .75;
+}
