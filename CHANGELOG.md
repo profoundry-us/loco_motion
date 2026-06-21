@@ -92,6 +92,18 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   every theme, all wired to the `loco-theme` controller. Supports `label:`, `icon:`, `clear:` (a "Clear Theme"
   row), `name:`, and a `css:` placement. It's a builder method on the existing component (composing
   `build_radio_input` and `build_theme_preview`), not a new component or subclass. Fixes #165.
+- fix(Alert): Stop the close button on a `closable` alert from overlapping the message text. The ✕ reserved
+  room with a zero-specificity `where:pr-10` rule that lost the cascade to DaisyUI's `.alert` padding, so no
+  space was actually reserved and the button rode the message. It is now pinned to the alert's top-right
+  corner (`where:absolute where:top-2 where:right-2`) so it is always right-aligned and stays at the top of
+  tall, multi-line alerts, and the reserved `pr-10` is now a plain (non-`where`) utility that wins the cascade,
+  so the message never slides under it. Fixes #186.
+- fix(Iconable): Stop icons from being squished next to long content. `IconableComponent` lays components out
+  as an `inline-flex` row, so an icon (a flex item with the default `flex-shrink: 1`) shrank horizontally when
+  the adjacent text was long — e.g. a multi-line `daisy_alert`'s leading icon collapsed to roughly half its
+  width while its height stayed fixed. Icons rendered through the concern now default to `where:shrink-0`
+  (prepended, so an explicit `shrink`/`grow` via `icon_css` still wins), keeping them at their intended size
+  across every icon-bearing component (Alert, Button, Badge, etc.).
 
 ### Demo / Docs Changes
 

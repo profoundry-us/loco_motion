@@ -117,7 +117,7 @@ module LocoMotion
       def render_left_icon
         return if @left_icon.blank?
 
-        hero_icon(@left_icon, css: @left_icon_css, html: @left_icon_html, **@left_icon_options)
+        hero_icon(@left_icon, css: non_shrinking_icon_css(@left_icon_css), html: @left_icon_html, **@left_icon_options)
       end
       alias render_icon render_left_icon
 
@@ -129,7 +129,25 @@ module LocoMotion
       def render_right_icon
         return if @right_icon.blank?
 
-        hero_icon(@right_icon, css: @right_icon_css, html: @right_icon_html, **@right_icon_options)
+        hero_icon(@right_icon, css: non_shrinking_icon_css(@right_icon_css), html: @right_icon_html, **@right_icon_options)
+      end
+
+      private
+
+      #
+      # Prepends `where:shrink-0` to the given icon CSS. `_setup_iconable_component`
+      # lays the component out as an `inline-flex` row, so without this an icon
+      # next to long content gets squished horizontally (it shrinks as a flex
+      # item while its height stays fixed). The `where:` variant keeps it
+      # overridable, and it is prepended so an explicit `shrink`/`grow` passed via
+      # `icon_css` still wins.
+      #
+      # @param css [String] The caller-supplied icon CSS classes.
+      #
+      # @return [String] The icon CSS with a non-shrinking default prepended.
+      #
+      def non_shrinking_icon_css(css)
+        "where:shrink-0 #{css}".strip
       end
     end
   end
