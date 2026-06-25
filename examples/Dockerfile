@@ -1,6 +1,17 @@
-FROM timbru31/ruby-node:3.3-slim-18
+FROM ruby:3.4.4
 
-RUN apt-get update -qq && apt-get install -y build-essential postgresql-client
+# Update and install basic dependencies
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    postgresql-client
+
+# Install Node.js 20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest \
+    && npm install -g yarn@latest
 
 ENV APP_HOME /home/app
 

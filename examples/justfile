@@ -2,6 +2,14 @@
 # General commands
 ##############################
 
+# Build everything but don't run the containers
+build:
+    docker compose build
+
+# Rebuild everything without using the cache
+rebuild:
+    docker compose build --no-cache
+
 # Run & build the dev container
 dev:
     docker compose up dev --build
@@ -47,9 +55,21 @@ app-debug:
 app-restart:
     touch tmp/restart.txt
 
-# Run all Rspec tests
-app-rspec:
-    docker compose exec -it app rspec spec
+# Run all of the app's tests
+app-test:
+    docker compose exec -it app bundle exec rspec spec
+
+# Alias for app-test
+test:
+    just app-test
+
+# Run RuboCop inside the app container
+lint:
+    docker compose exec -it app bundle exec rubocop
+
+# Run RuboCop with auto-fix inside the app container
+lint-fix:
+    docker compose exec -it app bundle exec rubocop -A
 
 
 ##############################
@@ -62,11 +82,11 @@ db-shell:
 
 # Open a connection to the development database
 db-dev:
-    docker compose exec -it db psql -U postgres -d trc_development
+    docker compose exec -it db psql -U postgres -d app_development
 
 # Open a connection to the test database
 db-test:
-    docker compose exec -it db psql -U postgres -d trc_test
+    docker compose exec -it db psql -U postgres -d app_test
 
 
 ##############################

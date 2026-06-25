@@ -50,6 +50,16 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `exports` map plus the `files` list; `@import 'tailwindcss'`, the `daisyui` plugin, and `@config` stay in
   the consumer's own entry since they are app-level choices. The Install and Getting Started guides now point
   at the import, and the demo consumes the shared file instead of duplicating the rules. Fixes #170.
+- chore(Examples): Refresh the `examples/` scaffolding that new projects copy from the Docker guide. The
+  `examples/Dockerfile` and `examples/dev/Dockerfile` now use the same official `ruby:3.4.4` base plus a
+  manual Node 20 install as LocoMotion's own containers, instead of the outdated `timbru31/ruby-node:3.3-*`
+  images (which also disagreed on Node 18 vs 20 between files). Removed the orphaned `examples/Makefile` (a
+  leftover from before the Make→Just migration that the guide never referenced), dropped the conflicting
+  `image:` line on the compose `dev` service, fixed the `db-dev` / `db-test` recipes to use
+  `app_development` / `app_test`
+  (they pointed at a stray `trc_*` database), renamed `app-rspec` to `app-test` for consistency, and added
+  `build`, `rebuild`, `test`, `lint`, and `lint-fix` recipes. Also removed the dead `db-shell` / `db-dev` /
+  `db-test` recipes from the repo's own `justfile` — there is no `db` service and the demo uses SQLite.
 
 ### Components Changes
 
