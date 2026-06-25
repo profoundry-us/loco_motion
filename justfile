@@ -123,23 +123,6 @@ demo-test:
 
 
 ##############################
-# Database commands
-##############################
-
-# Open a bash shell in the running db container
-db-shell:
-    docker compose exec -it db /bin/bash
-
-# Open a connection to the development database
-db-dev:
-    docker compose exec -it db psql -U postgres -d trc_development
-
-# Open a connection to the test database
-db-test:
-    docker compose exec -it db psql -U postgres -d trc_test
-
-
-##############################
 # Yard commands
 ##############################
 
