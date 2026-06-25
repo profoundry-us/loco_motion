@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add an "install Just" step to the Docker guide's Initial Setup. The guide jumped straight to
+  `just dev` without ever telling a brand-new user to install the command runner on their host, so following
+  it literally hit `command not found: just`. It now points at `brew install just` / the upstream install
+  instructions right after the Docker install.
+- chore(Examples): Drop the unused `redis` service from `examples/docker-compose.yml` (and the `redis`
+  volume and the commented `app` service's `depends_on: redis`). No guide referenced it, so it was an
+  unexplained loose end in the scaffolding new projects copy; easy to add back when an app actually needs it.
 - Added publishing auth pre-checks and a Retry / Skip / Abort loop to `bin/release` — before each publish
   the wizard now verifies credentials (`npm whoami` for NPM, a readable `~/.gem/credentials` for RubyGems)
   and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
