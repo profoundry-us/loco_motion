@@ -8,6 +8,17 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
 
+  # Redis is here for convenience — many Rails apps eventually want it for
+  # caching, Action Cable, or a background-job queue (Sidekiq, Resque, etc.).
+  # It is NOT required to boot the app. When you wire it up, uncomment the
+  # `- redis` line under the `app` service's `depends_on` below and point your
+  # app at `redis://redis:6379`. Delete this service if you don't need it.
+  redis:
+    image: redis:7-alpine
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+
   dev:
     build: ./dev/
     volumes:
@@ -25,6 +36,8 @@ services:
   #   stdin_open: true
   #   depends_on:
   #     - db
+  #     - redis  # uncomment once your app actually uses Redis
 
 volumes:
   postgres:
+  redis:

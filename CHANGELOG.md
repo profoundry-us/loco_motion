@@ -19,9 +19,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `just dev` without ever telling a brand-new user to install the command runner on their host, so following
   it literally hit `command not found: just`. It now points at `brew install just` / the upstream install
   instructions right after the Docker install.
-- chore(Examples): Drop the unused `redis` service from `examples/docker-compose.yml` (and the `redis`
-  volume and the commented `app` service's `depends_on: redis`). No guide referenced it, so it was an
-  unexplained loose end in the scaffolding new projects copy; easy to add back when an app actually needs it.
+- chore(Examples): Document the `redis` service in `examples/docker-compose.yml`. It was undocumented, so
+  it read as an unexplained loose end; it now carries comments explaining that it's an opt-in convenience
+  for caching / Action Cable / background jobs, how to wire it up (uncomment `- redis` under the `app`
+  service's `depends_on`), and that it's safe to delete if unused.
 - Added publishing auth pre-checks and a Retry / Skip / Abort loop to `bin/release` — before each publish
   the wizard now verifies credentials (`npm whoami` for NPM, a readable `~/.gem/credentials` for RubyGems)
   and, when a pre-check or publish fails, prints the fix (`npm login` / `gem signin`) and re-prompts so you
