@@ -170,4 +170,26 @@ RSpec.describe Daisy::Actions::ButtonComponent, type: :component do
       end
     end
   end
+
+  context "with turbo options" do
+    let(:button) do
+      described_class.new(
+        href: "/things/1",
+        turbo_frame: "modal",
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      )
+    end
+
+    before do
+      render_inline(button)
+    end
+
+    describe "rendering" do
+      it "includes the turbo data attributes on the link" do
+        expect(page).to have_css "a[href='/things/1'][data-turbo-frame='modal']" \
+                                 "[data-turbo-method='delete'][data-turbo-confirm='Are you sure?']"
+      end
+    end
+  end
 end

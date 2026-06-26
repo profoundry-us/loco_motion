@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Linkable): Add first-class `turbo_frame`, `turbo_method`, and `turbo_confirm` options to every linkable
+  component (anything that already takes `href:` — buttons, links, cards, badges, etc.). They map to the
+  `data-turbo-frame` / `data-turbo-method` / `data-turbo-confirm` attributes, so common Turbo patterns no
+  longer need a hand-written `html: { data: { … } }` hash — `daisy_button("Delete", href: thing_path,
+  turbo_method: :delete, turbo_confirm: "Are you sure?")` instead. Implemented as a small `TurboableComponent`
+  concern that `LinkableComponent` pulls in, mirroring how `TippableComponent` sugars `tip` over `data-tip`;
+  each attribute is emitted only when provided, and an explicit `html: { data: { … } }` value still wins.
+  Fixes #202.
 - docs(Guides): Add an "install Just" step to the Docker guide's Initial Setup. The guide jumped straight to
   `just dev` without ever telling a brand-new user to install the command runner on their host, so following
   it literally hit `command not found: just`. It now points at `brew install just` / the upstream install
