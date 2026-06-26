@@ -49,6 +49,21 @@
       Link with Icon
 
 
+= doc_example(title: "Turbo Attributes") do |doc|
+  - doc.with_description do
+    :markdown
+      Link buttons accept first-class `turbo_frame`, `turbo_method`, and
+      `turbo_confirm` options that map to the corresponding `data-turbo-*`
+      attributes, so you don't have to hand-write a nested
+      `html: { data: { ... } }` hash for common Turbo patterns.
+
+  .my-2.flex.flex-col.lg:flex-row.gap-4
+    = daisy_button(href: "/docs", css: "btn-primary", turbo_frame: "modal") do
+      Open in Frame
+
+    = daisy_button(href: "#", css: "btn-error", turbo_method: :delete, turbo_confirm: "Are you sure?") do
+      Delete
+
 
 = doc_example(title: "Icon Buttons") do |doc|
   - doc.with_description do

@@ -8,10 +8,16 @@ module LocoMotion
     # Include this module to enable link functionality in a component.
     # When an href is provided, the component will render as an <a> tag.
     #
+    # Also pulls in {TurboableComponent} so every linkable component gains the
+    # `turbo_frame`, `turbo_method`, and `turbo_confirm` options for free —
+    # those Turbo data attributes only make sense on link/button elements.
+    #
     module LinkableComponent
       extend ActiveSupport::Concern
 
       included do |base|
+        base.include(LocoMotion::Concerns::TurboableComponent)
+
         base.register_component_initializer(:_initialize_linkable_component)
         base.register_component_setup(:_setup_linkable_component)
       end
