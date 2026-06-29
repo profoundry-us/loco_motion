@@ -1,7 +1,7 @@
 = daisy_navbar(css: "justify-between px-1") do |bar|
   - bar.with_start(css: "w-auto! gap-2") do
     %label.-ml-2.btn.btn-ghost.px-1.sm:px-3.xl:hidden{ for: "sidenav-drawer" }
-      = hero_icon("bars-3", css: "size-6")
+      = loco_icon("bars-3", css: "size-6")
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
       = link_to(root_path, class: "flex items-center gap-2") do
@@ -20,7 +20,7 @@
         = daisy_kbd "⌘", css: "kbd-sm"
         = daisy_kbd "K", css: "kbd-sm"
       .flex.flex-row.items-center.gap-1
-        = hero_icon "magnifying-glass", css: "size-3.5"
+        = loco_icon "magnifying-glass", css: "size-3.5"
         Search
 
     - button_css = "flex! btn-sm btn-ghost px-1 sm:px-3 max-lg:tooltip max-lg:tooltip-left max-lg:tooltip-secondary"
@@ -28,17 +28,17 @@
     = daisy_theme_controller do |tc|
       = daisy_dropdown(css: "dropdown-end") do |dropdown|
         - dropdown.with_button(css: button_css, html: { data: { tip: "Themes" } }) do
-          = hero_icon("swatch")
+          = loco_icon("swatch")
           .hidden.lg:block
             Themes
-          = hero_icon("chevron-down", css: "size-4 hidden lg:block")
+          = loco_icon("chevron-down", css: "size-4 hidden lg:block")
 
         - dropdown.with_item(css: "menu-title") do
           Themes
 
         - dropdown.with_item do
           = daisy_link(href: "#", css: "no-underline text-error", html: { data: { action: "click->loco-theme#clearTheme", "loco-theme-theme-name-param": "docs-theme" } }) do
-            = hero_icon("trash", css: "size-4")
+            = loco_icon("trash", css: "size-4")
             Clear Theme
 
         - tc.themes.each do |theme|
@@ -47,11 +47,11 @@
               = tc.build_radio_input(theme, name: "docs-theme", css: "hidden peer")
               = tc.build_theme_preview(theme)
               = theme.humanize
-              = hero_icon "check", css: "size-4 invisible peer-checked:visible"
+              = loco_icon "check", css: "size-4 invisible peer-checked:visible"
 
 
     = daisy_button href: "/api-docs", target: "_blank", css: button_css, html: { data: { tip: "API Docs" } } do
-      = hero_icon "document-text"
+      = loco_icon "document-text"
       .hidden.lg:inline-block
         API Docs
 

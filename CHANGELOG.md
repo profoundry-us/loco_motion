@@ -164,6 +164,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- refactor(Demo): Dogfood the icon engine in the demo app. Synced the full Heroicon set
+  (`loco_motion:icons:add heroicons`, ~1,288 SVGs across the outline / solid / mini / micro variants) into
+  `docs/demo/app/assets/svg/icons` and migrated every direct `hero_icon` / `heroicon` call (81 sites across
+  33 files — demo chrome, doc helper components, and example pages) to `loco_icon`. Mechanical rename plus
+  `class:` → `css:` and dropping the no-op numeric `size:` option; the `DocInfo` banner icon renders at an
+  explicit `size-[70px]` (its `icon_size` param, never overridden, was removed). Output is visually unchanged.
+  The remaining `rails_heroicon` usage is the `IconableComponent` `icon:` dual-path, removed in the next PR.
+  Refs #204.
 - docs(Install): Add an "Icons" section to the Install guide. It explains that every component's `icon:`
   options render Heroicons with zero setup, introduces the standalone `loco_icon` helper, and documents the
   `loco_motion:icons:add` / `loco_motion:icons:list` tooling for syncing the full Heroicon set or other
