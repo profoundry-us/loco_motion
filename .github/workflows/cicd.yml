@@ -23,9 +23,6 @@ jobs:
 
   demo-rspec:
     runs-on: ubuntu-latest
-    # Heavier suite (boots Rails + migrates a DB): only on full/non-draft PRs.
-    # Always runs on pushes to main and manual dispatches.
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     steps:
     - uses: actions/checkout@v7
 

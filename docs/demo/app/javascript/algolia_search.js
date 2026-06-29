@@ -21,23 +21,40 @@ function updateSearchResultSelection() {
   }
 }
 
-// Make sure we have the algoliaCredentials object
-if (!window.algoliaCredentials) {
-  console.warn('Algolia search disabled: Missing window.algoliaCredentials');
-} else {
-  const { appId, apiKey, indexName } = window.algoliaCredentials;
+// Tracks whether InstantSearch has been started yet. We initialize lazily
+// (see ensureSearchInitialized) rather than on page load.
+let searchInitialized = false;
 
-  // Check that all required credentials are present
-  if (!appId || !apiKey || !indexName) {
+// Returns true only when all Algolia credentials needed for search are present.
+function hasValidCredentials() {
+  const creds = window.algoliaCredentials;
+  return !!(creds && creds.appId && creds.apiKey && creds.indexName);
+}
+
+// Initialize InstantSearch on demand, exactly once.
+//
+// InstantSearch fires a live Algolia query the moment search.start() runs, so
+// initializing on page load spent a search operation for every visitor —
+// including those who never open the search box. That quietly burned through
+// our monthly Algolia search quota. We now defer initialization until the user
+// first opens the search modal (showDocSearch), so the initial query fires only
+// when someone actually engages search, and only once per session.
+function ensureSearchInitialized() {
+  if (searchInitialized) return;
+
+  if (!hasValidCredentials()) {
+    const creds = window.algoliaCredentials || {};
     console.warn('Algolia search disabled: Missing credentials', {
-      appId: appId ? 'provided' : 'missing',
-      apiKey: apiKey ? 'provided' : 'missing',
-      indexName: indexName ? 'provided' : 'missing'
+      appId: creds.appId ? 'provided' : 'missing',
+      apiKey: creds.apiKey ? 'provided' : 'missing',
+      indexName: creds.indexName ? 'provided' : 'missing'
     });
-  } else {
-    // All credentials are provided, initialize search
-    initializeSearch(appId, apiKey, indexName);
+    return;
   }
+
+  const { appId, apiKey, indexName } = window.algoliaCredentials;
+  initializeSearch(appId, apiKey, indexName);
+  searchInitialized = true;
 }
 
 // Functions for search interaction
@@ -47,13 +64,13 @@ window.visitDoc = function(path) {
 }
 
 window.showDocSearch = function() {
-  if (!window.algoliaCredentials ||
-      !window.algoliaCredentials.appId ||
-      !window.algoliaCredentials.apiKey ||
-      !window.algoliaCredentials.indexName) {
+  if (!hasValidCredentials()) {
     console.warn('Search functionality disabled due to missing Algolia credentials');
     return;
   }
+
+  // Start InstantSearch on first open; no-op on subsequent opens.
+  ensureSearchInitialized();
 
   const modal = document.getElementById('al-search-modal')
 
