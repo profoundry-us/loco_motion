@@ -79,6 +79,21 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Icons): Support qualified icon tokens — `[library:]name[/variant]` (e.g. `loco_icon("lucide:heart")`,
+  `loco_icon("phosphor:gear/bold")`, `daisy_button(icon: "bolt/solid")`). The library and variant now travel
+  inside the icon string itself (Iconify-style), so a reference is self-contained; anything the token
+  specifies overrides the `library:` / `variant:` arguments, which remain as fallbacks. A single
+  `LocoMotion::Icons::Reference` parser backs the renderer, the safelist, and the scanner below.
+- feat(Icons): Add deterministic icon treeshaking — a `loco_motion:icons:sync` rake task that scans your app
+  for icon usage and vendors only the icons you actually use, the icon analogue of Tailwind scanning
+  templates for class names. It reads `config.icon_content_paths` (default `app/**/*.{rb,erb,haml,slim}`),
+  statically extracts the qualified tokens from `loco_icon` / `hero_icon` calls and the universal `icon:` /
+  `left_icon:` / `right_icon:` options, then vendors that set into `app/assets/svg/icons`, pruning unused
+  icons. It's a pure regex scan (no code evaluation), so the same source always yields the same set — and
+  because each token is self-contained, the scan never has to guess a library / variant from another line.
+  Dynamically-named icons it can't see statically (`loco_icon("bars-#{n}")`) go in `config.icon_safelist`
+  (also qualified tokens) — the analogue of Tailwind's safelist. Backed by new
+  `LocoMotion::Icons::Scanner` and `LocoMotion::Icons::Vendorer` classes. Refs #204.
 - refactor(Icons): Render the built-in component chrome icons through the `loco_icon` engine instead of the
   `hero_icon` / `heroicon` (rails_heroicon) helpers — the Alert and Modal close buttons (`x-mark`) and the
   ThemeController menu's check / trash icons. These all use icons bundled inside the gem, so they render with

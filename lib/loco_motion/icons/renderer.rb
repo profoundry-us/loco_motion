@@ -28,7 +28,10 @@ module LocoMotion
       DEFAULT_VARIANT = :outline
 
       #
-      # @param name [String, Symbol] The icon name (e.g. `"academic-cap"`).
+      # @param name [String, Symbol] The icon name. May be a qualified token,
+      #   `[library:]name[/variant]` (e.g. `"academic-cap"`, `"lucide:heart"`,
+      #   `"phosphor:gear/bold"`); anything the token specifies overrides the
+      #   `library:` / `variant:` arguments. See {LocoMotion::Icons::Reference}.
       #
       # @param library [String, Symbol] The icon library (default
       #   `:heroicons`).
@@ -42,9 +45,10 @@ module LocoMotion
       #   `:aria` hashes, plus any other attributes).
       #
       def initialize(name:, library: DEFAULT_LIBRARY, variant: DEFAULT_VARIANT, attributes: {})
-        @name = name.to_s
-        @library = (library || DEFAULT_LIBRARY).to_s
-        @variant = variant&.to_s
+        ref = Reference.parse(name, default_library: library || DEFAULT_LIBRARY, default_variant: variant)
+        @name = ref[:name]
+        @library = ref[:library].to_s
+        @variant = ref[:variant]&.to_s
         @attributes = attributes || {}
       end
 

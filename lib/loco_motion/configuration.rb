@@ -65,10 +65,38 @@ module LocoMotion
     #
     attr_accessor :default_icon_variant
 
+    #
+    # Glob patterns (relative to the application root) that
+    # `loco_motion:icons:sync` scans for icon references when treeshaking the
+    # vendored icon set — the icon analogue of Tailwind's `content` paths. Only
+    # icons referenced in these files (plus {#icon_safelist}) are vendored.
+    #
+    # @return [Array<String>] The content glob patterns to scan
+    #
+    attr_accessor :icon_content_paths
+
+    #
+    # Icon references that `loco_motion:icons:sync` must always vendor, even
+    # when no static usage is found — the icon analogue of Tailwind's
+    # `safelist`. Use it for dynamically-named icons the scanner cannot see
+    # (e.g. `loco_icon("bars-#{n}")` or a name pulled from a database).
+    #
+    # Each entry is a qualified `[library:]name[/variant]` token (see
+    # {LocoMotion::Icons::Reference}), e.g. `"information-circle"`,
+    # `"lucide:heart"`, `"bolt/solid"`, or `"phosphor:gear/bold"`. An omitted
+    # library / variant falls back to {#default_icon_library} /
+    # {#default_icon_variant}.
+    #
+    # @return [Array<String>] The safelisted icon references
+    #
+    attr_accessor :icon_safelist
+
     def initialize
       @default_alert_timeout = 5000 # 5 seconds default
       @default_icon_library = :heroicons
       @default_icon_variant = :outline
+      @icon_content_paths = ["app/**/*.{rb,erb,haml,slim}"]
+      @icon_safelist = []
     end
   end
 end

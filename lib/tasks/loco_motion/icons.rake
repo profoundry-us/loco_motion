@@ -21,6 +21,57 @@ namespace :loco_motion do
       puts "  Commit the new SVGs to your repository."
     end
 
+    desc "Treeshake vendored icons: scan content paths + safelist and vendor " \
+         "only the icons you use (loco_motion:icons:sync)"
+    task sync: :environment do
+      require "tmpdir"
+
+      config = LocoMotion.configuration
+      root = Rails.root.to_s
+      target = Rails.root.join("app/assets/svg/icons").to_s
+
+      references = LocoMotion::Icons::Scanner.new(
+        paths: config.icon_content_paths,
+        root: root,
+        default_library: config.default_icon_library
+      ).references
+
+      references += Array(config.icon_safelist).map do |entry|
+        LocoMotion::Icons::Reference.parse(entry, default_library: config.default_icon_library)
+      end
+      references.uniq!
+
+      if references.empty?
+        puts "No icon references found in #{config.icon_content_paths.join(', ')}."
+        next
+      end
+
+      libraries = references.map { |ref| ref[:library] }.uniq.sort
+
+      Dir.mktmpdir do |tmp|
+        LocoMotion::Icons::Installer.add(libraries, target: tmp)
+
+        result = LocoMotion::Icons::Vendorer.new(
+          source: tmp,
+          target: target,
+          default_variant: config.default_icon_variant
+        ).vendor(references)
+
+        puts "✓ Vendored #{result.vendored} icon(s) from #{libraries.join(', ')} " \
+             "into app/assets/svg/icons"
+        puts "  Commit the vendored SVGs to your repository."
+
+        unless result.missing.empty?
+          puts "\n⚠ #{result.missing.size} referenced icon(s) were not found " \
+               "(check the name, library, or variant):"
+          result.missing.each do |ref|
+            location = [ref[:library], ref[:variant], ref[:name]].compact.join("/")
+            puts "  - #{location}"
+          end
+        end
+      end
+    end
+
     desc "List icon libraries you can sync with loco_motion:icons:add"
     task :list do
       puts "Suggested icon libraries you can add (loco_motion:icons:add[name]):"

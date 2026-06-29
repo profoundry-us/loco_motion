@@ -34,6 +34,19 @@ RSpec.describe LocoMotion::Icons::Renderer do
       expect(outline).not_to eq(solid)
     end
 
+    it "resolves a qualified token's variant (`name/variant`)" do
+      solid = described_class.new(name: "x-mark/solid").to_svg
+
+      expect(solid).to include('fill="currentColor"') # solid is filled
+      expect(solid).to eq(described_class.new(name: "x-mark", variant: :solid).to_svg)
+    end
+
+    it "lets a qualified token override the passed library / variant" do
+      from_token = described_class.new(name: "heroicons:x-mark/solid", library: :lucide, variant: :outline).to_svg
+
+      expect(from_token).to eq(described_class.new(name: "x-mark", variant: :solid).to_svg)
+    end
+
     it "applies (and merges) the class attribute" do
       svg = described_class.new(
         name: "x-mark", attributes: { class: "size-8 text-red-500" }

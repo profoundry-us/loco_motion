@@ -188,20 +188,23 @@ module LocoMotion
       # collapses to a single `loco_icon` call.
       #
       def render_managed_icon(side)
-        name = instance_variable_get("@#{side}_icon")
-        library = instance_variable_get("@#{side}_icon_library")
+        ref = LocoMotion::Icons::Reference.parse(
+          instance_variable_get("@#{side}_icon"),
+          default_library: instance_variable_get("@#{side}_icon_library"),
+          default_variant: instance_variable_get("@#{side}_icon_variant")
+        )
         options = instance_variable_get("@#{side}_icon_options") || {}
 
         shared = {
           css: non_shrinking_icon_css(instance_variable_get("@#{side}_icon_css")),
           html: instance_variable_get("@#{side}_icon_html"),
-          variant: instance_variable_get("@#{side}_icon_variant")
+          variant: ref[:variant]
         }.merge(options)
 
-        if library.to_s == HEROICONS_LIBRARY
-          hero_icon(name, **shared)
+        if ref[:library].to_s == HEROICONS_LIBRARY
+          hero_icon(ref[:name], **shared)
         else
-          loco_icon(name, library: library, **shared)
+          loco_icon(ref[:name], library: ref[:library], **shared)
         end
       end
 
