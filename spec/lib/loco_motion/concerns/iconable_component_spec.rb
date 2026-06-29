@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "fileutils"
 
 # Test class that includes the concern
 class IconableTestComponent < LocoMotion::BaseComponent
@@ -140,6 +141,50 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
 
     it "uses the provided left_icon_options" do
       expect(component.instance_variable_get(:@left_icon_options)).to eq({ variant: "solid" })
+    end
+  end
+
+  # These exercise render_left_icon/render_right_icon (the actual render path)
+  # through a real component, covering the library dual-path: Heroicons render
+  # via rails_heroicon, other libraries via the loco_icon engine.
+  describe "the render path (via ButtonComponent)" do
+    context "with a default Heroicons icon" do
+      before { render_inline(Daisy::Actions::ButtonComponent.new(icon: "x-mark")) }
+
+      it "renders an inline svg" do
+        expect(page).to have_css("button svg")
+      end
+    end
+
+    context "with a synced non-Heroicons library" do
+      let(:svg_dir) { Rails.root.join("app/assets/svg/icons/testlib/outline") }
+
+      before do
+        FileUtils.mkdir_p(svg_dir)
+        File.write(
+          svg_dir.join("star.svg"),
+          %(<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ) +
+            %(data-source="testlib"><path d="M0 0"/></svg>)
+        )
+        render_inline(
+          Daisy::Actions::ButtonComponent.new(icon: "star", icon_library: :testlib)
+        )
+      end
+
+      after { FileUtils.rm_rf(Rails.root.join("app/assets/svg/icons/testlib")) }
+
+      it "renders the icon from the synced library via the engine" do
+        expect(page).to have_css("button svg")
+        expect(page.native.to_html).to include('data-source="testlib"')
+      end
+    end
+
+    context "with an unsynced non-Heroicons library" do
+      it "raises a clear error" do
+        expect do
+          render_inline(Daisy::Actions::ButtonComponent.new(icon: "star", icon_library: :not_installed))
+        end.to raise_error(LocoMotion::Icons::IconNotFound)
+      end
     end
   end
 end
