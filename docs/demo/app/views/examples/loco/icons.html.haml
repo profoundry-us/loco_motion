@@ -75,3 +75,13 @@
       The renderer checks your app's `app/assets/svg/icons` first, then falls
       back to the bundled icons — so synced libraries and per-icon overrides
       just work.
+
+      Prefer a different library by default? Set it once in an initializer (and
+      pick a matching variant, or `nil` for a flat library):
+
+      ```ruby
+      LocoMotion.configure do |config|
+        config.default_icon_library = :lucide
+        config.default_icon_variant = nil
+      end
+      ```

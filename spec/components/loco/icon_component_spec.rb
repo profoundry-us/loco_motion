@@ -57,4 +57,25 @@ RSpec.describe Loco::IconComponent, type: :component do
       end.to raise_error(LocoMotion::Icons::IconNotFound)
     end
   end
+
+  context "with a configured default variant" do
+    around do |example|
+      original = LocoMotion.configuration.default_icon_variant
+      LocoMotion.configuration.default_icon_variant = :solid
+      example.run
+      LocoMotion.configuration.default_icon_variant = original
+    end
+
+    it "uses the configured default when no variant is given" do
+      render_inline(described_class.new("x-mark"))
+
+      expect(page.native.to_html).to include('fill="currentColor"') # solid
+    end
+
+    it "still lets a per-call variant win" do
+      render_inline(described_class.new("x-mark", variant: :outline))
+
+      expect(page.native.to_html).to include('fill="none"') # outline
+    end
+  end
 end

@@ -51,12 +51,14 @@ module Loco
     #
     # @option kws icon [String] The name of the icon to display.
     #
-    # @option kws library [String, Symbol] The icon library to render from
-    #   (default: `:heroicons`). Any library synced into the app is also valid.
+    # @option kws library [String, Symbol] The icon library to render from.
+    #   Defaults to `LocoMotion.configuration.default_icon_library`
+    #   (`:heroicons` out of the box). Any library synced into the app is valid.
     #
-    # @option kws variant [String, Symbol] The library variant / weight to use
-    #   (default: `:outline` for Heroicons; e.g. `:solid`, `:mini`, `:micro`,
-    #   or Phosphor's `:thin` / `:bold` / `:duotone`).
+    # @option kws variant [String, Symbol] The library variant / weight to use.
+    #   Defaults to `LocoMotion.configuration.default_icon_variant` (`:outline`);
+    #   e.g. `:solid`, `:mini`, `:micro`, or Phosphor's `:thin` / `:bold` /
+    #   `:duotone`.
     #
     # @option kws css [String] Additional CSS classes for styling. Common
     #   options include:
@@ -72,8 +74,8 @@ module Loco
 
       # Accept either the :icon keyword argument or the first positional argument
       @icon = config_option(:icon, args[0])
-      @library = config_option(:library, LocoMotion::Icons::Renderer::DEFAULT_LIBRARY)
-      @variant = config_option(:variant, LocoMotion::Icons::Renderer::DEFAULT_VARIANT)
+      @library = config_option(:library, LocoMotion.configuration.default_icon_library)
+      @variant = config_option(:variant, LocoMotion.configuration.default_icon_variant)
 
       @css = config_option(:css, "")
     end

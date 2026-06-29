@@ -84,11 +84,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   icons; consumers install the full Heroicons set — or any other library (Lucide, Phosphor, Tabler, brand
   sets, …) — by running `bin/rails generate loco_motion:install` (or `loco_motion:icons:add <library>`),
   which syncs the SVGs into their own `app/assets/svg/icons` (a `post_install_message` advertises this).
-  Resolution is two-tier — the app's `app/assets/svg/icons` is checked first, then the bundled set — and SVGs
-  are parsed in XML mode so `viewBox` and other case-sensitive attributes stay valid. The helper mirrors
-  `hero_icon` (the `where:size-5` default, `css:`, `tip:`) and adds `library:` / `variant:`. Built on the
-  framework-agnostic `icons` gem (keeps Rails 6.1). Added alongside the existing `hero_icon`, which is
-  unchanged for now. Refs #204.
+  Resolution is two-tier — the app's `app/assets/svg/icons` is checked first, then the bundled set — and
+  SVGs are parsed in XML mode so `viewBox` and other case-sensitive attributes stay valid. The helper mirrors
+  `hero_icon` (the `where:size-5` default, `css:`, `tip:`) and adds `library:` / `variant:`; the per-call
+  defaults come from `LocoMotion.configuration.default_icon_library` / `default_icon_variant`, so an app can
+  make any synced library its default. Built on the framework-agnostic `icons` gem (keeps Rails 6.1). Added
+  alongside the existing `hero_icon`, which is unchanged for now. Refs #204.
   images no longer shift height as each image is revealed on hover. The default uses DaisyUI's
   zero-specificity `where:aspect-[3/2]` and is skipped when you pass your own `aspect-*` utility via `css:`,
   so it stays easy to override. The demo examples drop their now-redundant explicit `aspect-[3/2]`.
