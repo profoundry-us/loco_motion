@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Loco::IconComponent, type: :component do
   context "with a positional icon name" do
-    before { render_inline(described_class.new("academic-cap")) }
+    before { render_inline(described_class.new("x-mark")) }
 
     it "renders an inline svg" do
       expect(page).to have_css("svg")
@@ -16,7 +16,7 @@ RSpec.describe Loco::IconComponent, type: :component do
   end
 
   context "with the icon as a keyword argument" do
-    before { render_inline(described_class.new(icon: "beaker")) }
+    before { render_inline(described_class.new(icon: "check")) }
 
     it "renders an inline svg" do
       expect(page).to have_css("svg")
@@ -24,7 +24,7 @@ RSpec.describe Loco::IconComponent, type: :component do
   end
 
   context "with a custom size class" do
-    before { render_inline(described_class.new("academic-cap", css: "size-8 text-red-500")) }
+    before { render_inline(described_class.new("x-mark", css: "size-8 text-red-500")) }
 
     it "uses the provided size instead of the default" do
       expect(page).to have_css('svg[class*="size-8"]')
@@ -34,7 +34,7 @@ RSpec.describe Loco::IconComponent, type: :component do
 
   context "with a variant" do
     it "renders the solid variant" do
-      render_inline(described_class.new("bolt", variant: :solid))
+      render_inline(described_class.new("x-mark", variant: :solid))
 
       expect(page).to have_css("svg")
       expect(page.native.to_html).to include('fill="currentColor"')
@@ -42,11 +42,11 @@ RSpec.describe Loco::IconComponent, type: :component do
   end
 
   context "with a tooltip" do
-    before { render_inline(described_class.new("academic-cap", tip: "Helpful")) }
+    before { render_inline(described_class.new("x-mark", tip: "Close")) }
 
     it "adds the tooltip class and data-tip attribute" do
       expect(page).to have_css("svg.tooltip")
-      expect(page).to have_css('svg[data-tip="Helpful"]')
+      expect(page).to have_css('svg[data-tip="Close"]')
     end
   end
 
