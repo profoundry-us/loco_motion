@@ -81,10 +81,11 @@ module LocoMotion
     # `safelist`. Use it for dynamically-named icons the scanner cannot see
     # (e.g. `loco_icon("bars-#{n}")` or a name pulled from a database).
     #
-    # Each entry is a string in one of these forms:
-    # - `"name"` — the {#default_icon_library} and {#default_icon_variant}
-    # - `"library:name"` — that library, its default variant
-    # - `"library:name:variant"` — fully qualified
+    # Each entry is a qualified `[library:]name[/variant]` token (see
+    # {LocoMotion::Icons::Reference}), e.g. `"information-circle"`,
+    # `"lucide:heart"`, `"bolt/solid"`, or `"phosphor:gear/bold"`. An omitted
+    # library / variant falls back to {#default_icon_library} /
+    # {#default_icon_variant}.
     #
     # @return [Array<String>] The safelisted icon references
     #

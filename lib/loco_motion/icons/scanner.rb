@@ -11,49 +11,23 @@ module LocoMotion
     # fully deterministic: the same source always yields the same set. It
     # recognizes the `loco_icon` / `hero_icon` helpers (first string argument or
     # `icon:`) and the universal `icon:` / `left_icon:` / `right_icon:` /
-    # `middle_icon:` options, picking up an accompanying `library:` /
-    # `icon_library:` and `variant:` / `icon_variant:` on the same line.
+    # `middle_icon:` options. The icon's library and variant come from the
+    # token itself — `[library:]name[/variant]` (see
+    # {LocoMotion::Icons::Reference}) — so a reference is self-contained and the
+    # scan never has to guess from other arguments that may be on another line.
     #
     # Like Tailwind, it cannot see dynamically-built names
     # (`loco_icon("bars-#{n}")`, `icon: some_var`) — those belong in
     # {LocoMotion::Configuration#icon_safelist}.
     #
     class Scanner
-      # The icon name in a `loco_icon("foo")` / `hero_icon "foo"` call.
-      HELPER = /\b(?:loco_icon|hero_icon)\s*\(?\s*(["'])([a-z0-9][a-z0-9-]*)\1/
+      # The qualified token in a `loco_icon("foo")` / `hero_icon "foo"` call.
+      HELPER = %r{\b(?:loco_icon|hero_icon)\s*\(?\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
 
-      # A name passed via icon:/left_icon:/right_icon:/middle_icon: (also covers
+      # A token passed via icon:/left_icon:/right_icon:/middle_icon: (also covers
       # `loco_icon(icon: "foo")`). Longest keys first so `icon` does not win
       # inside `left_icon`.
-      KWARG = /\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*(["'])([a-z0-9][a-z0-9-]*)\1/
-
-      # An accompanying library / variant on the same line. Matches both the
-      # `loco_icon` forms (`library:` / `variant:`) and the component options
-      # (`icon_library:` / `left_icon_variant:` / ...).
-      LIBRARY = /\b(?:icon_library|left_icon_library|right_icon_library|library)\s*:\s*[:"']?([a-z0-9_]+)/
-      VARIANT = /\b(?:icon_variant|left_icon_variant|right_icon_variant|variant)\s*:\s*[:"']?([a-z0-9_]+)/
-
-      #
-      # Parses {LocoMotion::Configuration#icon_safelist} entries into the same
-      # reference shape {#references} returns. Each entry is `"name"`,
-      # `"library:name"`, or `"library:name:variant"`.
-      #
-      # @param entries [Array<String>] The safelist entries.
-      #
-      # @param default_library [String, Symbol] Library for `"name"` entries.
-      #
-      # @return [Array<Hash>] `{ library:, variant:, name: }` references.
-      #
-      def self.parse_safelist(entries, default_library:)
-        Array(entries).map do |entry|
-          parts = entry.to_s.split(":")
-          case parts.length
-          when 1 then { library: default_library.to_s, variant: nil, name: parts[0] }
-          when 2 then { library: parts[0], variant: nil, name: parts[1] }
-          else { library: parts[0], variant: parts[2], name: parts[1] }
-          end
-        end
-      end
+      KWARG = %r{\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
 
       #
       # @param paths [Array<String>] Glob patterns to scan (relative to root).
@@ -104,14 +78,9 @@ module LocoMotion
       end
 
       def line_references(line)
-        names = line.scan(HELPER).map(&:last) + line.scan(KWARG).map(&:last)
-        return [] if names.empty?
+        tokens = line.scan(HELPER).map(&:last) + line.scan(KWARG).map(&:last)
 
-        library = line[LIBRARY, 1] || @default_library
-        variant = line[VARIANT, 1]
-        variant = nil if variant == "nil"
-
-        names.uniq.map { |name| { library: library, variant: variant, name: name } }
+        tokens.uniq.map { |token| Reference.parse(token, default_library: @default_library) }
       end
 
       # Skip Ruby comment lines (which carry YARD `@loco_example` snippets) and

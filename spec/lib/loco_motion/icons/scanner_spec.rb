@@ -55,11 +55,11 @@ RSpec.describe LocoMotion::Icons::Scanner do
       expect(references.map { |r| r[:name] }).to contain_exactly("star")
     end
 
-    it "captures an explicit library and variant on the same line" do
+    it "reads the library and variant from the qualified token, not other args" do
       write("app/views/d.haml", <<~HAML)
-        = loco_icon("heart", library: :lucide)
-        = loco_icon("bolt", variant: :solid)
-        = daisy_button(icon: "gear", icon_library: "phosphor", icon_variant: :bold)
+        = loco_icon("lucide:heart")
+        = loco_icon("bolt/solid")
+        = daisy_button(icon: "phosphor:gear/bold")
       HAML
 
       expect(references).to contain_exactly(
@@ -69,10 +69,16 @@ RSpec.describe LocoMotion::Icons::Scanner do
       )
     end
 
-    it "treats variant: nil as no variant" do
-      write("app/views/e.haml", %(= loco_icon("home", library: :feather, variant: nil)\n))
+    it "is not fooled by a library/variant on a different line" do
+      # The token is bare, so it resolves to the default library — the stray
+      # `library:` two lines down must not be associated with it.
+      write("app/views/e.haml", <<~HAML)
+        = loco_icon("home",
+            class: "size-6",
+            library: :lucide)
+      HAML
 
-      expect(references).to contain_exactly(library: "feather", variant: nil, name: "home")
+      expect(references).to contain_exactly(library: "heroicons", variant: nil, name: "home")
     end
 
     it "ignores dynamically-built names it cannot resolve statically" do
@@ -103,7 +109,7 @@ RSpec.describe LocoMotion::Icons::Scanner do
         = loco_icon("zebra")
         = loco_icon("apple")
         = loco_icon("apple")
-        = loco_icon("mango", library: :lucide)
+        = loco_icon("lucide:mango")
       HAML
 
       expect(references).to eq([
@@ -111,25 +117,6 @@ RSpec.describe LocoMotion::Icons::Scanner do
                                  { library: "heroicons", variant: nil, name: "zebra" },
                                  { library: "lucide", variant: nil, name: "mango" }
                                ])
-    end
-  end
-
-  describe ".parse_safelist" do
-    it "parses name, library:name, and library:name:variant forms" do
-      result = described_class.parse_safelist(
-        ["information-circle", "lucide:heart", "phosphor:gear:bold"],
-        default_library: "heroicons"
-      )
-
-      expect(result).to eq([
-                             { library: "heroicons", variant: nil, name: "information-circle" },
-                             { library: "lucide", variant: nil, name: "heart" },
-                             { library: "phosphor", variant: "bold", name: "gear" }
-                           ])
-    end
-
-    it "returns an empty array for nil / empty input" do
-      expect(described_class.parse_safelist(nil, default_library: "heroicons")).to eq([])
     end
   end
 end

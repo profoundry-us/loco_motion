@@ -36,9 +36,9 @@ namespace :loco_motion do
         default_library: config.default_icon_library
       ).references
 
-      references += LocoMotion::Icons::Scanner.parse_safelist(
-        config.icon_safelist, default_library: config.default_icon_library
-      )
+      references += Array(config.icon_safelist).map do |entry|
+        LocoMotion::Icons::Reference.parse(entry, default_library: config.default_icon_library)
+      end
       references.uniq!
 
       if references.empty?
