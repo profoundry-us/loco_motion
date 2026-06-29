@@ -79,6 +79,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Icons): Teach the universal icon options (`icon:` / `left_icon:` / `right_icon:` on every component)
+  about icon libraries. New `icon_library:` / `icon_variant:` options (plus `left_`/`right_` variants) let any
+  component render an icon from a synced library, e.g.
+  `daisy_button(icon: "trash", icon_library: :phosphor, icon_variant: :bold)`. They default from
+  `LocoMotion.configuration.default_icon_library` / `default_icon_variant`. The default Heroicons library
+  still renders through `rails_heroicon`, so existing usage is unchanged and needs no icon sync. Other
+  libraries render through the `loco_icon` engine (resolved from the app's `app/assets/svg/icons`). Refs #204.
 - feat(Icons): Add a pluggable icon engine and a new `loco_icon` helper (`Loco::IconComponent`) that renders
   inline SVG from any installed icon library. To keep the gem lean, LocoMotion bundles only a handful of
   icons; consumers install the full Heroicons set — or any other library (Lucide, Phosphor, Tabler, brand
