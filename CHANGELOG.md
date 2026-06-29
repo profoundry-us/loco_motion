@@ -159,6 +159,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- docs(Install): Add an "Icons" section to the Install guide. It explains that every component's `icon:`
+  options render Heroicons with zero setup, introduces the standalone `loco_icon` helper, and documents the
+  `loco_motion:icons:add` / `loco_motion:icons:list` tooling for syncing the full Heroicon set or other
+  libraries (Lucide, Phosphor, Tabler, …) into the app, plus the `default_icon_library` /
+  `default_icon_variant` configuration. Notes that `git` is required to sync. Refs #204.
 - fix(Demo): Fix the "Link with Icon" button on the Buttons example, which showed no icon. It passed `icon:`
   together with a content block, but a `daisy_button` block replaces the managed icon + title layout by
   design (the block is yours to fill), so the icon was dropped. Switched the example to the title form
