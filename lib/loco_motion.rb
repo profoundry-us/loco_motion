@@ -17,6 +17,8 @@ require "loco_motion/basic_component"
 require "loco_motion/engine"
 require "loco_motion/icons/renderer"
 require "loco_motion/icons/installer"
+require "loco_motion/icons/scanner"
+require "loco_motion/icons/vendorer"
 require "loco_motion/helpers"
 
 # Load patches

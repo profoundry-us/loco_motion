@@ -79,6 +79,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Icons): Add deterministic icon treeshaking — a `loco_motion:icons:sync` rake task that scans your app
+  for icon usage and vendors only the icons you actually use, the icon analogue of Tailwind scanning
+  templates for class names. It reads `config.icon_content_paths` (default `app/**/*.{rb,erb,haml,slim}`),
+  statically extracts references from `loco_icon` / `hero_icon` calls and the universal `icon:` / `left_icon:`
+  / `right_icon:` options (with their `library:` / `variant:`), then vendors that set into
+  `app/assets/svg/icons`, pruning unused icons. It's a pure regex scan (no code evaluation), so the same
+  source always yields the same set. Dynamically-named icons it can't see statically
+  (`loco_icon("bars-#{n}")`) go in `config.icon_safelist` — the analogue of Tailwind's safelist. Backed by
+  new `LocoMotion::Icons::Scanner` and `LocoMotion::Icons::Vendorer` classes. Refs #204.
 - refactor(Icons): Render the built-in component chrome icons through the `loco_icon` engine instead of the
   `hero_icon` / `heroicon` (rails_heroicon) helpers — the Alert and Modal close buttons (`x-mark`) and the
   ThemeController menu's check / trash icons. These all use icons bundled inside the gem, so they render with
