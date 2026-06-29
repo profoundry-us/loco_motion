@@ -68,6 +68,7 @@ Rails/OutputSafety:
     - 'docs/demo/app/helpers/algolia_helper.rb'
     - 'app/components/daisy/data_input/filter_component.rb'
     - 'app/components/daisy/data_input/select_component.rb'
+    - 'app/components/loco/icon_component.rb'
 Naming/AccessorMethodName:
   Enabled: true
 Metrics/PerceivedComplexity:

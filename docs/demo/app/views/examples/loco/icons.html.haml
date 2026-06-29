@@ -1,0 +1,77 @@
+= doc_title(title: "Icons", comp: @comp) do |title|
+  %p
+    The
+    %code loco_icon
+    helper renders an inline SVG from any installed icon library. LocoMotion
+    bundles Heroicons out of the box (the default), and you can add other
+    libraries — Lucide, Phosphor, Tabler, brand sets, and more — by syncing them
+    into your own application.
+
+  %p
+    Browse the bundled set at
+
+    = succeed "." do
+      = daisy_link("https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4")
+
+
+= doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
+  - doc.with_description do
+    :markdown
+      By default, icons are displayed with the `size-5` Tailwind class to set the
+      width and height. This can be overridden **without** using the
+      `!` Tailwind modifier because we utilize the `:where()` pseudo-class to
+      ensure that our default classes have the lowest CSS specificity possible.
+
+      The icon color inherits the text color of the parent element.
+
+      You can pass the icon as the first positional argument or via the `icon:`
+      keyword argument.
+
+  = loco_icon("academic-cap")
+  = loco_icon(icon: "adjustments-horizontal")
+  %span.text-blue-500
+    = loco_icon("archive-box")
+
+
+= doc_example(title: "Variants", example_css: "gap-x-2") do |doc|
+  - doc.with_description do
+    :markdown
+      Heroicons ships four variants. Choose one with the `variant:` option
+      (`:outline` is the default); other libraries expose their own variants /
+      weights the same way (e.g. Phosphor's `:thin` / `:bold` / `:duotone`).
+
+  = loco_icon("bolt", variant: :outline, css: "size-8")
+  = loco_icon("bolt", variant: :solid, css: "size-8")
+  = loco_icon("bolt", variant: :mini, css: "size-5")
+  = loco_icon("bolt", variant: :micro, css: "size-4")
+
+
+= doc_example(title: "Customized Icons", example_css: "gap-x-2") do |doc|
+  - doc.with_description do
+    %p
+      You can customize the size, color, and other properties of the icons using
+      standard Tailwind classes.
+
+  = loco_icon("no-symbol", css: "size-4 text-red-600")
+  = loco_icon("arrow-trending-up", css: "size-10 text-green-600")
+  = loco_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
+
+
+= doc_example(title: "Other Libraries") do |doc|
+  - doc.with_description do
+    :markdown
+      LocoMotion bundles only Heroicons to keep the gem small. To use another
+      library, sync it into your app once and then pass `library:`:
+
+      ```bash
+      bin/rails loco_motion:icons:add lucide phosphor
+      ```
+
+      ```haml
+      = loco_icon("heart", library: :lucide)
+      = loco_icon("heart", library: :phosphor, variant: :duotone)
+      ```
+
+      The renderer checks your app's `app/assets/svg/icons` first, then falls
+      back to the bundled icons — so synced libraries and per-icon overrides
+      just work.
