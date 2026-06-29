@@ -193,10 +193,84 @@
         ]
 
 
+.mt-10.prose
+  :markdown
+    ## 4. Icons
+
+    Icons work out of the box — every component that accepts an `icon:` (and
+    `left_icon:` / `right_icon:`) renders [Heroicons](https://heroicons.com)
+    with no extra setup:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      = daisy_button("Save", icon: "check")
+      = daisy_alert(icon: "information-circle", css: "alert-info")
+
+.mt-4.prose
+  :markdown
+    For standalone icons, use the `loco_icon` helper. LocoMotion bundles only a
+    small curated set inside the gem to keep it lean, so to render the **full**
+    Heroicon set — or to use another library — sync it into your app once:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:icons:add heroicons
+
+.mt-4.prose
+  :markdown
+    Then reference any synced icon by name:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      = loco_icon("academic-cap")
+      = loco_icon("bolt", variant: :solid)
+
+.mt-4.prose
+  :markdown
+    LocoMotion can sync many libraries — Lucide, Phosphor, Tabler, Boxicons,
+    Feather, and more. Add whichever ones you want and pass `library:` when
+    rendering:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:icons:add lucide phosphor
+    bin/rails loco_motion:icons:list
+
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      = loco_icon("heart", library: :lucide)
+      = loco_icon("heart", library: :phosphor, variant: :duotone)
+
+.mt-4.prose
+  :markdown
+    Synced SVGs land in your app's `app/assets/svg/icons/<library>` — commit
+    them to your repository. Prefer a different library by default? Set it once
+    in an initializer (and pick a matching variant, or `nil` for a flat
+    library):
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "ruby") do
+    :plain
+      # config/initializers/loco_motion.rb
+      LocoMotion.configure do |config|
+        config.default_icon_library = :lucide
+        config.default_icon_variant = nil
+      end
+
+= doc_note(css: "mt-6", title: "Git is required to sync") do
+  :markdown
+    `loco_motion:icons:add` fetches icon sets with `git`, so make sure it's
+    available wherever you run the task. See the
+    = component_link("Icons docs", "Loco::IconComponent")
+    for the full rendering API.
+
+
 = doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
   - doc.with_description do
     :markdown
-      ## 4. Try it out!
+      ## 5. Try it out!
 
       You're ready to start using the components! 🥳
 
