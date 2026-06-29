@@ -145,15 +145,22 @@ issue (if one exists) and the nature of the change:
 The branch must already be pushed to the remote with local `git` (Step 7).
 
 Open the PR using the GitHub MCP server's `create_pull_request` tool with the
-drafted description, then **always** apply the labels determined in Step 8 via
-the MCP server (e.g. its label/update-issue tools).
+drafted description and `draft: true`, then **always** apply the labels
+determined in Step 8 via the MCP server (e.g. its label/update-issue tools).
+
+**Always open as a draft.** Draft PRs only trigger the lightweight CI subset
+(`rubocop` + the loco `rspec` suite); the heavier `demo-rspec` and Playwright
+jobs run only once a human marks the PR "Ready for review". This keeps GitHub
+Actions usage — and Algolia search quota — down on automated PRs. Note in the
+report that the PR is a draft and that marking it ready kicks off the full
+suite.
 
 Fall back to the `gh` CLI only if an MCP tool is unavailable or fails (for
 example, a `403` permissions error). When using the CLI, provide all arguments
 explicitly so `gh pr create` does not hang waiting for interactive input:
 
 ```bash
-gh pr create --title "{title}" --body "{body}" --head {branch-name} --base main
+gh pr create --draft --title "{title}" --body "{body}" --head {branch-name} --base main
 gh pr edit {PR_NUMBER} --add-label "{label}"
 ```
 
