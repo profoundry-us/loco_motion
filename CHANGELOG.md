@@ -164,6 +164,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- refactor(Demo): Vendor the full Heroicon set into the demo app — ~1,288 SVGs across the outline / solid /
+  mini / micro variants, synced with `loco_motion:icons:add heroicons` into
+  `docs/demo/app/assets/svg/icons/heroicons`, replacing the small hand-synced subset. This is the committed,
+  dogfooded consumer flow and lets the demo render any Heroicon through the `loco_icon` engine. Assets only;
+  the demo's icon calls are migrated to `loco_icon` in a follow-up PR. Refs #204.
 - docs(Install): Add an "Icons" section to the Install guide. It explains that every component's `icon:`
   options render Heroicons with zero setup, introduces the standalone `loco_icon` helper, and documents the
   `loco_motion:icons:add` / `loco_motion:icons:list` tooling for syncing the full Heroicon set or other
