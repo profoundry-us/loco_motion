@@ -23,7 +23,7 @@ namespace :loco_motion do
 
     desc "List icon libraries you can sync with loco_motion:icons:add"
     task :list do
-      puts "Icon libraries you can add (loco_motion:icons:add[name]):"
+      puts "Suggested icon libraries you can add (loco_motion:icons:add[name]):"
       SUGGESTED_ICON_LIBRARIES.each { |library| puts "  - #{library}" }
       puts "See https://github.com/Rails-Designer/icons for the full list."
     end
