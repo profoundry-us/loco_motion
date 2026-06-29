@@ -79,6 +79,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- refactor(Icons): Render the built-in component chrome icons through the `loco_icon` engine instead of the
+  `hero_icon` / `heroicon` (rails_heroicon) helpers — the Alert and Modal close buttons (`x-mark`) and the
+  ThemeController menu's check / trash icons. These all use icons bundled inside the gem, so they render with
+  zero setup and no icon sync, and the output is visually unchanged. This removes the internal chrome's
+  dependency on `rails_heroicon` ahead of its removal. Refs #204.
 - feat(Icons): Teach the universal icon options (`icon:` / `left_icon:` / `right_icon:` on every component)
   about icon libraries. New `icon_library:` / `icon_variant:` options (plus `left_`/`right_` variants) let any
   component render an icon from a synced library, e.g.
