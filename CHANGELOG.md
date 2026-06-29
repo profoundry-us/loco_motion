@@ -152,6 +152,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Fix the "Link with Icon" button on the Buttons example, which showed no icon. It passed `icon:`
+  together with a content block, but a `daisy_button` block replaces the managed icon + title layout by
+  design (the block is yours to fill), so the icon was dropped. Switched the example to the title form
+  (`daisy_button("Link with Icon", …, icon: "arrow-right")`) like the other icon buttons on the page.
 - fix(Demo): Fix the broken 3D tilt in the Hover 3D "3D Hover Image Gallery" example. The wrapper passed a
   `block` display utility, which overrode DaisyUI's `display: inline-grid` on `.hover-3d` and collapsed the
   eight hover zones that drive the tilt, so cards only scaled instead of rotating. Dropped `block` so the
