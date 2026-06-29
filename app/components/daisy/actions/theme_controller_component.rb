@@ -168,7 +168,7 @@ module Daisy
           build_radio_input(theme, name: name, css: "hidden peer"),
           build_theme_preview(theme, css: "size-5"),
           content_tag(:span, theme.humanize, class: "grow capitalize"),
-          helpers.hero_icon("check", css: "size-4 text-primary invisible peer-checked:visible")
+          helpers.loco_icon("check", css: "size-4 text-primary invisible peer-checked:visible")
         ]
 
         link_to("#", class: "flex items-center gap-3 no-underline",
@@ -182,7 +182,7 @@ module Daisy
       # this switcher's radios immediately.
       def clear_row(name)
         parts = [
-          helpers.hero_icon("trash", css: "size-4"),
+          helpers.loco_icon("trash", css: "size-4"),
           content_tag(:span, "Clear Theme", class: "grow text-left")
         ]
 
