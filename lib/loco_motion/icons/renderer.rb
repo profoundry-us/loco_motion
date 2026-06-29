@@ -1,0 +1,134 @@
+# frozen_string_literal: true
+
+require "nokogiri"
+
+module LocoMotion
+  module Icons
+    #
+    # Raised when an icon (or its library / variant) cannot be found on disk.
+    #
+    class IconNotFound < StandardError; end
+
+    #
+    # Renders an icon as inline SVG from a vendored or app-synced icon library.
+    #
+    # Resolution is **two-tier**: the consuming application's own
+    # `<Rails.root>/app/assets/svg/icons` directory is checked first (so any
+    # library a consumer syncs in — or an icon they override — wins), then
+    # LocoMotion's bundled icons shipped inside the engine. This lets the
+    # default Heroicons work with zero setup while letting consumers add or
+    # override icons without touching the gem.
+    #
+    # SVG files are parsed in **XML mode** so case-sensitive attributes like
+    # `viewBox` (and `clipPath`, `linearGradient`, ...) keep their casing —
+    # unlike HTML-mode parsing, which would lowercase them into invalid SVG.
+    #
+    class Renderer
+      DEFAULT_LIBRARY = :heroicons
+      DEFAULT_VARIANT = :outline
+
+      #
+      # @param name [String, Symbol] The icon name (e.g. `"academic-cap"`).
+      #
+      # @param library [String, Symbol] The icon library (default
+      #   `:heroicons`).
+      #
+      # @param variant [String, Symbol, nil] The library variant / weight
+      #   (e.g. `:outline`, `:solid`). `nil` means the library is flat (no
+      #   variant subdirectory).
+      #
+      # @param attributes [Hash] HTML attributes to apply to the `<svg>` — the
+      #   shape returned by `rendered_html` (`:class` string, `:data` /
+      #   `:aria` hashes, plus any other attributes).
+      #
+      def initialize(name:, library: DEFAULT_LIBRARY, variant: DEFAULT_VARIANT, attributes: {})
+        @name = name.to_s
+        @library = (library || DEFAULT_LIBRARY).to_s
+        @variant = variant&.to_s
+        @attributes = attributes || {}
+      end
+
+      #
+      # @return [String] The inline SVG markup with our attributes applied.
+      #
+      def to_svg
+        document = Nokogiri::XML(::File.read(file_path))
+        svg = document.root
+        apply_attributes(svg)
+        svg.to_xml
+      end
+
+      private
+
+      def file_path
+        search_paths.each { |path| return path if ::File.file?(path) }
+
+        raise IconNotFound, missing_message
+      end
+
+      # App-synced icons take precedence over the engine's bundled set.
+      def search_paths
+        icon_roots.map { |root| ::File.join(root, *path_parts) }
+      end
+
+      def icon_roots
+        roots = []
+        roots << ::File.join(application_root, "app/assets/svg/icons") if application_root
+        roots << ::File.join(LocoMotion::Engine.root.to_s, "app/assets/svg/icons")
+        roots
+      end
+
+      def application_root
+        return unless defined?(::Rails) && ::Rails.respond_to?(:root) && ::Rails.root
+
+        ::Rails.root.to_s
+      end
+
+      def path_parts
+        [@library, @variant, "#{@name}.svg"].compact.reject(&:empty?)
+      end
+
+      def apply_attributes(svg)
+        @attributes.each do |key, value|
+          case key.to_sym
+          when :class
+            apply_class(svg, value)
+          when :data, :aria
+            apply_prefixed(svg, key, value)
+          else
+            svg[key.to_s.tr("_", "-")] = value.to_s unless value.nil?
+          end
+        end
+      end
+
+      def apply_class(svg, value)
+        classes = [svg["class"], value].compact.map(&:to_s).reject(&:empty?)
+
+        svg["class"] = classes.join(" ") unless classes.empty?
+      end
+
+      def apply_prefixed(svg, prefix, value)
+        return unless value.is_a?(::Hash)
+
+        value.each do |key, val|
+          next if val.nil?
+
+          svg["#{prefix}-#{key.to_s.tr('_', '-')}"] = val.to_s
+        end
+      end
+
+      def missing_message
+        looked = search_paths.map { |path| "  - #{path}" }.join("\n")
+        variant_note = @variant ? " (variant: #{@variant})" : ""
+
+        <<~MSG.strip
+          Could not find icon "#{@name}" in library "#{@library}"#{variant_note}.
+          Looked in:
+          #{looked}
+          If "#{@library}" is not bundled with LocoMotion, add it with:
+            bin/rails loco_motion:icons:add #{@library}
+        MSG
+      end
+    end
+  end
+end

@@ -14,9 +14,20 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
   s.require_paths = ["lib", "app"]
 
+  s.post_install_message = <<~MSG
+    LocoMotion ships a handful of icons out of the box. To use the `loco_icon`
+    helper with the full Heroicons set — or any other library — sync one into
+    your app (run once, then commit the SVGs):
+
+      bin/rails generate loco_motion:install     # Heroicons (default)
+      bin/rails loco_motion:icons:add lucide     # or any other library
+      bin/rails loco_motion:icons:list           # see the options
+  MSG
+
   # Add our few dependencies
   s.add_dependency 'benchmark', '~> 0.4'
   s.add_dependency 'haml-rails', '~> 2.1'
+  s.add_dependency 'icons', '~> 0.9'
   s.add_dependency 'rails_heroicon', '~> 2.3.0'
   s.add_dependency 'rails', '>= 6.1', '< 8.1'
   s.add_dependency 'view_component', '~> 3.22'

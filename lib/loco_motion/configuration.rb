@@ -45,8 +45,30 @@ module LocoMotion
     #
     attr_accessor :default_alert_timeout
 
+    #
+    # The default icon library used by the `loco_icon` helper (and the
+    # universal `icon:` options) when no `library:` is given. Defaults to
+    # `:heroicons`. Set this to make another synced library your default, e.g.
+    # `config.default_icon_library = :lucide`.
+    #
+    # @return [String, Symbol] The default icon library
+    #
+    attr_accessor :default_icon_library
+
+    #
+    # The default icon variant used when no `variant:` is given. Defaults to
+    # `:outline` (Heroicons' outline style). When changing
+    # {#default_icon_library} to a library with different variants, set this to
+    # match (or `nil` for a flat library that has no variant subdirectories).
+    #
+    # @return [String, Symbol, nil] The default icon variant
+    #
+    attr_accessor :default_icon_variant
+
     def initialize
       @default_alert_timeout = 5000 # 5 seconds default
+      @default_icon_library = :heroicons
+      @default_icon_variant = :outline
     end
   end
 end
