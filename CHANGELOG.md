@@ -79,6 +79,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- refactor(Icons): Render Cally's month-navigation chevrons through the `loco_icon` engine instead of
+  `rails_heroicon`. `chevron-left` / `chevron-right` join `x-mark` / `check` / `trash` in the icons bundled
+  inside the gem, so the calendar's prev/next arrows still render with zero consumer setup. Non-breaking
+  groundwork for removing `rails_heroicon`. Refs #204.
 - fix(Icons): `loco_motion:icons:sync` no longer crashes when `config.icon_safelist` is set.
   `LocoMotion::Icons::Reference.parse` now always returns a String `library`, so scanned references (already
   strings) and safelist references share one type — previously a `:heroicons` default mixed with the
