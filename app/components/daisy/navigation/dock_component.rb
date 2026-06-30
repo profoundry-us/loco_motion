@@ -59,9 +59,8 @@ module Daisy
             #
             # @param kws [Hash] The keyword arguments for the component.
             #
-            # @option kws icon [String] The name of the icon to display.
-            #
-            # @option kws icon_variant [Symbol] The variant of the icon to use (default: :outline).
+            # @option kws icon [String] The icon to display, as a qualified
+            #   `[library:]name[/variant]` token (e.g. `"home"`, `"home/solid"`).
             #
             # @option kws icon_css [String] Additional CSS classes for the icon.
             #
@@ -79,7 +78,6 @@ module Daisy
             def initialize(**kws)
               super(**kws)
 
-              @icon_variant = config_option(:icon_variant, :outline)
               @title = config_option(:title)
               @active = config_option(:active, false)
             end

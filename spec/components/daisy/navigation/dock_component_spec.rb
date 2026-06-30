@@ -127,17 +127,17 @@ RSpec.describe Daisy::Navigation::DockComponent, type: :component do
     end
   end
 
-  context "with custom icon variant" do
+  context "with a qualified icon variant token" do
     let(:dock) { described_class.new }
 
     before do
       render_inline(dock) do |d|
-        d.with_section(icon: "home", icon_variant: :solid)
+        d.with_section(icon: "home/solid")
       end
     end
 
     describe "rendering" do
-      it "uses specified icon variant" do
+      it "uses the specified icon variant" do
         expect(page).to have_selector("svg")
       end
     end

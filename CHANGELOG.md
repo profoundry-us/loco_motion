@@ -119,12 +119,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   zero setup and no icon sync, and the output is visually unchanged. This removes the internal chrome's
   dependency on `rails_heroicon` ahead of its removal. Refs #204.
 - feat(Icons): Teach the universal icon options (`icon:` / `left_icon:` / `right_icon:` on every component)
-  about icon libraries. New `icon_library:` / `icon_variant:` options (plus `left_`/`right_` variants) let any
-  component render an icon from a synced library, e.g.
-  `daisy_button(icon: "trash", icon_library: :phosphor, icon_variant: :bold)`. They default from
+  about icon libraries and variants. Their value is a qualified `[library:]name[/variant]` token, so any
+  component can render an icon from a synced library or a non-default variant, e.g.
+  `daisy_button(icon: "phosphor:trash/bold")`. The library and variant default to
   `LocoMotion.configuration.default_icon_library` / `default_icon_variant`. The default Heroicons library
   still renders through `rails_heroicon`, so existing usage is unchanged and needs no icon sync. Other
   libraries render through the `loco_icon` engine (resolved from the app's `app/assets/svg/icons`). Refs #204.
+- refactor(Icons): The Dock section's `icon_variant:` option is likewise replaced by the qualified token —
+  `dock.with_section(icon: "home/solid")` instead of `icon: "home", icon_variant: :solid`. Refs #204.
 - feat(Icons): Add a pluggable icon engine and a new `loco_icon` helper (`Loco::IconComponent`) that renders
   inline SVG from any installed icon library. To keep the gem lean, LocoMotion bundles only a handful of
   icons; consumers install the full Heroicons set — or any other library (Lucide, Phosphor, Tabler, brand

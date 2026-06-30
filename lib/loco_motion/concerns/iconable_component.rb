@@ -22,62 +22,47 @@ module LocoMotion
       #
       # Initialize icon-related options.
       #
-      # @option kws icon       [String] The name of the icon to render. This is an
-      #   alias of `left_icon`.
-      #
-      # @option kws icon_library [String, Symbol] The icon library to render the
-      #   icon from. Defaults to
-      #   `LocoMotion.configuration.default_icon_library` (`:heroicons`). Any
-      #   library synced into the app is valid. Alias of `left_icon_library`.
-      #
-      # @option kws icon_variant [String, Symbol] The icon variant / weight.
-      #   Defaults to `LocoMotion.configuration.default_icon_variant`
-      #   (`:outline`). Alias of `left_icon_variant`.
+      # @option kws icon       [String] The icon to render, as a qualified
+      #   `[library:]name[/variant]` token (e.g. `"trash"`,
+      #   `"phosphor:gear/bold"`, `"bolt/solid"`). The library and variant
+      #   default to `LocoMotion.configuration.default_icon_library` /
+      #   `default_icon_variant`. This is an alias of `left_icon`.
       #
       # @option kws icon_css   [String] The CSS classes to apply to the icon. This
       #   is an alias of `left_icon_css`.
       #
-      # @option kws icon_options [Hash] Options forwarded to the underlying
-      #   {Hero::IconComponent} constructor — most notably `variant: :outline`
-      #   or `variant: :solid` to pick the icon style. Use this (not
-      #   `icon_html`) for icon component options; `icon_html` is for HTML
-      #   attributes on the `<svg>`. This is an alias of `left_icon_options`.
+      # @option kws icon_options [Hash] Additional keyword arguments forwarded
+      #   to the {Loco::IconComponent} (`loco_icon`) that renders the icon —
+      #   the icon component's own options, not the icon library's. You rarely
+      #   need this: the name, library, and variant live in the token, and CSS /
+      #   HTML have dedicated `icon_css` / `icon_html` options. (A `tip:` tooltip
+      #   generally belongs on the parent component rather than the icon.) It is
+      #   kept as an escape hatch for advanced or future use. This is an alias of
+      #   `left_icon_options`.
       #
       # @option kws icon_html  [Hash] Additional HTML attributes to apply to the
       #   icon. This is an alias of `left_icon_html`.
       #
-      # @option kws left_icon  [String] The name of the icon to render to the
-      #   left of the content.
-      #
-      # @option kws left_icon_library [String, Symbol] The icon library for the
-      #   left icon (defaults to `icon_library`).
-      #
-      # @option kws left_icon_variant [String, Symbol] The icon variant for the
-      #   left icon (defaults to `icon_variant`).
+      # @option kws left_icon  [String] The icon to render to the left of the
+      #   content, as a qualified `[library:]name[/variant]` token.
       #
       # @option kws left_icon_css  [String] The CSS classes to apply to the left
       #   icon.
       #
-      # @option kws left_icon_options [Hash] Options forwarded to the left
-      #   {Hero::IconComponent} constructor (e.g. `variant: :outline`).
+      # @option kws left_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the left {Loco::IconComponent} (e.g. `tip:`).
       #
       # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
       #   the left icon.
       #
-      # @option kws right_icon [String] The name of the icon to render to the
-      #   right of the content.
-      #
-      # @option kws right_icon_library [String, Symbol] The icon library for the
-      #   right icon (defaults to `icon_library`).
-      #
-      # @option kws right_icon_variant [String, Symbol] The icon variant for the
-      #   right icon (defaults to `icon_variant`).
+      # @option kws right_icon [String] The icon to render to the right of the
+      #   content, as a qualified `[library:]name[/variant]` token.
       #
       # @option kws right_icon_css [String] The CSS classes to apply to the right
       #   icon.
       #
-      # @option kws right_icon_options [Hash] Options forwarded to the right
-      #   {Hero::IconComponent} constructor (e.g. `variant: :outline`).
+      # @option kws right_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the right {Loco::IconComponent} (e.g. `tip:`).
       #
       # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
       #   the right icon.
@@ -87,22 +72,16 @@ module LocoMotion
         @icon_css = config_option(:icon_css, default_icon_size)
         @icon_options = config_option(:icon_options, {})
         @icon_html = config_option(:icon_html, {})
-        @icon_library = config_option(:icon_library, LocoMotion.configuration.default_icon_library)
-        @icon_variant = config_option(:icon_variant, LocoMotion.configuration.default_icon_variant)
 
         @left_icon = config_option(:left_icon, @icon)
         @left_icon_css = config_option(:left_icon_css, @icon_css)
         @left_icon_options = config_option(:left_icon_options, @icon_options)
         @left_icon_html = config_option(:left_icon_html, @icon_html)
-        @left_icon_library = config_option(:left_icon_library, @icon_library)
-        @left_icon_variant = config_option(:left_icon_variant, @icon_variant)
 
         @right_icon = config_option(:right_icon)
         @right_icon_css = config_option(:right_icon_css, @icon_css)
         @right_icon_options = config_option(:right_icon_options, {})
         @right_icon_html = config_option(:right_icon_html, @icon_html)
-        @right_icon_library = config_option(:right_icon_library, @icon_library)
-        @right_icon_variant = config_option(:right_icon_variant, @icon_variant)
       end
 
       #
@@ -190,8 +169,8 @@ module LocoMotion
       def render_managed_icon(side)
         ref = LocoMotion::Icons::Reference.parse(
           instance_variable_get("@#{side}_icon"),
-          default_library: instance_variable_get("@#{side}_icon_library"),
-          default_variant: instance_variable_get("@#{side}_icon_variant")
+          default_library: LocoMotion.configuration.default_icon_library,
+          default_variant: LocoMotion.configuration.default_icon_variant
         )
         options = instance_variable_get("@#{side}_icon_options") || {}
 
