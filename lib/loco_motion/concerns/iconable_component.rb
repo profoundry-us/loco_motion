@@ -33,11 +33,12 @@ module LocoMotion
       #
       # @option kws icon_options [Hash] Additional keyword arguments forwarded
       #   to the {Loco::IconComponent} (`loco_icon`) that renders the icon —
-      #   e.g. `tip:` for a tooltip. These are LocoMotion icon-component options,
-      #   not the underlying icon library's. Since the library and variant now
-      #   live in the icon token, this is rarely needed. Use `icon_options` for
-      #   component options and `icon_html` for raw HTML attributes on the
-      #   `<svg>`. This is an alias of `left_icon_options`.
+      #   the icon component's own options, not the icon library's. You rarely
+      #   need this: the name, library, and variant live in the token, and CSS /
+      #   HTML have dedicated `icon_css` / `icon_html` options. (A `tip:` tooltip
+      #   generally belongs on the parent component rather than the icon.) It is
+      #   kept as an escape hatch for advanced or future use. This is an alias of
+      #   `left_icon_options`.
       #
       # @option kws icon_html  [Hash] Additional HTML attributes to apply to the
       #   icon. This is an alias of `left_icon_html`.
