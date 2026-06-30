@@ -31,9 +31,12 @@ module LocoMotion
       # @option kws icon_css   [String] The CSS classes to apply to the icon. This
       #   is an alias of `left_icon_css`.
       #
-      # @option kws icon_options [Hash] Additional options forwarded to the
-      #   underlying icon component (e.g. `tip:`). Use this (not `icon_html`) for
-      #   icon component options; `icon_html` is for HTML attributes on the
+      # @option kws icon_options [Hash] Additional keyword arguments forwarded
+      #   to the {Loco::IconComponent} (`loco_icon`) that renders the icon —
+      #   e.g. `tip:` for a tooltip. These are LocoMotion icon-component options,
+      #   not the underlying icon library's. Since the library and variant now
+      #   live in the icon token, this is rarely needed. Use `icon_options` for
+      #   component options and `icon_html` for raw HTML attributes on the
       #   `<svg>`. This is an alias of `left_icon_options`.
       #
       # @option kws icon_html  [Hash] Additional HTML attributes to apply to the
@@ -45,8 +48,8 @@ module LocoMotion
       # @option kws left_icon_css  [String] The CSS classes to apply to the left
       #   icon.
       #
-      # @option kws left_icon_options [Hash] Additional options forwarded to the
-      #   left icon component.
+      # @option kws left_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the left {Loco::IconComponent} (e.g. `tip:`).
       #
       # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
       #   the left icon.
@@ -57,8 +60,8 @@ module LocoMotion
       # @option kws right_icon_css [String] The CSS classes to apply to the right
       #   icon.
       #
-      # @option kws right_icon_options [Hash] Additional options forwarded to the
-      #   right icon component.
+      # @option kws right_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the right {Loco::IconComponent} (e.g. `tip:`).
       #
       # @option kws right_icon_html [Hash] Additional HTML attributes to apply to
       #   the right icon.
