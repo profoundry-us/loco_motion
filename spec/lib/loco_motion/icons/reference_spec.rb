@@ -30,10 +30,17 @@ RSpec.describe LocoMotion::Icons::Reference do
       expect(result).to eq(library: "lucide", variant: "duotone", name: "heart")
     end
 
-    it "preserves the default types when the token omits a part" do
-      result = described_class.parse("heart", default_library: :lucide, default_variant: nil)
+    it "normalizes library to a String (so refs dedupe/sort regardless of default type)" do
+      from_symbol = described_class.parse("heart", default_library: :lucide, default_variant: nil)
+      from_string = described_class.parse("heart", default_library: "lucide", default_variant: nil)
 
-      expect(result).to eq(library: :lucide, variant: nil, name: "heart")
+      expect(from_symbol).to eq(library: "lucide", variant: nil, name: "heart")
+      expect(from_symbol).to eq(from_string)
+    end
+
+    it "keeps the variant's resolved type" do
+      expect(described_class.parse("heart", default_variant: :outline)[:variant]).to eq(:outline)
+      expect(described_class.parse("heart/solid")[:variant]).to eq("solid")
     end
 
     it "accepts a symbol token" do

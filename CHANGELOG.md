@@ -79,6 +79,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- fix(Icons): `loco_motion:icons:sync` no longer crashes when `config.icon_safelist` is set.
+  `LocoMotion::Icons::Reference.parse` now always returns a String `library`, so scanned references (already
+  strings) and safelist references share one type — previously a `:heroicons` default mixed with the
+  `"heroicons"` scanned values, which neither deduped nor sorted (`comparison of String with Symbol failed`).
+  Refs #204.
 - feat(Icons): Add a local icon cache so treeshaking is fast and offline. A new `loco_motion:icons:cache`
   task downloads the full libraries you reference into `config.icon_cache_path` (default
   `tmp/loco_motion/icons`, which Rails already gitignores), and `loco_motion:icons:sync` now copies the used

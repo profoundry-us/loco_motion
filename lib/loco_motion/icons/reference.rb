@@ -32,8 +32,12 @@ module LocoMotion
       # @param default_variant [String, Symbol, nil] Variant to use when the
       #   token does not name one.
       #
-      # @return [Hash] `{ library:, variant:, name: }` (`name` is always a
-      #   String; `library` / `variant` keep the type of whatever was resolved).
+      # @return [Hash] `{ library:, variant:, name: }`. `name` and `library`
+      #   are always Strings (library names are identifiers, and a consistent
+      #   type lets references dedupe and sort regardless of whether the default
+      #   was passed as a Symbol or String). `variant` keeps the resolved type
+      #   (or `nil`), since some backends distinguish `:outline` from
+      #   `"outline"`.
       #
       def parse(token, default_library: nil, default_variant: nil)
         before_variant, _slash, variant_part = token.to_s.partition("/")
@@ -48,7 +52,7 @@ module LocoMotion
         end
 
         {
-          library: library,
+          library: library&.to_s,
           variant: variant_part.empty? ? default_variant : variant_part,
           name: name
         }
