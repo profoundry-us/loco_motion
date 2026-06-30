@@ -15,7 +15,7 @@
       = @simple_middle
   - elsif @simple_middle_icon
     = part(:middle) do
-      = hero_icon(@simple_middle_icon, **rendered_html(:simple_middle_icon))
+      = loco_icon(@simple_middle_icon, **rendered_html(:simple_middle_icon))
 
   - if end?
     - # end is a reserved word in Ruby, so we have to use send to call it

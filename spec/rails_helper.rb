@@ -19,10 +19,16 @@ require "rspec/rails"
 # If you're using Capybara:
 # require 'capybara/rails'
 
+require_relative "support/heroicon_fixtures"
+
 class ApplicationController < ActionController::Base
 end
 
 RSpec.configure do |config|
+  # Seed the Heroicons that component specs render through the engine into the
+  # ephemeral test app before anything runs.
+  config.before(:suite) { HeroiconFixtures.seed! }
+
   config.include ViewComponent::TestHelpers, type: :component
   config.include ViewComponent::SystemTestHelpers, type: :component
   # config.include Capybara::RSpecMatchers, type: :component
