@@ -91,12 +91,25 @@ module LocoMotion
     #
     attr_accessor :icon_safelist
 
+    #
+    # Where `loco_motion:icons:cache` stores the **full** icon libraries it
+    # downloads, and where `loco_motion:icons:sync` copies from when
+    # treeshaking. Resolved relative to the application root; the default lives
+    # under `tmp/` (which Rails already gitignores) so the full set stays on
+    # your machine while only the used icons are vendored into
+    # `app/assets/svg/icons` and committed.
+    #
+    # @return [String] The local icon cache path
+    #
+    attr_accessor :icon_cache_path
+
     def initialize
       @default_alert_timeout = 5000 # 5 seconds default
       @default_icon_library = :heroicons
       @default_icon_variant = :outline
       @icon_content_paths = ["app/**/*.{rb,erb,haml,slim}"]
       @icon_safelist = []
+      @icon_cache_path = "tmp/loco_motion/icons"
     end
   end
 end

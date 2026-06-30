@@ -12,12 +12,15 @@ module LocoMotion
     #
     # Renders an icon as inline SVG from a vendored or app-synced icon library.
     #
-    # Resolution is **two-tier**: the consuming application's own
-    # `<Rails.root>/app/assets/svg/icons` directory is checked first (so any
-    # library a consumer syncs in — or an icon they override — wins), then
-    # LocoMotion's bundled icons shipped inside the engine. This lets the
-    # default Heroicons work with zero setup while letting consumers add or
-    # override icons without touching the gem.
+    # Resolution checks, in order: the consuming application's own
+    # `<Rails.root>/app/assets/svg/icons` (so any library a consumer syncs in —
+    # or an icon they override — wins); **in development only**, the local icon
+    # cache (`config.icon_cache_path`) so a newly-used icon renders without
+    # re-running `loco_motion:icons:sync`; then LocoMotion's bundled icons
+    # shipped inside the engine. This lets the default Heroicons work with zero
+    # setup while letting consumers add or override icons without touching the
+    # gem. Test and production skip the cache, so the committed set stays the
+    # source of truth.
     #
     # SVG files are parsed in **XML mode** so case-sensitive attributes like
     # `viewBox` (and `clipPath`, `linearGradient`, ...) keep their casing —
@@ -78,6 +81,7 @@ module LocoMotion
       def icon_roots
         roots = []
         roots << ::File.join(application_root, "app/assets/svg/icons") if application_root
+        roots << cache_root if cache_root
         roots << ::File.join(LocoMotion::Engine.root.to_s, "app/assets/svg/icons")
         roots
       end
@@ -86,6 +90,20 @@ module LocoMotion
         return unless defined?(::Rails) && ::Rails.respond_to?(:root) && ::Rails.root
 
         ::Rails.root.to_s
+      end
+
+      # In development only, fall back to the full local cache that
+      # `loco_motion:icons:sync` treeshakes from, so a freshly-used icon renders
+      # on the next refresh without re-running sync. The cache is dev-only
+      # (gitignored, not deployed), so test and production resolve strictly from
+      # the committed `app/assets/svg/icons` — which keeps the treeshaken set
+      # honest: a used-but-unvendored icon fails loudly there instead of being
+      # masked by the cache.
+      def cache_root
+        return unless application_root
+        return unless defined?(::Rails) && ::Rails.respond_to?(:env) && ::Rails.env.development?
+
+        ::File.expand_path(LocoMotion.configuration.icon_cache_path, application_root)
       end
 
       def path_parts

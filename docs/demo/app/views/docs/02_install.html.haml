@@ -267,6 +267,50 @@
     for the full rendering API.
 
 
+.mt-10.prose
+  :markdown
+    ### Keep your vendored set lean (treeshaking)
+
+    `loco_motion:icons:add` vendors a whole library. For larger apps you can
+    instead vendor **only the icons you actually use**, the way Tailwind ships
+    only the classes you reference. Download the full libraries once into a
+    local cache (gitignored), then treeshake into your committed icons:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:icons:cache
+    bin/rails loco_motion:icons:sync
+
+.mt-4.prose
+  :markdown
+    `cache` downloads the full libraries you reference into
+    `tmp/loco_motion/icons` (gitignored). `sync` then scans your app — and
+    `config.icon_safelist` — for icon tokens and copies **only those** from the
+    cache into `app/assets/svg/icons`, so the committed set stays small while
+    the full libraries live on your machine. `sync` auto-downloads any
+    referenced library that isn't cached yet, so the first run just works.
+
+    Dynamically-named icons the scan can't see (e.g. a name built from a
+    variable, `loco_icon(icon_name)`) won't be vendored — list those in
+    `config.icon_safelist` as `[library:]name[/variant]` tokens.
+
+.mt-4.prose
+  :markdown
+    **In development you don't have to re-run `sync` as you work.** Once the
+    cache is populated, any icon in it renders on the next page refresh — the
+    renderer falls back to the cache in development only. `sync` then promotes
+    the icons you actually used into the committed `app/assets/svg/icons` for
+    test and production (which never read the cache), so wire it into a git
+    pre-commit hook to keep the vendored set in step:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "bash") do
+    :plain
+      # .git/hooks/pre-commit
+      #!/bin/sh
+      bin/rails loco_motion:icons:sync && git add app/assets/svg/icons
+
+
 = doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
   - doc.with_description do
     :markdown

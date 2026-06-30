@@ -31,7 +31,14 @@ module LocoMotion
         ::FileUtils.mkdir_p(target)
 
         ::Icons.configure { |config| config.icons_path = target }
-        names.each { |library| ::Icons::Sync.new(library).now }
+        names.each do |library|
+          # Clear any existing copy first. The `icons` gem moves the freshly
+          # cloned set into `<target>/<library>`, and that move silently no-ops
+          # when the directory already exists — so without this, re-syncing a
+          # library (to update it, or to refresh the cache) does nothing.
+          ::FileUtils.rm_rf(::File.join(target, library))
+          ::Icons::Sync.new(library).now
+        end
 
         # The icons gem clones into a `tmp/icons` working directory; clean it up.
         ::FileUtils.rm_rf("tmp/icons")
