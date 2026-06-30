@@ -180,19 +180,19 @@
     = daisy_label(for: "input_icon_prefix", title: "Search with Icon Prefix")
     = daisy_text_input(name: "input_icon_prefix", id: "input_icon_prefix", placeholder: "Search...") do |text_input|
       - text_input.with_start(css: "label") do
-        = hero_icon("magnifying-glass", size: 5, css: "text-gray-400")
+        = loco_icon("magnifying-glass", css: "text-gray-400")
 
     = daisy_label(for: "input_icon_suffix", title: "Email with Icon Suffix", css: "mt-4")
     = daisy_text_input(name: "input_icon_suffix", id: "input_icon_suffix", type: "email", placeholder: "Enter your email") do |text_input|
       - text_input.with_end do
-        = hero_icon("envelope", size: 5, css: "text-gray-400")
+        = loco_icon("envelope", css: "text-gray-400")
 
     = daisy_label(for: "input_icon_both", title: "Input with Both Icons", css: "mt-4")
     = daisy_text_input(name: "input_icon_both", id: "input_icon_both", placeholder: "Username") do |text_input|
       - text_input.with_start do
-        = hero_icon("user", size: 5, css: "text-gray-400")
+        = loco_icon("user", css: "text-gray-400")
       - text_input.with_end do
-        = hero_icon("check", size: 5, css: "text-success")
+        = loco_icon("check", css: "text-success")
 
 
 = doc_example(title: "Rails Form Example") do |doc|

@@ -358,7 +358,7 @@ module Algolia
       cleaned = cleaned.gsub('" do', "")
       cleaned = cleaned.gsub("end", "")
       cleaned = cleaned.gsub("daisy_link", "link to")
-      cleaned = cleaned.gsub("hero_icon", "icon")
+      cleaned = cleaned.gsub("loco_icon", "icon")
       cleaned = cleaned.gsub(/right_icon="[^"]*"/, "")
       cleaned = cleaned.gsub(/right_icon_css="[^"]*"/, "")
       cleaned = cleaned.gsub(/target="[^"]*"/, "")
