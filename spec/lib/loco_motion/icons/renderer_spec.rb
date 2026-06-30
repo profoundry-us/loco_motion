@@ -103,5 +103,37 @@ RSpec.describe LocoMotion::Icons::Renderer do
         expect(svg).not_to include("app-override")
       end
     end
+
+    context "with the development cache fallback" do
+      let(:app_root) { Dir.mktmpdir }
+
+      before do
+        dir = File.join(app_root, "tmp/loco_motion/icons/heroicons/outline")
+        FileUtils.mkdir_p(dir)
+        File.write(
+          File.join(dir, "cache-only-icon.svg"),
+          %(<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ) +
+            %(data-source="cache"><path d="M0 0"/></svg>)
+        )
+        allow_any_instance_of(described_class)
+          .to receive(:application_root).and_return(app_root)
+      end
+
+      after { FileUtils.remove_entry(app_root) }
+
+      it "resolves a cached icon in development without it being vendored" do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development"))
+
+        expect(described_class.new(name: "cache-only-icon").to_svg).to include('data-source="cache"')
+      end
+
+      it "ignores the cache outside development, keeping the vendored set the source of truth" do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+
+        expect do
+          described_class.new(name: "cache-only-icon").to_svg
+        end.to raise_error(LocoMotion::Icons::IconNotFound)
+      end
+    end
   end
 end

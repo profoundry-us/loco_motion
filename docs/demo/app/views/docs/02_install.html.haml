@@ -296,8 +296,12 @@
 
 .mt-4.prose
   :markdown
-    Wire `sync` into a git pre-commit hook so the vendored set always tracks
-    what you use:
+    **In development you don't have to re-run `sync` as you work.** Once the
+    cache is populated, any icon in it renders on the next page refresh — the
+    renderer falls back to the cache in development only. `sync` then promotes
+    the icons you actually used into the committed `app/assets/svg/icons` for
+    test and production (which never read the cache), so wire it into a git
+    pre-commit hook to keep the vendored set in step:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "bash") do

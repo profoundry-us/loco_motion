@@ -84,8 +84,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `tmp/loco_motion/icons`, which Rails already gitignores), and `loco_motion:icons:sync` now copies the used
   icons from that cache instead of re-cloning every run — so once the cache is warm, adding a new icon is a
   fast, offline file copy rather than a network sync. `sync` auto-downloads any referenced library that
-  isn't cached yet, so the first run still works. The Install guide documents the cache → sync flow and a
-  git pre-commit hook that keeps the committed `app/assets/svg/icons` in step with usage. Refs #204.
+  isn't cached yet, so the first run still works. **In development the renderer also falls back to the
+  cache**, so a freshly-used icon renders on the next refresh without re-running `sync` — while test and
+  production read only the committed `app/assets/svg/icons`, keeping the treeshaken set the source of truth.
+  The Install guide documents the cache → sync flow and a git pre-commit hook that keeps the committed set
+  in step with usage. Refs #204.
 - fix(Icons): Re-syncing an already-vendored library now actually refreshes it. `Installer.add` clears each
   library's target directory before syncing, working around the `icons` gem's move silently no-opping when
   the destination exists — so re-running `loco_motion:icons:add` (or refreshing the cache) updates the SVGs
