@@ -45,15 +45,15 @@
   = daisy_dropdown(title: "Sort by", css: "dropdown-end") do |dropdown|
     - dropdown.with_item(label: "Newest first", href: "#", selected: true) do |item|
       - item.with_start do
-        = hero_icon "bars-arrow-down", css: "size-4"
+        = loco_icon "bars-arrow-down", css: "size-4"
       - item.with_end do
-        = hero_icon "check", css: "size-4 text-primary"
+        = loco_icon "check", css: "size-4 text-primary"
     - dropdown.with_item(label: "Oldest first", href: "#") do |item|
       - item.with_start do
-        = hero_icon "bars-arrow-up", css: "size-4"
+        = loco_icon "bars-arrow-up", css: "size-4"
     - dropdown.with_item(href: "#") do |item|
       - item.with_start do
-        = hero_icon "star", css: "size-4"
+        = loco_icon "star", css: "size-4"
       Favorites
 
 

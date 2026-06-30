@@ -40,7 +40,7 @@
       - chat.with_header do
         Unknown Number (555) 883-1234
       - chat.with_footer(css: "text-red-600 mt-1 flex items-center gap-x-2") do
-        = heroicon("exclamation-triangle", variant: :outline, class: "size-4")
+        = loco_icon("exclamation-triangle", variant: :outline, css: "size-4")
         %span
           Failed to send
 
@@ -58,7 +58,7 @@
     = daisy_chat do |chat|
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "chat-bubble-accent flex items-center gap-x-1") do
-        = heroicon "map-pin", class: "size-5"
+        = loco_icon "map-pin", css: "size-5"
         %strong
           Jill
         %span
@@ -83,7 +83,7 @@
       - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
       - chat.with_bubble(css: "chat-bubble-success text-base-200") do
         .flex.justify-center
-          = heroicon "currency-dollar", class: "size-12"
+          = loco_icon "currency-dollar", css: "size-12"
         Jill sent you <strong>$50</strong>.
 
     = daisy_chat(css: "chat-end") do |chat|

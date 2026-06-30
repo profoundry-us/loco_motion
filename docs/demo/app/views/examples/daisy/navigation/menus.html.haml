@@ -62,15 +62,15 @@
       Menus can also contain nested menus. This is useful for organizing a large
       number of options.
 
-  - icon_options = { css: "size-4 mr-1 text-slate-600", variant: :mini }
+  - icon_options = { css: "size-4 mr-1 text-slate-600" }
   = daisy_menu(css: "w-56 bg-base-100 border border-base-300 rounded-lg shadow-md") do |menu|
     - menu.with_item do
       = link_to "#" do
-        = hero_icon("home", **icon_options)
+        = loco_icon("home/mini", **icon_options)
         Home
     - menu.with_item do
       = link_to "#" do
-        = hero_icon("bell-alert", **icon_options)
+        = loco_icon("bell-alert/mini", **icon_options)
         Notifications
     - menu.with_item(title: "Parent") do
       = daisy_menu(css: "w-full") do |menu|
@@ -82,4 +82,4 @@
           - icon_options[:css] += " text-yellow-500!"
           = link_to "#" do
             Child 3
-            = hero_icon("bolt", **icon_options)
+            = loco_icon("bolt/mini", **icon_options)

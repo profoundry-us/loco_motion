@@ -22,7 +22,7 @@
   %div.relative.w-full.h-48{ class: "[&_.fab]:absolute" }
     = daisy_fab do |fab|
       - fab.with_button(css: "btn-primary btn-circle btn-lg") do
-        = hero_icon "plus", css: "size-6"
+        = loco_icon "plus", css: "size-6"
 
 
 = doc_example(title: "FAB with Speed Dial", comp: @comp) do |doc|
@@ -35,13 +35,13 @@
   %div.relative.w-full.h-48{ class: "[&_.fab]:absolute" }
     = daisy_fab do |fab|
       - fab.with_button(css: "btn-primary btn-circle btn-lg") do
-        = hero_icon "plus", css: "size-6"
+        = loco_icon "plus", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = hero_icon "camera", css: "size-6"
+        = loco_icon "camera", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = hero_icon "photo", css: "size-6"
+        = loco_icon "photo", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = hero_icon "microphone", css: "size-6"
+        = loco_icon "microphone", css: "size-6"
 
 
 = doc_example(title: "FAB Flower", comp: @comp) do |doc|
@@ -53,7 +53,7 @@
   %div.relative.w-full.h-48{ class: "[&_.fab]:absolute" }
     = daisy_fab(css: "fab-flower") do |fab|
       - fab.with_button(css: "btn-primary btn-circle btn-lg") do
-        = hero_icon "plus", css: "size-6"
+        = loco_icon "plus", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
         A
       - fab.with_action(css: "btn-circle btn-lg") do
@@ -71,13 +71,13 @@
   %div.relative.w-full.h-48{ class: "[&_.fab]:absolute" }
     = daisy_fab do |fab|
       - fab.with_button(css: "btn-circle btn-lg") do
-        = heroicon "plus", css: "size-6"
+        = loco_icon "plus", css: "size-6"
       - fab.with_main_action do
         = daisy_button(css: "btn-primary") { "Save" }
       - fab.with_action(css: "btn-circle btn-lg") do
-        = heroicon "camera", css: "size-6"
+        = loco_icon "camera", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = heroicon "photo", css: "size-6"
+        = loco_icon "photo", css: "size-6"
 
 
 = doc_example(title: "Custom Activator", comp: @comp) do |doc|
@@ -90,8 +90,8 @@
   %div.relative.w-full.h-48{ class: "[&_.fab]:absolute" }
     = daisy_fab do |fab|
       - fab.with_activator(css: "btn btn-secondary btn-circle btn-lg") do
-        = hero_icon "heart", css: "size-6"
+        = loco_icon "heart", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = hero_icon "share", css: "size-6"
+        = loco_icon "share", css: "size-6"
       - fab.with_action(css: "btn-circle btn-lg") do
-        = hero_icon "bookmark", css: "size-6"
+        = loco_icon "bookmark", css: "size-6"

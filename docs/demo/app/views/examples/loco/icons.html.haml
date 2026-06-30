@@ -36,14 +36,14 @@
 = doc_example(title: "Variants", example_css: "gap-x-2") do |doc|
   - doc.with_description do
     :markdown
-      Heroicons ships four variants. Choose one with the `variant:` option
-      (`:outline` is the default); other libraries expose their own variants /
-      weights the same way (e.g. Phosphor's `:thin` / `:bold` / `:duotone`).
+      Heroicons ships four variants. Append the variant to the icon token —
+      `name/variant` (`outline` is the default); other libraries expose their
+      own variants / weights the same way (e.g. `phosphor:heart/duotone`).
 
-  = loco_icon("bolt", variant: :outline, css: "size-8")
-  = loco_icon("bolt", variant: :solid, css: "size-8")
-  = loco_icon("bolt", variant: :mini, css: "size-5")
-  = loco_icon("bolt", variant: :micro, css: "size-4")
+  = loco_icon("bolt/outline", css: "size-8")
+  = loco_icon("bolt/solid", css: "size-8")
+  = loco_icon("bolt/mini", css: "size-5")
+  = loco_icon("bolt/micro", css: "size-4")
 
 
 = doc_example(title: "Customized Icons", example_css: "gap-x-2") do |doc|

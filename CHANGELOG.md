@@ -198,6 +198,16 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- refactor(Demo): Adopt the icon engine across the demo and dogfood treeshaking. Renamed every direct
+  `hero_icon` / `heroicon` call to `loco_icon` (chrome, the `doc_*` helper components, and example pages),
+  expressing variant / library choices as qualified `[library:]name[/variant]` tokens (e.g.
+  `loco_icon("bolt/solid")`, breadcrumb / menu `*/mini`) so the scanner sees them. Added a demo
+  `config.icon_safelist` for the dynamically-named icons (the `doc_note` modifier defaults, `doc_info`'s
+  default, the `bars-2/3/4` tabs loop, the breadcrumb `*/mini` icons), then ran `loco_motion:icons:sync` to
+  vendor only the icons the demo uses (~91 SVGs across the four Heroicon variants) into
+  `docs/demo/app/assets/svg/icons`. Verified every icon page renders from the committed set alone (dev cache
+  disabled). The universal `icon:` options still render via `rails_heroicon` until that is removed; this
+  commits the set they will resolve from. Refs #204.
 - docs(Install): Add an "Icons" section to the Install guide. It explains that every component's `icon:`
   options render Heroicons with zero setup, introduces the standalone `loco_icon` helper, and documents the
   `loco_motion:icons:add` / `loco_motion:icons:list` tooling for syncing the full Heroicon set or other
