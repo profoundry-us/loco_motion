@@ -167,7 +167,7 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
             %(data-source="testlib"><path d="M0 0"/></svg>)
         )
         render_inline(
-          Daisy::Actions::ButtonComponent.new(icon: "star", icon_library: :testlib)
+          Daisy::Actions::ButtonComponent.new(icon: "testlib:star")
         )
       end
 
@@ -182,7 +182,7 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
     context "with an unsynced non-Heroicons library" do
       it "raises a clear error" do
         expect do
-          render_inline(Daisy::Actions::ButtonComponent.new(icon: "star", icon_library: :not_installed))
+          render_inline(Daisy::Actions::ButtonComponent.new(icon: "not_installed:star"))
         end.to raise_error(LocoMotion::Icons::IconNotFound)
       end
     end
