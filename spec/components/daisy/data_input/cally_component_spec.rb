@@ -105,9 +105,11 @@ RSpec.describe Daisy::DataInput::CallyComponent, type: :component do
     let(:component) { described_class.new }
 
     before do
+      # Use bundled icons so they resolve via the engine without an app icon
+      # sync in the test environment.
       render_inline(component) do |c|
-        c.with_previous_icon(icon: "arrow-left")
-        c.with_next_icon(icon: "arrow-right")
+        c.with_previous_icon(icon: "x-mark")
+        c.with_next_icon(icon: "check")
       end
     end
 

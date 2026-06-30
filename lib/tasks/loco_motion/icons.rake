@@ -118,7 +118,10 @@ namespace :loco_motion do
       require "fileutils"
       require "tmpdir"
 
-      curated = %w[x-mark check trash]
+      # Icons LocoMotion components render internally, bundled so they work
+      # with zero consumer sync: x-mark (Alert / Modal close), check / trash
+      # (ThemeController), chevron-left / chevron-right (Cally month nav).
+      curated = %w[x-mark check trash chevron-left chevron-right]
       engine_target = LocoMotion::Engine.root.join("app/assets/svg/icons/heroicons")
 
       Dir.mktmpdir do |tmp|

@@ -36,7 +36,7 @@ module Daisy
       # A component for the previous navigation icon in the calendar header.
       #
       # @note This is used internally by CallyComponent
-      class PreviousIcon < Hero::IconComponent
+      class PreviousIcon < Loco::IconComponent
         def before_render
           super
 
@@ -47,7 +47,7 @@ module Daisy
       # A component for the next navigation icon in the calendar header.
       #
       # @note This is used internally by CallyComponent
-      class NextIcon < Hero::IconComponent
+      class NextIcon < Loco::IconComponent
         def before_render
           super
 
