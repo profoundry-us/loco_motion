@@ -5,7 +5,7 @@
 # that are styled to look like a clickable element.
 #
 # Note that we do **not** use component parts for the icons since we're calling
-# `heroicon` within the component. But we **do** provide custom CSS & HTML
+# `loco_icon` within the component. But we **do** provide custom CSS & HTML
 # options to allow overriding / customization.
 #
 # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy

@@ -19,6 +19,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `loco_icon(:bell)`, `icon: :star` — not just string literals, so a symbol-named icon is no longer silently
   dropped from the vendored set. (Bare Ruby symbols can't hold hyphens, slashes, or colons, so hyphenated /
   qualified token names still need strings.)
+- docs(Icons): Reword the remaining component param docs that described `icon:` options as "the Heroicon name"
+  / "Uses the Heroicon system" to reflect the pluggable `loco_icon` engine — icons resolve from any synced
+  library, not just Heroicons (Alert, Avatar, Stat, TimelineEvent, ThemeController, Button).
 
 - docs(Icons): Update the YARD `@loco_example` blocks across the DaisyUI components to use `loco_icon` instead
   of the removed `hero_icon` / `heroicon` helper (31 examples in 18 components). Translates the old

@@ -61,7 +61,7 @@ module Daisy
       # @option kws src [String] URL to the avatar image. If not provided, the
       #   component will display an icon or placeholder content.
       #
-      # @option kws icon [String] Name of the Heroicon to display when no image is
+      # @option kws icon [String] Name of the icon to display when no image is
       #   provided. If neither src nor icon is provided, placeholder content from
       #   the block will be shown.
       #

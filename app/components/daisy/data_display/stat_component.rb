@@ -82,7 +82,7 @@ module Daisy
       # @option kws [String] :src URL of an image to display in the figure
       #   section.
       #
-      # @option kws [String] :icon Name of a heroicon to display in the figure
+      # @option kws [String] :icon Name of an icon to display in the figure
       #   section.
       #
       # @option kws [String] :tip The tooltip text to display when hovering over
