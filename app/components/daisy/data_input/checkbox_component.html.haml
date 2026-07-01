@@ -1,3 +1,8 @@
+-# The companion hidden field must precede the checkbox so that, when the box
+-# is checked, the checkbox's value wins (last value with the same name).
+- if render_hidden?
+  = part(:hidden)
+
 - if has_any_label?
   = part(:label_wrapper) do
     - if has_start_label?

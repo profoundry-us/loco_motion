@@ -203,6 +203,13 @@
       checkboxes in your pages by extracting the name and ID attributes from the
       form object and attributes.
 
+    = doc_note(css: "mb-8") do
+      :markdown
+        Like Rails' own `check_box`, every named, enabled checkbox also emits a
+        companion hidden field just before the input, so an **unchecked** box
+        still submits a value (`"0"` by default — customize it with
+        `unchecked_value`). Pass `include_hidden: false` to opt out.
+
   = form_with(url: "#", method: :post, scope: :user, class: "flex flex-col gap-8") do |form|
     = form.daisy_label(:terms) do
       = form.daisy_checkbox(:terms)
