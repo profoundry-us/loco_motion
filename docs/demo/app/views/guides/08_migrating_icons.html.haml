@@ -57,19 +57,23 @@
     ## 2. Replace `hero_icon` with `loco_icon`
 
     The `hero_icon` helper (and the `heroicon` alias) have been removed. Rename
-    calls to `loco_icon`. A bare name works as-is; fold any variant into a
-    **token** (see step 5) so the treeshaking sync can see it:
+    calls to `loco_icon`:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
     :plain
       -# Before
       = hero_icon("academic-cap")
-      = hero_icon("bolt", variant: :solid)
 
       -# After
       = loco_icon("academic-cap")
-      = loco_icon("bolt/solid")
+
+.mt-4.prose
+  :markdown
+    If a call specified a variant or library, fold it into the icon name as a
+    **token** rather than a separate option:
+    `hero_icon("bolt", variant: :solid)` becomes `loco_icon("bolt/solid")`.
+    See step 5 for the full token format (it's also what the sync scans).
 
 .mt-12.prose
   :markdown
@@ -107,7 +111,7 @@
   :markdown
     ## 5. Libraries and variants
 
-    Specify a library or variant with a **token** — a single string in the form
+    Specify a library or variant with a **token** — one string in the form
     `library:name/variant`, the same way [Iconify](https://iconify.design)
     names icons. The treeshaking sync scans your source for these strings, so
     keeping the library and variant *in the token* (rather than in separate
