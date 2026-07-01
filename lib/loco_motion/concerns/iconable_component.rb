@@ -128,7 +128,7 @@ module LocoMotion
       end
 
       #
-      # Renders the left icon as a Hero::IconComponent instance.
+      # Renders the left icon through the `loco_icon` engine.
       #
       # @return [String] The rendered HTML for the icon
       #
@@ -152,19 +152,11 @@ module LocoMotion
 
       private
 
-      # The library whose icons LocoMotion still renders via rails_heroicon.
-      HEROICONS_LIBRARY = "heroicons"
-
       #
-      # Renders the `:left` or `:right` icon, picking the backend by library.
-      # The default Heroicons library renders through `hero_icon`
-      # (rails_heroicon) so it works without the consumer syncing any icons;
-      # every other library renders through the `loco_icon` engine, which
-      # resolves from the app's synced `app/assets/svg/icons`.
-      #
-      # NOTE: The Heroicons branch is transitional. Once Heroicons are synced /
-      # vendored like every other library and `rails_heroicon` is removed, this
-      # collapses to a single `loco_icon` call.
+      # Renders the `:left` or `:right` icon through the `loco_icon` engine,
+      # which resolves the SVG from the app's synced `app/assets/svg/icons`
+      # (falling back to the icons LocoMotion bundles). Every library —
+      # including the default Heroicons — flows through this single path.
       #
       def render_managed_icon(side)
         ref = LocoMotion::Icons::Reference.parse(
@@ -180,11 +172,7 @@ module LocoMotion
           variant: ref[:variant]
         }.merge(options)
 
-        if ref[:library].to_s == HEROICONS_LIBRARY
-          hero_icon(ref[:name], **shared)
-        else
-          loco_icon(ref[:name], library: ref[:library], **shared)
-        end
+        loco_icon(ref[:name], library: ref[:library], **shared)
       end
 
       #

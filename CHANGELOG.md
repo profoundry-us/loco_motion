@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Icons): Route managed component icons through the `loco_icon` engine instead of `rails_heroicon`.
+  Every component option that takes an icon name (`icon:` / `left_icon:` / `right_icon:`, and the Timeline
+  event's `middle_icon`) now resolves like every other library — from the icons synced into your app's
+  `app/assets/svg/icons`, falling back to the small chrome set bundled in the engine. **Breaking:** apps that
+  use Heroicons in component options must sync them once (`bin/rails loco_motion:icons:add heroicons`, then
+  `loco_motion:icons:sync` to treeshake). The `hero_icon` helper and `Hero::IconComponent` are unchanged for
+  now and still render the full Heroicons set without a sync.
 - feat(Linkable): Add first-class `turbo_frame`, `turbo_method`, and `turbo_confirm` options to every linkable
   component (anything that already takes `href:` — buttons, links, cards, badges, etc.). They map to the
   `data-turbo-frame` / `data-turbo-method` / `data-turbo-confirm` attributes, so common Turbo patterns no

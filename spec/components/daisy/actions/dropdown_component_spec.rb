@@ -230,7 +230,7 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
 
     before do
       render_inline(described_class.new(title, css: custom_class)) do |d|
-        d.with_button(css: "btn-primary", icon: "menu") { title }
+        d.with_button(css: "btn-primary", icon: "bars-3") { title }
         items.each { |item| d.with_item { item } }
       end
     end
