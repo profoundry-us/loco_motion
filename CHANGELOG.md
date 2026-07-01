@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Demo): Lay out the "Theme Radio with Inline Preview" example as a row. The radio's `end` slot wraps its
+  content in a plain `<div>` (the `BasicComponent` slot wrapper), so the block-level theme preview stacked
+  above the theme name instead of flowing beside it — the example had rendered this way since it was added.
+  Fixed by styling the slot wrapper via `with_end(css: "flex items-center gap-2")`; the matching
+  `build_radio_input` YARD example gets the same fix, and the demo text now calls out the `css:` on
+  `with_end`.
+
 - docs(Modal): Add a "Blurred Backdrop" example — pass a stock Tailwind utility via the modal's existing
   `backdrop_css` option (`backdrop_css: "backdrop-blur-sm"`) to frost the page behind an open modal. Added to
   the component's YARD examples and the demo page, with a note on Tailwind v4 sizing (there is no bare
