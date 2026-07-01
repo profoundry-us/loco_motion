@@ -59,7 +59,7 @@ module Daisy
       # @option kws [String] :middle Text to display in the middle section. You
       #   can also provide custom content using the middle slot.
       #
-      # @option kws [String] :middle_icon Name of a heroicon to display in the
+      # @option kws [String] :middle_icon Name of an icon to display in the
       #   middle section. Ignored if middle is provided.
       #
       # @option kws [String] :end Text to display in the end section. You can

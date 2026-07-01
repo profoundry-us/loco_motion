@@ -5,8 +5,8 @@
 # show information, success messages, warnings, or errors. Alerts can include
 # an optional icon at the start and customizable content.
 #
-# @part icon             [Heroicon] An optional icon displayed at the start of
-#   the alert. Uses the Heroicon system.
+# @part icon             [String] An optional icon displayed at the start of
+#   the alert. Rendered via the `loco_icon` engine.
 #
 # @part content_wrapper  [HTML] A wrapper for the main content of the alert.
 #   This allows for proper spacing and alignment with the icon.
@@ -150,8 +150,8 @@ module Daisy
       # @param args [Array] Positional arguments passed to the parent class.
       # @param kws  [Hash]  Keyword arguments for customizing the alert.
       #
-      # @option kws icon      [String] The name of the Heroicon to display at the
-      #   start of the alert.
+      # @option kws icon      [String] The name (or `[library:]name[/variant]`
+      #   token) of the icon to display at the start of the alert.
       #
       # @option kws icon_html [Hash] Additional HTML attributes for the icon
       #   element. Options include `variant: :outline` or `variant: :solid`.
