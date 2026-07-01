@@ -106,4 +106,19 @@ RSpec.describe Daisy::DataInput::ToggleComponent, type: :component do
     expect(page).to have_css("label")
     expect(page).to have_css("input[type='checkbox']")
   end
+
+  it "renders the companion hidden field before the toggle (inherited)" do
+    render_inline(described_class.new(name: "notifications"))
+
+    expect(page).to have_css(
+      "input[type='hidden'][name='notifications'][value='0'] + input.toggle",
+      visible: :all
+    )
+  end
+
+  it "omits the hidden field when include_hidden is false" do
+    render_inline(described_class.new(name: "notifications", include_hidden: false))
+
+    expect(page).not_to have_css("input[type='hidden']", visible: :all)
+  end
 end

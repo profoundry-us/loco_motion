@@ -5,6 +5,14 @@
 # It can be used standalone or with a form builder, and supports various styling
 # options including toggle mode for switch-like appearance.
 #
+# Like Rails' own `check_box`, a named, enabled checkbox also emits a
+# companion hidden field just before the input (an unchecked box submits
+# nothing, so the hidden field supplies the "off" value — `"0"` by default).
+# Pass `include_hidden: false` to opt out.
+#
+# @part hidden The companion hidden input that submits `unchecked_value` when
+#   the box is unchecked. Rendered only for a named, enabled checkbox with
+#   `include_hidden` on.
 # @part label_wrapper The wrapper element for labels (when using
 #   start/end/floating labels).
 # @part start The element that contains the start label (appears before the
@@ -42,13 +50,19 @@
 #     - checkbox.with_end do
 #       %span.text-secondary I agree to the terms
 #
+# @loco_example Without the Companion Hidden Field
+#   = daisy_checkbox(name: "accept", id: "accept", include_hidden: false)
+#
 module Daisy
   module DataInput
     class CheckboxComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent
 
-      attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required
+      define_parts :hidden
+
+      attr_reader :name, :id, :value, :checked, :toggle, :disabled, :required,
+                  :include_hidden, :unchecked_value
 
       #
       # Instantiate a new Checkbox component.
@@ -74,6 +88,14 @@ module Daisy
       # @option kws required [Boolean] Whether the checkbox is required for form
       #   validation. Defaults to false.
       #
+      # @option kws include_hidden [Boolean] Whether to render a companion
+      #   hidden field before the checkbox so an unchecked box still submits a
+      #   value (mirrors Rails' `check_box`). Only applies when a `name` is
+      #   given and the checkbox is not disabled. Defaults to true.
+      #
+      # @option kws unchecked_value [String] The value the companion hidden
+      #   field submits when the box is unchecked. Defaults to "0".
+      #
       def initialize(**kws)
         super
 
@@ -84,6 +106,8 @@ module Daisy
         @toggle = config_option(:toggle, false)
         @disabled = config_option(:disabled, false)
         @required = config_option(:required, false)
+        @include_hidden = config_option(:include_hidden, true)
+        @unchecked_value = config_option(:unchecked_value, "0")
       end
 
       #
@@ -93,11 +117,38 @@ module Daisy
         super
 
         setup_labels
+        setup_hidden
         setup_component
       end
 
       def setup_labels
         add_css(:label_wrapper, "label") if has_any_label?
+      end
+
+      #
+      # Whether to render the companion hidden field. A hidden companion only
+      # makes sense for a named, enabled input — Rails likewise omits it for
+      # disabled checkboxes (a disabled control submits nothing at all).
+      #
+      def render_hidden?
+        @include_hidden && @name.present? && !@disabled
+      end
+
+      #
+      # Configures the companion hidden field (see {render_hidden?}). It shares
+      # the checkbox's `name` and is emitted first, so when the box is checked
+      # the checkbox's value wins (the last value with the same name).
+      #
+      def setup_hidden
+        return unless render_hidden?
+
+        set_tag_name(:hidden, :input)
+        add_html(:hidden, {
+                   type: "hidden",
+                   name: @name,
+                   value: @unchecked_value,
+                   autocomplete: "off"
+                 })
       end
 
       #
