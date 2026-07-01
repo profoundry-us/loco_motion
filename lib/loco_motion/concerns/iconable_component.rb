@@ -168,11 +168,12 @@ module LocoMotion
 
         shared = {
           css: non_shrinking_icon_css(instance_variable_get("@#{side}_icon_css")),
-          html: instance_variable_get("@#{side}_icon_html"),
-          variant: ref[:variant]
+          html: instance_variable_get("@#{side}_icon_html")
         }.merge(options)
 
-        loco_icon(ref[:name], library: ref[:library], **shared)
+        # Re-encode the parsed reference as a fully-qualified token; loco_icon
+        # takes the library and variant from the token, not separate options.
+        loco_icon("#{ref[:library]}:#{ref[:name]}/#{ref[:variant]}", **shared)
       end
 
       #

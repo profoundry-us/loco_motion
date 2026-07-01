@@ -21,9 +21,9 @@
 #   %span.text-blue-500
 #     = loco_icon("archive-box")
 #
-# @loco_example Variants
-#   = loco_icon("bolt", variant: :solid)
-#   = loco_icon("bolt", variant: :mini)
+# @loco_example Variants (append `/variant` to the name)
+#   = loco_icon("bolt/solid")
+#   = loco_icon("bolt/mini")
 #
 # @loco_example Customized icons
 #   = loco_icon("no-symbol", css: "size-4 text-red-600")
@@ -31,8 +31,8 @@
 #   = loco_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
 #
 # @loco_example Another library (after syncing it into your app)
-#   = loco_icon("heart", library: :lucide)
-#   = loco_icon("heart", library: :phosphor, variant: :duotone)
+#   = loco_icon("lucide:heart")
+#   = loco_icon("phosphor:heart/duotone")
 #
 module Loco
   class IconComponent < LocoMotion::BaseComponent
@@ -49,16 +49,13 @@ module Loco
     #
     # @param kws [Hash] The keyword arguments for the component.
     #
-    # @option kws icon [String] The name of the icon to display.
-    #
-    # @option kws library [String, Symbol] The icon library to render from.
-    #   Defaults to `LocoMotion.configuration.default_icon_library`
-    #   (`:heroicons` out of the box). Any library synced into the app is valid.
-    #
-    # @option kws variant [String, Symbol] The library variant / weight to use.
-    #   Defaults to `LocoMotion.configuration.default_icon_variant` (`:outline`);
-    #   e.g. `:solid`, `:mini`, `:micro`, or Phosphor's `:thin` / `:bold` /
-    #   `:duotone`.
+    # @option kws icon [String] The icon to display, as a
+    #   `[library:]name[/variant]` token (e.g. `"academic-cap"`,
+    #   `"lucide:heart"`, `"bolt/solid"`, `"phosphor:gear/bold"`). The library
+    #   and variant default to `LocoMotion.configuration.default_icon_library`
+    #   (`:heroicons`) and `default_icon_variant` (`:outline`). Encode a
+    #   non-default library or variant in the token — there are no separate
+    #   `library:` / `variant:` options.
     #
     # @option kws css [String] Additional CSS classes for styling. Common
     #   options include:
@@ -70,13 +67,17 @@ module Loco
     #   the icon.
     #
     def initialize(*args, **kws, &block)
+      if kws.key?(:library) || kws.key?(:variant)
+        raise ArgumentError,
+              "loco_icon no longer accepts `library:` or `variant:` — encode " \
+              "them in the icon token instead, e.g. " \
+              'loco_icon("lucide:heart/duotone").'
+      end
+
       super
 
       # Accept either the :icon keyword argument or the first positional argument
       @icon = config_option(:icon, args[0])
-      @library = config_option(:library, LocoMotion.configuration.default_icon_library)
-      @variant = config_option(:variant, LocoMotion.configuration.default_icon_variant)
-
       @css = config_option(:css, "")
     end
 
@@ -96,8 +97,8 @@ module Loco
     def call
       LocoMotion::Icons::Renderer.new(
         name: @icon,
-        library: @library,
-        variant: @variant,
+        library: LocoMotion.configuration.default_icon_library,
+        variant: LocoMotion.configuration.default_icon_variant,
         attributes: rendered_html(:component)
       ).to_svg.html_safe
     end

@@ -5,7 +5,7 @@
     - @nav_sections.each do |section|
       %li
         %h2.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1.tracking-wide
-          = loco_icon(section[:icon], variant: :outline, css: "text-#{section[:icon_color]}")
+          = loco_icon(section[:icon], css: "text-#{section[:icon_color]}")
           = section[:title]
 
         %ul.ml-5

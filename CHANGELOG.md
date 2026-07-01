@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Icons): Drop the `variant:` and `library:` options from `loco_icon` / `Loco::IconComponent`. Encode
+  the library/variant in the token instead — `loco_icon("bolt/solid")`, `loco_icon("lucide:heart")`,
+  `loco_icon("phosphor:gear/bold")`. The token is the one form the treeshaking sync can scan, so this keeps
+  `loco_motion:icons:sync` reliable. Passing either option now raises an `ArgumentError` pointing at the token
+  form. **Breaking:** convert any `loco_icon(name, variant:/library:)` calls to tokens.
 - feat(Icons): Expand the icon set bundled inside the engine so more components work with zero setup. Adds the
   standard Alert icons (`information-circle`, `check-circle`, `exclamation-triangle`, `exclamation-circle`)
   and the ThemeController's `swatch` alongside the existing chrome set (`x-mark`, `check`, `trash`, the Cally
