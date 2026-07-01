@@ -196,21 +196,23 @@
   :markdown
     ## 4. Icons
 
-    Icons work out of the box — every component that accepts an `icon:` (and
-    `left_icon:` / `right_icon:`) renders [Heroicons](https://heroicons.com)
-    with no extra setup:
+    LocoMotion bundles a small set of icons, so common component icons render
+    with no setup. Every component that accepts an `icon:` (and `left_icon:` /
+    `right_icon:`) renders through the `loco_icon` engine:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
     :plain
       = daisy_button("Save", icon: "check")
-      = daisy_alert(icon: "information-circle", css: "alert-info")
+      = daisy_button("Delete", icon: "trash", css: "btn-error")
 
 .mt-4.prose
   :markdown
-    For standalone icons, use the `loco_icon` helper. LocoMotion bundles only a
-    small curated set inside the gem to keep it lean, so to render the **full**
-    Heroicon set — or to use another library — sync it into your app once:
+    That built-in set is intentionally tiny (just the icons LocoMotion's own
+    chrome needs). To render the **full** [Heroicons](https://heroicons.com)
+    set — including names like `information-circle` — or to use another
+    library, sync it into your app once. This applies to standalone
+    `loco_icon` calls **and** to component `icon:` options:
 
 .max-w-prose
   = daisy_code(css: "my-4", prefix: "$") do

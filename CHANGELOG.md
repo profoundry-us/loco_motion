@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Icons): Add a "Migrating to the Icon Engine" guide covering the move off `rails_heroicon` — syncing
+  icons, renaming `hero_icon` → `loco_icon`, replacing `Hero::IconComponent`, component `icon:` options, and
+  the `library:name/variant` token grammar. Also correct the Install guide's Icons section, which still
+  claimed component icons render "with no extra setup" — only the small bundled set does; the full Heroicons
+  set now needs a one-time sync.
 - refactor(Icons): Remove the `Hero::IconComponent` wrapper. It was a thin ViewComponent around the
   `hero_icon` helper that predated the `loco_icon` engine; `loco_icon` (and its `daisy_*` component options)
   now cover every use. Drops the component, its registry entry, the `Hero` module, and the demo's
