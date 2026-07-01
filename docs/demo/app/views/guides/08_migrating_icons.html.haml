@@ -47,15 +47,18 @@
 
 .mt-4.prose
   :markdown
-    Either command writes SVGs into `app/assets/svg/icons/` — commit them, and
-    they render as inline `<svg>` with no runtime dependency on any gem.
+    Both commands give each library its own folder —
+    `app/assets/svg/icons/<library>/<variant>/` (e.g.
+    `app/assets/svg/icons/heroicons/outline/`). Commit the SVGs; they render as
+    inline `<svg>` with no runtime dependency on any gem.
 
 .mt-12.prose
   :markdown
     ## 2. Replace `hero_icon` with `loco_icon`
 
     The `hero_icon` helper (and the `heroicon` alias) have been removed. Rename
-    calls to `loco_icon` — the arguments are the same:
+    calls to `loco_icon`. A bare name works as-is; fold any variant into a
+    **token** (see step 5) so the treeshaking sync can see it:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
@@ -66,7 +69,7 @@
 
       -# After
       = loco_icon("academic-cap")
-      = loco_icon("bolt", variant: :solid)
+      = loco_icon("bolt/solid")
 
 .mt-12.prose
   :markdown
@@ -90,30 +93,33 @@
 
     Options like `icon:`, `left_icon:`, `right_icon:`, and the Timeline event's
     `middle_icon:` now resolve through the same engine. They work with **no
-    setup for the bundled icons**, but any other name — like
-    `information-circle` — must be synced first (see step 1):
+    setup for the bundled icons** (LocoMotion's chrome plus the standard alert
+    icons), but any other name — like `shopping-cart` — must be synced first
+    (see step 1):
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
     :plain
-      = daisy_button("Save", icon: "check")          -# bundled, no sync
-      = daisy_alert(icon: "information-circle")       -# needs a sync
+      = daisy_alert(icon: "information-circle")      -# bundled, no sync
+      = daisy_button("Cart", icon: "shopping-cart")  -# needs a sync
 
 .mt-12.prose
   :markdown
     ## 5. Libraries and variants
 
-    You can still pass `variant:` and `library:`, but the engine also accepts a
-    single **token** in the form `library:name/variant`. This is handy when the
-    icon name is dynamic or when you want everything in one string:
+    Specify a library or variant with a **token** — a single string in the form
+    `library:name/variant`, the same way [Iconify](https://iconify.design)
+    names icons. The treeshaking sync scans your source for these strings, so
+    keeping the library and variant *in the token* (rather than in separate
+    options) is what lets `loco_motion:icons:sync` find and vendor the exact
+    icons you use:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
     :plain
-      = loco_icon("bolt", variant: :solid)      -# kwargs
-      = loco_icon("bolt/solid")                 -# token: name + variant
-      = loco_icon("lucide:heart")               -# token: another library
-      = loco_icon("phosphor:gear/bold")         -# token: library + variant
+      = loco_icon("bolt/solid")           -# a variant
+      = loco_icon("lucide:heart")         -# another library
+      = loco_icon("phosphor:gear/bold")   -# library + variant
 
 .mt-4.prose
   :markdown
@@ -124,7 +130,7 @@
   :markdown
     ## Summary
 
-    - Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit the SVGs.
+    - Run `loco_motion:icons:add heroicons` (or `:sync`) once; commit the SVGs.
     - Rename `hero_icon` / `heroicon` to `loco_icon`.
     - Replace `Hero::IconComponent` with `loco_icon`.
     - Sync any icon a component references that isn't in the bundled set.
