@@ -41,7 +41,7 @@
 #     - card.with_top_figure(src: "header.jpg")
 #     - card.with_title do
 #       .flex.items-center.gap-2
-#         = heroicon "star"
+#         = loco_icon("star")
 #         Featured Article
 #     %p{ class: "text-base-content/70" } A beautifully designed card with rich content.
 #     - card.with_bottom_figure(src: "footer.jpg")

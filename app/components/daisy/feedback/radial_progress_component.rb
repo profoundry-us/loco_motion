@@ -14,7 +14,7 @@
 #
 # @loco_example With Icons
 #   = daisy_radial(value: 68) do
-#     = hero_icon("beaker", css: "size-8 text-purple-500")
+#     = loco_icon("beaker", css: "size-8 text-purple-500")
 #
 #   = daisy_radial(value: 52, css: "text-success") do
 #     52%

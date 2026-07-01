@@ -35,7 +35,7 @@
 #       - event.with_start do
 #         .font-bold Jan 2024
 #       - event.with_middle do
-#         = heroicon "star"
+#         = loco_icon("star")
 #       - event.with_end do
 #         %h3.font-bold Milestone Reached
 #

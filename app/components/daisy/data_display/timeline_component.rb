@@ -39,7 +39,7 @@
 #
 #       - event.with_middle do
 #         .bg-primary.text-primary-content.p-2.rounded-full
-#           = heroicon "star"
+#           = loco_icon("star")
 #
 #       - event.with_end do
 #         %h3.font-bold Milestone Reached

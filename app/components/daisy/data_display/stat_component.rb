@@ -35,7 +35,7 @@
 #   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
 #     = stat.with_description do
 #       .flex.items-center.gap-1
-#         = heroicon "arrow-up", class: "size-4 text-success"
+#         = loco_icon("arrow-up", css: "size-4 text-success")
 #         %span.text-success 14%
 #         from last month
 #
@@ -43,7 +43,7 @@
 #   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
 #     = stat.with_figure do
 #       .text-success
-#         = heroicon "check-circle", class: "size-10"
+#         = loco_icon("check-circle", css: "size-10")
 #
 module Daisy
   module DataDisplay

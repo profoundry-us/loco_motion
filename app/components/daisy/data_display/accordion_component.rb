@@ -37,7 +37,7 @@
 #     - accordion.with_section do |section|
 #       - section.with_title do
 #         .flex.items-center.gap-2
-#           = heroicon "star"
+#           = loco_icon("star")
 #           Featured Section
 #       This is the content of the featured section
 #

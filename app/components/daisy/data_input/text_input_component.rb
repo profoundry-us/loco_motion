@@ -45,12 +45,12 @@
 # @loco_example With Icons
 #   = daisy_text_input(name: "search", placeholder: "Search...") do |text_input|
 #     - text_input.with_start do
-#       = hero_icon("magnifying-glass", size: 5, css: "text-gray-400")
+#       = loco_icon("magnifying-glass", css: "size-5 text-gray-400")
 #
 # @loco_example With Start and End Content
 #   = daisy_text_input(name: "email", placeholder: "Email address") do |text_input|
 #     - text_input.with_start do
-#       = hero_icon("envelope", size: 5, css: "text-gray-400")
+#       = loco_icon("envelope", css: "size-5 text-gray-400")
 #     - text_input.with_end do
 #       = daisy_button(title: "Verify", css: "h-full rounded-l-none")
 #

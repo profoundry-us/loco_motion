@@ -33,7 +33,7 @@
 #       %span.text-lg.italic Brand
 #
 #     - navbar.with_center do
-#       = hero_icon("code-bracket", css: "size-14")
+#       = loco_icon("code-bracket", css: "size-14")
 #
 #     - navbar.with_end do
 #       = daisy_dropdown do |dropdown|

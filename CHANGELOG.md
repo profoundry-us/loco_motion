@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Icons): Update the YARD `@loco_example` blocks across the DaisyUI components to use `loco_icon` instead
+  of the removed `hero_icon` / `heroicon` helper (31 examples in 18 components). Translates the old
+  `rails_heroicon` `size:` / `class:` options to `loco_icon`'s `css:` (e.g. `size: 5` becomes
+  `css: "size-5 …"`). Documentation only — no behavior change.
+
 - refactor(Icons): Drop the `rails_heroicon` dependency. LocoMotion no longer bundles `rails_heroicon` or
   exposes the `hero_icon` / `heroicon` helpers — every icon now renders through the `loco_icon` engine.
   Removes the gem (runtime and dev), its `require`s, and the `RailsHeroicon::Helper` include from
