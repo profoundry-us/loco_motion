@@ -9,10 +9,10 @@ module LocoMotion
     #
     # It is intentionally a plain regex scan (no Ruby evaluation), so it is
     # fully deterministic: the same source always yields the same set. It
-    # recognizes the `loco_icon` / `hero_icon` helpers (first string argument or
-    # `icon:`) and the universal `icon:` / `left_icon:` / `right_icon:` /
-    # `middle_icon:` options. The icon's library and variant come from the
-    # token itself — `[library:]name[/variant]` (see
+    # recognizes the `loco_icon` helper and the universal
+    # `icon:` / `left_icon:` / `right_icon:` / `middle_icon:` options, whether
+    # the name is a string (`"home"`) or a symbol (`:home`). The library and
+    # variant come from the token itself — `[library:]name[/variant]` (see
     # {LocoMotion::Icons::Reference}) — so a reference is self-contained and the
     # scan never has to guess from other arguments that may be on another line.
     #
@@ -21,13 +21,19 @@ module LocoMotion
     # {LocoMotion::Configuration#icon_safelist}.
     #
     class Scanner
-      # The qualified token in a `loco_icon("foo")` / `hero_icon "foo"` call.
-      HELPER = %r{\b(?:loco_icon|hero_icon)\s*\(?\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
+      # The qualified token in a `loco_icon("foo")` call.
+      HELPER = %r{\bloco_icon\s*\(?\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
 
       # A token passed via icon:/left_icon:/right_icon:/middle_icon: (also covers
       # `loco_icon(icon: "foo")`). Longest keys first so `icon` does not win
       # inside `left_icon`.
       KWARG = %r{\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
+
+      # The symbol forms — `loco_icon(:home)` and `icon: :home`. A bare Ruby
+      # symbol can't contain `-`, `/`, or `:`, so these only ever name a single
+      # simple icon (tokens / hyphenated names must be strings).
+      HELPER_SYMBOL = /\bloco_icon\s*\(?\s*:([a-z0-9][a-z0-9_]*)\b/
+      KWARG_SYMBOL = /\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*:([a-z0-9][a-z0-9_]*)\b/
 
       #
       # @param paths [Array<String>] Glob patterns to scan (relative to root).
@@ -78,7 +84,8 @@ module LocoMotion
       end
 
       def line_references(line)
-        tokens = line.scan(HELPER).map(&:last) + line.scan(KWARG).map(&:last)
+        tokens = line.scan(HELPER).map(&:last) + line.scan(KWARG).map(&:last) +
+                 line.scan(HELPER_SYMBOL).map(&:last) + line.scan(KWARG_SYMBOL).map(&:last)
 
         tokens.uniq.map { |token| Reference.parse(token, default_library: @default_library) }
       end
