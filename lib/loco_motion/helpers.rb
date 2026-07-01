@@ -11,10 +11,6 @@ module LocoMotion
 
     "Loco::IconComponent" => { names: "icon", group: "Loco", title: "Icons", example: "icons" },
 
-    ### Hero Components
-
-    "Hero::IconComponent" => { names: "icon", group: "Hero", title: "Icons", example: "icons" },
-
     ### Daisy Components
 
     # Actions
