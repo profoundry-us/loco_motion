@@ -33,7 +33,7 @@
 
   = daisy_breadcrumbs do |breadcrumbs|
     - links.each do |link|
-      - breadcrumbs.with_item(title: link[0], href: "#", icon: link[1], icon_css: "size-4 mr-1 text-base-content/50", icon_options: { variant: :mini })
+      - breadcrumbs.with_item(title: link[0], href: "#", icon: "#{link[1]}/mini", icon_css: "size-4 mr-1 text-base-content/50")
 
 
 = doc_example(title: "Custom Breadcrumbs") do |doc|
