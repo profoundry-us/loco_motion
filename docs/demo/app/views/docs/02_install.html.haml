@@ -196,9 +196,9 @@
   :markdown
     ## 4. Icons
 
-    Icons work out of the box — every component that accepts an `icon:` (and
-    `left_icon:` / `right_icon:`) renders [Heroicons](https://heroicons.com)
-    with no extra setup:
+    LocoMotion bundles a small set of icons, so common component icons render
+    with no setup. Every component that accepts an `icon:` (and `left_icon:` /
+    `right_icon:`) renders through the `loco_icon` engine:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
@@ -208,9 +208,11 @@
 
 .mt-4.prose
   :markdown
-    For standalone icons, use the `loco_icon` helper. LocoMotion bundles only a
-    small curated set inside the gem to keep it lean, so to render the **full**
-    Heroicon set — or to use another library — sync it into your app once:
+    That built-in set covers LocoMotion's own chrome plus the standard alert
+    icons. To render the **full** [Heroicons](https://heroicons.com) set —
+    including names like `academic-cap` — or to use another library, sync it
+    into your app once. This applies to standalone `loco_icon` calls **and**
+    to component `icon:` options:
 
 .max-w-prose
   = daisy_code(css: "my-4", prefix: "$") do
@@ -224,13 +226,13 @@
   = doc_code(css: "my-4", language: "haml") do
     :plain
       = loco_icon("academic-cap")
-      = loco_icon("bolt", variant: :solid)
+      = loco_icon("bolt/solid")
 
 .mt-4.prose
   :markdown
     LocoMotion can sync many libraries — Lucide, Phosphor, Tabler, Boxicons,
-    Feather, and more. Add whichever ones you want and pass `library:` when
-    rendering:
+    Feather, and more. Add whichever ones you want and name them with a
+    `library:name` token:
 
 .max-w-prose
   = daisy_code(css: "my-4", prefix: "$") do
@@ -239,8 +241,8 @@
 
   = doc_code(css: "my-4", language: "haml") do
     :plain
-      = loco_icon("heart", library: :lucide)
-      = loco_icon("heart", library: :phosphor, variant: :duotone)
+      = loco_icon("lucide:heart")
+      = loco_icon("phosphor:heart/duotone")
 
 .mt-4.prose
   :markdown

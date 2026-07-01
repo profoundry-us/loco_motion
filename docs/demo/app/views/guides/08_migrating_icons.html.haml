@@ -1,0 +1,140 @@
+= content_for(:page_title) do
+  Migrating to the Icon Engine
+
+.max-w-prose
+  = doc_info(url: "https://github.com/Rails-Designer/icons", icon: "sparkles", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** now renders every icon through a small, pluggable
+      **icon engine** built on the [`icons`](https://github.com/Rails-Designer/icons)
+      gem — so you can use Heroicons, Lucide, Phosphor, and more from one API.
+
+.prose
+  :markdown
+    # Migrating to the Icon Engine
+
+    Earlier versions of LocoMotion depended on `rails_heroicon`, which shipped
+    the entire Heroicons set inside the gem and exposed a `hero_icon` helper.
+    That has been replaced by the `loco_icon` engine: LocoMotion bundles only
+    a tiny set of icons and resolves everything else from the icons you **sync
+    into your own app** — the same way [Tailwind](https://tailwindcss.com) only
+    ships the CSS you actually use.
+
+    This guide covers everything you need to change. Most apps only touch two
+    things: run one sync command, and rename `hero_icon` to `loco_icon`.
+
+.mt-12.prose
+  :markdown
+    ## 1. Sync your icons
+
+    LocoMotion bundles just the handful of icons its own components need
+    (`check`, `x-mark`, `trash`, and the calendar chevrons). Everything else —
+    including most of Heroicons — now lives in your app. Sync the full
+    Heroicons set once and commit the SVGs:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:icons:add heroicons
+
+.mt-4.prose
+  :markdown
+    Prefer to ship only what you use? Run the treeshaking sync instead — it
+    scans your app (and a configurable safelist) and vendors only the icons
+    you reference:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:icons:sync
+
+.mt-4.prose
+  :markdown
+    Both commands give each library its own folder —
+    `app/assets/svg/icons/<library>/<variant>/` (e.g.
+    `app/assets/svg/icons/heroicons/outline/`). Commit the SVGs; they render as
+    inline `<svg>` with no runtime dependency on any gem.
+
+.mt-12.prose
+  :markdown
+    ## 2. Replace `hero_icon` with `loco_icon`
+
+    The `hero_icon` helper (and the `heroicon` alias) have been removed. Rename
+    calls to `loco_icon`:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      -# Before
+      = hero_icon("academic-cap")
+
+      -# After
+      = loco_icon("academic-cap")
+
+.mt-4.prose
+  :markdown
+    If a call specified a variant or library, fold it into the icon name as a
+    **token** rather than a separate option:
+    `hero_icon("bolt", variant: :solid)` becomes `loco_icon("bolt/solid")`.
+    See step 5 for the full token format (it's also what the sync scans).
+
+.mt-12.prose
+  :markdown
+    ## 3. Replace `Hero::IconComponent`
+
+    The `Hero::IconComponent` wrapper has also been removed. Anywhere you
+    rendered it directly, use the `loco_icon` helper instead:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      -# Before
+      = render(Hero::IconComponent.new(icon: "star"))
+
+      -# After
+      = loco_icon("star")
+
+.mt-12.prose
+  :markdown
+    ## 4. Component icon options
+
+    Options like `icon:`, `left_icon:`, `right_icon:`, and the Timeline event's
+    `middle_icon:` now resolve through the same engine. They work with **no
+    setup for the bundled icons** (LocoMotion's chrome plus the standard alert
+    icons), but any other name — like `shopping-cart` — must be synced first
+    (see step 1):
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      = daisy_alert(icon: "information-circle")      -# bundled, no sync
+      = daisy_button("Cart", icon: "shopping-cart")  -# needs a sync
+
+.mt-12.prose
+  :markdown
+    ## 5. Libraries and variants
+
+    Specify a library or variant with a **token** — one string in the form
+    `library:name/variant`, the same way [Iconify](https://iconify.design)
+    names icons. The treeshaking sync scans your source for these strings, so
+    keeping the library and variant *in the token* (rather than in separate
+    options) is what lets `loco_motion:icons:sync` find and vendor the exact
+    icons you use:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      = loco_icon("bolt/solid")           -# a variant
+      = loco_icon("lucide:heart")         -# another library
+      = loco_icon("phosphor:gear/bold")   -# library + variant
+
+.mt-4.prose
+  :markdown
+    Add more libraries the same way you added Heroicons — run
+    `bin/rails loco_motion:icons:list` to see the options.
+
+.mt-12.prose
+  :markdown
+    ## Summary
+
+    - Run `loco_motion:icons:add heroicons` (or `:sync`) once; commit the SVGs.
+    - Rename `hero_icon` / `heroicon` to `loco_icon`.
+    - Replace `Hero::IconComponent` with `loco_icon`.
+    - Sync any icon a component references that isn't in the bundled set.
