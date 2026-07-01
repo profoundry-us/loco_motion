@@ -106,4 +106,47 @@ RSpec.describe Daisy::DataInput::CheckboxComponent, type: :component do
     expect(page).not_to have_css("label.label")
     expect(page).not_to have_css("label")
   end
+
+  describe "the companion hidden field" do
+    it "renders a hidden field before the checkbox by default" do
+      render_inline(described_class.new(name: "accept_terms"))
+
+      expect(page).to have_css(
+        "input[type='hidden'][name='accept_terms'][value='0'][autocomplete='off'] + " \
+        "input[type='checkbox'][name='accept_terms']",
+        visible: :all
+      )
+    end
+
+    it "renders the hidden field outside the label wrapper when labels are used" do
+      render_inline(described_class.new(name: "accept_terms", end: "I accept"))
+
+      expect(page).to have_css("input[type='hidden'][name='accept_terms'] + label", visible: :all)
+      expect(page).not_to have_css("label input[type='hidden']", visible: :all)
+    end
+
+    it "uses a custom unchecked_value" do
+      render_inline(described_class.new(name: "accept_terms", unchecked_value: "no"))
+
+      expect(page).to have_css("input[type='hidden'][value='no']", visible: :all)
+    end
+
+    it "does not render when include_hidden is false" do
+      render_inline(described_class.new(name: "accept_terms", include_hidden: false))
+
+      expect(page).not_to have_css("input[type='hidden']", visible: :all)
+    end
+
+    it "does not render without a name" do
+      render_inline(described_class.new(id: "standalone"))
+
+      expect(page).not_to have_css("input[type='hidden']", visible: :all)
+    end
+
+    it "does not render for a disabled checkbox" do
+      render_inline(described_class.new(name: "accept_terms", disabled: true))
+
+      expect(page).not_to have_css("input[type='hidden']", visible: :all)
+    end
+  end
 end

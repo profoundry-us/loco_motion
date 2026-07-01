@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Checkbox): Emit a companion hidden field like Rails' `check_box`. A named, enabled
+  `daisy_checkbox` / `daisy_toggle` now renders `<input type="hidden" name="..." value="0">` just before the
+  checkbox, so an unchecked box still submits a value — no more hand-rolled `hidden_field_tag` pairs beside
+  every toggle. Two new options mirror Rails: `include_hidden` (default `true`; pass `false` to opt out) and
+  `unchecked_value` (default `"0"`). The hidden field is skipped for unnamed or disabled inputs, and works
+  through the form builder (`f.daisy_checkbox` / `f.daisy_toggle`) automatically. **Breaking-ish:** the
+  rendered output of existing named checkboxes/toggles gains a hidden input. Fixes #201.
+
 - docs(Modal): Add a "Blurred Backdrop" example — pass a stock Tailwind utility via the modal's existing
   `backdrop_css` option (`backdrop_css: "backdrop-blur-sm"`) to frost the page behind an open modal. Added to
   the component's YARD examples and the demo page, with a note on Tailwind v4 sizing (there is no bare
