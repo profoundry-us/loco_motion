@@ -19,7 +19,8 @@ module HeroiconFixtures
       home information-circle link plus rocket-launch sparkles star swatch user
       user-circle
     ],
-    "solid" => %w[home]
+    "solid" => %w[home],
+    "mini" => %w[home document cube squares-2x2]
   }.freeze
 
   STUB = %(<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ) +

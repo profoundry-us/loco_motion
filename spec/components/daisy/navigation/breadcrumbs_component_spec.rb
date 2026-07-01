@@ -7,6 +7,13 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
   include ActionView::Helpers::CaptureHelper
   include ActionView::Context
 
+  # `loco_icon` renders a ViewComponent, so it needs a real view context (with
+  # `render` / `lookup_context`) that the example group doesn't have on its own.
+  # Delegate to the test controller's view context so slot blocks can use it.
+  def loco_icon(*args, **kwargs, &block)
+    vc_test_controller.view_context.loco_icon(*args, **kwargs, &block)
+  end
+
   context "basic breadcrumbs" do
     let(:breadcrumbs) { described_class.new }
 
@@ -73,11 +80,11 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
 
     before do
       render_inline(breadcrumbs) do |b|
-        links.each do |text, _icon| # rubocop:disable Style/HashEachMethods
+        links.each do |text, icon|
           b.with_item do
             link_to "#" do
               safe_join([
-                          content_tag(:svg, "", class: icon_css),
+                          loco_icon("#{icon}/mini", css: icon_css),
                           text
                         ])
             end
@@ -168,7 +175,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
         b.with_item do
           link_to "#" do
             safe_join([
-                        content_tag(:svg, "", class: "size-4 mr-1 text-slate-600"),
+                        loco_icon("cube/mini", css: "size-4 mr-1 text-slate-600"),
                         "Categories"
                       ])
           end
