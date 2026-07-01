@@ -22,8 +22,10 @@
 # @part close_icon_wrapper The container for the close icon, positioned in the
 #   top-right corner.
 # @part close_icon The default close icon button.
-# @part backdrop The semi-transparent backdrop that covers and dims the main
-# content.
+# @part backdrop The full-bleed backdrop element behind the open modal (also
+#   the click-outside catcher). Style the page behind the modal through
+#   `backdrop_css` — e.g. `backdrop_css: "backdrop-blur-sm"` for a
+#   frosted-glass effect.
 # @part title Container for the modal title, styled for prominence.
 # @part actions Container for all modal action buttons.
 # @part start_actions Container for left (start) aligned action buttons.
@@ -78,6 +80,14 @@
 #     - modal.with_end_actions do
 #       %form{ method: :dialog }
 #         = daisy_button { "Close" }
+#
+# @loco_example Blurred Backdrop
+#   -# Frost the page behind the modal with a stock Tailwind utility on the
+#   -# backdrop part. Note that Tailwind v4 has no bare `backdrop-blur` —
+#   -# always pick a size (`backdrop-blur-xs` ~4px, `-sm` ~8px, `-md` ~12px).
+#   = daisy_modal(title: "Blurred Backdrop", backdrop_css: "backdrop-blur-sm") do |modal|
+#     - modal.with_button(css: "btn-primary") { "Open Modal" }
+#     %p The page behind this modal is frosted; the modal box stays crisp.
 #
 # @loco_example Global Modal
 #   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
