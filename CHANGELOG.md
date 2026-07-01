@@ -20,7 +20,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `loco_icon("phosphor:gear/bold")`. The token is the one form the treeshaking sync can scan, so this keeps
   `loco_motion:icons:sync` reliable. Passing either option now raises an `ArgumentError` pointing at the token
   form. **Breaking:** convert any `loco_icon(name, variant:/library:)` calls to tokens.
-
+- feat(Icons): Expand the icon set bundled inside the engine so more components work with zero setup. Adds the
+  standard Alert icons (`information-circle`, `check-circle`, `exclamation-triangle`, `exclamation-circle`)
+  and the ThemeController's `swatch` alongside the existing chrome set (`x-mark`, `check`, `trash`, the Cally
+  chevrons).
+- docs(Icons): Add a "Migrating to the Icon Engine" guide covering the move off `rails_heroicon` — syncing
+  icons, renaming `hero_icon` → `loco_icon`, replacing `Hero::IconComponent`, component `icon:` options, and
+  the `library:name/variant` token grammar. Icon examples use the token grammar throughout (it's what the
+  treeshaking sync can scan). Also correct the Install guide's Icons section, which still claimed component
+  icons render "with no extra setup" — only the bundled set does; other icons need a one-time sync.
 - refactor(Icons): Remove the `Hero::IconComponent` wrapper. It was a thin ViewComponent around the
   `hero_icon` helper that predated the `loco_icon` engine; `loco_icon` (and its `daisy_*` component options)
   now cover every use. Drops the component, its registry entry, the `Hero` module, and the demo's
