@@ -116,7 +116,7 @@ module Daisy
       # component, it inherits the `loco-theme` Stimulus controller, so no extra
       # setup is required.
       #
-      # @option options [String] :icon The Heroicon name for the trigger button.
+      # @option options [String] :icon The icon name for the trigger button.
       #   Defaults to "swatch".
       #
       # @option options [String] :label Optional text shown beside the trigger
