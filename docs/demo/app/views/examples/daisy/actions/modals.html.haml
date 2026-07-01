@@ -65,6 +65,36 @@
             = daisy_button do
               I'm Done
 
+%turbo-frame#blurred-backdrop-modal
+  = doc_example(title: "Blurred Backdrop") do |doc|
+    - doc.with_description do
+      :markdown
+        Frost the page behind the modal by passing a stock Tailwind
+        `backdrop-blur-*` utility to the modal's `backdrop_css` option — no
+        extra CSS required. The blur rides the modal's existing open/close
+        transition, so it fades in and out with the dialog while the modal box
+        stays crisp.
+
+      = doc_note(css: "mb-8", modifier: :tip) do
+        :markdown
+          Tailwind v4 has no bare `backdrop-blur` utility — always pick a
+          size: `backdrop-blur-xs` (~4px, subtle), `backdrop-blur-sm` (~8px),
+          `backdrop-blur-md` (~12px), and up.
+
+    .flex.flex-col.items-center
+      = daisy_modal(title: "Blurred Backdrop", backdrop_css: "backdrop-blur-sm") do |modal|
+        - modal.with_button(css: "btn-primary") do
+          Open Blurred Modal
+
+        The page behind this modal is frosted by
+        %code backdrop-blur-sm
+        while the modal box itself stays sharp.
+
+        - modal.with_end_actions do
+          %form{ method: :dialog }
+            = daisy_button do
+              Close
+
 %turbo-frame#global-modal
   = doc_example(title: "Global Modal") do |doc|
     - doc.with_description do

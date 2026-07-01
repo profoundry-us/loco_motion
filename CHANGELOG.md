@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Modal): Add a "Blurred Backdrop" example — pass a stock Tailwind utility via the modal's existing
+  `backdrop_css` option (`backdrop_css: "backdrop-blur-sm"`) to frost the page behind an open modal. Added to
+  the component's YARD examples and the demo page, with a note on Tailwind v4 sizing (there is no bare
+  `backdrop-blur`; use `backdrop-blur-xs` ~4px, `-sm` ~8px, `-md` ~12px). Also reworded the `backdrop` part
+  docs to point at `backdrop_css` as the styling hook. Fixes #212.
+
 - feat(Icons): The treeshaking scanner (`loco_motion:icons:sync`) now also discovers **symbol** icon names —
   `loco_icon(:bell)`, `icon: :star` — not just string literals, so a symbol-named icon is no longer silently
   dropped from the vendored set. (Bare Ruby symbols can't hold hyphens, slashes, or colons, so hyphenated /
