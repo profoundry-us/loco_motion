@@ -20,11 +20,11 @@
 #   = daisy_breadcrumbs do |breadcrumbs|
 #     - breadcrumbs.with_item do
 #       = link_to "#" do
-#         = hero_icon("home", css: "size-4 mr-1")
+#         = loco_icon("home", css: "size-4 mr-1")
 #         Home
 #     - breadcrumbs.with_item do
 #       = link_to "#" do
-#         = hero_icon("document", css: "size-4 mr-1")
+#         = loco_icon("document", css: "size-4 mr-1")
 #         Docs
 #
 module Daisy

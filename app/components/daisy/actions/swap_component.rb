@@ -34,9 +34,9 @@
 # @loco_example Icon Swap with Tooltip
 #   = daisy_swap(tip: "Toggle Theme") do |swap|
 #     - swap.with_on do
-#       = heroicon "sun", css: "size-6"
+#       = loco_icon("sun", css: "size-6")
 #     - swap.with_off do
-#       = heroicon "moon", css: "size-6"
+#       = loco_icon("moon", css: "size-6")
 #
 # @loco_example Complex Content with Animation
 #   = daisy_swap(css: "swap-flip") do |swap|
@@ -53,15 +53,15 @@
 #   = daisy_swap(css: "swap-flip", tip: "Task Status") do |swap|
 #     - swap.with_on do
 #       .text-success
-#         = heroicon "check-circle"
+#         = loco_icon("check-circle")
 #         %span Complete
 #     - swap.with_off do
 #       .text-error
-#         = heroicon "x-circle"
+#         = loco_icon("x-circle")
 #         %span Failed
 #     - swap.with_indeterminate do
 #       .text-warning
-#         = heroicon "clock"
+#         = loco_icon("clock")
 #         %span Processing
 #
 module Daisy

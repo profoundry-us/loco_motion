@@ -28,7 +28,7 @@
 #     - tabs.with_tab do |tab|
 #       - tab.with_title do
 #         .flex.gap-2
-#           = hero_icon("home")
+#           = loco_icon("home")
 #           Home
 #       - tab.with_custom_content(css: "tab-content p-4") do
 #         %p Welcome home!
@@ -65,7 +65,7 @@ module Daisy
       #   = tabs.with_tab do |tab|
       #     - tab.with_title do
       #       .flex.gap-2
-      #         = hero_icon("home")
+      #         = loco_icon("home")
       #         Home
       #
       # @loco_example Tab with content

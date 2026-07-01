@@ -34,7 +34,7 @@
 # @loco_example Custom Activator
 #   = daisy_dropdown do |dropdown|
 #     - dropdown.with_activator do
-#       = heroicon "bars-3", css: "size-6"
+#       = loco_icon("bars-3", css: "size-6")
 #     - dropdown.with_item do
 #       Menu Item 1
 #     - dropdown.with_item do
@@ -46,26 +46,26 @@
 #       User Settings
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center
-#         = heroicon "user-circle"
+#         = loco_icon("user-circle")
 #         Profile
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center
-#         = heroicon "cog-6-tooth"
+#         = loco_icon("cog-6-tooth")
 #         Settings
 #     - dropdown.with_item do
 #       .flex.gap-2.items-center.text-error
-#         = heroicon "arrow-right-on-rectangle"
+#         = loco_icon("arrow-right-on-rectangle")
 #         Logout
 #
 # @loco_example Selectable Items (start / label / end / selected)
 #   = daisy_dropdown(title: "Sort by") do |dropdown|
 #     - dropdown.with_item(label: "Newest", href: "#", selected: true) do |item|
 #       - item.with_end do
-#         = heroicon "check", css: "size-4"
+#         = loco_icon("check", css: "size-4")
 #     - dropdown.with_item(label: "Oldest", href: "#")
 #     - dropdown.with_item(href: "#") do |item|
 #       - item.with_start do
-#         = heroicon "star", css: "size-4"
+#         = loco_icon("star", css: "size-4")
 #       Favorites
 #
 module Daisy

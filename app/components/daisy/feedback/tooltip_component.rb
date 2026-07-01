@@ -13,7 +13,7 @@
 #     %span Need help?
 #
 #   = daisy_tip "Delete this item", css: "tooltip-error" do
-#     = hero_icon("trash", css: "size-5 text-error")
+#     = loco_icon("trash", css: "size-5 text-error")
 #
 # @loco_example Positioned Tips
 #   = daisy_tip "Opens settings menu", css: "tooltip-left" do

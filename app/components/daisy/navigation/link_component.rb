@@ -9,7 +9,7 @@
 #
 # @loco_example Link with block content
 #   = daisy_link "#", css: "link-hover" do
-#     = hero_icon("home")
+#     = loco_icon("home")
 #     Home
 #
 # @loco_example Link with positional arguments

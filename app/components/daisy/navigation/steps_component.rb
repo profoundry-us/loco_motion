@@ -45,7 +45,7 @@ module Daisy
       # @loco_example Step with custom content
       #   = steps.with_step(number: "1") do
       #     .flex.gap-2
-      #       = hero_icon("check")
+      #       = loco_icon("check")
       #       Complete
       #
       module Daisy
