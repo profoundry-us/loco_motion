@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Icons): The treeshaking scanner (`loco_motion:icons:sync`) now also discovers **symbol** icon names —
+  `loco_icon(:bell)`, `icon: :star` — not just string literals, so a symbol-named icon is no longer silently
+  dropped from the vendored set. (Bare Ruby symbols can't hold hyphens, slashes, or colons, so hyphenated /
+  qualified token names still need strings.)
+
 - docs(Icons): Update the YARD `@loco_example` blocks across the DaisyUI components to use `loco_icon` instead
   of the removed `hero_icon` / `heroicon` helper (31 examples in 18 components). Translates the old
   `rails_heroicon` `size:` / `class:` options to `loco_icon`'s `css:` (e.g. `size: 5` becomes

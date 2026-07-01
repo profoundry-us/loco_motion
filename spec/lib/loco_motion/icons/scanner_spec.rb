@@ -47,6 +47,20 @@ RSpec.describe LocoMotion::Icons::Scanner do
       )
     end
 
+    it "finds symbol icon names (loco_icon(:bell) / icon: :star)" do
+      write("app/views/sym.haml", <<~HAML)
+        = loco_icon(:bell)
+        = hero_icon :cake
+        = daisy_button(icon: :star)
+        = daisy_avatar(left_icon: :user)
+      HAML
+
+      expect(references.map { |r| r[:name] }).to contain_exactly(
+        "bell", "cake", "star", "user"
+      )
+      expect(references).to all(include(library: "heroicons", variant: nil))
+    end
+
     it "does not confuse the icon: matcher with *_icon_css / *_icon_options keys" do
       write("app/views/c.haml", <<~HAML)
         = daisy_button(icon: "star", right_icon_css: "size-4", left_icon_options: { variant: :solid })
