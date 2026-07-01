@@ -5,7 +5,6 @@ module LocoMotion
     SELF_CLOSING_TAGS = %i[area base br col embed hr img input keygen link meta param source track wbr].freeze
     EMPTY_PART_IGNORED_TAGS = %i[textarea].freeze
 
-    include RailsHeroicon::Helper
     include Concerns::InspectableComponent
 
     class_attribute :component_name

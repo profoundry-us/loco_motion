@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Icons): Drop the `rails_heroicon` dependency. LocoMotion no longer bundles `rails_heroicon` or
+  exposes the `hero_icon` / `heroicon` helpers — every icon now renders through the `loco_icon` engine.
+  Removes the gem (runtime and dev), its `require`s, and the `RailsHeroicon::Helper` include from
+  `BaseComponent`. **Breaking:** replace `hero_icon("name")` / `heroicon("name")` with `loco_icon("name")` and
+  sync your icons (`bin/rails loco_motion:icons:add heroicons`). See the "Migrating to the Icon Engine" guide.
+
 - refactor(Icons): Drop the `variant:` and `library:` options from `loco_icon` / `Loco::IconComponent`. Encode
   the library/variant in the token instead — `loco_icon("bolt/solid")`, `loco_icon("lucide:heart")`,
   `loco_icon("phosphor:gear/bold")`. The token is the one form the treeshaking sync can scan, so this keeps

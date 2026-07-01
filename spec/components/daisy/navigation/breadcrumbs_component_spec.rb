@@ -73,11 +73,11 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
 
     before do
       render_inline(breadcrumbs) do |b|
-        links.each do |text, icon|
+        links.each do |text, _icon| # rubocop:disable Style/HashEachMethods
           b.with_item do
             link_to "#" do
               safe_join([
-                          heroicon(icon, variant: :mini, class: icon_css),
+                          content_tag(:svg, "", class: icon_css),
                           text
                         ])
             end
@@ -168,7 +168,7 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
         b.with_item do
           link_to "#" do
             safe_join([
-                        heroicon("cube", variant: :mini, class: "size-4 mr-1 text-slate-600"),
+                        content_tag(:svg, "", class: "size-4 mr-1 text-slate-600"),
                         "Categories"
                       ])
           end

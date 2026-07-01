@@ -2,9 +2,6 @@
 
 require "rails"
 require "haml-rails"
-require "rails_heroicon"
-
-require "#{Gem::Specification.find_by_name('rails_heroicon').gem_dir}/lib/rails_heroicon/helper.rb"
 
 require "view_component"
 
