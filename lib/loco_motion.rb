@@ -26,7 +26,6 @@ require "loco_motion/helpers"
 require "loco_motion/patches/view_component/slotable_default_patch"
 require "loco_motion/patches/view_component/slot_loco_parent_patch"
 
-require "hero"
 require "daisy"
 
 begin

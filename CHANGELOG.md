@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Icons): Remove the `Hero::IconComponent` wrapper. It was a thin ViewComponent around the
+  `hero_icon` helper that predated the `loco_icon` engine; `loco_icon` (and its `daisy_*` component options)
+  now cover every use. Drops the component, its registry entry, the `Hero` module, and the demo's
+  `Hero::IconComponent` example page. **Breaking:** replace `Hero::IconComponent` usage with
+  `loco_icon("name")`. The `hero_icon` helper itself is unchanged here and removed in a follow-up.
 - refactor(Demo): Point the sidebar's icon-docs nav entry at the `Loco::IconComponent` examples page under a
   new "Loco" section, instead of the retiring `Hero::IconComponent` page. The `Loco::IconComponent` docs were
   previously reachable only by direct URL; the `Hero::IconComponent` page and its component are removed in a
