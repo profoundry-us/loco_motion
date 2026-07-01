@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Icons): Fix the Loco Icons page's "Other Libraries" section and its bundled-icons claim. The section's
+  fenced markdown code blocks collapsed into inline code (the HAML `:markdown` filter's Redcarpet lacks the
+  `fenced_code_blocks` extension) — rewritten with the demo's `doc_code` / `daisy_code` components. The page
+  intro claimed LocoMotion "bundles Heroicons out of the box"; it now says only a small, curated set is
+  bundled and links to the `Loco::IconComponent` API docs, whose class docs now enumerate the exact bundled
+  set (10 icons × 4 variants).
+
 - fix(Demo): Lay out the "Theme Radio with Inline Preview" example as a row. The radio's `end` slot wraps its
   content in a plain `<div>` (the `BasicComponent` slot wrapper), so the block-level theme preview stacked
   above the theme name instead of flowing beside it — the example had rendered this way since it was added.

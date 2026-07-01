@@ -3,15 +3,19 @@
     The
     %code loco_icon
     helper renders an inline SVG from any installed icon library. LocoMotion
-    bundles Heroicons out of the box (the default), and you can add other
-    libraries — Lucide, Phosphor, Tabler, brand sets, and more — by syncing them
-    into your own application.
+    bundles only a
+    %strong small, curated set
+    of Heroicons — just enough that the built-in components (modal close,
+    calendar chevrons, the standard alert icons, and friends) work with zero
+    setup. See the
+    = daisy_link("Loco::IconComponent API docs", doc_url("Loco/IconComponent"), target: "_blank")
+    for the full list of bundled icons.
 
   %p
-    Browse the bundled set at
-
-    = succeed "." do
-      = daisy_link("https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4")
+    Every other icon — including the rest of
+    = daisy_link("Heroicons", "https://heroicons.com", target: "_blank", right_icon: "arrow-top-right-on-square", right_icon_css: "size-4")
+    and libraries like Lucide, Phosphor, Tabler, and more — is synced into
+    your own application once (see the examples below).
 
 
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
@@ -60,28 +64,28 @@
 = doc_example(title: "Other Libraries") do |doc|
   - doc.with_description do
     :markdown
-      LocoMotion bundles only Heroicons to keep the gem small. To use another
-      library, sync it into your app once and name it in the icon token as
-      `library:name`:
+      To use a library beyond the curated bundled set, sync it into your app
+      once and name it in the icon token as `library:name`:
 
-      ```bash
+    = daisy_code(css: "my-4", prefix: "$") do
       bin/rails loco_motion:icons:add lucide phosphor
-      ```
 
-      ```haml
-      = loco_icon("lucide:heart")
-      = loco_icon("phosphor:heart/duotone")
-      ```
+    = doc_code(css: "my-4", language: "haml") do
+      :plain
+        = loco_icon("lucide:heart")
+        = loco_icon("phosphor:heart/duotone")
 
+    :markdown
       The renderer checks your app's `app/assets/svg/icons` first, then falls
       back to the bundled icons — so synced libraries just work.
 
       Prefer a different library by default? Set it once in an initializer (and
       pick a matching variant, or `nil` for a flat library):
 
-      ```ruby
-      LocoMotion.configure do |config|
-        config.default_icon_library = :lucide
-        config.default_icon_variant = nil
-      end
-      ```
+    = doc_code(css: "my-4", language: "ruby") do
+      :plain
+        # config/initializers/loco_motion.rb
+        LocoMotion.configure do |config|
+          config.default_icon_library = :lucide
+          config.default_icon_variant = nil
+        end
