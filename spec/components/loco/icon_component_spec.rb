@@ -32,12 +32,21 @@ RSpec.describe Loco::IconComponent, type: :component do
     end
   end
 
-  context "with a variant" do
+  context "with a variant in the token" do
     it "renders the solid variant" do
-      render_inline(described_class.new("x-mark", variant: :solid))
+      render_inline(described_class.new("x-mark/solid"))
 
       expect(page).to have_css("svg")
       expect(page.native.to_html).to include('fill="currentColor"')
+    end
+  end
+
+  context "when passed a library: or variant: option" do
+    it "raises, pointing at the token form" do
+      expect { described_class.new("bolt", variant: :solid) }
+        .to raise_error(ArgumentError, /token/)
+      expect { described_class.new("heart", library: :lucide) }
+        .to raise_error(ArgumentError, /token/)
     end
   end
 
@@ -53,7 +62,7 @@ RSpec.describe Loco::IconComponent, type: :component do
   context "with an unbundled library" do
     it "raises a clear error" do
       expect do
-        render_inline(described_class.new("heart", library: :not_installed))
+        render_inline(described_class.new("not_installed:heart"))
       end.to raise_error(LocoMotion::Icons::IconNotFound)
     end
   end
@@ -72,8 +81,8 @@ RSpec.describe Loco::IconComponent, type: :component do
       expect(page.native.to_html).to include('fill="currentColor"') # solid
     end
 
-    it "still lets a per-call variant win" do
-      render_inline(described_class.new("x-mark", variant: :outline))
+    it "still lets a token variant win" do
+      render_inline(described_class.new("x-mark/outline"))
 
       expect(page.native.to_html).to include('fill="none"') # outline
     end

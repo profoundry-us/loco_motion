@@ -61,20 +61,20 @@
   - doc.with_description do
     :markdown
       LocoMotion bundles only Heroicons to keep the gem small. To use another
-      library, sync it into your app once and then pass `library:`:
+      library, sync it into your app once and name it in the icon token as
+      `library:name`:
 
       ```bash
       bin/rails loco_motion:icons:add lucide phosphor
       ```
 
       ```haml
-      = loco_icon("heart", library: :lucide)
-      = loco_icon("heart", library: :phosphor, variant: :duotone)
+      = loco_icon("lucide:heart")
+      = loco_icon("phosphor:heart/duotone")
       ```
 
       The renderer checks your app's `app/assets/svg/icons` first, then falls
-      back to the bundled icons — so synced libraries and per-icon overrides
-      just work.
+      back to the bundled icons — so synced libraries just work.
 
       Prefer a different library by default? Set it once in an initializer (and
       pick a matching variant, or `nil` for a flat library):

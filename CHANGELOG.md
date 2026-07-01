@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Icons): Drop the `variant:` and `library:` options from `loco_icon` / `Loco::IconComponent`. Encode
+  the library/variant in the token instead — `loco_icon("bolt/solid")`, `loco_icon("lucide:heart")`,
+  `loco_icon("phosphor:gear/bold")`. The token is the one form the treeshaking sync can scan, so this keeps
+  `loco_motion:icons:sync` reliable. Passing either option now raises an `ArgumentError` pointing at the token
+  form. **Breaking:** convert any `loco_icon(name, variant:/library:)` calls to tokens.
+
 - refactor(Icons): Remove the `Hero::IconComponent` wrapper. It was a thin ViewComponent around the
   `hero_icon` helper that predated the `loco_icon` engine; `loco_icon` (and its `daisy_*` component options)
   now cover every use. Drops the component, its registry entry, the `Hero` module, and the demo's
