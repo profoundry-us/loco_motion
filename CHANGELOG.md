@@ -15,6 +15,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Point the sidebar's icon-docs nav entry at the `Loco::IconComponent` examples page under a
+  new "Loco" section, instead of the retiring `Hero::IconComponent` page. The `Loco::IconComponent` docs were
+  previously reachable only by direct URL; the `Hero::IconComponent` page and its component are removed in a
+  follow-up.
 - refactor(Icons): Route managed component icons through the `loco_icon` engine instead of `rails_heroicon`.
   Every component option that takes an icon name (`icon:` / `left_icon:` / `right_icon:`, and the Timeline
   event's `middle_icon`) now resolves like every other library — from the icons synced into your app's

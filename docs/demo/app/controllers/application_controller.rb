@@ -37,13 +37,13 @@ class ApplicationController < ActionController::Base
         items: generate_doc_items("guides")
       },
       {
-        title: "Hero",
-        icon: "shield-check",
+        title: "Loco",
+        icon: "sparkles",
         icon_color: "info",
         items: [
           {
             title: "Icons",
-            path: "/examples/Hero::IconComponent"
+            path: "/examples/Loco::IconComponent"
           }
         ]
       },
