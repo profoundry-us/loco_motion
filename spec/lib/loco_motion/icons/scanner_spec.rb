@@ -23,10 +23,10 @@ RSpec.describe LocoMotion::Icons::Scanner do
   end
 
   describe "#references" do
-    it "finds the first string argument of a loco_icon / hero_icon call" do
+    it "finds the first string argument of a loco_icon call" do
       write("app/views/a.haml", <<~HAML)
         = loco_icon("academic-cap")
-        = hero_icon "archive-box"
+        = loco_icon "archive-box"
         = loco_icon('beaker')
       HAML
 
@@ -50,7 +50,7 @@ RSpec.describe LocoMotion::Icons::Scanner do
     it "finds symbol icon names (loco_icon(:bell) / icon: :star)" do
       write("app/views/sym.haml", <<~HAML)
         = loco_icon(:bell)
-        = hero_icon :cake
+        = loco_icon :cake
         = daisy_button(icon: :star)
         = daisy_avatar(left_icon: :user)
       HAML
@@ -108,7 +108,7 @@ RSpec.describe LocoMotion::Icons::Scanner do
     it "skips Ruby comment lines (YARD examples) but scans HAML id lines" do
       write("app/components/widget.rb", <<~RUBY)
         # @loco_example
-        #   = hero_icon("should-be-ignored")
+        #   = loco_icon("should-be-ignored")
         ICON = "not-an-icon-call"
       RUBY
       write("app/views/g.haml", %(#sidebar= loco_icon("real-icon")\n))

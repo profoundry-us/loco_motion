@@ -216,7 +216,7 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
     end
 
     it "includes the icon in the rendered output" do
-      # Verify that the SVG (heroicon) is present in the output
+      # Verify that the SVG (icon) is present in the output
       expect(page).to have_css "span.badge svg"
     end
   end

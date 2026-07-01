@@ -345,7 +345,7 @@ module Algolia
       when :aria
         "ARIA attributes for accessibility"
       when :icon, :left_icon, :right_icon
-        "Icon name from Heroicons"
+        "Icon name or [library:]name[/variant] token"
       when :tip
         "Tooltip text"
       when :title
