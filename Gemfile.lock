@@ -13,7 +13,6 @@ PATH
       mutex_m (~> 0.2.0)
       ostruct (~> 0.6.0)
       rails (>= 6.1, < 8.1)
-      rails_heroicon (~> 2.3.0)
       rdoc (~> 6.7.0)
       view_component (~> 3.22)
 
@@ -222,9 +221,6 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    rails_heroicon (2.3.0)
-      actionview
-      railties
     railties (6.1.7.7)
       actionpack (= 6.1.7.7)
       activesupport (= 6.1.7.7)
@@ -325,7 +321,6 @@ DEPENDENCIES
   loco_motion-rails!
   pry (~> 0.15.0)
   rails (>= 6.1, < 8.1)
-  rails_heroicon (~> 2.3.0)
   redcarpet (~> 3.6)
   rspec (~> 3.13.0)
   rspec-rails (~> 6.1.1)

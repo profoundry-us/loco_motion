@@ -9,9 +9,9 @@ class IconableTestComponent < LocoMotion::BaseComponent
 
   def call
     content = ""
-    content += helpers.heroicon(@left_icon, **left_icon_html) if @left_icon
+    content += render_left_icon.to_s
     content += "Test Content"
-    content += helpers.heroicon(@right_icon, **right_icon_html) if @right_icon
+    content += render_right_icon.to_s
     part(:component) { content.html_safe }
   end
 
@@ -121,9 +121,6 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
       attrs = component.left_icon_html
       expect(attrs).to include(data: { test: "value" })
     end
-
-    # We don't need to test the actual rendering since that depends on the heroicon helper
-    # which is tested separately
   end
 
   context "with icon_options" do
@@ -145,8 +142,8 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
   end
 
   # These exercise render_left_icon/render_right_icon (the actual render path)
-  # through a real component, covering the library dual-path: Heroicons render
-  # via rails_heroicon, other libraries via the loco_icon engine.
+  # through a real component. Every library — including the default Heroicons —
+  # renders through the loco_icon engine.
   describe "the render path (via ButtonComponent)" do
     context "with a default Heroicons icon" do
       before { render_inline(Daisy::Actions::ButtonComponent.new(icon: "x-mark")) }

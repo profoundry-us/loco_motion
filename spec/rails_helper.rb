@@ -33,9 +33,7 @@ RSpec.configure do |config|
   config.include ViewComponent::SystemTestHelpers, type: :component
   # config.include Capybara::RSpecMatchers, type: :component
 
-  # Some of the tests utilize various helpers such as tag, content_tag, and
-  # heroicon (which users the raw helper)
-  config.include RailsHeroicon::Helper, type: :component
+  # Some of the tests utilize various helpers such as tag and content_tag.
   config.include ActionView::Helpers::TagHelper, type: :component
   config.include ActionView::Helpers::OutputSafetyHelper, type: :component
 end
