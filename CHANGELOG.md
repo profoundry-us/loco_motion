@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Demo): Lay out the "Theme Radio with Inline Preview" example as a row. The radio's `end` slot wraps its
+  content in a plain `<div>` (the `BasicComponent` slot wrapper), so the block-level theme preview stacked
+  above the theme name instead of flowing beside it — the example had rendered this way since it was added.
+  Fixed by styling the slot wrapper via `with_end(css: "flex items-center gap-2")`; the matching
+  `build_radio_input` YARD example gets the same fix, and the demo text now calls out the `css:` on
+  `with_end`.
+
 - feat(Checkbox): Emit a companion hidden field like Rails' `check_box`. A named, enabled
   `daisy_checkbox` / `daisy_toggle` now renders `<input type="hidden" name="..." value="0">` just before the
   checkbox, so an unchecked box still submits a value — no more hand-rolled `hidden_field_tag` pairs beside
