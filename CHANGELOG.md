@@ -20,7 +20,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `fenced_code_blocks` extension) — rewritten with the demo's `doc_code` / `daisy_code` components. The page
   intro claimed LocoMotion "bundles Heroicons out of the box"; it now says only a small, curated set is
   bundled and links to the `Loco::IconComponent` API docs, whose class docs now enumerate the exact bundled
-  set (10 icons × 4 variants).
+  set (10 icons × 4 variants). The example also gained a live preview — the demo now syncs and renders
+  `lucide:heart` and `phosphor:heart/duotone`, so the Preview/Code tabs are no longer empty.
 
 - fix(Demo): Lay out the "Theme Radio with Inline Preview" example as a row. The radio's `end` slot wraps its
   content in a plain `<div>` (the `BasicComponent` slot wrapper), so the block-level theme preview stacked

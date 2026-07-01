@@ -61,7 +61,7 @@
   = loco_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
 
 
-= doc_example(title: "Other Libraries") do |doc|
+= doc_example(title: "Other Libraries", example_css: "gap-x-2") do |doc|
   - doc.with_description do
     :markdown
       To use a library beyond the curated bundled set, sync it into your app
@@ -87,5 +87,8 @@
         # config/initializers/loco_motion.rb
         LocoMotion.configure do |config|
           config.default_icon_library = :lucide
-          config.default_icon_variant = nil
+          config.default_icon_variant = :outline
         end
+
+  = loco_icon("lucide:heart", css: "size-8 text-red-500")
+  = loco_icon("phosphor:heart/duotone", css: "size-8 text-purple-500")
