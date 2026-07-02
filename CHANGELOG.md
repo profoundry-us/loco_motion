@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Dropdown)!: Rename the dropdown item's `start` / `end` slots to `leading` / `trailing` (part of
+  #187). `end` is a Ruby reserved word, so its slot reader forced `send(:end)` workarounds. The structured
+  item API is now `item.with_leading` / `item.with_trailing`. This API was added after v0.6.0 and has never
+  shipped in a release, so it is a clean rename with no deprecation aliases.
+
 - refactor(Labelable)!: Rename the labelable `start` / `end` pair to `leading` / `trailing` across
   `daisy_text_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
   `daisy_cally_input` (#187). `end` is a Ruby reserved word, so its generated slot reader forced
