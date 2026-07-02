@@ -70,7 +70,7 @@ module Daisy
       #   = daisy_theme_controller do |tc|
       #     - tc.themes.each do |theme|
       #       = tc.build_radio_input(theme) do |radio|
-      #         - radio.with_end(css: "flex items-center gap-2") do
+      #         - radio.with_trailing(css: "flex items-center gap-2") do
       #           = tc.build_theme_preview(theme)
       #           %span.capitalize= theme.humanize
       #
