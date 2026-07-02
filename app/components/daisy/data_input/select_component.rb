@@ -3,8 +3,8 @@
 #
 # The Select component provides a styled dropdown select input for forms.
 # It supports various styling options, including sizes, colors, and variants.
-# Additionally, it supports labelable functionality with start, end, and
-# floating labels.
+# Additionally, it supports labelable functionality with leading, trailing,
+# and floating labels.
 #
 # @note Select inputs have a border by default and a width of 20rem. Use
 #   `select-ghost` to remove the border.
@@ -12,16 +12,17 @@
 # @part placeholder The placeholder option element that is shown when no option
 #   is selected.
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part start The element that contains the start label (appears before the
-#   select).
-# @part end The element that contains the end label (appears after the select).
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before
+#   the select).
+# @part trailing The element that contains the trailing label (appears after
+#   the select).
 # @part floating The element that contains the floating label (appears floating
 #   above the select).
 #
 # @slot options+ Custom options to be rendered in the select.
-# @slot start Custom content for the start label.
-# @slot end Custom content for the end label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 # @slot floating Custom content for the floating label.
 #
 # @loco_example Using simple strings for options
@@ -33,8 +34,8 @@
 #     - select.with_option(value: "green", label: "Green")
 #     - select.with_option(value: "blue", label: "Blue")
 #
-# @loco_example With a start label
-#   = daisy_select(name: "color", start: "Select a color", options: ["Red", "Green", "Blue"])
+# @loco_example With a leading label
+#   = daisy_select(name: "color", leading: "Select a color", options: ["Red", "Green", "Blue"])
 #
 # @loco_example With a floating label
 #   = daisy_select(name: "color", floating: "Color", options: ["Red", "Green", "Blue"])
@@ -173,12 +174,12 @@ module Daisy
         if has_floating_label?
           add_css(:label_wrapper, "floating-label")
           add_css(:component, "select")
-        elsif has_start_label? || has_end_label?
+        elsif has_leading_label? || has_trailing_label?
           add_stimulus_controller(:label_wrapper, "select")
 
           add_css(:label_wrapper, "select")
-          add_css(:start, "label")
-          add_css(:end, "label")
+          add_css(:leading, "label")
+          add_css(:trailing, "label")
         else
           add_css(:component, "select")
         end
