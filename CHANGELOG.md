@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Labelable)!: Rename the labelable `start` / `end` pair to `leading` / `trailing` across
+  `daisy_text_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
+  `daisy_cally_input` (#187). `end` is a Ruby reserved word, so its generated slot reader forced
+  `send(:end)` workarounds internally; `leading` / `trailing` is a symmetric, non-reserved pair. The new
+  API is `with_leading` / `with_trailing`, `leading:` / `trailing:`, and `leading_css:` / `trailing_css:`
+  (plus `_html` / `_aria` / `_data` variants). The old names still work for now — they are translated with
+  a deprecation warning — and will be removed in a future release.
+
 - feat(Megamenu): Add the `daisy_megamenu` component (`Daisy::Navigation::MegamenuComponent`) — a large
   horizontal navigation menu where each item opens a popover of links (#209). Items pair a
   `<button popovertarget>` with an adjacent `<div popover>` (IDs auto-generated), a `megamenu-active` span
