@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Megamenu): Add the `daisy_megamenu` component (`Daisy::Navigation::MegamenuComponent`) — a large
+  horizontal navigation menu where each item opens a popover of links (#209). Items pair a
+  `<button popovertarget>` with an adjacent `<div popover>` (IDs auto-generated), a `megamenu-active` span
+  provides the sliding hover highlight, and the container is itself a popover opened by a built-in
+  small-screen toggle button (`toggle_text:` / `toggle` slot / `toggle: false`). Everything is native HTML +
+  CSS anchor positioning — no JavaScript. Layout and size modifiers (`megamenu-wide`, `megamenu-full`,
+  `max-sm:megamenu-vertical`, `megamenu-xs`-`megamenu-xl`) apply via `css:`. Ships with specs, a demo page,
+  and Playwright tests. Requires DaisyUI 5.6+.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's

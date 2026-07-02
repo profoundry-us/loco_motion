@@ -1,0 +1,138 @@
+= doc_title(title: "Megamenus", comp: @comp) do |title|
+  :markdown
+    A megamenu is a large, horizontal menu where each item opens a popover
+    holding a big block of navigation links — DaisyUI menus, multi-column
+    lists, images, or any custom content. It is intended to be used once,
+    near the top of the page.
+
+    Everything is native HTML (`popover` / `popovertarget`) positioned with
+    CSS anchor positioning, so there is no JavaScript involved. On small
+    screens, add `max-sm:megamenu-vertical` to collapse the menu behind the
+    built-in toggle button, which opens it as a full-width popover.
+
+
+= doc_example(title: "Basic Megamenu") do |doc|
+  - doc.with_description do
+    :markdown
+      Each item takes a `title:` for its always-visible button and a block
+      for its popover — here, simple vertical menus. Hover the buttons to see
+      the sliding highlight; click to open. Resize the window below `sm` to
+      see the vertical layout behind the toggle.
+
+  = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+    - mega.with_item(title: "Services") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Enterprise", "#"
+        - menu.with_item do
+          = link_to "CRM Software", "#"
+        - menu.with_item do
+          = link_to "Security", "#"
+    - mega.with_item(title: "AI") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "AI Infrastructure", "#"
+        - menu.with_item do
+          = link_to "Image Generation", "#"
+    - mega.with_item(title: "Cloud") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Cloud Computing", "#"
+        - menu.with_item do
+          = link_to "Storage Solutions", "#"
+
+
+= doc_example(title: "Wide Megamenu") do |doc|
+  - doc.with_description do
+    :markdown
+      With `megamenu-wide`, every popover stretches to the width of the
+      megamenu container — a good fit for horizontal menus.
+
+  = daisy_megamenu(css: "megamenu-wide max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+    - mega.with_item(title: "Products") do
+      = daisy_menu(css: "menu-horizontal") do |menu|
+        - menu.with_item do
+          = link_to "UI Kit", "#"
+        - menu.with_item do
+          = link_to "Themes", "#"
+        - menu.with_item do
+          = link_to "Plugins", "#"
+    - mega.with_item(title: "Resources") do
+      = daisy_menu(css: "menu-horizontal") do |menu|
+        - menu.with_item do
+          = link_to "Documentation", "#"
+        - menu.with_item do
+          = link_to "Blog", "#"
+
+
+= doc_example(title: "Full-Width Megamenu") do |doc|
+  - doc.with_description do
+    :markdown
+      `megamenu-full` stretches every popover across the entire page width,
+      regardless of the menu's own size.
+
+  = daisy_megamenu(css: "megamenu-full max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+    - mega.with_item(title: "Platform") do
+      = daisy_menu(css: "menu-horizontal") do |menu|
+        - menu.with_item do
+          = link_to "Hosting", "#"
+        - menu.with_item do
+          = link_to "Databases", "#"
+        - menu.with_item do
+          = link_to "Edge Network", "#"
+
+
+= doc_example(title: "Rich Content") do |doc|
+  - doc.with_description do
+    :markdown
+      Popovers hold any markup — combine multiple menus with headings for a
+      classic multi-column megamenu.
+
+  = daisy_megamenu(css: "megamenu-wide max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+    - mega.with_item(title: "Solutions") do
+      .flex.flex-col.sm:flex-row.gap-4.p-4
+        %div
+          %h3.font-bold.px-3.pb-2 By Team
+          = daisy_menu do |menu|
+            - menu.with_item do
+              = link_to "Engineering", "#"
+            - menu.with_item do
+              = link_to "Design", "#"
+            - menu.with_item do
+              = link_to "Marketing", "#"
+        %div
+          %h3.font-bold.px-3.pb-2 By Size
+          = daisy_menu do |menu|
+            - menu.with_item do
+              = link_to "Startups", "#"
+            - menu.with_item do
+              = link_to "Enterprise", "#"
+    - mega.with_item(title: "Pricing") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Plans", "#"
+        - menu.with_item do
+          = link_to "Compare", "#"
+
+
+= doc_example(title: "Custom Toggle") do |doc|
+  - doc.with_description do
+    :markdown
+      The small-screen toggle shows the `toggle_text:` option ("Menu" by
+      default) — or provide the `toggle` slot for custom content. Pass
+      `toggle: false` to skip it entirely (this example keeps it, with an
+      icon). Shrink the window to see it.
+
+  = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+    - mega.with_toggle do
+      .flex.items-center.gap-2
+        = loco_icon("bars-3", css: "size-5")
+        Navigation
+    - mega.with_item(title: "Home") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Dashboard", "#"
+    - mega.with_item(title: "About") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Our Team", "#"
