@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Megamenu): Add the `daisy_megamenu` component (`Daisy::Navigation::MegamenuComponent`) — a large
+  horizontal navigation menu where each item opens a popover of links (#209). Items pair a
+  `<button popovertarget>` with an adjacent `<div popover>` (IDs auto-generated), a `megamenu-active` span
+  provides the sliding hover highlight, and the container is itself a popover opened by a built-in
+  small-screen toggle button (`toggle_text:` / `toggle` slot / `toggle: false`). Everything is native HTML +
+  CSS anchor positioning — no JavaScript. Layout and size modifiers (`megamenu-wide`, `megamenu-full`,
+  `max-sm:megamenu-vertical`, `megamenu-xs`-`megamenu-xl`) apply via `css:`. Ships with specs, a demo page,
+  and Playwright tests. Requires DaisyUI 5.6+.
+
 - feat(OTP): Add the `daisy_otp` component (`Daisy::DataInput::OtpComponent`) for one-time-password /
   verification-code entry (#210). It renders a DaisyUI `otp` label with one character box per digit (a
   `length:` of 1-8, default 4) backed by a single `<input>` carrying `inputmode="numeric"`,
