@@ -15,6 +15,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Demo): Bump DaisyUI from 5.5.23 to 5.6.7 in the demo app. The newer release ships the `aura`, `otp`,
+  and `megamenu` components, which the upcoming `daisy_aura` (#208), `daisy_otp` (#210), and `daisy_megamenu`
+  (#209) LocoMotion components build on.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's
