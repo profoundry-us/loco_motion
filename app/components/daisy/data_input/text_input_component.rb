@@ -9,15 +9,16 @@
 #   `input-ghost` to remove the border.
 #
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part start The element that contains the start label (appears before the
-#   input).
-# @part end The element that contains the end label (appears after the input).
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before
+#   the input).
+# @part trailing The element that contains the trailing label (appears after
+#   the input).
 # @part floating The element that contains the floating label (appears floating
 #   above the input).
 #
-# @slot start Content to display before the input field.
-# @slot end Content to display after the input field.
+# @slot leading Content to display before the input field.
+# @slot trailing Content to display after the input field.
 # @slot floating Custom content for the floating label.
 #
 # @loco_example Basic Usage
@@ -33,25 +34,25 @@
 #   = daisy_text_input(name: "password", id: "password", type: "password")
 #   = daisy_text_input(name: "email", id: "email", type: "email")
 #
-# @loco_example With Start Label
-#   = daisy_text_input(name: "username", id: "username", start: "Username:")
+# @loco_example With Leading Label
+#   = daisy_text_input(name: "username", id: "username", leading: "Username:")
 #
-# @loco_example With End Label
-#   = daisy_text_input(name: "email", id: "email", end: "@example.com")
+# @loco_example With Trailing Label
+#   = daisy_text_input(name: "email", id: "email", trailing: "@example.com")
 #
 # @loco_example With Floating Label
 #   = daisy_text_input(name: "username", id: "username", floating: "Username")
 #
 # @loco_example With Icons
 #   = daisy_text_input(name: "search", placeholder: "Search...") do |text_input|
-#     - text_input.with_start do
+#     - text_input.with_leading do
 #       = loco_icon("magnifying-glass", css: "size-5 text-gray-400")
 #
-# @loco_example With Start and End Content
+# @loco_example With Leading and Trailing Content
 #   = daisy_text_input(name: "email", placeholder: "Email address") do |text_input|
-#     - text_input.with_start do
+#     - text_input.with_leading do
 #       = loco_icon("envelope", css: "size-5 text-gray-400")
-#     - text_input.with_end do
+#     - text_input.with_trailing do
 #       = daisy_button(title: "Verify", css: "h-full rounded-l-none")
 #
 # @loco_example Disabled Text Input
@@ -123,7 +124,7 @@ module Daisy
 
         if has_floating_label?
           add_css(:label_wrapper, "floating-label input")
-        elsif has_start_label? || has_end_label?
+        elsif has_leading_label? || has_trailing_label?
           add_css(:label_wrapper, "input")
         else
           add_css(:component, "input")

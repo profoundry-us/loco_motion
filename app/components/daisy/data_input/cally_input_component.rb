@@ -33,8 +33,8 @@ module Daisy
 
           # Since we're pulling options from the parent, we have to do a little
           # more work to ensure we set it up correctly.
-          @start = config_option(:start, parent_config.options[:start])
-          @end = config_option(:end, parent_config.options[:end])
+          @leading = config_option(:leading, parent_config.options[:leading])
+          @trailing = config_option(:trailing, parent_config.options[:trailing])
           @floating_placeholder = config_option(:floating_placeholder, parent_config.options[:floating_placeholder])
           @floating = config_option(:floating, parent_config.options[:floating] || @floating_placeholder)
           @placeholder = config_option(:placeholder, parent_config.options[:placeholder] || @floating_placeholder)
