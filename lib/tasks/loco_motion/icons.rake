@@ -119,7 +119,9 @@ namespace :loco_motion do
       require "tmpdir"
 
       # Icons LocoMotion components render (or that its basic components
-      # commonly need), bundled so they work with zero consumer sync:
+      # commonly need), bundled so they work with zero consumer sync.
+      # NOTE: Keep the bundled-icon list in Loco::IconComponent's class docs
+      # in sync when changing this set:
       #   - x-mark: Alert / Modal close
       #   - check / trash / swatch: ThemeController
       #   - chevron-left / chevron-right: Cally month nav
