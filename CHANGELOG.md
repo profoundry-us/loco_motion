@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
+  only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
+  `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's
+  Tailwind theme) now scales the heart itself on hover, with a ping-style echo synced to the same cycle
+  as the outgoing pulse.
+
 - docs(Icons): Fix the Loco Icons page's "Other Libraries" section and its bundled-icons claim. The section's
   fenced markdown code blocks collapsed into inline code (the HAML `:markdown` filter's Redcarpet lacks the
   `fenced_code_blocks` extension) — rewritten with the demo's `doc_code` / `daisy_code` components. The page
