@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
+  only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
+  `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~60bpm, defined in the demo's
+  Tailwind theme) now scales the heart itself on hover, with the ping kept as the outgoing echo.
+
 - fix(Demo): Lay out the "Theme Radio with Inline Preview" example as a row. The radio's `end` slot wraps its
   content in a plain `<div>` (the `BasicComponent` slot wrapper), so the block-level theme preview stacked
   above the theme name instead of flowing beside it — the example had rendered this way since it was added.
