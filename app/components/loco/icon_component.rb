@@ -2,10 +2,23 @@
 
 #
 # Creates an icon component rendered as inline SVG from any installed icon
-# library. LocoMotion bundles {https://heroicons.com Heroicons} out of the box
-# (the default), and consumers can add any other supported library — Lucide,
-# Phosphor, Tabler, brand sets, and more — by syncing it into their own
-# application (see the `loco_motion:icons:add` task).
+# library. LocoMotion bundles only a small, curated set of
+# {https://heroicons.com Heroicons} — the icons its own components render, so
+# they work with zero setup:
+#
+# - `check`, `check-circle`
+# - `chevron-left`, `chevron-right`
+# - `exclamation-circle`, `exclamation-triangle`
+# - `information-circle`
+# - `swatch`
+# - `trash`
+# - `x-mark`
+#
+# Each is bundled in all four Heroicons variants (`outline`, `solid`, `mini`,
+# and `micro`). Every other icon — the rest of Heroicons, or any other library
+# like Lucide, Phosphor, Tabler, and brand sets — is synced into your own
+# application (see the `loco_motion:icons:add` / `loco_motion:icons:sync`
+# tasks).
 #
 # @note By default, icons are displayed with the `size-5` Tailwind class. This
 #   can be overridden without using the `!` modifier because we utilize the
