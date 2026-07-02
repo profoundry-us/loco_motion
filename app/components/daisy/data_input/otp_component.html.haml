@@ -1,0 +1,7 @@
+= part(:component) do
+  -# The digit boxes must come before the input: DaisyUI positions and sizes
+  -# them with nth-child selectors that count every child of the wrapper.
+  - length.times do
+    = part(:digit)
+
+  = part(:input)

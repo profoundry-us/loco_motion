@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(OTP): Add the `daisy_otp` component (`Daisy::DataInput::OtpComponent`) for one-time-password /
+  verification-code entry (#210). It renders a DaisyUI `otp` label with one character box per digit (a
+  `length:` of 1-8, default 4) backed by a single `<input>` carrying `inputmode="numeric"`,
+  `autocomplete="one-time-code"`, and a matching `maxlength` / `pattern` — so codes submit like any other
+  form field with no JavaScript. Supports `name:`, `id:`, `value:`, and `required:`, plus the `otp-*`
+  joined/size/color modifiers via `css:`. Ships with specs, a demo page, and a Playwright test. Requires
+  DaisyUI 5.6+.
+
 - feat(Aura): Add the `daisy_aura` component (`Daisy::Layout::AuraComponent`), wrapping DaisyUI's `aura`
   border light effect (#208). It renders any block content inside a wrapper that paints a rotating
   conic-gradient light (in `currentColor`, so any `text-*` utility tints it), supports the `aura-*`
