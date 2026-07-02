@@ -22,8 +22,10 @@
   --font-sans: "Open Sans", "Montserrat", sans-serif;
   --max-prose-width: 100%;
 
-  /* A "lub-dub" double pulse (~60bpm) used by the footer heart. */
-  --animate-heartbeat: heartbeat 1s ease-in-out infinite;
+  /* A "lub-dub" double pulse (~48bpm) used by the footer heart, plus a
+   * ping-style echo synced to the same cycle. */
+  --animate-heartbeat: heartbeat 1.25s ease-in-out infinite;
+  --animate-heartbeat-echo: heartbeat-echo 1.25s cubic-bezier(0, 0, 0.2, 1) infinite;
 
   @keyframes heartbeat {
     0%, 70%, 100% {
@@ -36,6 +38,13 @@
 
     28% {
       transform: scale(1);
+    }
+  }
+
+  @keyframes heartbeat-echo {
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
     }
   }
 }
