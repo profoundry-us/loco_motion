@@ -68,9 +68,23 @@
       verification flow. `required: true` participates in normal HTML form
       validation.
 
+      Since the value is a plain input, your JavaScript can read it like any
+      other field — type a code and click **Verify** to see for yourself.
+
+  :ruby
+    verify_js = <<~JS.squish
+      const value = document.querySelector("input[name='otp_code']").value;
+      if (value.length < 6) {
+        alert(`Hold on — that's only ${value.length} of 6 digits!`);
+      } else {
+        const sum = value.split("").reduce((total, digit) => total + Number(digit), 0);
+        alert(`${value.split("").join(" + ")} = ${sum} — verified! 🎉`);
+      }
+    JS
+
   = daisy_fieldset do |fieldset|
     - fieldset.with_legend { "Enter Verification Code" }
 
     = daisy_otp(name: "otp_code", length: 6, required: true)
 
-    = daisy_button(title: "Verify", css: "btn-primary mt-4")
+    = daisy_button(title: "Verify", css: "btn-primary mt-4", html: { onclick: verify_js })
