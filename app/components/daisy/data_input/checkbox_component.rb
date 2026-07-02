@@ -14,13 +14,13 @@
 #   the box is unchecked. Rendered only for a named, enabled checkbox with
 #   `include_hidden` on.
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part@part leading The element that contains the leading label (appears before the
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before the
 #   checkbox).
-# @part@part trailing The element that contains the trailing label (appears after the checkbox).
+# @part trailing The element that contains the trailing label (appears after the checkbox).
 #
-# @slot@slot leading Custom content for the leading label.
-# @slot@slot trailing Custom content for the trailing label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 #
 # @loco_example Basic Usage
 #   = daisy_checkbox(name: "accept", id: "accept")
@@ -34,18 +34,18 @@
 # @loco_example Disabled Checkbox
 #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
 #
-# @loco_example@loco_example With Leading Label
+# @loco_example With Leading Label
 #   = daisy_checkbox(name: "accept", id: "accept", leading: "Accept:")
 #
-# @loco_example@loco_example With Trailing Label (common for checkboxes)
+# @loco_example With Trailing Label (common for checkboxes)
 #   = daisy_checkbox(name: "terms", id: "terms", trailing: "I agree to the terms and conditions")
 #
-# @loco_example@loco_example With Custom Leading Content
+# @loco_example With Custom Leading Content
 #   = daisy_checkbox(name: "accept", id: "accept") do |checkbox|
 #     - checkbox.with_leading do
 #       %span.text-primary Accept:
 #
-# @loco_example@loco_example With Custom Trailing Content
+# @loco_example With Custom Trailing Content
 #   = daisy_checkbox(name: "terms", id: "terms") do |checkbox|
 #     - checkbox.with_trailing do
 #       %span.text-secondary I agree to the terms

@@ -6,13 +6,13 @@
 # to toggle between two states (on/off).
 #
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part@part leading The element that contains the leading label (appears before the
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before the
 #   toggle).
-# @part@part trailing The element that contains the trailing label (appears after the toggle).
+# @part trailing The element that contains the trailing label (appears after the toggle).
 #
-# @slot@slot leading Custom content for the leading label.
-# @slot@slot trailing Custom content for the trailing label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 #
 # @loco_example Basic Usage
 #   = daisy_toggle(name: "notifications", id: "notifications")
@@ -26,7 +26,7 @@
 # @loco_example Disabled Toggle
 #   = daisy_toggle(name: "disabled", id: "disabled", disabled: true)
 #
-# @loco_example@loco_example With Trailing Label (common for toggles)
+# @loco_example With Trailing Label (common for toggles)
 #   = daisy_toggle(name: "notifications", id: "notifications", trailing: "Enable notifications")
 #
 module Daisy

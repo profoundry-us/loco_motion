@@ -6,14 +6,14 @@
 # option groups where users must select exactly one choice.
 #
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part@part leading The element that contains the leading label (appears before the
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before the
 #   radio button).
-# @part@part trailing The element that contains the trailing label (appears after the radio
+# @part trailing The element that contains the trailing label (appears after the radio
 #   button).
 #
-# @slot@slot leading Custom content for the leading label.
-# @slot@slot trailing Custom content for the trailing label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 #
 # @loco_example Basic Usage
 #   = daisy_radio(name: "option", id: "option1", value: "1")
@@ -24,18 +24,18 @@
 # @loco_example Disabled Radio Button
 #   = daisy_radio(name: "option", id: "option3", value: "3", disabled: true)
 #
-# @loco_example@loco_example With Leading Label
+# @loco_example With Leading Label
 #   = daisy_radio(name: "option", id: "option1", value: "1", leading: "Option:")
 #
-# @loco_example@loco_example With Trailing Label (common for radio buttons)
+# @loco_example With Trailing Label (common for radio buttons)
 #   = daisy_radio(name: "option", id: "option1", value: "1", trailing: "Option 1")
 #
-# @loco_example@loco_example With Custom Leading Content
+# @loco_example With Custom Leading Content
 #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
 #     - radio.with_leading do
 #       %span.text-primary Option:
 #
-# @loco_example@loco_example With Custom Trailing Content
+# @loco_example With Custom Trailing Content
 #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
 #     - radio.with_trailing do
 #       %span.text-secondary Option 1
