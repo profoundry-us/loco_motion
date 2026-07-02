@@ -112,6 +112,7 @@ module LocoMotion
                                              example: "tooltips" },
 
     # Layout
+    "Daisy::Layout::AuraComponent" => { names: "aura", group: "Layout", title: "Auras", example: "auras" },
     "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
