@@ -14,13 +14,13 @@
 #   the box is unchecked. Rendered only for a named, enabled checkbox with
 #   `include_hidden` on.
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part start The element that contains the start label (appears before the
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before the
 #   checkbox).
-# @part end The element that contains the end label (appears after the checkbox).
+# @part trailing The element that contains the trailing label (appears after the checkbox).
 #
-# @slot start Custom content for the start label.
-# @slot end Custom content for the end label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 #
 # @loco_example Basic Usage
 #   = daisy_checkbox(name: "accept", id: "accept")
@@ -34,20 +34,20 @@
 # @loco_example Disabled Checkbox
 #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
 #
-# @loco_example With Start Label
-#   = daisy_checkbox(name: "accept", id: "accept", start: "Accept:")
+# @loco_example With Leading Label
+#   = daisy_checkbox(name: "accept", id: "accept", leading: "Accept:")
 #
-# @loco_example With End Label (common for checkboxes)
-#   = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
+# @loco_example With Trailing Label (common for checkboxes)
+#   = daisy_checkbox(name: "terms", id: "terms", trailing: "I agree to the terms and conditions")
 #
-# @loco_example With Custom Start Content
+# @loco_example With Custom Leading Content
 #   = daisy_checkbox(name: "accept", id: "accept") do |checkbox|
-#     - checkbox.with_start do
+#     - checkbox.with_leading do
 #       %span.text-primary Accept:
 #
-# @loco_example With Custom End Content
+# @loco_example With Custom Trailing Content
 #   = daisy_checkbox(name: "terms", id: "terms") do |checkbox|
-#     - checkbox.with_end do
+#     - checkbox.with_trailing do
 #       %span.text-secondary I agree to the terms
 #
 # @loco_example Without the Companion Hidden Field

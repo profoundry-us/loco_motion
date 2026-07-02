@@ -6,14 +6,14 @@
 # option groups where users must select exactly one choice.
 #
 # @part label_wrapper The wrapper element for labels (when using
-#   start/end/floating labels).
-# @part start The element that contains the start label (appears before the
+#   leading/trailing/floating labels).
+# @part leading The element that contains the leading label (appears before the
 #   radio button).
-# @part end The element that contains the end label (appears after the radio
+# @part trailing The element that contains the trailing label (appears after the radio
 #   button).
 #
-# @slot start Custom content for the start label.
-# @slot end Custom content for the end label.
+# @slot leading Custom content for the leading label.
+# @slot trailing Custom content for the trailing label.
 #
 # @loco_example Basic Usage
 #   = daisy_radio(name: "option", id: "option1", value: "1")
@@ -24,20 +24,20 @@
 # @loco_example Disabled Radio Button
 #   = daisy_radio(name: "option", id: "option3", value: "3", disabled: true)
 #
-# @loco_example With Start Label
-#   = daisy_radio(name: "option", id: "option1", value: "1", start: "Option:")
+# @loco_example With Leading Label
+#   = daisy_radio(name: "option", id: "option1", value: "1", leading: "Option:")
 #
-# @loco_example With End Label (common for radio buttons)
-#   = daisy_radio(name: "option", id: "option1", value: "1", end: "Option 1")
+# @loco_example With Trailing Label (common for radio buttons)
+#   = daisy_radio(name: "option", id: "option1", value: "1", trailing: "Option 1")
 #
-# @loco_example With Custom Start Content
+# @loco_example With Custom Leading Content
 #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
-#     - radio.with_start do
+#     - radio.with_leading do
 #       %span.text-primary Option:
 #
-# @loco_example With Custom End Content
+# @loco_example With Custom Trailing Content
 #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
-#     - radio.with_end do
+#     - radio.with_trailing do
 #       %span.text-secondary Option 1
 #
 module Daisy
