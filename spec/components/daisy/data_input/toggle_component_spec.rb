@@ -68,39 +68,39 @@ RSpec.describe Daisy::DataInput::ToggleComponent, type: :component do
   end
 
   it "renders with a string start label" do
-    render_inline(described_class.new(name: "notifications", start: "Enable:"))
+    render_inline(described_class.new(name: "notifications", leading: "Enable:"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "Enable:")
   end
 
   it "renders with a string end label" do
-    render_inline(described_class.new(name: "notifications", end: "Enable notifications"))
+    render_inline(described_class.new(name: "notifications", trailing: "Enable notifications"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "Enable notifications")
   end
 
-  it "renders with content in the start block" do
+  it "renders with content in the leading block" do
     render_inline(described_class.new(name: "notifications")) do |component|
-      component.with_start { "Start content" }
+      component.with_leading { "Leading content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("Start content")
+    expect(page).to have_text("Leading content")
   end
 
-  it "renders with content in the end block" do
+  it "renders with content in the trailing block" do
     render_inline(described_class.new(name: "notifications")) do |component|
-      component.with_end { "End content" }
+      component.with_trailing { "Trailing content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("End content")
+    expect(page).to have_text("Trailing content")
   end
 
   it "properly adds CSS classes when using labels" do
-    render_inline(described_class.new(name: "notifications", end: "Enable notifications"))
+    render_inline(described_class.new(name: "notifications", trailing: "Enable notifications"))
 
     # The label and input structure is different when using labels
     expect(page).to have_css("label")

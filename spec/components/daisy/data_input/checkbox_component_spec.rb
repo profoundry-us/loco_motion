@@ -53,39 +53,39 @@ RSpec.describe Daisy::DataInput::CheckboxComponent, type: :component do
   end
 
   it "renders with a string start label" do
-    render_inline(described_class.new(name: "accept_terms", start: "Accept:"))
+    render_inline(described_class.new(name: "accept_terms", leading: "Accept:"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "Accept:")
   end
 
   it "renders with a string end label" do
-    render_inline(described_class.new(name: "accept_terms", end: "I accept the terms"))
+    render_inline(described_class.new(name: "accept_terms", trailing: "I accept the terms"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "I accept the terms")
   end
 
-  it "renders with content in the start block" do
+  it "renders with content in the leading block" do
     render_inline(described_class.new(name: "accept_terms")) do |component|
-      component.with_start { "Start content" }
+      component.with_leading { "Leading content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("Start content")
+    expect(page).to have_text("Leading content")
   end
 
-  it "renders with content in the end block" do
+  it "renders with content in the trailing block" do
     render_inline(described_class.new(name: "accept_terms")) do |component|
-      component.with_end { "End content" }
+      component.with_trailing { "Trailing content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("End content")
+    expect(page).to have_text("Trailing content")
   end
 
   it "properly adds CSS classes when using labels" do
-    render_inline(described_class.new(name: "accept_terms", end: "I accept the terms"))
+    render_inline(described_class.new(name: "accept_terms", trailing: "I accept the terms"))
 
     # The label and input structure is different when using labels
     expect(page).to have_css("label")
@@ -93,7 +93,7 @@ RSpec.describe Daisy::DataInput::CheckboxComponent, type: :component do
   end
 
   it "adds 'label' CSS class to label_wrapper when using labels" do
-    render_inline(described_class.new(name: "accept_terms", end: "I accept the terms"))
+    render_inline(described_class.new(name: "accept_terms", trailing: "I accept the terms"))
 
     # Verify the label CSS class is added to the label_wrapper
     expect(page).to have_css("label.label")
@@ -119,7 +119,7 @@ RSpec.describe Daisy::DataInput::CheckboxComponent, type: :component do
     end
 
     it "renders the hidden field outside the label wrapper when labels are used" do
-      render_inline(described_class.new(name: "accept_terms", end: "I accept"))
+      render_inline(described_class.new(name: "accept_terms", trailing: "I accept"))
 
       expect(page).to have_css("input[type='hidden'][name='accept_terms'] + label", visible: :all)
       expect(page).not_to have_css("label input[type='hidden']", visible: :all)
