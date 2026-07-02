@@ -30,25 +30,6 @@ module LocoMotion
     module LabelableComponent
       extend ActiveSupport::Concern
 
-      # Warns about the deprecated `start` / `end` labelable API (renamed to
-      # `leading` / `trailing` because `end` is a Ruby reserved word).
-      DEPRECATOR = ActiveSupport::Deprecation.new("1.0", "LocoMotion")
-
-      # Legacy keyword arguments and the `leading` / `trailing` options they
-      # translate to.
-      LEGACY_OPTION_MAP = {
-        start: :leading,
-        end: :trailing,
-        start_css: :leading_css,
-        end_css: :trailing_css,
-        start_html: :leading_html,
-        end_html: :trailing_html,
-        start_aria: :leading_aria,
-        end_aria: :trailing_aria,
-        start_data: :leading_data,
-        end_data: :trailing_data
-      }.freeze
-
       #
       # Called when the module is included in a component class.
       # Sets up the necessary parts & slots for custom label content.
@@ -66,10 +47,6 @@ module LocoMotion
 
       #
       # Initializes the component and sets up the label options.
-      #
-      # Legacy `start` / `end` options (and their `_css` / `_html` / `_aria` /
-      # `_data` variants) are translated to `leading` / `trailing` with a
-      # deprecation warning.
       #
       # @param instance_args [Array] Positional arguments passed to the component
       #
@@ -98,17 +75,6 @@ module LocoMotion
       #   custom content
       #
       def initialize(*instance_args, **instance_kws, &instance_block)
-        LEGACY_OPTION_MAP.each do |legacy_key, new_key|
-          next unless instance_kws.key?(legacy_key)
-
-          DEPRECATOR.warn(
-            "The `#{legacy_key}:` option is deprecated; use `#{new_key}:` " \
-            "instead."
-          )
-          legacy_value = instance_kws.delete(legacy_key)
-          instance_kws[new_key] = legacy_value unless instance_kws.key?(new_key)
-        end
-
         super(*instance_args, **instance_kws, &instance_block)
 
         @floating_placeholder = config_option(:floating_placeholder)
@@ -117,22 +83,6 @@ module LocoMotion
         @trailing = config_option(:trailing)
         @floating = config_option(:floating, @floating_placeholder)
         @placeholder = config_option(:placeholder, @floating_placeholder)
-      end
-
-      #
-      # Deprecated alias of `with_leading`.
-      #
-      def with_start(*args, **kws, &block)
-        DEPRECATOR.warn("`with_start` is deprecated; use `with_leading` instead.")
-        with_leading(*args, **kws, &block)
-      end
-
-      #
-      # Deprecated alias of `with_trailing`.
-      #
-      def with_end(*args, **kws, &block)
-        DEPRECATOR.warn("`with_end` is deprecated; use `with_trailing` instead.")
-        with_trailing(*args, **kws, &block)
       end
 
       #
@@ -177,22 +127,6 @@ module LocoMotion
       #
       def has_trailing_label?
         trailing? || @trailing || config_option(:trailing).present?
-      end
-
-      #
-      # Deprecated alias of `has_leading_label?`.
-      #
-      def has_start_label?
-        DEPRECATOR.warn("`has_start_label?` is deprecated; use `has_leading_label?` instead.")
-        has_leading_label?
-      end
-
-      #
-      # Deprecated alias of `has_trailing_label?`.
-      #
-      def has_end_label?
-        DEPRECATOR.warn("`has_end_label?` is deprecated; use `has_trailing_label?` instead.")
-        has_trailing_label?
       end
 
       #
