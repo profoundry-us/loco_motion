@@ -40,5 +40,4 @@ RSpec.describe LocoMotion::Concerns::LabelableComponent, type: :component do
       expect(page).to have_text("After")
     end
   end
-
 end
