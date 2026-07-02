@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Aura): Add the `daisy_aura` component (`Daisy::Layout::AuraComponent`), wrapping DaisyUI's `aura`
+  border light effect (#208). It renders any block content inside a wrapper that paints a rotating
+  conic-gradient light (in `currentColor`, so any `text-*` utility tints it), supports the `aura-*`
+  style/size modifiers via `css:`, and includes `LinkableComponent` so an `href:` makes the whole element
+  clickable. Ships with specs, a demo page, and a Playwright test. Requires DaisyUI 5.6+.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's

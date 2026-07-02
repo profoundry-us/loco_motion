@@ -1,0 +1,78 @@
+= doc_title(title: "Auras", comp: @comp) do |title|
+  :markdown
+    Auras wrap any component with an animated border light effect that rotates
+    around the element. The effect is pure CSS — the aura renders in the
+    wrapper's *text color* (`currentColor`), so you can tint it with any
+    Tailwind `text-*` utility.
+
+
+= doc_example(title: "Basic Aura") do |doc|
+  - doc.with_description do
+    :markdown
+      By default, the aura draws a single rotating light in the current text
+      color around whatever you place inside it.
+
+  = daisy_aura do
+    = daisy_card(css: "bg-base-100") do
+      %p This card has aura!
+
+
+= doc_example(title: "Aura Variants", example_css: "gap-6") do |doc|
+  - doc.with_description do
+    :markdown
+      Style modifiers change the light pattern: `aura-dual` adds a second
+      light, `aura-rainbow`, `aura-holo`, `aura-gold`, and `aura-silver` apply
+      preset color schemes, and `aura-glow` pulses in place instead of
+      rotating.
+
+  .grid.grid-cols-2.md:grid-cols-3.gap-6
+    - %w[aura-dual aura-rainbow aura-holo aura-gold aura-silver aura-glow].each do |variant|
+      = daisy_aura(css: variant) do
+        = daisy_card(css: "bg-base-100") do
+          %p.font-mono.text-sm= variant
+
+
+= doc_example(title: "Aura Sizes", example_css: "gap-6") do |doc|
+  - doc.with_description do
+    :markdown
+      Size modifiers control how far the light extends beyond the content,
+      from `aura-xs` (flush) to `aura-xl`.
+
+  .flex.flex-wrap.items-center.gap-6
+    - %w[aura-xs aura-sm aura-md aura-lg aura-xl].each do |size|
+      = daisy_aura(css: size) do
+        = daisy_badge(title: size, css: "badge-neutral badge-lg")
+
+
+= doc_example(title: "Aura Around a Button") do |doc|
+  - doc.with_description do
+    :markdown
+      Wrap a button to make a call-to-action impossible to miss.
+
+  = daisy_aura(css: "aura-rainbow") do
+    = daisy_button(title: "Highlighted Action", css: "btn-primary")
+
+
+= doc_example(title: "Custom Colors", example_css: "gap-6") do |doc|
+  - doc.with_description do
+    :markdown
+      The default aura renders in `currentColor`, so a Tailwind `text-*`
+      utility on the aura changes the light's color without affecting the
+      content inside (which sets its own colors).
+
+  .flex.flex-wrap.gap-6
+    - %w[text-orange-600 text-sky-500 text-fuchsia-500].each do |color|
+      = daisy_aura(css: color) do
+        = daisy_card(css: "bg-base-100 text-base-content") do
+          %p.font-mono.text-sm= color
+
+
+= doc_example(title: "Clickable Aura") do |doc|
+  - doc.with_description do
+    :markdown
+      Passing an `href:` renders the wrapper as an `<a>` tag, making the whole
+      aura-wrapped element one clickable control.
+
+  = daisy_aura(href: "#", css: "aura-gold cursor-pointer") do
+    = daisy_card(css: "bg-base-100") do
+      %p Click to view pricing
