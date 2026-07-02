@@ -85,17 +85,20 @@
 = doc_example(title: "Rich Content") do |doc|
   - doc.with_description do
     :markdown
-      Popovers hold any markup — combine multiple menus with headings for a
-      classic multi-column megamenu.
+      Popovers hold any markup — mix menus with headings, badges, buttons,
+      and anything else. The popover sizes itself to its content, so
+      multi-column layouts just work.
 
-  = daisy_megamenu(css: "megamenu-wide max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
+  = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300 rounded-box") do |mega|
     - mega.with_item(title: "Solutions") do
-      .flex.flex-col.sm:flex-row.gap-4.p-4
+      .flex.flex-col.sm:flex-row.gap-6.p-4
         %div
           %h3.font-bold.px-3.pb-2 By Team
           = daisy_menu do |menu|
             - menu.with_item do
-              = link_to "Engineering", "#"
+              = link_to "#", class: "flex items-center gap-2" do
+                Engineering
+                = daisy_badge(title: "New", css: "badge-primary badge-sm")
             - menu.with_item do
               = link_to "Design", "#"
             - menu.with_item do
@@ -106,13 +109,25 @@
             - menu.with_item do
               = link_to "Startups", "#"
             - menu.with_item do
-              = link_to "Enterprise", "#"
+              = link_to "#", class: "flex items-center gap-2" do
+                Enterprise
+                = daisy_badge(title: "SSO", css: "badge-outline badge-sm")
+        .rounded-box.bg-base-200.p-4.flex.flex-col.gap-2.min-w-52
+          %div
+            = daisy_badge(title: "Spotlight", css: "badge-secondary")
+          %p.font-bold LocoMotion Cloud
+          %p.text-sm.opacity-70 Spin up a demo app in one click.
+          = daisy_button(title: "Book a demo", css: "btn-primary btn-sm mt-2")
     - mega.with_item(title: "Pricing") do
       = daisy_menu do |menu|
         - menu.with_item do
           = link_to "Plans", "#"
         - menu.with_item do
           = link_to "Compare", "#"
+        - menu.with_item do
+          .flex.items-center.gap-2.px-3.py-2
+            = daisy_status(css: "status-success animate-pulse")
+            %span.text-sm All systems operational
 
 
 = doc_example(title: "Custom Toggle") do |doc|

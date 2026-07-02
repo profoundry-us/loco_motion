@@ -96,6 +96,12 @@ module Daisy
           set_tag_name(:popover, :div)
           add_html(:popover, { id: @popover_id, popover: "auto" })
 
+          # See MegamenuComponent#popover_anchor: wide/full popovers must
+          # anchor to their own megamenu, not DaisyUI's shared `--megamenu`.
+          if (anchor = loco_parent&.popover_anchor)
+            add_html(:popover, { style: "position-anchor:#{anchor}" })
+          end
+
           super
         end
 
@@ -158,6 +164,25 @@ module Daisy
         @id = config_option(:id, "megamenu-#{SecureRandom.uuid}")
         @toggle_text = config_option(:toggle_text, "Menu")
         @show_toggle = config_option(:toggle, true)
+        @anchored = config_option(:css, "").to_s.match?(/megamenu-(wide|full)/)
+      end
+
+      #
+      # The per-instance CSS anchor name used by `megamenu-wide` /
+      # `megamenu-full` popovers, or nil for a default megamenu.
+      #
+      # DaisyUI anchors wide/full popovers to a hard-coded `--megamenu`
+      # anchor name, which assumes a single megamenu per page — with several
+      # on one page, every wide/full popover resolves to the *last* one in
+      # the document and opens in the wrong place. When those modifiers are
+      # present, the component overrides the pair (`anchor-name` on the
+      # container, `position-anchor` on each item popover) with a unique
+      # name so every instance anchors to itself.
+      #
+      # @return [String, nil] The anchor name (e.g. `--megamenu-<id>`).
+      #
+      def popover_anchor
+        @anchored ? "--#{@id}" : nil
       end
 
       #
@@ -190,6 +215,7 @@ module Daisy
       def setup_component
         add_css(:component, "megamenu")
         add_html(:component, { id: @id, popover: "auto" })
+        add_html(:component, { style: "anchor-name:#{popover_anchor}" }) if popover_anchor
 
         set_tag_name(:toggle, :button)
         add_css(:toggle, "btn sm:hidden")

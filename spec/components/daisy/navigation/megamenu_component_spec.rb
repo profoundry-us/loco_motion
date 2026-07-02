@@ -130,4 +130,41 @@ RSpec.describe Daisy::Navigation::MegamenuComponent, type: :component do
       expect(page).to have_selector(".megamenu[data-test='value']", visible: :all)
     end
   end
+
+  context "with the megamenu-wide / megamenu-full modifiers" do
+    before do
+      render_inline(described_class.new(id: "wide-menu", css: "megamenu-wide")) do |mega|
+        mega.with_item(title: "Products") { "Content" }
+      end
+    end
+
+    # DaisyUI anchors wide/full popovers to a shared `--megamenu` anchor
+    # name, which breaks when a page holds more than one megamenu — so the
+    # component overrides the pair with a per-instance anchor.
+    it "gives the container a unique anchor-name" do
+      container = page.find(".megamenu", visible: :all)
+      expect(container[:style]).to include("anchor-name:--wide-menu")
+    end
+
+    it "points each popover's position-anchor at the container" do
+      popover = page.find(".megamenu > div[popover]", visible: :all)
+      expect(popover[:style]).to include("position-anchor:--wide-menu")
+    end
+  end
+
+  context "without the wide / full modifiers" do
+    before do
+      render_inline(described_class.new(id: "plain-menu")) do |mega|
+        mega.with_item(title: "Products") { "Content" }
+      end
+    end
+
+    it "does not override the anchor pair" do
+      container = page.find(".megamenu", visible: :all)
+      popover = page.find(".megamenu > div[popover]", visible: :all)
+
+      expect(container[:style].to_s).not_to include("anchor-name")
+      expect(popover[:style].to_s).not_to include("position-anchor")
+    end
+  end
 end
