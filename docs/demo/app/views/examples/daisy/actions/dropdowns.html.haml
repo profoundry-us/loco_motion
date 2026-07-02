@@ -37,22 +37,22 @@
   - doc.with_description do
     :markdown
       Build selectable rows without hand-rolling the markup: pass `label:`,
-      `href:`, and `selected:` to `with_item`, and use the item's `start` /
-      `end` slots for an icon and a checkmark. `selected: true` adds DaisyUI's
-      `menu-active` highlight. Items with a plain content block still render
-      exactly as before.
+      `href:`, and `selected:` to `with_item`, and use the item's `leading` /
+      `trailing` slots for an icon and a checkmark. `selected: true` adds
+      DaisyUI's `menu-active` highlight. Items with a plain content block
+      still render exactly as before.
 
   = daisy_dropdown(title: "Sort by", css: "dropdown-end") do |dropdown|
     - dropdown.with_item(label: "Newest first", href: "#", selected: true) do |item|
-      - item.with_start do
+      - item.with_leading do
         = loco_icon "bars-arrow-down", css: "size-4"
-      - item.with_end do
+      - item.with_trailing do
         = loco_icon "check", css: "size-4 text-primary"
     - dropdown.with_item(label: "Oldest first", href: "#") do |item|
-      - item.with_start do
+      - item.with_leading do
         = loco_icon "bars-arrow-up", css: "size-4"
     - dropdown.with_item(href: "#") do |item|
-      - item.with_start do
+      - item.with_leading do
         = loco_icon "star", css: "size-4"
       Favorites
 

@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Dropdown)!: Rename the dropdown item's `start` / `end` slots to `leading` / `trailing` (part of
+  #187). `end` is a Ruby reserved word, so its slot reader forced `send(:end)` workarounds. The structured
+  item API is now `item.with_leading` / `item.with_trailing`. This API was added after v0.6.0 and has never
+  shipped in a release, so it is a clean rename with no deprecation aliases.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's
