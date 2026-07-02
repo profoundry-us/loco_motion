@@ -69,6 +69,7 @@ module LocoMotion
     "Daisy::DataInput::FilterComponent" => { names: "filter", group: "Data Input", title: "Filters",
                                              example: "filters" },
     "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
+    "Daisy::DataInput::OtpComponent" => { names: "otp", group: "Data Input", title: "OTP Inputs", example: "otps" },
     "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons",
                                                   example: "radio_buttons" },
     "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
@@ -88,6 +89,8 @@ module LocoMotion
                                                    example: "breadcrumbs" },
     "Daisy::Navigation::DockComponent" => { names: "dock", group: "Navigation", title: "Dock", example: "docks" },
     "Daisy::Navigation::LinkComponent" => { names: "link", group: "Navigation", title: "Links", example: "links" },
+    "Daisy::Navigation::MegamenuComponent" => { names: "megamenu", group: "Navigation", title: "Megamenus",
+                                                example: "megamenus" },
     "Daisy::Navigation::MenuComponent" => { names: "menu", group: "Navigation", title: "Menus", example: "menus" },
     "Daisy::Navigation::NavbarComponent" => { names: "navbar", group: "Navigation", title: "Navbars",
                                               example: "navbars" },
@@ -111,6 +114,7 @@ module LocoMotion
                                              example: "tooltips" },
 
     # Layout
+    "Daisy::Layout::AuraComponent" => { names: "aura", group: "Layout", title: "Auras", example: "auras" },
     "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
