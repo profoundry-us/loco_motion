@@ -24,6 +24,24 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `max-sm:megamenu-vertical`, `megamenu-xs`-`megamenu-xl`) apply via `css:`. Ships with specs, a demo page,
   and Playwright tests. Requires DaisyUI 5.6+.
 
+- feat(OTP): Add the `daisy_otp` component (`Daisy::DataInput::OtpComponent`) for one-time-password /
+  verification-code entry (#210). It renders a DaisyUI `otp` label with one character box per digit (a
+  `length:` of 1-8, default 4) backed by a single `<input>` carrying `inputmode="numeric"`,
+  `autocomplete="one-time-code"`, and a matching `maxlength` / `pattern` — so codes submit like any other
+  form field with no JavaScript. Supports `name:`, `id:`, `value:`, and `required:`, plus the `otp-*`
+  joined/size/color modifiers via `css:`. Ships with specs, a demo page, and a Playwright test. Requires
+  DaisyUI 5.6+.
+
+- feat(Aura): Add the `daisy_aura` component (`Daisy::Layout::AuraComponent`), wrapping DaisyUI's `aura`
+  border light effect (#208). It renders any block content inside a wrapper that paints a rotating
+  conic-gradient light (in `currentColor`, so any `text-*` utility tints it), supports the `aura-*`
+  style/size modifiers via `css:`, and includes `LinkableComponent` so an `href:` makes the whole element
+  clickable. Ships with specs, a demo page, and a Playwright test. Requires DaisyUI 5.6+.
+
+- chore(Demo): Bump DaisyUI from 5.5.23 to 5.6.7 in the demo app. The newer release ships the `aura`, `otp`,
+  and `megamenu` components, which the upcoming `daisy_aura` (#208), `daisy_otp` (#210), and `daisy_megamenu`
+  (#209) LocoMotion components build on.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's

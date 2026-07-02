@@ -1,0 +1,90 @@
+= doc_title(title: "OTP Inputs", comp: @comp) do |title|
+  :markdown
+    OTP inputs collect one-time passwords — the short verification codes used
+    in two-factor authentication and passwordless login flows. Each digit gets
+    its own character box, but a single `<input>` backs them all, so the value
+    submits like any other form field and no JavaScript is required.
+
+    The input renders with `inputmode="numeric"` (mobile numeric keypad),
+    `autocomplete="one-time-code"` (auto-fill from SMS), and a `maxlength` and
+    `pattern` matching the digit count.
+
+
+= doc_example(title: "Basic OTP") do |doc|
+  - doc.with_description do
+    :markdown
+      By default, the component renders four character boxes. Click anywhere
+      on the boxes to focus the input and start typing.
+
+  = daisy_otp(name: "verification_code")
+
+
+= doc_example(title: "6-Digit OTP") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `length:` to change the digit count. DaisyUI lays out up to 8
+      boxes.
+
+  = daisy_otp(name: "verification_code_6", length: 6)
+
+
+= doc_example(title: "Joined OTP") do |doc|
+  - doc.with_description do
+    :markdown
+      The `otp-joined` modifier connects the character boxes with no gap.
+
+  = daisy_otp(name: "pin", css: "otp-joined")
+
+
+= doc_example(title: "OTP Sizes", example_css: "flex-col items-start gap-4") do |doc|
+  - doc.with_description do
+    :markdown
+      Size modifiers scale the boxes from `otp-xs` to `otp-xl`.
+
+  - %w[otp-xs otp-sm otp-md otp-lg otp-xl].each do |size|
+    .flex.items-center.gap-4
+      = daisy_otp(name: "code_#{size.parameterize.underscore}", css: size)
+      %span.font-mono.text-sm= size
+
+
+= doc_example(title: "OTP Colors") do |doc|
+  - doc.with_description do
+    :markdown
+      Color modifiers tint the boxes when the input has focus — click a row to
+      see its color. All of the standard DaisyUI colors are available:
+      `otp-neutral`, `otp-primary`, `otp-secondary`, `otp-accent`, `otp-info`,
+      `otp-success`, `otp-warning`, and `otp-error`.
+
+  %div{ class: "grid grid-cols-[auto_auto] items-center gap-4" }
+    - %w[otp-primary otp-accent otp-error].each do |color|
+      = daisy_otp(name: "code_#{color.parameterize.underscore}", css: color)
+      %span.font-mono.text-sm= color
+
+
+= doc_example(title: "OTP in a Form") do |doc|
+  - doc.with_description do
+    :markdown
+      Combine the OTP with a fieldset and a submit button for a realistic
+      verification flow. `required: true` participates in normal HTML form
+      validation.
+
+      Since the value is a plain input, your JavaScript can read it like any
+      other field — type a code and click **Verify** to see for yourself.
+
+  :ruby
+    verify_js = <<~JS.squish
+      const value = document.querySelector("input[name='otp_code']").value;
+      if (value.length < 6) {
+        alert(`Hold on — that's only ${value.length} of 6 digits!`);
+      } else {
+        const sum = value.split("").reduce((total, digit) => total + Number(digit), 0);
+        alert(`${value.split("").join(" + ")} = ${sum} — verified! 🎉`);
+      }
+    JS
+
+  = daisy_fieldset do |fieldset|
+    - fieldset.with_legend { "Enter Verification Code" }
+
+    = daisy_otp(name: "otp_code", length: 6, required: true)
+
+    = daisy_button(title: "Verify", css: "btn-primary mt-4", html: { onclick: verify_js })
