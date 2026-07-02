@@ -48,25 +48,25 @@
       components include this functionality.
 
   .my-2.flex.flex-col.gap-4
-    %p.font-medium.mb-2 Start Labels (appear before the input)
-    = daisy_text_input(name: "username", id: "username", start: "Username:")
+    %p.font-medium.mb-2 Leading Labels (appear before the input)
+    = daisy_text_input(name: "username", id: "username", leading: "Username:")
     .mt-4
-      = daisy_select(name: "country", id: "country", start: "Country:", options: ["USA", "Canada", "UK"])
+      = daisy_select(name: "country", id: "country", leading: "Country:", options: ["USA", "Canada", "UK"])
 
 
-= doc_example(title: "End Labels") do |doc|
+= doc_example(title: "Trailing Labels") do |doc|
   - doc.with_description do
     :markdown
-      End labels appear after the input. They are especially useful for checkboxes
+      Trailing labels appear after the input. They are especially useful for checkboxes
       and toggles, but can be used with any input component that includes the
       `LabelableComponent` concern.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_checkbox(name: "terms", id: "terms", end: "I agree to the terms and conditions")
+    = daisy_checkbox(name: "terms", id: "terms", trailing: "I agree to the terms and conditions")
     .mt-4
-      = daisy_toggle(name: "notifications", id: "notifications", end: "Enable notifications")
+      = daisy_toggle(name: "notifications", id: "notifications", trailing: "Enable notifications")
     .mt-4
-      = daisy_text_input(name: "email", id: "email", end: "@example.com")
+      = daisy_text_input(name: "email", id: "email", trailing: "@example.com")
 
 
 = doc_example(title: "Floating Labels") do |doc|
@@ -90,13 +90,13 @@
 
   .my-2.flex.flex-col.gap-4
     = daisy_text_input(name: "password", id: "password", type: "password") do |input|
-      - input.with_start do
+      - input.with_leading do
         Password
         %span.text-error.ml-1 *
 
     .mt-4
       = daisy_checkbox(name: "newsletter", id: "newsletter") do |cb|
-        - cb.with_end do
+        - cb.with_trailing do
           Subscribe to newsletter
           %span.text-xs.text-gray-500.ml-1 (Optional)
 

@@ -46,46 +46,46 @@ RSpec.describe Daisy::DataInput::RadioButtonComponent, type: :component do
   end
 
   it "renders with a string start label" do
-    render_inline(described_class.new(name: "option", value: "1", start: "Option:"))
+    render_inline(described_class.new(name: "option", value: "1", leading: "Option:"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "Option:")
   end
 
   it "renders with a string end label" do
-    render_inline(described_class.new(name: "option", value: "1", end: "Option 1"))
+    render_inline(described_class.new(name: "option", value: "1", trailing: "Option 1"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("span", text: "Option 1")
   end
 
-  it "renders with content in the start block" do
+  it "renders with content in the leading block" do
     render_inline(described_class.new(name: "option", value: "1")) do |component|
-      component.with_start { "Start content" }
+      component.with_leading { "Leading content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("Start content")
+    expect(page).to have_text("Leading content")
   end
 
-  it "renders with content in the end block" do
+  it "renders with content in the trailing block" do
     render_inline(described_class.new(name: "option", value: "1")) do |component|
-      component.with_end { "End content" }
+      component.with_trailing { "Trailing content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("End content")
+    expect(page).to have_text("Trailing content")
   end
 
   it "properly adds CSS classes when using labels" do
-    render_inline(described_class.new(name: "option", value: "1", end: "Option 1"))
+    render_inline(described_class.new(name: "option", value: "1", trailing: "Option 1"))
 
     expect(page).to have_css("label")
     expect(page).to have_css("input[type='radio']")
   end
 
   it "adds 'label' CSS class to label_wrapper when using labels" do
-    render_inline(described_class.new(name: "option", value: "1", end: "Option 1"))
+    render_inline(described_class.new(name: "option", value: "1", trailing: "Option 1"))
 
     expect(page).to have_css("label.label")
   end

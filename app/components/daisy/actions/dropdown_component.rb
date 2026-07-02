@@ -20,7 +20,7 @@
 #   Automatically adds the `role="button"` and `tabindex="0"` attributes.
 # @slot item+ The items in the dropdown. Pass a block for fully custom content,
 #   or use the structured options (`label:`, `href:`, `selected:`) and the
-#   item's `start` / `end` slots to build a selectable row.
+#   item's `leading` / `trailing` slots to build a selectable row.
 #
 # @loco_example Basic Usage
 #   = daisy_dropdown do |dropdown|
@@ -57,14 +57,14 @@
 #         = loco_icon("arrow-right-on-rectangle")
 #         Logout
 #
-# @loco_example Selectable Items (start / label / end / selected)
+# @loco_example Selectable Items (leading / label / trailing / selected)
 #   = daisy_dropdown(title: "Sort by") do |dropdown|
 #     - dropdown.with_item(label: "Newest", href: "#", selected: true) do |item|
-#       - item.with_end do
+#       - item.with_trailing do
 #         = loco_icon("check", css: "size-4")
 #     - dropdown.with_item(label: "Oldest", href: "#")
 #     - dropdown.with_item(href: "#") do |item|
-#       - item.with_start do
+#       - item.with_leading do
 #         = loco_icon("star", css: "size-4")
 #       Favorites
 #
@@ -76,18 +76,18 @@ module Daisy
       #
       # A single dropdown menu item (`<li class="menu-item">`). Pass a block for
       # fully custom content (the original behavior), or use the structured
-      # options/slots to build a selectable row: a `start` slot, a label, an
-      # `end` slot, and an active (`selected`) state.
+      # options/slots to build a selectable row: a `leading` slot, a label, a
+      # `trailing` slot, and an active (`selected`) state.
       #
-      # @slot start Content rendered before the label (e.g. an icon or color
+      # @slot leading Content rendered before the label (e.g. an icon or color
       #   swatch).
       #
-      # @slot end Content rendered after the label (e.g. a checkmark or a
+      # @slot trailing Content rendered after the label (e.g. a checkmark or a
       #   shortcut hint).
       #
       class ItemComponent < LocoMotion::BasicComponent
-        renders_one :start
-        renders_one :end
+        renders_one :leading
+        renders_one :trailing
 
         # @option kws label [String] Text for the item's label. You can also
         #   pass the label as block content.
@@ -123,11 +123,11 @@ module Daisy
         # Render the structured row only when a structured affordance is used; a
         # bare content block stays verbatim for backwards compatibility.
         def structured?
-          @label.present? || @href.present? || @selected || start? || send(:end?)
+          @label.present? || @href.present? || @selected || leading? || trailing?
         end
 
         def render_row
-          body = safe_join([start_content, label_content, end_content].compact)
+          body = safe_join([leading_content, label_content, trailing_content].compact)
 
           if @href
             link_to(@href, class: row_css) { body }
@@ -136,8 +136,8 @@ module Daisy
           end
         end
 
-        def start_content
-          start if start?
+        def leading_content
+          leading if leading?
         end
 
         def label_content
@@ -145,10 +145,8 @@ module Daisy
           content_tag(:span, text, class: "grow") if text.present?
         end
 
-        # NOTE: `end` is a reserved word, so the slot's reader/predicate (defined
-        # by `renders_one :end`) must be invoked via `send`.
-        def end_content
-          send(:end) if send(:end?)
+        def trailing_content
+          trailing if trailing?
         end
 
         def row_css

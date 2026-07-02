@@ -75,11 +75,11 @@ module Daisy
         @value = config_option(:value, nil)
         @required = config_option(:required, false)
 
-        unless (1..MAX_LENGTH).cover?(@length)
-          raise ArgumentError,
-                "daisy_otp length must be between 1 and #{MAX_LENGTH} " \
-                "(got #{@length.inspect})."
-        end
+        return if (1..MAX_LENGTH).cover?(@length)
+
+        raise ArgumentError,
+              "daisy_otp length must be between 1 and #{MAX_LENGTH} " \
+              "(got #{@length.inspect})."
       end
 
       #

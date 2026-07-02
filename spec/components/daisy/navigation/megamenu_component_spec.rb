@@ -42,8 +42,8 @@ RSpec.describe Daisy::Navigation::MegamenuComponent, type: :component do
 
       it "points each button's popovertarget at its popover's id" do
         expect(page).to have_selector("button[popovertarget='mm-services']", text: "Services", visible: :all)
-        expect(page).to have_selector(".megamenu > div#mm-services[popover]", text: "Services content",
-                                      visible: :all)
+        expect(page).to have_selector(".megamenu > div#mm-services[popover]",
+                                      text: "Services content", visible: :all)
         expect(page).to have_selector("button[popovertarget='mm-cloud']", text: "Cloud", visible: :all)
         expect(page).to have_selector(".megamenu > div#mm-cloud[popover]", text: "Cloud content", visible: :all)
       end
