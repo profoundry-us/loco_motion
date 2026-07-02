@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(OTP): Add the `daisy_otp` component (`Daisy::DataInput::OtpComponent`) for one-time-password /
+  verification-code entry (#210). It renders a DaisyUI `otp` label with one character box per digit (a
+  `length:` of 1-8, default 4) backed by a single `<input>` carrying `inputmode="numeric"`,
+  `autocomplete="one-time-code"`, and a matching `maxlength` / `pattern` — so codes submit like any other
+  form field with no JavaScript. Supports `name:`, `id:`, `value:`, and `required:`, plus the `otp-*`
+  joined/size/color modifiers via `css:`. Ships with specs, a demo page, and a Playwright test. Requires
+  DaisyUI 5.6+.
+
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom
   `heartbeat` keyframe animation (the classic "lub-dub" double pulse at ~48bpm, defined in the demo's

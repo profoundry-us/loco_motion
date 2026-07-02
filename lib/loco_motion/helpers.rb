@@ -69,6 +69,7 @@ module LocoMotion
     "Daisy::DataInput::FilterComponent" => { names: "filter", group: "Data Input", title: "Filters",
                                              example: "filters" },
     "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
+    "Daisy::DataInput::OtpComponent" => { names: "otp", group: "Data Input", title: "OTP Inputs", example: "otps" },
     "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons",
                                                   example: "radio_buttons" },
     "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
