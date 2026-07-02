@@ -8,7 +8,7 @@
   - doc.with_description do
     :markdown
       Basic checkboxes can be rendered with or without a label through standard
-      heirarchy means, or by utilizing the `start` and `end` wrappers.
+      heirarchy means, or by utilizing the `leading` and `trailing` wrappers.
 
     = doc_note(css: "mb-8") do
       :markdown
@@ -27,21 +27,21 @@
       = daisy_checkbox(name: "checkbox_with_label", id: "checkbox_with_label")
       Checkbox with regular label
 
-    = daisy_checkbox(name: "checkbox_end", id: "checkbox_end", checked: true, end: "Checkbox using end wrapper")
+    = daisy_checkbox(name: "checkbox_end", id: "checkbox_end", checked: true, trailing: "Checkbox using end wrapper")
 
-    = daisy_checkbox(name: "checkbox_start", id: "checkbox_start", checked: true, start: "Checkbox using start wrapper")
+    = daisy_checkbox(name: "checkbox_start", id: "checkbox_start", checked: true, leading: "Checkbox using start wrapper")
 
     = daisy_checkbox(name: "checkbox_end_block", id: "checkbox_end_block", checked: true) do |checkbox|
-      - checkbox.with_end do
+      - checkbox.with_trailing do
         :markdown
-          Checkbox using `end` block
+          Checkbox using `trailing` block
 
     = daisy_checkbox(name: "checkbox_both_labels", id: "checkbox_both_labels", checked: true) do |checkbox|
-      - checkbox.with_start(css: "flex flex-row items-center") do
+      - checkbox.with_leading(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           start
-      - checkbox.with_end(css: "flex flex-row items-center") do
+      - checkbox.with_trailing(css: "flex flex-row items-center") do
         and
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           end
@@ -215,7 +215,7 @@
       = form.daisy_checkbox(:terms)
       I accept the terms and conditions
 
-    = form.daisy_checkbox(:newsletter, toggle: true, end: "Subscribe to newsletter")
+    = form.daisy_checkbox(:newsletter, toggle: true, trailing: "Subscribe to newsletter")
 
 
 = doc_example(title: "Using Label Component") do |doc|

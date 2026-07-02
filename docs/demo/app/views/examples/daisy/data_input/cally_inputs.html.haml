@@ -46,8 +46,8 @@
 
   = form_with(url: "#", method: :post, scope: :event) do |form|
     .my-2.flex.flex-col.gap-4
-      = form.daisy_cally_input(:start_date, start: "Start Date")
-      = form.daisy_cally_input(:end_date, end: "End Date")
+      = form.daisy_cally_input(:start_date, leading: "Start Date")
+      = form.daisy_cally_input(:end_date, trailing: "End Date")
       = form.daisy_cally_input(:event_date, floating_placeholder: "Select an event date")
 
       = form.daisy_label(:registration_deadline, "Registration Deadline", css: "mt-4")

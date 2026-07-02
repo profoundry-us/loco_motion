@@ -13,7 +13,7 @@ test('page loads', async ({ page }) => {
     'Basic Labels',
     'With Form Inputs',
     'LabelableComponent Functionality',
-    'End Labels',
+    'Trailing Labels',
     'Floating Labels',
     'Custom Label Content',
     'Form Builder Example'

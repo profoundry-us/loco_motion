@@ -25,12 +25,12 @@
 
     .flex.flex-col.gap-2
       = daisy_label(for: "url_input", title: "URL")
-      = daisy_text_input(name: "url_input", id: "url_input", start: "https://", start_css: "label")
+      = daisy_text_input(name: "url_input", id: "url_input", leading: "https://", leading_css: "label")
 
     .flex.flex-col.gap-2
       = daisy_label(for: "email_input", title: "Email")
       = daisy_text_input(name: "email_input", id: "email_input") do |text|
-        - text.with_end(css: "label") do
+        - text.with_trailing(css: "label") do
           @gmail.com
 
 
@@ -173,25 +173,26 @@
 = doc_example(title: "Text Input with Icons") do |doc|
   - doc.with_description do
     :markdown
-      Text inputs can be combined with icons and other elements using the `start` and `end`
-      options or slots, which appear before and after the input field.
+      Text inputs can be combined with icons and other elements using the
+      `leading` and `trailing` options or slots, which appear before and
+      after the input field.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "input_icon_prefix", title: "Search with Icon Prefix")
     = daisy_text_input(name: "input_icon_prefix", id: "input_icon_prefix", placeholder: "Search...") do |text_input|
-      - text_input.with_start(css: "label") do
+      - text_input.with_leading(css: "label") do
         = loco_icon("magnifying-glass", css: "text-gray-400")
 
     = daisy_label(for: "input_icon_suffix", title: "Email with Icon Suffix", css: "mt-4")
     = daisy_text_input(name: "input_icon_suffix", id: "input_icon_suffix", type: "email", placeholder: "Enter your email") do |text_input|
-      - text_input.with_end do
+      - text_input.with_trailing do
         = loco_icon("envelope", css: "text-gray-400")
 
     = daisy_label(for: "input_icon_both", title: "Input with Both Icons", css: "mt-4")
     = daisy_text_input(name: "input_icon_both", id: "input_icon_both", placeholder: "Username") do |text_input|
-      - text_input.with_start do
+      - text_input.with_leading do
         = loco_icon("user", css: "text-gray-400")
-      - text_input.with_end do
+      - text_input.with_trailing do
         = loco_icon("check", css: "text-success")
 
 

@@ -27,7 +27,7 @@
 
     = daisy_label(css: "mt-2", for: "left_label_select", title: "Country")
 
-    = daisy_select(name: "left_label_select", id: "left_label_select", placeholder: "Select a country", start: "Country") do |select|
+    = daisy_select(name: "left_label_select", id: "left_label_select", placeholder: "Select a country", leading: "Country") do |select|
       - select.with_option(value: "us", label: "United States")
       - select.with_option(value: "ca", label: "Canada")
       - select.with_option(value: "mx", label: "Mexico")
@@ -35,7 +35,7 @@
     = daisy_label(css: "mt-2", for: "right_label_select", title: "Country")
 
     = daisy_tip("DaisyUI end-labeled selects don't currently allow you to select the label area.", css: "tooltip-warning") do
-      = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", end: "Country") do |select|
+      = daisy_select(name: "right_label_select", id: "right_label_select", placeholder: "Select a country", trailing: "Country") do |select|
         - select.with_option(value: "us", label: "United States")
         - select.with_option(value: "ca", label: "Canada")
         - select.with_option(value: "mx", label: "Mexico")

@@ -8,7 +8,7 @@
       A simple fieldset rendered without a legend.
 
   = daisy_fieldset do
-    = daisy_toggle(end: "Enable Feature X")
+    = daisy_toggle(trailing: "Enable Feature X")
 
 
 = doc_example(title: "Fieldset with Legend (Argument)") do |doc|
@@ -17,7 +17,7 @@
       Pass simple text for the legend directly using the `legend:` argument.
 
   = daisy_fieldset(legend: "Settings (Argument)") do
-    = daisy_toggle(end: "Enable Feature X")
+    = daisy_toggle(trailing: "Enable Feature X")
 
 
 = doc_example(title: "Fieldset with Legend (Slot)") do |doc|
@@ -29,8 +29,8 @@
   = daisy_fieldset do |fieldset|
     - fieldset.with_legend { "Settings (Slot)" }
 
-    = daisy_toggle(end: "Enable Notifications")
-    = daisy_toggle(end: "Enable Dark Mode")
+    = daisy_toggle(trailing: "Enable Notifications")
+    = daisy_toggle(trailing: "Enable Dark Mode")
 
 
 = doc_example(title: "Fieldset with Various Inputs") do |doc|
