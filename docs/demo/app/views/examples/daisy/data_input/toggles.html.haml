@@ -28,21 +28,21 @@
       = daisy_toggle(name: "toggle1", id: "toggle1")
       Default Toggle with regular label
 
-    = daisy_toggle(name: "toggle_end", id: "toggle_end", checked: true, end: "Toggle using end wrapper")
+    = daisy_toggle(name: "toggle_end", id: "toggle_end", checked: true, trailing: "Toggle using end wrapper")
 
-    = daisy_toggle(name: "toggle_start", id: "toggle_start", checked: true, start: "Toggle using start wrapper")
+    = daisy_toggle(name: "toggle_start", id: "toggle_start", checked: true, leading: "Toggle using start wrapper")
 
     = daisy_toggle(name: "toggle_end_block", id: "toggle_end_block", checked: true) do |toggle|
-      - toggle.with_end do
+      - toggle.with_trailing do
         :markdown
-          Toggle using `end` block
+          Toggle using `trailing` block
 
     = daisy_toggle(name: "toggle_start_block", id: "toggle_start_block", checked: true) do |toggle|
-      - toggle.with_start(css: "flex flex-row items-center") do
+      - toggle.with_leading(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           start
-      - toggle.with_end(css: "flex flex-row items-center") do
+      - toggle.with_trailing(css: "flex flex-row items-center") do
         and
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           end

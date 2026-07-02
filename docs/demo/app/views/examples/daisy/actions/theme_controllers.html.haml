@@ -75,8 +75,8 @@
     :markdown
       `build_radio_input` accepts a block, which it forwards to the radio. That
       lets you drop a preview swatch and label **inside** the radio's own label
-      (its `end` slot), so the whole row is a single clickable control — no
-      separate wrapping `<label>` needed. Note the `css:` on `with_end` — the
+      (its `trailing` slot), so the whole row is a single clickable control — no
+      separate wrapping `<label>` needed. Note the `css:` on `with_trailing` — the
       slot wrapper is a plain `<div>`, so it needs flex to lay its children
       out in a row.
 
@@ -84,7 +84,7 @@
     .flex.flex-col.gap-2.items-start
       - theme_controller.themes.each do |theme|
         = theme_controller.build_radio_input(theme, name: "docs-inline-theme") do |radio|
-          - radio.with_end(css: "flex items-center gap-2") do
+          - radio.with_trailing(css: "flex items-center gap-2") do
             = theme_controller.build_theme_preview(theme)
             %span.capitalize= theme.humanize
 

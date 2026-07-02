@@ -28,7 +28,7 @@
 = doc_example(title: "Radio Buttons with Labels") do |doc|
   - doc.with_description do
     :markdown
-      Radio buttons can use the `start` and `end` label options for inline labeling,
+      Radio buttons can use the `leading` and `trailing` label options for inline labeling,
       or custom blocks for more complex label content.
 
     = doc_note(css: "mb-8") do
@@ -39,21 +39,21 @@
         for radio buttons and is not implemented.
 
   .my-2.flex.flex-col.gap-4
-    = daisy_radio(name: "radio_end", id: "radio_end", value: "1", checked: true, end: "Radio using end wrapper")
+    = daisy_radio(name: "radio_end", id: "radio_end", value: "1", checked: true, trailing: "Radio using end wrapper")
 
-    = daisy_radio(name: "radio_start", id: "radio_start", value: "2", checked: true, start: "Radio using start wrapper")
+    = daisy_radio(name: "radio_start", id: "radio_start", value: "2", checked: true, leading: "Radio using start wrapper")
 
     = daisy_radio(name: "radio_end_block", id: "radio_end_block", value: "3", checked: true) do |radio|
-      - radio.with_end do
+      - radio.with_trailing do
         :markdown
-          Radio using `end` block
+          Radio using `trailing` block
 
     = daisy_radio(name: "radio_both_labels", id: "radio_both_labels", value: "4", checked: true) do |radio|
-      - radio.with_start(css: "flex flex-row items-center") do
+      - radio.with_leading(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           start
-      - radio.with_end(css: "flex flex-row items-center") do
+      - radio.with_trailing(css: "flex flex-row items-center") do
         and
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
           end
