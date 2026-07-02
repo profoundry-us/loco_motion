@@ -47,7 +47,7 @@
       %span.font-mono.text-sm= size
 
 
-= doc_example(title: "OTP Colors", example_css: "flex-col items-start gap-4") do |doc|
+= doc_example(title: "OTP Colors") do |doc|
   - doc.with_description do
     :markdown
       Color modifiers tint the boxes when the input has focus — click a row to
@@ -55,8 +55,8 @@
       `otp-neutral`, `otp-primary`, `otp-secondary`, `otp-accent`, `otp-info`,
       `otp-success`, `otp-warning`, and `otp-error`.
 
-  - %w[otp-primary otp-accent otp-error].each do |color|
-    .flex.items-center.gap-4
+  %div{ class: "grid grid-cols-[auto_auto] items-center gap-4" }
+    - %w[otp-primary otp-accent otp-error].each do |color|
       = daisy_otp(name: "code_#{color.parameterize.underscore}", css: color)
       %span.font-mono.text-sm= color
 
