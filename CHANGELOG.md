@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Aura): Add the `daisy_aura` component (`Daisy::Layout::AuraComponent`), wrapping DaisyUI's `aura`
+  border light effect (#208). It renders any block content inside a wrapper that paints a rotating
+  conic-gradient light (in `currentColor`, so any `text-*` utility tints it), supports the `aura-*`
+  style/size modifiers via `css:`, and includes `LinkableComponent` so an `href:` makes the whole element
+  clickable. Ships with specs, a demo page, and a Playwright test. Requires DaisyUI 5.6+.
+
 - chore(Demo): Bump DaisyUI from 5.5.23 to 5.6.7 in the demo app. The newer release ships the `aura`, `otp`,
   and `megamenu` components, which the upcoming `daisy_aura` (#208), `daisy_otp` (#210), and `daisy_megamenu`
   (#209) LocoMotion components build on.
