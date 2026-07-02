@@ -152,7 +152,7 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
   end
 
   it "renders with a string start label" do
-    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], start: "Choose:")
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], leading: "Choose:")
     render_inline(component)
 
     expect(page).to have_css("label")
@@ -160,7 +160,7 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
   end
 
   it "renders with a string end label" do
-    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], end: "(Required)")
+    component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"], trailing: "(Required)")
     render_inline(component)
 
     expect(page).to have_css("label")
@@ -175,24 +175,24 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
     expect(page).to have_css("span", text: "Selection")
   end
 
-  it "renders with content in the start block" do
+  it "renders with content in the leading block" do
     component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"])
     render_inline(component) do |c|
-      c.with_start { "Start content" }
+      c.with_leading { "Leading content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("Start content")
+    expect(page).to have_text("Leading content")
   end
 
-  it "renders with content in the end block" do
+  it "renders with content in the trailing block" do
     component = described_class.new(name: "test", id: "test", options: ["Option 1", "Option 2"])
     render_inline(component) do |c|
-      c.with_end { "End content" }
+      c.with_trailing { "Trailing content" }
     end
 
     expect(page).to have_css("label")
-    expect(page).to have_text("End content")
+    expect(page).to have_text("Trailing content")
   end
 
   it "renders with content in the floating block" do
@@ -206,7 +206,7 @@ RSpec.describe Daisy::DataInput::SelectComponent, type: :component do
   end
 
   it "properly adds CSS classes when using start/end labels" do
-    component = described_class.new(name: "test", id: "test", options: ["Option 1"], start: "Label:")
+    component = described_class.new(name: "test", id: "test", options: ["Option 1"], leading: "Label:")
     render_inline(component)
 
     expect(page).to have_css("label.select")

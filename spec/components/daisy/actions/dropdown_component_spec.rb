@@ -175,8 +175,8 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
       render_inline(described_class.new) do |d|
         d.with_item(label: "Newest", href: "/n", selected: true)
         d.with_item(href: "/f") do |item|
-          item.with_start { tag.span "S", class: "start-slot" }
-          item.with_end { tag.span "E", class: "end-slot" }
+          item.with_leading { tag.span "S", class: "leading-slot" }
+          item.with_trailing { tag.span "E", class: "trailing-slot" }
           "Favorites"
         end
       end
@@ -195,9 +195,9 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
         expect(page).to have_css "li.menu-item a[href='/f']:not(.menu-active)"
       end
 
-      it "renders start and end slots around the label" do
-        expect(page).to have_css "li.menu-item a[href='/f'] .start-slot"
-        expect(page).to have_css "li.menu-item a[href='/f'] .end-slot"
+      it "renders leading and trailing slots around the label" do
+        expect(page).to have_css "li.menu-item a[href='/f'] .leading-slot"
+        expect(page).to have_css "li.menu-item a[href='/f'] .trailing-slot"
         expect(page).to have_css "li.menu-item a[href='/f']", text: "Favorites"
       end
     end

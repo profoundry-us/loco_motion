@@ -27,30 +27,30 @@ RSpec.describe Daisy::DataInput::TextInputComponent, type: :component do
     expect(page).to have_css("input[placeholder='Enter your email']")
   end
 
-  it "renders with content in the start block" do
+  it "renders with content in the leading block" do
     render_inline(described_class.new(name: "username")) do |component|
-      component.with_start { "start content" }
+      component.with_leading { "leading content" }
     end
 
-    expect(page).to have_text("start content")
+    expect(page).to have_text("leading content")
   end
 
-  it "renders with content in the end block" do
+  it "renders with content in the trailing block" do
     render_inline(described_class.new(name: "username")) do |component|
-      component.with_end { "end content" }
+      component.with_trailing { "trailing content" }
     end
 
-    expect(page).to have_text("end content")
+    expect(page).to have_text("trailing content")
   end
 
-  it "renders with content in both start and end blocks" do
+  it "renders with content in both leading and trailing blocks" do
     render_inline(described_class.new(name: "username")) do |component|
-      component.with_start { "start content" }
-      component.with_end { "end content" }
+      component.with_leading { "leading content" }
+      component.with_trailing { "trailing content" }
     end
 
-    expect(page).to have_text("start content")
-    expect(page).to have_text("end content")
+    expect(page).to have_text("leading content")
+    expect(page).to have_text("trailing content")
   end
 
   it "renders as disabled when specified" do
@@ -90,7 +90,7 @@ RSpec.describe Daisy::DataInput::TextInputComponent, type: :component do
   end
 
   it "renders with the label_wrapper with the input CSS class when label is provided" do
-    render_inline(described_class.new(name: "username", start: "Username"))
+    render_inline(described_class.new(name: "username", leading: "Username"))
 
     expect(page).to have_css("label.input")
     expect(page).to have_css("input[type='text']")

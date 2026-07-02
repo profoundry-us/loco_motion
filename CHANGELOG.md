@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Dropdown)!: Rename the dropdown item's `start` / `end` slots to `leading` / `trailing` (part of
+  #187). `end` is a Ruby reserved word, so its slot reader forced `send(:end)` workarounds. The structured
+  item API is now `item.with_leading` / `item.with_trailing`. This API was added after v0.6.0 and has never
+  shipped in a release, so it is a clean rename with no deprecation aliases.
+
 - refactor(Labelable)!: Rename the labelable `start` / `end` pair to `leading` / `trailing` across
   `daisy_text_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
   `daisy_cally_input` (#187). `end` is a Ruby reserved word, so its generated slot reader forced
@@ -22,6 +27,33 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   API is `with_leading` / `with_trailing`, `leading:` / `trailing:`, and `leading_css:` / `trailing_css:`
   (plus `_html` / `_aria` / `_data` variants). The old names still work for now — they are translated with
   a deprecation warning — and will be removed in a future release.
+
+- feat(Megamenu): Add the `daisy_megamenu` component (`Daisy::Navigation::MegamenuComponent`) — a large
+  horizontal navigation menu where each item opens a popover of links (#209). Items pair a
+  `<button popovertarget>` with an adjacent `<div popover>` (IDs auto-generated), a `megamenu-active` span
+  provides the sliding hover highlight, and the container is itself a popover opened by a built-in
+  small-screen toggle button (`toggle_text:` / `toggle` slot / `toggle: false`). Everything is native HTML +
+  CSS anchor positioning — no JavaScript. Layout and size modifiers (`megamenu-wide`, `megamenu-full`,
+  `max-sm:megamenu-vertical`, `megamenu-xs`-`megamenu-xl`) apply via `css:`. Ships with specs, a demo page,
+  and Playwright tests. Requires DaisyUI 5.6+.
+
+- feat(OTP): Add the `daisy_otp` component (`Daisy::DataInput::OtpComponent`) for one-time-password /
+  verification-code entry (#210). It renders a DaisyUI `otp` label with one character box per digit (a
+  `length:` of 1-8, default 4) backed by a single `<input>` carrying `inputmode="numeric"`,
+  `autocomplete="one-time-code"`, and a matching `maxlength` / `pattern` — so codes submit like any other
+  form field with no JavaScript. Supports `name:`, `id:`, `value:`, and `required:`, plus the `otp-*`
+  joined/size/color modifiers via `css:`. Ships with specs, a demo page, and a Playwright test. Requires
+  DaisyUI 5.6+.
+
+- feat(Aura): Add the `daisy_aura` component (`Daisy::Layout::AuraComponent`), wrapping DaisyUI's `aura`
+  border light effect (#208). It renders any block content inside a wrapper that paints a rotating
+  conic-gradient light (in `currentColor`, so any `text-*` utility tints it), supports the `aura-*`
+  style/size modifiers via `css:`, and includes `LinkableComponent` so an `href:` makes the whole element
+  clickable. Ships with specs, a demo page, and a Playwright test. Requires DaisyUI 5.6+.
+
+- chore(Demo): Bump DaisyUI from 5.5.23 to 5.6.7 in the demo app. The newer release ships the `aura`, `otp`,
+  and `megamenu` components, which the upcoming `daisy_aura` (#208), `daisy_otp` (#210), and `daisy_megamenu`
+  (#209) LocoMotion components build on.
 
 - fix(Demo): Make the footer heart's hover animation feel like a real heartbeat. The heart previously ran
   only Tailwind's `animate-ping` — a single expanding pulse — so it read as one flat "beat". A custom

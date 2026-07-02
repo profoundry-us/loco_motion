@@ -40,7 +40,7 @@ RSpec.describe Daisy::Actions::ThemeControllerComponent, type: :component do
     it "forwards the block to the radio so its slots can be filled" do
       render_inline(described_class.new) do |tc|
         tc.build_radio_input("light") do |radio|
-          radio.with_end { "Light theme" }
+          radio.with_trailing { "Light theme" }
         end
       end
 
