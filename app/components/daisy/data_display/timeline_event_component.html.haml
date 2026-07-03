@@ -2,11 +2,11 @@
   - if @event_index.present? && @event_index > 0
     = part(:separator)
 
-  - if start?
-    = start
-  - elsif @simple_start
-    = part(:start) do
-      = @simple_start
+  - if leading?
+    = leading
+  - elsif @simple_leading
+    = part(:leading) do
+      = @simple_leading
 
   - if middle?
     = middle
@@ -17,12 +17,11 @@
     = part(:middle) do
       = loco_icon(@simple_middle_icon, **rendered_html(:simple_middle_icon))
 
-  - if end?
-    - # end is a reserved word in Ruby, so we have to use send to call it
-    = self.send(:end)
-  - elsif @simple_end
-    = part(:end) do
-      = @simple_end
+  - if trailing?
+    = trailing
+  - elsif @simple_trailing
+    = part(:trailing) do
+      = @simple_trailing
 
   - if @events_length.present? && @event_index.present? && @event_index < @events_length - 1
     = part(:separator)

@@ -26,6 +26,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (`with_start` → `with_leading`, `with_end` → `with_trailing`). This is a hard rename with no aliases; the
   `loco_motion:migrate:leading_trailing` task rewrites usage automatically.
 
+- refactor(TimelineEvent)!: Rename the timeline event's `start` / `end` API to `leading` / `trailing`
+  (#257), finishing the #187 rename. This covers all three spellings — the slots
+  (`event.with_start` → `event.with_leading`), the simple-text options
+  (`timeline.with_event(start:, end:)` → `with_event(leading:, trailing:)`), and the parts with their
+  generated options (`start_css:` → `leading_css:`, etc.). `middle` / `middle_icon` / `separator` and the
+  `timeline-start` / `timeline-end` CSS classes are unchanged. Hard rename with no aliases; the
+  `loco_motion:migrate:leading_trailing` task rewrites usage automatically.
+
 - refactor(Labelable)!: Rename the labelable `start` / `end` pair to `leading` / `trailing` across
   `daisy_text_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
   `daisy_cally_input` (#187). `end` is a Ruby reserved word, so its generated slot reader forced
