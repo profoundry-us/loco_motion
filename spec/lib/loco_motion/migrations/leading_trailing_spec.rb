@@ -165,7 +165,7 @@ RSpec.describe LocoMotion::Migrations::LeadingTrailing do
         = daisy_checkbox(name: "a") do |item|
           - item.with_end do
             Agree
-        = daisy_navbar do |item|
+        = my_custom_widget do |item|
           - item.with_end do
             Menu
       HAML
@@ -176,9 +176,57 @@ RSpec.describe LocoMotion::Migrations::LeadingTrailing do
         = daisy_checkbox(name: "a") do |item|
           - item.with_trailing do
             Agree
-        = daisy_navbar do |item|
+        = my_custom_widget do |item|
           - item.with_end do
             Menu
+      HAML
+    end
+
+    it "renames navbar slots" do
+      write("app/views/n.haml", <<~HAML)
+        = daisy_navbar(css: "bg-base-100") do |navbar|
+          - navbar.with_start(css: "gap-2") do
+            Logo
+          - navbar.with_center do
+            Search
+          - navbar.with_end do
+            Menu
+      HAML
+
+      run_migration
+
+      expect(read("app/views/n.haml")).to eq(<<~HAML)
+        = daisy_navbar(css: "bg-base-100") do |navbar|
+          - navbar.with_leading(css: "gap-2") do
+            Logo
+          - navbar.with_center do
+            Search
+          - navbar.with_trailing do
+            Menu
+      HAML
+    end
+
+    it "renames timeline event options and slots via with_event" do
+      write("app/views/t.haml", <<~HAML)
+        = daisy_timeline do |timeline|
+          - timeline.with_event(start: "1985", middle_icon: "user-circle", end: "Born")
+          - timeline.with_event do |event|
+            - event.with_start(css: "font-bold") do
+              1985
+            - event.with_end(css: "timeline-box") do
+              Born
+      HAML
+
+      run_migration
+
+      expect(read("app/views/t.haml")).to eq(<<~HAML)
+        = daisy_timeline do |timeline|
+          - timeline.with_event(leading: "1985", middle_icon: "user-circle", trailing: "Born")
+          - timeline.with_event do |event|
+            - event.with_leading(css: "font-bold") do
+              1985
+            - event.with_trailing(css: "timeline-box") do
+              Born
       HAML
     end
 
@@ -198,19 +246,19 @@ RSpec.describe LocoMotion::Migrations::LeadingTrailing do
   end
 
   describe "leftovers" do
-    it "leaves navbar/timeline slots alone and reports them for review" do
+    it "leaves unrecognized components' slots alone and reports them for review" do
       write("app/views/k.haml", <<~HAML)
-        = daisy_navbar do |navbar|
-          - navbar.with_start do
+        = my_sidebar do |sidebar|
+          - sidebar.with_start do
             Logo
-          - navbar.with_end do
+          - sidebar.with_end do
             Menu
       HAML
 
       migration = run_migration
 
-      expect(read("app/views/k.haml")).to include("navbar.with_start")
-      expect(read("app/views/k.haml")).to include("navbar.with_end")
+      expect(read("app/views/k.haml")).to include("sidebar.with_start")
+      expect(read("app/views/k.haml")).to include("sidebar.with_end")
       expect(migration.leftovers.map { |l| l[:line] }).to contain_exactly(2, 4)
     end
   end
