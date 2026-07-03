@@ -2,9 +2,10 @@
 
 namespace :loco_motion do
   namespace :migrate do
-    desc "Rewrite the Labelable start/end API removed in v0.7.0 " \
+    desc "Rewrite the start/end component API removed in v0.7.0 " \
          "(with_start / with_end, start: / end:, start_css: / end_html: / ...) " \
-         "to leading/trailing. Dry-run by default; pass [apply] or APPLY=1 to " \
+         "to leading/trailing across the labelable inputs, navbars, and " \
+         "timeline events. Dry-run by default; pass [apply] or APPLY=1 to " \
          "write changes. PATHS=app,lib overrides the scanned directories."
     task :leading_trailing, [:mode] => :environment do |_task, args|
       apply = args[:mode].to_s == "apply" || ENV["APPLY"].to_s != ""
@@ -31,8 +32,8 @@ namespace :loco_motion do
       end
 
       unless migration.leftovers.empty?
-        puts "Needs manual review (start/end is still correct for Navbar and"
-        puts "TimelineEvent — only rename these if they are labelable inputs):"
+        puts "Needs manual review (LocoMotion components all use leading/trailing"
+        puts "now, but a custom component's own start/end slots should stay):"
         migration.leftovers.each do |leftover|
           puts "  #{leftover[:file]}:#{leftover[:line]}: #{leftover[:text]}"
         end
