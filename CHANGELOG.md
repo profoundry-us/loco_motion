@@ -15,14 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
-- feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the Labelable
-  `start` / `end` API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and
-  the `start:` / `end:` keyword arguments plus their generated part options (`start_css:`, `end_html:`,
-  `start_aria:`, `end_data:`, ...) across `app/`. The rewrite is scoped to the labelable helpers
-  (`daisy_text_input`, `daisy_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`,
-  `daisy_cally_input`, and `build_radio_input` blocks), so the Navbar and TimelineEvent `start` / `end`
-  slots — which keep their names — are reported for manual review instead of blindly renamed. Dry-run by
-  default; pass `APPLY=1` (or `[apply]`) to write the changes. Refs #187.
+- feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the `start` / `end`
+  component API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and the
+  `start:` / `end:` keyword arguments plus their generated part options (`start_css:`, `end_html:`,
+  `start_aria:`, `end_data:`, ...) across `app/`. The rewrite is scoped to the renamed calls — the labelable
+  helpers (`daisy_text_input`, `daisy_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`,
+  `daisy_radio`, `daisy_cally_input`), `build_radio_input`, `daisy_navbar`, and the timeline's `with_event`
+  — so occurrences it cannot attribute (e.g. a custom component's own `start` / `end` slots, which should
+  stay) are reported for manual review instead of blindly renamed. Dry-run by default; pass `APPLY=1` (or
+  `[apply]`) to write the changes. Refs #187, #257.
 
 - refactor(Dropdown)!: Rename the dropdown item's `start` / `end` slots to `leading` / `trailing` (part of
   #187). `end` is a Ruby reserved word, so its slot reader forced `send(:end)` workarounds. The structured

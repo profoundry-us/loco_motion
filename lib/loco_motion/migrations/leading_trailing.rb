@@ -3,21 +3,23 @@
 module LocoMotion
   module Migrations
     #
-    # Rewrites the Labelable `start` / `end` API (removed in v0.7.0) to its
+    # Rewrites the `start` / `end` component API (removed in v0.7.0) to its
     # `leading` / `trailing` replacement — `with_start` / `with_end` slot
     # calls, `start:` / `end:` keyword arguments, and the generated part
     # options (`start_css:`, `end_html:`, `start_aria:`, `end_data:`, ...) on
-    # the labelable helpers (`daisy_text_input`, `daisy_input`, `daisy_select`,
-    # `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, `daisy_cally_input`, and
-    # the ThemeController's `build_radio_input`).
+    # every renamed call: the labelable helpers (`daisy_text_input`,
+    # `daisy_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`,
+    # `daisy_radio`, `daisy_cally_input`), the ThemeController's
+    # `build_radio_input`, `daisy_navbar`, and the timeline's `with_event`.
     #
-    # Other components legitimately keep `start` / `end` names — the Navbar and
-    # Timeline event `start` / `end` slots and the Modal's `start_actions` /
-    # `end_actions` — so this is intentionally NOT a blind find-and-replace.
-    # Keyword arguments are renamed only inside a labelable helper call, and
+    # This is intentionally NOT a blind find-and-replace: an app's own
+    # components may define `start` / `end` slots of their own, and the
+    # Modal's `with_start_actions` / `with_end_actions` keep their names. So
+    # keyword arguments are renamed only inside a recognized call, and
     # `with_start` / `with_end` only when called on the block variable of an
-    # enclosing labelable block. Anything the scan cannot confidently attribute
-    # is collected in {#leftovers} for manual review instead of rewritten.
+    # enclosing recognized block. Anything the scan cannot confidently
+    # attribute is collected in {#leftovers} for manual review instead of
+    # rewritten.
     #
     # Like the icons Scanner, this is a plain line-based rewrite with no Ruby
     # evaluation, so the same source always produces the same result. It runs
@@ -27,11 +29,12 @@ module LocoMotion
       # The file set scanned by default, relative to `root`.
       DEFAULT_PATHS = ["app/**/*.{rb,erb,haml,slim}"].freeze
 
-      # Helpers and builders whose calls take the labelable options and whose
-      # blocks yield a labelable component.
+      # Helpers and builders whose calls take the renamed options and whose
+      # blocks yield a component with `leading` / `trailing` slots.
       HELPERS = %w[
         daisy_text_input daisy_input daisy_select daisy_checkbox
         daisy_toggle daisy_radio daisy_cally_input build_radio_input
+        daisy_navbar with_event
       ].freeze
 
       HELPER_CALL = /\b(?:#{HELPERS.join('|')})\b/
@@ -215,19 +218,19 @@ module LocoMotion
       #
       # Anything still carrying the old names after the rewrite gets flagged
       # rather than guessed at — `with_start` / `with_end` on a receiver we
-      # could not attribute (which may be a Navbar or Timeline event, where
-      # those names are correct), or labelable-call kwargs the span scan
-      # could not safely rewrite.
+      # could not attribute (which may be a custom component whose own
+      # `start` / `end` slots should stay), or recognized-call kwargs the
+      # span scan could not safely rewrite.
       #
       def collect_leftovers(lines, relative)
         lines.each_with_index do |line, index|
           if line =~ /\.\s*with_(?:start|end)\b/
             add_leftover(relative, index, line,
-                         "not attributable to a labelable block — correct as-is for " \
-                         "Navbar / TimelineEvent; rename manually if this is a labelable component")
+                         "could not trace the receiver to a renamed component's block — rename " \
+                         "manually if it is one; a custom component's own start/end slots should stay")
           elsif line =~ HELPER_CALL && (line =~ KWARG || line =~ KWARG_ROCKET)
             add_leftover(relative, index, line,
-                         "labelable call still passing start/end options — rename manually")
+                         "recognized call still passing start/end options — rename manually")
           end
         end
       end
