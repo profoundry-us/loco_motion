@@ -21,18 +21,18 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
     end
   end
 
-  context "with start section" do
+  context "with leading section" do
     let(:navbar) { described_class.new }
 
     before do
       render_inline(navbar) do |n|
-        n.with_start { "Start Content" }
+        n.with_leading { "Leading Content" }
       end
     end
 
     describe "rendering" do
-      it "renders the start section" do
-        expect(page).to have_selector(".navbar-start", text: "Start Content")
+      it "renders the leading section" do
+        expect(page).to have_selector(".navbar-start", text: "Leading Content")
       end
 
       it "maintains proper section order" do
@@ -57,18 +57,18 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
     end
   end
 
-  context "with end section" do
+  context "with trailing section" do
     let(:navbar) { described_class.new }
 
     before do
       render_inline(navbar) do |n|
-        n.with_end { "End Content" }
+        n.with_trailing { "Trailing Content" }
       end
     end
 
     describe "rendering" do
-      it "renders the end section" do
-        expect(page).to have_selector(".navbar-end", text: "End Content")
+      it "renders the trailing section" do
+        expect(page).to have_selector(".navbar-end", text: "Trailing Content")
       end
 
       it "maintains proper section order" do
@@ -82,17 +82,17 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
     before do
       render_inline(navbar) do |n|
-        n.with_start { "Start Content" }
+        n.with_leading { "Leading Content" }
         n.with_center { "Center Content" }
-        n.with_end { "End Content" }
+        n.with_trailing { "Trailing Content" }
       end
     end
 
     describe "rendering" do
       it "renders all sections" do
-        expect(page).to have_selector(".navbar-start", text: "Start Content")
+        expect(page).to have_selector(".navbar-start", text: "Leading Content")
         expect(page).to have_selector(".navbar-center", text: "Center Content")
-        expect(page).to have_selector(".navbar-end", text: "End Content")
+        expect(page).to have_selector(".navbar-end", text: "Trailing Content")
       end
 
       it "maintains proper section order" do
@@ -107,7 +107,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
     before do
       render_inline(navbar) do |n|
-        n.with_start { "Content" }
+        n.with_leading { "Content" }
       end
     end
 
@@ -149,16 +149,16 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
     before do
       render_inline(navbar) do |n|
-        n.with_start { "Start Content" }
-        n.with_end { "End Content" }
+        n.with_leading { "Leading Content" }
+        n.with_trailing { "Trailing Content" }
         '<span class="extra-content">Extra</span>'.html_safe
       end
     end
 
     describe "rendering" do
       it "renders the named sections" do
-        expect(page).to have_selector(".navbar-start", text: "Start Content")
-        expect(page).to have_selector(".navbar-end", text: "End Content")
+        expect(page).to have_selector(".navbar-start", text: "Leading Content")
+        expect(page).to have_selector(".navbar-end", text: "Trailing Content")
       end
 
       it "also renders the custom block content" do
@@ -172,7 +172,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
 
     before do
       render_inline(navbar) do |n|
-        n.with_start do
+        n.with_leading do
           '<div class="flex items-center"><button class="btn btn-ghost">Menu</button><a href="#" class="btn btn-ghost text-xl">Brand</a></div>'.html_safe
         end
 
@@ -180,14 +180,14 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
           '<div class="some-class"><input type="text" placeholder="Search..." class="input input-bordered"></div>'.html_safe
         end
 
-        n.with_end do
+        n.with_trailing do
           '<button class="btn btn-primary">Login</button>'.html_safe
         end
       end
     end
 
     describe "rendering" do
-      it "renders complex start content" do
+      it "renders complex leading content" do
         expect(page).to have_selector(".navbar-start .btn.btn-ghost", text: "Menu")
         expect(page).to have_selector(".navbar-start a.btn.btn-ghost.text-xl", text: "Brand")
       end
@@ -196,7 +196,7 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
         expect(page).to have_selector(".navbar-center input[type='text'].input.input-bordered[placeholder='Search...']")
       end
 
-      it "renders complex end content" do
+      it "renders complex trailing content" do
         expect(page).to have_selector(".navbar-end .btn.btn-primary", text: "Login")
       end
 

@@ -20,6 +20,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   item API is now `item.with_leading` / `item.with_trailing`. This API was added after v0.6.0 and has never
   shipped in a release, so it is a clean rename with no deprecation aliases.
 
+- refactor(Navbar)!: Rename the navbar's `start` / `end` slots to `leading` / `trailing` (#257), finishing
+  the #187 rename so v0.7.0 ships a single convention. The `center` slot and the `navbar-start` /
+  `navbar-center` / `navbar-end` CSS classes are unchanged — only the Ruby-side slot names move
+  (`with_start` → `with_leading`, `with_end` → `with_trailing`). This is a hard rename with no aliases; the
+  `loco_motion:migrate:leading_trailing` task rewrites usage automatically.
+
 - refactor(Labelable)!: Rename the labelable `start` / `end` pair to `leading` / `trailing` across
   `daisy_text_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
   `daisy_cally_input` (#187). `end` is a Ruby reserved word, so its generated slot reader forced
