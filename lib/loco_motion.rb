@@ -17,6 +17,7 @@ require "loco_motion/icons/renderer"
 require "loco_motion/icons/installer"
 require "loco_motion/icons/scanner"
 require "loco_motion/icons/vendorer"
+require "loco_motion/migrations/leading_trailing"
 require "loco_motion/helpers"
 
 # Load patches
