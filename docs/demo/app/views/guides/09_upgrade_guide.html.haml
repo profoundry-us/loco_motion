@@ -47,22 +47,24 @@
   :markdown
     ## 2. Rename start / end to leading / trailing
 
-    The Labelable label pair is renamed: `start` is now **`leading`** and
-    `end` is now **`trailing`**. (`end` is a Ruby reserved word, so its
-    generated slot reader forced `send(:end)` workarounds; the new pair is
-    symmetric and reserved-word free.) This is a **hard rename with no
-    deprecation aliases**, affecting these helpers (and their form-builder
-    equivalents like `f.daisy_checkbox`):
+    The `start` / `end` pair is renamed everywhere: `start` is now
+    **`leading`** and `end` is now **`trailing`**. (`end` is a Ruby reserved
+    word, so its generated slot reader forced `send(:end)` workarounds; the
+    new pair is symmetric and reserved-word free.) This is a **hard rename
+    with no deprecation aliases**, affecting:
 
-    - `daisy_text_input` (and its `daisy_input` alias)
-    - `daisy_select`
-    - `daisy_checkbox`
-    - `daisy_toggle`
-    - `daisy_radio`
-    - `daisy_cally_input`
+    - The labelable inputs (and their form-builder equivalents like
+      `f.daisy_checkbox`): `daisy_text_input` (and its `daisy_input` alias),
+      `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
+      `daisy_cally_input`
+    - The Navbar's `start` / `end` slots (`center` is unchanged)
+    - The Timeline event's `start` / `end` slots and its
+      `with_event(start:, end:)` options (`middle` / `middle_icon` are
+      unchanged)
 
     Every spelling of the pair changes — keyword arguments, slot calls, and
-    the generated part options:
+    the generated part options — while the DaisyUI CSS classes
+    (`navbar-start`, `timeline-end`, ...) stay the same:
 
     - `start:` → `leading:` and `end:` → `trailing:`
     - `with_start` → `with_leading` and `with_end` → `with_trailing`
@@ -76,16 +78,20 @@
       -# Before
       = daisy_text_input(name: "username", start: "Username:")
       = daisy_checkbox(name: "terms", end: "I agree to the terms")
-      = daisy_text_input(name: "password") do |input|
-        - input.with_end(css: "flex items-center") do
-          = loco_icon("eye")
+      = daisy_navbar do |navbar|
+        - navbar.with_start do
+          Logo
+      = daisy_timeline do |timeline|
+        - timeline.with_event(start: "1984", end: "Born")
 
       -# After
       = daisy_text_input(name: "username", leading: "Username:")
       = daisy_checkbox(name: "terms", trailing: "I agree to the terms")
-      = daisy_text_input(name: "password") do |input|
-        - input.with_trailing(css: "flex items-center") do
-          = loco_icon("eye")
+      = daisy_navbar do |navbar|
+        - navbar.with_leading do
+          Logo
+      = daisy_timeline do |timeline|
+        - timeline.with_event(leading: "1984", trailing: "Born")
 
 .mt-8.prose
   :markdown
@@ -93,7 +99,7 @@
 
     v0.7.0 ships a rake task that performs the rename for you. It scans
     `app/` and rewrites only usage it can confidently attribute to the
-    labelable helpers above. Run it without arguments for a dry-run report,
+    renamed components above. Run it without arguments for a dry-run report,
     then apply:
 
 .max-w-prose
@@ -111,12 +117,12 @@
 
     ### What should NOT be renamed
 
-    Only the *labelable* pair is renamed. These keep their `start` / `end`
-    names, and the migration task deliberately leaves them alone:
-
-    - The Navbar's `with_start` / `with_center` / `with_end` slots
-    - The Timeline event's `start` / `middle` / `end` sections
-    - The Modal's `start_actions` / `end_actions` slots
+    - The Modal's `start_actions` / `end_actions` slots keep their names
+      (neither is a reserved word, and they are not a leading/trailing
+      pair).
+    - **Your own components'** `start` / `end` slots are yours — the
+      migration task only rewrites calls it can trace to a LocoMotion
+      component and reports everything else for manual review.
 
     ### Manual follow-ups
 
@@ -126,7 +132,8 @@
       `LocoMotion::Concerns::LabelableComponent`: the parts, slots, and
       predicates are renamed too — `has_start_label?` / `has_end_label?`
       are now `has_leading_label?` / `has_trailing_label?`.
-    - **System / e2e tests** that assert on the old markup or wording.
+    - **Direct component renders** (`TimelineEventComponent.new(start: ...)`)
+      and **system / e2e tests** that assert on the old markup or wording.
 
 .mt-12.prose
   :markdown
@@ -204,8 +211,8 @@
     - Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to `0.7.0`,
       and DaisyUI to 5.6+ if you want the new components.
     - Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run, then
-      `APPLY=1`) and review the diff; leave Navbar / TimelineEvent slots
-      as `start` / `end`.
+      `APPLY=1`) and review the diff; only the Modal's `start_actions` /
+      `end_actions` and your own components keep `start` / `end`.
     - Sync your icons and rename `hero_icon` to `loco_icon` — see the
       [icon migration guide](/guides/migrating_icons).
     - Check forms that post checkboxes / toggles for the new hidden-field
