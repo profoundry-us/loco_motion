@@ -1,5 +1,5 @@
 = daisy_navbar(css: "justify-between px-1") do |bar|
-  - bar.with_start(css: "w-auto! gap-2") do
+  - bar.with_leading(css: "w-auto! gap-2") do
     %label.-ml-2.btn.btn-ghost.px-1.sm:px-3.xl:hidden{ for: "sidenav-drawer" }
       = loco_icon("bars-3", css: "size-6")
 
@@ -14,7 +14,7 @@
       = daisy_button("v#{LocoMotion::VERSION}", css: "ml-2 px-4 btn-info btn-soft btn-xs rounded-full",
         href: "https://github.com/profoundry-us/loco_motion/releases", target: "_blank")
 
-  - bar.with_end(css: "w-auto! space-x-2") do
+  - bar.with_trailing(css: "w-auto! space-x-2") do
     = daisy_button(css: "btn-sm px-3 sm:px-6 rounded-full", html: { onclick: "javascript:showDocSearch()" }) do
       .hidden.lg:inline-block.mr-2
         = daisy_kbd "⌘", css: "kbd-sm"

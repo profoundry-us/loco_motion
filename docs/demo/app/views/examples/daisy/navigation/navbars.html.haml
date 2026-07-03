@@ -9,18 +9,18 @@
 = doc_example(title: "Basic Navbar") do |doc|
   - doc.with_description do
     :markdown
-      Navbars are simple elements which typically contain start and end
+      Navbars are simple elements which typically contain leading and trailing
       sections, and sometimes a center section.
 
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
-      - navbar.with_start do
+      - navbar.with_leading do
         = image_tag("loco-logo-modern.png", class: "h-8")
         %span
           %em> Loco
           %span.font-bold Motion
 
-      - navbar.with_end do
+      - navbar.with_trailing do
         = link_to "https://github.com/profoundry-us/loco_motion", target: "_blank", class: "flex items-center space-x-2" do
           %svg.size-6{role: "img", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", class: "dark:fill-base-100"}
             %title GitHub
@@ -32,9 +32,9 @@
 = doc_example(title: "Custom Content Navbar") do |doc|
   - doc.with_description do
     :markdown
-      In addition to the named `start`, `center`, and `end` slots, you can pass
-      custom content directly inside the component's block. This is useful for
-      simple navbars that don't need the three-section layout.
+      In addition to the named `leading`, `center`, and `trailing` slots, you
+      can pass custom content directly inside the component's block. This is
+      useful for simple navbars that don't need the three-section layout.
 
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do
@@ -56,13 +56,13 @@
 
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
-      - navbar.with_start(css: "text-lg italic") do
+      - navbar.with_leading(css: "text-lg italic") do
         Code-<strong>Fur</strong>-Life
 
       - navbar.with_center do
         = loco_icon("code-bracket-square", css: "transition-all size-14 hover:size-20 text-green-600 -rotate-12")
 
-      - navbar.with_end do
+      - navbar.with_trailing do
         = daisy_dropdown(css: "dropdown-end") do |dropdown|
           - dropdown.with_button(css: "btn-ghost", title: "Languages", right_icon: "chevron-down")
 
