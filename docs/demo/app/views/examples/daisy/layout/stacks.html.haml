@@ -7,7 +7,7 @@
 = doc_example(title: "Basic Stack") do |doc|
   - doc.with_description do
     :markdown
-      A Stack is a wrapper around other elements, making it's children appear on
+      A Stack is a wrapper around other elements, making its children appear on
       top of each other.
 
       This example uses a slightly transparent background and some clever
@@ -111,7 +111,7 @@
       the stack.
 
   .space-y-4{ data: { controller: "stack-gap" } }
-    .flex.items-center.gap-4
+    .flex.flex-wrap.items-center.gap-4
       %span.text-sm.min-w-16 Gap size:
       %span.badge.badge-primary{ data: { stack_gap_target: "label" } } 3
       %input.range.range-primary{
@@ -122,7 +122,7 @@
         data: { stack_gap_target: "slider", action: "input->stack-gap#updateGap" }
       }
 
-    .stack.w-96{ data: { stack_gap_target: "stack", class: "gap-3" } }
+    .stack.gap-3.w-full.max-w-96{ data: { stack_gap_target: "stack" } }
       %img{ src: image_path("landscapes/beach.jpg") }
       %img{ src: image_path("landscapes/desert.jpg") }
       %img{ src: image_path("landscapes/forest.jpg") }
