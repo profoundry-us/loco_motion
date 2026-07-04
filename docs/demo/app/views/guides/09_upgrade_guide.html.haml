@@ -1,0 +1,227 @@
+= content_for(:page_title) do
+  Upgrade Guide
+
+.max-w-prose
+  = doc_info(url: "https://github.com/profoundry-us/loco_motion/blob/main/CHANGELOG.md", icon: "arrow-up-circle", icon_css: "text-primary") do
+    :markdown
+      Until _Loco_**Motion** reaches 1.0.0, **every minor release should be
+      considered breaking**. This guide walks through everything you need to
+      change; the CHANGELOG has the full details.
+
+.prose
+  :markdown
+    # Upgrading LocoMotion
+
+    This guide covers upgrading from **v0.6.0 to v0.7.0**. It is a big
+    release: the Labelable `start` / `end` API is renamed, icons render
+    through the new `loco_icon` engine, and checkboxes submit like Rails
+    checkboxes. Three new components (Megamenu, OTP, and Aura) come along
+    for the ride.
+
+.mt-12.prose
+  :markdown
+    ## 1. Update your packages
+
+    Bump the gem and the matching npm package:
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "ruby") do
+    :plain
+      # Gemfile
+      gem "loco_motion-rails", "~> 0.7.0"
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    yarn add @profoundry-us/loco_motion@0.7.0
+
+.mt-4.prose
+  :markdown
+    The new Megamenu, OTP, and Aura components rely on styles introduced in
+    **DaisyUI 5.6**, so the npm package now declares `daisyui` `^5.6.0` as a
+    peer dependency — your package manager will flag (or auto-resolve) an
+    older DaisyUI. Bump it alongside the packages above:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    yarn add daisyui@^5.6.7
+
+.mt-12.prose
+  :markdown
+    ## 2. Rename start / end to leading / trailing
+
+    The `start` / `end` pair is renamed everywhere: `start` is now
+    **`leading`** and `end` is now **`trailing`**. (`end` is a Ruby reserved
+    word, so its generated slot reader forced `send(:end)` workarounds; the
+    new pair is symmetric and reserved-word free.) This is a **hard rename
+    with no deprecation aliases**, affecting:
+
+    - The labelable inputs (and their form-builder equivalents like
+      `f.daisy_checkbox`): `daisy_text_input` (and its `daisy_input` alias),
+      `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`, and
+      `daisy_cally_input`
+    - The Navbar's `start` / `end` slots (`center` is unchanged)
+    - The Timeline event's `start` / `end` slots and its
+      `with_event(start:, end:)` options (`middle` / `middle_icon` are
+      unchanged)
+    - The Modal's `start_actions` / `end_actions` slots and parts, which
+      become `leading_actions` / `trailing_actions`
+
+    Every spelling of the pair changes — keyword arguments, slot calls, and
+    the generated part options:
+
+    - `start:` → `leading:` and `end:` → `trailing:`
+    - `with_start` → `with_leading` and `with_end` → `with_trailing`
+    - `with_start_actions` → `with_leading_actions` and
+      `with_end_actions` → `with_trailing_actions` (Modal)
+    - `start_css:` / `start_html:` / `start_aria:` / `start_data:` →
+      `leading_css:` / `leading_html:` / `leading_aria:` / `leading_data:`
+      (and the `end_*` / `_actions` variants likewise)
+
+    One thing does **not** change: the rendered HTML. The emitted CSS
+    classes (`navbar-start`, `timeline-end`, ...) are DaisyUI's own
+    selectors, so your stylesheets keep working untouched — the rename is
+    confined to the Ruby API.
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "haml") do
+    :plain
+      -# Before
+      = daisy_text_input(name: "username", start: "Username:")
+      = daisy_checkbox(name: "terms", end: "I agree to the terms")
+      = daisy_navbar do |navbar|
+        - navbar.with_start do
+          Logo
+      = daisy_timeline do |timeline|
+        - timeline.with_event(start: "1984", end: "Born")
+
+      -# After
+      = daisy_text_input(name: "username", leading: "Username:")
+      = daisy_checkbox(name: "terms", trailing: "I agree to the terms")
+      = daisy_navbar do |navbar|
+        - navbar.with_leading do
+          Logo
+      = daisy_timeline do |timeline|
+        - timeline.with_event(leading: "1984", trailing: "Born")
+
+.mt-8.prose
+  :markdown
+    ### Let the migration task do it
+
+    v0.7.0 ships a rake task that performs the rename for you. It scans
+    `app/` and rewrites only usage it can confidently attribute to the
+    renamed components above. Run it without arguments for a dry-run report,
+    then apply:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bin/rails loco_motion:migrate:leading_trailing
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    APPLY=1 bin/rails loco_motion:migrate:leading_trailing
+
+.mt-4.prose
+  :markdown
+    Review the diff before committing. Anything the task cannot safely
+    attribute is printed under "Needs manual review" instead of rewritten.
+
+    ### What should NOT be renamed
+
+    **Your own components'** `start` / `end` slots are yours — the
+    migration task only rewrites calls it can trace to a LocoMotion
+    component and reports everything else for manual review.
+
+    ### Manual follow-ups
+
+    - **Prose and headings**: comments, docs, or UI copy that *talk about*
+      the `start` / `end` labels (the task only rewrites code).
+    - **Custom components** that include
+      `LocoMotion::Concerns::LabelableComponent`: the parts, slots, and
+      predicates are renamed too — `has_start_label?` / `has_end_label?`
+      are now `has_leading_label?` / `has_trailing_label?`.
+    - **Direct component renders** (`TimelineEventComponent.new(start: ...)`)
+      and **system / e2e tests** that assert on the old markup or wording.
+
+.mt-12.prose
+  :markdown
+    ## 3. Icons: `hero_icon` is gone, meet `loco_icon`
+
+    LocoMotion no longer bundles `rails_heroicon`. Every icon — including
+    the ones components render via `icon:` options — now resolves through
+    the pluggable `loco_icon` engine, which reads SVGs synced into your own
+    app. The full walkthrough lives in the
+    [Migrating to the Icon Engine](/guides/migrating_icons) guide; the
+    short version:
+
+    1. **Sync your icons once** and commit the SVGs:
+       `bin/rails loco_motion:icons:add heroicons` (or
+       `loco_motion:icons:sync` to vendor only the icons you use).
+    2. **Rename `hero_icon` / `heroicon` calls to `loco_icon`.**
+    3. **Replace `Hero::IconComponent`** with `loco_icon("name")` — the
+       component and the `Hero` module are removed.
+    4. **Fold `variant:` / `library:` into the icon token** —
+       `loco_icon("bolt", variant: :solid)` becomes
+       `loco_icon("bolt/solid")`, and `icon_options: { variant: :solid }`
+       becomes `icon: "name/solid"`. Passing `variant:` or `library:` now
+       raises an `ArgumentError`. The Dock section's `icon_variant:` option
+       is likewise replaced by the token form (`icon: "home/solid"`).
+
+    Component `icon:` options work with **zero setup for the bundled set**
+    (the chrome icons plus the standard Alert icons); anything else needs
+    the one-time sync from step 1.
+
+.mt-12.prose
+  :markdown
+    ## 4. Checkboxes and toggles now submit an unchecked value
+
+    A named, enabled `daisy_checkbox` / `daisy_toggle` now renders a
+    companion `<input type="hidden" value="0">` before the checkbox — the
+    same trick as Rails' own `check_box` — so an *unchecked* box still
+    submits a value and "uncheck to disable" forms work without hand-rolled
+    `hidden_field_tag` pairs.
+
+    If you already added your own hidden field (or your controller expects
+    the parameter to be absent), opt out with `include_hidden: false`, or
+    change the submitted value with `unchecked_value:`. Request specs and
+    system tests that assert the exact rendered markup or posted params may
+    need updating.
+
+.mt-12.prose
+  :markdown
+    ## 5. New in 0.7.0 (no action needed)
+
+    - **Megamenu** (`daisy_megamenu`), **OTP** (`daisy_otp`), and **Aura**
+      (`daisy_aura`) components — all pure HTML + CSS, requiring DaisyUI
+      5.6+.
+    - **Importable CSS**: replace the hand-copied `@custom-variant` block
+      from the old install docs with
+      `@import '@profoundry-us/loco_motion/loco.css'` so future upgrades
+      pick up new rules automatically.
+    - **Turbo options everywhere**: linkable components (anything taking
+      `href:`) accept `turbo_frame:`, `turbo_method:`, and `turbo_confirm:`
+      directly.
+    - **Structured dropdown items**: `dropdown.with_item(label:, href:,
+      selected:)` with `leading` / `trailing` slots renders proper menu
+      rows.
+    - **Global modals**: `daisy_modal(trigger: false, turbo_frame_id: ...)`
+      plus the optional `loco-modal` Stimulus controller enable the
+      canonical Hotwire modal pattern.
+    - **Theme switcher builder**: `tc.build_switcher_dropdown` renders a
+      complete theme switcher in one line.
+    - **Select fix**: the block form (`select.with_option`) now honors the
+      parent's `value:` for preselection.
+
+.mt-12.prose
+  :markdown
+    ## Summary
+
+    - Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to `0.7.0`,
+      and DaisyUI to 5.6+ (now a declared peer dependency of the npm
+      package).
+    - Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run, then
+      `APPLY=1`) and review the diff; only your own components' slots keep
+      `start` / `end`.
+    - Sync your icons and rename `hero_icon` to `loco_icon` — see the
+      [icon migration guide](/guides/migrating_icons).
+    - Check forms that post checkboxes / toggles for the new hidden-field
+      behavior (`include_hidden: false` opts out).

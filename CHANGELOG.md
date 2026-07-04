@@ -357,6 +357,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- docs(Guides): Add an "Upgrade Guide" page to the demo site covering the 0.6.0 → 0.7.0 upgrade — package
+  bumps (gem, npm, DaisyUI 5.6+ for the new components), the `start` / `end` → `leading` / `trailing`
+  rename (labelable inputs, Navbar, and Timeline events) and its `loco_motion:migrate:leading_trailing`
+  task, a summary of the icon-engine migration (linking the existing guide), the new checkbox / toggle
+  hidden-field behavior, and a tour of what else is new. Refs #187, #257.
+
 - refactor(Demo): Adopt the icon engine across the demo and dogfood treeshaking. Renamed every direct
   `hero_icon` / `heroicon` call to `loco_icon` (chrome, the `doc_*` helper components, and example pages),
   expressing variant / library choices as qualified `[library:]name[/variant]` tokens (e.g.
