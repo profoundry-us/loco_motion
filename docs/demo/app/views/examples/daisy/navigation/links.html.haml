@@ -15,7 +15,7 @@
 
       The `title` can also be passed as a block.
 
-  .flex.items-end.space-x-4
+  .flex.flex-wrap.items-end.gap-x-4.gap-y-2
     = daisy_link title: "Home", href: "#"
     = daisy_link "Docs", "#", css: "link-primary text-xl"
     = daisy_link "Components", "#", css: "link-secondary text-2xl"
@@ -29,7 +29,7 @@
       buttons. You can use these to add icons to the left and/or right of the
       link text.
 
-  .flex.items-end.space-x-4
+  .flex.flex-wrap.items-end.gap-x-4.gap-y-2
     = daisy_link title: "Home", href: "#", icon: "home"
     = daisy_link title: "Settings", href: "#", icon: "cog-6-tooth", css: "link-primary"
     = daisy_link title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right", css: "link-secondary"
