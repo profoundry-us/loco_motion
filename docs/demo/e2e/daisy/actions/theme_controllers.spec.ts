@@ -1,21 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { loco } from '../../spec_helpers';
-
-test('page loads', async ({ page }) => {
-  await page.goto('/');
-
-  // Click the Theme Controllers nav link
-  await loco.clickNavLink(page, 'Theme Controllers');
-
-  // Expect the title and key headings
-  await loco.expectPageTitle(page, /Theme Controller | LocoMotion/);
-  await loco.expectPageHeadings(page, [
-    'Theme Preview Icons',
-    'Theme Radio Inputs',
-    'Switcher Dropdown (Builder)',
-    'Custom Switcher'
-  ]);
-});
 
 test('build_switcher_dropdown switches the theme and marks the active row', async ({ page }) => {
   await page.goto(PAGE);

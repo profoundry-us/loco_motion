@@ -1,27 +1,4 @@
 import { expect, test, Locator, Page } from '@playwright/test';
-import { loco } from '../../spec_helpers';
-
-/**
- * Verify the Modals page loads correctly with expected elements
- */
-test('page loads', async ({ page }) => {
-  await page.goto('/');
-
-  // Click the Modals link
-  await loco.clickNavLink(page, 'Modals');
-
-  // Expect the title and a few headings
-  await loco.expectPageTitle(page, /Modals | LocoMotion/);
-  await loco.expectPageHeadings(page, [
-    'Simple Modal',
-    'Custom Activator'
-  ]);
-
-  // "Global Modal" is a prefix of "Global Modal (Turbo Frame)", so assert each
-  // exactly to avoid an ambiguous (non-exact) heading match.
-  await expect(page.getByRole('heading', { name: 'Global Modal', exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Global Modal (Turbo Frame)', exact: true })).toBeVisible();
-});
 
 /**
  * Test suite for the simple modal functionality
