@@ -43,6 +43,20 @@
     Uh oh, something went wrong!
 
 
+= doc_example(title: "Vertical Alerts", example_css: "flex-col space-y-8") do |doc|
+  - doc.with_description do
+    :markdown
+      The `alert-vertical` modifier stacks the icon above the content. Combine
+      it with a responsive modifier like `sm:alert-horizontal` to stack only on
+      small screens.
+
+  = daisy_alert(icon: "information-circle", css: "alert-info alert-vertical w-full max-w-100") do
+    This alert is always vertical.
+
+  = daisy_alert(icon: "check-circle", css: "alert-success alert-vertical sm:alert-horizontal w-full max-w-100") do
+    This alert is vertical on small screens and horizontal on larger ones.
+
+
 = doc_example(title: "Custom Icon Alerts", example_css: "flex-col space-y-8") do |doc|
   - doc.with_description do
     %p
