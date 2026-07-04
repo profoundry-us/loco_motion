@@ -476,6 +476,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Alert): Add a "Vertical Alerts" demo example showing the `alert-vertical` modifier stacking the icon
   above the content, plus the responsive `alert-vertical sm:alert-horizontal` pattern. The modifier was
   previously inert on icon alerts (see the Iconable root-classes fix), so the demo never exercised it.
+- fix(Guides): Vendor the Upgrade Guide's `arrow-up-circle` icon (and the prose-matched `home/solid`) into
+  the demo's committed icon set. The icon was referenced but never synced, so `/guides/upgrade_guide` raised
+  `IconNotFound` (HTTP 500) in production, while development masked it by falling back to the local icon
+  cache — caught by the new nav smoke test on its first CI run.
 - test(E2E): Replace the ~60 per-page "page loads" Playwright specs with one universal nav smoke test
   (`e2e/smoke/nav.spec.ts`) that scrapes every left-nav link and asserts each page responds with HTTP 200,
   so new components and pages are covered automatically. Specs covering real behavior and regressions
