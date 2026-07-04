@@ -1,7 +1,7 @@
 = doc_title(title: "Tabs", comp: @comp) do |title|
   :markdown
     Navigation controls for organizing content into switchable panels.
-    Supports multiple sizes (xs, sm, md, lg, xl) and styles (boxed, bordered,
+    Supports multiple sizes (xs, sm, md, lg, xl) and styles (box, border,
     lift) for creating intuitive content navigation and filtering interfaces.
 
 
@@ -82,8 +82,8 @@
     :markdown
       You can also use tabs with Turbo Frames to load content dynamically.
 
-  %turbo-frame#tabs--turob-tabs-example
-    = daisy_tabs(css: "tabs-lift w-[500px]") do |tabs|
+  %turbo-frame#tabs--turbo-tabs-example
+    = daisy_tabs(css: "tabs-lift w-full max-w-[500px]") do |tabs|
       - (2..4).each do |i|
         - is_checked = params[:custom_tab] ? params[:custom_tab] == i.to_s : i == 3
         - tabs.with_tab(href: "?custom_tab=#{i}", checked: is_checked) do |tab|
