@@ -44,6 +44,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `start:` / `end:` / `start_css:` / `end_css:` (plus `_html` / `_aria` / `_data` variants) to their
   `leading` / `trailing` equivalents.
 
+- chore(NPM): Declare `daisyui` `^5.6.0` as a peer dependency of `@profoundry-us/loco_motion`. The package
+  has always assumed DaisyUI in the host app but never said so; the new Megamenu / OTP / Aura components
+  require styles introduced in DaisyUI 5.6, so package managers now surface a warning (or auto-install a
+  compatible version) instead of silently allowing an older DaisyUI.
+
 - feat(Megamenu): Add the `daisy_megamenu` component (`Daisy::Navigation::MegamenuComponent`) — a large
   horizontal navigation menu where each item opens a popover of links (#209). Items pair a
   `<button popovertarget>` with an adjacent `<div popover>` (IDs auto-generated), a `megamenu-active` span
