@@ -36,7 +36,7 @@
   = daisy_otp(name: "pin", css: "otp-joined")
 
 
-= doc_example(title: "OTP Sizes", example_css: "flex-col items-start gap-4") do |doc|
+= doc_example(title: "OTP Sizes", example_css: "flex-col items-center gap-4") do |doc|
   - doc.with_description do
     :markdown
       Size modifiers scale the boxes from `otp-xs` to `otp-xl`.
@@ -50,8 +50,8 @@
 = doc_example(title: "OTP Colors") do |doc|
   - doc.with_description do
     :markdown
-      Color modifiers tint the boxes when the input has focus — click a row to
-      see its color. All of the standard DaisyUI colors are available:
+      Color modifiers tint each box's border and caret; focusing a row adds a
+      matching outline. All of the standard DaisyUI colors are available:
       `otp-neutral`, `otp-primary`, `otp-secondary`, `otp-accent`, `otp-info`,
       `otp-success`, `otp-warning`, and `otp-error`.
 

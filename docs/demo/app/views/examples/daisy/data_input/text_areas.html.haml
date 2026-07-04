@@ -74,11 +74,12 @@
   - doc.with_description do
     :markdown
       Use `textarea-ghost` to remove the border from a text area. This creates a
-      minimalist appearance that only shows borders on hover.
+      minimalist appearance that only reveals its background and outline on
+      focus.
 
   .my-2.flex.flex-col.gap-4
     = daisy_label(for: "textarea_ghost", title: "Ghost Style Text Area")
-    = daisy_text_area(name: "textarea_ghost", id: "textarea_ghost", css: "textarea-ghost")
+    = daisy_text_area(name: "textarea_ghost", id: "textarea_ghost", placeholder: "Click here to see the focus style...", css: "textarea-ghost")
 
     .mt-4.p-4.border.rounded-lg.bg-teal-200
       %p.text-sm.mb-2 Ghost style with background container:
