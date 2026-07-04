@@ -1,23 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { loco } from '../../spec_helpers';
-
-test('page loads', async ({ page }) => {
-  await page.goto('/');
-
-  // Click the Alerts nav link
-  await loco.clickNavLink(page, 'Alerts');
-
-  // Expect the title and key headings
-  await loco.expectPageTitle(page, /Alerts | LocoMotion/);
-  await loco.expectPageHeadings(page, [
-    'Basic Alerts',
-    'Alerts Without Icons',
-    'Custom Icon Alerts',
-    'Soft Alerts',
-    'Outline Alerts',
-    'Dash Alerts'
-  ]);
-});
 
 // Regression for #186: the closable alert's ✕ used to be absolutely positioned
 // with a zero-specificity `pr-10` reservation that lost to DaisyUI's `.alert`

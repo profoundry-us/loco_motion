@@ -1,17 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { loco } from '../../spec_helpers';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/examples/Daisy::Feedback::SkeletonComponent');
-});
-
-test('page loads', async ({ page }) => {
-  await loco.expectPageTitle(page, /Skeletons | LocoMotion/);
-  await loco.expectPageHeadings(page, [
-    'Basic Skeletons',
-    'Skeleton Text',
-    'Component Skeletons'
-  ]);
 });
 
 test('chat avatar skeleton does not have neutral background class', async ({ page }) => {

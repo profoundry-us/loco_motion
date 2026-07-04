@@ -1,29 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { loco } from '../../spec_helpers';
 
-test('page loads', async ({ page }) => {
-  await page.goto('/');
-
-  // Click the Text Inputs nav link
-  await loco.clickNavLink(page, 'Text Inputs');
-
-  // Expect the title and key headings
-  await loco.expectPageTitle(page, /Text Inputs | LocoMotion/);
-  await loco.expectPageHeadings(page, [
-    'Basic Text Input',
-    'Floating Label Inputs',
-    'Sticky Floating Label',
-    'Different Input Types',
-    'Text Input Sizes',
-    'Text Input with Different Colors',
-    'Ghost Style Text Input',
-    'Disabled Text Input',
-    'Required Text Input',
-    'Text Input with Icons',
-    'Rails Form Example'
-  ]);
-});
-
 // Returns the computed opacity of a floating label's <span> for the input with
 // the given id. DaisyUI collapses the span to opacity 0 and only raises it
 // (opacity 1) on focus or once the field has a value.

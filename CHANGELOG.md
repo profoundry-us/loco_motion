@@ -480,6 +480,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   the demo's committed icon set. The icon was referenced but never synced, so `/guides/upgrade_guide` raised
   `IconNotFound` (HTTP 500) in production, while development masked it by falling back to the local icon
   cache — caught by the new nav smoke test on its first CI run.
+- test(E2E): Replace the ~60 per-page "page loads" Playwright specs with one universal nav smoke test
+  (`e2e/smoke/nav.spec.ts`) that scrapes every left-nav link and asserts each page responds with HTTP 200,
+  so new components and pages are covered automatically. Specs covering real behavior and regressions
+  (modals, theme switching, tooltips, floating labels, megamenus, skeleton avatars, closable alerts, ads
+  layout) remain. The sweep takes about 6 seconds, so it runs inside the existing single Playwright CI job
+  (which already skips draft PRs and runs once a PR is marked ready for review) — no extra Actions minutes.
 
 ### Fixed
 
