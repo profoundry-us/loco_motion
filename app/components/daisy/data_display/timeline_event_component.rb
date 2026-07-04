@@ -2,59 +2,59 @@
 
 #
 # A component for rendering individual events within a timeline. Each event can
-# have three sections: start (typically a date or time), middle (an icon or
-# marker), and end (the event description).
+# have three sections: leading (typically a date or time), middle (an icon or
+# marker), and trailing (the event description).
 #
-# @part start The container for the start content (e.g., date/time).
+# @part leading The container for the leading content (e.g., date/time).
 # @part middle The container for the middle content.
 # @part middle_icon Container for a simple icon when not using custom middle
 #   content.
-# @part end The container for the end content (e.g., description).
+# @part trailing The container for the trailing content (e.g., description).
 # @part separator The line connecting this event to the next one.
 #
-# @slot start Custom content for the start section. You can also provide
-#   simple text via the start option.
+# @slot leading Custom content for the leading section. You can also provide
+#   simple text via the leading option.
 #
 # @slot middle Custom content for the middle section. You can also provide
 #   simple text via the middle option, or an icon via the middle_icon option.
 #
-# @slot end Custom content for the end section. You can also provide simple
-#   text via the end option.
+# @slot trailing Custom content for the trailing section. You can also provide
+#   simple text via the trailing option.
 #
 # @note The middle and middle_icon options are mutually exclusive. If both are
 #   provided, middle takes precedence.
 #
 # @loco_example Simple Event
 #   = daisy_timeline do |timeline|
-#     - timeline.with_event(start: "2023", middle: "🚀", end: "Launched product")
-#     - timeline.with_event(start: "2024", middle: "🎉", end: "1M users")
+#     - timeline.with_event(leading: "2023", middle: "🚀", trailing: "Launched product")
+#     - timeline.with_event(leading: "2024", middle: "🎉", trailing: "1M users")
 #
 # @loco_example Event with Custom Content
 #   = daisy_timeline do |timeline|
 #     - timeline.with_event do |event|
-#       - event.with_start do
+#       - event.with_leading do
 #         .font-bold Jan 2024
 #       - event.with_middle do
 #         = loco_icon("star")
-#       - event.with_end do
+#       - event.with_trailing do
 #         %h3.font-bold Milestone Reached
 #
 module Daisy
   module DataDisplay
     class TimelineEventComponent < LocoMotion::BaseComponent
-      renders_one :start, LocoMotion::BasicComponent.build(css: "timeline-start")
+      renders_one :leading, LocoMotion::BasicComponent.build(css: "timeline-start")
       renders_one :middle, LocoMotion::BasicComponent.build(css: "timeline-middle")
-      renders_one :end, LocoMotion::BasicComponent.build(css: "timeline-end")
+      renders_one :trailing, LocoMotion::BasicComponent.build(css: "timeline-end")
 
-      define_parts :start, :middle, :middle_icon, :end, :separator
+      define_parts :leading, :middle, :middle_icon, :trailing, :separator
 
       #
       # Creates a new timeline event component.
       #
       # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kws [String] :start Text to display in the start section. You can
-      #   also provide custom content using the start slot.
+      # @option kws [String] :leading Text to display in the leading section.
+      #   You can also provide custom content using the leading slot.
       #
       # @option kws [String] :middle Text to display in the middle section. You
       #   can also provide custom content using the middle slot.
@@ -62,8 +62,8 @@ module Daisy
       # @option kws [String] :middle_icon Name of an icon to display in the
       #   middle section. Ignored if middle is provided.
       #
-      # @option kws [String] :end Text to display in the end section. You can
-      #   also provide custom content using the end slot.
+      # @option kws [String] :trailing Text to display in the trailing section.
+      #   You can also provide custom content using the trailing slot.
       #
       def initialize(*args, **kws, &block)
         super(*args, **kws, &block)
@@ -71,10 +71,10 @@ module Daisy
         @event_index = nil
         @events_length = nil
 
-        @simple_start = config_option(:start)
+        @simple_leading = config_option(:leading)
         @simple_middle = config_option(:middle)
         @simple_middle_icon = config_option(:middle_icon)
-        @simple_end = config_option(:end)
+        @simple_trailing = config_option(:trailing)
       end
 
       def before_render
@@ -87,9 +87,9 @@ module Daisy
       end
 
       def setup_parts
-        add_css(:start, "timeline-start")
+        add_css(:leading, "timeline-start")
         add_css(:middle, "timeline-middle")
-        add_css(:end, "timeline-end")
+        add_css(:trailing, "timeline-end")
       end
 
       def setup_separator

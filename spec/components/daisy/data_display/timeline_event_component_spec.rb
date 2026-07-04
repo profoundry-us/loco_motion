@@ -18,14 +18,14 @@ RSpec.describe Daisy::DataDisplay::TimelineEventComponent, type: :component do
   end
 
   context "with simple parts" do
-    let(:event) { described_class.new(start: "Start", middle: "Middle", end: "End") }
+    let(:event) { described_class.new(leading: "Start", middle: "Middle", trailing: "End") }
 
     before do
       render_inline(event)
     end
 
     describe "rendering" do
-      it "renders the start content" do
+      it "renders the leading content" do
         expect(page).to have_selector(".timeline-start", text: "Start")
       end
 
@@ -33,7 +33,7 @@ RSpec.describe Daisy::DataDisplay::TimelineEventComponent, type: :component do
         expect(page).to have_selector(".timeline-middle", text: "Middle")
       end
 
-      it "renders the end content" do
+      it "renders the trailing content" do
         expect(page).to have_selector(".timeline-end", text: "End")
       end
     end
@@ -44,14 +44,14 @@ RSpec.describe Daisy::DataDisplay::TimelineEventComponent, type: :component do
 
     before do
       render_inline(event) do |e|
-        e.with_start { "Block Start" }
+        e.with_leading { "Block Start" }
         e.with_middle { "Block Middle" }
-        e.with_end { "Block End" }
+        e.with_trailing { "Block End" }
       end
     end
 
     describe "rendering" do
-      it "renders the start content" do
+      it "renders the leading content" do
         expect(page).to have_selector(".timeline-start", text: "Block Start")
       end
 
@@ -59,7 +59,7 @@ RSpec.describe Daisy::DataDisplay::TimelineEventComponent, type: :component do
         expect(page).to have_selector(".timeline-middle", text: "Block Middle")
       end
 
-      it "renders the end content" do
+      it "renders the trailing content" do
         expect(page).to have_selector(".timeline-end", text: "Block End")
       end
     end
