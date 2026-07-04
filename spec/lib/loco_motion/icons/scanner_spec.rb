@@ -105,6 +105,75 @@ RSpec.describe LocoMotion::Icons::Scanner do
       expect(references).to be_empty
     end
 
+    it "ignores backticked prose examples inside :markdown filter blocks" do
+      # Mirrors the upgrade guide: icon tokens quoted in documentation prose
+      # (including after a blank line inside the block) are not real usages,
+      # but the `doc_info` call above the block and the code after it are.
+      write("app/views/guides/upgrade.haml", <<~HAML)
+        = doc_info(url: "https://example.com", icon: "arrow-up-circle")
+        .prose
+          :markdown
+            **Replace `Hero::IconComponent`** with `loco_icon("name")` — the
+            component is removed.
+
+            `icon_options: { variant: :solid }` becomes `icon: "name/solid"`,
+            and `icon_variant:` is replaced by the token form
+            (`icon: "home/solid"`).
+        = loco_icon("check-circle")
+      HAML
+
+      expect(references.map { |r| r[:name] }).to contain_exactly(
+        "arrow-up-circle", "check-circle"
+      )
+    end
+
+    it "ignores displayed code inside :plain filter blocks" do
+      write("app/views/guides/icons.haml", <<~HAML)
+        = doc_code(css: "my-4", language: "haml") do
+          :plain
+            = loco_icon("phosphor:gear/bold")
+            = daisy_button("Cart", icon: "shopping-cart")
+        = loco_icon("beaker")
+      HAML
+
+      expect(references).to contain_exactly(
+        { library: "heroicons", variant: nil, name: "beaker" }
+      )
+    end
+
+    it "still finds interpolated icons inside a filter block" do
+      write("app/views/guides/interpolated.haml", <<~HAML)
+        :markdown
+          Inline icons \#{loco_icon("sparkles")} render for real, while
+          `loco_icon("nope")` stays prose.
+      HAML
+
+      expect(references.map { |r| r[:name] }).to contain_exactly("sparkles")
+    end
+
+    it "scans :ruby and :erb filter blocks, whose content executes" do
+      write("app/views/guides/code_filters.haml", <<~HAML)
+        :ruby
+          icon_html = loco_icon("cake")
+        :erb
+          <%= daisy_button(icon: "bell") %>
+      HAML
+
+      expect(references.map { |r| r[:name] }).to contain_exactly("cake", "bell")
+    end
+
+    it "does not treat symbol-only lines in Ruby files as HAML filters" do
+      write("app/helpers/icons_helper.rb", <<~RUBY)
+        FILTERS = [
+          :markdown
+        ]
+
+        def fav_icon = loco_icon("star")
+      RUBY
+
+      expect(references.map { |r| r[:name] }).to contain_exactly("star")
+    end
+
     it "skips Ruby comment lines (YARD examples) but scans HAML id lines" do
       write("app/components/widget.rb", <<~RUBY)
         # @loco_example

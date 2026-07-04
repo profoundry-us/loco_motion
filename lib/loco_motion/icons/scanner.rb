@@ -20,6 +20,13 @@ module LocoMotion
     # (`loco_icon("bars-#{n}")`, `icon: some_var`) — those belong in
     # {LocoMotion::Configuration#icon_safelist}.
     #
+    # Documentation text is not scanned: the body of a HAML filter block
+    # (`:markdown` prose, `:plain` code samples inside `doc_code`, and
+    # friends) is rendered as text, never executed as Ruby, so a backticked
+    # `icon: "home/solid"` in a guide is not a usage. The exceptions are the
+    # code filters (`:ruby` / `:erb`) and `#{...}` interpolation inside any
+    # filter — both of those *do* execute and are scanned normally.
+    #
     class Scanner
       # The qualified token in a `loco_icon("foo")` call.
       HELPER = %r{\bloco_icon\s*\(?\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
@@ -34,6 +41,15 @@ module LocoMotion
       # simple icon (tokens / hyphenated names must be strings).
       HELPER_SYMBOL = /\bloco_icon\s*\(?\s*:([a-z0-9][a-z0-9_]*)\b/
       KWARG_SYMBOL = /\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*:([a-z0-9][a-z0-9_]*)\b/
+
+      # A HAML filter header (`:markdown`, `:plain`, ...) whose indented block
+      # is text, not code. `:ruby` and `:erb` blocks hold executable code, so
+      # they are excluded here and scanned like ordinary lines.
+      TEXT_FILTER = /\A(\s*):(?!ruby\b|erb\b)\w+\s*\z/
+
+      # An interpolated segment inside filter text — the one part of a filter
+      # block that executes as Ruby.
+      INTERPOLATION = /\#\{([^}]*)\}/
 
       #
       # @param paths [Array<String>] Glob patterns to scan (relative to root).
@@ -75,9 +91,25 @@ module LocoMotion
 
       def each_reference(file, &block)
         comment = comment_prefix(file)
+        haml = ::File.extname(file) == ".haml"
+        filter_indent = nil
 
         ::File.foreach(file) do |line|
+          if filter_indent
+            if blank?(line) || indent_of(line) > filter_indent
+              interpolated_references(line).each(&block)
+              next
+            end
+
+            filter_indent = nil
+          end
+
           next if line.lstrip.start_with?(comment)
+
+          if haml && (filter = TEXT_FILTER.match(line))
+            filter_indent = filter[1].length
+            next
+          end
 
           line_references(line).each(&block)
         end
@@ -88,6 +120,20 @@ module LocoMotion
                  line.scan(HELPER_SYMBOL).map(&:last) + line.scan(KWARG_SYMBOL).map(&:last)
 
         tokens.uniq.map { |token| Reference.parse(token, default_library: @default_library) }
+      end
+
+      # Inside a text filter block, only `#{...}` segments run as Ruby — scan
+      # those and ignore the surrounding prose / displayed code.
+      def interpolated_references(line)
+        line.scan(INTERPOLATION).flatten.flat_map { |ruby| line_references(ruby) }
+      end
+
+      def blank?(line)
+        line.strip.empty?
+      end
+
+      def indent_of(line)
+        line[/\A[ \t]*/].length
       end
 
       # Skip Ruby comment lines (which carry YARD `@loco_example` snippets) and
