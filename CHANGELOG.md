@@ -476,6 +476,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - docs(Alert): Add a "Vertical Alerts" demo example showing the `alert-vertical` modifier stacking the icon
   above the content, plus the responsive `alert-vertical sm:alert-horizontal` pattern. The modifier was
   previously inert on icon alerts (see the Iconable root-classes fix), so the demo never exercised it.
+- test(E2E): Replace the ~60 per-page "page loads" Playwright specs with one universal nav smoke test
+  (`e2e/smoke/nav.spec.ts`) that scrapes every left-nav link and asserts each page responds with HTTP 200,
+  so new components and pages are covered automatically. Specs covering real behavior and regressions
+  (modals, theme switching, tooltips, floating labels, megamenus, skeleton avatars, closable alerts, ads
+  layout) remain. The sweep takes about 6 seconds, so it runs inside the existing single Playwright CI job
+  (which already skips draft PRs and runs once a PR is marked ready for review) — no extra Actions minutes.
 
 ### Fixed
 
