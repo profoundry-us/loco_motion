@@ -5,8 +5,8 @@ require "rails_helper"
 RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
   it "renders a basic timeline" do
     render_inline(described_class.new) do |timeline|
-      timeline.with_event(start: "1985", middle_icon: "user-circle", end: "Topher Born")
-      timeline.with_event(start: "College", middle_icon: "academic-cap", end: "2006")
+      timeline.with_event(leading: "1985", middle_icon: "user-circle", trailing: "Topher Born")
+      timeline.with_event(leading: "College", middle_icon: "academic-cap", trailing: "2006")
     end
 
     expect(page).to have_css("ul.timeline")
@@ -21,9 +21,9 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
   it "renders a timeline with custom blocks" do
     render_inline(described_class.new) do |timeline|
       timeline.with_event do |event|
-        event.with_start(css: "font-bold") { "1985" }
+        event.with_leading(css: "font-bold") { "1985" }
         event.with_middle { tag.svg }
-        event.with_end(css: "timeline-box") { "Born" }
+        event.with_trailing(css: "timeline-box") { "Born" }
       end
     end
 
@@ -35,9 +35,9 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
   it "renders a timeline with simple content" do
     render_inline(described_class.new) do |timeline|
       timeline.with_event(
-        start: "Start",
+        leading: "Start",
         middle_icon: "check-circle",
-        end: "End"
+        trailing: "End"
       )
     end
 
@@ -62,7 +62,7 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
   it "renders a timeline with multiple events and separators" do
     render_inline(described_class.new) do |timeline|
       3.times do |i|
-        timeline.with_event(start: "Event #{i}")
+        timeline.with_event(leading: "Event #{i}")
       end
     end
 
@@ -76,9 +76,9 @@ RSpec.describe Daisy::DataDisplay::TimelineComponent, type: :component do
   it "allows customization of event parts" do
     render_inline(described_class.new) do |timeline|
       timeline.with_event do |event|
-        event.with_start(css: "custom-start") { "Start" }
+        event.with_leading(css: "custom-start") { "Start" }
         event.with_middle(css: "custom-middle") { "Middle" }
-        event.with_end(css: "custom-end") { "End" }
+        event.with_trailing(css: "custom-end") { "End" }
       end
     end
 
