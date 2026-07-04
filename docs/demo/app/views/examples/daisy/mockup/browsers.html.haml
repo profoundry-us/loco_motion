@@ -13,7 +13,7 @@
 
   = daisy_browser(css: "w-full max-w-4xl border border-base-300") do |browser|
     - browser.with_toolbar do
-      %input.input.input-bordered{ placeholder: "https://loco-motion.io" }
+      %input.input{ placeholder: "https://loco-motion.io" }
 
     .border-t.border-base-300.px-4.py-16.text-center
       This is the content of the browser. You can put anything you want here.
@@ -27,7 +27,7 @@
 
   = daisy_browser(css: "w-full max-w-4xl bg-accent border border-accent") do |browser|
     - browser.with_toolbar do
-      %input.input.input-bordered.border-accent-content{ class: "ml-4! pl-2! w-full!", placeholder: "https://loco-motion.io" }
+      %input.input.border-accent-content{ class: "ml-4! pl-2! w-full!", placeholder: "https://loco-motion.io" }
 
     .bg-base-200.border-t.border-accent.px-4.py-16.text-center
       This browser mockup is very easy to style and make look however you want!

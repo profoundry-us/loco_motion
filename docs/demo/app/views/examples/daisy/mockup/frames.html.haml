@@ -14,10 +14,10 @@
 
   = daisy_frame(css: "w-full max-w-4xl border border-base-300") do |frame|
     .border-t.border-base-300.px-4.py-16.text-center
-      This is the content of the browser. You can put anything you want here.
+      This is the content of the frame. You can put anything you want here.
 
       .mt-4
-        = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")
+        = image_tag("landscapes/desert.jpg", class: "w-full max-w-lg mx-auto rounded-xl")
 
 
 = doc_example(title: "Styled Frame") do |doc|
@@ -30,7 +30,7 @@
       = image_tag("loco-logo-modern.png", class: "max-w-xs mx-auto")
 
       %p
-        This is the content of the browser. You can put anything you want here.
+        This is the content of the frame. You can put anything you want here.
 
       .mt-4
-        = image_tag("landscapes/desert.jpg", class: "max-w-lg mx-auto rounded-xl")
+        = image_tag("landscapes/desert.jpg", class: "w-full max-w-lg mx-auto rounded-xl")

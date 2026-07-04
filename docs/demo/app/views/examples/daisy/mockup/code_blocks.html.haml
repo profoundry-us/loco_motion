@@ -31,7 +31,7 @@
       Done!
 
 
-= doc_example(title: "Code Block with Language") do |doc|
+= doc_example(title: "Full Code Blocks") do |doc|
   - doc.with_description do
     :markdown
       You can also pass full code blocks by utilizing the `:plain` filter
@@ -40,7 +40,7 @@
     = doc_note(modifier: :warning, css: "mb-8") do
       :markdown
         You cannot use the `prefix` option and the `:plain` filter at the same
-        time as we have to apply some special styling
+        time as we have to apply some special styling.
 
   = daisy_code do
     :plain
