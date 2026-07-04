@@ -131,13 +131,13 @@
 .mt-6.max-w-prose
   = doc_code(language: "haml") do
     :plain
-      // HTML style
+      -# HTML style
       %a(href="https://haml.info" title="HAML Website") HAML Site
 
-      // Ruby hash style
+      -# Ruby hash style
       %a{href: "https://haml.info", title: "HAML Website"} HAML Site
 
-      // With dynamic values
+      -# With dynamic values
       %div{class: "card \#{@card_type}"} Content
 
 .mt-6.prose
@@ -152,11 +152,11 @@
       %div.container Content in a div with class "container"
       %section#main Main section with ID "main"
 
-      // Shorthand - div is implied when only using class/id
+      -# Shorthand - div is implied when only using class/id
       .container Content in a div with class "container"
       #main Content in a div with ID "main"
 
-      // Multiple classes
+      -# Multiple classes
       - other_classes = ["btn-large", "btn-soft"]
       .btn.btn-primary{ class: other_classes.join(" ") } Primary button
 
@@ -169,16 +169,16 @@
 .mt-6.max-w-prose
   = doc_code(language: "haml") do
     :plain
-      // Evaluated Ruby (=)
+      -# Evaluated Ruby (=)
       %p= @post.title
 
-      // Ruby block
+      -# Ruby block
       - if user_signed_in?
         %p Welcome, \#{current_user.name}!
       - else
         %p Please sign in.
 
-      // Iteration
+      -# Iteration
       %ul
         - @items.each do |item|
           %li= item.name
@@ -187,7 +187,7 @@
   :markdown
     ### Comments
 
-    Additoinally, HAML supports both HTML and silent comments.
+    Additionally, HAML supports both HTML and silent comments.
 
 .mt-6.max-w-prose
   = doc_code(language: "haml") do
@@ -205,12 +205,12 @@
 .mt-6.max-w-prose
   = doc_code(language: "haml") do
     :plain
-      // Using Tailwind classes
+      -# Using Tailwind classes
       .flex.items-center.justify-between.p-4.bg-gray-100.rounded-lg
         %h2.text-xl.font-bold Card Title
         %p.text-gray-600 Card description goes here
 
-      // Using DaisyUI components with Tailwind
+      -# Using DaisyUI components with Tailwind
       .card.shadow-xl
         .card-body
           %h3.card-title Product Name
@@ -264,15 +264,15 @@
 .mt-6.max-w-prose
   = doc_code(language: "haml") do
     :plain
-      // Basic button
-      = daisy_button(text: "Click Me")
+      -# Basic button
+      = daisy_button("Click Me")
 
-      // Styled button with block content
+      -# Styled button with block content
       = daisy_button(css: "btn-primary") do
-        %i.fas.fa-save.mr-2
+        = loco_icon("check-circle", css: "size-4 mr-2")
         Save Changes
 
-      // Button with icon and attributes
+      -# Button with custom data attributes
       = daisy_button(css: "btn-outline btn-sm", html: { data: { action: "click->form#submit" } }) do
         Submit Form
 
