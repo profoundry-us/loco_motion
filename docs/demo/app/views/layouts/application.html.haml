@@ -71,7 +71,7 @@
       - # need this one; thus the hidden CSS
       - modal.with_button(title: "Search Documentation", css: "hidden")
 
-      - modal.with_start_actions(css: "flex flex-col md:flex-row md:items-center gap-4 px-4 py-2 text-sm") do
+      - modal.with_leading_actions(css: "flex flex-col md:flex-row md:items-center gap-4 px-4 py-2 text-sm") do
         .flex.flex-row.items-center.gap-2
           = daisy_kbd do
             %svg.size-4{fill: "none", stroke: "currentColor", "stroke-width" => "1.5", viewbox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg"}
@@ -93,7 +93,7 @@
           %span
             to close
 
-      - modal.with_end_actions(css: "p-4") do
+      - modal.with_trailing_actions(css: "p-4") do
         #al-poweredby
         #al-poweredby-dark
 

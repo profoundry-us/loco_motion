@@ -5,17 +5,17 @@ module LocoMotion
     #
     # Rewrites the `start` / `end` component API (removed in v0.7.0) to its
     # `leading` / `trailing` replacement — `with_start` / `with_end` slot
-    # calls, `start:` / `end:` keyword arguments, and the generated part
-    # options (`start_css:`, `end_html:`, `start_aria:`, `end_data:`, ...) on
-    # every renamed call: the labelable helpers (`daisy_text_input`,
-    # `daisy_input`, `daisy_select`, `daisy_checkbox`, `daisy_toggle`,
-    # `daisy_radio`, `daisy_cally_input`), the ThemeController's
-    # `build_radio_input`, `daisy_navbar`, and the timeline's `with_event`.
+    # calls (and the Modal's `with_start_actions` / `with_end_actions`),
+    # `start:` / `end:` keyword arguments, and the generated part options
+    # (`start_css:`, `end_html:`, `start_actions_css:`, ...) on every renamed
+    # call: the labelable helpers (`daisy_text_input`, `daisy_input`,
+    # `daisy_select`, `daisy_checkbox`, `daisy_toggle`, `daisy_radio`,
+    # `daisy_cally_input`), the ThemeController's `build_radio_input`,
+    # `daisy_navbar`, `daisy_modal`, and the timeline's `with_event`.
     #
     # This is intentionally NOT a blind find-and-replace: an app's own
-    # components may define `start` / `end` slots of their own, and the
-    # Modal's `with_start_actions` / `with_end_actions` keep their names. So
-    # keyword arguments are renamed only inside a recognized call, and
+    # components may define `start` / `end` slots of their own. So keyword
+    # arguments are renamed only inside a recognized call, and
     # `with_start` / `with_end` only when called on the block variable of an
     # enclosing recognized block. Anything the scan cannot confidently
     # attribute is collected in {#leftovers} for manual review instead of
@@ -34,21 +34,21 @@ module LocoMotion
       HELPERS = %w[
         daisy_text_input daisy_input daisy_select daisy_checkbox
         daisy_toggle daisy_radio daisy_cally_input build_radio_input
-        daisy_navbar with_event
+        daisy_navbar daisy_modal with_event
       ].freeze
 
       HELPER_CALL = /\b(?:#{HELPERS.join('|')})\b/
 
       RENAMES = { "start" => "leading", "end" => "trailing" }.freeze
 
-      # `start:` / `end:` (and the generated part options) as keyword
-      # arguments. The leading `(`, `,`, `{`, or start-of-line guard keeps
-      # words inside strings (`"checkbox_end"`) and other symbols
-      # (`:start_date`) from matching.
-      KWARG = /(^\s*|[(,{]\s*)(start|end)(_css|_html|_aria|_data)?:(?!:)/
+      # `start:` / `end:` (plus the Modal's `_actions` pair and the generated
+      # part options) as keyword arguments. The leading `(`, `,`, `{`, or
+      # start-of-line guard keeps words inside strings (`"checkbox_end"`) and
+      # other symbols (`:start_date`) from matching.
+      KWARG = /(^\s*|[(,{]\s*)(start|end)(_actions)?(_css|_html|_aria|_data)?:(?!:)/
 
       # The same keys written with a hash rocket (`:end => "..."`).
-      KWARG_ROCKET = /(^\s*|[(,{]\s*):(start|end)(_css|_html|_aria|_data)?(\s*=>)/
+      KWARG_ROCKET = /(^\s*|[(,{]\s*):(start|end)(_actions)?(_css|_html|_aria|_data)?(\s*=>)/
 
       # A `do |var|` / `{ |var|` block parameter on the final line of a call.
       BLOCK_PARAM = /(?:\bdo|\{)\s*\|\s*(\w+)\s*\|/
@@ -189,17 +189,21 @@ module LocoMotion
       end
 
       def rename_kwargs(line)
-        line.gsub(KWARG) { "#{::Regexp.last_match(1)}#{RENAMES[::Regexp.last_match(2)]}#{::Regexp.last_match(3)}:" }
-            .gsub(KWARG_ROCKET) do
-              "#{::Regexp.last_match(1)}:#{RENAMES[::Regexp.last_match(2)]}" \
-                "#{::Regexp.last_match(3)}#{::Regexp.last_match(4)}"
-            end
+        renamed = line.gsub(KWARG) do
+          "#{::Regexp.last_match(1)}#{RENAMES[::Regexp.last_match(2)]}" \
+            "#{::Regexp.last_match(3)}#{::Regexp.last_match(4)}:"
+        end
+
+        renamed.gsub(KWARG_ROCKET) do
+          "#{::Regexp.last_match(1)}:#{RENAMES[::Regexp.last_match(2)]}" \
+            "#{::Regexp.last_match(3)}#{::Regexp.last_match(4)}#{::Regexp.last_match(5)}"
+        end
       end
 
       def rename_slots(line, open_blocks)
         open_blocks.reduce(line) do |result, block|
-          result.gsub(/\b#{::Regexp.escape(block[:var])}\.with_(start|end)\b/) do
-            "#{block[:var]}.with_#{RENAMES[::Regexp.last_match(1)]}"
+          result.gsub(/\b#{::Regexp.escape(block[:var])}\.with_(start|end)(_actions)?\b/) do
+            "#{block[:var]}.with_#{RENAMES[::Regexp.last_match(1)]}#{::Regexp.last_match(2)}"
           end
         end
       end
@@ -224,7 +228,7 @@ module LocoMotion
       #
       def collect_leftovers(lines, relative)
         lines.each_with_index do |line, index|
-          if line =~ /\.\s*with_(?:start|end)\b/
+          if line =~ /\.\s*with_(?:start|end)(?:_actions)?\b/
             add_leftover(relative, index, line,
                          "could not trace the receiver to a renamed component's block — rename " \
                          "manually if it is one; a custom component's own start/end slots should stay")
