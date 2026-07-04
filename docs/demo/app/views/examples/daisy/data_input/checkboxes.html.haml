@@ -27,11 +27,11 @@
       = daisy_checkbox(name: "checkbox_with_label", id: "checkbox_with_label")
       Checkbox with regular label
 
-    = daisy_checkbox(name: "checkbox_end", id: "checkbox_end", checked: true, trailing: "Checkbox using end wrapper")
+    = daisy_checkbox(name: "checkbox_trailing", id: "checkbox_trailing", checked: true, trailing: "Checkbox using trailing wrapper")
 
-    = daisy_checkbox(name: "checkbox_start", id: "checkbox_start", checked: true, leading: "Checkbox using start wrapper")
+    = daisy_checkbox(name: "checkbox_leading", id: "checkbox_leading", checked: true, leading: "Checkbox using leading wrapper")
 
-    = daisy_checkbox(name: "checkbox_end_block", id: "checkbox_end_block", checked: true) do |checkbox|
+    = daisy_checkbox(name: "checkbox_trailing_block", id: "checkbox_trailing_block", checked: true) do |checkbox|
       - checkbox.with_trailing do
         :markdown
           Checkbox using `trailing` block
@@ -40,11 +40,11 @@
       - checkbox.with_leading(css: "flex flex-row items-center") do
         Using
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
-          start
+          leading
       - checkbox.with_trailing(css: "flex flex-row items-center") do
         and
         = daisy_badge(css: "mx-1 badge-secondary badge-sm") do
-          end
+          trailing
         blocks
 
 
