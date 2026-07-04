@@ -12,7 +12,7 @@ test('page loads', async ({ page }) => {
   await loco.expectPageHeadings(page, [
     'Basic Code Block',
     'Multi-line Code Block',
-    'Code Block with Language',
+    'Full Code Blocks',
     'Numbered / Highlighted Lines'
   ]);
 });
