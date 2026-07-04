@@ -26,6 +26,14 @@ class IconableTestComponent < LocoMotion::BaseComponent
   end
 end
 
+# Test class whose (imaginary) root class lays out its own icon, so it opts
+# out of the concern's root layout classes the way Alert / Stat / Badge do.
+class IconableOptOutTestComponent < IconableTestComponent
+  private
+
+  def iconable_root_css; end
+end
+
 RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
   context "with no icons" do
     before do
@@ -97,6 +105,22 @@ RSpec.describe LocoMotion::Concerns::IconableComponent, type: :component do
 
     it "uses the icon as left_icon" do
       expect(page).to have_css("svg")
+    end
+  end
+
+  context "when a component overrides iconable_root_css to opt out" do
+    before do
+      render_inline(IconableOptOutTestComponent.new(left_icon: "star"))
+    end
+
+    it "still renders the icon" do
+      expect(page).to have_css("svg")
+    end
+
+    it "does not add the root layout classes" do
+      expect(page).not_to have_css('.where\\:inline-flex')
+      expect(page).not_to have_css('.where\\:items-center')
+      expect(page).not_to have_css('.where\\:gap-2')
     end
   end
 

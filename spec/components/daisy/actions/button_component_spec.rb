@@ -60,6 +60,23 @@ RSpec.describe Daisy::Actions::ButtonComponent, type: :component do
       it "renders the icon" do
         expect(page).to have_css "button svg"
       end
+
+      it "skips Iconable's root layout classes (DaisyUI's .btn lays out the icon)" do
+        expect(page).not_to have_css 'button.where\\:inline-flex'
+      end
+    end
+
+    describe "with a single icon and skip_styling" do
+      let(:button) { described_class.new(icon: "heart", skip_styling: true) }
+
+      before do
+        render_inline(button)
+      end
+
+      it "keeps Iconable's root layout classes (no .btn class to lay out the icon)" do
+        expect(page).not_to have_css "button.btn"
+        expect(page).to have_css 'button.where\\:inline-flex.where\\:items-center.where\\:gap-2'
+      end
     end
 
     describe "with left and right icons" do

@@ -90,8 +90,29 @@ module LocoMotion
       #
       def _setup_iconable_component
         return unless @icon || @left_icon || @right_icon
+        return if iconable_root_css.blank?
 
-        add_css(:component, "where:inline-flex where:items-center where:gap-2")
+        add_css(:component, iconable_root_css)
+      end
+
+      #
+      # The layout classes added to the component root when any icon is
+      # present. They lay the root out as a centered inline-flex row with a
+      # small gap so an icon sits nicely beside the content — which is what
+      # plain roots like `.link` need.
+      #
+      # The `where:` variants keep the classes user-overridable, but as
+      # Tailwind utilities they still beat DaisyUI's component styles (those
+      # live in nested cascade layers). Components whose DaisyUI class
+      # already lays out its children — grid roots like `.alert` and
+      # `.stat`, or flex recipes like `.btn` and the dock's `.dock > *`
+      # column — override this to return `nil` so DaisyUI keeps control of
+      # the layout.
+      #
+      # @return [String, nil] The CSS classes, or nil to skip them entirely.
+      #
+      def iconable_root_css
+        "where:inline-flex where:items-center where:gap-2"
       end
 
       def default_icon_size

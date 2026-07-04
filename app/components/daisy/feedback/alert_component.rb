@@ -197,6 +197,13 @@ module Daisy
 
       private
 
+      # DaisyUI's `.alert` is a grid (`auto minmax(auto,1fr)` columns with a
+      # 1rem gap) that already places the icon, so skip Iconable's root
+      # classes — as utilities they beat the `.alert` styles in the cascade,
+      # shrink-wrapping the alert to an inline-flex row, halving its gap, and
+      # disabling the `alert-vertical` modifier.
+      def iconable_root_css; end
+
       def setup_component
         add_css(:component, "alert")
         add_html(:component, { role: "alert" })

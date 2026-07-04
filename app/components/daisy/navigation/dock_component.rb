@@ -106,6 +106,13 @@ module Daisy
                 concat(content)
               end
             end
+
+            private
+
+            # DaisyUI's `.dock > *` already lays sections out as a centered
+            # flex column with a 1px gap under the icon; Iconable's
+            # `where:gap-2` would beat it and push the label 8px away.
+            def iconable_root_css; end
           end
         end
       end

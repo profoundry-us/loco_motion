@@ -211,8 +211,9 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
       render_inline(described_class.new(title: "Icon Badge", left_icon: "star"))
     end
 
-    it "renders with the flex and gap classes" do
-      expect(page).to have_css 'span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2'
+    it "skips Iconable's root layout classes (DaisyUI's .badge lays out the icon)" do
+      expect(page).to have_css "span.badge"
+      expect(page).not_to have_css 'span.where\\:inline-flex'
     end
 
     it "includes the icon in the rendered output" do
@@ -226,8 +227,9 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
       render_inline(described_class.new(title: "Badge with Right Icon", right_icon: "arrow-right"))
     end
 
-    it "renders with the flex and gap classes" do
-      expect(page).to have_css 'span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2'
+    it "skips Iconable's root layout classes (DaisyUI's .badge lays out the icon)" do
+      expect(page).to have_css "span.badge"
+      expect(page).not_to have_css 'span.where\\:inline-flex'
     end
 
     it "includes the icon in the rendered output" do
@@ -244,8 +246,9 @@ RSpec.describe Daisy::DataDisplay::BadgeComponent, type: :component do
                     ))
     end
 
-    it "renders with the flex and gap classes" do
-      expect(page).to have_css 'span.badge.where\\:inline-flex.where\\:items-center.where\\:gap-2'
+    it "skips Iconable's root layout classes (DaisyUI's .badge lays out the icon)" do
+      expect(page).to have_css "span.badge"
+      expect(page).not_to have_css 'span.where\\:inline-flex'
     end
 
     it "includes two icons in the rendered output" do

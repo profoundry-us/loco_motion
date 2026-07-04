@@ -112,7 +112,7 @@ module Daisy
       # root `where:inline-flex` classes — they override DaisyUI's `.stat`
       # grid (utilities beat component styles in the cascade layers) and
       # flatten the title / value / description onto a single line.
-      def _setup_iconable_component; end
+      def iconable_root_css; end
 
       def setup_component
         add_css(:component, "stat")

@@ -35,6 +35,10 @@ RSpec.describe Daisy::Navigation::DockComponent, type: :component do
         expect(page).to have_selector("a.dock-active", count: 1)
         expect(page).to have_selector("a.dock-active svg")
       end
+
+      it "skips Iconable's root layout classes (DaisyUI's .dock > * lays out sections)" do
+        expect(page).not_to have_selector('.dock > a.where\\:inline-flex')
+      end
     end
   end
 

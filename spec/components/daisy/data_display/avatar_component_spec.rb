@@ -68,6 +68,10 @@ RSpec.describe Daisy::DataDisplay::AvatarComponent, type: :component do
       it "has placeholder classes" do
         expect(page).to have_selector(".avatar.avatar-placeholder")
       end
+
+      it "skips Iconable's root layout classes (the icon renders inside the wrapper)" do
+        expect(page).not_to have_selector('.avatar.where\\:inline-flex')
+      end
     end
   end
 

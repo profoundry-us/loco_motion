@@ -88,6 +88,11 @@ module Daisy
 
       private
 
+      # The avatar renders its icon inside the wrapper part and DaisyUI's
+      # `.avatar` is already inline-flex, so Iconable's root layout classes
+      # have nothing to lay out here.
+      def iconable_root_css; end
+
       def setup_component
         add_css(:component, "avatar")
 

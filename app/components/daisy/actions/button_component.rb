@@ -191,7 +191,6 @@ module Daisy
 
       #
       # Performs button-specific setup. Adds the `btn` CSS class to the component.
-      # Also adds `items-center` and `gap-2` CSS classes if an icon is present.
       # Tag name setup (`<a>` vs `<button>`) and tooltip setup are handled by
       # LinkableComponent and TippableComponent concerns via BaseComponent hooks.
       #
@@ -204,6 +203,16 @@ module Daisy
 
         # Add data-action if specified
         add_html(:component, { "data-action": @action }) if @action
+      end
+
+      private
+
+      # DaisyUI's `.btn` is already a centered inline-flex row with its own
+      # 0.375rem gap, so keep Iconable's root layout classes only for
+      # unstyled (`skip_styling`) buttons, which have no `.btn` class to lay
+      # out the icon.
+      def iconable_root_css
+        super if @skip_styling
       end
     end
   end

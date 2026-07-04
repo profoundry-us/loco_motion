@@ -52,6 +52,10 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
       it "wraps content when icon is present" do
         expect(page).to have_selector(".alert > div", text: content)
       end
+
+      it "skips Iconable's root layout classes (DaisyUI's .alert grid lays out the icon)" do
+        expect(page).not_to have_selector('.alert.where\\:inline-flex')
+      end
     end
   end
 

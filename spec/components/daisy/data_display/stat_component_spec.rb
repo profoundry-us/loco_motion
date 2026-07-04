@@ -111,6 +111,10 @@ RSpec.describe Daisy::DataDisplay::StatComponent, type: :component do
         it "renders the icon" do
           expect(page).to have_selector(".stat-figure svg")
         end
+
+        it "skips Iconable's root layout classes (DaisyUI's .stat grid lays out the parts)" do
+          expect(page).not_to have_selector('.stat.where\\:inline-flex')
+        end
       end
     end
 

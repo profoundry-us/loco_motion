@@ -186,6 +186,10 @@ module Daisy
 
       private
 
+      # DaisyUI's `.badge` is already a centered inline-flex row with the
+      # same 0.5rem gap, so Iconable's root classes are redundant here.
+      def iconable_root_css; end
+
       def setup_component
         set_tag_name(:component, :span)
         add_css(:component, "badge")
