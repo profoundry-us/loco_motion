@@ -37,7 +37,9 @@
 .mt-4.prose
   :markdown
     The new Megamenu, OTP, and Aura components rely on styles introduced in
-    **DaisyUI 5.6**, so bump it too if you plan to use them:
+    **DaisyUI 5.6**, so the npm package now declares `daisyui` `^5.6.0` as a
+    peer dependency — your package manager will flag (or auto-resolve) an
+    older DaisyUI. Bump it alongside the packages above:
 
 .max-w-prose
   = daisy_code(css: "my-4", prefix: "$") do
@@ -61,16 +63,24 @@
     - The Timeline event's `start` / `end` slots and its
       `with_event(start:, end:)` options (`middle` / `middle_icon` are
       unchanged)
+    - The Modal's `start_actions` / `end_actions` slots and parts, which
+      become `leading_actions` / `trailing_actions`
 
     Every spelling of the pair changes — keyword arguments, slot calls, and
-    the generated part options — while the DaisyUI CSS classes
-    (`navbar-start`, `timeline-end`, ...) stay the same:
+    the generated part options:
 
     - `start:` → `leading:` and `end:` → `trailing:`
     - `with_start` → `with_leading` and `with_end` → `with_trailing`
+    - `with_start_actions` → `with_leading_actions` and
+      `with_end_actions` → `with_trailing_actions` (Modal)
     - `start_css:` / `start_html:` / `start_aria:` / `start_data:` →
       `leading_css:` / `leading_html:` / `leading_aria:` / `leading_data:`
-      (and the `end_*` variants → `trailing_*`)
+      (and the `end_*` / `_actions` variants likewise)
+
+    One thing does **not** change: the rendered HTML. The emitted CSS
+    classes (`navbar-start`, `timeline-end`, ...) are DaisyUI's own
+    selectors, so your stylesheets keep working untouched — the rename is
+    confined to the Ruby API.
 
 .max-w-prose
   = doc_code(css: "my-4", language: "haml") do
@@ -117,12 +127,9 @@
 
     ### What should NOT be renamed
 
-    - The Modal's `start_actions` / `end_actions` slots keep their names
-      (neither is a reserved word, and they are not a leading/trailing
-      pair).
-    - **Your own components'** `start` / `end` slots are yours — the
-      migration task only rewrites calls it can trace to a LocoMotion
-      component and reports everything else for manual review.
+    **Your own components'** `start` / `end` slots are yours — the
+    migration task only rewrites calls it can trace to a LocoMotion
+    component and reports everything else for manual review.
 
     ### Manual follow-ups
 
@@ -209,10 +216,11 @@
     ## Summary
 
     - Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to `0.7.0`,
-      and DaisyUI to 5.6+ if you want the new components.
+      and DaisyUI to 5.6+ (now a declared peer dependency of the npm
+      package).
     - Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run, then
-      `APPLY=1`) and review the diff; only the Modal's `start_actions` /
-      `end_actions` and your own components keep `start` / `end`.
+      `APPLY=1`) and review the diff; only your own components' slots keep
+      `start` / `end`.
     - Sync your icons and rename `hero_icon` to `loco_icon` — see the
       [icon migration guide](/guides/migrating_icons).
     - Check forms that post checkboxes / toggles for the new hidden-field
