@@ -17,7 +17,7 @@
     "mask-star", "mask-star-2", "mask-triangle", "mask-triangle-2", "mask-triangle-3",
     "mask-triangle-4"]
 
-  .grid.grid-cols-4.gap-4
+  .grid.grid-cols-3.gap-4{ class: "sm:grid-cols-4" }
     - masks.each do |mask|
       = daisy_tip(mask) do
         = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "rounded-none mask #{mask}")

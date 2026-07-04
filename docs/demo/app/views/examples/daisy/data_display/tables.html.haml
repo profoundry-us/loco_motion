@@ -32,7 +32,7 @@
       The following example shows how to have a table with multiple headers
       pinned as you scroll.
 
-  .size-96.border.border-base-300.rounded.overflow-y-auto
+  .h-96.w-full.max-w-96.border.border-base-300.rounded.overflow-y-auto
     = daisy_table(css: "bg-base-100 table-pin-rows") do |table|
       - (0..90).step(10).with_index do |step, index|
         - table.with_section do |section|

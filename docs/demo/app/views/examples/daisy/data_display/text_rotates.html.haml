@@ -24,7 +24,7 @@
       For simple use cases, you can pass an array of strings via the `texts`
       parameter instead of using the block API.
 
-  = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-7xl")
+  = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-5xl sm:text-7xl")
 
 
 = doc_example(title: "Text Rotate with Centered Items") do |doc|
@@ -33,7 +33,7 @@
       Use the `wrapper_css` parameter to apply alignment utilities to the
       wrapper part that surrounds all text items.
 
-  = daisy_text_rotate(css: "text-7xl", wrapper_css: "justify-items-center") do |rotate|
+  = daisy_text_rotate(css: "text-5xl sm:text-7xl", wrapper_css: "justify-items-center") do |rotate|
     - rotate.with_item { "DESIGN" }
     - rotate.with_item { "DEVELOP" }
     - rotate.with_item { "DEPLOY" }
@@ -46,7 +46,7 @@
       `href`). When an `href` is provided, the item is rendered as an `<a>`
       tag automatically.
 
-  = daisy_text_rotate(css: "text-7xl") do |rotate|
+  = daisy_text_rotate(css: "text-5xl sm:text-7xl") do |rotate|
     - rotate.with_item(icon: "sparkles", icon_css: "size-16") { "DESIGN" }
     - rotate.with_item(href: "https://example.com", left_icon: "arrow-top-right-on-square", left_icon_css: "size-16") { "DEVELOP" }
     - rotate.with_item(right_icon: "rocket-launch", right_icon_css: "size-16") { "DEPLOY" }
@@ -63,7 +63,7 @@
   - ladies = (1..4).map { |i| image_path("avatars/lady-smiling-#{i}.jpg") }
   - classes = "text-rotate-item inline-flex items-center gap-4"
 
-  = daisy_text_rotate(css: "text-7xl") do
+  = daisy_text_rotate(css: "text-5xl sm:text-7xl") do
     %span.text-primary{ class: classes }
       = daisy_avatar(css: "size-14", src: ladies[1])
       CUSTOM
@@ -83,17 +83,17 @@
       seconds.
 
   .flex.flex-col.gap-8
-    = daisy_text_rotate(css: "text-7xl duration-3000") do |rotate|
+    = daisy_text_rotate(css: "text-5xl sm:text-7xl duration-3000") do |rotate|
       - rotate.with_item { "3 SEC" }
       - rotate.with_item { "FAST" }
       - rotate.with_item { "ZOOM" }
 
-    = daisy_text_rotate(css: "text-7xl duration-6000") do |rotate|
+    = daisy_text_rotate(css: "text-5xl sm:text-7xl duration-6000") do |rotate|
       - rotate.with_item { "6 SEC" }
       - rotate.with_item { "MEDIUM" }
       - rotate.with_item { "PACE" }
 
-    = daisy_text_rotate(css: "text-7xl") do |rotate|
+    = daisy_text_rotate(css: "text-5xl sm:text-7xl") do |rotate|
       - rotate.with_item { "10 SEC" }
       - rotate.with_item { "DEFAULT" }
       - rotate.with_item { "SPEED" }
@@ -120,7 +120,7 @@
       dramatic hero headlines or subtle inline animations.
 
   .flex.flex-col.gap-8
-    = daisy_text_rotate(css: "text-9xl") do |rotate|
+    = daisy_text_rotate(css: "text-6xl sm:text-9xl") do |rotate|
       - rotate.with_item { "HUGE" }
       - rotate.with_item { "TEXT" }
       - rotate.with_item { "HERE" }
@@ -142,7 +142,7 @@
       Adjust line height using Tailwind's `leading-` utilities to control
       vertical spacing between rotated items.
 
-  = daisy_text_rotate(css: "text-7xl leading-[2]") do |rotate|
+  = daisy_text_rotate(css: "text-5xl sm:text-7xl leading-[2]") do |rotate|
     - rotate.with_item { "SPACED" }
     - rotate.with_item { "OUT" }
     - rotate.with_item { "LINES" }
