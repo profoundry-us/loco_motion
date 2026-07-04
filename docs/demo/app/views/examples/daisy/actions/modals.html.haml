@@ -26,7 +26,7 @@
         Here is some really long modal content that should go well past the
         spot where the close icon appears...
 
-        - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+        - modal.with_trailing_actions(css: "flex flex-row items-center gap-2") do
           %form{ method: :dialog }
             = daisy_button do
               Cancel
@@ -60,7 +60,7 @@
         This modal was opened using a custom activator instead of a button.
         You can use any HTML element as an activator!
 
-        - modal.with_start_actions(css: "flex flex-row items-center gap-2") do
+        - modal.with_leading_actions(css: "flex flex-row items-center gap-2") do
           %form{ method: :dialog }
             = daisy_button do
               I'm Done
@@ -90,7 +90,7 @@
         %code backdrop-blur-sm
         while the modal box itself stays sharp.
 
-        - modal.with_end_actions do
+        - modal.with_trailing_actions do
           %form{ method: :dialog }
             = daisy_button do
               Close
@@ -130,7 +130,7 @@
         on the page — the same dialog could just as easily be opened from a
         navbar, a table row, or anywhere else.
 
-        - modal.with_end_actions(css: "flex flex-row items-center gap-2") do
+        - modal.with_trailing_actions(css: "flex flex-row items-center gap-2") do
           -# `action:` attaches a Stimulus action — Stimulus infers the button's
           -# `click`, so this in-dialog button drives the controller's `close`
           -# action directly, with no wrapper `<form method="dialog">` needed.

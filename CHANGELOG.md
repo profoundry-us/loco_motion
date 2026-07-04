@@ -30,6 +30,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   item API is now `item.with_leading` / `item.with_trailing`. This API was added after v0.6.0 and has never
   shipped in a release, so it is a clean rename with no deprecation aliases.
 
+- refactor(Modal)!: Rename the modal's `start_actions` / `end_actions` slots and parts to
+  `leading_actions` / `trailing_actions` (#257), completing the leading/trailing convention. Update
+  `with_start_actions` / `with_end_actions` to `with_leading_actions` / `with_trailing_actions`, and the
+  generated part options (`start_actions_css:` → `leading_actions_css:`, plus the `_html` / `_aria` /
+  `_data` variants). Hard rename with no aliases; the `loco_motion:migrate:leading_trailing` task now also
+  rewrites `daisy_modal` blocks.
+
 - refactor(Navbar)!: Rename the navbar's `start` / `end` slots to `leading` / `trailing` (#257), finishing
   the #187 rename so v0.7.0 ships a single convention. The `center` slot and the `navbar-start` /
   `navbar-center` / `navbar-end` CSS classes are unchanged — only the Ruby-side slot names move

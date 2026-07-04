@@ -230,6 +230,26 @@ RSpec.describe LocoMotion::Migrations::LeadingTrailing do
       HAML
     end
 
+    it "renames modal action slots and part options" do
+      write("app/views/m.haml", <<~HAML)
+        = daisy_modal(title: "Confirm", start_actions_css: "gap-2") do |modal|
+          - modal.with_start_actions do
+            = daisy_button("Cancel")
+          - modal.with_end_actions(css: "p-4") do
+            = daisy_button("Save")
+      HAML
+
+      run_migration
+
+      expect(read("app/views/m.haml")).to eq(<<~HAML)
+        = daisy_modal(title: "Confirm", leading_actions_css: "gap-2") do |modal|
+          - modal.with_leading_actions do
+            = daisy_button("Cancel")
+          - modal.with_trailing_actions(css: "p-4") do
+            = daisy_button("Save")
+      HAML
+    end
+
     it "renames slots in ERB blocks" do
       write("app/views/j.erb", <<~ERB)
         <%= daisy_checkbox(name: "terms") do |cb| %>
