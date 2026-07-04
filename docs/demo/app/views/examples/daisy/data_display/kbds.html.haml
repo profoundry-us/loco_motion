@@ -12,16 +12,18 @@
       references.
 
   = daisy_kbd do
-    
+    K
 
 
 = doc_example(title: "Various Sizes") do |doc|
   - doc.with_description do
     :markdown
-      Keyboard indicators are available in four sizes: `kbd-xs`, `kbd-sm`,
-      `kbd-md` (default), and `kbd-lg`.
+      Keyboard indicators are available in five sizes: `kbd-xs`, `kbd-sm`,
+      `kbd-md` (default), `kbd-lg`, and `kbd-xl`.
 
   .my-2.flex.flex-row.gap-4.items-center
+    = daisy_kbd(css: "kbd-xl") do
+      Shift
     = daisy_kbd(css: "kbd-lg") do
       Shift
     = daisy_kbd(css: "kbd-md") do
@@ -66,7 +68,7 @@
       Del
 
 
-= doc_example(title: "Function Keys") do |doc|
+= doc_example(title: "Modifier Keys") do |doc|
   - doc.with_description do
     :markdown
       KBD components work perfectly with special characters and symbols for
@@ -92,8 +94,8 @@
       By combining flex layouts and KBD components, you can create realistic
       keyboard layouts.
 
-  %div
-    .flex.justify-center.gap-1.my-1.w-full
+  .w-full.overflow-x-auto
+    .flex.gap-1.my-1.w-max.mx-auto
       = daisy_kbd do
         tab
       = daisy_kbd do
@@ -122,7 +124,7 @@
         \]
       = daisy_kbd do
         \\
-    .flex.justify-center.gap-1.my-1.w-full
+    .flex.gap-1.my-1.w-max.mx-auto
       = daisy_kbd do
         caps lock
       = daisy_kbd do
@@ -150,7 +152,7 @@
       = daisy_kbd do
         return
 
-    .flex.justify-center.gap-1.my-1.w-full
+    .flex.gap-1.my-1.w-max.mx-auto
       = daisy_kbd do
         shift
       = daisy_kbd do
