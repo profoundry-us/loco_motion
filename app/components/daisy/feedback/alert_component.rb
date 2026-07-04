@@ -32,20 +32,20 @@
 #     This is a standard alert message.
 #
 # @loco_example Alert with Icon
-#   = daisy_alert(icon: "information-circle", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "information-circle") do
 #     Here's some important information!
 #
 # @loco_example Alert Types
-#   = daisy_alert(icon: "information-circle", css: "alert-info", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "information-circle", css: "alert-info") do
 #     Information alert.
 #
-#   = daisy_alert(icon: "check-circle", css: "alert-success", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "check-circle", css: "alert-success") do
 #     Success alert.
 #
-#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning") do
 #     Warning alert.
 #
-#   = daisy_alert(icon: "exclamation-circle", css: "alert-error", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "exclamation-circle", css: "alert-error") do
 #     Error alert.
 #
 # @loco_example Default
@@ -117,19 +117,19 @@
 #     This is a dash error alert.
 #
 # @loco_example Closable Alert
-#   = daisy_alert(icon: "information-circle", css: "alert-info", closable: true, icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "information-circle", css: "alert-info", closable: true) do
 #     This alert can be closed manually.
 #
 # @loco_example Auto-dismissing Alert
-#   = daisy_alert(icon: "check-circle", css: "alert-success", autoclose: true, timeout: 3000, icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "check-circle", css: "alert-success", autoclose: true, timeout: 3000) do
 #     This alert will auto-dismiss in 3 seconds.
 #
 # @loco_example Clickable Link Alert
-#   = daisy_alert(icon: "information-circle", css: "alert-info", href: "/docs", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "information-circle", css: "alert-info", href: "/docs") do
 #     Click to view documentation.
 #
 # @loco_example Stimulus Action Alert
-#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", action: "click->my-controller#handle", icon_html: { variant: :outline }) do
+#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", action: "click->my-controller#handle") do
 #     Click to trigger custom action.
 #
 module Daisy
@@ -154,7 +154,8 @@ module Daisy
       #   token) of the icon to display at the start of the alert.
       #
       # @option kws icon_html [Hash] Additional HTML attributes for the icon
-      #   element. Options include `variant: :outline` or `variant: :solid`.
+      #   element, such as `data` or `aria` attributes. To pick an icon
+      #   variant, use the icon token instead (e.g. `"check-circle/solid"`).
       #
       # @option kws css      [String] Additional CSS classes for the alert. Use
       #   `alert-info`, `alert-success`, `alert-warning`, or `alert-error` for

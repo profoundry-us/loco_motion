@@ -31,10 +31,10 @@
     These toasts will appear at the top right of the entire page.
 
   = daisy_toast(css: "toast-top toast-end z-50") do
-    = daisy_alert(icon: "check-circle", css: "alert-success text-white", closable: true, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white", closable: true) do
       Yay! Something went well!
 
-    = daisy_alert(icon: "exclamation-circle", css: "alert-error text-white", closable: true, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "exclamation-circle", css: "alert-error text-white", closable: true) do
       Uh oh! Something went wrong... (click X to dismiss)
 
 
@@ -49,7 +49,7 @@
     This toast will appear at the top left of the entire page.
 
   = daisy_toast(css: "toast-top toast-start z-50") do
-    = daisy_alert(icon: "information-circle", css: "alert-info text-white", closable: true, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "information-circle", css: "alert-info text-white", closable: true) do
       Top-left toast
 
 
@@ -66,8 +66,8 @@
       disappear after 20 & 25 seconds. Click **Reset** to show them again.
 
   = daisy_toast(css: "z-50") do
-    = daisy_alert(icon: "check-circle", css: "alert-success text-white", href: "/api-docs", target: "_blank", autoclose: true, timeout: 20000, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "check-circle", css: "alert-success text-white", href: "/api-docs", target: "_blank", autoclose: true, timeout: 20000) do
       View API documentation (opens in new tab)
 
-    = daisy_alert(icon: "star", css: "alert-info text-white", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", autoclose: true, timeout: 25000, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "star", css: "alert-info text-white", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", autoclose: true, timeout: 25000) do
       Click for a surprise! (opens in new tab)

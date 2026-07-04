@@ -130,15 +130,15 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
   end
 
   context "with icon HTML options" do
-    let(:alert) { described_class.new(icon: "check-circle", icon_html: { variant: :outline }) }
+    let(:alert) { described_class.new(icon: "check-circle", icon_html: { data: { testid: "alert-icon" } }) }
 
     before do
       render_inline(alert) { "Success message" }
     end
 
     describe "rendering" do
-      it "renders the icon with outline variant" do
-        expect(page).to have_selector(".alert svg")
+      it "renders the icon with the custom HTML attribute" do
+        expect(page).to have_selector(".alert svg[data-testid='alert-icon']")
       end
     end
   end

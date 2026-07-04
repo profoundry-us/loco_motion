@@ -9,19 +9,19 @@
       Alerts come in a variety of flavors and generally have an icon at the
       start to indicate the type of alert.
 
-  = daisy_alert(icon: "archive-box", icon_html: { variant: :outline }, css: "w-100") do |alert|
+  = daisy_alert(icon: "archive-box", css: "w-100") do |alert|
     Standard alerts are gray-t!
 
-  = daisy_alert(icon: "information-circle", css: "alert-info w-100", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100") do |alert|
     Here is some important information!
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100") do |alert|
     Success! You did it!
 
-  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning w-100", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning w-100") do |alert|
     Ooh, be careful here!
 
-  = daisy_alert(icon: "exclamation-circle", css: "alert-error w-100", icon_html: { variant: :outline }) do |alert|
+  = daisy_alert(icon: "exclamation-circle", css: "alert-error w-100") do |alert|
     Uh oh, something went wrong!
 
 
@@ -122,11 +122,11 @@
       true` to show the close button. Click the **Reset** button to show the
       alerts again after they are closed.
 
-  = daisy_alert(icon: "information-circle", css: "alert-info w-100", closable: true, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", closable: true) do
     This alert can be closed manually. It has multiple lines of text to show the
     close button positioning.
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", closable: true, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", closable: true) do
     Success! Click the X to dismiss.
 
 
@@ -137,10 +137,10 @@
       and `timeout` in milliseconds. Click the **Reset** button to show the
       alerts again after they dismiss.
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 3000, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 3000) do
     This alert will auto-dismiss in 3 seconds.
 
-  = daisy_alert(icon: "information-circle", css: "alert-info w-100", autoclose: true, timeout: 5000, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", autoclose: true, timeout: 5000) do
     This alert will auto-dismiss in 5 seconds.
 
 
@@ -150,10 +150,10 @@
       Alerts can be converted to clickable links by providing an `href`
       parameter. Use `target` to control where the link opens.
 
-  = daisy_alert(icon: "star", css: "alert-info w-100", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank", icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "star", css: "alert-info w-100", href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", target: "_blank") do
     Click this alert for a surprise! (opens in new tab)
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", href: "/api-docs", target: "_blank", icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", href: "/api-docs", target: "_blank") do
     Click to view documentation.
 
 
@@ -164,7 +164,7 @@
       parameter.
 
   %div{ data: { controller: "alert-demo" } }
-    = daisy_alert(icon: "sparkles", css: "alert-warning w-100 hover:cursor-pointer", action: "click->alert-demo#celebrate", html: { data: { alert_demo_target: "alert" } }, icon_html: { variant: :outline }) do
+    = daisy_alert(icon: "sparkles", css: "alert-warning w-100 hover:cursor-pointer", action: "click->alert-demo#celebrate", html: { data: { alert_demo_target: "alert" } }) do
       Click to celebrate!
 
 
@@ -175,8 +175,8 @@
       custom `timeout` value. Click the **Reset** button to show the alerts
       again after they dismiss.
 
-  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 2000, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "check-circle", css: "alert-success w-100", autoclose: true, timeout: 2000) do
     Dismisses in 2 seconds.
 
-  = daisy_alert(icon: "information-circle", css: "alert-info w-100", timeout: 5000, icon_html: { variant: :outline }) do
+  = daisy_alert(icon: "information-circle", css: "alert-info w-100", timeout: 5000) do
     This alert will not auto-dismiss (autoclose is false by default).
