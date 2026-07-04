@@ -44,7 +44,11 @@ export default class extends Controller {
         break
     }
 
-    return target?.querySelector("span")?.style?.getPropertyValue("--value") || 0
+    // getPropertyValue returns a string; parse it so the seconds math in
+    // connect() adds numbers instead of concatenating strings.
+    const value = target?.querySelector("span")?.style?.getPropertyValue("--value")
+
+    return parseInt(value, 10) || 0
   }
 
   startCountdown() {
