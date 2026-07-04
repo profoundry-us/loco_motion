@@ -12,7 +12,7 @@
       navigate to other pages, or trigger any other action. And they come in
       various styles and colors.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4
     = daisy_button do
       Plain Button
 
@@ -38,7 +38,7 @@
       Buttons can be used as links by providing an `href` attribute. This renders
       an `<a>` tag instead of a `<button>` tag.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4
     = daisy_button(href: "https://google.com", target: "_blank") do
       External Link
 
@@ -56,7 +56,7 @@
       attributes, so you don't have to hand-write a nested
       `html: { data: { ... } }` hash for common Turbo patterns.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4
     = daisy_button(href: "/docs", css: "btn-primary", turbo_frame: "modal") do
       Open in Frame
 
@@ -80,7 +80,7 @@
   - doc.with_description do
     %p You can also use various sizes.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4.items-center
     = daisy_button(css: "btn-lg") do
       Big Button
 
@@ -108,7 +108,7 @@
   - doc.with_description do
     %p You can also create outline buttons.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4.items-center
     = daisy_button(css: "btn-outline") do
       Outline Button
 
@@ -126,7 +126,7 @@
   - doc.with_description do
     %p You can also create soft buttons.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4.items-center
     = daisy_button(css: "btn-soft") do
       Soft Button
 
@@ -144,7 +144,7 @@
   - doc.with_description do
     %p You can also create dash buttons.
 
-  .my-2.flex.flex-col.lg:flex-row.gap-4.items-center
+  .my-2.flex.flex-col.lg:flex-row.lg:flex-wrap.gap-4.items-center
     = daisy_button(css: "btn-dash") do
       Dash Button
 
