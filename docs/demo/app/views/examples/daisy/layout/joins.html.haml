@@ -1,6 +1,6 @@
 = doc_title(title: "Joins", comp: @comp) do |title|
   %p
-    Joins allow you to combine multiple components into a singular, joined,
+    Joins allow you to combine multiple components into a singular, joined
     element. This is useful for components like buttons, inputs with symbols,
     and many more.
 
@@ -41,13 +41,13 @@
 
 = doc_example(title: "Direct Content (without with_item)") do |doc|
   - doc.with_description do
-    %p
+    :markdown
       When using the `content` method instead of `with_item` or `with_button`,
       you must manually add the `.join-item` CSS class to each element. This
       allows you to join different types of components together.
 
-  = daisy_join do
-    = daisy_input(placeholder: "Search", css: "join-item")
+  = daisy_join(css: "max-w-full") do
+    = daisy_input(placeholder: "Search", css: "join-item w-full min-w-0 sm:w-auto")
     = daisy_select(css: "join-item") do
       %option(disabled selected) Filter
       %option Sci-fi
