@@ -26,10 +26,11 @@
       You can add an image to the hero by making it the first or last child.
 
       You can also change the layout of the hero by passing custom `css`
-      (like `block` here) or a `content_wrapper_css` to make it responsive or
-      add other styling.
+      (like `block` here) or a `content_wrapper_css` to make it responsive —
+      these examples stack their content below the `sm` breakpoint with
+      `max-sm:flex-col`.
 
-  = daisy_hero(css: "block max-w-[1000px] mx-4 sm:mx-16 py-8 lg:mx-32 bg-base-200") do
+  = daisy_hero(css: "block max-w-[1000px] mx-4 sm:mx-16 py-8 lg:mx-32 bg-base-200", content_wrapper_css: "max-sm:flex-col") do
     %img.h-40.rounded{ src: image_path('landscapes/mountain-river.jpg'), alt: "Beautiful Landscape" }
 
     %div
@@ -39,7 +40,7 @@
         Welcome to the world of LocoMotion.
       = daisy_button(css: "btn btn-primary", title: "Get Started", href: "/")
 
-  = daisy_hero(css: "block max-w-[1000px] mx-4 sm:mx-16 py-8 lg:mx-32 bg-base-200") do
+  = daisy_hero(css: "block max-w-[1000px] mx-4 sm:mx-16 py-8 lg:mx-32 bg-base-200", content_wrapper_css: "max-sm:flex-col") do
     %div
       %h1.text-5xl.font-bold
         Hello, World!
