@@ -4,9 +4,10 @@ namespace :loco_motion do
   namespace :migrate do
     desc "Rewrite the start/end component API removed in v0.7.0 " \
          "(with_start / with_end, start: / end:, start_css: / end_html: / ...) " \
-         "to leading/trailing across the labelable inputs, navbars, and " \
-         "timeline events. Dry-run by default; pass [apply] or APPLY=1 to " \
-         "write changes. PATHS=app,lib overrides the scanned directories."
+         "to leading/trailing across the labelable inputs, navbars, timeline " \
+         "events, and modal action slots. Dry-run by default; pass [apply] or " \
+         "APPLY=1 to write changes. PATHS=app,lib overrides the scanned " \
+         "directories."
     task :leading_trailing, [:mode] => :environment do |_task, args|
       apply = args[:mode].to_s == "apply" || ENV["APPLY"].to_s != ""
       paths = if ENV["PATHS"].to_s == ""

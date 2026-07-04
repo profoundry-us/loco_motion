@@ -168,7 +168,7 @@ RSpec.describe Daisy::Actions::ModalComponent, type: :component do
 
     before do
       render_inline(modal) do |m|
-        m.with_end_actions { form_html }
+        m.with_trailing_actions { form_html }
       end
     end
 

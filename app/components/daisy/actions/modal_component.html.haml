@@ -25,14 +25,14 @@
     - else
       = content
 
-    - if start_actions? || end_actions?
+    - if leading_actions? || trailing_actions?
       = part(:actions) do
-        = part(:start_actions) do
-          - if start_actions?
-            = start_actions
-        = part(:end_actions) do
-          - if end_actions?
-            = end_actions
+        = part(:leading_actions) do
+          - if leading_actions?
+            = leading_actions
+        = part(:trailing_actions) do
+          - if trailing_actions?
+            = trailing_actions
 
   = part(:backdrop) do
     %button close

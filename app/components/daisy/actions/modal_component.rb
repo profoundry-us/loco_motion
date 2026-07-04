@@ -28,8 +28,8 @@
 #   frosted-glass effect.
 # @part title Container for the modal title, styled for prominence.
 # @part actions Container for all modal action buttons.
-# @part start_actions Container for left (start) aligned action buttons.
-# @part end_actions Container for right (end) aligned action buttons.
+# @part leading_actions Container for left-aligned action buttons.
+# @part trailing_actions Container for right-aligned action buttons.
 #
 # @slot activator A custom element that opens the modal. Automatically adds
 #   `role="button"` and a default `tabindex="0"` for accessibility; pass
@@ -38,16 +38,16 @@
 #   button with the modal's title.
 # @slot close_icon A custom close button to replace the default 'X' icon.
 # @slot title Custom title content, replacing the default text title.
-# @slot start_actions Left (start) aligned buttons, typically for secondary actions
+# @slot leading_actions Left-aligned buttons, typically for secondary actions
 #   like "Cancel".
-# @slot end_actions Right (end) aligned buttons, typically for primary actions
+# @slot trailing_actions Right-aligned buttons, typically for primary actions
 #   like "Submit" or "Save".
 #
 # @loco_example Basic Modal
 #   = daisy_modal(title: "Simple Modal") do |modal|
 #     - modal.with_button(css: "btn-primary") { "Open Modal" }
 #     %p This is a basic modal with some content.
-#     - modal.with_end_actions do
+#     - modal.with_trailing_actions do
 #       %form{ method: :dialog }
 #         = daisy_button { "Close" }
 #
@@ -58,10 +58,10 @@
 #       .space-y-4
 #         = f.text_field :name, class: "input input-bordered w-full"
 #         = f.email_field :email, class: "input input-bordered w-full"
-#     - modal.with_start_actions do
+#     - modal.with_leading_actions do
 #       %form{ method: :dialog }
 #         = daisy_button { "Cancel" }
-#     - modal.with_end_actions do
+#     - modal.with_trailing_actions do
 #       = daisy_button(css: "btn-primary", type: "submit") { "Save Changes" }
 #
 # @loco_example Custom Activator
@@ -77,7 +77,7 @@
 #       %dt Email
 #       %dd john@example.com
 #
-#     - modal.with_end_actions do
+#     - modal.with_trailing_actions do
 #       %form{ method: :dialog }
 #         = daisy_button { "Close" }
 #
@@ -92,7 +92,7 @@
 # @loco_example Global Modal
 #   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
 #     %p This modal has no built-in trigger — open it from anywhere.
-#     - modal.with_end_actions do
+#     - modal.with_trailing_actions do
 #       = daisy_button(action: "loco-modal#close") { "Close" }
 #
 #   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
@@ -110,15 +110,15 @@ module Daisy
       set_component_name :modal
 
       define_parts :box, :actions, :close_icon_wrapper, :close_icon,
-                   :backdrop, :title, :start_actions, :end_actions,
+                   :backdrop, :title, :leading_actions, :trailing_actions,
                    :turbo_frame
 
       renders_one :activator, LocoMotion::BasicComponent
       renders_one :button, Daisy::Actions::ButtonComponent
       renders_one :close_icon
       renders_one :title
-      renders_one :start_actions
-      renders_one :end_actions
+      renders_one :leading_actions
+      renders_one :trailing_actions
 
       # @return [Boolean] Whether or not this dialog can be closed.
       attr_reader :closable
