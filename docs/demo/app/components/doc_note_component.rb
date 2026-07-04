@@ -13,7 +13,14 @@ class DocNoteComponent < ApplicationComponent
   end
 
   def before_render
-    add_css(:component, "alert border")
+    add_css(:component, "alert border grid-cols-[minmax(0,1fr)]")
+
+    # The alert is a CSS grid with justify-items: start, so its content cell
+    # sizes to fit-content and an unbreakable doc_code line blows the note out
+    # of the viewport on narrow screens. A definite minmax(0,1fr) column plus
+    # a stretched, shrinkable cell keeps the note at container width and lets
+    # the code scroll instead.
+    add_css(:content_wrapper, "min-w-0 justify-self-stretch")
 
     add_css(:icon, "where:size-6")
 
