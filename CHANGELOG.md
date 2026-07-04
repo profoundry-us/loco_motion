@@ -361,6 +361,20 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   width while its height stayed fixed. Icons rendered through the concern now default to `where:shrink-0`
   (prepended, so an explicit `shrink`/`grow` via `icon_css` still wins), keeping them at their intended size
   across every icon-bearing component (Alert, Button, Badge, etc.).
+- fix(Iconable): Let DaisyUI lay out icons on components whose root class already handles them. Passing
+  `icon:` (or `left_icon:` / `right_icon:`) added `where:inline-flex where:items-center where:gap-2` to the
+  component root, and as Tailwind utilities those beat DaisyUI's component styles in the cascade — which
+  broke grid roots: an icon shrink-wrapped `daisy_alert` to its content instead of filling its container,
+  halved its icon gap, disabled the `alert-vertical` modifier, flattened `daisy_stat`'s grid onto one line,
+  and pushed dock labels 8px below their icons (DaisyUI wants 1px). The classes now come from an overridable
+  `iconable_root_css` hook, and Alert, Stat, Badge, Avatar, Button, and the dock section override it to skip
+  them so DaisyUI keeps control (Button keeps the classes when `skip_styling` removes `.btn`). Link,
+  breadcrumb items, and text-rotate items — roots with no layout of their own — keep them. Icon buttons also
+  return to DaisyUI's `.375rem` icon gap (previously widened to `.5rem`).
+- fix(Countdown): Parse the `--value` custom properties as integers when summing the remaining seconds. The
+  Stimulus controller read them back with `getPropertyValue` (a String), so the total-seconds expression
+  ended in string concatenation — a countdown of 1h 2m 5s computed `3720 + "5"` = `"37205"` and rendered as
+  10h 20m. Any countdown with an hours or minutes part was affected.
 
 ### Demo / Docs Changes
 
@@ -459,6 +473,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   options to the underlying `Hero::IconComponent` constructor — most notably `variant: :outline` /
   `variant: :solid` to pick the icon style — and are distinct from `icon_html`, which sets HTML
   attributes on the `<svg>`. `icon_options` is the intended way to set icon component options.
+- docs(Alert): Add a "Vertical Alerts" demo example showing the `alert-vertical` modifier stacking the icon
+  above the content, plus the responsive `alert-vertical sm:alert-horizontal` pattern. The modifier was
+  previously inert on icon alerts (see the Iconable root-classes fix), so the demo never exercised it.
 
 ### Fixed
 
