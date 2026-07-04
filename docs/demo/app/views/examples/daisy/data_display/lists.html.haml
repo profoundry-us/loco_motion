@@ -30,10 +30,10 @@
   - doc.with_description do
     :markdown
       Lists can be customized with additional CSS classes for enhanced visual
-      presentation. This example adds a background, rounded corners, shadow,
-      and dividers between items.
+      presentation. This example adds a background, rounded corners, and a
+      shadow.
 
-  = daisy_list(css: "bg-base-100 shadow-md") do |list|
+  = daisy_list(css: "bg-base-100 rounded-box shadow-md") do |list|
     - list.with_item { "Item 1" }
     - list.with_item { "Item 2" }
     - list.with_item { "Item 3" }
@@ -70,7 +70,7 @@
       functionality. This example shows a music player interface with play
       and favorite buttons.
 
-  = daisy_list(header: "Most played songs", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "w-100 bg-base-100 rounded-box shadow-md") do |list|
+  = daisy_list(header: "Most played songs", header_css: "p-4 pb-2 text-xs opacity-60 tracking-wide", css: "w-full max-w-100 bg-base-100 rounded-box shadow-md") do |list|
     - list.with_item do |item|
       = image_tag("avatars/lady-smiling-1.jpg", class: "size-10 rounded-box")
       .flex.flex-col
