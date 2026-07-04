@@ -95,14 +95,12 @@ module LocoMotion
         filter_indent = nil
 
         ::File.foreach(file) do |line|
-          if filter_indent
-            if blank?(line) || indent_of(line) > filter_indent
-              interpolated_references(line).each(&block)
-              next
-            end
-
-            filter_indent = nil
+          if filter_indent && filter_content?(line, filter_indent)
+            interpolated_references(line).each(&block)
+            next
           end
+
+          filter_indent = nil
 
           next if line.lstrip.start_with?(comment)
 
@@ -126,6 +124,12 @@ module LocoMotion
       # those and ignore the surrounding prose / displayed code.
       def interpolated_references(line)
         line.scan(INTERPOLATION).flatten.flat_map { |ruby| line_references(ruby) }
+      end
+
+      # A filter block runs until the first non-blank line at or above the
+      # filter header's indentation (blank lines never end it).
+      def filter_content?(line, filter_indent)
+        blank?(line) || indent_of(line) > filter_indent
       end
 
       def blank?(line)
