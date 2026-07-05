@@ -128,6 +128,11 @@ RSpec.describe LocoMotion::Icons::Scanner do
     end
 
     it "ignores displayed code inside :plain filter blocks" do
+      # Mirrors the demo's `doc_code` blocks: a :plain filter emits literal
+      # text that doc_code displays as highlighted source — it never executes,
+      # so no icon renders from it. The demo's *live* examples (doc_example)
+      # are ordinary HAML lines like the trailing loco_icon here, and those
+      # are still scanned.
       write("app/views/guides/icons.haml", <<~HAML)
         = doc_code(css: "my-4", language: "haml") do
           :plain
