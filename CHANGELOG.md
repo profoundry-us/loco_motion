@@ -497,6 +497,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   detection, recursing until the call stack overflowed — whether it overflowed or merely wasted time depended
   on the runner's stack size and path length, hence the flakiness. Bundler already loads the gem through its
   own `lib`/`app` require paths, so nothing requireable lives in `vendor` and skipping it is safe.
+- fix(Icons): Stop the treeshaking scanner (`loco_motion:icons:sync`) matching icon tokens inside HAML
+  filter blocks. `:markdown` prose and `:plain` code samples render as text and never execute, yet a
+  backticked `icon: "home/solid"` or `loco_icon("name")` in the guides was scanned like a real call —
+  vendoring never-rendered icons (`heroicons/solid/home.svg`, `phosphor/bold/gear.svg`, both now pruned
+  from the demo's committed set) and warning about the placeholder tokens `name` / `name/solid` on every
+  sync. Interpolation (`#{...}`) inside a filter and the executable `:ruby` / `:erb` filters are still
+  scanned, so icons rendered from filter blocks keep being discovered.
 
 ## [0.6.0] - 2026-06-12
 
