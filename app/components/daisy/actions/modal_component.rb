@@ -56,8 +56,8 @@
 #     - modal.with_button { "Edit Profile" }
 #     = form_with(model: @user) do |f|
 #       .space-y-4
-#         = f.text_field :name, class: "input input-bordered w-full"
-#         = f.email_field :email, class: "input input-bordered w-full"
+#         = f.text_field :name, class: "input w-full"
+#         = f.email_field :email, class: "input w-full"
 #     - modal.with_leading_actions do
 #       %form{ method: :dialog }
 #         = daisy_button { "Cancel" }

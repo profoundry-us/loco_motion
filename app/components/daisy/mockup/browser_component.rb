@@ -17,7 +17,7 @@
 # @loco_example Basic Browser with URL
 #   = daisy_browser(css: "w-full border border-base-300") do |browser|
 #     - browser.with_toolbar do
-#       %input.input.input-bordered{
+#       %input.input{
 #         placeholder: "https://example.com" }
 #
 #     .border-t.border-base-300.p-4
