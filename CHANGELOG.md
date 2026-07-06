@@ -239,6 +239,21 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Actionable): Add a first-class `action` option to **every** linkable component (links, cards, badges,
+  avatars, stats, …), not just buttons — Stimulus `data-action` sugar that mirrors the `turbo_*` options
+  from #202. A new `ActionableComponent` concern reads `action:` and emits `data-action`, and
+  `LinkableComponent` pulls it in alongside `TurboableComponent`, so `daisy_link(action: "click->x#y")` now
+  works where it was previously ignored. Stimulus infers the `click` event, so `action: "x#y"` is shorthand
+  for `action: "click->x#y"`, and an explicit `html: { data: { action: … } }` still wins. The attribute is
+  written in the nested `data: { action: … }` form so it deep-merges cleanly with the `data-controller` and
+  `data-turbo-*` attributes rather than colliding into a duplicate. Fixes #267.
+- refactor(Button): Drop `ButtonComponent`'s inline `data-action` handling in favor of the shared
+  `ActionableComponent` concern. The button-only positional sugar (`daisy_button("Say Hello",
+  "greeter#greet")`) is preserved; the keyword `action:` still wins when both are given.
+- refactor(Alert): Drop `AlertComponent`'s inline `data-action` handling in favor of the shared
+  `ActionableComponent` concern (Alert already includes `LinkableComponent`). This also removes a latent
+  double-emission: with the concern in place, Alert's own flat `data-action` would have rendered the
+  attribute twice on the same element.
 - refactor(Icons): Render Cally's month-navigation chevrons through the `loco_icon` engine instead of
   `rails_heroicon`. `chevron-left` / `chevron-right` join `x-mark` / `check` / `trash` in the icons bundled
   inside the gem, so the calendar's prev/next arrows still render with zero consumer setup. Non-breaking
@@ -378,6 +393,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- docs(Links): Add a "Links with a Stimulus Action" demo example and document the new `action:` option in the
+  `LinkComponent` YARD, including the guidance to `preventDefault` (or omit `href`) when a link only drives a
+  controller. Refs #267.
 - docs(Guides): Add an "Upgrade Guide" page to the demo site covering the 0.6.0 → 0.7.0 upgrade — package
   bumps (gem, npm, DaisyUI 5.6+ for the new components), the `start` / `end` → `leading` / `trailing`
   rename (labelable inputs, Navbar, and Timeline events) and its `loco_motion:migrate:leading_trailing`

@@ -24,6 +24,9 @@
 # @loco_example Link with left and right icons
 #   = daisy_link(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
 #
+# @loco_example Link driving a Stimulus action
+#   = daisy_link(title: "Toggle", href: "#", action: "click->my-controller#toggle")
+#
 module Daisy
   module Navigation
     class LinkComponent < LocoMotion::BaseComponent
@@ -48,6 +51,14 @@ module Daisy
       # @option kws href [String] The URL to visit when the link is clicked.
       #
       # @option kws target [String] The target attribute for the anchor tag (e.g., "_blank").
+      #
+      # @option kws action [String] A Stimulus action wired to the link via its
+      #   `data-action` attribute (provided by
+      #   {LocoMotion::Concerns::ActionableComponent}). Stimulus infers the
+      #   `click` event, so `action: "my-controller#handle"` is shorthand for
+      #   `action: "click->my-controller#handle"`. Have the controller call
+      #   `event.preventDefault()` (or omit `href`) when the link only drives a
+      #   controller rather than navigating.
       #
       # @option kws icon [String] The name of Hero icon to render inside the
       #   link. This is an alias of `left_icon`.

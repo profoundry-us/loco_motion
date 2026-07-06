@@ -262,7 +262,26 @@ RSpec.describe Daisy::Feedback::AlertComponent, type: :component do
 
     describe "rendering" do
       it "includes the data-action attribute" do
-        expect(page).to have_selector("[data-action='click->my-controller#handle']")
+        expect(page).to have_selector(".alert[data-action='click->my-controller#handle']")
+      end
+
+      # Regression: `action:` is now emitted once by ActionableComponent (via
+      # LinkableComponent). Alert used to add its own flat `data-action` too; if
+      # that inline handling comes back, the `.alert` element renders a
+      # duplicated `data-action` attribute.
+      it "emits the data-action exactly once on the alert element" do
+        alert_tag = page.native.to_html[/<div[^>]*class="alert[^>]*>/]
+        expect(alert_tag.scan("data-action=").length).to eq(1)
+      end
+    end
+
+    context "when also closable (component action + close-button action coexist)" do
+      let(:alert) { described_class.new(action: "click->my-controller#handle", closable: true) }
+
+      it "puts the user action on the alert and the close action on the button" do
+        expect(page).to have_selector(".alert[data-action='click->my-controller#handle']")
+        expect(page).to have_selector(".alert[data-controller='loco-alert']")
+        expect(page).to have_selector("button[data-action='click->loco-alert#close']")
       end
     end
   end
