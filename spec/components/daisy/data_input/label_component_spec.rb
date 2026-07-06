@@ -12,7 +12,7 @@ RSpec.describe Daisy::DataInput::LabelComponent, type: :component do
   it "renders a label with text from the title option" do
     render_inline(described_class.new(for: "input_id", title: "My Label"))
 
-    expect(page).to have_css("label.label[for='input_id'] span.label-text", text: "My Label")
+    expect(page).to have_css("label.label[for='input_id'] span", text: "My Label")
   end
 
   it "renders a label with content from the block" do
@@ -25,6 +25,6 @@ RSpec.describe Daisy::DataInput::LabelComponent, type: :component do
     render_inline(described_class.new(for: "input_id", title: "Option Text")) { "Block Text" }
 
     expect(page).to have_css("label.label[for='input_id']", text: "Block Text")
-    expect(page).not_to have_css("span.label-text", text: "Option Text")
+    expect(page).not_to have_css("span", text: "Option Text")
   end
 end

@@ -76,7 +76,7 @@ module Daisy
           if content?
             content
           elsif @title
-            content_tag(:span, @title, class: "label-text")
+            content_tag(:span, @title)
           else
             # Fallback to empty content
             ""
