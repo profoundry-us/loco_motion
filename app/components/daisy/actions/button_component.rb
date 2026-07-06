@@ -172,6 +172,11 @@ module Daisy
         # render two titles
         title = nil if block_given?
 
+        # ActionableComponent (via LinkableComponent) already read the `action:`
+        # keyword into @action and emits the `data-action` attribute. Re-read it
+        # here with the positional `action` arg as the fallback so the
+        # button-only `daisy_button("Say Hello", "greeter#greet")` sugar keeps
+        # working; the keyword still wins when both are given.
         @action = config_option(:action, action)
 
         # Initialize concerns -- handled by BaseComponent hook
@@ -201,8 +206,9 @@ module Daisy
         # Add the btn class
         add_css(:component, "btn") unless @skip_styling
 
-        # Add data-action if specified
-        add_html(:component, { "data-action": @action }) if @action
+        # `data-action` is emitted by ActionableComponent (pulled in via
+        # LinkableComponent); see @action handling in initialize for the
+        # positional-arg sugar.
       end
 
       private

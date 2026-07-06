@@ -59,6 +59,50 @@ RSpec.describe Daisy::Navigation::LinkComponent, type: :component do
     end
   end
 
+  context "with a Stimulus action" do
+    context "given the action option" do
+      before do
+        render_inline(described_class.new(title: "Toggle", href: "#", action: "click->loco-theme#setTheme"))
+      end
+
+      it "adds the data-action attribute (gained via ActionableComponent)" do
+        expect(page).to have_css("a.link[data-action='click->loco-theme#setTheme']")
+      end
+    end
+
+    context "given an action alongside a turbo option" do
+      before do
+        render_inline(described_class.new(title: "Toggle", href: "#", action: "x#y", turbo_frame: "modal"))
+      end
+
+      it "keeps both data-action and data-turbo-frame (neither clobbers the other)" do
+        expect(page).to have_css("a.link[data-action='x#y'][data-turbo-frame='modal']")
+      end
+    end
+
+    context "given an explicit html data-action" do
+      before do
+        render_inline(described_class.new(title: "Toggle", href: "#", action: "sugar#a",
+                                          html: { data: { action: "explicit#b" } }))
+      end
+
+      it "lets the explicit html value win over the action option" do
+        expect(page).to have_css("a.link[data-action='explicit#b']")
+        expect(page).not_to have_css("[data-action='sugar#a']")
+      end
+    end
+
+    context "without an action option" do
+      before do
+        render_inline(described_class.new(title: "Plain", href: "#"))
+      end
+
+      it "renders no data-action attribute" do
+        expect(page).not_to have_css("[data-action]")
+      end
+    end
+  end
+
   context "with icons" do
     context "with a single icon" do
       let(:link) { described_class.new(title: "Home", href: "#", icon: "home") }

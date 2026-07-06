@@ -181,8 +181,11 @@ module Daisy
         @icon = config_option(:icon)
         @timeout = config_option(:timeout)
         @autoclose = config_option(:autoclose)
-        @action = config_option(:action)
         @closable = config_option(:closable, false)
+
+        # `action:` (and its `data-action`) is handled by ActionableComponent,
+        # pulled in via LinkableComponent. Emitting it here too would render a
+        # duplicate `data-action` attribute.
       end
 
       def default_icon_size
@@ -210,7 +213,6 @@ module Daisy
 
         setup_stimulus_controller
         setup_timeout
-        setup_action
         setup_close_button
         setup_closable_padding
       end
@@ -235,12 +237,6 @@ module Daisy
         add_html(:component, {
                    "data-loco-alert-timeout-value": timeout_value
                  })
-      end
-
-      def setup_action
-        return unless @action
-
-        add_html(:component, { "data-action": @action })
       end
 
       def setup_close_button

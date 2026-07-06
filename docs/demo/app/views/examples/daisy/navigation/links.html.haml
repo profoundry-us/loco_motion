@@ -33,3 +33,22 @@
     = daisy_link title: "Home", href: "#", icon: "home"
     = daisy_link title: "Settings", href: "#", icon: "cog-6-tooth", css: "link-primary"
     = daisy_link title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right", css: "link-secondary"
+
+
+= doc_example(title: "Links with a Stimulus Action") do |doc|
+  - doc.with_description do
+    :markdown
+      Links accept a first-class `action` option — Stimulus `data-action` sugar
+      — just like buttons and the Turbo options, so you don't have to
+      hand-write a nested `html: { data: { action: … } }` hash. Stimulus infers
+      the `click` event, so `action: "controller#method"` is shorthand for
+      `action: "click->controller#method"`.
+
+      When a link only drives a controller (rather than navigating), have the
+      controller call `event.preventDefault()` — or omit `href` entirely — so
+      the browser doesn't follow the link. The example below points at a real
+      page, but shows the rendered `data-action`.
+
+  .flex.flex-wrap.items-end.gap-x-4.gap-y-2
+    = daisy_link title: "Toggle Theme", href: "#", action: "click->loco-theme#setTheme", css: "link-primary"
+    = daisy_link title: "Refresh Nav", href: "#", action: "nav#refresh"
