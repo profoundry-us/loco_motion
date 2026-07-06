@@ -1,176 +1,206 @@
-- star_styles = "size-[800px] mask mask-star bg-linear-to-r from-secondary via-cyan-400 to-lime-400"
-- crazy_text_styles = "italic font-black bg-linear-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
-
 = content_for(:page_title) do
   Home
 
-.relative{ "data-ads-target": "hidden" }
-  - # Blurred background star
-  .absolute.left-0.z-0{ class: "-top-[400px] -right-[400px]" }
-    .flex.justify-end.blur-3xl
-      %div{ class: star_styles }
+- # The starting page. Its scroll choreography (hero cluster parallax + pop-in
+- # flair) is driven by the `parallax` Stimulus controller declared on the root.
+- # Decorative flair is built from REAL LocoMotion components so the homepage
+- # dogfoods the library, and everything uses DaisyUI semantic tokens so it
+- # adapts to all six themes.
+- guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
+- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["6", "Built-in themes", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
 
-  .relative.z-10
-    %h1.mt-8.text-center.text-5xl.font-black.tracking-wide.drop-shadow-lg
-      %div
-        Components, Guides, and Paradigms
-      .md:inline-flex.md:items-center.justify-center
-        %span.-mr-2
-          for
-        %span.relative.-rotate-3.hover:-rotate-6.hover:scale-125.transition-transform
-          %span{ class: crazy_text_styles + " absolute blur-xl" }
-            &nbsp;CRAZY&nbsp;
-          %span{ class: crazy_text_styles + " drop-shadow-[0_0_1px_var(--bg-base-100)]" }
-            &nbsp;CRAZY&nbsp;
-        %span.-ml-3.md:-ml-1
-          \-fast Development
-      %div
-        in Ruby on Rails!
+%div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax" }
+  - # ============================================================ HERO
+  %div{ class: "relative overflow-visible rounded-3xl bg-linear-to-b from-primary/5 via-base-100 to-base-100 px-6 py-24 text-center md:py-32" }
+    - # ---- Hero cluster: real components that drift away as you scroll ----
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:44px;left:7%;z-index:5;transform:rotate(-7deg);will-change:transform,opacity", data: { parallax_speed: 0.55, parallax_drift: -0.22, parallax_rot: -7 } }
+      %div{ class: "flex items-end gap-2" }
+        %span{ class: "flex size-9 items-center justify-center rounded-full bg-primary/15 text-lg" } 🚂
+        %span{ class: "rounded-[14px_14px_14px_2px] border border-base-300 bg-base-100 px-3.5 py-2 text-[13px] font-semibold shadow-lg" } choo choo!
 
-    .mt-16.text-center
-      = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", href: doc_path("02_install"),
-        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:36px;right:9%;z-index:5;transform:rotate(6deg);will-change:transform,opacity", data: { parallax_speed: 0.85, parallax_drift: 0.14, parallax_rot: 6 } }
+      %input{ type: "checkbox", checked: true, disabled: true, class: "toggle toggle-primary shadow-lg" }
 
-    .mt-32.lg:flex.lg:space-x-8
-      %div{ class: "md:basis-2/5" }
-        %h3.text-4xl.font-bold
-          Easy, Flexible Components
-        %p.mt-2.text-xl
-          Powered by the fabulous
-          = succeed ',' do
-            = daisy_link("ViewComponent", "https://viewcomponent.org", target: "_blank")
-          = succeed ', and' do
-            = daisy_link "DaisyUI", "https://daisyui.com/", target: "_blank"
-          = daisy_link "TailwindCSS", "https://tailwindcss.com/", target: "_blank"
-          libraries, our components are designed to be fast, flexible, and easy to
-          use <i>directy</i> in Ruby on Rails!
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:46%;left:4%;z-index:5;transform:rotate(4deg);will-change:transform,opacity", data: { parallax_speed: 0.35, parallax_drift: -0.34, parallax_rot: 4 } }
+      %span{ class: "text-xl tracking-[.15em] drop-shadow-md" }
+        %span{ class: "text-warning" } ★★★★
+        %span{ class: "text-base-300" } ★
 
-      = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44") do
-        .flex.flex-col.sm:flex-row.items-center.gap-4
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:42%;right:4%;z-index:5;transform:rotate(-5deg);will-change:transform,opacity", data: { parallax_speed: 0.65, parallax_drift: 0.3, parallax_rot: -5 } }
+      = daisy_badge("badge-secondary", css: "badge-secondary badge-lg font-bold shadow-lg")
+
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;bottom:70px;left:9%;z-index:5;transform:rotate(5deg);will-change:transform,opacity", data: { parallax_speed: 0.5, parallax_drift: -0.16, parallax_rot: 5 } }
+      %span{ class: "inline-flex gap-1" }
+        = daisy_kbd("⌘")
+        = daisy_kbd("K")
+
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;bottom:88px;right:11%;z-index:5;transform:rotate(-4deg);will-change:transform,opacity", data: { parallax_speed: 0.95, parallax_drift: 0.36, parallax_rot: -4 } }
+      %progress{ class: "progress progress-accent w-32 shadow-lg", value: "70", max: "100" }
+
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:16%;right:22%;z-index:5;transform:rotate(6deg);will-change:transform,opacity", data: { parallax_speed: 0.72, parallax_drift: 0.2, parallax_rot: 6 } }
+      = daisy_radial(value: 70, css: "text-accent bg-base-100 shadow-lg text-xs font-bold") do
+        70%
+
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:14%;left:20%;z-index:5;transform:rotate(-6deg);will-change:transform,opacity", data: { parallax_speed: 0.42, parallax_drift: -0.26, parallax_rot: -6 } }
+      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg")
+
+    %div{ class: "pointer-events-none hidden lg:block", style: "position:absolute;bottom:34px;left:38%;z-index:5;transform:rotate(-3deg);will-change:transform,opacity", data: { parallax_speed: 0.6, parallax_drift: 0.1, parallax_rot: -3 } }
+      %div{ class: "flex flex-row-reverse items-end gap-2" }
+        %span{ class: "flex size-9 items-center justify-center rounded-full bg-secondary/15 text-base" } 💬
+        %span{ class: "rounded-[14px_14px_2px_14px] border border-base-300 bg-base-100 px-3.5 py-2 text-[13px] font-semibold shadow-lg" } daisy_chat, obviously
+
+    - # ---- Headline ----
+    %div{ class: "relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
+      %div{ class: "flex flex-wrap justify-center gap-2" }
+        %span{ class: "rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary" } ViewComponent
+        %span{ class: "rounded-full bg-secondary/10 px-3 py-1 text-xs font-bold text-secondary" } DaisyUI
+        %span{ class: "rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent" } TailwindCSS
+
+      %h1{ class: "text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
+        Components, Guides, and Paradigms for
+        %em{ class: "inline-block -rotate-2 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent" } CRAZY-fast
+        Development in Ruby on Rails!
+
+      %div{ class: "flex flex-col items-center gap-4 sm:flex-row" }
+        = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg shadow-lg shadow-primary/25", right_icon: "arrow-right", href: doc_path("02_install"), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+        %div{ class: "flex items-center gap-2 rounded-xl bg-base-200 px-4 py-3 font-mono text-sm text-base-content/80" }
+          %span{ class: "text-base-content/40" } $
+          %span bundle add
+          %span{ class: "text-primary" } loco_motion-rails
+
+      %div{ class: "text-xs text-base-content/50" } scroll — watch the components leave the station ↓
+
+  - # ============================================================ LIVE PREVIEW
+  %div{ class: "relative z-10 -mt-8 flex justify-center px-2 pb-4" }
+    %div{ class: "w-full max-w-2xl overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-2xl" }
+      %div{ class: "flex items-center gap-1.5 border-b border-base-300 bg-base-200 px-4 py-3" }
+        %span{ class: "size-2.5 rounded-full bg-error" }
+        %span{ class: "size-2.5 rounded-full bg-warning" }
+        %span{ class: "size-2.5 rounded-full bg-success" }
+        %span{ class: "ml-2 font-mono text-xs text-base-content/50" } live preview
+      %div{ class: "flex flex-wrap items-center justify-center gap-6 bg-base-100 px-6 py-9" }
+        = daisy_button("Accent Button", css: "btn-accent")
+        = daisy_tip("Click to Swap") do
+          = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate text-3xl")
+        = daisy_badge("Large Badge", css: "badge-secondary badge-lg")
+      %pre{ class: "overflow-x-auto bg-neutral px-5 py-4 font-mono text-xs leading-relaxed text-neutral-content" }
+        :plain
           = daisy_button "Accent Button", css: "btn-accent"
           = daisy_tip("Click to Swap") do
-            = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
+            = daisy_swap off: "🌚", on: "🌞"
           = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
+  - # ============================================================ STATS
+  %div{ class: "grid grid-cols-2 gap-px border-y border-base-300 bg-base-300 md:grid-cols-4" }
+    - stats.each do |number, label, color|
+      %div{ class: "bg-base-100 px-8 py-9" }
+        %div{ class: "text-3xl font-black #{color}" }= number
+        %div{ class: "mt-1 text-sm text-base-content/60" }= label
 
-    .mt-32.xl:flex.xl:flex-row-reverse.xl:items-center
-      .text-xl.xl:ml-8
-        %h3.text-4xl.font-bold
-          Simple, Concise Views
+  - # ============================================================ FEATURE: HAML
+  %div{ class: "relative mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 py-24 lg:flex-row" }
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:24px;left:-8px;z-index:5;opacity:0;transform:translateY(46px) scale(.4);transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .35s;will-change:transform,opacity", data: { pop: true, pop_rot: -6 } }
+      %div{ class: "flex items-end gap-2" }
+        %span{ class: "flex size-8 items-center justify-center rounded-full bg-accent/15 text-base" } 💎
+        %span{ class: "rounded-[14px_14px_14px_2px] border border-base-300 bg-base-100 px-3 py-2 text-[13px] font-semibold shadow-lg" } so much cleaner
 
-        %p.mt-2
-          Utlize
-          = daisy_link("HAML", "https://haml.info/", target: "_blank")
-          so your views are simple, concise, and easy to understand.
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;bottom:32px;right:-14px;z-index:5;opacity:0;transform:translateY(46px) scale(.4);transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .35s;will-change:transform,opacity", data: { pop: true, pop_rot: 8 } }
+      %span{ class: "loading loading-spinner loading-lg text-primary" }
 
-        %p.mt-2
-          No more messy ERB files with all of their closing tags and Ruby wrappers.
-          HAML feels more natural to write and reduces file sizes, making your
-          views easier to read and maintain.
+    %div{ class: "flex flex-1 flex-col gap-4" }
+      %div{ class: "text-xs font-bold tracking-[.1em] text-secondary" } SIMPLE, CONCISE VIEWS
+      %h3{ class: "text-3xl font-black tracking-tight" } No more messy ERB.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        Utilize
+        = daisy_link("HAML", "https://haml.info/", target: "_blank")
+        so your views are simple, concise, and easy to understand. HAML feels
+        more natural to write and reduces file sizes, making your views easier
+        to read and maintain.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        %strong> PLUS!
+        You can utilize filters like
+        %em Markdown
+        \, CoffeeScript, Textile, and many more!
 
-        %p.mt-2
-          :markdown
-            **PLUS!** You can utlize filters like _Markdown_, CoffeeScript,
-            Textile, and many more!
-
-      .mt-8.xl:mt-0
-        .flex.flex-col.xl:flex.xl:flex-row.w-full
-          = doc_code(css: "grow", code_css: "xl:pl-2 xl:pr-0 xl:rounded-r-none", language: "erb") do
-            :plain
-              <% # Ruby %>
-
-              <% 5.times do |i| %>
-                <% if i.even? %>
-                  <p class="odd">Number <%= i %></p>
-                <% else %>
-                  <p class="even">Numero <%= i %></p>
-                <% end %>
-              <% end %>
-
-          = doc_code(css: "grow mt-8 xl:mt-0", pre_css: "xl:h-full", code_css: "xl:pl-0 xl:pr-2 xl:h-full xl:rounded-l-none") do
-            :plain
-              - # HAML
-
-              - 5.times do |i|
-                - if i.even?
-                  %p.odd Number \#{i}
-                - else
-                  %p.even Numero \#{i}
-
-
-    %h3.mt-32.text-4xl.font-bold
-      Build Your <i>OWN</i> Components
-
-    %p.mt-2.text-xl
-      Can't find exactly what you need? No problem! Build your own components
-      with ease using our simple, flexible, and powerful DSL.
-
-    .mt-8.xl:flex.xl:space-x-8
+    %div{ class: "grid w-full flex-1 gap-4 sm:grid-cols-2" }
       %div
-        = doc_code(language: "ruby") do
+        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-error" } ERB · 9 LINES 😵
+        = doc_code(language: "erb") do
           :plain
-            # app/components/application_component.rb
-            class ApplicationComponent < LocoMotion::BaseComponent
-              # Add your custom / shared component logic here!
+            <% 5.times do |i| %>
+              <% if i.even? %>
+                <p class="odd">
+                  Number <%= i %>
+                </p>
+              <% else %>
+                ...
+              <% end %>
+            <% end %>
+      %div
+        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-success" } HAML · 5 LINES ✨
+        = doc_code(language: "haml") do
+          :plain
+            - 5.times do |i|
+              - if i.even?
+                %p.odd Number \#{i}
+              - else
+                %p.even Numero \#{i}
+
+  - # ==================================================== FEATURE: BUILD YOUR OWN
+  %div{ class: "relative mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 lg:flex-row-reverse lg:items-center" }
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:-28px;right:24px;z-index:5;opacity:0;transform:translateY(46px) scale(.4);transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .35s;will-change:transform,opacity", data: { pop: true, pop_rot: 5 } }
+      %span{ class: "rounded-lg bg-neutral px-3.5 py-2 font-mono text-xs text-neutral-content shadow-lg" } define_parts :head, :body, :legs
+
+    %div{ class: "flex flex-1 flex-col gap-4" }
+      %div{ class: "text-xs font-bold tracking-[.1em] text-accent" } POWERFUL DSL
+      %h3{ class: "text-3xl font-black tracking-tight" }
+        Build your
+        %em OWN
+        components.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        Can't find exactly what you need? No problem! Build your own components
+        with ease using our simple, flexible, and powerful DSL — parts, tags,
+        CSS, and Stimulus controllers, all in one place.
+
+    %div{ class: "w-full flex-1" }
+      = doc_code(language: "ruby") do
+        :plain
+          # app/components/character_component.rb
+          class CharacterComponent < ApplicationComponent
+            define_parts :head, :body, :legs
+
+            def before_render
+              set_tag_name(:head, :h1)
+              add_css(:head, "text-3xl font-bold")
+              add_stimulus_controller(:body, "character-body")
             end
+          end
 
-        = doc_code(language: "haml", css: "mt-8") do
-          :plain
-            - # app/components/character_component.html.haml
-            = part(:component) do
-              = part(:head)
-              = part(:body) do
-                = content
-              = part(:legs)
+  - # ============================================================ GUIDES
+  %div{ class: "relative border-t border-base-300 bg-base-200 px-4 py-24" }
+    %div{ class: "pointer-events-none hidden md:block", style: "position:absolute;top:40px;left:26px;z-index:5;opacity:0;transform:translateY(46px) scale(.4);transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .35s;will-change:transform,opacity", data: { pop: true, pop_rot: -4 } }
+      %span{ class: "inline-flex items-center gap-2 rounded-lg border border-base-300 bg-base-100 px-4 py-2.5 text-[13px] font-semibold shadow-xl" } ✅ New guide published!
 
-      %div.mt-8.xl:mt-0
-        = doc_code(language: "ruby") do
-          :plain
-            # app/components/character_component.rb
-            class CharacterComponent < ApplicationComponent
-              define_parts :head, :body, :legs
+    %div{ class: "pointer-events-none hidden lg:block", style: "position:absolute;bottom:56px;right:30px;z-index:5;opacity:0;transform:translateY(46px) scale(.4);transition:transform .6s cubic-bezier(.34,1.56,.64,1),opacity .35s;will-change:transform,opacity", data: { pop: true, pop_rot: 6 } }
+      %span{ class: "inline-flex" }
+        %span{ class: "flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-primary/15 text-xs font-black text-primary" } RB
+        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-secondary/15 text-xs font-black text-secondary" } JS
+        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-accent/15 text-xs font-black text-accent" } UI
 
-              def before_render
-                set_tag_name(:head, :h1)
-                add_css(:head, "text-3xl font-bold")
+    %div{ class: "mx-auto max-w-6xl" }
+      %div{ class: "mb-8 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between" }
+        %h3{ class: "text-3xl font-black tracking-tight" } Guides &amp; Paradigms
+        %span{ class: "text-sm text-base-content/60" } The LocoMotion way of building Rails apps.
 
-                set_tag_name(:body, :p)
-                add_stimulus_controller(:body, "character-body")
-                add_css(:body, "text-lg")
+      %div{ class: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+        - guides.each do |emoji, name, filename, description|
+          = daisy_card(css: "bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }) do
+            %span{ class: "text-3xl" }= emoji
+            %span{ class: "text-lg font-bold" }= name
+            %p{ class: "text-sm text-base-content/70" }= description
 
-                set_tag_name(:legs, :footer)
-                add_css(:legs, "text-sm")
-              end
-            end
-
-    %h3.mt-32.text-4xl.font-bold
-      Guides &amp; Paradigms
-
-    %p.mt-2.text-xl
-      Beyond the components, we share the broader philosophies and tooling we
-      recommend for building Rails applications the <em>Loco</em><strong>Motion</strong> way.
-
-    - # The routing key can now be either the full filename (with numeric prefix) or
-    - # just the name without numbers. The guides/docs controllers will resolve both.
-    - # See the DocFooterButtonsComponent which navigates via item[:filename] too.
-    - guides = [["🚀 Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳 Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝 HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛 Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️ Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒 Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️ Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
-
-    .mt-8.grid.gap-4.sm:grid-cols-2.lg:grid-cols-3
-      - guides.each do |title, filename, description|
-        = daisy_card(title: title, css: "bg-base-200 hover:bg-base-300 transition-colors", href: guide_path(filename), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }) do
-          %p{ class: "text-base-content/70" }= description
-
-    - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
-    %h3.mt-24.text-center.text-4xl.font-bold.italic
-      More Coming Soon!
-
-    %p.mt-2.text-xl.text-center
-      Keep an eye out as we'll be adding more components, guides, and
-      %br.max-sm:hidden
-      suggested gems for you to build amazing Rails apps!
-
-    .mt-4.mb-16.text-center
-      = daisy_button "😉 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", href: doc_path("02_install"),
-        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+        %div{ class: "flex flex-col items-start justify-between gap-4 rounded-2xl bg-primary p-6 text-primary-content sm:col-span-2 sm:flex-row sm:items-center" }
+          %div{ class: "flex flex-col gap-1" }
+            %span{ class: "text-lg font-black" } More coming soon!
+            %span{ class: "text-sm opacity-85" } More components, guides, and suggested gems on the way.
+          = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary shadow hover:scale-105", right_icon: "arrow-right", href: doc_path("02_install"), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }

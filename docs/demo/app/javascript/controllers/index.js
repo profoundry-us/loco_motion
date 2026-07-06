@@ -36,6 +36,9 @@ application.register("highlight-code", HighlightCodeController)
 import NavController from "./nav_controller"
 application.register("nav", NavController)
 
+import ParallaxController from "./parallax_controller"
+application.register("parallax", ParallaxController)
+
 import StackGapController from "./stack_gap_controller"
 application.register("stack-gap", StackGapController)
 
