@@ -95,7 +95,11 @@ export default class extends Controller {
 
   // Reduced-motion / no-scroll resting state: reveal everything in place.
   settle() {
-    this.parallaxEls.forEach((el) => { el.style.opacity = "1" })
+    this.parallaxEls.forEach((el) => {
+      const rot = parseFloat(el.dataset.parallaxRot) || 0
+      el.style.opacity = "1"
+      el.style.transform = "rotate(" + rot + "deg)"
+    })
     this.popEls.forEach((el) => {
       const rot = parseFloat(el.dataset.popRot) || 0
       el.style.opacity = "1"
