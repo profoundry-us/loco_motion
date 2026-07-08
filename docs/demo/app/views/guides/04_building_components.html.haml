@@ -1,0 +1,138 @@
+= content_for(:page_title) do
+  Building Components
+
+.prose
+  :markdown
+    # Building Your Own Components
+
+    _Loco_**Motion** ships with dozens of ready-made components, but its real
+    power is the DSL underneath them. When you can't find exactly what you need,
+    build your own — parts, tags, CSS, and Stimulus controllers, all in one
+    place.
+
+    Every component you build inherits from `LocoMotion::BaseComponent` (usually
+    through your app's `ApplicationComponent`), which gives you the same clean
+    API the built-in components use.
+
+    ## 1. Anatomy of a Component
+
+    A component is a Ruby class paired with a HAML template. The class declares
+    its **parts**, configures them in `before_render`, and the template renders
+    them.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/components/character_component.rb
+      class CharacterComponent < ApplicationComponent
+        define_parts :head, :body, :legs
+
+        def before_render
+          set_tag_name(:head, :h1)
+          add_css(:head, "text-3xl font-bold")
+
+          add_stimulus_controller(:body, "character-body")
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# app/components/character_component.html.haml
+      = part(:component) do
+        = part(:head) do
+          = @name
+        = part(:body) do
+          = content
+        = part(:legs)
+
+.mt-6.prose
+  :markdown
+    ## 2. Parts
+
+    A **part** is a configurable HTML element. Declare parts with `define_part`
+    (or `define_parts` for several at once), then render them in the template
+    with `part(:name)`.
+
+    - `part(:component)` is always available — it is the root element, handled
+      for you by `BaseComponent`. Never declare it yourself.
+    - Every part automatically accepts `<name>_css` and `<name>_html` options,
+      so callers can tweak any part without you writing extra code.
+
+    Configure parts inside `before_render`:
+
+    - `set_tag_name(:head, :h1)` — choose the element's HTML tag.
+    - `add_css(:head, "text-3xl font-bold")` — append Tailwind / DaisyUI classes.
+    - `add_html(:head, { title: "Hi!" })` — merge arbitrary HTML attributes.
+    - `add_stimulus_controller(:body, "character-body")` — wire up a Stimulus
+      controller.
+
+    ## 3. Slots
+
+    Slots let callers pass rich, structured content into your component. Declare
+    them with ViewComponent's `renders_one` and `renders_many`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      class CharacterComponent < ApplicationComponent
+        renders_one :weapon, WeaponComponent
+        renders_many :accessories
+      end
+
+.mt-6.prose
+  :markdown
+    Then render them in the template just like parts:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = part(:component) do
+        - if weapon?
+          = weapon
+        - accessories.each do |accessory|
+          = accessory
+
+.mt-6.prose
+  :markdown
+    ## 4. Options
+
+    Read caller-supplied options with `config_option`, which also lets you
+    provide a default:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      def initialize(*args, **kws)
+        super
+
+        @name = config_option(:name, "Nameless Hero")
+      end
+
+.mt-6.prose
+  :markdown
+    Remember the LocoMotion convention: **don't** add `size:` or `color:`
+    options. Callers apply DaisyUI classes directly through `css:` instead, so a
+    single component works with every variant and theme.
+
+    ## 5. Using Your Component
+
+    Render your component from any view — pass options, fill slots, and provide
+    the main content as a block:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = render CharacterComponent.new(name: "Loco") do |character|
+        - character.with_weapon(css: "text-primary")
+        This hero fights for cleaner templates!
+
+.mt-6.prose
+  :markdown
+    That's it — parts for structure, slots for content, options for
+    configuration, and the full power of Stimulus when you need behavior. Go
+    build something!
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
