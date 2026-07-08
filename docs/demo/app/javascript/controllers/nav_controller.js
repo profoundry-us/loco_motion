@@ -32,6 +32,10 @@ export default class extends Controller {
 
   // Scroll the active item into view.
   scrollActiveIntoView() {
+    // The sidenav (and its menu target) is absent on full-width pages like the
+    // home page — nothing to scroll to there.
+    if (!this.hasMenuTarget) return
+
     let activeItem = this.menuTarget.querySelector("li a.menu-active")
 
     if (activeItem) {
@@ -69,12 +73,15 @@ export default class extends Controller {
 
   // Reset all items to inactive.
   reset() {
+    if (!this.hasMenuTarget) return
+
     this.menuTarget.querySelectorAll("li a").forEach((link) => {
       link.classList.remove("menu-active")
     })
   }
 
   activateItemByUrl() {
+    if (!this.hasMenuTarget) return
 
     let activeItem = this.menuTarget.querySelector(`li a[href="${window.location.pathname}"]`)
 
