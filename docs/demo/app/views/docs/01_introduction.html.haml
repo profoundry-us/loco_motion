@@ -12,7 +12,7 @@
 - guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
 - stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["6", "Built-in themes", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
 
-%div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax" }
+%div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
   - # ============================================================ HERO
   %div{ class: "relative overflow-visible rounded-3xl bg-linear-to-b from-primary/5 via-base-100 to-base-100 px-6 py-24 text-center md:py-32" }
     - # ---- Hero cluster: real, interactive components that drift on scroll ----
@@ -30,22 +30,22 @@
       = daisy_rating(name: "hero_rating", id: "hero_rating", value: 4, inputs_css: "bg-warning", css: "drop-shadow-md")
 
     = doc_flair(pos: "top-[42%] right-[4%]", rot: -5, speed: 0.65, drift: 0.3) do
-      = daisy_badge("New!", css: "badge-secondary badge-lg font-bold shadow-lg")
+      = daisy_badge("New!", css: "badge-secondary badge-lg font-bold shadow-lg cursor-pointer select-none", html: { data: { action: "click->flair#shake" } })
 
     = doc_flair(pos: "bottom-[70px] left-[9%]", rot: 5, speed: 0.5, drift: -0.16) do
-      %span{ class: "inline-flex gap-1" }
+      %span{ class: "inline-flex gap-1 cursor-pointer", data: { action: "click->flair#openSearch" } }
         = daisy_kbd("⌘")
         = daisy_kbd("K")
 
     = doc_flair(pos: "bottom-[88px] right-[11%]", rot: -4, speed: 0.95, drift: 0.36) do
-      = daisy_progress(value: 70, max: 100, css: "progress-accent w-32 shadow-lg")
+      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer", html: { data: { action: "click->flair#randomizeProgress" } })
 
     = doc_flair(pos: "top-[16%] right-[22%]", rot: 6, speed: 0.72, drift: 0.2) do
-      = daisy_radial(value: 70, css: "text-accent bg-base-100 text-xs font-bold shadow-lg") do
+      = daisy_radial(value: 70, css: "text-accent bg-base-100 text-xs font-bold shadow-lg cursor-pointer", html: { data: { action: "click->flair#randomizeRadial" } }) do
         70%
 
     = doc_flair(pos: "top-[14%] left-[20%]", rot: -6, speed: 0.42, drift: -0.26) do
-      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg")
+      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", html: { data: { action: "click->flair#spin" } })
 
     = doc_flair(pos: "bottom-[34px] left-[38%]", rot: -3, show: "lg", speed: 0.6, drift: 0.1) do
       = daisy_chat(css: "chat-start") do |chat|

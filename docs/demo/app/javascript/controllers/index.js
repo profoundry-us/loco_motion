@@ -33,6 +33,9 @@ application.register("doc-title", DocTitleController)
 import HighlightCodeController from "./highlight_code_controller"
 application.register("highlight-code", HighlightCodeController)
 
+import FlairController from "./flair_controller"
+application.register("flair", FlairController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
 
