@@ -18,8 +18,10 @@
     - # ---- Hero cluster: real, interactive components that drift on scroll ----
     = doc_flair(pos: "top-11 left-[7%]", rot: -7, speed: 0.55, drift: -0.22) do
       = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-primary/15 text-lg") do
+          🚂
         - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
-          🚂 choo choo!
+          choo choo!
 
     = doc_flair(pos: "top-9 right-[9%]", rot: 6, speed: 0.85, drift: 0.14) do
       = daisy_toggle(name: "hero_toggle", id: "hero_toggle", checked: true, css: "toggle-primary shadow-lg")
@@ -46,9 +48,11 @@
       = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg")
 
     = doc_flair(pos: "bottom-[34px] left-[38%]", rot: -3, show: "lg", speed: 0.6, drift: 0.1) do
-      = daisy_chat(css: "chat-end") do |chat|
+      = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-secondary/15 text-base") do
+          💬
         - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
-          💬 daisy_chat, obviously
+          daisy_chat, obviously
 
     - # ---- Headline ----
     %div{ class: "relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
@@ -100,8 +104,10 @@
   %div{ class: "relative mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 py-24 lg:flex-row" }
     = doc_flair(pos: "top-6 -left-2", rot: -6, show: "md", pop: true) do
       = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-accent/15 text-base") do
+          💎
         - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
-          💎 so much cleaner
+          so much cleaner
 
     = doc_flair(pos: "bottom-8 -right-[14px]", rot: 8, show: "md", pop: true) do
       = daisy_loading(css: "loading-spinner loading-lg text-primary")
