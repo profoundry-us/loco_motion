@@ -10,7 +10,7 @@
 - content_for(:hide_sidenav, true)
 
 - guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
-- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["6", "Built-in themes", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
+- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
 
 %div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
   - # ============================================================ HERO
@@ -45,7 +45,7 @@
         70%
 
     = doc_flair(pos: "top-[14%] left-[20%]", rot: -6, speed: 0.42, drift: -0.26) do
-      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", html: { data: { action: "click->flair#spin" } })
+      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", html: { data: { action: "click->flair#poof" } })
 
     = doc_flair(pos: "bottom-[34px] left-[38%]", rot: -3, show: "lg", speed: 0.6, drift: 0.1) do
       = daisy_chat(css: "chat-start") do |chat|
@@ -55,18 +55,21 @@
           daisy_chat, obviously
 
     - # ---- Headline ----
-    %div{ class: "relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
+    - # The headline column sits above the hero flair (z-10). It ignores pointer
+    - # events so clicks land on the interactive flair behind it; its own text
+    - # and buttons opt back in with `pointer-events-auto`.
+    %div{ class: "pointer-events-none relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
       %div{ class: "flex flex-wrap justify-center gap-2" }
         = daisy_badge("ViewComponent", css: "badge-primary badge-soft font-bold")
         = daisy_badge("DaisyUI", css: "badge-secondary badge-soft font-bold")
         = daisy_badge("TailwindCSS", css: "badge-accent badge-soft font-bold")
 
-      %h1{ class: "text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
+      %h1{ class: "pointer-events-auto text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
         Components, Guides, and Paradigms for
         %em{ class: "inline-block -rotate-2 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent transition-transform hover:scale-110 hover:-rotate-6" } CRAZY-fast
         Development in Ruby on Rails!
 
-      %div{ class: "flex flex-col items-center gap-4 sm:flex-row" }
+      %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }
         = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg shadow-lg shadow-primary/25", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
         %div{ class: "flex items-center gap-2 rounded-xl bg-base-200 px-4 py-3 font-mono text-sm text-base-content/80" }
           %span{ class: "text-base-content/40" } $
@@ -122,14 +125,15 @@
         more natural to write and reduces file sizes, making your views easier
         to read and maintain.
       %p{ class: "text-base-content/70 leading-relaxed" }
-        %strong> PLUS!
+        %strong PLUS!
         You can utilize filters like
         %em Markdown
         \, CoffeeScript, Textile, and many more!
+      = daisy_button "Read the HAML guide", css: "btn-secondary btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("haml"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
 
     %div{ class: "grid w-full flex-1 gap-4 sm:grid-cols-2" }
       %div
-        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-error" } ERB · 9 LINES 😵
+        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-error" } ERB · 12 LINES 😵
         = doc_code(language: "erb") do
           :plain
             <% 5.times do |i| %>
@@ -138,7 +142,9 @@
                   Number <%= i %>
                 </p>
               <% else %>
-                ...
+                <p class="even">
+                  Numero <%= i %>
+                </p>
               <% end %>
             <% end %>
       %div
@@ -166,6 +172,7 @@
         Can't find exactly what you need? No problem! Build your own components
         with ease using our simple, flexible, and powerful DSL — parts, tags,
         CSS, and Stimulus controllers, all in one place.
+      = daisy_button "Read the components guide", css: "btn-accent btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("building_components"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
 
     %div{ class: "w-full flex-1" }
       = doc_code(language: "ruby") do

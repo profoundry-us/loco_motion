@@ -25,11 +25,17 @@ export default class extends Controller {
     if (typeof window.showDocSearch === "function") window.showDocSearch()
   }
 
-  // Spin the element like a prize wheel — three full turns.
-  spin(event) {
+  // Grow the element large while fading it out, then fade it back in after a
+  // beat. Scale + opacity (not rotation) so the drop shadow doesn't smear.
+  poof(event) {
     event.currentTarget.animate(
-      [{ transform: "rotate(0deg)" }, { transform: "rotate(1080deg)" }],
-      { duration: 900, easing: "cubic-bezier(.2,.7,.2,1)" }
+      [
+        { transform: "scale(1)", opacity: 1, offset: 0 },
+        { transform: "scale(1.9)", opacity: 0, offset: 0.3 },
+        { transform: "scale(1.9)", opacity: 0, offset: 0.75 },
+        { transform: "scale(1)", opacity: 1, offset: 1 }
+      ],
+      { duration: 1200, easing: "ease-in-out" }
     )
   }
 
