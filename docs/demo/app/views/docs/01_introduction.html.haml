@@ -9,7 +9,7 @@
 - # everything uses DaisyUI semantic tokens so it adapts to all six themes.
 - content_for(:hide_sidenav, true)
 
-- guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
+- guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🧩", "Building Components", "building_components", "Build your own ViewComponents with the LocoMotion DSL — parts, slots, and Stimulus.", true], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
 - stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
 
 %div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
@@ -205,8 +205,10 @@
         %span{ class: "text-sm text-base-content/60" } The LocoMotion way of building Rails apps.
 
       %div{ class: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
-        - guides.each do |emoji, name, filename, description|
-          = daisy_card(css: "bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }) do
+        - guides.each do |emoji, name, filename, description, is_new|
+          = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }) do
+            - if is_new
+              = daisy_badge("New", css: "badge-accent badge-sm absolute right-3 top-3")
             %span{ class: "text-3xl" }= emoji
             %span{ class: "text-lg font-bold" }= name
             %p{ class: "text-sm text-base-content/70" }= description
