@@ -1,176 +1,220 @@
-- star_styles = "size-[800px] mask mask-star bg-linear-to-r from-secondary via-cyan-400 to-lime-400"
-- crazy_text_styles = "italic font-black bg-linear-to-r via-60% to-90% from-orange-500 via-secondary to-primary text-transparent bg-clip-text inline-block py-2"
-
 = content_for(:page_title) do
   Home
 
-.relative{ "data-ads-target": "hidden" }
-  - # Blurred background star
-  .absolute.left-0.z-0{ class: "-top-[400px] -right-[400px]" }
-    .flex.justify-end.blur-3xl
-      %div{ class: star_styles }
+- # The landing page renders full-width (no sidenav) — see the layout's
+- # `hide_sidenav` handling. Its scroll choreography (hero cluster parallax +
+- # pop-in flair) is driven by the `parallax` Stimulus controller declared on
+- # the root. Every piece of decorative flair is a REAL, interactive LocoMotion
+- # component wrapped in `doc_flair`, so the homepage dogfoods the library, and
+- # everything uses DaisyUI semantic tokens so it adapts to all six themes.
+- content_for(:hide_sidenav, true)
 
-  .relative.z-10
-    %h1.mt-8.text-center.text-5xl.font-black.tracking-wide.drop-shadow-lg
-      %div
-        Components, Guides, and Paradigms
-      .md:inline-flex.md:items-center.justify-center
-        %span.-mr-2
-          for
-        %span.relative.-rotate-3.hover:-rotate-6.hover:scale-125.transition-transform
-          %span{ class: crazy_text_styles + " absolute blur-xl" }
-            &nbsp;CRAZY&nbsp;
-          %span{ class: crazy_text_styles + " drop-shadow-[0_0_1px_var(--bg-base-100)]" }
-            &nbsp;CRAZY&nbsp;
-        %span.-ml-3.md:-ml-1
-          \-fast Development
-      %div
-        in Ruby on Rails!
+- guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🧩", "Building Components", "building_components", "Build your own ViewComponents with the LocoMotion DSL — parts, slots, and Stimulus.", true], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
+- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
 
-    .mt-16.text-center
-      = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", href: doc_path("02_install"),
-        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+%div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
+  - # ============================================================ HERO
+  %div{ class: "relative overflow-visible rounded-3xl bg-linear-to-b from-primary/5 via-base-100 to-base-100 px-6 py-24 text-center md:py-32" }
+    - # ---- Hero cluster: real, interactive components that drift on scroll ----
+    = doc_flair(pos: "top-11 left-[7%]", rot: -7, speed: 0.55, drift: -0.22) do
+      = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-primary/15 text-lg") do
+          🚂
+        - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
+          choo choo!
 
-    .mt-32.lg:flex.lg:space-x-8
-      %div{ class: "md:basis-2/5" }
-        %h3.text-4xl.font-bold
-          Easy, Flexible Components
-        %p.mt-2.text-xl
-          Powered by the fabulous
-          = succeed ',' do
-            = daisy_link("ViewComponent", "https://viewcomponent.org", target: "_blank")
-          = succeed ', and' do
-            = daisy_link "DaisyUI", "https://daisyui.com/", target: "_blank"
-          = daisy_link "TailwindCSS", "https://tailwindcss.com/", target: "_blank"
-          libraries, our components are designed to be fast, flexible, and easy to
-          use <i>directy</i> in Ruby on Rails!
+    = doc_flair(pos: "top-9 right-[9%]", rot: 6, speed: 0.85, drift: 0.14) do
+      = daisy_toggle(name: "hero_toggle", id: "hero_toggle", checked: true, css: "toggle-primary shadow-lg")
 
-      = doc_example(css: "mt-8 lg:mt-0 lg:basis-3/5 h-44") do
-        .flex.flex-col.sm:flex-row.items-center.gap-4
+    = doc_flair(pos: "top-[46%] left-[4%]", rot: 4, speed: 0.35, drift: -0.34) do
+      = daisy_rating(name: "hero_rating", id: "hero_rating", value: 4, inputs_css: "bg-warning", css: "drop-shadow-md")
+
+    = doc_flair(pos: "top-[42%] right-[4%]", rot: -5, speed: 0.65, drift: 0.3) do
+      = daisy_badge("New!", css: "badge-secondary badge-lg font-bold shadow-lg cursor-pointer select-none", html: { data: { action: "click->flair#shake" } })
+
+    = doc_flair(pos: "bottom-[70px] left-[9%]", rot: 5, speed: 0.5, drift: -0.16) do
+      %span{ class: "inline-flex gap-1 cursor-pointer", data: { action: "click->flair#openSearch" } }
+        = daisy_kbd("⌘")
+        = daisy_kbd("K")
+
+    = doc_flair(pos: "bottom-[88px] right-[11%]", rot: -4, speed: 0.95, drift: 0.36) do
+      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer [&::-webkit-progress-value]:[transition:width_500ms_ease-out] [&::-moz-progress-bar]:[transition:width_500ms_ease-out]", html: { data: { action: "click->flair#randomizeProgress" } })
+
+    = doc_flair(pos: "top-[16%] right-[22%]", rot: 6, speed: 0.72, drift: 0.2) do
+      = daisy_radial(value: 70, css: "text-accent bg-base-100 text-xs font-bold shadow-lg cursor-pointer", html: { data: { action: "click->flair#randomizeRadial" } }) do
+        70%
+
+    = doc_flair(pos: "top-[14%] left-[20%]", rot: -6, speed: 0.42, drift: -0.26) do
+      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", html: { data: { action: "click->flair#poof" } })
+
+    = doc_flair(pos: "bottom-[34px] left-[38%]", rot: -3, show: "lg", speed: 0.6, drift: 0.1) do
+      = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-secondary/15 text-base") do
+          💬
+        - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
+          daisy_chat, obviously
+
+    - # ---- Headline ----
+    - # The headline column sits above the hero flair (z-10). It ignores pointer
+    - # events so clicks land on the interactive flair behind it; its own text
+    - # and buttons opt back in with `pointer-events-auto`.
+    %div{ class: "pointer-events-none relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
+      %div{ class: "flex flex-wrap justify-center gap-2" }
+        = daisy_badge("ViewComponent", css: "badge-primary badge-soft font-bold")
+        = daisy_badge("DaisyUI", css: "badge-secondary badge-soft font-bold")
+        = daisy_badge("TailwindCSS", css: "badge-accent badge-soft font-bold")
+
+      %h1{ class: "pointer-events-auto text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
+        Components, Guides, and Paradigms for
+        %em{ class: "inline-block -rotate-2 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent transition-transform hover:scale-110 hover:-rotate-6" } CRAZY-fast
+        Development in Ruby on Rails!
+
+      %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }
+        = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg shadow-lg shadow-primary/25", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+        %div{ class: "flex items-center gap-2 rounded-xl bg-base-200 px-4 py-3 font-mono text-sm text-base-content/80" }
+          %span{ class: "text-base-content/40" } $
+          %span bundle add
+          %span{ class: "text-primary" } loco_motion-rails
+
+      %div{ class: "text-xs text-base-content/50" } scroll — watch the components leave the station ↓
+
+  - # ============================================================ LIVE PREVIEW
+  %div{ class: "relative z-10 -mt-8 flex justify-center px-2 pb-4" }
+    %div{ class: "flex w-full max-w-2xl flex-col gap-4" }
+      = daisy_browser(css: "border border-base-300 bg-base-100 shadow-2xl") do |browser|
+        - browser.with_toolbar(css: "bg-base-200") do
+          %span{ class: "font-mono text-xs text-base-content/50" } live preview
+        %div{ class: "flex flex-wrap items-center justify-center gap-6 border-t border-base-300 bg-base-100 px-6 py-9" }
+          = daisy_button("Accent Button", css: "btn-accent")
+          = daisy_tip("Click to Swap") do
+            = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate text-3xl")
+          = daisy_badge("Large Badge", css: "badge-secondary badge-lg")
+
+      = doc_code(language: "haml") do
+        :plain
           = daisy_button "Accent Button", css: "btn-accent"
           = daisy_tip("Click to Swap") do
-            = daisy_swap off: "🌚", on: "🌞", css: "swap-rotate text-4xl"
+            = daisy_swap off: "🌚", on: "🌞"
           = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
+  - # ============================================================ STATS
+  %div{ class: "grid grid-cols-2 gap-px border-y border-base-300 bg-base-300 md:grid-cols-4" }
+    - stats.each do |number, label, color|
+      = daisy_stat(css: "place-items-center bg-base-100", value_css: "text-3xl font-black #{color}", description_css: "text-base-content/60", description: label) do
+        = number
 
-    .mt-32.xl:flex.xl:flex-row-reverse.xl:items-center
-      .text-xl.xl:ml-8
-        %h3.text-4xl.font-bold
-          Simple, Concise Views
+  - # ============================================================ FEATURE: HAML
+  %div{ class: "relative mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 py-24 lg:flex-row" }
+    = doc_flair(pos: "top-6 -left-2", rot: -6, show: "md", pop: true) do
+      = daisy_chat(css: "chat-start") do |chat|
+        - chat.with_avatar(wrapper_css: "bg-accent/15 text-base") do
+          💎
+        - chat.with_bubble(css: "border border-base-300 bg-base-100 font-semibold shadow-lg") do
+          so much cleaner
 
-        %p.mt-2
-          Utlize
-          = daisy_link("HAML", "https://haml.info/", target: "_blank")
-          so your views are simple, concise, and easy to understand.
+    = doc_flair(pos: "bottom-8 -right-[14px]", rot: 8, show: "md", pop: true) do
+      = daisy_loading(css: "loading-spinner loading-lg text-primary")
 
-        %p.mt-2
-          No more messy ERB files with all of their closing tags and Ruby wrappers.
-          HAML feels more natural to write and reduces file sizes, making your
-          views easier to read and maintain.
+    %div{ class: "flex flex-1 flex-col gap-4" }
+      %div{ class: "text-xs font-bold tracking-[.1em] text-secondary" } SIMPLE, CONCISE VIEWS
+      %h3{ class: "text-3xl font-black tracking-tight" } No more messy ERB.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        Utilize
+        = daisy_link("HAML", "https://haml.info/", target: "_blank")
+        so your views are simple, concise, and easy to understand. HAML feels
+        more natural to write and reduces file sizes, making your views easier
+        to read and maintain.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        %strong PLUS!
+        You can utilize filters like
+        %em Markdown
+        \, CoffeeScript, Textile, and many more!
+      = daisy_button "Read the HAML guide", css: "btn-secondary btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("haml"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
 
-        %p.mt-2
-          :markdown
-            **PLUS!** You can utlize filters like _Markdown_, CoffeeScript,
-            Textile, and many more!
-
-      .mt-8.xl:mt-0
-        .flex.flex-col.xl:flex.xl:flex-row.w-full
-          = doc_code(css: "grow", code_css: "xl:pl-2 xl:pr-0 xl:rounded-r-none", language: "erb") do
-            :plain
-              <% # Ruby %>
-
-              <% 5.times do |i| %>
-                <% if i.even? %>
-                  <p class="odd">Number <%= i %></p>
-                <% else %>
-                  <p class="even">Numero <%= i %></p>
-                <% end %>
-              <% end %>
-
-          = doc_code(css: "grow mt-8 xl:mt-0", pre_css: "xl:h-full", code_css: "xl:pl-0 xl:pr-2 xl:h-full xl:rounded-l-none") do
-            :plain
-              - # HAML
-
-              - 5.times do |i|
-                - if i.even?
-                  %p.odd Number \#{i}
-                - else
-                  %p.even Numero \#{i}
-
-
-    %h3.mt-32.text-4xl.font-bold
-      Build Your <i>OWN</i> Components
-
-    %p.mt-2.text-xl
-      Can't find exactly what you need? No problem! Build your own components
-      with ease using our simple, flexible, and powerful DSL.
-
-    .mt-8.xl:flex.xl:space-x-8
+    %div{ class: "grid w-full flex-1 gap-4 sm:grid-cols-2" }
       %div
-        = doc_code(language: "ruby") do
+        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-error" } ERB · 12 LINES 😵
+        = doc_code(language: "erb") do
           :plain
-            # app/components/application_component.rb
-            class ApplicationComponent < LocoMotion::BaseComponent
-              # Add your custom / shared component logic here!
+            <% 5.times do |i| %>
+              <% if i.even? %>
+                <p class="odd">
+                  Number <%= i %>
+                </p>
+              <% else %>
+                <p class="even">
+                  Numero <%= i %>
+                </p>
+              <% end %>
+            <% end %>
+      %div
+        %div{ class: "mb-2 font-mono text-xs font-bold tracking-wide text-success" } HAML · 5 LINES ✨
+        = doc_code(language: "haml") do
+          :plain
+            - 5.times do |i|
+              - if i.even?
+                %p.odd Number \#{i}
+              - else
+                %p.even Numero \#{i}
+
+  - # ==================================================== FEATURE: BUILD YOUR OWN
+  %div{ class: "relative mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 lg:flex-row-reverse lg:items-center" }
+    = doc_flair(pos: "-top-7 right-6", rot: 5, show: "md", pop: true) do
+      = daisy_badge("define_parts :head, :body, :legs", css: "badge-neutral badge-lg font-mono shadow-lg")
+
+    %div{ class: "flex flex-1 flex-col gap-4" }
+      %div{ class: "text-xs font-bold tracking-[.1em] text-accent" } POWERFUL DSL
+      %h3{ class: "text-3xl font-black tracking-tight" }
+        Build your
+        %em OWN
+        components.
+      %p{ class: "text-base-content/70 leading-relaxed" }
+        Can't find exactly what you need? No problem! Build your own components
+        with ease using our simple, flexible, and powerful DSL — parts, tags,
+        CSS, and Stimulus controllers, all in one place.
+      = daisy_button "Read the components guide", css: "btn-accent btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("building_components"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+
+    %div{ class: "w-full flex-1" }
+      = doc_code(language: "ruby") do
+        :plain
+          # app/components/character_component.rb
+          class CharacterComponent < ApplicationComponent
+            define_parts :head, :body, :legs
+
+            def before_render
+              set_tag_name(:head, :h1)
+              add_css(:head, "text-3xl font-bold")
+              add_stimulus_controller(:body, "character-body")
             end
+          end
 
-        = doc_code(language: "haml", css: "mt-8") do
-          :plain
-            - # app/components/character_component.html.haml
-            = part(:component) do
-              = part(:head)
-              = part(:body) do
-                = content
-              = part(:legs)
+  - # ============================================================ GUIDES
+  %div{ class: "relative border-t border-base-300 bg-base-200 px-4 py-24" }
+    = doc_flair(pos: "top-10 left-[26px]", rot: -4, show: "md", pop: true) do
+      = daisy_badge("✅ New guide published!", css: "badge-lg border-base-300 bg-base-100 font-semibold shadow-xl")
 
-      %div.mt-8.xl:mt-0
-        = doc_code(language: "ruby") do
-          :plain
-            # app/components/character_component.rb
-            class CharacterComponent < ApplicationComponent
-              define_parts :head, :body, :legs
+    = doc_flair(pos: "bottom-14 right-[30px]", rot: 6, show: "lg", pop: true) do
+      %span{ class: "inline-flex" }
+        %span{ class: "flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-primary/15 text-xs font-black text-primary" } RB
+        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-secondary/15 text-xs font-black text-secondary" } JS
+        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-accent/15 text-xs font-black text-accent" } UI
 
-              def before_render
-                set_tag_name(:head, :h1)
-                add_css(:head, "text-3xl font-bold")
+    %div{ class: "mx-auto max-w-6xl" }
+      %div{ class: "mb-8 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between" }
+        %h3{ class: "text-3xl font-black tracking-tight" } Guides &amp; Paradigms
+        %span{ class: "text-sm text-base-content/60" } The LocoMotion way of building Rails apps.
 
-                set_tag_name(:body, :p)
-                add_stimulus_controller(:body, "character-body")
-                add_css(:body, "text-lg")
+      %div{ class: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+        - guides.each do |emoji, name, filename, description, is_new|
+          = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }) do
+            - if is_new
+              = daisy_badge("New", css: "badge-accent badge-sm absolute right-3 top-3")
+            %span{ class: "text-3xl" }= emoji
+            %span{ class: "text-lg font-bold" }= name
+            %p{ class: "text-sm text-base-content/70" }= description
 
-                set_tag_name(:legs, :footer)
-                add_css(:legs, "text-sm")
-              end
-            end
-
-    %h3.mt-32.text-4xl.font-bold
-      Guides &amp; Paradigms
-
-    %p.mt-2.text-xl
-      Beyond the components, we share the broader philosophies and tooling we
-      recommend for building Rails applications the <em>Loco</em><strong>Motion</strong> way.
-
-    - # The routing key can now be either the full filename (with numeric prefix) or
-    - # just the name without numbers. The guides/docs controllers will resolve both.
-    - # See the DocFooterButtonsComponent which navigates via item[:filename] too.
-    - guides = [["🚀 Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳 Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝 HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🐛 Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️ Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒 Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️ Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
-
-    .mt-8.grid.gap-4.sm:grid-cols-2.lg:grid-cols-3
-      - guides.each do |title, filename, description|
-        = daisy_card(title: title, css: "bg-base-200 hover:bg-base-300 transition-colors", href: guide_path(filename), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }) do
-          %p{ class: "text-base-content/70" }= description
-
-    - # mt-24 # temp fix for https://github.com/tailwindlabs/tailwindcss/pull/17113
-    %h3.mt-24.text-center.text-4xl.font-bold.italic
-      More Coming Soon!
-
-    %p.mt-2.text-xl.text-center
-      Keep an eye out as we'll be adding more components, guides, and
-      %br.max-sm:hidden
-      suggested gems for you to build amazing Rails apps!
-
-    .mt-4.mb-16.text-center
-      = daisy_button "😉 Get Started", css: "btn-primary btn-lg text-xl",
-        right_icon: "arrow-right", href: doc_path("02_install"),
-        html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }
+        %div{ class: "flex flex-col items-start justify-between gap-4 rounded-2xl bg-primary p-6 text-primary-content sm:col-span-2 sm:flex-row sm:items-center" }
+          %div{ class: "flex flex-col gap-1" }
+            %span{ class: "text-lg font-black" } More coming soon!
+            %span{ class: "text-sm opacity-85" } More components, guides, and suggested gems on the way.
+          = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary shadow hover:scale-105", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }

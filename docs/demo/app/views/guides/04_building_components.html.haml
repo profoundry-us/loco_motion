@@ -1,0 +1,243 @@
+= content_for(:page_title) do
+  Building Components
+
+.prose
+  :markdown
+    # Building Your Own Components
+
+    LocoMotion ships dozens of components, but you'll always need a few of
+    your own — especially the layout pieces that are specific to your app.
+
+    The real payoff isn't reuse (any ViewComponent gives you that). It's the
+    LocoMotion DSL: **parts** you can retag, restyle, and wire up from the
+    _outside_; **slots** for rich composition; and first-class **Stimulus** for
+    behavior — all inherited from `BaseComponent`.
+
+    To see it, we'll build a small **master/detail** layout. Here it is, live —
+    click the items on the left:
+
+= doc_example(title: "Master / Detail, live") do |doc|
+  .w-full.max-w-xl
+    = render MasterDetailComponent.new do |md|
+      - md.with_record(title: "Inbox") do
+        %h3{ class: "text-lg font-bold" } Inbox
+        %p{ class: "text-base-content/70" } You have 3 unread messages.
+      - md.with_record(title: "Starred") do
+        %h3{ class: "text-lg font-bold" } Starred
+        %p{ class: "text-base-content/70" } Nothing starred yet — tap the ☆ on any message.
+      - md.with_record(title: "Sent") do
+        %h3{ class: "text-lg font-bold" } Sent
+        %p{ class: "text-base-content/70" } Your last email went out yesterday at 4:12pm.
+
+.mt-8.prose
+  :markdown
+    ## 1. Parts — configure any element from the class
+
+    Declare the structural pieces with `define_parts`, then render them with
+    `part(:name)`. Our layout has a `:master` list and a `:detail` pane
+    (`part(:component)` is the root — it's handled for you).
+
+.mt-4.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      class MasterDetailComponent < ApplicationComponent
+        define_parts :master, :detail
+
+        def before_render
+          add_css(:component, "flex flex-col overflow-hidden rounded-box border border-base-300 sm:flex-row")
+          add_stimulus_controller(:component, "master-detail")
+
+          add_css(:master, "flex flex-col gap-1 border-b border-base-300 p-2 sm:w-56 sm:border-r")
+          add_css(:detail, "flex-1 p-6")
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    Here's the part that a plain partial can't match: every part automatically
+    accepts `<name>_css` and `<name>_html`, so a _caller_ can restyle or extend
+    any inner element **without you writing an option for it**:
+
+.mt-4.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# Tint the detail pane and give the master list its own controller —
+      -# no extra options needed on the component.
+      = render MasterDetailComponent.new(detail_css: "bg-base-200", master_html: { data: { controller: "sortable" } })
+
+= doc_note(modifier: :tip, title: "Why parts beat a partial", css: "mt-6") do
+  :markdown
+    That outside-in configurability — restyle or extend **any** part without the
+    component exposing an option for it — is the thing a plain partial can never
+    give you.
+
+.mt-6.prose
+  :markdown
+    ## 2. Slots — let callers supply content
+
+    The records arrive through a `renders_many` slot. Each record is a tiny
+    component with a `title` and a body:
+
+.mt-4.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      renders_many :records, RecordComponent
+
+      class RecordComponent < ApplicationComponent
+        attr_reader :title
+
+        def initialize(*args, **kws)
+          super
+          @title = config_option(:title, "")
+        end
+
+        def call
+          part(:component) { content }
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    The template reads each record's `title` for the master list and renders its
+    body into the detail pane:
+
+.mt-4.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = part(:component) do
+        = part(:master) do
+          - records.each_with_index do |record, index|
+            %button{ data: { "master-detail-target": "tab", action: "click->master-detail#select", "master-detail-index-param": index } }
+              = record.title
+        = part(:detail) do
+          - records.each_with_index do |record, index|
+            %div{ class: (index.zero? ? "" : "hidden"), data: { "master-detail-target": "pane" } }
+              = record
+
+.mt-6.prose
+  :markdown
+    Callers then compose it naturally — exactly like a built-in LocoMotion
+    component:
+
+.mt-4.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = render MasterDetailComponent.new do |md|
+        - md.with_record(title: "Inbox") do
+          You have 3 unread messages.
+        - md.with_record(title: "Sent") do
+          Your last email went out yesterday.
+
+.mt-6.prose
+  :markdown
+    ## 3. Stimulus — ship behavior with the component
+
+    `add_stimulus_controller(:component, "master-detail")` attached the
+    controller back in `before_render`. It just toggles which pane is visible
+    and which tab is active:
+
+.mt-4.max-w-prose
+  = doc_code(language: "javascript") do
+    :plain
+      import { Controller } from "@hotwired/stimulus"
+
+      export default class extends Controller {
+        static targets = ["tab", "pane"]
+
+        connect() { this.show(0) }
+        select(event) { this.show(event.params.index) }
+
+        show(index) {
+          this.paneTargets.forEach((p, i) => p.classList.toggle("hidden", i !== index))
+          this.tabTargets.forEach((t, i) => {
+            t.classList.toggle("bg-base-200", i === index)
+            t.classList.toggle("font-semibold", i === index)
+          })
+        }
+      }
+
+= doc_note(title: "Register the controller", css: "mt-6") do
+  :markdown
+    LocoMotion keeps a component's controller right beside it —
+    `master_detail_controller.js` lives next to `master_detail_component.rb`.
+    Import and register it with Stimulus
+    (`application.register("master-detail", MasterDetailController)`), and
+    `add_stimulus_controller` connects it to the part.
+
+.mt-8.prose
+  :markdown
+    ## 4. You inherit the whole library — and it's testable
+
+    Because `MasterDetailComponent` subclasses `BaseComponent` (through your
+    app's `ApplicationComponent`), it gets part and CSS merging, tooltip
+    support, and the rest for free. And since it's a plain Ruby class, you test
+    it like one:
+
+.mt-4.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      RSpec.describe MasterDetailComponent, type: :component do
+        it "renders a tab and a pane for each record" do
+          render_inline(described_class.new) do |md|
+            md.with_record(title: "Inbox") { "3 unread" }
+          end
+
+          expect(page).to have_button("Inbox")
+          expect(page).to have_text("3 unread")
+        end
+      end
+
+.mt-10.prose
+  :markdown
+    ## Guidelines
+
+    A few conventions keep your components reusable and consistent with
+    LocoMotion:
+
+= doc_note(modifier: :warning, title: "Padding, never margin", css: "mt-4") do
+  :markdown
+    A component styles its _inside_ (padding) only — it must **never** set its
+    own outer margins. Where it sits, and the space around it, is up to the
+    caller.
+
+    Our master/detail uses `p-2` / `p-6`; the caller wrapped it in `max-w-xl` to
+    place it.
+
+.mt-6.prose
+  :markdown
+    - **Options, not visual variants.** Never add `size:` or `color:` options.
+      Let callers pass DaisyUI or TailwindCSS classes through `css:` (e.g.
+      `css: "btn-lg btn-primary"`) so one component works across every size,
+      color, and theme — instead of a fixed enum you have to keep extending.
+    - **Use semantic tokens.** Reach for `base-100`, `primary`, `base-content`,
+      and friends rather than fixed colors, so your component adapts to every
+      theme automatically.
+    - **Name parts by role, not appearance.** `:master` / `:detail`, not
+      `:left` / `:right` — the name should survive a redesign.
+
+    That's the LocoMotion way: structure with parts, compose with slots,
+    add behavior with Stimulus — and leave layout to the people using your
+    component.
+
+.mt-8.prose
+  :markdown
+    ## Learn from the library
+
+    The best reference is LocoMotion's own components — each is a class plus a
+    HAML template, exactly like the one you just built. A few worth reading,
+    from simplest to most involved:
+
+    - **Avatar** — parts only, no slots.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.html.haml)
+    - **Hero** — a compact layout component.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.html.haml)
+    - **Chat** — composition with a handful of slots (avatar, header, bubbles, footer).
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.html.haml)
+    - **Modal** — Stimulus behavior plus several slots and actions.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.html.haml)
+    - **Table** — a rich, deeply nested slot structure.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.html.haml)
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])

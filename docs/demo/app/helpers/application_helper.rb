@@ -43,6 +43,10 @@ module ApplicationHelper
     render(DocFigureComponent.new(*args, **kws), &block)
   end
 
+  def doc_flair(*args, **kws, &block)
+    render(DocFlairComponent.new(*args, **kws), &block)
+  end
+
   # Creates a link to a component example page with consistent styling
   #
   # @param text [String] The button text

@@ -1,20 +1,20 @@
 = part(:component) do
-  - if previous_id
+  - if previous_item
     .flex-1
-      = daisy_button(href: send(path_helper, previous_id), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }, css: "px-4 py-6") do
+      = daisy_button(href: send(path_helper, previous_item[:slug]), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }, css: "px-4 py-6") do
         .flex.flex-row.items-center
           = loco_icon("arrow-long-left", css: "mr-4")
           .text-left
             .text-xs{ class: "text-base-content/50" } Previous
-            .font-bold= previous_title
+            .font-bold= previous_item[:title]
   - else
     .flex-1
 
-  - if next_id
+  - if next_item
     .flex.justify-end.flex-1
-      = daisy_button(href: send(path_helper, next_id), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }, css: "px-4 py-6") do
+      = daisy_button(href: send(path_helper, next_item[:slug]), html: { data: { action: "click->nav#refresh", "turbo-action": "replace" } }, css: "px-4 py-6") do
         .flex.flex-row.items-center
           .text-right
             .text-xs{ class: "text-base-content/50" } Next
-            .font-bold= next_title
+            .font-bold= next_item[:title]
           = loco_icon("arrow-long-right", css: "ml-4")

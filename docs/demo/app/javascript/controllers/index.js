@@ -33,8 +33,17 @@ application.register("doc-title", DocTitleController)
 import HighlightCodeController from "./highlight_code_controller"
 application.register("highlight-code", HighlightCodeController)
 
+import FlairController from "./flair_controller"
+application.register("flair", FlairController)
+
+import MasterDetailController from "../../components/master_detail_controller"
+application.register("master-detail", MasterDetailController)
+
 import NavController from "./nav_controller"
 application.register("nav", NavController)
+
+import ParallaxController from "./parallax_controller"
+application.register("parallax", ParallaxController)
 
 import StackGapController from "./stack_gap_controller"
 application.register("stack-gap", StackGapController)

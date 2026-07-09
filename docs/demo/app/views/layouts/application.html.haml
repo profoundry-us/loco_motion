@@ -33,22 +33,28 @@
       .mx-auto{ class: "max-w-[1470px]" }
         = render partial: "application/header"
 
-    .drawer.xl:drawer-open
+    - # The home / landing page renders full-width by opting out of the sidenav
+    - # via `content_for(:hide_sidenav)`. Its links break out to `_top` so the
+    - # layout re-renders (and the sidenav returns) when leaving the page.
+    - hide_sidenav = content_for?(:hide_sidenav)
+
+    .drawer{ class: ("xl:drawer-open" unless hide_sidenav) }
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
       .drawer-content.overflow-hidden
-        .mx-auto.mt-5.pl-4.pr-4.xl:pl-68{ class: "max-w-[1470px]", "data-ads-target": "content" }
+        .mx-auto.mt-5.pl-4.pr-4{ class: ["max-w-[1470px]", ("xl:pl-68" unless hide_sidenav)], "data-ads-target": "content" }
           %turbo-frame#content.block
             = yield
 
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
-      .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
-        %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
+      - unless hide_sidenav
+        .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
+          %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
-        %div{ class: nav_classes }
-          = render partial: "application/navigation"
+          %div{ class: nav_classes }
+            = render partial: "application/navigation"
 
     - # Hide ads on the home page
     .hidden.fixed.overflow-auto.bottom-0.w-64.px-4.py-5.space-y-4{ class: "top-[65px] right-[max(0px,calc(50vw-735px))]", "data-ads-target": "ads" }

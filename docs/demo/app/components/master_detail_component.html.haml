@@ -1,0 +1,9 @@
+= part(:component) do
+  = part(:master) do
+    - records.each_with_index do |record, index|
+      %button{ type: "button", class: "rounded-lg px-3 py-2 text-left text-sm transition hover:bg-base-200", data: { "master-detail-target": "tab", action: "click->master-detail#select", "master-detail-index-param": index } }
+        = record.title
+  = part(:detail) do
+    - records.each_with_index do |record, index|
+      %div{ class: (index.zero? ? "" : "hidden"), data: { "master-detail-target": "pane" } }
+        = record

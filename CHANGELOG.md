@@ -393,6 +393,31 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- feat(Demo): Redesign the demo home page with a scroll-driven parallax hero built from real, interactive
+  LocoMotion components (a live toggle, star rating, badges, swaps, radial + linear progress, kbd, chat
+  bubbles, and buttons) that drift and fade away on scroll, with flair that pops into view further down — all
+  driven by a new `parallax` Stimulus controller that honors `prefers-reduced-motion`. Each flair item is
+  positioned by a new `doc_flair` component so the template carries no inline `style` attributes and no
+  repeated wrapper markup, and the live-preview window now uses the `daisy_browser` mockup and `daisy_stat`
+  for the stats strip. A new `flair` Stimulus controller makes the hero pieces genuinely clickable — the
+  progress ring and bar randomize, the ⌘K keys open search, the FAB "poofs", and the badge shakes. The
+  landing page renders full-width (the sidenav is hidden on the home page via `content_for(:hide_sidenav)`).
+  Rebuilt from a Claude Design mock but using DaisyUI semantic tokens so it adapts to every theme, and
+  corrected to the app's truth: the fictional `rails new my_app -m loco` snippet becomes
+  `bundle add loco_motion-rails`, and the stat strip shows real counts (70+ components, 7 guides, ∞
+  themeable). The existing footer is intentionally left unchanged.
+
+- feat(Demo): Add a "Building Components" guide that walks through the LocoMotion DSL by building a real,
+  interactive `MasterDetailComponent` (parts, a `renders_many` slot, and a Stimulus controller), shown live
+  via `doc_example`, and closes with authoring guidelines (options over visual variants; padding, never outer
+  margins; semantic tokens; role-based part names). Link the home page's "Build your OWN components" and "No
+  more messy ERB" sections to the components and HAML guides, and list the new guide in the home grid with a
+  "New" badge.
+
+- fix(Demo): Make the doc/guide "Previous / Next" footer buttons derive order from each page's position in the
+  sorted section list instead of arithmetic on the numeric filename prefix, so they stay correct across gaps
+  and re-ordering. Renumbered the guide files into a clean sequence and gave every guide a footer.
+
 - docs(Links): Add a "Links with a Stimulus Action" demo example and document the new `action:` option in the
   `LinkComponent` YARD, including the guidance to `preventDefault` (or omit `href`) when a link only drives a
   controller. Refs #267.
