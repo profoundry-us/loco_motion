@@ -407,8 +407,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `bundle add loco_motion-rails`, and the stat strip shows real counts (70+ components, 7 guides, ∞
   themeable). The existing footer is intentionally left unchanged.
 
-- feat(Demo): Add a "Building Components" guide and link the home page's "Build your OWN components" and "No
-  more messy ERB" sections to the components and HAML guides.
+- feat(Demo): Add a "Building Components" guide that walks through the LocoMotion DSL by building a real,
+  interactive `MasterDetailComponent` (parts, a `renders_many` slot, and a Stimulus controller), shown live
+  via `doc_example`, and closes with authoring guidelines (options over visual variants; padding, never outer
+  margins; semantic tokens; role-based part names). Link the home page's "Build your OWN components" and "No
+  more messy ERB" sections to the components and HAML guides, and list the new guide in the home grid with a
+  "New" badge.
 
 - fix(Demo): Make the doc/guide "Previous / Next" footer buttons derive order from each page's position in the
   sorted section list instead of arithmetic on the numeric filename prefix, so they stay correct across gaps
