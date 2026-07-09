@@ -219,6 +219,25 @@
     add behavior with Stimulus — and leave layout to the people using your
     component.
 
+.mt-8.prose
+  :markdown
+    ## Learn from the library
+
+    The best reference is LocoMotion's own components — each is a class plus a
+    HAML template, exactly like the one you just built. A few worth reading,
+    from simplest to most involved:
+
+    - **Avatar** — parts only, no slots.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.html.haml)
+    - **Hero** — a compact layout component.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.html.haml)
+    - **Chat** — composition with a handful of slots (avatar, header, bubbles, footer).
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.html.haml)
+    - **Modal** — Stimulus behavior plus several slots and actions.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.html.haml)
+    - **Table** — a rich, deeply nested slot structure.
+      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.html.haml)
+
 = daisy_divider
 
 = doc_buttons(css: "mt-8", current_id: params[:id])
