@@ -36,7 +36,7 @@ application.register("highlight-code", HighlightCodeController)
 import FlairController from "./flair_controller"
 application.register("flair", FlairController)
 
-import MasterDetailController from "./master_detail_controller"
+import MasterDetailController from "../../components/master_detail_controller"
 application.register("master-detail", MasterDetailController)
 
 import NavController from "./nav_controller"
