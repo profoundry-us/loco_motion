@@ -393,6 +393,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(E2E): Update the four Playwright specs that started at the home page and navigated via the sidenav —
+  the redesigned home page renders without one (`hide_sidenav`), which broke them on `main`. The nav smoke
+  test now harvests its links from `/docs/install`, the Text Inputs and Megamenus specs start there before
+  clicking their nav link, and the ads spec keeps its hidden→visible intent by leaving the home page through
+  the hero's "Get Started" CTA (a `_top` breakout that re-renders the layout with ads showing).
+
 - feat(Demo): Redesign the demo home page with a scroll-driven parallax hero built from real, interactive
   LocoMotion components (a live toggle, star rating, badges, swaps, radial + linear progress, kbd, chat
   bubbles, and buttons) that drift and fade away on scroll, with flair that pops into view further down — all

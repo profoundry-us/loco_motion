@@ -12,7 +12,8 @@ const floatingLabelOpacity = (page, inputId: string) =>
     .evaluate((el) => getComputedStyle(el).opacity);
 
 test('floating-sticky keeps the label raised while a placeholder shows', async ({ page }) => {
-  await page.goto('/');
+  // Start on a docs page — the home page renders without the sidenav.
+  await page.goto('/docs/install');
   await loco.clickNavLink(page, 'Text Inputs');
 
   // The sticky field is empty and shows a placeholder, yet its label is raised.
