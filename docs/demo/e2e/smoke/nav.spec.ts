@@ -12,7 +12,8 @@ import { test, expect } from '@playwright/test';
  * `yarn playwright test e2e/smoke`.
  */
 test('every nav item responds with 200', async ({ page }) => {
-  await page.goto('/');
+  // Harvest from a docs page — the home page renders without the sidenav.
+  await page.goto('/docs/install');
 
   const hrefs = await page
     .locator('#navmenu a[href]')
