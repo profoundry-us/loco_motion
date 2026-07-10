@@ -15,9 +15,28 @@ export default class extends Controller {
     el.textContent = `${n}%`
   }
 
-  // Linear progress bar — jump to a new random value.
-  randomizeProgress(event) {
-    event.currentTarget.value = Math.floor(Math.random() * 101)
+  // Linear progress bar — scrub to the pointer's position, on click or drag.
+  // Pointer capture keeps a drag updating after the pointer leaves the bar,
+  // and `offsetX` maps through the flair's rotation/parallax transforms into
+  // the bar's local coordinate space.
+  startScrub(event) {
+    this.scrubbing = true
+    event.currentTarget.setPointerCapture(event.pointerId)
+    this.applyScrub(event)
+  }
+
+  moveScrub(event) {
+    if (this.scrubbing) this.applyScrub(event)
+  }
+
+  endScrub() {
+    this.scrubbing = false
+  }
+
+  applyScrub(event) {
+    const el = event.currentTarget
+    const fraction = event.offsetX / el.clientWidth
+    el.value = Math.round(Math.max(0, Math.min(1, fraction)) * el.max)
   }
 
   // Open the documentation search modal (same entry point as the header).

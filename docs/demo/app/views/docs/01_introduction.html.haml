@@ -38,7 +38,10 @@
         = daisy_kbd("K")
 
     = doc_flair(pos: "bottom-[88px] right-[11%]", rot: -4, speed: 0.95, drift: 0.36) do
-      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer [&::-webkit-progress-value]:[transition:width_500ms_ease-out] [&::-moz-progress-bar]:[transition:width_500ms_ease-out]", html: { data: { action: "click->flair#randomizeProgress" } })
+      - # Scrubs to the pointer on click or drag. The 200ms fill transition is
+      - # quick enough to chase a drag; `touch-none` keeps touch scrubs from
+      - # scrolling the page.
+      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer touch-none [&::-webkit-progress-value]:[transition:width_200ms_ease-out] [&::-moz-progress-bar]:[transition:width_200ms_ease-out]", html: { data: { action: "pointerdown->flair#startScrub pointermove->flair#moveScrub pointerup->flair#endScrub pointercancel->flair#endScrub" } })
 
     = doc_flair(pos: "top-[16%] right-[22%]", rot: 6, speed: 0.72, drift: 0.2) do
       = daisy_radial(value: 70, css: "text-accent bg-base-100 text-xs font-bold shadow-lg cursor-pointer", html: { data: { action: "click->flair#randomizeRadial" } }) do

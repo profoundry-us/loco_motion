@@ -424,7 +424,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   positioned by a new `doc_flair` component so the template carries no inline `style` attributes and no
   repeated wrapper markup, and the live-preview window now uses the `daisy_browser` mockup and `daisy_stat`
   for the stats strip. A new `flair` Stimulus controller makes the hero pieces genuinely clickable — the
-  progress ring and bar randomize, the ⌘K keys open search, the FAB "poofs", and the badge shakes. The
+  progress ring randomizes, the progress bar scrubs to your pointer (click or drag), the ⌘K keys open
+  search, the FAB "poofs", and the badge shakes. The
   landing page renders full-width (the sidenav is hidden on the home page via `content_for(:hide_sidenav)`).
   Rebuilt from a Claude Design mock but using DaisyUI semantic tokens so it adapts to every theme, and
   corrected to the app's truth: the fictional `rails new my_app -m loco` snippet becomes
