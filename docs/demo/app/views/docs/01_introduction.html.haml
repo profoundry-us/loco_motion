@@ -85,8 +85,9 @@
 
       %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }
         - # The library's own Aura (new in 0.7) replaces the static shadow —
-        - # its light renders in currentColor, so text-primary tints it.
-        = daisy_aura(css: "text-primary") do
+        - # its light renders in currentColor, tinted secondary so it reads as
+        - # a distinct glow rather than a blur of the primary button.
+        = daisy_aura(css: "text-secondary") do
           = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
         - # `before:hidden` drops the mockup's dots header so it reads as a
         - # one-line prompt sized to sit beside the CTA button. The gem name is
@@ -242,7 +243,7 @@
           %div{ class: "flex flex-col gap-1" }
             %span{ class: "text-lg font-black" } More coming soon!
             %span{ class: "text-sm opacity-85" } More components, guides, and suggested gems on the way.
-          - # On the primary card the aura glows in primary-content so it
-          - # reads against the saturated background.
-          = daisy_aura(css: "text-primary-content") do
+          - # Secondary here too — distinct from both the white button and the
+          - # primary card behind it.
+          = daisy_aura(css: "text-secondary") do
             = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary hover:scale-105", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }

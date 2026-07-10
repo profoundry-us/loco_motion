@@ -405,8 +405,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 ### Demo / Docs Changes
 
 - feat(Demo): Dogfood the new Aura component on the home page — both "Get Started" CTAs now glow with
-  `daisy_aura` instead of static shadows (`text-primary` light in the hero; `text-primary-content` on the
-  "More coming soon!" card so it reads against the saturated background).
+  `daisy_aura` instead of static shadows. The light is tinted `text-secondary` on both, so it reads as a
+  distinct glow rather than a blur of the button it wraps.
 
 - feat(Demo): Badge the sidebar nav items for components new in this release (Icons, OTP Inputs, Auras, and
   Megamenus get a small accent "New" badge). Registry entries opt in with an `added: "MAJOR.MINOR"` key in
