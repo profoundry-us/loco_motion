@@ -88,7 +88,7 @@
         - # its light renders in currentColor, tinted secondary so it reads as
         - # a distinct glow rather than a blur of the primary button.
         = daisy_aura(css: "aura-dual text-secondary") do
-          = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+          = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg", right_icon: "arrow-right", href: doc_path("install"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
         - # `before:hidden` drops the mockup's dots header so it reads as a
         - # one-line prompt sized to sit beside the CTA button. The gem name is
         - # a bg/text token PAIR — the only DaisyUI construct that stays
@@ -246,4 +246,4 @@
           - # Secondary here too — distinct from both the white button and the
           - # primary card behind it.
           = daisy_aura(css: "aura-dual text-secondary") do
-            = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary hover:scale-105", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+            = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary hover:scale-105", right_icon: "arrow-right", href: doc_path("install"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
