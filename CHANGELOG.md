@@ -239,6 +239,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Turboable): Add a `turbo_action` option to the Turboable concern, rendered as `data-turbo-action`
+  (e.g. `:advance` or `:replace`) — completing the first-class Turbo options (`turbo_frame`, `turbo_method`,
+  `turbo_confirm`) so linkable components no longer need an `html: { data: { "turbo-action": ... } }` hash
+  to control history for a visit.
+
 - feat(Dropdown): Give the dropdown menu a default border (`where:border where:border-base-300`) and a 2px
   gap off the trigger (`where:my-0.5` — only the margin on the side the menu opens from takes effect) so
   open menus stand out from content that shares their `bg-base-100` background. The defaults have zero

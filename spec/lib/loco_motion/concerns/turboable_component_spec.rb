@@ -30,6 +30,20 @@ RSpec.describe LocoMotion::Concerns::TurboableComponent, type: :component do
     it "renders no turbo data attributes" do
       expect(page).to have_css("div.test-component")
       expect(page).not_to have_css("[data-turbo-frame]")
+      expect(page).not_to have_css("[data-turbo-action]")
+      expect(page).not_to have_css("[data-turbo-method]")
+      expect(page).not_to have_css("[data-turbo-confirm]")
+    end
+  end
+
+  context "with turbo_action" do
+    before do
+      render_inline(TurboableTestComponent.new(turbo_action: :advance))
+    end
+
+    it "sets only the data-turbo-action attribute" do
+      expect(page).to have_css("div.test-component[data-turbo-action='advance']")
+      expect(page).not_to have_css("[data-turbo-frame]")
       expect(page).not_to have_css("[data-turbo-method]")
       expect(page).not_to have_css("[data-turbo-confirm]")
     end
@@ -71,17 +85,19 @@ RSpec.describe LocoMotion::Concerns::TurboableComponent, type: :component do
     end
   end
 
-  context "with all three turbo options" do
+  context "with all four turbo options" do
     before do
       render_inline(TurboableTestComponent.new(
                       turbo_frame: "modal",
+                      turbo_action: :replace,
                       turbo_method: :delete,
                       turbo_confirm: "Are you sure?"
                     ))
     end
 
-    it "sets all three data-turbo attributes" do
+    it "sets all four data-turbo attributes" do
       expect(page).to have_css("[data-turbo-frame='modal']")
+      expect(page).to have_css("[data-turbo-action='replace']")
       expect(page).to have_css("[data-turbo-method='delete']")
       expect(page).to have_css("[data-turbo-confirm='Are you sure?']")
     end
