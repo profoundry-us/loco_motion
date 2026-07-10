@@ -404,6 +404,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- feat(Demo): Dogfood the new Aura component on the home page — both "Get Started" CTAs now glow with
+  `daisy_aura` instead of static shadows, using the `aura-dual` variant (two rotating lights) tinted
+  `text-secondary` so the glow reads distinct from the button it wraps. The CTAs also adopt the new
+  first-class `turbo_frame` / `turbo_action` / `action` options in place of the nested `html:` data hash.
+
 - feat(Demo): Badge the sidebar nav items for components new in this release (Icons, OTP Inputs, Auras, and
   Megamenus get a small accent "New" badge). Registry entries opt in with an `added: "MAJOR.MINOR"` key in
   `LocoMotion::COMPONENTS`, and the new `LocoMotion::Helpers.new_component?` compares that against the
