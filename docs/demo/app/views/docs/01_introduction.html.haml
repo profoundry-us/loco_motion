@@ -10,7 +10,9 @@
 - content_for(:hide_sidenav, true)
 
 - guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🧩", "Building Components", "building_components", "Build your own ViewComponents with the LocoMotion DSL — parts, slots, and Stimulus.", true], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
-- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
+- # The ∞ glyph renders far shorter than digits at the same font size, so it
+- # takes a larger size with the 3xl line height to keep the row rhythm.
+- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent", "text-5xl leading-9"], ["100%", "Ruby on Rails", "text-base-content"]]
 
 %div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
   - # ============================================================ HERO
@@ -116,8 +118,8 @@
 
   - # ============================================================ STATS
   %div{ class: "grid grid-cols-2 gap-px border-y border-base-300 bg-base-300 md:grid-cols-4" }
-    - stats.each do |number, label, color|
-      = daisy_stat(css: "place-items-center bg-base-100", value_css: "text-3xl font-black #{color}", description_css: "text-base-content/60", description: label) do
+    - stats.each do |number, label, color, size|
+      = daisy_stat(css: "place-items-center bg-base-100", value_css: "#{size || 'text-3xl'} font-black #{color}", description_css: "text-base-content/60", description: label) do
         = number
 
   - # ============================================================ FEATURE: HAML
