@@ -571,6 +571,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (modals, theme switching, tooltips, floating labels, megamenus, skeleton avatars, closable alerts, ads
   layout) remain. The sweep takes about 6 seconds, so it runs inside the existing single Playwright CI job
   (which already skips draft PRs and runs once a PR is marked ready for review) — no extra Actions minutes.
+- docs(Icons): Point the `Loco::IconComponent` demo page at the "Migrating to the Icon Engine" guide for
+  apps upgrading from `hero_icon` / `Hero::IconComponent`, and update the duotone heart example to color
+  both layers independently — `text-*` classes color the `currentColor` outline while `fill-*` classes
+  color the tint layer, which inherits the SVG `fill`.
 
 ### Fixed
 
