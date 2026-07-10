@@ -31,8 +31,11 @@
         = loco_icon("plus", css: "size-6")
 
 - when "Daisy::Actions::ModalComponent"
-  %div{ class: "relative h-full w-full [&_.modal]:absolute" }
-    = daisy_modal(title: "Hello!", trigger: false, box_css: "max-w-[80%] p-4", html: { open: true }) do
+  - # An actually-open dialog would trip DaisyUI's `:root:has(.modal[open])`
+  - # page scroll lock, so the dialog stays closed and the wrapper forces
+  - # the open look (visibility, backdrop tint, box reveal) instead.
+  %div{ class: "relative h-full w-full [&_.modal]:absolute [&_.modal]:visible [&_.modal]:bg-black/40 [&_.modal-box]:opacity-100 [&_.modal-box]:[translate:0] [&_.modal-box]:[scale:1]" }
+    = daisy_modal(title: "Hello!", trigger: false, box_css: "max-w-[80%] p-4") do
       %p.text-sm You look nice today.
 
 - when "Daisy::Actions::SwapComponent"

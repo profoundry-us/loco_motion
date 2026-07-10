@@ -32,4 +32,13 @@ test.describe('components overview', () => {
     await page.getByRole('link', { name: 'See All Components' }).click();
     await expect(page).toHaveURL(/docs\/components/);
   });
+
+  // Regression: an actually-open modal preview once tripped DaisyUI's
+  // `:root:has(.modal[open])` page scroll lock. Programmatic scrolling
+  // still works under that lock, so this must use real wheel input.
+  test('the page scrolls by wheel (no preview trips the scroll lock)', async ({ page }) => {
+    await page.goto('/docs/components');
+    await page.mouse.wheel(0, 1500);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(500);
+  });
 });
