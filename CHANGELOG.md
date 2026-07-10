@@ -404,6 +404,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- refactor(Demo): Convert the home page's remaining linkable components to the first-class
+  `turbo_frame` / `turbo_action` / `action` options — the guide cards, both feature-section buttons, and
+  the flair badge and button had still been passing nested `html: { data: { ... } }` hashes. The progress
+  and radial flair keep theirs: those components don't include the Linkable/Actionable concerns, so the
+  hash is the supported path there. Rendered attributes verified byte-identical before and after.
+
 - feat(Demo): Dogfood the new Aura component on the home page — both "Get Started" CTAs now glow with
   `daisy_aura` instead of static shadows, using the `aura-dual` variant (two rotating lights) tinted
   `text-secondary` so the glow reads distinct from the button it wraps. The CTAs also adopt the new
