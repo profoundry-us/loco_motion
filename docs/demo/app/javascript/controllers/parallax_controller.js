@@ -80,10 +80,13 @@ export default class extends Controller {
     })
 
     const winH = window.innerHeight
+    // Flair pinned near the very bottom of the page can never cross the 85%
+    // reveal line — once the scroll is exhausted, reveal anything in view.
+    const atBottom = t + winH >= document.documentElement.scrollHeight - 60
     this.popEls.forEach((el) => {
       const rot = parseFloat(el.dataset.popRot) || 0
       const r = el.getBoundingClientRect()
-      if (r.top < winH * 0.85 && r.bottom > 0) {
+      if ((r.top < winH * 0.85 || (atBottom && r.top < winH)) && r.bottom > 0) {
         el.style.opacity = "1"
         el.style.transform = "translateY(0) scale(1) rotate(" + rot + "deg)"
       } else if (r.top >= winH) {

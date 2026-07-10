@@ -10,7 +10,9 @@
 - content_for(:hide_sidenav, true)
 
 - guides = [["🚀", "Getting Started", "getting_started", "Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI."], ["🐳", "Docker", "docker", "A consistent, reliable development environment for any OS."], ["📝", "HAML", "haml", "Cleaner, indentation-based templates for a better developer experience."], ["🧩", "Building Components", "building_components", "Build your own ViewComponents with the LocoMotion DSL — parts, slots, and Stimulus.", true], ["🐛", "Debugging & Testing", "debugging", "ruby-debug, RSpec, and Playwright for a fast feedback loop."], ["⚙️", "Service Objects", "services", "Keep business logic clean and testable with ActiveInteraction."], ["🔒", "Authentication", "authentication", "Wire up OmniAuth sign-in with the developer strategy."], ["⚠️", "Error Handling", "error_handling", "Inspect errors in the browser with Web Console and BetterErrors."]]
-- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent"], ["100%", "Ruby on Rails", "text-base-content"]]
+- # The ∞ glyph renders far shorter than digits at the same font size, so it
+- # takes a larger size with the 3xl line height to keep the row rhythm.
+- stats = [["70+", "Ready-made components", "text-primary"], ["7", "Guides & paradigms", "text-secondary"], ["∞", "Themeable", "text-accent", "text-5xl leading-9"], ["100%", "Ruby on Rails", "text-base-content"]]
 
 %div{ class: "relative", "data-ads-target": "hidden", "data-controller": "parallax flair" }
   - # ============================================================ HERO
@@ -38,7 +40,10 @@
         = daisy_kbd("K")
 
     = doc_flair(pos: "bottom-[88px] right-[11%]", rot: -4, speed: 0.95, drift: 0.36) do
-      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer [&::-webkit-progress-value]:[transition:width_500ms_ease-out] [&::-moz-progress-bar]:[transition:width_500ms_ease-out]", html: { data: { action: "click->flair#randomizeProgress" } })
+      - # Scrubs to the pointer on click or drag. The 200ms fill transition is
+      - # quick enough to chase a drag; `touch-none` keeps touch scrubs from
+      - # scrolling the page.
+      = daisy_progress(value: 70, max: 100, css: "progress-info w-32 shadow-lg cursor-pointer touch-none [&::-webkit-progress-value]:[transition:width_200ms_ease-out] [&::-moz-progress-bar]:[transition:width_200ms_ease-out]", html: { data: { action: "pointerdown->flair#startScrub pointermove->flair#moveScrub pointerup->flair#endScrub pointercancel->flair#endScrub" } })
 
     = doc_flair(pos: "top-[16%] right-[22%]", rot: 6, speed: 0.72, drift: 0.2) do
       = daisy_radial(value: 70, css: "text-accent bg-base-100 text-xs font-bold shadow-lg cursor-pointer", html: { data: { action: "click->flair#randomizeRadial" } }) do
@@ -59,32 +64,46 @@
     - # events so clicks land on the interactive flair behind it; its own text
     - # and buttons opt back in with `pointer-events-auto`.
     %div{ class: "pointer-events-none relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
+      - # Solid badges — the soft style colors its text with the raw token,
+      - # which goes invisible on retro/wireframe; solid uses the token PAIR.
       %div{ class: "flex flex-wrap justify-center gap-2" }
-        = daisy_badge("ViewComponent", css: "badge-primary badge-soft font-bold")
-        = daisy_badge("DaisyUI", css: "badge-secondary badge-soft font-bold")
-        = daisy_badge("TailwindCSS", css: "badge-accent badge-soft font-bold")
+        = daisy_badge("ViewComponent", css: "badge-primary font-bold")
+        = daisy_badge("DaisyUI", css: "badge-secondary font-bold")
+        = daisy_badge("TailwindCSS", css: "badge-accent font-bold")
 
       %h1{ class: "pointer-events-auto text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
         Components, Guides, and Paradigms for
-        %em{ class: "inline-block -rotate-2 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent transition-transform hover:scale-110 hover:-rotate-6" } CRAZY-fast
+        - # Gradient-filled text can't be made readable in every theme (retro's
+        - # pastels fail against its cream base even mixed with base-content),
+        - # so the word stays base-content and the gradient becomes a marker
+        - # bar behind its baseline. The rotate transform also scopes the -z bar
+        - # to the em's own stacking context.
+        %em{ class: "relative inline-block -rotate-2 transition-transform hover:scale-110 hover:-rotate-6" }
+          %span{ class: "absolute -inset-x-[0.1em] bottom-[0.02em] -z-10 h-[0.32em] rounded-full bg-linear-to-r from-primary to-secondary", aria: { hidden: true } }
+          CRAZY-fast
         Development in Ruby on Rails!
 
       %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }
         = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg shadow-lg shadow-primary/25", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
-        %div{ class: "flex items-center gap-2 rounded-xl bg-base-200 px-4 py-3 font-mono text-sm text-base-content/80" }
-          %span{ class: "text-base-content/40" } $
-          %span bundle add
-          %span{ class: "text-primary" } loco_motion-rails
+        - # `before:hidden` drops the mockup's dots header so it reads as a
+        - # one-line prompt sized to sit beside the CTA button. The gem name is
+        - # a bg/text token PAIR — the only DaisyUI construct that stays
+        - # readable on the neutral chip in every theme; plain accent colors go
+        - # invisible in wireframe (secondary == neutral there).
+        = daisy_code(prefix: "$", css: "w-fit min-w-0 py-3 before:hidden") do
+          bundle add #{content_tag(:span, "loco_motion-rails", class: "rounded bg-secondary px-1.5 py-0.5 text-secondary-content")}
 
       %div{ class: "text-xs text-base-content/50" } scroll — watch the components leave the station ↓
 
   - # ============================================================ LIVE PREVIEW
   %div{ class: "relative z-10 -mt-8 flex justify-center px-2 pb-4" }
     %div{ class: "flex w-full max-w-2xl flex-col gap-4" }
-      = daisy_browser(css: "border border-base-300 bg-base-100 shadow-2xl") do |browser|
-        - browser.with_toolbar(css: "bg-base-200") do
+      - # The chrome tint comes from the browser itself; the content pane sits
+      - # on base-100 so the toolbar reads as part of the window, not a strip.
+      = daisy_browser(css: "border border-base-300 bg-base-200 shadow-2xl") do |browser|
+        - browser.with_toolbar do
           %span{ class: "font-mono text-xs text-base-content/50" } live preview
-        %div{ class: "flex flex-wrap items-center justify-center gap-6 border-t border-base-300 bg-base-100 px-6 py-9" }
+        %div{ class: "flex flex-wrap items-center justify-center gap-6 bg-base-100 px-6 py-9" }
           = daisy_button("Accent Button", css: "btn-accent")
           = daisy_tip("Click to Swap") do
             = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate text-3xl")
@@ -99,8 +118,8 @@
 
   - # ============================================================ STATS
   %div{ class: "grid grid-cols-2 gap-px border-y border-base-300 bg-base-300 md:grid-cols-4" }
-    - stats.each do |number, label, color|
-      = daisy_stat(css: "place-items-center bg-base-100", value_css: "text-3xl font-black #{color}", description_css: "text-base-content/60", description: label) do
+    - stats.each do |number, label, color, size|
+      = daisy_stat(css: "place-items-center bg-base-100", value_css: "#{size || 'text-3xl'} font-black #{color}", description_css: "text-base-content/60", description: label) do
         = number
 
   - # ============================================================ FEATURE: HAML
@@ -194,10 +213,13 @@
       = daisy_badge("✅ New guide published!", css: "badge-lg border-base-300 bg-base-100 font-semibold shadow-xl")
 
     = doc_flair(pos: "bottom-14 right-[30px]", rot: 6, show: "lg", pop: true) do
-      %span{ class: "inline-flex" }
-        %span{ class: "flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-primary/15 text-xs font-black text-primary" } RB
-        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-secondary/15 text-xs font-black text-secondary" } JS
-        %span{ class: "-ml-3 flex size-9 items-center justify-center rounded-full border-2 border-base-100 bg-accent/15 text-xs font-black text-accent" } UI
+      %div{ class: "avatar-group -space-x-3" }
+        = daisy_avatar(css: "border-2", wrapper_css: "w-9 bg-primary/15 text-xs font-black text-primary") do
+          RB
+        = daisy_avatar(css: "border-2", wrapper_css: "w-9 bg-secondary/15 text-xs font-black text-secondary") do
+          JS
+        = daisy_avatar(css: "border-2", wrapper_css: "w-9 bg-accent/15 text-xs font-black text-accent") do
+          UI
 
     %div{ class: "mx-auto max-w-6xl" }
       %div{ class: "mb-8 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between" }
@@ -213,7 +235,7 @@
             %span{ class: "text-lg font-bold" }= name
             %p{ class: "text-sm text-base-content/70" }= description
 
-        %div{ class: "flex flex-col items-start justify-between gap-4 rounded-2xl bg-primary p-6 text-primary-content sm:col-span-2 sm:flex-row sm:items-center" }
+        = daisy_card(css: "bg-primary text-primary-content sm:col-span-2", body_css: "sm:flex-row sm:items-center sm:justify-between gap-4") do
           %div{ class: "flex flex-col gap-1" }
             %span{ class: "text-lg font-black" } More coming soon!
             %span{ class: "text-sm opacity-85" } More components, guides, and suggested gems on the way.

@@ -393,6 +393,24 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Harden the home page hero against low-contrast themes. No plain accent token stays readable
+  on every theme — wireframe renders primary/secondary/accent identical to neutral, and retro's pastels
+  fall under 3:1 against its cream base — so the hero pieces that relied on raw tokens now use guaranteed
+  constructs: the gem name in the terminal prompt is a `bg-secondary` / `text-secondary-content` pill, the
+  tech badges are solid instead of `badge-soft`, and the "CRAZY-fast" headline keeps `base-content` text
+  with its primary→secondary gradient moved into a decorative marker bar behind the word. Verified with a
+  WCAG contrast probe across all six built-in themes.
+
+- fix(Demo): Finish dogfooding the home page and reveal its bottom flair. The pop-in reveal threshold
+  (85% of the viewport) was geometrically unreachable for flair pinned near the page bottom, so the
+  RB/JS/UI avatar stack never appeared — the `parallax` controller now reveals any in-view flair once the
+  scroll is exhausted. The last three hand-rolled pieces are now real components: the hero's
+  `$ bundle add loco_motion-rails` prompt is a `daisy_code` mockup (dots hidden via `before:hidden`), the
+  avatar stack is three placeholder `daisy_avatar`s in a DaisyUI `avatar-group`, and the "More coming
+  soon!" panel is a `daisy_card` like its grid siblings. Also re-tinted the live-preview `daisy_browser`
+  so the chrome color comes from the component (`bg-base-200`) with the content pane on `bg-base-100`,
+  instead of a `bg-base-200` strip painted onto the toolbar.
+
 - fix(E2E): Update the four Playwright specs that started at the home page and navigated via the sidenav —
   the redesigned home page renders without one (`hide_sidenav`), which broke them on `main`. The nav smoke
   test now harvests its links from `/docs/install`, the Text Inputs and Megamenus specs start there before
@@ -406,7 +424,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   positioned by a new `doc_flair` component so the template carries no inline `style` attributes and no
   repeated wrapper markup, and the live-preview window now uses the `daisy_browser` mockup and `daisy_stat`
   for the stats strip. A new `flair` Stimulus controller makes the hero pieces genuinely clickable — the
-  progress ring and bar randomize, the ⌘K keys open search, the FAB "poofs", and the badge shakes. The
+  progress ring randomizes, the progress bar scrubs to your pointer (click or drag), the ⌘K keys open
+  search, the FAB "poofs", and the badge shakes. The
   landing page renders full-width (the sidenav is hidden on the home page via `content_for(:hide_sidenav)`).
   Rebuilt from a Claude Design mock but using DaisyUI semantic tokens so it adapts to every theme, and
   corrected to the app's truth: the fictional `rails new my_app -m loco` snippet becomes
