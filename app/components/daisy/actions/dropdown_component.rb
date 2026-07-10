@@ -203,9 +203,10 @@ module Daisy
         set_tag_name(:menu, :ul)
 
         # Core menu structure and styling.
-        add_css(:menu,
-                "dropdown-content where:menu where:bg-base-100 where:rounded-box " \
-                "where:shadow where:w-52 where:p-2 where:z-[1]")
+        add_css(:menu, "dropdown-content where:menu where:bg-base-100 where:rounded-box where:shadow")
+
+        # Default sizing, padding, and stacking.
+        add_css(:menu, "where:w-52 where:p-2 where:z-[1]")
 
         # The default border keeps the menu visible when it opens over content
         # that shares its background color (`menu_css: "border-0"` removes it).
