@@ -72,9 +72,12 @@
       %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }
         = daisy_button "😃 Get Started", css: "btn-primary btn-lg text-lg shadow-lg shadow-primary/25", right_icon: "arrow-right", href: doc_path("install"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
         - # `before:hidden` drops the mockup's dots header so it reads as a
-        - # one-line prompt sized to sit beside the CTA button.
+        - # one-line prompt sized to sit beside the CTA button. The gem name is
+        - # a bg/text token PAIR — the only DaisyUI construct that stays
+        - # readable on the neutral chip in every theme; plain accent colors go
+        - # invisible in wireframe (secondary == neutral there).
         = daisy_code(prefix: "$", css: "w-fit min-w-0 py-3 before:hidden") do
-          bundle add #{content_tag(:span, "loco_motion-rails", class: "text-secondary")}
+          bundle add #{content_tag(:span, "loco_motion-rails", class: "rounded bg-secondary px-1.5 py-0.5 text-secondary-content")}
 
       %div{ class: "text-xs text-base-content/50" } scroll — watch the components leave the station ↓
 
