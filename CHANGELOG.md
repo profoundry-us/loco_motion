@@ -416,10 +416,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   first-class `turbo_frame` / `turbo_action` / `action` options in place of the nested `html:` data hash.
 
 - feat(Demo): Badge the sidebar nav items for components new in this release (Icons, OTP Inputs, Auras, and
-  Megamenus get a small accent "New" badge). Registry entries opt in with an `added: "MAJOR.MINOR"` key in
-  `LocoMotion::COMPONENTS`, and the new `LocoMotion::Helpers.new_component?` compares that against the
-  current version series — so the badges expire on their own at the next minor release. The badge is
-  `aria-hidden`, keeping the nav links' accessible names stable.
+  Megamenus get a small secondary "New" badge that playfully tilts and grows when its nav link is hovered
+  or focused). Registry entries opt in with an `added: "MAJOR.MINOR"` key in `LocoMotion::COMPONENTS`, and
+  the new `LocoMotion::Helpers.new_component?` compares that against the current version series — so the
+  badges expire on their own at the next minor release. The badge is `aria-hidden`, keeping the nav links'
+  accessible names stable.
 
 - fix(Demo): Harden the home page hero against low-contrast themes. No plain accent token stays readable
   on every theme — wireframe renders primary/secondary/accent identical to neutral, and retro's pastels

@@ -9,6 +9,9 @@
           = section[:title]
 
         %ul.ml-5
+          - new_badge_css = ["badge-secondary badge-xs ml-auto transition-all",
+            "group-hover:-rotate-3 group-hover:scale-125",
+            "group-focus:-rotate-3 group-focus:scale-125"]
           - section[:items].each do |item|
             - if item[:is_group]
               %li
@@ -18,21 +21,21 @@
                   - item[:items].each do |subitem|
                     %li
                       = link_to subitem[:path],
-                        class: request.original_url.include?(subitem[:path]) ? "menu-active" : "",
+                        class: request.original_url.include?(subitem[:path]) ? "group menu-active" : "group",
                         data: { action: "click->nav#refresh", "turbo-action": "replace" } do
                         = subitem[:title]
                         - # aria-hidden keeps link accessible names stable (the
                         - # badge is a visual affordance, not part of the name).
                         - if subitem[:new]
-                          = daisy_badge("New", css: "badge-accent badge-xs ml-auto", html: { "aria-hidden": "true" })
+                          = daisy_badge("New", css: new_badge_css, html: { "aria-hidden": "true" })
             - else
               %li
                 = link_to item[:path],
-                  class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "menu-active" : "",
+                  class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "group menu-active" : "group",
                   data: { action: "click->nav#refresh", "turbo-action": "replace" } do
                   = item[:title]
                   - if item[:new]
-                    = daisy_badge("New", css: "badge-accent badge-xs ml-auto", html: { "aria-hidden": "true" })
+                    = daisy_badge("New", css: new_badge_css, html: { "aria-hidden": "true" })
 
     .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
       <em>That's all folks!</em> 😉
