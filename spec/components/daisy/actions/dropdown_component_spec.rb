@@ -69,6 +69,8 @@ RSpec.describe Daisy::Actions::DropdownComponent, type: :component do
         expect(page).to have_css "ul[class*='where:menu']"
         expect(page).to have_css "ul[class*='where:bg-base-100']"
         expect(page).to have_css "ul[class*='where:rounded-box']"
+        expect(page).to have_css "ul[class*='where:border']"
+        expect(page).to have_css "ul[class*='where:border-base-300']"
         expect(page).to have_css "ul[class*='where:shadow']"
         expect(page).to have_css "ul[class*='where:w-52']"
         expect(page).to have_css "ul[class*='where:p-2']"

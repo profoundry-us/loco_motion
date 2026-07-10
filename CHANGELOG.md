@@ -239,6 +239,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Components Changes
 
+- feat(Dropdown): Give the dropdown menu a default border (`where:border where:border-base-300`) so open
+  menus stand out from content that shares their `bg-base-100` background. The default has zero specificity
+  like the menu's other defaults — pass `menu_css: "border-0"` to remove it, or any `border-*` classes to
+  restyle it.
+
 - feat(Actionable): Add a first-class `action` option to **every** linkable component (links, cards, badges,
   avatars, stats, …), not just buttons — Stimulus `data-action` sugar that mirrors the `turbo_*` options
   from #202. A new `ActionableComponent` concern reads `action:` and emits `data-action`, and

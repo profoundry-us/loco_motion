@@ -17,6 +17,21 @@
       = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
 
 
+= doc_example(title: "Borderless Menu", example_css: "pt-5 pb-40") do |doc|
+  - doc.with_description do
+    :markdown
+      The menu ships with a default `border-base-300` border so it stands out
+      against content that shares its background. The defaults have zero
+      specificity, so pass `menu_css: "border-0"` to remove the border, or any
+      `border-*` classes to restyle it.
+
+  = daisy_dropdown(title: "No Border Here", menu_css: "border-0") do |dropdown|
+    - dropdown.with_item do
+      = link_to "Ruby", "https://www.ruby-lang.org", target: "_blank"
+    - dropdown.with_item do
+      = link_to "Rails", "http://www.rubyonrails.org", target: "_blank"
+
+
 = doc_example(title: "Custom Button", example_css: "pb-32") do |doc|
   - doc.with_description do
     :markdown
