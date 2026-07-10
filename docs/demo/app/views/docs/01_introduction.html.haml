@@ -32,7 +32,7 @@
       = daisy_rating(name: "hero_rating", id: "hero_rating", value: 4, inputs_css: "bg-warning", css: "drop-shadow-md")
 
     = doc_flair(pos: "top-[42%] right-[4%]", rot: -5, speed: 0.65, drift: 0.3) do
-      = daisy_badge("New!", css: "badge-secondary badge-lg font-bold shadow-lg cursor-pointer select-none", html: { data: { action: "click->flair#shake" } })
+      = daisy_badge("New!", css: "badge-secondary badge-lg font-bold shadow-lg cursor-pointer select-none", action: "click->flair#shake")
 
     = doc_flair(pos: "bottom-[70px] left-[9%]", rot: 5, speed: 0.5, drift: -0.16) do
       %span{ class: "inline-flex gap-1 cursor-pointer", data: { action: "click->flair#openSearch" } }
@@ -50,7 +50,7 @@
         70%
 
     = doc_flair(pos: "top-[14%] left-[20%]", rot: -6, speed: 0.42, drift: -0.26) do
-      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", html: { data: { action: "click->flair#poof" } })
+      = daisy_button("+", css: "btn-secondary btn-circle text-xl shadow-lg", action: "click->flair#poof")
 
     = doc_flair(pos: "bottom-[34px] left-[38%]", rot: -3, show: "lg", speed: 0.6, drift: 0.1) do
       = daisy_chat(css: "chat-start") do |chat|
@@ -152,7 +152,7 @@
         You can utilize filters like
         %em Markdown
         \, CoffeeScript, Textile, and many more!
-      = daisy_button "Read the HAML guide", css: "btn-secondary btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("haml"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+      = daisy_button "Read the HAML guide", css: "btn-secondary btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("haml"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
 
     %div{ class: "grid w-full flex-1 gap-4 sm:grid-cols-2" }
       %div
@@ -195,7 +195,7 @@
         Can't find exactly what you need? No problem! Build your own components
         with ease using our simple, flexible, and powerful DSL — parts, tags,
         CSS, and Stimulus controllers, all in one place.
-      = daisy_button "Read the components guide", css: "btn-accent btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("building_components"), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }
+      = daisy_button "Read the components guide", css: "btn-accent btn-soft btn-sm w-fit", right_icon: "arrow-right", href: guide_path("building_components"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
 
     %div{ class: "w-full flex-1" }
       = doc_code(language: "ruby") do
@@ -232,7 +232,7 @@
 
       %div{ class: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
         - guides.each do |emoji, name, filename, description, is_new|
-          = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), html: { data: { turbo_frame: "_top", action: "click->nav#refresh", "turbo-action": "advance" } }) do
+          = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-xl", href: guide_path(filename), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh") do
             - if is_new
               = daisy_badge("New", css: "badge-accent badge-sm absolute right-3 top-3")
             %span{ class: "text-3xl" }= emoji
