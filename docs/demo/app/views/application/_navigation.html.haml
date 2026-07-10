@@ -17,14 +17,22 @@
                 %ul.ml-4
                   - item[:items].each do |subitem|
                     %li
-                      = link_to subitem[:title], subitem[:path],
-                      class: request.original_url.include?(subitem[:path]) ? "menu-active" : "",
-                      data: { action: "click->nav#refresh", "turbo-action": "replace" }
+                      = link_to subitem[:path],
+                        class: request.original_url.include?(subitem[:path]) ? "menu-active" : "",
+                        data: { action: "click->nav#refresh", "turbo-action": "replace" } do
+                        = subitem[:title]
+                        - # aria-hidden keeps link accessible names stable (the
+                        - # badge is a visual affordance, not part of the name).
+                        - if subitem[:new]
+                          = daisy_badge("New", css: "badge-accent badge-xs ml-auto", html: { "aria-hidden": "true" })
             - else
               %li
-                = link_to item[:title], item[:path],
-                class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "menu-active" : "",
-                data: { action: "click->nav#refresh", "turbo-action": "replace" }
+                = link_to item[:path],
+                  class: (request.original_url == root_url && item[:path] == root_path) || request.original_url.include?(item[:path]) ? "menu-active" : "",
+                  data: { action: "click->nav#refresh", "turbo-action": "replace" } do
+                  = item[:title]
+                  - if item[:new]
+                    = daisy_badge("New", css: "badge-accent badge-xs ml-auto", html: { "aria-hidden": "true" })
 
     .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
       <em>That's all folks!</em> 😉
