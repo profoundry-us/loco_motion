@@ -43,7 +43,8 @@ class ApplicationController < ActionController::Base
         items: [
           {
             title: "Icons",
-            path: "/examples/Loco::IconComponent"
+            path: "/examples/Loco::IconComponent",
+            new: LocoMotion::Helpers.new_component?("Loco::IconComponent")
           }
         ]
       },
@@ -58,7 +59,8 @@ class ApplicationController < ActionController::Base
             items: grouped_components[group].map do |item|
               {
                 title: item[:config][:title],
-                path: "/examples/#{item[:name]}"
+                path: "/examples/#{item[:name]}",
+                new: LocoMotion::Helpers.new_component?(item[:name])
               }
             end
           }

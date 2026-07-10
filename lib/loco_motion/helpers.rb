@@ -9,7 +9,7 @@ module LocoMotion
   COMPONENTS = {
     ### Loco Components
 
-    "Loco::IconComponent" => { names: "icon", group: "Loco", title: "Icons", example: "icons" },
+    "Loco::IconComponent" => { names: "icon", group: "Loco", title: "Icons", example: "icons", added: "0.7" },
 
     ### Daisy Components
 
@@ -69,7 +69,8 @@ module LocoMotion
     "Daisy::DataInput::FilterComponent" => { names: "filter", group: "Data Input", title: "Filters",
                                              example: "filters" },
     "Daisy::DataInput::LabelComponent" => { names: "label", group: "Data Input", title: "Labels", example: "labels" },
-    "Daisy::DataInput::OtpComponent" => { names: "otp", group: "Data Input", title: "OTP Inputs", example: "otps" },
+    "Daisy::DataInput::OtpComponent" => { names: "otp", group: "Data Input", title: "OTP Inputs", example: "otps",
+                                          added: "0.7" },
     "Daisy::DataInput::RadioButtonComponent" => { names: "radio", group: "Data Input", title: "Radio Buttons",
                                                   example: "radio_buttons" },
     "Daisy::DataInput::RangeComponent" => { names: "range", group: "Data Input", title: "Ranges", example: "ranges" },
@@ -90,7 +91,7 @@ module LocoMotion
     "Daisy::Navigation::DockComponent" => { names: "dock", group: "Navigation", title: "Dock", example: "docks" },
     "Daisy::Navigation::LinkComponent" => { names: "link", group: "Navigation", title: "Links", example: "links" },
     "Daisy::Navigation::MegamenuComponent" => { names: "megamenu", group: "Navigation", title: "Megamenus",
-                                                example: "megamenus" },
+                                                example: "megamenus", added: "0.7" },
     "Daisy::Navigation::MenuComponent" => { names: "menu", group: "Navigation", title: "Menus", example: "menus" },
     "Daisy::Navigation::NavbarComponent" => { names: "navbar", group: "Navigation", title: "Navbars",
                                               example: "navbars" },
@@ -114,7 +115,8 @@ module LocoMotion
                                              example: "tooltips" },
 
     # Layout
-    "Daisy::Layout::AuraComponent" => { names: "aura", group: "Layout", title: "Auras", example: "auras" },
+    "Daisy::Layout::AuraComponent" => { names: "aura", group: "Layout", title: "Auras", example: "auras",
+                                        added: "0.7" },
     "Daisy::Layout::DividerComponent" => { names: "divider", group: "Layout", title: "Dividers", example: "dividers" },
     "Daisy::Layout::DrawerComponent" => { names: "drawer", group: "Layout", title: "Drawers", example: "drawers" },
     "Daisy::Layout::FooterComponent" => { names: "footer", group: "Layout", title: "Footers", example: "footers" },
@@ -148,6 +150,25 @@ module LocoMotion
       end
     end
 
+    #
+    # Whether a component was added in the current (or upcoming) minor
+    # release. Powers the "New" badges in the demo nav: registry entries opt
+    # in with an `added: "MAJOR.MINOR"` key, and the badge expires on its own
+    # once `LocoMotion::VERSION` moves past that series.
+    #
+    # @param component_name [String] The full component class name, e.g.
+    #   `"Daisy::Layout::AuraComponent"`.
+    #
+    # @return [Boolean] Whether the component is new as of this release.
+    #
+    def new_component?(component_name)
+      added = COMPONENTS.dig(component_name, :added)
+      return false if added.nil?
+
+      current_series = Gem::Version.new(LocoMotion::VERSION).segments[0..1].join(".")
+      Gem::Version.new(added) >= Gem::Version.new(current_series)
+    end
+
     def component_example_path(component_name)
       "/examples/#{component_name}"
     end
@@ -164,7 +185,7 @@ module LocoMotion
       "/examples/#{framework}/#{section_path}#{example}"
     end
 
-    module_function :component_example_path, :component_partial_path
+    module_function :new_component?, :component_example_path, :component_partial_path
   end
 end
 # rubocop:enable Metrics/ModuleLength
