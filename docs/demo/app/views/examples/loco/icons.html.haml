@@ -17,6 +17,13 @@
     and libraries like Lucide, Phosphor, Tabler, and more — is synced into
     your own application once (see the examples below).
 
+  = doc_note(title: "Upgrading from hero_icon?") do
+    :markdown
+      Earlier versions of LocoMotion rendered icons with `hero_icon` and
+      `Hero::IconComponent`. The
+      [Migrating to the Icon Engine](#{guide_path("migrating_icons")}) guide
+      walks through every change step by step.
+
 
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
   - doc.with_description do
@@ -79,6 +86,10 @@
       The renderer checks your app's `app/assets/svg/icons` first, then falls
       back to the bundled icons — so synced libraries just work.
 
+      Duotone icons have two independently colorable layers: the outline
+      strokes with `currentColor`, so `text-*` classes color it, while the
+      tint layer inherits the SVG `fill`, so `fill-*` classes color it.
+
       Prefer a different library by default? Set it once in an initializer (and
       pick a matching variant, or `nil` for a flat library):
 
@@ -91,4 +102,4 @@
         end
 
   = loco_icon("lucide:heart", css: "size-8 text-red-500")
-  = loco_icon("phosphor:heart/duotone", css: "size-8 text-purple-500")
+  = loco_icon("phosphor:heart/duotone", css: "size-8 text-purple-500 fill-pink-500")
