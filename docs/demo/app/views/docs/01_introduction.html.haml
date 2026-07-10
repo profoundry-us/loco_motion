@@ -59,14 +59,23 @@
     - # events so clicks land on the interactive flair behind it; its own text
     - # and buttons opt back in with `pointer-events-auto`.
     %div{ class: "pointer-events-none relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6" }
+      - # Solid badges — the soft style colors its text with the raw token,
+      - # which goes invisible on retro/wireframe; solid uses the token PAIR.
       %div{ class: "flex flex-wrap justify-center gap-2" }
-        = daisy_badge("ViewComponent", css: "badge-primary badge-soft font-bold")
-        = daisy_badge("DaisyUI", css: "badge-secondary badge-soft font-bold")
-        = daisy_badge("TailwindCSS", css: "badge-accent badge-soft font-bold")
+        = daisy_badge("ViewComponent", css: "badge-primary font-bold")
+        = daisy_badge("DaisyUI", css: "badge-secondary font-bold")
+        = daisy_badge("TailwindCSS", css: "badge-accent font-bold")
 
       %h1{ class: "pointer-events-auto text-4xl font-black leading-tight tracking-tight text-balance md:text-5xl lg:text-6xl" }
         Components, Guides, and Paradigms for
-        %em{ class: "inline-block -rotate-2 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent transition-transform hover:scale-110 hover:-rotate-6" } CRAZY-fast
+        - # Gradient-filled text can't be made readable in every theme (retro's
+        - # pastels fail against its cream base even mixed with base-content),
+        - # so the word stays base-content and the gradient becomes a marker
+        - # bar behind its baseline. The rotate transform also scopes the -z bar
+        - # to the em's own stacking context.
+        %em{ class: "relative inline-block -rotate-2 transition-transform hover:scale-110 hover:-rotate-6" }
+          %span{ class: "absolute -inset-x-[0.1em] bottom-[0.02em] -z-10 h-[0.32em] rounded-full bg-linear-to-r from-primary to-secondary", aria: { hidden: true } }
+          CRAZY-fast
         Development in Ruby on Rails!
 
       %div{ class: "pointer-events-auto flex flex-col items-center gap-4 sm:flex-row" }

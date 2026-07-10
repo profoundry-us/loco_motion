@@ -393,6 +393,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Harden the home page hero against low-contrast themes. No plain accent token stays readable
+  on every theme — wireframe renders primary/secondary/accent identical to neutral, and retro's pastels
+  fall under 3:1 against its cream base — so the hero pieces that relied on raw tokens now use guaranteed
+  constructs: the gem name in the terminal prompt is a `bg-secondary` / `text-secondary-content` pill, the
+  tech badges are solid instead of `badge-soft`, and the "CRAZY-fast" headline keeps `base-content` text
+  with its primary→secondary gradient moved into a decorative marker bar behind the word. Verified with a
+  WCAG contrast probe across all six built-in themes.
+
 - fix(Demo): Finish dogfooding the home page and reveal its bottom flair. The pop-in reveal threshold
   (85% of the viewport) was geometrically unreachable for flair pinned near the page bottom, so the
   RB/JS/UI avatar stack never appeared — the `parallax` controller now reveals any in-view flair once the
