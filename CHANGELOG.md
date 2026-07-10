@@ -393,6 +393,16 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Finish dogfooding the home page and reveal its bottom flair. The pop-in reveal threshold
+  (85% of the viewport) was geometrically unreachable for flair pinned near the page bottom, so the
+  RB/JS/UI avatar stack never appeared — the `parallax` controller now reveals any in-view flair once the
+  scroll is exhausted. The last three hand-rolled pieces are now real components: the hero's
+  `$ bundle add loco_motion-rails` prompt is a `daisy_code` mockup (dots hidden via `before:hidden`), the
+  avatar stack is three placeholder `daisy_avatar`s in a DaisyUI `avatar-group`, and the "More coming
+  soon!" panel is a `daisy_card` like its grid siblings. Also re-tinted the live-preview `daisy_browser`
+  so the chrome color comes from the component (`bg-base-200`) with the content pane on `bg-base-100`,
+  instead of a `bg-base-200` strip painted onto the toolbar.
+
 - fix(E2E): Update the four Playwright specs that started at the home page and navigated via the sidenav —
   the redesigned home page renders without one (`hide_sidenav`), which broke them on `main`. The nav smoke
   test now harvests its links from `/docs/install`, the Text Inputs and Megamenus specs start there before
