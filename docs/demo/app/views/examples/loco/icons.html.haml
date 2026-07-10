@@ -17,15 +17,12 @@
     and libraries like Lucide, Phosphor, Tabler, and more — is synced into
     your own application once (see the examples below).
 
-  %p
-    Upgrading from an earlier version of LocoMotion that used
-    %code hero_icon
-    or
-    = succeed("?") do
-      %code Hero::IconComponent
-    The
-    = daisy_link("Migrating to the Icon Engine", guide_path("migrating_icons"))
-    guide walks through every change step by step.
+  = doc_note(title: "Upgrading from hero_icon?") do
+    :markdown
+      Earlier versions of LocoMotion rendered icons with `hero_icon` and
+      `Hero::IconComponent`. The
+      [Migrating to the Icon Engine](#{guide_path("migrating_icons")}) guide
+      walks through every change step by step.
 
 
 = doc_example(title: "Basic Icons", example_css: "gap-x-2") do |doc|
