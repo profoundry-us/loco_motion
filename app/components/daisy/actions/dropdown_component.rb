@@ -198,15 +198,17 @@ module Daisy
       # Make the menu a `<ul> / <li>` element and add the relevant Daisy classes.
       #
       # The default border keeps the menu visible when it opens over content
-      # that shares its background color; the `where:` prefix keeps it
-      # overridable (e.g. `menu_css: "border-0"`).
+      # that shares its background color, and the vertical margin separates it
+      # from the trigger (only the margin on the side the menu opens from takes
+      # effect). The `where:` prefix keeps both overridable (e.g.
+      # `menu_css: "border-0 my-0"`).
       #
       def setup_menu
         # Setup menu itself
         set_tag_name(:menu, :ul)
         add_css(:menu,
                 "dropdown-content where:menu where:bg-base-100 where:rounded-box where:border where:border-base-300 " \
-                "where:shadow where:w-52 where:p-2 where:z-[1]")
+                "where:my-0.5 where:shadow where:w-52 where:p-2 where:z-[1]")
       end
 
       #

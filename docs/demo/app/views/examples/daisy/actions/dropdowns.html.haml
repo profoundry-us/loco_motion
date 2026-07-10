@@ -20,10 +20,11 @@
 = doc_example(title: "Borderless Menu", example_css: "pt-5 pb-40") do |doc|
   - doc.with_description do
     :markdown
-      The menu ships with a default `border-base-300` border so it stands out
-      against content that shares its background. The defaults have zero
-      specificity, so pass `menu_css: "border-0"` to remove the border, or any
-      `border-*` classes to restyle it.
+      The menu ships with a default `border-base-300` border and a small gap
+      off the trigger so it stands out against content that shares its
+      background. The defaults have zero specificity, so pass
+      `menu_css: "border-0"` to remove the border (add `my-0` to also drop
+      the gap), or any `border-*` / margin classes to restyle them.
 
   = daisy_dropdown(title: "No Border Here", menu_css: "border-0") do |dropdown|
     - dropdown.with_item do
