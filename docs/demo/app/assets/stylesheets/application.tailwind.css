@@ -50,6 +50,29 @@
 }
 
 /* Add some custom styles */
+
+/* Contain full-viewport component chrome — like the drawer's
+ * `position: fixed` sidebar — inside an example preview box. `contain: layout`
+ * makes the wrapper the containing block for fixed-position descendants,
+ * `isolation: isolate` scopes their z-index, and `overflow: hidden` clips
+ * their 100dvh height down to the box. Pair with a fixed height (e.g. `h-48`).
+ */
+.example-contain {
+  contain: layout;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Opening a drawer sets DaisyUI's page scroll lock via
+ * `:where(:root:has(.drawer-toggle:checked))`. That's right for the sidenav
+ * drawer on mobile, but an example drawer contained in its preview box should
+ * not freeze the page. The rule is zero-specificity, so undo it whenever the
+ * checked drawer toggles live inside example previews and the sidenav itself
+ * is closed. */
+:root:has([data-doc-example-target="preview"] .drawer-toggle:checked):not(:has(#sidenav-drawer:checked)) {
+  --page-scroll-lock: initial;
+}
+
 .max-w-prose {
   max-width: var(--max-prose-width);
 }
