@@ -120,6 +120,9 @@
             = daisy_swap off: "🌚", on: "🌞"
           = daisy_badge "Large Badge", css: "badge-secondary badge-lg"
 
+      %div{ class: "flex justify-center" }
+        = daisy_button "See All Components", css: "btn-secondary btn-soft", right_icon: "arrow-right", href: doc_path("components"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
+
   - # ============================================================ STATS
   %div{ class: "grid grid-cols-2 gap-px border-y border-base-300 bg-base-300 md:grid-cols-4" }
     - stats.each do |number, label, color, size|

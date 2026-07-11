@@ -1,0 +1,411 @@
+- # Miniature live renders for the components overview page. Each preview is
+- # intentionally tiny and inert — the full example pages show the real
+- # breadth. Fixed-position components (FAB, modal, toast) are wrapped in a
+- # `relative` box that overrides them to `absolute` so they stay inside
+- # their preview card instead of the viewport.
+- case component
+
+- when "Loco::IconComponent"
+  .flex.items-center.gap-3
+    = loco_icon("heart", css: "size-8 text-primary")
+    = loco_icon("star", css: "size-8 text-secondary")
+    = loco_icon("bolt", css: "size-8 text-accent")
+    = loco_icon("rocket-launch", css: "size-8 text-info")
+
+- when "Daisy::Actions::ButtonComponent"
+  .flex.flex-wrap.items-center.justify-center.gap-2
+    = daisy_button("Primary", css: "btn-primary")
+    = daisy_button("Soft", css: "btn-secondary btn-soft")
+
+- when "Daisy::Actions::DropdownComponent"
+  = daisy_dropdown(title: "Click to Open", css: "dropdown-center dropdown-open mb-24", button_css: "btn-sm", menu_css: "w-44") do |dropdown|
+    - dropdown.with_item do
+      = link_to "Profile", "#"
+    - dropdown.with_item do
+      = link_to "Settings", "#"
+
+- when "Daisy::Actions::FabComponent"
+  %div{ class: "relative h-full w-full [&_.fab]:absolute" }
+    = daisy_fab do |fab|
+      - fab.with_button(css: "btn-primary btn-circle btn-lg") do
+        = loco_icon("plus", css: "size-6")
+
+- when "Daisy::Actions::ModalComponent"
+  - # An actually-open dialog would trip DaisyUI's `:root:has(.modal[open])`
+  - # page scroll lock, so the dialog stays closed and the wrapper forces
+  - # the open look (visibility, backdrop tint, box reveal) instead.
+  %div{ class: "relative h-full w-full [&_.modal]:absolute [&_.modal]:visible [&_.modal]:bg-black/40 [&_.modal-box]:opacity-100 [&_.modal-box]:[translate:0] [&_.modal-box]:[scale:1]" }
+    = daisy_modal(title: "Hello!", trigger: false, box_css: "max-w-[80%] p-4") do
+      %p.text-sm You look nice today.
+
+- when "Daisy::Actions::SwapComponent"
+  .flex.items-center.gap-4.text-4xl
+    = daisy_swap(off: "🌚", on: "🌞", css: "swap-rotate")
+    = daisy_swap(off: "🔇", on: "🔊", checked: true, css: "swap-flip")
+
+- when "Daisy::Actions::ThemeControllerComponent"
+  = daisy_theme_controller do |tc|
+    .flex.items-center.gap-3
+      - %w[light dark synthwave retro].each do |theme|
+        = tc.build_theme_preview(theme)
+
+- when "Daisy::DataDisplay::AccordionComponent"
+  = daisy_accordion(css: "w-full rounded-box border border-base-300 bg-base-100 text-sm") do |accordion|
+    - accordion.with_section(css: "collapse-arrow", title: "Click to expand", checked: true) do
+      Hi there! 👋
+    - accordion.with_section(css: "collapse-arrow", title: "More info") do
+      More content.
+
+- when "Daisy::DataDisplay::AvatarComponent"
+  .flex.items-center.gap-3
+    = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "w-14")
+    = daisy_avatar(wrapper_css: "w-14 bg-primary/15 font-black text-primary") do
+      LM
+
+- when "Daisy::DataDisplay::BadgeComponent"
+  .flex.flex-wrap.items-center.justify-center.gap-2
+    = daisy_badge("Primary", css: "badge-primary")
+    = daisy_badge("Soft", css: "badge-secondary badge-soft")
+    = daisy_badge("Outline", css: "badge-accent badge-outline")
+
+- when "Daisy::DataDisplay::CardComponent"
+  = daisy_card(css: "w-52 border border-base-300 bg-base-100 shadow-sm", body_css: "gap-1 p-4") do
+    %span.font-bold Card title
+    %p{ class: "text-xs text-base-content/70" } A little supporting copy.
+
+- when "Daisy::DataDisplay::CarouselComponent"
+  = daisy_carousel(css: "h-24 w-56 gap-x-2 rounded-box") do |carousel|
+    - %w[beach desert forest].each do |land|
+      - carousel.with_item do
+        = image_tag("landscapes/#{land}.jpg", class: "h-24 rounded-box", alt: land.titleize)
+
+- when "Daisy::DataDisplay::ChatComponent"
+  .w-full.text-sm
+    = daisy_chat do |chat|
+      - chat.with_avatar(src: image_path("avatars/lady-smiling-2.jpg"))
+      - chat.with_bubble do
+        All aboard?
+    = daisy_chat(css: "chat-end") do |chat|
+      - chat.with_bubble(css: "chat-bubble-primary") do
+        🚂 Choo choo!
+
+- when "Daisy::DataDisplay::CollapseComponent"
+  = daisy_collapse(title: "Click to open", css: "collapse-arrow w-full border border-base-300 bg-base-100 text-sm") do
+    Surprise! 🎉
+
+- when "Daisy::DataDisplay::CountdownComponent"
+  .font-mono.text-3xl
+    = daisy_countdown(1.hour + 23.minutes + 45.seconds)
+
+- when "Daisy::DataDisplay::DiffComponent"
+  = daisy_diff(css: "aspect-video w-56 rounded-box border border-base-300") do |diff|
+    - diff.with_item do
+      .h-full.bg-base-200.p-2.text-left.font-black BEFORE
+    - diff.with_item do
+      .flex.h-full.items-end.justify-end.bg-primary.p-2.font-black.text-primary-content AFTER
+
+- when "Daisy::DataDisplay::FigureComponent"
+  = daisy_figure(src: image_path("landscapes/mountain-river.jpg"), css: "w-52 overflow-hidden rounded-box")
+
+- when "Daisy::DataDisplay::KbdComponent"
+  .flex.items-center.gap-1
+    = daisy_kbd("⌘")
+    = daisy_kbd("⇧")
+    = daisy_kbd("K")
+
+- when "Daisy::DataDisplay::ListComponent"
+  = daisy_list(header: "Today's crew", header_css: "p-4 pb-2 text-xs tracking-wide opacity-60", css: "w-52 rounded-box border border-base-300 bg-base-100 text-sm") do |list|
+    - list.with_item do
+      = image_tag("avatars/lady-smiling-1.jpg", class: "size-8 rounded-box", alt: "Conductor")
+      .font-medium Conductor
+    - list.with_item do
+      = image_tag("avatars/lady-smiling-3.jpg", class: "size-8 rounded-box", alt: "Stoker")
+      .font-medium Stoker
+
+- when "Daisy::DataDisplay::StatComponent"
+  = daisy_stat(title: "Downloads", description: "↗︎ 12% this month", value_css: "text-primary") do
+    31.6K
+
+- when "Daisy::DataDisplay::StatusComponent"
+  .flex.items-center.gap-5.text-sm
+    %span.flex.items-center.gap-2
+      = daisy_status(css: "status-success animate-pulse")
+      Online
+    %span.flex.items-center.gap-2
+      = daisy_status(css: "status-error")
+      Down
+
+- when "Daisy::DataDisplay::TableComponent"
+  = daisy_table(css: "table-sm w-48 rounded-box border border-base-300 bg-base-100 text-xs") do |table|
+    - table.with_head do |head|
+      - head.with_column do
+        Train
+      - head.with_column do
+        Speed
+    - [["Express", "88 mph"], ["Local", "45 mph"]].each do |train, speed|
+      - table.with_row do |row|
+        - row.with_column do
+          = train
+        - row.with_column do
+          = speed
+
+- when "Daisy::DataDisplay::TextRotateComponent"
+  = daisy_text_rotate(texts: %w[BUILD SHIP SMILE], css: "text-3xl font-black text-primary")
+
+- when "Daisy::DataDisplay::TimelineComponent"
+  = daisy_timeline(css: "text-xs [&_hr]:w-8") do |timeline|
+    - timeline.with_event(leading: "9:00", middle_icon: "check-circle", trailing: "Board")
+    - timeline.with_event(leading: "9:15", middle_icon: "check-circle", trailing: "Depart")
+
+- when "Daisy::DataInput::CallyComponent"
+  %div{ class: "scale-[0.55]" }
+    = daisy_cally
+
+- when "Daisy::DataInput::CallyInputComponent"
+  %div{ class: "w-44" }
+    = daisy_cally_input(value: "2026-07-10")
+
+- when "Daisy::DataInput::CheckboxComponent"
+  .flex.items-center.gap-3
+    = daisy_checkbox(name: "preview_check_1", checked: true, css: "checkbox-primary")
+    = daisy_checkbox(name: "preview_check_2", checked: true, css: "checkbox-secondary")
+    = daisy_checkbox(name: "preview_check_3")
+
+- when "Daisy::DataInput::FileInputComponent"
+  = daisy_file_input(name: "preview_file", css: "file-input-sm w-52")
+
+- when "Daisy::DataInput::FieldsetComponent"
+  = daisy_fieldset(legend: "Ticket details") do
+    = daisy_label(for: "preview_fieldset_input", title: "Passenger")
+    = daisy_text_input(name: "preview_fieldset_input", id: "preview_fieldset_input", placeholder: "Jane Doe", css: "input-sm w-40")
+
+- when "Daisy::DataInput::FilterComponent"
+  = daisy_filter(name: "preview_filter", options: %w[Steam Diesel Electric])
+
+- when "Daisy::DataInput::LabelComponent"
+  .flex.flex-col.gap-1
+    = daisy_label(for: "preview_label_input", title: "Email address")
+    = daisy_text_input(name: "preview_label_input", id: "preview_label_input", placeholder: "topher@example.com", css: "input-sm w-44")
+
+- when "Daisy::DataInput::OtpComponent"
+  = daisy_otp(name: "preview_otp", value: "1985")
+
+- when "Daisy::DataInput::RadioButtonComponent"
+  .flex.items-center.gap-3
+    = daisy_radio(name: "preview_radio", id: "preview_radio_1", value: "1", checked: true, css: "radio-primary")
+    = daisy_radio(name: "preview_radio", id: "preview_radio_2", value: "2")
+
+- when "Daisy::DataInput::RangeComponent"
+  = daisy_range(name: "preview_range", value: 60, css: "range-primary w-44")
+
+- when "Daisy::DataInput::RatingComponent"
+  = daisy_rating(name: "preview_rating", value: 4)
+
+- when "Daisy::DataInput::SelectComponent"
+  = daisy_select(name: "preview_select", placeholder: "Pick a line", css: "select-sm w-40") do |select|
+    - select.with_option(value: "northern", label: "Northern")
+    - select.with_option(value: "central", label: "Central")
+
+- when "Daisy::DataInput::TextInputComponent"
+  = daisy_text_input(name: "preview_text", placeholder: "Type here…", css: "input-sm w-44")
+
+- when "Daisy::DataInput::TextAreaComponent"
+  = daisy_text_area(name: "preview_textarea", placeholder: "Leave a note…", css: "textarea-sm w-48")
+
+- when "Daisy::DataInput::ToggleComponent"
+  .flex.items-center.gap-3
+    = daisy_toggle(name: "preview_toggle_1", checked: true, css: "toggle-primary")
+    = daisy_toggle(name: "preview_toggle_2")
+
+- when "Daisy::Navigation::BreadcrumbsComponent"
+  .text-sm
+    = daisy_breadcrumbs do |breadcrumbs|
+      - breadcrumbs.with_item(title: "Home", href: "#")
+      - breadcrumbs.with_item(title: "Docs", href: "#")
+      - breadcrumbs.with_item(title: "Components")
+
+- when "Daisy::Navigation::DockComponent"
+  = daisy_dock(css: "relative w-full rounded-box border border-base-300") do |dock|
+    - dock.with_section(icon: "home", href: "#")
+    - dock.with_section(icon: "map-pin", href: "#", active: true)
+    - dock.with_section(icon: "cog-6-tooth", href: "#")
+
+- when "Daisy::Navigation::LinkComponent"
+  .flex.flex-col.items-center.gap-1.text-sm
+    = daisy_link("A primary link", "#", css: "link-primary")
+    = daisy_link("A secondary link", "#", css: "link-secondary")
+
+- when "Daisy::Navigation::MegamenuComponent"
+  = daisy_megamenu(css: "rounded-box border border-base-300 bg-base-100 p-1 text-sm") do |mega|
+    - mega.with_item(title: "Routes") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Northern Line", "#"
+    - mega.with_item(title: "Tickets") do
+      = daisy_menu do |menu|
+        - menu.with_item do
+          = link_to "Day Pass", "#"
+
+- when "Daisy::Navigation::MenuComponent"
+  = daisy_menu(css: "w-40 rounded-box border border-base-300 bg-base-100 text-sm") do |menu|
+    - menu.with_item do
+      = link_to "Dashboard", "#", class: "menu-active"
+    - menu.with_item do
+      = link_to "Settings", "#"
+
+- when "Daisy::Navigation::NavbarComponent"
+  = daisy_navbar(css: "min-h-0 w-full rounded-box border border-base-300 bg-base-100 px-3 py-1 text-sm") do |navbar|
+    - navbar.with_leading do
+      %span.font-black 🚂 Loco
+    - navbar.with_trailing do
+      = daisy_button("Menu", css: "btn-ghost btn-xs")
+
+- when "Daisy::Navigation::PaginationComponent"
+  - # `with_button` renders the buttons as direct join children — the
+  - # `with_item` wrapper div would swallow DaisyUI's corner rounding.
+  = daisy_join do |join|
+    - %w[1 2 3 4].each do |page|
+      - join.with_button(title: page, css: "btn-sm #{'btn-primary' if page == '2'}")
+
+- when "Daisy::Navigation::StepsComponent"
+  = daisy_steps(css: "text-xs") do |steps|
+    - steps.with_step(title: "Board", css: "step-primary")
+    - steps.with_step(title: "Ride", css: "step-primary")
+    - steps.with_step(title: "Arrive")
+
+- when "Daisy::Navigation::TabsComponent"
+  = daisy_tabs(css: "tabs-box tabs-sm") do |tabs|
+    - %w[Trains Tickets Routes].each_with_index do |tab, i|
+      - tabs.with_tab(title: tab, checked: i.zero?)
+
+- when "Daisy::Feedback::AlertComponent"
+  = daisy_alert(icon: "information-circle", css: "alert-info text-sm") do
+    All trains on schedule.
+
+- when "Daisy::Feedback::LoadingComponent"
+  .flex.items-center.gap-4
+    = daisy_loading(css: "loading-spinner text-primary")
+    = daisy_loading(css: "loading-dots text-secondary")
+    = daisy_loading(css: "loading-ring loading-lg text-accent")
+
+- when "Daisy::Feedback::ProgressComponent"
+  .flex.w-44.flex-col.gap-3
+    = daisy_progress(value: 42, css: "progress-primary")
+    = daisy_progress(value: 84, css: "progress-secondary")
+
+- when "Daisy::Feedback::RadialProgressComponent"
+  = daisy_radial(value: 72, css: "text-primary") do
+    72%
+
+- when "Daisy::Feedback::SkeletonComponent"
+  .flex.w-44.items-center.gap-3
+    = daisy_skeleton(css: "size-12 shrink-0 rounded-full")
+    .flex.grow.flex-col.gap-2
+      = daisy_skeleton(css: "h-3 w-full")
+      = daisy_skeleton(css: "h-3 w-2/3")
+
+- when "Daisy::Feedback::ToastComponent"
+  %div{ class: "relative h-full w-full [&_.toast]:absolute" }
+    = daisy_toast do
+      = daisy_alert(icon: "check-circle", css: "alert-success text-sm") do
+        Tickets booked!
+      = daisy_alert(icon: "exclamation-circle", css: "alert-error text-sm") do
+        Seat 12A is taken!
+
+- when "Daisy::Feedback::TooltipComponent"
+  = daisy_tip("Hi there! 👋", css: "tooltip-open tooltip-primary mt-6") do
+    = daisy_button("Hover me")
+
+- when "Daisy::Layout::AuraComponent"
+  = daisy_aura(css: "aura-dual text-secondary") do
+    = daisy_button("Radiant", css: "btn-primary")
+
+- when "Daisy::Layout::DividerComponent"
+  .w-full.text-center.text-xs
+    .rounded-box.border.border-base-300.bg-base-100.p-2 Sign in
+    = daisy_divider("OR", css: "my-1")
+    .rounded-box.border.border-base-300.bg-base-100.p-2 Register
+
+- when "Daisy::Layout::DrawerComponent"
+  %div{ class: "relative h-28 w-full overflow-hidden rounded-box border border-base-300" }
+    = daisy_drawer(css: "drawer-open h-full") do |drawer|
+      - drawer.with_sidebar(css: "h-full") do
+        .h-full.w-24.bg-base-200.p-3.text-xs.font-bold Sidebar
+      .grid.h-full.place-content-center.bg-base-100.text-xs Content
+
+- when "Daisy::Layout::FooterComponent"
+  = daisy_footer(css: "w-full rounded-box bg-neutral p-4 text-xs text-neutral-content") do
+    %nav.flex.flex-col.gap-1
+      %span.font-bold.uppercase.opacity-60 Services
+      = daisy_link("Branding", "#", css: "link-hover")
+      = daisy_link("Design", "#", css: "link-hover")
+
+- when "Daisy::Layout::HeroComponent"
+  = daisy_hero(css: "w-full rounded-box bg-base-200") do
+    .flex.flex-col.items-center.gap-2.py-4.text-center
+      %span.text-xl.font-black All aboard!
+      = daisy_button("Get Started", css: "btn-primary btn-xs")
+
+- when "Daisy::Layout::HoverComponent"
+  = daisy_hover(css: "w-40") do
+    = daisy_figure(src: image_path("landscapes/forest.jpg"), css: "overflow-hidden rounded-box")
+
+- when "Daisy::Layout::HoverGalleryComponent"
+  = daisy_hover_gallery(css: "w-40 overflow-hidden rounded-box") do |gallery|
+    - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
+    - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
+
+- when "Daisy::Layout::IndicatorComponent"
+  = daisy_indicator do |indicator|
+    - indicator.with_item do
+      = daisy_badge("3", css: "badge-secondary")
+    = daisy_button("Inbox", left_icon: "envelope")
+
+- when "Daisy::Layout::JoinComponent"
+  = daisy_join do |join|
+    - %w[Day Week Month].each_with_index do |label, i|
+      - join.with_button(title: label, css: "btn-sm #{'btn-active' if i == 1}")
+
+- when "Daisy::Layout::MaskComponent"
+  .flex.items-center.gap-3
+    - %w[mask-squircle mask-heart mask-hexagon].each do |mask|
+      = daisy_avatar(src: image_path("avatars/lady-smiling-2.jpg"), wrapper_css: "w-14 rounded-none mask #{mask}")
+
+- when "Daisy::Layout::StackComponent"
+  - stack_css = "border border-base-300 bg-base-100 text-center shadow-sm"
+  = daisy_stack(css: "w-36 text-xs") do
+    = daisy_card(css: "#{stack_css} pb-2", body_css: "p-2") do
+      Top
+    = daisy_card(css: "#{stack_css} py-1", body_css: "p-2") do
+      Middle
+    = daisy_card(css: "#{stack_css} pt-2", body_css: "p-2") do
+      Bottom
+
+- when "Daisy::Mockup::BrowserComponent"
+  = daisy_browser(css: "w-full border border-base-300 bg-base-200") do |browser|
+    - browser.with_toolbar do
+      %span{ class: "font-mono text-xs text-base-content/50" } locomotion.rails
+    .grid.place-content-center.bg-base-100.px-4.py-6.text-sm 🚂 All aboard!
+
+- when "Daisy::Mockup::CodeComponent"
+  - # `sl` draws an ASCII steam train in your terminal — dangerously
+  - # on-brand. (Sadly nobody hosts a curl-able version.)
+  = daisy_code(css: "w-full min-w-0 text-xs") do |code|
+    - code.with_line(prefix: "$") do
+      brew install sl
+    - code.with_line(prefix: "$") do
+      sl
+    - code.with_line(prefix: ">", css: "text-warning") do
+      🚂 choo choo!
+
+- when "Daisy::Mockup::DeviceComponent"
+  = daisy_device(css: "mockup-phone w-32 scale-[0.6]", display_css: "grid place-content-center bg-base-100 py-10 text-3xl") do
+    🚂
+
+- when "Daisy::Mockup::FrameComponent"
+  = daisy_frame(css: "w-40 border border-base-300") do
+    = image_tag("landscapes/mountain-river.jpg", class: "rounded-lg", alt: "Mountains")
+
+- else
+  - # A component without a preview yet still gets a friendly placeholder.
+  %span.text-3xl 🚂

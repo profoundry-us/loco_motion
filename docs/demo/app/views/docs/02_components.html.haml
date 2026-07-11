@@ -1,0 +1,57 @@
+= content_for(:page_title) do
+  Components
+
+.prose
+  :markdown
+    # Components
+
+    Every component in the library at a glance — each card is rendered live
+    by the component itself, not a screenshot. Click any card to open the
+    full example page.
+
+:ruby
+  # Mirror the sidebar nav: the Loco section first, then the Daisy section
+  # split into the same groups, with groups and cards alphabetized.
+  loco_components = LocoMotion::COMPONENTS
+    .select { |name, _config| name.start_with?("Loco::") }
+    .sort_by { |_name, config| config[:title] }
+
+  daisy_groups = LocoMotion::COMPONENTS
+    .select { |name, _config| name.start_with?("Daisy::") }
+    .group_by { |_name, config| config[:group] }
+    .sort
+    .map { |group, comps| [group, comps.sort_by { |_name, config| config[:title] }] }
+
+  sections = [
+    { title: "Loco", icon: "sparkles", icon_color: "text-info", groups: [[nil, loco_components]] },
+    { title: "Daisy", icon: "square-3-stack-3d", icon_color: "text-primary", groups: daisy_groups }
+  ]
+
+- sections.each do |section|
+  %h2{ class: "mt-12 flex items-center gap-2 text-2xl font-black tracking-wide" }
+    = loco_icon(section[:icon], css: section[:icon_color])
+    = section[:title]
+
+  - section[:groups].each do |group_title, components|
+    - if group_title
+      %h3{ class: "mt-8 mb-4 text-sm font-bold tracking-[.1em] text-primary" }
+        = group_title.upcase
+
+    %div{ class: "mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+      - components.each do |name, config|
+        = daisy_card(css: "group relative overflow-hidden border border-base-300 bg-base-100 transition hover:-translate-y-1 hover:shadow-xl", body_css: "gap-0 p-0") do
+          - # `inert` keeps the miniature components from stealing clicks,
+          - # keyboard focus, or screen-reader attention — the whole card acts
+          - # as one link to the example page. `isolate` scopes the sky-high
+          - # z-indexes some components carry (modal, toast) to this card so
+          - # previews never float above the page chrome.
+          %div{ class: "pointer-events-none isolate flex h-44 select-none items-center justify-center overflow-hidden bg-base-200/50 p-6", inert: true }
+            = render "docs/component_preview", component: name
+
+          %div{ class: "flex items-center gap-2 border-t border-base-300 px-4 py-3" }
+            %span{ class: "text-sm font-bold" }= config[:title]
+            - if LocoMotion::Helpers.new_component?(name)
+              = daisy_badge("New", css: "badge-secondary badge-xs")
+            = loco_icon("arrow-right", css: "ml-auto size-4 text-primary opacity-0 transition group-hover:opacity-100")
+
+          = link_to "", "/examples/#{name}", class: "absolute inset-0 z-10", aria: { label: "#{config[:title]} examples" }, data: { action: "click->nav#refresh", "turbo-action": "advance" }

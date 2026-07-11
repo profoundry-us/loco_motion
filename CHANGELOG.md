@@ -404,6 +404,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- feat(Demo): Add a components overview page (Docs → Components) that renders a live miniature of every
+  registered component — one card per component, grouped and alphabetized like the sidebar nav, with each
+  card linking through to the component's full example page. Previews are real component renders (marked
+  `inert` so the card acts as a single link), fixed-position components are contained inside their cards,
+  and new-in-this-release components carry the same "New" badge as the nav. The home page's live-preview
+  section gains a "See All Components" button, and the docs files renumber so the nav reads Introduction →
+  Components → Install → LLMs (doc URLs are number-independent, so nothing moves).
+
 - refactor(Demo): Convert the home page's remaining linkable components to the first-class
   `turbo_frame` / `turbo_action` / `action` options — the guide cards, both feature-section buttons, and
   the flair badge and button had still been passing nested `html: { data: { ... } }` hashes. The progress
