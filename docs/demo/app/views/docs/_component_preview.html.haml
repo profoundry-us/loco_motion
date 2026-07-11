@@ -153,7 +153,7 @@
   = daisy_text_rotate(texts: %w[BUILD SHIP SMILE], css: "text-3xl font-black text-primary")
 
 - when "Daisy::DataDisplay::TimelineComponent"
-  = daisy_timeline(css: "text-xs") do |timeline|
+  = daisy_timeline(css: "text-xs [&_hr]:w-8") do |timeline|
     - timeline.with_event(leading: "9:00", middle_icon: "check-circle", trailing: "Board")
     - timeline.with_event(leading: "9:15", middle_icon: "check-circle", trailing: "Depart")
 
