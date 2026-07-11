@@ -596,6 +596,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   both layers independently — `text-*` classes color the `currentColor` outline while `fill-*` classes
   color the tint layer, which inherits the SVG `fill`.
 
+- fix(Demo): Give every command its own `$` prompt in the install guide's icon sections. The icon-libraries
+  and treeshaking blocks passed two commands to a single-prefix `daisy_code`, so the second command rendered
+  promptless at column 0 like a broken line wrap; each command now gets its own `with_line(prefix: "$")`.
+  Also render the "Git is required to sync" note's Icons-docs link — the `component_link` call sat inside
+  the `:markdown` filter and printed as literal HAML. Fixes #288.
+
 ### Fixed
 
 - fix(Demo): Drop `vendor` from the demo app's Rails load path to stop the intermittent `SystemStackError`
