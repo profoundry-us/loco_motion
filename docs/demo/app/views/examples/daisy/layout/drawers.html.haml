@@ -7,9 +7,9 @@
   = doc_note(css: "mb-8 max-w-2xl") do
     :markdown
       In a real app, drawers cover the whole viewport. The examples below wrap
-      each drawer in a fixed-height box using the demo's `example-contain`
-      helper (`contain: layout` + `isolate` + `overflow-hidden`) so the drawers
-      open inside their preview boxes instead of the whole screen.
+      each drawer in a fixed-height box with `[contain:layout]`, `isolate`, and
+      `overflow-hidden` so the drawers open inside their preview boxes instead
+      of the whole screen.
 
 
 = doc_example(title: "Basic Drawer", tab_content_css: "p-0!") do |doc|
@@ -17,7 +17,7 @@
     :markdown
       The basic drawer slides in from the left side of the screen.
 
-  .example-contain.w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer do |drawer|
       - drawer.with_sidebar do
         .bg-base-100.p-4.w-40.h-48
@@ -31,7 +31,7 @@
     :markdown
       The right drawer slides in from the right side of the screen.
 
-  .example-contain.w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer(css: "drawer-end") do |drawer|
       - drawer.with_sidebar do
         .w-48.bg-base-100.p-4.h-48
@@ -46,7 +46,7 @@
       The advanced drawer slides in from the left side of the screen and has
       multiple ways to close it, along with some extra styling.
 
-  .example-contain.w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer do |drawer|
       - drawer.with_sidebar do
         .bg-base-100.p-4.h-48
