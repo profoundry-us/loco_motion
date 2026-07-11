@@ -596,6 +596,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   both layers independently — `text-*` classes color the `currentColor` outline while `fill-*` classes
   color the tint layer, which inherits the SVG `fill`.
 
+- fix(Demo): Restore the rounded outer corners on the Pagination example's button group. DaisyUI's join
+  hands the group rounding to its first and last *direct* children, but the example nested each button
+  inside `join.with_item` — an invisible wrapper `<div>` that swallowed the rounding and left every button
+  square. The example now uses `join.with_button`, which renders the buttons as direct join children. The
+  Join component's YARD docs also steer bordered controls (buttons, inputs) to `with_button` / direct
+  content and reserve `with_item` for plain custom content. Fixes #287.
 - fix(Demo): Give every command its own `$` prompt in the install guide's icon sections. The icon-libraries
   and treeshaking blocks passed two commands to a single-prefix `daisy_code`, so the second command rendered
   promptless at column 0 like a broken line wrap; each command now gets its own `with_line(prefix: "$")`.

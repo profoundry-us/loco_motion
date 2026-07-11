@@ -9,10 +9,20 @@
 # - Pagination controls.
 #
 # Items can be added using the `with_item` slot (which automatically adds the
-# `join-item` CSS class) or the `content` method (where you must add the class manually).
+# `join-item` CSS class) or the `content` method (where you must add the class
+# manually).
+#
+# @note DaisyUI gives the group's corner rounding to the join's first and last
+#   *direct* children. `with_item` wraps its content in an extra `<div>`, so a
+#   bordered control (button, input) nested inside it renders with square
+#   corners. Join buttons with the `with_button` slot or direct content
+#   instead, and reserve `with_item` for plain / custom content.
 #
 # @slot item+ [LocoMotion::BaseComponent] The elements to be joined together.
-#   The `join-item` CSS class is added automatically.
+#   The `join-item` CSS class is added automatically. Because the slot wraps
+#   its content in a `<div>`, use it only for non-bordered content — buttons
+#   and inputs should use `with_button` or direct content so DaisyUI's corner
+#   rounding lands on the visible control.
 #
 # @slot button+ [Daisy::Actions::ButtonComponent] Buttons to be joined together.
 #   The `join-item` CSS class is added automatically.
@@ -28,14 +38,14 @@
 #     - join.with_button(title: "Current", css: "btn-active")
 #     - join.with_button(title: "Next")
 #
-# @loco_example Basic Button Group (with with_item)
+# @loco_example Custom Content (with with_item)
 #   = daisy_join do |join|
 #     - join.with_item do
-#       = daisy_button(title: "Previous")
+#       %span.p-2.bg-base-200 Previous
 #     - join.with_item do
-#       = daisy_button(title: "Current", css: "btn-active")
+#       %span.p-2.bg-base-300 Current
 #     - join.with_item do
-#       = daisy_button(title: "Next")
+#       %span.p-2.bg-base-200 Next
 #
 # @loco_example Direct Content (without with_item)
 #   = daisy_join do
@@ -51,21 +61,15 @@
 #
 # @loco_example Icon Button Group
 #   = daisy_join do |join|
-#     - join.with_item do
-#       = daisy_button(icon: "chevron-left")
-#     - join.with_item do
-#       = daisy_button(icon: "home")
-#     - join.with_item do
-#       = daisy_button(icon: "chevron-right")
+#     - join.with_button(icon: "chevron-left")
+#     - join.with_button(icon: "home")
+#     - join.with_button(icon: "chevron-right")
 #
 # @loco_example Vertical Join
 #   = daisy_join(css: "join-vertical") do |join|
-#     - join.with_item do
-#       = daisy_button(title: "Menu", css: "w-full")
-#     - join.with_item do
-#       = daisy_button(title: "Settings", css: "w-full")
-#     - join.with_item do
-#       = daisy_button(title: "Account", css: "w-full")
+#     - join.with_button(title: "Menu", css: "w-full")
+#     - join.with_button(title: "Settings", css: "w-full")
+#     - join.with_button(title: "Account", css: "w-full")
 #
 module Daisy
   module Layout
