@@ -409,7 +409,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   card linking through to the component's full example page. Previews are real component renders (marked
   `inert` so the card acts as a single link), fixed-position components are contained inside their cards,
   and new-in-this-release components carry the same "New" badge as the nav. The home page's live-preview
-  section gains a "See All Components" button, and the LLMs doc shifts to slot `04` to make room.
+  section gains a "See All Components" button, and the docs files renumber so the nav reads Introduction →
+  Components → Install → LLMs (doc URLs are number-independent, so nothing moves).
 
 - refactor(Demo): Convert the home page's remaining linkable components to the first-class
   `turbo_frame` / `turbo_action` / `action` options — the guide cards, both feature-section buttons, and
