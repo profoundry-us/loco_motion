@@ -12,13 +12,8 @@
       used in conjunction with a list of items that are paginated.
 
   = daisy_join do |join|
-    - join.with_item do
-      = daisy_button(title: "1", css: "btn-primary join-item")
-    - join.with_item do
-      = daisy_button(title: "2", css: "join-item")
-    - join.with_item do
-      = daisy_button(title: "...", css: "join-item")
-    - join.with_item do
-      = daisy_button(title: "9", css: "join-item")
-    - join.with_item do
-      = daisy_button(title: "10", css: "join-item")
+    - join.with_button(title: "1", css: "btn-primary")
+    - join.with_button(title: "2")
+    - join.with_button(title: "...")
+    - join.with_button(title: "9")
+    - join.with_button(title: "10")
