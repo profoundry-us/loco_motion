@@ -261,10 +261,11 @@
       = daisy_button("Menu", css: "btn-ghost btn-xs")
 
 - when "Daisy::Navigation::PaginationComponent"
+  - # `with_button` renders the buttons as direct join children — the
+  - # `with_item` wrapper div would swallow DaisyUI's corner rounding.
   = daisy_join do |join|
     - %w[1 2 3 4].each do |page|
-      - join.with_item do
-        = daisy_button(title: page, css: "join-item btn-sm #{'btn-primary' if page == '2'}")
+      - join.with_button(title: page, css: "btn-sm #{'btn-primary' if page == '2'}")
 
 - when "Daisy::Navigation::StepsComponent"
   = daisy_steps(css: "text-xs") do |steps|
@@ -363,8 +364,7 @@
 - when "Daisy::Layout::JoinComponent"
   = daisy_join do |join|
     - %w[Day Week Month].each_with_index do |label, i|
-      - join.with_item do
-        = daisy_button(title: label, css: "join-item btn-sm #{'btn-active' if i == 1}")
+      - join.with_button(title: label, css: "btn-sm #{'btn-active' if i == 1}")
 
 - when "Daisy::Layout::MaskComponent"
   .flex.items-center.gap-3
