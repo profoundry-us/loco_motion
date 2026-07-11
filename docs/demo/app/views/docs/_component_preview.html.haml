@@ -18,7 +18,7 @@
     = daisy_button("Soft", css: "btn-secondary btn-soft")
 
 - when "Daisy::Actions::DropdownComponent"
-  = daisy_dropdown(title: "Click to Open", css: "dropdown-open mb-24", button_css: "btn-sm") do |dropdown|
+  = daisy_dropdown(title: "Click to Open", css: "dropdown-center dropdown-open mb-24", button_css: "btn-sm", menu_css: "w-44") do |dropdown|
     - dropdown.with_item do
       = link_to "Profile", "#"
     - dropdown.with_item do
@@ -100,9 +100,9 @@
 - when "Daisy::DataDisplay::DiffComponent"
   = daisy_diff(css: "aspect-video w-56 rounded-box border border-base-300") do |diff|
     - diff.with_item do
-      .h-full.bg-primary.p-2.text-left.font-black.text-primary-content AFTER
+      .h-full.bg-base-200.p-2.text-left.font-black BEFORE
     - diff.with_item do
-      .flex.h-full.items-end.justify-end.bg-base-200.p-2.font-black BEFORE
+      .flex.h-full.items-end.justify-end.bg-primary.p-2.font-black.text-primary-content AFTER
 
 - when "Daisy::DataDisplay::FigureComponent"
   = daisy_figure(src: image_path("landscapes/mountain-river.jpg"), css: "w-52 overflow-hidden rounded-box")
