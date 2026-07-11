@@ -402,6 +402,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   ended in string concatenation — a countdown of 1h 2m 5s computed `3720 + "5"` = `"37205"` and rendered as
   10h 20m. Any countdown with an hours or minutes part was affected.
 
+- fix(Countdown): Zero-pad clock-style countdowns. DaisyUI 5.6 hides the tens digit unless `--digits` is at
+  least 2, so any unit below 10 collapsed to a single character — a countdown ticking from `1:21:10` showed
+  `1:21:4`, with the width visibly contracting at `:09`. The hours, minutes, and seconds spans in the
+  default colon-separated format now render with `--digits: 2` (`1:21:04`); days and the `:letters` /
+  `:words` formats stay unpadded. A new `digits:` option overrides the reserved width for all parts. Fixes
+  #285.
+
 ### Demo / Docs Changes
 
 - feat(Demo): Add a components overview page (Docs → Components) that renders a live miniature of every
