@@ -278,8 +278,8 @@
       - tabs.with_tab(title: tab, checked: i.zero?)
 
 - when "Daisy::Feedback::AlertComponent"
-  = daisy_alert(icon: "check-circle", css: "alert-success text-sm") do
-    Right on track!
+  = daisy_alert(icon: "information-circle", css: "alert-info text-sm") do
+    All trains on schedule.
 
 - when "Daisy::Feedback::LoadingComponent"
   .flex.items-center.gap-4
@@ -308,6 +308,8 @@
     = daisy_toast do
       = daisy_alert(icon: "check-circle", css: "alert-success text-sm") do
         Tickets booked!
+      = daisy_alert(icon: "exclamation-circle", css: "alert-error text-sm") do
+        Seat 12A is taken!
 
 - when "Daisy::Feedback::TooltipComponent"
   = daisy_tip("Hi there! 👋", css: "tooltip-open tooltip-primary mt-6") do
