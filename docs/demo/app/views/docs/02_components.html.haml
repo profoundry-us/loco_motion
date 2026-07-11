@@ -55,3 +55,7 @@
             = loco_icon("arrow-right", css: "ml-auto size-4 text-primary opacity-0 transition group-hover:opacity-100")
 
           = link_to "", "/examples/#{name}", class: "absolute inset-0 z-10", aria: { label: "#{config[:title]} examples" }, data: { action: "click->nav#refresh", "turbo-action": "advance" }
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id], section: "docs")

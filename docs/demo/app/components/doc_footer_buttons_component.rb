@@ -59,7 +59,8 @@ class DocFooterButtonsComponent < ApplicationComponent
     files.map do |file|
       id = File.basename(file, ".*").split(".").first
       slug = id.gsub(/^\d+_/, "")
-      { id: id, slug: slug, title: slug.humanize }
+      title = slug == "llms" ? "LLMs" : slug.humanize
+      { id: id, slug: slug, title: title }
     end
   end
 end
