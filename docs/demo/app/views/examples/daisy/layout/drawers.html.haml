@@ -6,9 +6,10 @@
 
   = doc_note(css: "mb-8 max-w-2xl") do
     :markdown
-      The `relative / absolute` and the `h-48` classes allow the drawer to
-      render properly inside the example preview box instead of the whole
-      screen.
+      In a real app, drawers cover the whole viewport. The examples below wrap
+      each drawer in a fixed-height box with `[contain:layout]`, `isolate`, and
+      `overflow-hidden` so the drawers open inside their preview boxes instead
+      of the whole screen.
 
 
 = doc_example(title: "Basic Drawer", tab_content_css: "p-0!") do |doc|
@@ -16,9 +17,9 @@
     :markdown
       The basic drawer slides in from the left side of the screen.
 
-  .relative.w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer do |drawer|
-      - drawer.with_sidebar(css: "absolute h-48") do
+      - drawer.with_sidebar do
         .bg-base-100.p-4.w-40.h-48
           Hello sidebar!
 
@@ -30,16 +31,10 @@
     :markdown
       The right drawer slides in from the right side of the screen.
 
-    = doc_note(modifier: :warning, css: "mb-8", title: "Multiple Drawers") do
-      :markdown
-        Drawers are not designed to work with multiple on the page, so this
-        example behaves a bit weirdly on desktop, showing both drawers.
-
-  .w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer(css: "drawer-end") do |drawer|
       - drawer.with_sidebar do
-        - # The calc accounts for the top nav bar
-        .w-48.bg-base-100.mt-16.p-4{ class: "h-[calc(100%-4rem)]" }
+        .w-48.bg-base-100.p-4.h-48
           Right sidebar!
 
       = daisy_button(tag_name: "label", css: "m-8 btn btn-primary", title: "Open Drawer", html: { for: drawer.id })
@@ -51,9 +46,9 @@
       The advanced drawer slides in from the left side of the screen and has
       multiple ways to close it, along with some extra styling.
 
-  .relative.w-full.h-48
+  .w-full.h-48.isolate.overflow-hidden{ class: "[contain:layout]" }
     = daisy_drawer do |drawer|
-      - drawer.with_sidebar(css: "absolute h-48") do
+      - drawer.with_sidebar do
         .bg-base-100.p-4.h-48
           .flex.items-center.justify-between.gap-8
             %h1.text-lg

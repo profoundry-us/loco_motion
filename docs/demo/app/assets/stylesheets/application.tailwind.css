@@ -50,6 +50,17 @@
 }
 
 /* Add some custom styles */
+
+/* Opening a drawer sets DaisyUI's page scroll lock via
+ * `:where(:root:has(.drawer-toggle:checked))`. That's right for the sidenav
+ * drawer on mobile, but an example drawer contained in its preview box should
+ * not freeze the page. The rule is zero-specificity, so undo it whenever the
+ * checked drawer toggles live inside example previews and the sidenav itself
+ * is closed. */
+:root:has([data-doc-example-target="preview"] .drawer-toggle:checked):not(:has(#sidenav-drawer:checked)) {
+  --page-scroll-lock: initial;
+}
+
 .max-w-prose {
   max-width: var(--max-prose-width);
 }

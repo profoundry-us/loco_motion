@@ -614,6 +614,17 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   promptless at column 0 like a broken line wrap; each command now gets its own `with_line(prefix: "$")`.
   Also render the "Git is required to sync" note's Icons-docs link — the `component_link` call sat inside
   the `:markdown` filter and printed as literal HAML. Fixes #288.
+- fix(Demo): Contain the drawer examples with a shared Tailwind recipe (`[contain:layout]` + `isolate` +
+  `overflow-hidden` on the wrapper, inline in each example so the Code tab shows the whole technique)
+  instead of a different hack per example. `contain: layout` makes the wrapper the containing block for
+  DaisyUI's `position: fixed` drawer sidebar, so all three drawers now open inside their preview boxes —
+  previously the Right Drawer escaped, dimmed the whole viewport, and dodged the sticky header with a magic
+  `mt-16` + `h-[calc(100%-4rem)]`. The per-example `relative` / `absolute h-48` overrides, the header
+  dodge, and the apologetic page note are gone, and the "Multiple Drawers" warning is removed since both
+  drawers now stay contained when open together. Opening an example drawer also no longer freezes page
+  scrolling — a zero-specificity demo rule opts example previews out of DaisyUI's
+  `:root:has(.drawer-toggle:checked)` scroll lock while the sidenav drawer keeps locking on mobile. Fixes
+  #286.
 
 ### Fixed
 
