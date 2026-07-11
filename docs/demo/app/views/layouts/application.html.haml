@@ -41,7 +41,10 @@
     .drawer{ class: ("xl:drawer-open" unless hide_sidenav) }
       %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
 
-      .drawer-content.overflow-hidden
+      - # overflow-x-CLIP, not -hidden: hidden makes this a scroll container,
+      - # which breaks scroll-to-anchor (#section links) on every page; clip
+      - # only clips the homepage flair without eating scrollIntoView.
+      .drawer-content.overflow-x-clip
         .mx-auto.mt-5.pl-4.pr-4{ class: ["max-w-[1470px]", ("xl:pl-68" unless hide_sidenav)], "data-ads-target": "content" }
           %turbo-frame#content.block
             = yield
