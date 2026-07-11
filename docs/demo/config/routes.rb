@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 
   get "/api-docs", to: "api_docs#index"
 
+  # These guides moved into the Docs section; redirect their old URLs.
+  get "/guides/migrating_icons", to: redirect("/docs/migrating_icons")
+  get "/guides/upgrade_guide", to: redirect("/docs/upgrade_guide")
+
   # Guides route that matches /guides/some-guide to the corresponding guide file
   get "/guides/:id", to: "guides#show", as: :guide
 
