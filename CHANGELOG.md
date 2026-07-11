@@ -602,6 +602,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   square. The example now uses `join.with_button`, which renders the buttons as direct join children. The
   Join component's YARD docs also steer bordered controls (buttons, inputs) to `with_button` / direct
   content and reserve `with_item` for plain custom content. Fixes #287.
+- fix(Demo): Give every command its own `$` prompt in the install guide's icon sections. The icon-libraries
+  and treeshaking blocks passed two commands to a single-prefix `daisy_code`, so the second command rendered
+  promptless at column 0 like a broken line wrap; each command now gets its own `with_line(prefix: "$")`.
+  Also render the "Git is required to sync" note's Icons-docs link — the `component_link` call sat inside
+  the `:markdown` filter and printed as literal HAML. Fixes #288.
 
 ### Fixed
 
