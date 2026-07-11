@@ -235,9 +235,11 @@
     `library:name` token:
 
 .max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    bin/rails loco_motion:icons:add lucide phosphor
-    bin/rails loco_motion:icons:list
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bin/rails loco_motion:icons:add lucide phosphor
+    - code.with_line(prefix: "$") do
+      bin/rails loco_motion:icons:list
 
   = doc_code(css: "my-4", language: "haml") do
     :plain
@@ -263,7 +265,10 @@
 = doc_note(css: "mt-6", title: "Git is required to sync") do
   :markdown
     `loco_motion:icons:add` fetches icon sets with `git`, so make sure it's
-    available wherever you run the task. See the
+    available wherever you run the task.
+
+  %p
+    See the
     = component_link("Icons docs", "Loco::IconComponent")
     for the full rendering API.
 
@@ -278,9 +283,11 @@
     local cache (gitignored), then treeshake into your committed icons:
 
 .max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    bin/rails loco_motion:icons:cache
-    bin/rails loco_motion:icons:sync
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bin/rails loco_motion:icons:cache
+    - code.with_line(prefix: "$") do
+      bin/rails loco_motion:icons:sync
 
 .mt-4.prose
   :markdown
