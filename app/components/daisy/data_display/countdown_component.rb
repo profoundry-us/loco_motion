@@ -52,6 +52,13 @@ module Daisy
       # @option kws [String] :separator The separator to use between time parts.
       #   Defaults to ":". Ignored when using :words or :letters modifiers.
       #
+      # @option kws [Integer] :digits The number of digits each time part
+      #   reserves (via DaisyUI's `--digits` CSS variable), zero-padding
+      #   smaller values. In the default clock format, hours, minutes, and
+      #   seconds reserve two digits (`1:21:04`); days and the :words /
+      #   :letters formats stay unpadded. Pass a value to override the
+      #   reserved width for all parts, including days.
+      #
       # @option kws [String] :parts_css CSS classes to apply to all time parts
       #   (days, hours, minutes, seconds).
       #
@@ -65,6 +72,7 @@ module Daisy
 
         @duration = config_option(:duration, args[0])
         @separator = config_option(:separator, ":")
+        @digits = config_option(:digits)
         @parts_css = config_option(:parts_css)
         @parts_html = config_option(:parts_html)
       end
@@ -102,6 +110,31 @@ module Daisy
 
       def dparts
         @duration&.parts || {}
+      end
+
+      #
+      # Builds the inline style for a time part's value span, including the
+      # `--digits` width when the part should zero-pad.
+      #
+      def value_style(part)
+        style = "--value: #{dparts[part]}"
+        digits = digits_for(part)
+
+        digits ? "#{style}; --digits: #{digits}" : style
+      end
+
+      #
+      # DaisyUI hides the tens digit unless `--digits` is at least 2, so
+      # values below 10 collapse to a single character (1:21:4). Clock-style
+      # countdowns reserve two digits for hours, minutes, and seconds; days
+      # and the :words / :letters formats keep DaisyUI's unpadded default
+      # unless the `digits` option overrides it.
+      #
+      def digits_for(part)
+        return @digits if @digits
+        return if modifiers.include?(:words) || modifiers.include?(:letters)
+
+        2 unless part == :days
       end
 
       def days_separator

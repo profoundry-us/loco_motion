@@ -36,6 +36,22 @@
     = daisy_countdown(ActiveSupport::Duration.build(3725), modifier: :words)
 
 
+= doc_example(title: "Zero-Padding", allow_reset: true) do |doc|
+  - doc.with_description do
+    :markdown
+      In the default clock format, hours, minutes, and seconds reserve two
+      digits (via DaisyUI's `--digits` CSS variable), so values below 10 render
+      zero-padded (`1:21:04`) instead of collapsing to a single character as
+      the countdown ticks.
+
+      Days — and the `:letters` / `:words` formats — stay unpadded. Pass the
+      `digits:` option to override the reserved width for all parts.
+
+  .flex.flex-col.items-center.gap-y-4.font-mono
+    = daisy_countdown(ActiveSupport::Duration.build(4864))
+    = daisy_countdown(ActiveSupport::Duration.build(4864), digits: 3)
+
+
 = doc_example(title: "Boxed Countdown", allow_reset: true) do |doc|
   - doc.with_description do
     :markdown

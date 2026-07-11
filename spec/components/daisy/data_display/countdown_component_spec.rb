@@ -56,6 +56,44 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
       it "renders default separators" do
         expect(page).to have_text(":")
       end
+
+      it "zero-pads hours, minutes, and seconds" do
+        expect(page).to have_selector("[style='--value: 1; --digits: 2']")
+        expect(page).to have_selector("[style='--value: 2; --digits: 2']")
+        expect(page).to have_selector("[style='--value: 5; --digits: 2']")
+      end
+    end
+  end
+
+  context "with days in the clock format" do
+    let(:duration) { ActiveSupport::Duration.build(90_061) } # 1d 1h 1m 1s
+
+    before do
+      render_inline(described_class.new(duration))
+    end
+
+    describe "rendering" do
+      it "does not zero-pad the days value" do
+        expect(page).to have_selector("[style='--value: 1']")
+      end
+
+      it "zero-pads the remaining parts" do
+        expect(page).to have_selector("[style='--value: 1; --digits: 2']", count: 3)
+      end
+    end
+  end
+
+  context "with a custom digits option" do
+    let(:duration) { ActiveSupport::Duration.build(90_061) } # 1d 1h 1m 1s
+
+    before do
+      render_inline(described_class.new(duration, digits: 3))
+    end
+
+    describe "rendering" do
+      it "applies the custom digits to every part" do
+        expect(page).to have_selector("[style='--value: 1; --digits: 3']", count: 4)
+      end
     end
   end
 
@@ -110,6 +148,10 @@ RSpec.describe Daisy::DataDisplay::CountdownComponent, type: :component do
         expect(page).to have_text("h")
         expect(page).to have_text("m")
         expect(page).to have_text("s")
+      end
+
+      it "does not zero-pad the values" do
+        expect(page).to have_no_selector("[style*='--digits']")
       end
     end
   end
