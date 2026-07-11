@@ -1,6 +1,28 @@
 = content_for(:page_title) do
   Upgrade Guide
 
+- # Rows for the start / end rename table: before tokens, after tokens, and
+- # where they apply.
+- renames = []
+- renames << [["start:", "end:"], ["leading:", "trailing:"], "Keyword arguments"]
+- renames << [["with_start", "with_end"], ["with_leading", "with_trailing"], "Slot calls"]
+- renames << [["with_start_actions", "with_end_actions"], ["with_leading_actions", "with_trailing_actions"], "Modal action slots"]
+- renames << [["start_*", "end_*"], ["leading_*", "trailing_*"], "Generated part options (css, html, aria, data)"]
+- renames << [["has_start_label?", "has_end_label?"], ["has_leading_label?", "has_trailing_label?"], "Labelable predicates"]
+
+- # Cards for the "New in 0.7.0" grid: emoji, title, description, link, and
+- # whether it is a brand-new component.
+- features = []
+- features << ["🧭", "Megamenu", "Big popover navigation menus in pure HTML + CSS.", "/examples/Daisy::Navigation::MegamenuComponent", true]
+- features << ["🔢", "OTP Input", "One box per digit backed by a single input — no JavaScript.", "/examples/Daisy::DataInput::OtpComponent", true]
+- features << ["✨", "Aura", "An animated border light that orbits any element.", "/examples/Daisy::Layout::AuraComponent", true]
+- features << ["🎨", "Importable CSS", "One @import replaces the hand-copied styles from the old install docs.", doc_path("install"), false]
+- features << ["⚡", "Turbo options everywhere", "turbo_frame, turbo_action, turbo_method, and turbo_confirm on anything linkable.", "/examples/Daisy::Navigation::LinkComponent", false]
+- features << ["📋", "Structured dropdown items", "with_item renders proper menu rows with leading / trailing slots.", "/examples/Daisy::Actions::DropdownComponent", false]
+- features << ["🪟", "Global modals", "trigger: false plus turbo_frame_id enables the canonical Hotwire modal.", "/examples/Daisy::Actions::ModalComponent", false]
+- features << ["🎭", "Theme switcher builder", "build_switcher_dropdown renders a complete theme switcher in one line.", "/examples/Daisy::Actions::ThemeControllerComponent", false]
+- features << ["✅", "Select fix", "Block-form options now honor the parent's value for preselection.", "/examples/Daisy::DataInput::SelectComponent", false]
+
 .max-w-prose
   = doc_info(url: "https://github.com/profoundry-us/loco_motion/blob/main/CHANGELOG.md", icon: "arrow-up-circle", icon_css: "text-primary") do
     :markdown
@@ -18,11 +40,29 @@
     checkboxes. Three new components (Megamenu, OTP, and Aura) come along
     for the ride.
 
-.mt-12.prose
-  :markdown
-    ## 1. Update your packages
+- # The roadmap: four action sections plus the victory lap. The colored
+- # steps link to their section below. The links opt out of Turbo because
+- # the layout wraps pages in a turbo-frame, which would otherwise swallow
+- # same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#packages", class: "link-hover", data: { turbo: "false" } } Update packages
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#rename", class: "link-hover", data: { turbo: "false" } } Rename labels
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#icons", class: "link-hover", data: { turbo: "false" } } Migrate icons
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#checkboxes", class: "link-hover", data: { turbo: "false" } } Review forms
+    - steps.with_step(title: "Enjoy 0.7.0 🎉")
 
-    Bump the gem and the matching npm package:
+.mt-12.prose
+  %h2{ id: "packages", class: "scroll-mt-24" } 1. Update your packages
+  :markdown
+    Bump the gem and the matching npm package. The new Megamenu, OTP, and
+    Aura components rely on styles introduced in **DaisyUI 5.6**, so the
+    npm package now declares `daisyui` `^5.6.0` as a peer dependency —
+    bump it alongside:
 
 .max-w-prose
   = doc_code(css: "my-4", language: "ruby") do
@@ -31,24 +71,17 @@
       gem "loco_motion-rails", "~> 0.7.0"
 
 .max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    yarn add @profoundry-us/loco_motion@0.7.0
-
-.mt-4.prose
-  :markdown
-    The new Megamenu, OTP, and Aura components rely on styles introduced in
-    **DaisyUI 5.6**, so the npm package now declares `daisyui` `^5.6.0` as a
-    peer dependency — your package manager will flag (or auto-resolve) an
-    older DaisyUI. Bump it alongside the packages above:
-
-.max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    yarn add daisyui@^5.6.7
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      yarn add @profoundry-us/loco_motion@0.7.0
+    - code.with_line(prefix: "$") do
+      yarn add daisyui@^5.6.7
 
 .mt-12.prose
+  %h2{ id: "rename", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Breaking", css: "badge-error badge-soft")
+    %span 2. Rename start / end to leading / trailing
   :markdown
-    ## 2. Rename start / end to leading / trailing
-
     The `start` / `end` pair is renamed everywhere: `start` is now
     **`leading`** and `end` is now **`trailing`**. (`end` is a Ruby reserved
     word, so its generated slot reader forced `send(:end)` workarounds; the
@@ -69,68 +102,95 @@
     Every spelling of the pair changes — keyword arguments, slot calls, and
     the generated part options:
 
-    - `start:` → `leading:` and `end:` → `trailing:`
-    - `with_start` → `with_leading` and `with_end` → `with_trailing`
-    - `with_start_actions` → `with_leading_actions` and
-      `with_end_actions` → `with_trailing_actions` (Modal)
-    - `start_css:` / `start_html:` / `start_aria:` / `start_data:` →
-      `leading_css:` / `leading_html:` / `leading_aria:` / `leading_data:`
-      (and the `end_*` / `_actions` variants likewise)
+- # The rename map as a real table (dogfooding daisy_table) — far easier
+- # to scan than the prose bullets it replaces.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Before" }
+      - head.with_column { "After" }
+      - head.with_column { "Applies to" }
+    - renames.each do |befores, afters, where|
+      - table.with_row do |row|
+        - row.with_column do
+          %div{ class: "flex flex-col gap-1" }
+            - befores.each do |token|
+              %code= token
+        - row.with_column do
+          %div{ class: "flex flex-col gap-1" }
+            - afters.each do |token|
+              %code= token
+        - row.with_column do
+          = where
 
+.mt-4.prose
+  :markdown
     One thing does **not** change: the rendered HTML. The emitted CSS
     classes (`navbar-start`, `timeline-end`, ...) are DaisyUI's own
     selectors, so your stylesheets keep working untouched — the rename is
     confined to the Ruby API.
 
-.max-w-prose
-  = doc_code(css: "my-4", language: "haml") do
-    :plain
-      -# Before
-      = daisy_text_input(name: "username", start: "Username:")
-      = daisy_checkbox(name: "terms", end: "I agree to the terms")
-      = daisy_navbar do |navbar|
-        - navbar.with_start do
-          Logo
-      = daisy_timeline do |timeline|
-        - timeline.with_event(start: "1984", end: "Born")
+- # Before / after, side by side on wide screens.
+.mt-6.max-w-4xl
+  %div{ class: "grid gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = daisy_text_input(name: "username", start: "Username:")
+          = daisy_checkbox(name: "terms", end: "I agree")
+          = daisy_navbar do |navbar|
+            - navbar.with_start do
+              Logo
+          = daisy_timeline do |timeline|
+            - timeline.with_event(start: "1984", end: "Born")
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = daisy_text_input(name: "username", leading: "Username:")
+          = daisy_checkbox(name: "terms", trailing: "I agree")
+          = daisy_navbar do |navbar|
+            - navbar.with_leading do
+              Logo
+          = daisy_timeline do |timeline|
+            - timeline.with_event(leading: "1984", trailing: "Born")
 
-      -# After
-      = daisy_text_input(name: "username", leading: "Username:")
-      = daisy_checkbox(name: "terms", trailing: "I agree to the terms")
-      = daisy_navbar do |navbar|
-        - navbar.with_leading do
-          Logo
-      = daisy_timeline do |timeline|
-        - timeline.with_event(leading: "1984", trailing: "Born")
+.mt-8.prose
+  %h3{ class: "flex flex-col items-start gap-2" }
+    = daisy_badge("Automated", css: "badge-success badge-soft")
+    %span Let the migration task do it
+  :markdown
+    v0.7.0 ships a rake task that performs the rename for you. It scans
+    `app/` and rewrites only usage it can confidently attribute to the
+    renamed components above. Run it without arguments for a dry-run
+    report, then apply:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bin/rails loco_motion:migrate:leading_trailing
+    - code.with_line(prefix: "#", css: "opacity-60") do
+      review the dry-run report, then...
+    - code.with_line(prefix: "$") do
+      APPLY=1 bin/rails loco_motion:migrate:leading_trailing
+
+.max-w-prose.mt-4
+  = daisy_alert(icon: "exclamation-triangle", css: "alert-warning") do
+    %div
+      %strong Review the diff before committing.
+      Anything the task cannot safely attribute is printed under "Needs
+      manual review" instead of rewritten.
+
+.max-w-prose.mt-4
+  = daisy_alert(icon: "information-circle", css: "alert-info") do
+    %div
+      %strong Your own components' start / end slots are yours
+      — the task only rewrites calls it can trace to a LocoMotion
+      component and reports everything else for manual review.
 
 .mt-8.prose
   :markdown
-    ### Let the migration task do it
-
-    v0.7.0 ships a rake task that performs the rename for you. It scans
-    `app/` and rewrites only usage it can confidently attribute to the
-    renamed components above. Run it without arguments for a dry-run report,
-    then apply:
-
-.max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    bin/rails loco_motion:migrate:leading_trailing
-
-.max-w-prose
-  = daisy_code(css: "my-4", prefix: "$") do
-    APPLY=1 bin/rails loco_motion:migrate:leading_trailing
-
-.mt-4.prose
-  :markdown
-    Review the diff before committing. Anything the task cannot safely
-    attribute is printed under "Needs manual review" instead of rewritten.
-
-    ### What should NOT be renamed
-
-    **Your own components'** `start` / `end` slots are yours — the
-    migration task only rewrites calls it can trace to a LocoMotion
-    component and reports everything else for manual review.
-
     ### Manual follow-ups
 
     - **Prose and headings**: comments, docs, or UI copy that *talk about*
@@ -143,15 +203,18 @@
       and **system / e2e tests** that assert on the old markup or wording.
 
 .mt-12.prose
+  %h2{ id: "icons", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Breaking", css: "badge-error badge-soft")
+    %span
+      3. Icons:
+      %code hero_icon
+      is gone, meet
+      %code loco_icon
   :markdown
-    ## 3. Icons: `hero_icon` is gone, meet `loco_icon`
-
     LocoMotion no longer bundles `rails_heroicon`. Every icon — including
     the ones components render via `icon:` options — now resolves through
     the pluggable `loco_icon` engine, which reads SVGs synced into your own
-    app. The full walkthrough lives in the
-    [Migrating to the Icon Engine](/docs/migrating_icons) guide; the
-    short version:
+    app. The short version:
 
     1. **Sync your icons once** and commit the SVGs:
        `bin/rails loco_motion:icons:add heroicons` (or
@@ -170,10 +233,13 @@
     (the chrome icons plus the standard Alert icons); anything else needs
     the one-time sync from step 1.
 
-.mt-12.prose
-  :markdown
-    ## 4. Checkboxes and toggles now submit an unchecked value
+= daisy_button "Read the full icon migration guide", css: "btn-secondary btn-soft btn-sm mt-4", right_icon: "arrow-right", href: doc_path("migrating_icons"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
 
+.mt-12.prose
+  %h2{ id: "checkboxes", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Behavior change", css: "badge-warning badge-soft")
+    %span 4. Checkboxes and toggles now submit an unchecked value
+  :markdown
     A named, enabled `daisy_checkbox` / `daisy_toggle` now renders a
     companion `<input type="hidden" value="0">` before the checkbox — the
     same trick as Rails' own `check_box` — so an *unchecked* box still
@@ -187,45 +253,54 @@
     need updating.
 
 .mt-12.prose
+  %h2{ id: "whats-new", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("No action needed", css: "badge-success badge-soft")
+    %span 5. New in 0.7.0
   :markdown
-    ## 5. New in 0.7.0 (no action needed)
+    Everything below ships in 0.7.0 and works without any changes to your
+    app — click through to each component's examples.
 
-    - **Megamenu** (`daisy_megamenu`), **OTP** (`daisy_otp`), and **Aura**
-      (`daisy_aura`) components — all pure HTML + CSS, requiring DaisyUI
-      5.6+.
-    - **Importable CSS**: replace the hand-copied `@custom-variant` block
-      from the old install docs with
-      `@import '@profoundry-us/loco_motion/loco.css'` so future upgrades
-      pick up new rules automatically.
-    - **Turbo options everywhere**: linkable components (anything taking
-      `href:`) accept `turbo_frame:`, `turbo_action:` (e.g. `:advance`),
-      `turbo_method:`, and `turbo_confirm:` directly.
-    - **Structured dropdown items**: `dropdown.with_item(label:, href:,
-      selected:)` with `leading` / `trailing` slots renders proper menu
-      rows.
-    - **Global modals**: `daisy_modal(trigger: false, turbo_frame_id: ...)`
-      plus the optional `loco-modal` Stimulus controller enable the
-      canonical Hotwire modal pattern.
-    - **Theme switcher builder**: `tc.build_switcher_dropdown` renders a
-      complete theme switcher in one line.
-    - **Select fix**: the block form (`select.with_option`) now honors the
-      parent's `value:` for preselection.
+.mt-6{ class: "grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+  - features.each do |emoji, name, description, path, is_new|
+    = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-lg", href: path, turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh") do
+      - if is_new
+        = daisy_badge("New", css: "badge-accent badge-sm absolute right-3 top-3")
+      %span{ class: "text-2xl" }= emoji
+      %span{ class: "font-bold" }= name
+      %p{ class: "text-sm text-base-content/70" }= description
 
 .mt-12.prose
-  :markdown
-    ## Summary
+  %h2{ id: "checklist", class: "scroll-mt-24" } Upgrade checklist
 
-    - Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to `0.7.0`,
-      and DaisyUI to 5.6+ (now a declared peer dependency of the npm
-      package).
-    - Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run, then
-      `APPLY=1`) and review the diff; only your own components' slots keep
-      `start` / `end`.
-    - Sync your icons and rename `hero_icon` to `loco_icon` — see the
-      [icon migration guide](/docs/migrating_icons).
-    - Check forms that post checkboxes / toggles for the new hidden-field
-      behavior (`include_hidden: false` opts out).
+.max-w-prose.mt-6.flex.flex-col.gap-4
+  = daisy_checkbox(name: "upgrade_packages", id: "upgrade_packages") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to
+        `0.7.0`, and DaisyUI to 5.6+ (now a declared peer dependency).
+  = daisy_checkbox(name: "upgrade_rename", id: "upgrade_rename") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run,
+        then `APPLY=1`) and review the diff.
+  = daisy_checkbox(name: "upgrade_icons", id: "upgrade_icons") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Sync your icons and rename `hero_icon` to `loco_icon` — see the
+        [icon migration guide](#{doc_path("migrating_icons")}).
+  = daisy_checkbox(name: "upgrade_forms", id: "upgrade_forms") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Check forms that post checkboxes / toggles for the new
+        hidden-field behavior (`include_hidden: false` opts out).
+
+%p{ class: "mt-4 max-w-prose text-sm text-base-content/60" }
+  These are real
+  %code daisy_checkbox
+  components — and per step 4, unchecking one would now submit a
+  %code 0
+  😉
 
 = daisy_divider
 
-= doc_buttons(css: "mt-8", current_id: params[:id])
+= doc_buttons(css: "mt-8", current_id: params[:id], section: "docs")
