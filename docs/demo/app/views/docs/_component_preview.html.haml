@@ -114,11 +114,13 @@
     = daisy_kbd("K")
 
 - when "Daisy::DataDisplay::ListComponent"
-  = daisy_list(header: "Today's crew", css: "w-48 rounded-box border border-base-300 bg-base-100 text-sm") do |list|
+  = daisy_list(header: "Today's crew", header_css: "p-4 pb-2 text-xs tracking-wide opacity-60", css: "w-52 rounded-box border border-base-300 bg-base-100 text-sm") do |list|
     - list.with_item do
-      🧑‍✈️ Conductor
+      = image_tag("avatars/lady-smiling-1.jpg", class: "size-8 rounded-box", alt: "Conductor")
+      .font-medium Conductor
     - list.with_item do
-      🔥 Stoker
+      = image_tag("avatars/lady-smiling-3.jpg", class: "size-8 rounded-box", alt: "Stoker")
+      .font-medium Stoker
 
 - when "Daisy::DataDisplay::StatComponent"
   = daisy_stat(title: "Downloads", description: "↗︎ 12% this month", value_css: "text-primary") do
@@ -247,7 +249,7 @@
 - when "Daisy::Navigation::MenuComponent"
   = daisy_menu(css: "w-40 rounded-box border border-base-300 bg-base-100 text-sm") do |menu|
     - menu.with_item do
-      = link_to "Dashboard", "#"
+      = link_to "Dashboard", "#", class: "menu-active"
     - menu.with_item do
       = link_to "Settings", "#"
 
