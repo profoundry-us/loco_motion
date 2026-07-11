@@ -388,8 +388,15 @@
     .grid.place-content-center.bg-base-100.px-4.py-6.text-sm 🚂 All aboard!
 
 - when "Daisy::Mockup::CodeComponent"
-  = daisy_code(prefix: "$", css: "w-full min-w-0 text-xs") do
-    yarn add @profoundry-us/loco_motion
+  - # `sl` draws an ASCII steam train in your terminal — dangerously
+  - # on-brand. (Sadly nobody hosts a curl-able version.)
+  = daisy_code(css: "w-full min-w-0 text-xs") do |code|
+    - code.with_line(prefix: "$") do
+      brew install sl
+    - code.with_line(prefix: "$") do
+      sl
+    - code.with_line(prefix: ">", css: "text-warning") do
+      🚂 choo choo!
 
 - when "Daisy::Mockup::DeviceComponent"
   = daisy_device(css: "mockup-phone w-32 scale-[0.6]", display_css: "grid place-content-center bg-base-100 py-10 text-3xl") do
