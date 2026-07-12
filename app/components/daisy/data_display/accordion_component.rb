@@ -125,7 +125,7 @@ module Daisy
 
             # Render the title slot, or simple title if provided
             if title?
-              concat(title)
+              concat(part(:title) { concat(title) })
             elsif @simple_title.present?
               concat(part(:title) { @simple_title })
             end

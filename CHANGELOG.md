@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Accordion/Collapse): Render the custom `with_title` slot inside the `collapse-title` part. The slot
+  previously rendered bare — replacing the wrapper instead of filling it — so custom-titled sections lost
+  the DaisyUI collapse layout: unstyled title text, no arrow/plus indicator, and the content area merged
+  into the title. Custom titles now get the same wrapper (and classes) as simple string titles. If you
+  worked around this by adding `collapse-title` to the slot's `css:`, remove it — the class now comes from
+  the part, which can be styled directly via `title_css:` (the demo's Advanced Collapse example shows this).
+
 - feat(Icons): Add a `config.icon_dev_fallback` setting (default `true`) controlling the renderer's
   development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
   the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
