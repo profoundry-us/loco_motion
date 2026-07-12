@@ -1,6 +1,22 @@
 = content_for(:page_title) do
   Building Components
 
+- # Reference components for the "Learn from the library" cards: emoji,
+- # name, blurb, and the GitHub paths for the class + template.
+- gh = "https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy"
+- library_refs = []
+- library_refs << ["👤", "Avatar", "Parts only, no slots — the simplest starting point.", "#{gh}/data_display/avatar_component"]
+- library_refs << ["🦸", "Hero", "A compact layout component.", "#{gh}/layout/hero_component"]
+- library_refs << ["💬", "Chat", "Composition with a handful of slots — avatar, header, bubbles, footer.", "#{gh}/data_display/chat_component"]
+- library_refs << ["🪟", "Modal", "Stimulus behavior plus several slots and actions.", "#{gh}/actions/modal_component"]
+- library_refs << ["📊", "Table", "A rich, deeply nested slot structure.", "#{gh}/data_display/table_component"]
+
+.max-w-prose
+  = doc_info(url: "https://viewcomponent.org", icon: "puzzle-piece", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion**'s DSL builds on ViewComponent — parts, slots, and
+      first-class Stimulus give your own components superpowers!
+
 .prose
   :markdown
     # Building Your Own Components
@@ -29,9 +45,27 @@
         %h3{ class: "text-lg font-bold" } Sent
         %p{ class: "text-base-content/70" } Your last email went out yesterday at 4:12pm.
 
-.mt-8.prose
+- # The roadmap: the four DSL pillars, the house rules, and further
+- # reading. The links opt out of Turbo because the layout wraps pages in
+- # a turbo-frame, which would otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#parts", class: "link-hover", data: { turbo: "false" } } Parts
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#slots", class: "link-hover", data: { turbo: "false" } } Slots
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#stimulus", class: "link-hover", data: { turbo: "false" } } Stimulus
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#testing", class: "link-hover", data: { turbo: "false" } } Test it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#guidelines", class: "link-hover", data: { turbo: "false" } } Guidelines
+    - steps.with_step do
+      %a{ href: "#library", class: "link-hover", data: { turbo: "false" } } Learn more 🎉
+
+.mt-12.prose
+  %h2{ id: "parts", class: "scroll-mt-24" } 1. Parts — configure any element from the class
   :markdown
-    ## 1. Parts — configure any element from the class
 
     Declare the structural pieces with `define_parts`, then render them with
     `part(:name)`. Our layout has a `:master` list and a `:detail` pane
@@ -71,9 +105,9 @@
     component exposing an option for it — is the thing a plain partial can never
     give you.
 
-.mt-6.prose
+.mt-12.prose
+  %h2{ id: "slots", class: "scroll-mt-24" } 2. Slots — let callers supply content
   :markdown
-    ## 2. Slots — let callers supply content
 
     The records arrive through a `renders_many` slot. Each record is a tiny
     component with a `title` and a body:
@@ -128,9 +162,9 @@
         - md.with_record(title: "Sent") do
           Your last email went out yesterday.
 
-.mt-6.prose
+.mt-12.prose
+  %h2{ id: "stimulus", class: "scroll-mt-24" } 3. Stimulus — ship behavior with the component
   :markdown
-    ## 3. Stimulus — ship behavior with the component
 
     `add_stimulus_controller(:component, "master-detail")` attached the
     controller back in `before_render`. It just toggles which pane is visible
@@ -164,9 +198,9 @@
     (`application.register("master-detail", MasterDetailController)`), and
     `add_stimulus_controller` connects it to the part.
 
-.mt-8.prose
+.mt-12.prose
+  %h2{ id: "testing", class: "scroll-mt-24" } 4. You inherit the whole library — and it's testable
   :markdown
-    ## 4. You inherit the whole library — and it's testable
 
     Because `MasterDetailComponent` subclasses `BaseComponent` (through your
     app's `ApplicationComponent`), it gets part and CSS merging, tooltip
@@ -187,10 +221,9 @@
         end
       end
 
-.mt-10.prose
+.mt-12.prose
+  %h2{ id: "guidelines", class: "scroll-mt-24" } Guidelines
   :markdown
-    ## Guidelines
-
     A few conventions keep your components reusable and consistent with
     LocoMotion:
 
@@ -219,24 +252,22 @@
     add behavior with Stimulus — and leave layout to the people using your
     component.
 
-.mt-8.prose
+.mt-12.prose
+  %h2{ id: "library", class: "scroll-mt-24" } Learn from the library
   :markdown
-    ## Learn from the library
-
     The best reference is LocoMotion's own components — each is a class plus a
     HAML template, exactly like the one you just built. A few worth reading,
     from simplest to most involved:
 
-    - **Avatar** — parts only, no slots.
-      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/avatar_component.html.haml)
-    - **Hero** — a compact layout component.
-      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/layout/hero_component.html.haml)
-    - **Chat** — composition with a handful of slots (avatar, header, bubbles, footer).
-      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/chat_component.html.haml)
-    - **Modal** — Stimulus behavior plus several slots and actions.
-      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/actions/modal_component.html.haml)
-    - **Table** — a rich, deeply nested slot structure.
-      [Ruby](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.rb) · [HAML](https://github.com/profoundry-us/loco_motion/blob/main/app/components/daisy/data_display/table_component.html.haml)
+%div{ class: "mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+  - library_refs.each do |emoji, name, description, base_url|
+    = daisy_card(css: "border border-base-300 bg-base-100") do
+      %span{ class: "text-2xl" }= emoji
+      %span{ class: "font-bold" }= name
+      %p{ class: "text-sm text-base-content/70" }= description
+      %div{ class: "mt-1 flex gap-3 text-sm" }
+        = daisy_link("Ruby", "#{base_url}.rb", target: "_blank")
+        = daisy_link("HAML", "#{base_url}.html.haml", target: "_blank")
 
 = daisy_divider
 
