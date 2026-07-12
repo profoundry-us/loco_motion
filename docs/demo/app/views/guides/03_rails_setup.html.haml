@@ -24,13 +24,11 @@
     <a href="https://github.com/casey/just" target="_blank">Just</a> for command running,
     HAML for templates, and TailwindCSS + DaisyUI for styling.
 
-- # The roadmap: seven setup steps plus the victory lap. The links opt out
+- # The roadmap: six setup steps plus the victory lap. The links opt out
 - # of Turbo because the layout wraps pages in a turbo-frame, which would
 - # otherwise swallow same-page anchor jumps.
 .mt-8.rounded-box.border.border-base-300.p-6
   = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
-    - steps.with_step(css: "step-primary") do
-      %a{ href: "#docker", class: "link-hover", data: { turbo: "false" } } Docker
     - steps.with_step(css: "step-primary") do
       %a{ href: "#rails-app", class: "link-hover", data: { turbo: "false" } } Rails app
     - steps.with_step(css: "step-primary") do
@@ -46,22 +44,13 @@
     - steps.with_step do
       %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
 
-.mt-12.prose
-  %h2{ id: "docker", class: "scroll-mt-24" } 1. A Dockerized Foundation
+= doc_note(modifier: :note, title: "Skipped Docker?", css: "mt-6") do
   :markdown
-    We recommend using Docker from the very beginning — even before you run
-    `rails new`. This gives you a stable development environment regardless of
-    your OS, and keeps the dev container small and simple so troubleshooting
-    is easy.
-
-    The previous guide — [Docker](#{guide_path("docker")}) — builds exactly
-    that environment. Once you can run `just dev` to build the containers and
-    `just dev-shell` to open a shell inside the development container, you
-    are ready for this one.
-
-    Skipping Docker? No problem — install Ruby, Node, and PostgreSQL on your
-    machine, then run each command below directly instead of inside the dev
-    container.
+    This guide picks up where the [Docker guide](#{guide_path("docker")})
+    leaves off — every command below runs inside the dev container it
+    builds. If you didn't mean to skip it, start there and come back.
+    Skipping on purpose? Install Ruby, Node, and PostgreSQL on your machine
+    and run each command directly.
 
 = doc_note(modifier: :note, title: "Why Just?", css: "mt-6") do
   :markdown
@@ -71,7 +60,7 @@
     Makefiles.
 
 .mt-12.prose
-  %h2{ id: "rails-app", class: "scroll-mt-24" } 2. Creating the Rails App
+  %h2{ id: "rails-app", class: "scroll-mt-24" } 1. Creating the Rails App
   :markdown
     Inside the development container, everything is set up and ready for you
     to install Rails. Change into the app directory (which is mapped to your
@@ -100,7 +89,7 @@
     rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
 
 .mt-12.prose
-  %h2{ id: "database", class: "scroll-mt-24" } 3. Database Configuration
+  %h2{ id: "database", class: "scroll-mt-24" } 2. Database Configuration
   :markdown
     Open the newly created `config/database.yml` and add the following three
     lines under the `default` key so Rails can reach the Postgres container:
@@ -127,7 +116,7 @@
     build every time.
 
 .mt-12.prose
-  %h2{ id: "uuids", class: "scroll-mt-24" } 4. Using UUIDs by Default
+  %h2{ id: "uuids", class: "scroll-mt-24" } 3. Using UUIDs by Default
   :markdown
     We believe strongly in using UUIDs for primary keys to increase security
     and avoid potential scaling issues down the road. To enable this by
@@ -144,7 +133,7 @@
 .mt-12.prose
   %h2{ id: "haml", class: "flex flex-col items-start gap-2 scroll-mt-24" }
     = daisy_badge("Optional", css: "badge-info badge-soft")
-    %span 5. Install HAML
+    %span 4. Install HAML
   :markdown
     While you can use the default ERB templating system, we highly recommend
     <a href="https://haml.info" target="_blank">HAML</a> — it provides a much cleaner language for your
@@ -199,7 +188,7 @@
 .mt-12.prose
   %h2{ id: "daisyui", class: "flex flex-col items-start gap-2 scroll-mt-24" }
     = daisy_badge("Optional", css: "badge-info badge-soft")
-    %span 6. Install DaisyUI
+    %span 5. Install DaisyUI and/or LocoMotion
   :markdown
     <a href="https://tailwindcss.com" target="_blank">TailwindCSS</a> is a utility-based CSS framework
     that lets you build components by composing utility classes. It is already
@@ -208,9 +197,17 @@
 
     <a href="https://daisyui.com" target="_blank">DaisyUI</a> builds on top of Tailwind by providing
     ready-made component classes, so a button becomes as simple as
-    `%button.btn`. With Tailwind 4, DaisyUI is configured directly in your CSS
-    file rather than in `tailwind.config.js`. Open an app shell with
-    `just app-shell` and install the packages:
+    `%button.btn`. And _Loco_**Motion** builds on top of DaisyUI, wrapping
+    those classes in ready-made Rails components like `daisy_button`.
+
+    **Installing LocoMotion?** Follow the
+    [Install guide](#{doc_path("install")}) — it covers the gem, the npm
+    package, and the exact CSS block to copy. You do **not** need to install
+    DaisyUI separately; LocoMotion depends on it and pulls it in
+    automatically.
+
+    **Just want DaisyUI?** Open an app shell with `just app-shell` and
+    install the packages yourself:
 
 .mt-6.max-w-prose
   = daisy_code(css: "my-4", prefix: "$") do
@@ -218,12 +215,15 @@
 
 .mt-6.prose
   :markdown
-    Then add the Tailwind 4 + DaisyUI directives to your
-    `application.tailwind.css` — import Tailwind, register the DaisyUI plugin,
-    and import LocoMotion's CSS (`@import '@profoundry-us/loco_motion/loco.css'`),
-    which provides the `where` and `dark` custom variants and the
-    component-required utilities. The [Install guide](#{doc_path("install")})
-    lists the exact CSS block to copy.
+    Then register the plugin at the top of your `application.tailwind.css`.
+    With Tailwind 4, plugins are configured directly in the CSS file:
+
+.mt-6.max-w-prose
+  = doc_code(language: "css") do
+    :plain
+      /* app/assets/stylesheets/application.tailwind.css */
+      @import "tailwindcss";
+      @plugin "daisyui";
 
 = doc_note(modifier: :warning, title: "Tailwind 4 Configuration", css: "mt-6") do
   :markdown
@@ -237,8 +237,10 @@
   :markdown
     ### What loco.css handles for you
 
-    That single `@import` quietly fixes several papercuts. You shouldn't
-    need to think about these — dive in only if one of them surprises you:
+    If you installed LocoMotion, the `loco.css` import from the
+    [Install guide](#{doc_path("install")}) quietly fixes several papercuts.
+    You shouldn't need to think about these — dive in only if one of them
+    surprises you:
 
 .mt-4.max-w-prose
   = daisy_accordion(modifier: :arrow, css: "rounded-box border border-base-300 bg-base-100 divide-y divide-base-300") do |accordion|
@@ -297,7 +299,7 @@
           focus works through DaisyUI's own rule.
 
 .mt-12.prose
-  %h2{ id: "try-it", class: "scroll-mt-24" } 7. Try It Out!
+  %h2{ id: "try-it", class: "scroll-mt-24" } 6. Try It Out!
   :markdown
     With everything installed, let's confirm it all works. First, tell the
     Rails server to bind to all interfaces in your `Procfile.dev`:
