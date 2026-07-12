@@ -74,6 +74,7 @@
 .mt-4.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # app/components/master_detail_component.rb
       class MasterDetailComponent < ApplicationComponent
         define_parts :master, :detail
 
@@ -138,6 +139,7 @@
 .mt-4.max-w-prose
   = doc_code(language: "haml") do
     :plain
+      -# app/components/master_detail_component.html.haml
       = part(:component) do
         = part(:master) do
           - records.each_with_index do |record, index|
@@ -173,6 +175,7 @@
 .mt-4.max-w-prose
   = doc_code(language: "javascript") do
     :plain
+      // app/components/master_detail_controller.js
       import { Controller } from "@hotwired/stimulus"
 
       export default class extends Controller {
@@ -210,6 +213,7 @@
 .mt-4.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # spec/components/master_detail_component_spec.rb
       RSpec.describe MasterDetailComponent, type: :component do
         it "renders a tab and a pane for each record" do
           render_inline(described_class.new) do |md|

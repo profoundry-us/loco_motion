@@ -111,7 +111,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "yaml") do
     :plain
-      # Under the default section in config/database.yml
+      # config/database.yml (under the default: key)
       host: db
       username: postgres
       password: password
@@ -156,7 +156,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
-      # App-Specific Gems
+      # Gemfile
       gem "haml-rails", "~> 2.0"
 
       # For development only (helps convert ERB to HAML)
@@ -173,6 +173,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "javascript") do
     :plain
+      // tailwind.config.js
       module.exports = {
         content: [
           './app/views/**/*.html.haml',
@@ -280,6 +281,7 @@
       .mt-4
         = doc_code(language: "css") do
           :plain
+            /* @profoundry-us/loco_motion/loco.css */
             /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
             .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
               &[data-tip]::before,
@@ -306,23 +308,26 @@
 .mt-6.max-w-prose
   = doc_code(language: "text") do
     :plain
+      # Procfile.dev
       web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
 
 .mt-6.prose
   :markdown
     Update your `Dockerfile` to start the app using Foreman:
 
-.mt-6.max-w-4xl
+.mt-6
   %div{ class: "grid gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")
       = doc_code(language: "dockerfile") do
         :plain
+          # Dockerfile
           CMD ["rails", "server", "-b", "0.0.0.0"]
     %div
       = daisy_badge("After", css: "badge-primary mb-2")
       = doc_code(language: "dockerfile") do
         :plain
+          # Dockerfile
           CMD ["./bin/dev"]
 
 .mt-6.prose
@@ -334,6 +339,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "bash") do
     :plain
+      # bin/setup
       puts "\n== Removing old PID files =="
       system! "rm -rf /home/app/tmp/pids/server.pid"
 

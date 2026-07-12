@@ -62,7 +62,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
-      # Main gem for HAML integration
+      # Gemfile
       gem "haml-rails", "~> 2.0"
 
       # For development only (helps convert ERB to HAML)
@@ -85,6 +85,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "javascript") do
     :plain
+      // tailwind.config.js
       module.exports = {
         content: [
           './app/views/**/*.html.haml',
@@ -118,7 +119,7 @@
     HAML uses the `%` character followed by the element name.
 
 - # What you write vs. what the browser gets, side by side.
-.mt-6.max-w-4xl
+.mt-6
   %div{ class: "grid gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("You write", css: "badge-primary mb-2")

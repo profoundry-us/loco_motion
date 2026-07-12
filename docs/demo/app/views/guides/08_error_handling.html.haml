@@ -46,6 +46,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # config/environments/development.rb
       # Fix console permissions for Docker so Web Console works no matter the IP
       config.web_console.permissions = "0.0.0.0/0"
 
@@ -110,6 +111,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # config/environments/development.rb
       # Allow BetterErrors to render
       BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 
