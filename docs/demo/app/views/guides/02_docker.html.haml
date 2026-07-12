@@ -1,6 +1,14 @@
 = content_for(:page_title) do
   Docker
 
+- # The example config files: filename and purpose, rendered as a table.
+- config_files = []
+- config_files << ["docker-compose.yml", "Defines your application services"]
+- config_files << ["Dockerfile", "Instructions for building your app container"]
+- config_files << ["dev/Dockerfile", "Development environment container"]
+- config_files << ["entrypoint.sh", "Script that runs when containers start"]
+- config_files << ["justfile", "Shortcuts for common commands"]
+
 .max-w-prose
   = doc_info(url: "https://www.docker.com/", image_path: "logos/docker.svg", image_alt: "Docker Logo") do
     :markdown
@@ -18,8 +26,23 @@
     It also allows you to troubleshoot and debug the application since the
     development container is small and simple with very few dependencies.
 
-    ## 1. Initial Setup
+- # The roadmap: three setup steps plus the hand-off to Getting Started.
+- # The links opt out of Turbo because the layout wraps pages in a
+- # turbo-frame, which would otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#setup", class: "link-hover", data: { turbo: "false" } } Install the tools
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#config", class: "link-hover", data: { turbo: "false" } } Copy the config
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#start", class: "link-hover", data: { turbo: "false" } } Start it up
+    - steps.with_step do
+      %a{ href: "#next", class: "link-hover", data: { turbo: "false" } } Create your app 🎉
 
+.mt-12.prose
+  %h2{ id: "setup", class: "scroll-mt-24" } 1. Initial Setup
+  :markdown
     First, you'll need to install Docker. You can download it from
     [Docker's website](https://www.docker.com/).
 
@@ -40,19 +63,28 @@
       cd ~/Development/mycompany/myproject
 
 .mt-12.prose
+  %h2{ id: "config", class: "scroll-mt-24" } 2. Configuration Files
   :markdown
-    ## 2. Configuration Files
-
     Look in the `examples` directory of the [LocoMotion
     repository](https://github.com/profoundry-us/loco_motion/tree/main/examples)
     for these basic configuration files:
 
-    - `docker-compose.yml` - Defines your application services
-    - `Dockerfile` - Instructions for building your app container
-    - `dev/Dockerfile` - Development environment container
-    - `entrypoint.sh` - Script that runs when containers start
-    - `justfile` - Shortcuts for common commands
+- # The config files as a table (dogfooding daisy_table) instead of a
+- # bullet list.
+.mt-4.max-w-2xl.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "File" }
+      - head.with_column { "Purpose" }
+    - config_files.each do |file, purpose|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= file
+        - row.with_column do
+          = purpose
 
+.mt-6.prose
+  :markdown
     Copy these files into your project directory. Your directory structure should
     look like this:
 
@@ -68,10 +100,9 @@
               ├── docker-compose.yml
               └── entrypoint.sh
 
-.prose.mt-12
+.mt-12.prose
+  %h2{ id: "start", class: "scroll-mt-24" } 3. Starting the Development Environment
   :markdown
-    ## 3. Starting the Development Environment
-
     With these files in place, you can now start your development environment:
 
 .max-w-prose
@@ -87,10 +118,9 @@
   = daisy_code(css: "my-4", prefix: "$") do
     just dev-shell
 
-.prose.mt-12
+.mt-12.prose
+  %h2{ id: "next", class: "scroll-mt-24" } Next: Create Your App
   :markdown
-    ## Next: Create Your App
-
     With the containers built and a shell open via `just dev-shell`, your
     development environment is ready — consistent across any OS, simple to
     debug, and isolated from your host system's dependencies.
@@ -99,6 +129,8 @@
     picks up exactly where this one leaves off: creating the Rails app with
     `rails new`, configuring the database, and applying the
     LocoMotion-recommended setup (UUIDs, HAML, DaisyUI, and more).
+
+= daisy_button "Continue to Getting Started", css: "btn-secondary btn-soft btn-sm mt-4", right_icon: "arrow-right", href: guide_path("getting_started"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
 
 = daisy_divider
 
