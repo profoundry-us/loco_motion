@@ -1,6 +1,13 @@
 = content_for(:page_title) do
   Getting Started
 
+- # The "where to next" cards for the Success section: emoji, title, blurb,
+- # and guide id.
+- next_guides = []
+- next_guides << ["🐛", "Debugging & Testing", "ruby-debug, RSpec, and Playwright for a fast feedback loop.", "debugging"]
+- next_guides << ["⚙️", "Service Objects", "Keep business logic clean and testable with ActiveInteraction.", "services"]
+- next_guides << ["🔒", "Authentication", "Wire up OmniAuth sign-in with the developer strategy.", "authentication"]
+
 .max-w-prose
   = doc_info(url: "https://rubyonrails.org", image_path: "logos/rails.svg", image_alt: "Rails Logo") do
     :markdown
@@ -23,10 +30,31 @@
     point for new projects, but you should feel free to adapt these
     recommendations to suit your preferences and requirements.
 
-.mt-12.prose
-  :markdown
-    ## 1. A Dockerized Foundation
+- # The roadmap: seven setup steps plus the victory lap. The links opt out
+- # of Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#docker", class: "link-hover", data: { turbo: "false" } } Docker
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#rails-app", class: "link-hover", data: { turbo: "false" } } Rails app
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#database", class: "link-hover", data: { turbo: "false" } } Database
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#uuids", class: "link-hover", data: { turbo: "false" } } UUIDs
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#haml", class: "link-hover", data: { turbo: "false" } } HAML
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#daisyui", class: "link-hover", data: { turbo: "false" } } DaisyUI
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#try-it", class: "link-hover", data: { turbo: "false" } } Try it out
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
 
+.mt-12.prose
+  %h2{ id: "docker", class: "scroll-mt-24" } 1. A Dockerized Foundation
+  :markdown
     We recommend using Docker from the very beginning — even before you run
     `rails new`. This gives you a stable development environment regardless of
     your OS, and keeps the dev container small and simple so troubleshooting
@@ -46,9 +74,8 @@
     Makefiles.
 
 .mt-12.prose
+  %h2{ id: "rails-app", class: "scroll-mt-24" } 2. Creating the Rails App
   :markdown
-    ## 2. Creating the Rails App
-
     Inside the development container, everything is set up and ready for you
     to install Rails. Change into the app directory (which is mapped to your
     local machine) and run `rails new`:
@@ -77,9 +104,8 @@
       rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
 
 .mt-12.prose
+  %h2{ id: "database", class: "scroll-mt-24" } 3. Database Configuration
   :markdown
-    ## 3. Database Configuration
-
     Open the newly created `config/database.yml` and add the following three
     lines under the `default` key so Rails can reach the Postgres container:
 
@@ -105,9 +131,8 @@
     build every time.
 
 .mt-12.prose
+  %h2{ id: "uuids", class: "scroll-mt-24" } 4. Using UUIDs by Default
   :markdown
-    ## 4. Using UUIDs by Default
-
     We believe strongly in using UUIDs for primary keys to increase security
     and avoid potential scaling issues down the road. To enable this by
     default for all generated models, create the following initializer:
@@ -121,9 +146,10 @@
       end
 
 .mt-12.prose
+  %h2{ id: "haml", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Optional", css: "badge-info badge-soft")
+    %span 5. Install HAML
   :markdown
-    ## 5. Install HAML (Optional)
-
     While you can use the default ERB templating system, we highly recommend
     <a href="https://haml.info" target="_blank">HAML</a> — it provides a much cleaner language for your
     template files. Add the gems to your `Gemfile`:
@@ -174,9 +200,10 @@
     [HAML guide](#{guide_path("haml")}).
 
 .mt-12.prose
+  %h2{ id: "daisyui", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Optional", css: "badge-info badge-soft")
+    %span 6. Install DaisyUI
   :markdown
-    ## 6. Install DaisyUI (Optional)
-
     <a href="https://tailwindcss.com" target="_blank">TailwindCSS</a> is a utility-based CSS framework
     that lets you build components by composing utility classes. It is already
     installed via the `rails new` command above, and we _highly_ recommend it
@@ -245,9 +272,8 @@
     the `.tooltip`, so focus works without any extra rule.
 
 .mt-12.prose
+  %h2{ id: "try-it", class: "scroll-mt-24" } 7. Try It Out!
   :markdown
-    ## 7. Try It Out!
-
     With everything installed, let's confirm it all works. First, tell the
     Rails server to bind to all interfaces in your `Procfile.dev`:
 
@@ -260,14 +286,18 @@
   :markdown
     Update your `Dockerfile` to start the app using Foreman:
 
-.mt-6.max-w-prose
-  = doc_code(language: "dockerfile") do
-    :plain
-      # Change this line:
-      CMD ["rails", "server", "-b", "0.0.0.0"]
-
-      # To this:
-      CMD ["./bin/dev"]
+.mt-6.max-w-4xl
+  %div{ class: "grid gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "dockerfile") do
+        :plain
+          CMD ["rails", "server", "-b", "0.0.0.0"]
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "dockerfile") do
+        :plain
+          CMD ["./bin/dev"]
 
 .mt-6.prose
   :markdown
@@ -327,16 +357,18 @@
     Once you are done playing around, undo these layout and routing changes so
     they do not cause confusion later.
 
-.mt-8.prose
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
   :markdown
-    ## Success!
+    You now have a fully-configured Rails app the LocoMotion way. Keep the
+    momentum going with these guides:
 
-    You now have a fully-configured Rails app the LocoMotion way. From here,
-    set up a solid foundation with the
-    [Debugging &amp; Testing guide](#{guide_path("debugging")}), structure
-    your business logic with the
-    [Service Objects guide](#{guide_path("services")}), and add user sign-in
-    with the [Authentication guide](#{guide_path("authentication")}).
+%div{ class: "mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" }
+  - next_guides.each do |emoji, name, description, guide_id|
+    = daisy_card(css: "relative bg-base-100 border border-base-300 transition hover:-translate-y-1 hover:shadow-lg", href: guide_path(guide_id), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh") do
+      %span{ class: "text-2xl" }= emoji
+      %span{ class: "font-bold" }= name
+      %p{ class: "text-sm text-base-content/70" }= description
 
 = daisy_divider
 
