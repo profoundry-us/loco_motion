@@ -134,6 +134,15 @@ RSpec.describe LocoMotion::Icons::Renderer do
           described_class.new(name: "cache-only-icon").to_svg
         end.to raise_error(LocoMotion::Icons::IconNotFound)
       end
+
+      it "ignores the cache even in development when the fallback is disabled" do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development"))
+        allow(LocoMotion.configuration).to receive(:icon_dev_fallback).and_return(false)
+
+        expect do
+          described_class.new(name: "cache-only-icon").to_svg
+        end.to raise_error(LocoMotion::Icons::IconNotFound)
+      end
     end
   end
 end

@@ -206,6 +206,25 @@
     DaisyUI separately; LocoMotion depends on it and pulls it in
     automatically.
 
+- # The layer cake, top-down: LocoMotion wraps DaisyUI, which builds on
+- # Tailwind. Arrows point up — each layer builds on the one below it.
+- # DaisyUI alerts only ship status colors (info/success/...), so the brand
+- # tints come from semantic utilities, which adapt to every theme.
+.mt-6.max-w-prose.flex.flex-col.items-center.gap-2
+  = daisy_alert(css: "w-full justify-center text-center border-primary/30 bg-primary/10 text-primary") do
+    :markdown
+      _Loco_**Motion** — full Rails components like `daisy_button`
+  = loco_icon("arrow-up", css: "size-6 text-base-content/60")
+  = daisy_alert(css: "w-full justify-center text-center border-secondary/30 bg-secondary/10 text-secondary") do
+    :markdown
+      **DaisyUI** — ready-made component classes like `btn`
+  = loco_icon("arrow-up", css: "size-6 text-base-content/60")
+  = daisy_alert(css: "w-full justify-center text-center border-accent/30 bg-accent/10 text-accent") do
+    :markdown
+      **TailwindCSS** — utility classes like `font-bold`
+
+.mt-6.prose
+  :markdown
     **Just want DaisyUI?** Open an app shell with `just app-shell` and
     install the packages yourself:
 
