@@ -100,7 +100,9 @@
         = daisy_code(prefix: "$", css: "w-fit min-w-0 py-3 before:hidden") do
           bundle add #{content_tag(:span, "loco_motion-rails", class: "rounded bg-secondary px-1.5 py-0.5 text-secondary-content")}
 
-      %div{ class: "text-xs text-base-content/50" } scroll — watch the components leave the station ↓
+      - # The flair components this line teases are `hidden md:block` (see
+      - # DocFlairComponent), so the hint hides below `md` right along with them.
+      %div{ class: "hidden text-xs text-base-content/50 md:block" } scroll — watch the components leave the station ↓
 
   - # ============================================================ LIVE PREVIEW
   %div{ class: "relative z-10 -mt-8 flex justify-center px-2 pb-4" }
