@@ -46,6 +46,11 @@ export default class extends Controller {
   }
 
   scrollDocumentToTop() {
+    // Never fight an anchor: on a full-page load of a URL with a hash (e.g.
+    // a cross-page pointer like /guides/rails_setup#haml), the browser has
+    // already landed on the target heading — scrolling to top would undo it.
+    if (window.location.hash) return
+
     window.setTimeout(() => {
       document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
     }, 100)
