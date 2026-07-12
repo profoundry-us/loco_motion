@@ -17,8 +17,8 @@
     running Dockerized Rails app.
 
 .mt-12.prose
+  %h2{ id: "omniauth", class: "scroll-mt-24" } Authentication with OmniAuth
   :markdown
-    ## 1. Authentication with OmniAuth
 
     There are a **lot** of ways to handle authentication in Rails. The two
     most popular gems are
@@ -121,6 +121,34 @@
     [Error Handling guide](#{guide_path("error_handling")}) for setting up
     **Web Console** and **BetterErrors**, which let you read the stack trace
     and poke at live state right on the error page.
+
+.mt-12.prose
+  %h2{ id: "checklist", class: "scroll-mt-24" } Setup checklist
+
+.max-w-prose.mt-6.flex.flex-col.gap-4
+  = daisy_checkbox(name: "auth_gems", id: "auth_gems") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Add `omniauth` and `omniauth-rails_csrf_protection` to the
+        `Gemfile`, then bundle and restart.
+  = daisy_checkbox(name: "auth_initializer", id: "auth_initializer") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Create the OmniAuth initializer with the `:developer` provider
+        (development only).
+  = daisy_checkbox(name: "auth_routes", id: "auth_routes") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Add the `/login` and `/auth/:provider/callback` routes.
+  = daisy_checkbox(name: "auth_controller", id: "auth_controller") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Add the sessions controller and the login view.
+  = daisy_checkbox(name: "auth_session", id: "auth_session") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Sign in, inspect `user_info`, then replace the `raise` with your
+        own session management.
 
 = daisy_divider
 
