@@ -9,7 +9,7 @@ test('ads are shown on non-hidden pages', async ({ page }) => {
   const adsTarget = page.locator('[data-ads-target="ads"]');
   await expect(adsTarget).not.toHaveClass(/lg:block!/);
 
-  await page.getByRole('link', { name: '😃 Get Started' }).click();
+  await page.getByRole('link', { name: '📦 Install Guide' }).click();
   await page.waitForURL('**/docs/install');
 
   // Verify the ads target has the lg:block! class (ads should be visible)
