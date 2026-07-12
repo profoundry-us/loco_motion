@@ -99,9 +99,8 @@
     generated files so you can try again without losing your dev config:
 
 .mt-6.max-w-prose
-  = doc_code(language: "bash", css: "my-4") do
-    :plain
-      rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
+  = daisy_code(css: "my-4", prefix: "$") do
+    rm -rf .dockerignore .git .gitattributes .gitignore .node-version .ruby-version Gemfile README.md Rakefile app bin config config.ru
 
 .mt-12.prose
   %h2{ id: "database", class: "scroll-mt-24" } 3. Database Configuration
