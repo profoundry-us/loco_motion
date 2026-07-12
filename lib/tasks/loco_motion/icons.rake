@@ -104,6 +104,45 @@ namespace :loco_motion do
       end
     end
 
+    desc "Verify every referenced icon resolves without the development-only " \
+         "cache — from the vendored app/assets/svg/icons or LocoMotion's " \
+         "bundled set (loco_motion:icons:verify)"
+    task verify: :environment do
+      config = LocoMotion.configuration
+
+      references = build_icon_references(config)
+
+      if references.empty?
+        puts "No icon references found in #{config.icon_content_paths.join(', ')}."
+        next
+      end
+
+      # The renderer's resolution roots minus the development-only cache — an
+      # icon that only resolves from the cache is exactly the missing sync
+      # this task exists to catch.
+      result = LocoMotion::Icons::Verifier.new(
+        roots: [
+          Rails.root.join("app/assets/svg/icons").to_s,
+          LocoMotion::Engine.root.join("app/assets/svg/icons").to_s
+        ],
+        default_variant: config.default_icon_variant
+      ).verify(references)
+
+      if result.missing.empty?
+        puts "✓ #{result.verified} icon(s) verified against the vendored set " \
+             "and LocoMotion's bundled icons."
+      else
+        puts "⚠ #{result.missing.size} referenced icon(s) are not vendored " \
+             "in app/assets/svg/icons:"
+        result.missing.each do |ref|
+          location = [ref[:library], ref[:variant], ref[:name]].compact.join("/")
+          puts "  - #{location}"
+        end
+        puts "\nFix: run bin/rails loco_motion:icons:sync and commit the new SVGs."
+        abort
+      end
+    end
+
     desc "List icon libraries you can sync with loco_motion:icons:add"
     task :list do
       puts "Suggested icon libraries you can add (loco_motion:icons:add[name]):"
