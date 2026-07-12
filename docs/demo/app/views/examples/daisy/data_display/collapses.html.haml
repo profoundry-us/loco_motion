@@ -35,8 +35,8 @@
       You can also customize the collapse with any HTML you desire!
 
   .mx-auto{ class: "w-[400px]" }
-    = daisy_collapse(css: "collapse-arrow bg-base-200 border border-base-300") do |collapse|
-      - collapse.with_title(css: "collapse-title bg-base-300") do
+    = daisy_collapse(css: "collapse-arrow bg-base-200 border border-base-300", title_css: "bg-base-300") do |collapse|
+      - collapse.with_title do
         .flex.gap-x-2.items-center
           = loco_icon("user-circle", css: "size-6")
           %strong User Profile
