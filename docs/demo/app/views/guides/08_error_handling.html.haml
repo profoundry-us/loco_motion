@@ -19,12 +19,14 @@
     It assumes you have already followed the
     [Getting Started guide](#{guide_path("getting_started")}) and have a
     running Dockerized Rails app. These tools pair especially well with the
-    [Authentication guide](#{guide_path("06_authentication")}), where a
+    [Authentication guide](#{guide_path("authentication")}), where a
     deliberate `raise` lets you inspect the signed-in user.
 
 .mt-12.prose
+  %h2{ id: "web-console", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Built-in", css: "badge-info badge-soft")
+    %span 1. Web Console
   :markdown
-    ## 1. Web Console
 
     Rails ships with <a href="https://github.com/rails/web-console" target="_blank">Web Console</a>, which
     inserts an IRB prompt right into your browser whenever an exception is
@@ -71,8 +73,10 @@
     live application state.
 
 .mt-12.prose
+  %h2{ id: "better-errors", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Optional", css: "badge-info badge-soft")
+    %span 2. BetterErrors
   :markdown
-    ## 2. BetterErrors (Optional)
 
     <a href="https://github.com/BetterErrors/better_errors" target="_blank">BetterErrors</a> provides (in
     our humble opinion) a nicer interface for the errors that crop up in a
