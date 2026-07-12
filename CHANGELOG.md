@@ -26,7 +26,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
   the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
   development and local test runs instead of surfacing for the first time in production or CI. The demo app
-  now runs with the fallback disabled.
+  keeps the fallback for fast iteration; instead, a new `loco_motion:icons:verify` task — scanning exactly
+  like `loco_motion:icons:sync`, but resolving only from the vendored set and LocoMotion's bundled icons —
+  fails listing each unvendored icon, and the demo's Playwright suite runs it so a missed sync fails at
+  test time.
 
 - feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the `start` / `end`
   component API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and the
