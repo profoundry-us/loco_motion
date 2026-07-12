@@ -17,15 +17,22 @@
     and brackets. It's designed to make template creation more enjoyable and
     maintainable.
 
-- # The roadmap: five sections plus the victory lap. The links opt out of
+- # Installation lives in the Rails Setup guide (one copy to keep current).
+- # The pointer is a raw anchor with data-turbo="false" because markdown
+- # links navigate inside the layout's turbo-frame and never land on the
+- # target heading.
+= doc_note(modifier: :note, title: "Need to Install HAML?", css: "mt-6") do
+  :markdown
+    The gems, Tailwind config, and ERB conversion are all covered in the
+    <a href="#{guide_path('rails_setup')}#haml" data-turbo="false">Rails Setup guide</a>.
+
+- # The roadmap: four sections plus the victory lap. The links opt out of
 - # Turbo because the layout wraps pages in a turbo-frame, which would
 - # otherwise swallow same-page anchor jumps.
 .mt-8.rounded-box.border.border-base-300.p-6
   = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
     - steps.with_step(css: "step-primary") do
       %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why HAML
-    - steps.with_step(css: "step-primary") do
-      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
     - steps.with_step(css: "step-primary") do
       %a{ href: "#syntax", class: "link-hover", data: { turbo: "false" } } Syntax
     - steps.with_step(css: "step-primary") do
@@ -52,23 +59,8 @@
     - **Developer friendly**: Makes templates more maintainable with consistent
     structure
 
-- # Installation lives in the Rails Setup guide (one copy to keep current).
-- # The pointer is a raw anchor with data-turbo="false" because markdown
-- # links navigate inside the layout's turbo-frame and never land on the
-- # target heading.
 .mt-12.prose
-  %h2{ id: "install", class: "scroll-mt-24" } 2. Installing HAML
-  :markdown
-    Installation is covered — once — by the Rails Setup guide: adding the
-    `haml-rails` and `html2haml` gems, pointing `tailwind.config.js` at your
-    `.haml` views, and converting existing ERB templates with `haml:erb2haml`
-    all live in the
-    <a href="#{guide_path('rails_setup')}#haml" data-turbo="false">Install HAML section of the Rails Setup guide</a>.
-    Already set up? Read on for the syntax and conventions that make HAML
-    shine.
-
-.mt-12.prose
-  %h2{ id: "syntax", class: "scroll-mt-24" } 3. HAML Syntax Basics
+  %h2{ id: "syntax", class: "scroll-mt-24" } 2. HAML Syntax Basics
   :markdown
     ### Elements
 
@@ -193,7 +185,7 @@
             %button.btn.btn-primary Buy Now
 
 .mt-12.prose
-  %h2{ id: "practices", class: "scroll-mt-24" } 4. Best Practices
+  %h2{ id: "practices", class: "scroll-mt-24" } 3. Best Practices
   :markdown
 
     ### Keep Templates Clean
@@ -229,7 +221,7 @@
         Text with no leading whitespace
 
 .mt-12.prose
-  %h2{ id: "components", class: "scroll-mt-24" } 5. LocoMotion Components with HAML
+  %h2{ id: "components", class: "scroll-mt-24" } 4. LocoMotion Components with HAML
   :markdown
 
     LocoMotion components are designed to work beautifully with HAML templates.
