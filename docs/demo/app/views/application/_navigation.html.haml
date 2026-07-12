@@ -1,6 +1,9 @@
 - icons = { docs: "book-open", guides: "document-text", loco: "sparkles", daisy: "square-3-stack-3d" }
 
-%turbo-frame#navmenu{ target: "content", "data-nav-target": "menu" }
+- # Docs pages navigate within the `content` frame; full-width pages (the
+- # home page) pass `_top` because their persisted layout has no docked
+- # sidenav, so nav clicks must re-render the whole page.
+%turbo-frame#navmenu{ target: local_assigns.fetch(:frame_target, "content"), "data-nav-target": "menu" }
   %ul.menu.w-full.px-4.py-0{ class: "mt-2.5" }
     - @nav_sections.each do |section|
       %li
