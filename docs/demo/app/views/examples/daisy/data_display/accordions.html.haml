@@ -43,6 +43,28 @@
     - accordion.with_section(title: "Section B", name: "ex2-lettered") do
       Like these two.
 
+= doc_example(title: "Custom Section Titles") do |doc|
+  - doc.with_description do
+    :markdown
+      Each section also accepts a `with_title` slot, so titles can hold any
+      HTML you like. The slot renders inside the standard `collapse-title`
+      wrapper, keeping the layout and indicator icons intact.
+
+  = daisy_accordion(css: "mt-4 bg-base-200 rounded-lg", modifier: :arrow) do |accordion|
+    - accordion.with_section(checked: true) do |section|
+      - section.with_title do
+        .flex.items-center.gap-x-2
+          = loco_icon("star", css: "size-5 text-warning")
+          Featured Section
+      This section uses a custom title with an icon.
+
+    - accordion.with_section do |section|
+      - section.with_title do
+        .flex.items-center.gap-x-2
+          = loco_icon("user-circle", css: "size-6")
+          Profile Section
+      Custom titles can include any markup, not just plain text.
+
 = doc_example(title: "Form Accordion") do |doc|
   - doc.with_description do
     :markdown

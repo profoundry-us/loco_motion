@@ -141,7 +141,7 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
 
     before do
       render_inline(collapse) do |c|
-        c.with_title(css: "collapse-title bg-gray-300") do
+        c.with_title(css: "bg-gray-300") do
           title_content
         end
         body_content
@@ -170,8 +170,12 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
         end
       end
 
+      it "wraps the custom title in the collapse-title part" do
+        expect(page).to have_selector(".collapse-title strong", text: "User Profile")
+      end
+
       it "includes custom title classes" do
-        expect(page).to have_selector(".collapse-title.bg-gray-300")
+        expect(page).to have_selector(".collapse-title .bg-gray-300")
       end
 
       it "renders custom title content" do
