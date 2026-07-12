@@ -233,42 +233,53 @@
     add DaisyUI to `tailwind.config.js` — that file is now only used to
     declare content scan paths.
 
-.mt-12.prose
-  :markdown
-    ### Reveal Tooltips on Keyboard Focus
+- # Everything loco.css quietly fixes, tucked into a collapse — readers
+- # only need the details when one of these behaviors surprises them.
+.mt-10.max-w-prose
+  = daisy_collapse(title: "What loco.css handles for you", css: "collapse-arrow border border-base-300 bg-base-100") do
+    .prose
+      :markdown
+        That single `@import` quietly fixes several papercuts. You shouldn't
+        need to think about these — dive in only if one of them surprises
+        you:
 
-    LocoMotion lets you attach a tooltip to many components with the `tip:`
-    attribute, which adds the `tooltip` class and `data-tip` directly to the
-    element. DaisyUI 5, however, only reveals a tooltip on keyboard focus when
-    the focused element is a **child** of the `.tooltip` element — so tooltips
-    placed directly on a focusable element (a button, link, etc.) show on hover
-    but not when a keyboard user tabs to them.
+        - **Your classes always win (`where:`)** — components apply their
+          visual defaults through the `where:` variant, which compiles to
+          zero-specificity `:where()` rules, so any utility you pass via
+          `css:` overrides a default without `!important`.
+        - **Dark mode stays in sync (`dark:`)** — the custom `dark:`
+          variant responds to both the OS-level dark preference *and* a
+          DaisyUI theme controller set to a dark theme, so manual switching
+          and system preference agree.
+        - **Floating labels keep their placeholder (`floating-sticky`)** —
+          add it alongside `floating-label` to pin the label in its raised
+          position while an empty field still shows its placeholder
+          (DaisyUI normally collapses the label until focus or a value).
+        - **Tooltips reveal on keyboard focus** — DaisyUI 5 only reveals a
+          tooltip on focus when the focused element is a *child* of
+          `.tooltip`, so `tip:` tooltips placed directly on a button or
+          link show on hover but not when a keyboard user tabs to them.
+          loco.css ships the missing rule:
 
-    LocoMotion's shipped CSS handles this for you: importing
-    `@profoundry-us/loco_motion/loco.css` (per the setup above) includes the
-    rule below, so `tip:` tooltips reveal on keyboard focus automatically — no
-    manual CSS needed. It mirrors DaisyUI's own reveal rule for the case where
-    the tooltip element itself is focused:
+    .mt-4
+      = doc_code(language: "css") do
+        :plain
+          /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
+          .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
+            &[data-tip]::before,
+            &::after,
+            & > .tooltip-content {
+              opacity: 1;
+              --tt-pos: 0rem;
+            }
+          }
 
-.mt-6.max-w-prose
-  = doc_code(language: "css") do
-    :plain
-      /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
-      .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
-        &[data-tip]::before,
-        &::after,
-        & > .tooltip-content {
-          opacity: 1;
-          --tt-pos: 0rem;
-        }
-      }
-
-= doc_note(modifier: :note, title: "Prefer Wrapping?", css: "mt-6") do
-  :markdown
-    If you'd rather not add custom CSS, wrap the element in the
-    `daisy_tooltip` (aliased `daisy_tip`) component instead. That follows
-    DaisyUI's recommended structure — the focusable element becomes a child of
-    the `.tooltip`, so focus works without any extra rule.
+    .mt-4.prose
+      :markdown
+        Prefer no custom CSS at all for tooltips? Wrap the element in the
+        `daisy_tooltip` (aliased `daisy_tip`) component instead — the
+        focusable element becomes a child of the `.tooltip`, so keyboard
+        focus works through DaisyUI's own rule.
 
 .mt-12.prose
   %h2{ id: "try-it", class: "scroll-mt-24" } 7. Try It Out!
