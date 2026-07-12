@@ -1,6 +1,15 @@
 = content_for(:page_title) do
   Migrating to the Icon Engine
 
+- # Token forms for the live rendering table: the token and what it shows.
+- # Every token here is vendored in the demo's own icon set, so the third
+- # column renders each icon live through the engine it documents.
+- tokens = []
+- tokens << ["bolt", "Just a name — the default library and variant"]
+- tokens << ["bolt/solid", "A variant of the default library"]
+- tokens << ["lucide:heart", "A different library"]
+- tokens << ["phosphor:heart/duotone", "Library and variant together"]
+
 .max-w-prose
   = doc_info(url: "https://github.com/Rails-Designer/icons", icon: "sparkles", icon_css: "text-primary") do
     :markdown
@@ -22,10 +31,28 @@
     This guide covers everything you need to change. Most apps only touch two
     things: run one sync command, and rename `hero_icon` to `loco_icon`.
 
-.mt-12.prose
-  :markdown
-    ## 1. Sync your icons
+- # The roadmap: migration steps with anchor links. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#sync", class: "link-hover", data: { turbo: "false" } } Sync icons
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#rename", class: "link-hover", data: { turbo: "false" } } Rename calls
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#replace", class: "link-hover", data: { turbo: "false" } } Replace the class
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#options", class: "link-hover", data: { turbo: "false" } } Icon options
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#tokens", class: "link-hover", data: { turbo: "false" } } Learn tokens
+    - steps.with_step(title: "Ship it 🎉")
 
+.mt-12.prose
+  %h2{ id: "sync", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("One-time", css: "badge-info badge-soft")
+    %span 1. Sync your icons
+  :markdown
     LocoMotion bundles just the handful of icons its own components need
     (`check`, `x-mark`, `trash`, and the calendar chevrons). Everything else —
     including most of Heroicons — now lives in your app. Sync the full
@@ -53,20 +80,29 @@
     inline `<svg>` with no runtime dependency on any gem.
 
 .mt-12.prose
+  %h2{ id: "rename", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Breaking", css: "badge-error badge-soft")
+    %span
+      2. Replace
+      %code hero_icon
+      with
+      %code loco_icon
   :markdown
-    ## 2. Replace `hero_icon` with `loco_icon`
-
     The `hero_icon` helper (and the `heroicon` alias) have been removed. Rename
     calls to `loco_icon`:
 
-.max-w-prose
-  = doc_code(css: "my-4", language: "haml") do
-    :plain
-      -# Before
-      = hero_icon("academic-cap")
-
-      -# After
-      = loco_icon("academic-cap")
+.mt-6.max-w-4xl
+  %div{ class: "grid gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = hero_icon("academic-cap")
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = loco_icon("academic-cap")
 
 .mt-4.prose
   :markdown
@@ -76,25 +112,33 @@
     See step 5 for the full token format (it's also what the sync scans).
 
 .mt-12.prose
+  %h2{ id: "replace", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Breaking", css: "badge-error badge-soft")
+    %span
+      3. Replace
+      %code Hero::IconComponent
   :markdown
-    ## 3. Replace `Hero::IconComponent`
-
     The `Hero::IconComponent` wrapper has also been removed. Anywhere you
     rendered it directly, use the `loco_icon` helper instead:
 
-.max-w-prose
-  = doc_code(css: "my-4", language: "haml") do
-    :plain
-      -# Before
-      = render(Hero::IconComponent.new(icon: "star"))
-
-      -# After
-      = loco_icon("star")
+.mt-6.max-w-4xl
+  %div{ class: "grid gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = render(Hero::IconComponent.new(icon: "star"))
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = loco_icon("star")
 
 .mt-12.prose
+  %h2{ id: "options", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Check usage", css: "badge-warning badge-soft")
+    %span 4. Component icon options
   :markdown
-    ## 4. Component icon options
-
     Options like `icon:`, `left_icon:`, `right_icon:`, and the Timeline event's
     `middle_icon:` now resolve through the same engine. They work with **no
     setup for the bundled icons** (LocoMotion's chrome plus the standard alert
@@ -108,9 +152,10 @@
       = daisy_button("Cart", icon: "shopping-cart")  -# needs a sync
 
 .mt-12.prose
+  %h2{ id: "tokens", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Reference", css: "badge-neutral badge-soft")
+    %span 5. Libraries and variants
   :markdown
-    ## 5. Libraries and variants
-
     Specify a library or variant with a **token** — one string in the form
     `library:name/variant`, the same way [Iconify](https://iconify.design)
     names icons. The treeshaking sync scans your source for these strings, so
@@ -118,12 +163,22 @@
     options) is what lets `loco_motion:icons:sync` find and vendor the exact
     icons you use:
 
-.max-w-prose
-  = doc_code(css: "my-4", language: "haml") do
-    :plain
-      = loco_icon("bolt/solid")           -# a variant
-      = loco_icon("lucide:heart")         -# another library
-      = loco_icon("phosphor:gear/bold")   -# library + variant
+- # The token grammar as a table, with each token rendered live by the very
+- # engine this guide documents.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Token" }
+      - head.with_column { "Meaning" }
+      - head.with_column { "Renders" }
+    - tokens.each do |token, meaning|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= token
+        - row.with_column do
+          = meaning
+        - row.with_column do
+          = loco_icon(token, css: "size-6")
 
 .mt-4.prose
   :markdown
@@ -131,13 +186,26 @@
     `bin/rails loco_motion:icons:list` to see the options.
 
 .mt-12.prose
-  :markdown
-    ## Summary
+  %h2{ class: "scroll-mt-24" } Migration checklist
 
-    - Run `loco_motion:icons:add heroicons` (or `:sync`) once; commit the SVGs.
-    - Rename `hero_icon` / `heroicon` to `loco_icon`.
-    - Replace `Hero::IconComponent` with `loco_icon`.
-    - Sync any icon a component references that isn't in the bundled set.
+.max-w-prose.mt-6.flex.flex-col.gap-4
+  = daisy_checkbox(name: "icons_sync", id: "icons_sync") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit
+        the SVGs.
+  = daisy_checkbox(name: "icons_rename", id: "icons_rename") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Rename `hero_icon` / `heroicon` calls to `loco_icon`.
+  = daisy_checkbox(name: "icons_component", id: "icons_component") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Replace `Hero::IconComponent` with `loco_icon`.
+  = daisy_checkbox(name: "icons_options", id: "icons_options") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Sync any icon a component references that isn't in the bundled set.
 
 = daisy_divider
 
