@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  # Acronym titles that `titleize` can't produce (e.g. "llms" -> "Llms").
+  # Also used by DocFooterButtonsComponent, which builds its own nav list.
+  DOC_TITLE_OVERRIDES = { "llms" => "LLMs", "haml" => "HAML" }.freeze
+
   before_action :setup_nav_sections
 
   def home
@@ -88,11 +92,8 @@ class ApplicationController < ActionController::Base
 
       # The display_id keeps the numeric prefix for proper routing
 
-      # Create a title from the id (capitalize, replace underscores with spaces)
-      title = id.humanize
-
-      # Special case for LLMs to ensure proper capitalization
-      title = "LLMs" if id == "llms"
+      # Create a Title Case title from the id, matching the component nav
+      title = DOC_TITLE_OVERRIDES.fetch(id, id.titleize)
 
       # Create the navigation item hash with the appropriate path helper
       # Use the stripped id (without numeric prefix) for paths to match actual URLs

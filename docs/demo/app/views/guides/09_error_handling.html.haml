@@ -17,8 +17,8 @@
     application state right where the exception happened.
 
     It assumes you have already followed the
-    [Getting Started guide](#{guide_path("getting_started")}) and have a
-    running Dockerized Rails app. These tools pair especially well with the
+    [Rails Setup guide](#{guide_path("rails_setup")}) and have a running
+    Dockerized Rails app. These tools pair especially well with the
     [Authentication guide](#{guide_path("authentication")}), where a
     deliberate `raise` lets you inspect the signed-in user.
 
@@ -46,6 +46,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # config/environments/development.rb
       # Fix console permissions for Docker so Web Console works no matter the IP
       config.web_console.permissions = "0.0.0.0/0"
 
@@ -110,6 +111,7 @@
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
     :plain
+      # config/environments/development.rb
       # Allow BetterErrors to render
       BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 

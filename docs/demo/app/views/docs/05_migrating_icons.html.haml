@@ -91,7 +91,7 @@
     The `hero_icon` helper (and the `heroicon` alias) have been removed. Rename
     calls to `loco_icon`:
 
-.mt-6.max-w-4xl
+.mt-6
   %div{ class: "grid gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")
@@ -121,7 +121,7 @@
     The `Hero::IconComponent` wrapper has also been removed. Anywhere you
     rendered it directly, use the `loco_icon` helper instead:
 
-.mt-6.max-w-4xl
+.mt-6
   %div{ class: "grid gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")

@@ -59,7 +59,7 @@ class DocFooterButtonsComponent < ApplicationComponent
     files.map do |file|
       id = File.basename(file, ".*").split(".").first
       slug = id.gsub(/^\d+_/, "")
-      title = slug == "llms" ? "LLMs" : slug.humanize
+      title = ApplicationController::DOC_TITLE_OVERRIDES.fetch(slug, slug.titleize)
       { id: id, slug: slug, title: title }
     end
   end

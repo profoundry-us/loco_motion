@@ -26,7 +26,7 @@
     It also allows you to troubleshoot and debug the application since the
     development container is small and simple with very few dependencies.
 
-- # The roadmap: three setup steps plus the hand-off to Getting Started.
+- # The roadmap: three setup steps plus the hand-off to Rails Setup.
 - # The links opt out of Turbo because the layout wraps pages in a
 - # turbo-frame, which would otherwise swallow same-page anchor jumps.
 .mt-8.rounded-box.border.border-base-300.p-6
@@ -125,12 +125,12 @@
     development environment is ready — consistent across any OS, simple to
     debug, and isolated from your host system's dependencies.
 
-    From here, the [Getting Started guide](#{guide_path("getting_started")})
-    picks up exactly where this one leaves off: creating the Rails app with
+    From here, the [Rails Setup guide](#{guide_path("rails_setup")}) picks up
+    exactly where this one leaves off: creating the Rails app with
     `rails new`, configuring the database, and applying the
     LocoMotion-recommended setup (UUIDs, HAML, DaisyUI, and more).
 
-= daisy_button "Continue to Getting Started", css: "btn-secondary btn-soft btn-sm mt-4", right_icon: "arrow-right", href: guide_path("getting_started"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
+= daisy_button "Continue to Rails Setup", css: "btn-secondary btn-soft btn-sm mt-4", right_icon: "arrow-right", href: guide_path("rails_setup"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
 
 = daisy_divider
 
