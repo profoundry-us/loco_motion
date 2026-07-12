@@ -16,9 +16,20 @@
     This keeps each layer focused: controllers handle HTTP, models handle
     persistence, and services orchestrate the actual work.
 
+- # The roadmap. The links opt out of Turbo because the layout wraps pages
+- # in a turbo-frame, which would otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#gem", class: "link-hover", data: { turbo: "false" } } Install the gem
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#base", class: "link-hover", data: { turbo: "false" } } Base interaction
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#write", class: "link-hover", data: { turbo: "false" } } Write one 🎉
+
 .mt-12.prose
+  %h2{ id: "gem", class: "scroll-mt-24" } 1. ActiveInteraction
   :markdown
-    ## 1. ActiveInteraction
 
     One solution we really like is
     [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction).
@@ -35,8 +46,8 @@
       gem "active_interaction", "~> 5.3"
 
 .mt-12.prose
+  %h2{ id: "base", class: "scroll-mt-24" } 2. A Base Interaction
   :markdown
-    ## 2. A Base Interaction
 
     Create a base `ApplicationInteraction` class that all of your service
     objects can inherit from. This gives you a single place to add shared
@@ -51,8 +62,8 @@
       end
 
 .mt-12.prose
+  %h2{ id: "write", class: "scroll-mt-24" } 3. Writing an Interaction
   :markdown
-    ## 3. Writing an Interaction
 
     Each interaction declares its inputs with typed filters, runs validations,
     and implements an `execute` method. Here is a small example:
