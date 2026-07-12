@@ -20,6 +20,12 @@ test('every referenced icon is vendored', async () => {
   const result = spawnSync('bin/rails', ['loco_motion:icons:verify'], {
     encoding: 'utf8',
     timeout: 120_000,
+    // CI runs this step with RAILS_ENV=production but hands SECRET_KEY_BASE
+    // only to the asset and server steps, and the checkout has no master.key
+    // (it is gitignored) — so a production boot here would die on "Missing
+    // secret_key_base". The task never touches secrets; the dummy switch has
+    // Rails generate an ephemeral key so the boot works in any checkout.
+    env: { ...process.env, SECRET_KEY_BASE_DUMMY: '1' },
   });
 
   const output = [result.stdout, result.stderr, result.error?.message]
