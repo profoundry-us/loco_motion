@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Icons): Add a `config.icon_dev_fallback` setting (default `true`) controlling the renderer's
+  development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
+  the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
+  development and local test runs instead of surfacing for the first time in production or CI. The demo app
+  now runs with the fallback disabled.
+
 - feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the `start` / `end`
   component API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and the
   `start:` / `end:` keyword arguments plus their generated part options (`start_css:`, `end_html:`,

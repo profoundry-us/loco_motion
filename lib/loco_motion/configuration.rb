@@ -103,6 +103,22 @@ module LocoMotion
     #
     attr_accessor :icon_cache_path
 
+    #
+    # Whether the icon renderer may fall back to the full local cache
+    # ({#icon_cache_path}) in development when an icon is missing from the
+    # vendored `app/assets/svg/icons` set. Defaults to `true`, which keeps the
+    # development loop fast: a freshly-referenced icon renders on the next
+    # refresh without re-running `loco_motion:icons:sync`.
+    #
+    # Set this to `false` to resolve icons strictly from the vendored set in
+    # every environment — a used-but-unvendored icon then fails loudly in
+    # development and local test runs instead of surfacing for the first time
+    # in production or CI.
+    #
+    # @return [Boolean] Whether the development cache fallback is enabled
+    #
+    attr_accessor :icon_dev_fallback
+
     def initialize
       @default_alert_timeout = 5000 # 5 seconds default
       @default_icon_library = :heroicons
@@ -110,6 +126,7 @@ module LocoMotion
       @icon_content_paths = ["app/**/*.{rb,erb,haml,slim}"]
       @icon_safelist = []
       @icon_cache_path = "tmp/loco_motion/icons"
+      @icon_dev_fallback = true
     end
   end
 end

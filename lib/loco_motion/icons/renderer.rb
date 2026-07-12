@@ -98,9 +98,12 @@ module LocoMotion
       # (gitignored, not deployed), so test and production resolve strictly from
       # the committed `app/assets/svg/icons` — which keeps the treeshaken set
       # honest: a used-but-unvendored icon fails loudly there instead of being
-      # masked by the cache.
+      # masked by the cache. Apps that prefer that strictness everywhere (so a
+      # missing icon fails in development too) can disable the fallback with
+      # `config.icon_dev_fallback = false`.
       def cache_root
         return unless application_root
+        return unless LocoMotion.configuration.icon_dev_fallback
         return unless defined?(::Rails) && ::Rails.respond_to?(:env) && ::Rails.env.development?
 
         ::File.expand_path(LocoMotion.configuration.icon_cache_path, application_root)
