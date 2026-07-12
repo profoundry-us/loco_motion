@@ -21,10 +21,22 @@
     [Error Handling guide](#{guide_path("error_handling")}), which walks
     through setting them up.
 
-.mt-12.prose
-  :markdown
-    ## 1. ruby-debug (built-in)
+- # The roadmap. The links opt out of Turbo because the layout wraps pages
+- # in a turbo-frame, which would otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#debugger", class: "link-hover", data: { turbo: "false" } } ruby-debug
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#testing", class: "link-hover", data: { turbo: "false" } } Testing stack
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#tips", class: "link-hover", data: { turbo: "false" } } Troubleshooting
 
+.mt-12.prose
+  %h2{ id: "debugger", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Built-in", css: "badge-info badge-soft")
+    %span 1. ruby-debug
+  :markdown
     Rails 7+ ships with the `debug` gem (the successor to `byebug`). It is
     already in your `Gemfile`, so you can drop a breakpoint anywhere in your
     code:
@@ -58,9 +70,8 @@
     through code just like you would locally.
 
 .mt-12.prose
+  %h2{ id: "testing", class: "scroll-mt-24" } 2. Testing
   :markdown
-    ## 2. Testing
-
     Before you start creating a bunch of models and controllers, it is worth
     getting a solid testing foundation in place. Rails ships with
     [MiniTest](https://guides.rubyonrails.org/testing.html) out of the box,
@@ -95,9 +106,8 @@
     to adopt Playwright instead.
 
 .mt-12.prose
+  %h2{ id: "tips", class: "scroll-mt-24" } 3. Troubleshooting Tips
   :markdown
-    ## 3. Troubleshooting Tips
-
     - Use `Rails.logger.debug` to print structured output.
     - Tail logs with `just logs -f` (or `rails logs -f`).
     - If containers misbehave, rebuild with `just dev` or prune Docker caches.
