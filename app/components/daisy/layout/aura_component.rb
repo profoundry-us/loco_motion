@@ -21,6 +21,12 @@
 #   outside the wrapper, so avoid `overflow-hidden` on the aura itself (or on
 #   a tight parent) or the glow will be clipped.
 #
+# @note Inside a column flex container (e.g. a card body on small screens),
+#   the wrapper is stretched to the parent's full width by the default
+#   `align-items: stretch`, painting the aura far beyond its content. Add
+#   `w-fit` (or an appropriate `self-*` utility) to keep the aura sized to
+#   its content.
+#
 # @loco_example Basic Usage
 #   = daisy_aura do
 #     = daisy_card(css: "bg-base-100") do
