@@ -20,33 +20,36 @@
 
     You can provide the documentation to your LLM in a few ways:
 
-    ### 1. Direct Link (Cursor / Windsurf)
+- # The three ways in, as one card row.
+%div{ class: "mt-6 grid gap-4 md:grid-cols-3" }
+  = daisy_card(css: "border border-base-300 bg-base-100") do
+    %span{ class: "text-2xl" } 🔗
+    %span{ class: "font-bold" } Direct link
+    %p{ class: "text-sm text-base-content/70" }
+      AI-powered editors like Cursor and Windsurf can add a documentation
+      source by URL.
+    %code{ class: "rounded-box bg-base-200 p-2 text-xs break-all" }
+      = "#{request.base_url}/llms-v#{LocoMotion::VERSION}.txt"
 
-    If you are using an AI-powered editor like Cursor or Windsurf, you can
-    often add a documentation source by URL. Use the following link:
+  = daisy_card(css: "border border-base-300 bg-base-100") do
+    %span{ class: "text-2xl" } 📡
+    %span{ class: "font-bold" } llms.txt standard
+    %p{ class: "text-sm text-base-content/70" }
+      Tools that speak the llms.txt standard discover these automatically —
+      an index and a full version.
+    %code{ class: "rounded-box bg-base-200 p-2 text-xs break-all" }
+      = "#{request.base_url}/llms.txt"
+    %code{ class: "mt-1 rounded-box bg-base-200 p-2 text-xs break-all" }
+      = "#{request.base_url}/llms-full.txt"
 
-  = doc_code(language: "text", css: "my-4") do
-    = "#{request.base_url}/llms-v#{LocoMotion::VERSION}.txt"
-
-  :markdown
-    ### 2. llms.txt Standard
-
-    Some LLM tools support the `/llms.txt` standard for automatically discovering
-    documentation. We provide both an index file and a full documentation file:
-
-  = doc_code(language: "text", css: "my-4") do
-    = "#{request.base_url}/llms.txt"
-
-  = doc_code(language: "text", css: "my-4") do
-    = "#{request.base_url}/llms-full.txt"
-
-  :markdown
-    ### 3. Manual Upload
-
-    Alternatively, you can download the full documentation file and upload it
-    directly to your chat session.
-
-  = daisy_link("Download llms-full-v#{LocoMotion::VERSION}.txt", "/llms-full-v#{LocoMotion::VERSION}.txt", target: "_blank", download: true)
+  = daisy_card(css: "border border-base-300 bg-base-100") do
+    %span{ class: "text-2xl" } ⬇️
+    %span{ class: "font-bold" } Manual upload
+    %p{ class: "text-sm text-base-content/70" }
+      Download the full documentation file and upload it directly to your
+      chat session.
+    %div{ class: "mt-1" }
+      = daisy_button("Download llms-full.txt", icon: "arrow-down-tray", css: "btn-primary btn-sm", href: "/llms-full-v#{LocoMotion::VERSION}.txt", html: { download: true })
 
 .max-w-prose
   = doc_note(css: "mt-8", modifier: :tip, title: "Pro Tip") do
