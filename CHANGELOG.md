@@ -424,6 +424,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Render the sidenav drawer sidebar on the full-width home page so the header's hamburger works
+  there. The home page opted out of the whole drawer sidebar, but the hamburger and drawer checkbox still
+  rendered — tapping the menu button below the `xl` breakpoint locked page scrolling (DaisyUI's
+  drawer-open scroll lock) while showing no navigation at all. The sidebar now renders on every page; on
+  full-width pages its nav links break out to `_top` so the docked layout returns when navigating to a
+  docs page.
+
 - feat(Demo): Add a components overview page (Docs → Components) that renders a live miniature of every
   registered component — one card per component, grouped and alphabetized like the sidebar nav, with each
   card linking through to the component's full example page. Previews are real component renders (marked
