@@ -233,53 +233,69 @@
     add DaisyUI to `tailwind.config.js` — that file is now only used to
     declare content scan paths.
 
-- # Everything loco.css quietly fixes, tucked into a collapse — readers
-- # only need the details when one of these behaviors surprises them.
-.mt-10.max-w-prose
-  = daisy_collapse(title: "What loco.css handles for you", css: "collapse-arrow border border-base-300 bg-base-100") do
-    .prose
-      :markdown
-        That single `@import` quietly fixes several papercuts. You shouldn't
-        need to think about these — dive in only if one of them surprises
-        you:
+- # Everything loco.css quietly fixes, FAQ-style — readers only need the
+- # details when one of these behaviors surprises them.
+.mt-10.prose
+  :markdown
+    ### What loco.css handles for you
 
-        - **Your classes always win (`where:`)** — components apply their
-          visual defaults through the `where:` variant, which compiles to
-          zero-specificity `:where()` rules, so any utility you pass via
-          `css:` overrides a default without `!important`.
-        - **Dark mode stays in sync (`dark:`)** — the custom `dark:`
-          variant responds to both the OS-level dark preference *and* a
-          DaisyUI theme controller set to a dark theme, so manual switching
-          and system preference agree.
-        - **Floating labels keep their placeholder (`floating-sticky`)** —
-          add it alongside `floating-label` to pin the label in its raised
-          position while an empty field still shows its placeholder
-          (DaisyUI normally collapses the label until focus or a value).
-        - **Tooltips reveal on keyboard focus** — DaisyUI 5 only reveals a
-          tooltip on focus when the focused element is a *child* of
-          `.tooltip`, so `tip:` tooltips placed directly on a button or
-          link show on hover but not when a keyboard user tabs to them.
-          loco.css ships the missing rule:
+    That single `@import` quietly fixes several papercuts. You shouldn't
+    need to think about these — dive in only if one of them surprises you:
 
-    .mt-4
-      = doc_code(language: "css") do
-        :plain
-          /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
-          .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
-            &[data-tip]::before,
-            &::after,
-            & > .tooltip-content {
-              opacity: 1;
-              --tt-pos: 0rem;
+.mt-4.max-w-prose
+  = daisy_accordion(modifier: :arrow, css: "rounded-box border border-base-300 bg-base-100 divide-y divide-base-300") do |accordion|
+    - accordion.with_section(title: "Your classes always win (where:)") do
+      .prose
+        :markdown
+          Components apply their visual defaults through the `where:`
+          variant, which compiles to zero-specificity `:where()` rules —
+          so any utility you pass via `css:` overrides a default without
+          `!important`. More than a dozen components rely on it, which is
+          why the import is required rather than optional.
+
+    - accordion.with_section(title: "Dark mode stays in sync (dark:)") do
+      .prose
+        :markdown
+          The custom `dark:` variant responds to both the OS-level dark
+          preference *and* a DaisyUI theme controller set to a dark theme,
+          so manual theme switching and system preference agree.
+
+    - accordion.with_section(title: "Floating labels keep their placeholder (floating-sticky)") do
+      .prose
+        :markdown
+          Add `floating-sticky` alongside `floating-label` (e.g. via
+          `label_wrapper_css:`) to pin the label in its raised position
+          while an empty field still shows its placeholder — DaisyUI
+          normally collapses the label until the field is focused or has a
+          value. The rule also keeps the label visible on disabled fields.
+
+    - accordion.with_section(title: "Tooltips reveal on keyboard focus") do
+      .prose
+        :markdown
+          DaisyUI 5 only reveals a tooltip on focus when the focused
+          element is a *child* of `.tooltip`, so `tip:` tooltips placed
+          directly on a button or link show on hover but not when a
+          keyboard user tabs to them. loco.css ships the missing rule:
+
+      .mt-4
+        = doc_code(language: "css") do
+          :plain
+            /* Reveal `tip:`/`tooltip` tooltips on keyboard focus */
+            .tooltip:focus-visible:is([data-tip]:not([data-tip=""]), :has(.tooltip-content:not(:empty))) {
+              &[data-tip]::before,
+              &::after,
+              & > .tooltip-content {
+                opacity: 1;
+                --tt-pos: 0rem;
+              }
             }
-          }
 
-    .mt-4.prose
-      :markdown
-        Prefer no custom CSS at all for tooltips? Wrap the element in the
-        `daisy_tooltip` (aliased `daisy_tip`) component instead — the
-        focusable element becomes a child of the `.tooltip`, so keyboard
-        focus works through DaisyUI's own rule.
+      .mt-4.prose
+        :markdown
+          Prefer no custom CSS at all for tooltips? Wrap the element in the
+          `daisy_tooltip` (aliased `daisy_tip`) component instead — the
+          focusable element becomes a child of the `.tooltip`, so keyboard
+          focus works through DaisyUI's own rule.
 
 .mt-12.prose
   %h2{ id: "try-it", class: "scroll-mt-24" } 7. Try It Out!
