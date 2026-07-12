@@ -8,8 +8,15 @@ demo_dep=$(grep -o '"@profoundry-us/loco_motion": *"[^"]*"' docs/demo/package.js
 
 # The documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins. These must
 # track the released version, or new installs following the docs resolve to the
-# previous minor series (e.g. a stale "~> 0.5.2" excludes 0.6.0).
-install_guide=docs/demo/app/views/docs/02_install.html.haml
+# previous minor series (e.g. a stale "~> 0.5.2" excludes 0.6.0). The Install
+# guide's numeric prefix shifts when the docs section is reordered (a hardcoded
+# 02_install path silently broke when it became 03_install), so resolve it by
+# glob and fail loudly when nothing matches.
+install_guide=$(ls docs/demo/app/views/docs/*_install.html.haml 2>/dev/null | head -1 || true)
+if [ -z "$install_guide" ]; then
+    echo "✗ No install guide found matching docs/demo/app/views/docs/*_install.html.haml" >&2
+    exit 1
+fi
 readme_pin=$(grep -oE 'loco_motion-rails", *"~> *[0-9]+\.[0-9]+\.[0-9]+' README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)
 install_pin=$(grep -oE 'loco_motion-rails", *"~> *[0-9]+\.[0-9]+\.[0-9]+' "$install_guide" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)
 

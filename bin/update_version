@@ -68,13 +68,21 @@ def update_version(new_version = nil)
     # so the README and Install guide track the released version. A stale pin
     # silently excludes the new release (e.g. "~> 0.5.2" excludes 0.6.0), so
     # new installs following the docs resolve to the previous minor series.
-    install_pin_files = [
-      'README.md',
-      File.join('docs', 'demo', 'app', 'views', 'docs', '02_install.html.haml')
-    ]
+    # The Install guide's numeric prefix shifts when the docs section is
+    # reordered (a hardcoded 02_install path silently broke when it became
+    # 03_install), so resolve it by glob and complain when nothing matches.
+    install_docs = Dir.glob('docs/demo/app/views/docs/*_install.html.haml', base: root_dir).sort
+    if install_docs.empty?
+      puts "⚠️  No install guide matched docs/demo/app/views/docs/*_install.html.haml — install pin NOT updated!"
+    end
+
+    install_pin_files = ['README.md', *install_docs]
     install_pin_files.each do |rel_path|
       path = File.join(root_dir, rel_path)
-      next unless File.exist?(path)
+      unless File.exist?(path)
+        puts "⚠️  Install pin file missing (skipping): #{rel_path}"
+        next
+      end
 
       # Read/write as UTF-8 explicitly: these docs contain non-ASCII bytes
       # (em dashes, emoji), and a US-ASCII default external encoding would
@@ -93,16 +101,16 @@ def update_version(new_version = nil)
     puts "\nSuccessfully updated version to #{new_version}"
     puts "\n📋 Next steps for release:"
     puts "1. Review the changes: git diff"
-    puts "2. Check your release checklist: docs/checklists/release-checklist-v#{new_version}.md"
-    puts "3. Update loco container: make loco-version-lock"
-    puts "4. Build and test packages: make gem-build && make npm-build"
-    puts "5. Update CHANGELOG.md with release notes"
-    puts "6. Commit the changes: git commit -am 'Release version #{new_version}'"
-    puts "7. Create and merge PR, then publish packages"
-    puts "8. After publishing, update demo app: bin/update_demo_after_release"
+    puts "2. Update loco container: just loco-version-lock"
+    puts "3. Build and test packages: just gem-build && just npm-build"
+    puts "4. Update CHANGELOG.md with release notes"
+    puts "5. Commit the changes: git commit -am 'Release version #{new_version}'"
+    puts "6. Push to main, tag, and publish packages"
+    puts "7. After publishing, update demo app: bin/update_demo_after_release"
     puts
-    puts "ℹ️  Note: A release checklist will be automatically created when using make commands."
-    puts "   The demo app will be updated after package publication to avoid circular dependencies."
+    puts "ℹ️  Tip: bin/release is an interactive wizard that walks through all"
+    puts "   of these steps (plus llms.txt regeneration) for you. The demo app"
+    puts "   is updated after package publication to avoid circular dependencies."
 
   rescue StandardError => e
     puts "Error updating version: #{e.message}"
