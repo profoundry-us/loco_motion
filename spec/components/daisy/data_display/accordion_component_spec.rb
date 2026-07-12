@@ -170,6 +170,10 @@ RSpec.describe Daisy::DataDisplay::AccordionComponent, type: :component do
       it "renders custom title HTML" do
         expect(page).to have_selector("span.text-red-500", text: "Custom Title")
       end
+
+      it "wraps the custom title in the collapse-title part" do
+        expect(page).to have_selector("h2.collapse-title span.text-red-500", text: "Custom Title")
+      end
     end
   end
 

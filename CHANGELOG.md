@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Accordion/Collapse): Render the custom `with_title` slot inside the `collapse-title` part. The slot
+  previously rendered bare — replacing the wrapper instead of filling it — so custom-titled sections lost
+  the DaisyUI collapse layout: unstyled title text, no arrow/plus indicator, and the content area merged
+  into the title. Custom titles now get the same wrapper (and classes) as simple string titles. If you
+  worked around this by adding `collapse-title` to the slot's `css:`, remove it — the class now comes from
+  the part, which can be styled directly via `title_css:` (the demo's Advanced Collapse example shows this).
+
 - feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the `start` / `end`
   component API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and the
   `start:` / `end:` keyword arguments plus their generated part options (`start_css:`, `end_html:`,
