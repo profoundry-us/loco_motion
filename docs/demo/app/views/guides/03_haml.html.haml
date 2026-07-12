@@ -17,8 +17,27 @@
     and brackets. It's designed to make template creation more enjoyable and
     maintainable.
 
-    ## 1. Why HAML?
+- # The roadmap: five sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why HAML
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#syntax", class: "link-hover", data: { turbo: "false" } } Syntax
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#practices", class: "link-hover", data: { turbo: "false" } } Best practices
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#components", class: "link-hover", data: { turbo: "false" } } Components
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
 
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why HAML?
+  :markdown
     HAML offers several advantages over traditional ERB templates:
 
     - **Cleaner syntax**: Uses indentation instead of closing tags, improving
@@ -34,9 +53,8 @@
     structure
 
 .mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installing HAML
   :markdown
-    ## 2. Installing HAML
-
     To add HAML to your Rails project, follow these steps:
 
     First, add the HAML gems to your `Gemfile`.
@@ -93,33 +111,32 @@
     HAML_RAILS_DELETE_ERB=true rails haml:erb2haml
 
 .mt-12.prose
+  %h2{ id: "syntax", class: "scroll-mt-24" } 3. HAML Syntax Basics
   :markdown
-    ## 3. HAML Syntax Basics
-
     ### Elements
 
     HAML uses the `%` character followed by the element name.
 
-.mt-6.max-w-prose
-  = doc_code(language: "haml") do
-    :plain
-      %h1 Hello World
-      %p This is a paragraph
-      %div
-        %span Nested within the div
-
-.mt-6.prose
-  :markdown
-    Compiled HTML:
-
-.mt-6.max-w-prose
-  = doc_code(language: "html") do
-    :plain
-      <h1>Hello World</h1>
-      <p>This is a paragraph</p>
-      <div>
-        <span>Nested within the div</span>
-      </div>
+- # What you write vs. what the browser gets, side by side.
+.mt-6.max-w-4xl
+  %div{ class: "grid gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("You write", css: "badge-primary mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          %h1 Hello World
+          %p This is a paragraph
+          %div
+            %span Nested within the div
+    %div
+      = daisy_badge("You get", css: "badge-ghost mb-2")
+      = doc_code(language: "html") do
+        :plain
+          <h1>Hello World</h1>
+          <p>This is a paragraph</p>
+          <div>
+            <span>Nested within the div</span>
+          </div>
 
 .prose.mt-12
   :markdown
@@ -219,8 +236,8 @@
             %button.btn.btn-primary Buy Now
 
 .mt-12.prose
+  %h2{ id: "practices", class: "scroll-mt-24" } 4. Best Practices
   :markdown
-    ## 4. Best Practices
 
     ### Keep Templates Clean
 
@@ -255,8 +272,8 @@
         Text with no leading whitespace
 
 .mt-12.prose
+  %h2{ id: "components", class: "scroll-mt-24" } 5. LocoMotion Components with HAML
   :markdown
-    ## 5. LocoMotion Components with HAML
 
     LocoMotion components are designed to work beautifully with HAML templates.
     Here's an example using the DaisyUI button component:
@@ -277,9 +294,8 @@
         Submit Form
 
 .mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
   :markdown
-    ## Success!
-
     You've learned the basics of HAML and how to use it effectively with
     LocoMotion! HAML's clean syntax will make your templates more maintainable
     and your development experience more enjoyable.
