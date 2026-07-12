@@ -33,9 +33,10 @@
       .mx-auto{ class: "max-w-[1470px]" }
         = render partial: "application/header"
 
-    - # The home / landing page renders full-width by opting out of the sidenav
-    - # via `content_for(:hide_sidenav)`. Its links break out to `_top` so the
-    - # layout re-renders (and the sidenav returns) when leaving the page.
+    - # The home / landing page renders full-width by opting out of the docked
+    - # sidenav via `content_for(:hide_sidenav)`. Its links break out to `_top`
+    - # so the layout re-renders (and the docked sidenav returns) when leaving
+    - # the page.
     - hide_sidenav = content_for?(:hide_sidenav)
 
     .drawer{ class: ("xl:drawer-open" unless hide_sidenav) }
@@ -52,12 +53,16 @@
           %div{ class: footer_classes }
             = render partial: "application/footer"
 
-      - unless hide_sidenav
-        .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
-          %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
+      - # The drawer sidebar renders on every page — full-width pages still
+      - # need it so the header's hamburger opens the nav below `xl` — but
+      - # their nav links break out to `_top` so the full layout (docked
+      - # sidenav, content padding) comes back when navigating to a docs page.
+      .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
+        %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
-          %div{ class: nav_classes }
-            = render partial: "application/navigation"
+        %div{ class: nav_classes }
+          = render partial: "application/navigation",
+            locals: { frame_target: hide_sidenav ? "_top" : "content" }
 
     - # Hide ads on the home page
     .hidden.fixed.overflow-auto.bottom-0.w-64.px-4.py-5.space-y-4{ class: "top-[65px] right-[max(0px,calc(50vw-735px))]", "data-ads-target": "ads" }
