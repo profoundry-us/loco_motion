@@ -17,44 +17,57 @@
 
     This guide walks you through installing the Component library.
 
-    ## 1. Gem Installation
+- # The roadmap: install steps with anchor links. The links opt out of Turbo
+- # because the layout wraps pages in a turbo-frame, which would otherwise
+- # swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#gem", class: "link-hover", data: { turbo: "false" } } Gem
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#javascript", class: "link-hover", data: { turbo: "false" } } JavaScript
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#tailwind", class: "link-hover", data: { turbo: "false" } } Tailwind
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#icons", class: "link-hover", data: { turbo: "false" } } Icons
+    - steps.with_step do
+      %a{ href: "#try-it-out", class: "link-hover", data: { turbo: "false" } } Try it out 🎉
 
-    Add the following to your `Gemfile` and run `bundle install`.
-
-  = doc_code(language: "ruby") do
-    :plain
-      # Gemfile
-      gem "loco_motion-rails", "~> 0.6.0", require: "loco_motion"
-
+.mt-12.prose
+  %h2{ id: "gem", class: "scroll-mt-24" } 1. Gem Installation
   :markdown
-    Or if you want the latest and greatest:
+    Add the following to your `Gemfile` and run `bundle install` — or grab
+    `main` straight from GitHub if you want the latest and greatest.
 
-  = doc_code(language: "ruby") do
-    :plain
-      # Gemfile
-      gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
+.max-w-prose.mt-4
+  = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    - tabs.with_tab(title: "RubyGems", checked: true, content_wrapper_css: "pt-2") do
+      = doc_code(language: "ruby") do
+        :plain
+          # Gemfile
+          gem "loco_motion-rails", "~> 0.6.0", require: "loco_motion"
+    - tabs.with_tab(title: "GitHub (main)", content_wrapper_css: "pt-2") do
+      = doc_code(language: "ruby") do
+        :plain
+          # Gemfile
+          gem "loco_motion", github: "profoundry-us/loco_motion", branch: "main", require: "loco_motion"
 
+.mt-12.prose
+  %h2{ id: "javascript", class: "scroll-mt-24" } 2. Javascript Installation
   :markdown
-    ## 2. Javascript Installation
-
     Next, some of the components require Javascript. Install the library with
     your package manager of choice.
 
+.max-w-prose.mt-4
+  = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    - tabs.with_tab(title: "npm", checked: true, content_wrapper_css: "pt-2") do
+      = daisy_code(prefix: "$") do
+        npm i -D @profoundry-us/loco_motion@latest
+    - tabs.with_tab(title: "Yarn", content_wrapper_css: "pt-2") do
+      = daisy_code(prefix: "$") do
+        yarn add -D @profoundry-us/loco_motion@latest
+
 .max-w-prose
-  .prose.mt-4
-    :markdown
-      ### npm
-
-  = daisy_code(css: "my-4", prefix: "$") do
-    npm i -D @profoundry-us/loco_motion@latest
-
-  .prose
-    :markdown
-      ### Yarn
-
-  = daisy_code(css: "my-4", prefix: "$") do
-    yarn add -D @profoundry-us/loco_motion@latest
-
   .prose.mt-8
     :markdown
       Now, import and register the relevant controllers in your
@@ -93,10 +106,9 @@
       = component_link("CallyInput Docs", "Daisy::DataInput::CallyComponent")
       for more information.
 
-.mt-10.prose
+.mt-12.prose
+  %h2{ id: "tailwind", class: "scroll-mt-24" } 3. TailwindCSS Installation
   :markdown
-    ## 3. TailwindCSS Installation
-
     LocoMotion uses Tailwind 4, which configures plugins directly in your CSS
     file rather than in `tailwind.config.js`.
 
@@ -141,24 +153,47 @@
 
     Next, create or update your `tailwind.config.js` to tell Tailwind where to
     scan for class names. In Tailwind 4 this file handles **only** content
-    paths — plugins belong in your CSS file (see above).
+    paths — plugins belong in your CSS file (see above). Scan every LocoMotion
+    component, or list just the ones you use for an _even smaller_ bundle (at
+    the cost of updating the list every time you adopt a new component):
 
-.max-w-prose
-  = doc_code(css: "my-4", language: "javascript") do
-    :plain
-      // tailwind.config.js
-      const { execSync } = require('child_process');
+.max-w-prose.mt-4
+  = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    - tabs.with_tab(title: "All components", checked: true, content_wrapper_css: "pt-2") do
+      = doc_code(language: "javascript") do
+        :plain
+          // tailwind.config.js
+          const { execSync } = require('child_process');
 
-      // Get the path to the loco_motion gem
-      let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
+          // Get the path to the loco_motion gem
+          let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
 
-      module.exports = {
-        content: [
-          `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
-          'app/components/**/*.{rb,js,html,haml}',
-          'app/views/**/*.{rb,js,html,haml}',
-        ]
-      }
+          module.exports = {
+            content: [
+              `${locoBundlePath}/app/components/**/*.{rb,js,html,haml}`,
+              'app/components/**/*.{rb,js,html,haml}',
+              'app/views/**/*.{rb,js,html,haml}',
+            ]
+          }
+    - tabs.with_tab(title: "Only what you use", content_wrapper_css: "pt-2") do
+      = doc_code(language: "javascript") do
+        :plain
+          // tailwind.config.js
+          const { execSync } = require('child_process');
+
+          // Get the path to the loco_motion gem
+          let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
+
+          module.exports = {
+            content: [
+              `${locoBundlePath}/app/components/daisy/actions/button_component.{rb,haml}`,
+              `${locoBundlePath}/app/components/daisy/data_display/countdown_component.{rb,haml}`,
+              `${locoBundlePath}/app/components/daisy/data_display/countdown_controller.js`,
+              /* And so on and so forth */
+              'app/components/**/*.{rb,js,html,haml}',
+              'app/views/**/*.{rb,js,html,haml}',
+            ]
+          }
 
 = doc_note(css: "mt-6", modifier: :warning, title: "Gem Name Must Match") do
   :markdown
@@ -166,36 +201,9 @@
     or the name is wrong, which makes Tailwind silently skip every component
     class. Make sure the gem name matches exactly.
 
-.mt-4.prose
+.mt-12.prose
+  %h2{ id: "icons", class: "scroll-mt-24" } 4. Icons
   :markdown
-    If you want an _even smaller_ bundle size, you can import **just** the
-    components that you utilize. You will, however, need to update your
-    `tailwind.config.js` file every time you add new components.
-
-.max-w-prose
-  = doc_code(css: "my-4", language: "javascript") do
-    :plain
-      // tailwind.config.js
-      const { execSync } = require('child_process');
-
-      // Get the path to the loco_motion gem
-      let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
-
-      module.exports = {
-        content: [
-          `${locoBundlePath}/app/components/daisy/actions/button_component.{rb,haml}`,
-          `${locoBundlePath}/app/components/daisy/data_display/countdown_component.{rb,haml}`,
-          `${locoBundlePath}/app/components/daisy/data_display/countdown_controller.js`,
-          /* And so on and so forth */
-          'app/components/**/*.{rb,js,html,haml}',
-          'app/views/**/*.{rb,js,html,haml}',
-        ]
-
-
-.mt-10.prose
-  :markdown
-    ## 4. Icons
-
     LocoMotion bundles a small set of icons, so common component icons render
     with no setup. Every component that accepts an `icon:` (and `left_icon:` /
     `right_icon:`) renders through the `loco_icon` engine:
@@ -274,9 +282,10 @@
 
 
 .mt-10.prose
+  %h3{ class: "flex flex-col items-start gap-2" }
+    = daisy_badge("Optional", css: "badge-info badge-soft")
+    %span Keep your vendored set lean (treeshaking)
   :markdown
-    ### Keep your vendored set lean (treeshaking)
-
     `loco_motion:icons:add` vendors a whole library. For larger apps you can
     instead vendor **only the icons you actually use**, the way Tailwind ships
     only the classes you reference. Download the full libraries once into a
@@ -319,27 +328,28 @@
       bin/rails loco_motion:icons:sync && git add app/assets/svg/icons
 
 
-= doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
-  - doc.with_description do
-    :markdown
-      ## 5. Try it out!
+%div{ id: "try-it-out", class: "scroll-mt-24" }
+  = doc_example(title: nil, example_css: "flex-col space-y-8") do |doc|
+    - doc.with_description do
+      :markdown
+        ## 5. Try it out!
 
-      You're ready to start using the components! 🥳
+        You're ready to start using the components! 🥳
 
-      Hop into one of your views and show the world what you can build.
+        Hop into one of your views and show the world what you can build.
 
-  = daisy_button("Done!", html: { onclick: "alert('Go you!')" })
+    = daisy_button("Done!", html: { onclick: "alert('Go you!')" })
 
-  = daisy_badge(css: "badge-success") do
-    = loco_icon("check-circle")
-    Task completed!
+    = daisy_badge(css: "badge-success") do
+      = loco_icon("check-circle")
+      Task completed!
 
-  = daisy_alert(icon: "information-circle", css: "alert-info alert-soft") do
-    Where will you go from here?
+    = daisy_alert(icon: "information-circle", css: "alert-info alert-soft") do
+      Where will you go from here?
 
-  %p.flex.flex-col.gap-1.text-primary
-    Loading endless possibilities...
-    = daisy_progress(css: "w-100 progress-primary")
+    %p.flex.flex-col.gap-1.text-primary
+      Loading endless possibilities...
+      = daisy_progress(css: "w-100 progress-primary")
 
 = daisy_divider
 
