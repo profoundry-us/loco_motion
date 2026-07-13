@@ -252,6 +252,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (they pointed at a stray `trc_*` database), renamed `app-rspec` to `app-test` for consistency, and added
   `build`, `rebuild`, `test`, `lint`, and `lint-fix` recipes. Also removed the dead `db-shell` / `db-dev` /
   `db-test` recipes from the repo's own `justfile` — there is no `db` service and the demo uses SQLite.
+- fix(Docker): Move every image to Node 22 and pin the global npm upgrade to the 12.x line (`Dockerfile`,
+  `docs/demo/Dockerfile.demo`, `dev/Dockerfile.dev`, `examples/Dockerfile`, `examples/dev/Dockerfile`,
+  and `node:22-slim` in `docs/demo/Dockerfile.demo.cloud`). The images installed Node 20 and ran
+  `npm install -g npm@latest`, and npm 12 dropped Node 20 support (it requires Node 22.22.2+), so every
+  image build — and with it the whole `just` dev workflow — failed once npm 12 shipped. Pinning the npm
+  major means the next npm release with a higher Node floor can't break the builds again: Node and npm
+  now get bumped together, deliberately. The demo's `engines.node` widens from `~20` to `~20 || ~22` so
+  the Node 22 containers, the Node 20 cloud-session fallback, and Playwright CI (`.node-version`,
+  20.11.1) all pass yarn's engines check.
 
 ### Components Changes
 
@@ -668,6 +677,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - test(Demo): Add RSpec component specs for the demo's callout and media doc components —
   `DocNoteComponent` (all five modifiers), `DocInfoComponent` (icon box vs. image mode),
   `DocFigureComponent` (linked figure and caption), and `DocFlairComponent` (parallax and pop modes).
+- test(Demo): Add RSpec component specs for the demo's page-structure doc components —
+  `DocTitleComponent` (default and custom API buttons), `DocFooterButtonsComponent` (Previous/Next
+  derivation from the section's sorted file list), and `MasterDetailComponent` (records and panes).
 
 ### Fixed
 
