@@ -68,7 +68,7 @@
 
 - # What you write vs. what the browser gets, side by side.
 .mt-6
-  %div{ class: "grid gap-4 lg:grid-cols-2" }
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("You write", css: "badge-primary mb-2")
       = doc_code(language: "haml") do

@@ -1,10 +1,10 @@
 = daisy_link(url, css: "link-hover", target: "_blank") do
-  .flex.items-center.justify-start.mb-8.p-8.bg-base-300.rounded-lg{ class: "mt-1" }
+  .flex.flex-col.items-center.justify-start.gap-4.mb-8.p-6.bg-base-300.rounded-lg{ class: "mt-1 sm:flex-row sm:gap-0 sm:p-8" }
     - if @image_path.present?
       = image_tag(@image_path, class: "h-20 px-4", alt: @image_alt)
     - else
       .flex.items-center.justify-center.size-20.shrink-0.mx-4.rounded-lg.bg-base-100
         = loco_icon(@icon, css: "size-[70px] #{@icon_css}")
 
-    %div.px-4.text-xl
+    %div.px-4.text-xl.text-center{ class: "sm:text-left" }
       = content
