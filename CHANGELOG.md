@@ -648,6 +648,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   scrolling — a zero-specificity demo rule opts example previews out of DaisyUI's
   `:root:has(.drawer-toggle:checked)` scroll lock while the sidenav drawer keeps locking on mobile. Fixes
   #286.
+- fix(Demo): Keep the homepage Get Started button's aura sized to the button on mobile. The card body is a
+  column flex container below the `sm` breakpoint, so the aura wrapper — an `inline-block` flex item — was
+  stretched to the card's full width by the default `align-items: stretch` and painted its gradient and
+  blurred glow far past the button. The aura now gets `w-fit`, and the Aura component's YARD docs plus the
+  demo's "Aura Around a Button" example now note the pitfall and the fix.
 
 ### Fixed
 

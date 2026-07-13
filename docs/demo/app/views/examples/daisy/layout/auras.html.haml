@@ -49,6 +49,11 @@
     :markdown
       Wrap a button to make a call-to-action impossible to miss.
 
+      **Tip:** inside a column flex container (like a card body on small
+      screens), the wrapper stretches to the parent's full width and the
+      aura paints far beyond the button. Add `w-fit` to keep it hugging
+      its content.
+
   = daisy_aura(css: "aura-rainbow") do
     = daisy_button(title: "Highlighted Action", css: "btn-primary")
 

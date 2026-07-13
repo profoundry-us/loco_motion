@@ -253,5 +253,7 @@
             %span{ class: "text-sm opacity-85" } More components, guides, and suggested gems on the way.
           - # Secondary here too — distinct from both the white button and the
           - # primary card behind it.
-          = daisy_aura(css: "aura-dual text-secondary") do
+          - # w-fit keeps the aura hugging the button when the card body is a
+          - # column flex container (mobile) — otherwise it stretches full-width.
+          = daisy_aura(css: "aura-dual text-secondary w-fit") do
             = daisy_button "😉 Get Started", css: "btn-lg border-none bg-base-100 text-primary hover:scale-105", right_icon: "arrow-right", href: guide_path("getting_started"), turbo_frame: "_top", turbo_action: "advance", action: "click->nav#refresh"
