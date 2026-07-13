@@ -190,18 +190,14 @@
 
 = doc_checklist(css: "mt-6") do |list|
   - list.with_item(name: "icons_sync") do
-    :markdown
-      Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit
-      the SVGs.
+    Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit
+    the SVGs.
   - list.with_item(name: "icons_rename") do
-    :markdown
-      Rename `hero_icon` / `heroicon` calls to `loco_icon`.
+    Rename `hero_icon` / `heroicon` calls to `loco_icon`.
   - list.with_item(name: "icons_component") do
-    :markdown
-      Replace `Hero::IconComponent` with `loco_icon`.
+    Replace `Hero::IconComponent` with `loco_icon`.
   - list.with_item(name: "icons_options") do
-    :markdown
-      Sync any icon a component references that isn't in the bundled set.
+    Sync any icon a component references that isn't in the bundled set.
 
 = daisy_divider
 

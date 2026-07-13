@@ -274,21 +274,17 @@
 
 = doc_checklist(css: "mt-6") do |list|
   - list.with_item(name: "upgrade_packages") do
-    :markdown
-      Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to
-      `0.7.0`, and DaisyUI to 5.6+ (now a declared peer dependency).
+    Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to
+    `0.7.0`, and DaisyUI to 5.6+ (now a declared peer dependency).
   - list.with_item(name: "upgrade_rename") do
-    :markdown
-      Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run,
-      then `APPLY=1`) and review the diff.
+    Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run,
+    then `APPLY=1`) and review the diff.
   - list.with_item(name: "upgrade_icons") do
-    :markdown
-      Sync your icons and rename `hero_icon` to `loco_icon` — see the
-      [icon migration guide](#{doc_path("migrating_icons")}).
+    Sync your icons and rename `hero_icon` to `loco_icon` — see the
+    [icon migration guide](#{doc_path("migrating_icons")}).
   - list.with_item(name: "upgrade_forms") do
-    :markdown
-      Check forms that post checkboxes / toggles for the new
-      hidden-field behavior (`include_hidden: false` opts out).
+    Check forms that post checkboxes / toggles for the new
+    hidden-field behavior (`include_hidden: false` opts out).
 
 %p{ class: "mt-4 max-w-prose text-sm text-base-content/60" }
   These are real

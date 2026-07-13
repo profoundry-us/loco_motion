@@ -65,6 +65,7 @@ Rails/OutputSafety:
   Enabled: true
   Exclude:
     - 'spec/**/*'
+    - 'docs/demo/app/components/doc_checklist_component.rb'
     - 'docs/demo/app/helpers/algolia_helper.rb'
     - 'app/components/daisy/data_input/filter_component.rb'
     - 'app/components/daisy/data_input/select_component.rb'

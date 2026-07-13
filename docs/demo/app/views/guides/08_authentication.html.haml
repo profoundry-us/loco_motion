@@ -127,23 +127,18 @@
 
 = doc_checklist(css: "mt-6") do |list|
   - list.with_item(name: "auth_gems") do
-    :markdown
-      Add `omniauth` and `omniauth-rails_csrf_protection` to the
-      `Gemfile`, then bundle and restart.
+    Add `omniauth` and `omniauth-rails_csrf_protection` to the
+    `Gemfile`, then bundle and restart.
   - list.with_item(name: "auth_initializer") do
-    :markdown
-      Create the OmniAuth initializer with the `:developer` provider
-      (development only).
+    Create the OmniAuth initializer with the `:developer` provider
+    (development only).
   - list.with_item(name: "auth_routes") do
-    :markdown
-      Add the `/login` and `/auth/:provider/callback` routes.
+    Add the `/login` and `/auth/:provider/callback` routes.
   - list.with_item(name: "auth_controller") do
-    :markdown
-      Add the sessions controller and the login view.
+    Add the sessions controller and the login view.
   - list.with_item(name: "auth_session") do
-    :markdown
-      Sign in, inspect `user_info`, then replace the `raise` with your
-      own session management.
+    Sign in, inspect `user_info`, then replace the `raise` with your
+    own session management.
 
 = daisy_divider
 
