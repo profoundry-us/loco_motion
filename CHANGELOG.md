@@ -261,6 +261,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   now get bumped together, deliberately. The demo's `engines.node` widens from `~20` to `~20 || ~22` so
   the Node 22 containers, the Node 20 cloud-session fallback, and Playwright CI (`.node-version`,
   20.11.1) all pass yarn's engines check.
+- chore(Node): Finish the Node 22 migration for the non-Docker environments. Both `.node-version` files
+  (repo root — which pins Playwright CI's Node via `actions/setup-node` — and `docs/demo/`) move from
+  `20.11.1`, now past Node 20's end-of-life, to `22.23.1` to match the images, and the cloud-session
+  setup hook plus the `run-demo` and `screenshot-demo` skills switch from `/opt/node20` to `/opt/node22`.
 
 ### Components Changes
 

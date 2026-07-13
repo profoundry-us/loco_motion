@@ -33,7 +33,7 @@ Do **not** use the snake_case example name (e.g. `/examples/hover_galleries`)
 
 ## Environment Notes
 
-- **Node**: Use `/opt/node20/bin/node` to run the screenshot script.
+- **Node**: Use `/opt/node22/bin/node` to run the screenshot script.
 - **Playwright browsers**: Chromium is installed to `/opt/pw-browsers`.
   Always set `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`.
 - **Import path**: Import `chromium` from the local `node_modules`, not a
@@ -45,7 +45,7 @@ Do **not** use the snake_case example name (e.g. `/examples/hover_galleries`)
 
 ```bash
 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
-  PATH="/opt/node20/bin:$PATH" \
+  PATH="/opt/node22/bin:$PATH" \
   /opt/node22/bin/yarn playwright install chromium
 ```
 
@@ -78,8 +78,8 @@ console.log('Screenshot saved to /tmp/demo-screenshot.png');
 EOF
 
 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
-  PATH="/opt/node20/bin:$PATH" \
-  /opt/node20/bin/node /tmp/demo-screenshot.mjs
+  PATH="/opt/node22/bin:$PATH" \
+  /opt/node22/bin/node /tmp/demo-screenshot.mjs
 ```
 
 Then send the file to the user using the `SendUserFile` tool.
@@ -109,8 +109,8 @@ await browser.close();
 EOF
 
 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
-  PATH="/opt/node20/bin:$PATH" \
-  /opt/node20/bin/node /tmp/demo-video.mjs
+  PATH="/opt/node22/bin:$PATH" \
+  /opt/node22/bin/node /tmp/demo-video.mjs
 
 # Find the recorded file
 VIDEO=$(ls -t /tmp/*.webm | head -1)

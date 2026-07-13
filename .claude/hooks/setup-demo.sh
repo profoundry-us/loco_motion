@@ -16,7 +16,7 @@ fi
 REPO_ROOT="${CLAUDE_PROJECT_DIR:-/home/user/loco_motion}"
 DEMO_DIR="$REPO_ROOT/docs/demo"
 RUBY_VERSION="3.4.4"
-NODE20="/opt/node20/bin"
+NODE22="/opt/node22/bin"
 YARN="/opt/node22/bin/yarn"
 
 log() { echo "==> [setup-demo] $*"; }
@@ -67,14 +67,14 @@ sed -i \
 # Restore package.json on exit (success or failure)
 trap 'git -C "$REPO_ROOT" checkout -- docs/demo/package.json 2>/dev/null || true' EXIT
 
-PATH="$NODE20:$PATH" "$YARN" install --ignore-engines --no-lockfile
+PATH="$NODE22:$PATH" "$YARN" install --ignore-engines --no-lockfile
 git -C "$REPO_ROOT" checkout -- docs/demo/package.json
 
 # ---------------------------------------------------------------------------
 # 6. JavaScript bundle
 # ---------------------------------------------------------------------------
 log "Building JavaScript..."
-PATH="$NODE20:$PATH" "$YARN" build
+PATH="$NODE22:$PATH" "$YARN" build
 
 # ---------------------------------------------------------------------------
 # 7. CSS bundle
