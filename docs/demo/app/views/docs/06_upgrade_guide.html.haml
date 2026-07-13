@@ -132,7 +132,7 @@
 
 - # Before / after, side by side on wide screens.
 .mt-6
-  %div{ class: "grid gap-4 lg:grid-cols-2" }
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")
       = doc_code(language: "haml") do
@@ -272,7 +272,7 @@
 .mt-12.prose
   %h2{ id: "checklist", class: "scroll-mt-24" } Upgrade checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4
+.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal" }
   = daisy_checkbox(name: "upgrade_packages", id: "upgrade_packages") do |checkbox|
     - checkbox.with_trailing do
       :markdown

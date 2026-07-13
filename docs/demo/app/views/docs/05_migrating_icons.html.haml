@@ -92,7 +92,7 @@
     calls to `loco_icon`:
 
 .mt-6
-  %div{ class: "grid gap-4 lg:grid-cols-2" }
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")
       = doc_code(language: "haml") do
@@ -122,7 +122,7 @@
     rendered it directly, use the `loco_icon` helper instead:
 
 .mt-6
-  %div{ class: "grid gap-4 lg:grid-cols-2" }
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
     %div
       = daisy_badge("Before", css: "badge-ghost mb-2")
       = doc_code(language: "haml") do
@@ -188,7 +188,7 @@
 .mt-12.prose
   %h2{ class: "scroll-mt-24" } Migration checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4
+.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal" }
   = daisy_checkbox(name: "icons_sync", id: "icons_sync") do |checkbox|
     - checkbox.with_trailing do
       :markdown

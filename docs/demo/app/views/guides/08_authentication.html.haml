@@ -125,7 +125,7 @@
 .mt-12.prose
   %h2{ id: "checklist", class: "scroll-mt-24" } Setup checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4
+.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal" }
   = daisy_checkbox(name: "auth_gems", id: "auth_gems") do |checkbox|
     - checkbox.with_trailing do
       :markdown
