@@ -665,6 +665,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   Long inline-code tokens (fully-qualified class names, rake tasks) may now break mid-token via
   `overflow-wrap: anywhere` (code blocks keep their horizontal scrolling), and the install page's
   decorative progress bar is capped at its container width instead of a fixed `w-100`.
+- test(Demo): Add RSpec component specs for the demo's code-display doc components — `DocCodeComponent`,
+  `DocCodeTabComponent`, and `DocExampleComponent`, covering language options, tab titles, and the example
+  source extraction (wrapper and description-block skipping, dedenting, and end-of-example detection).
 
 ### Fixed
 
