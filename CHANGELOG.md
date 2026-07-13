@@ -26,7 +26,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
   the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
   development and local test runs instead of surfacing for the first time in production or CI. The demo app
-  now runs with the fallback disabled.
+  keeps the fallback for fast iteration; instead, a new `loco_motion:icons:verify` task — scanning exactly
+  like `loco_motion:icons:sync`, but resolving only from the vendored set and LocoMotion's bundled icons —
+  fails listing each unvendored icon, and the demo's Playwright suite runs it so a missed sync fails at
+  test time.
 
 - feat(Migrate): Add a `loco_motion:migrate:leading_trailing` rake task that rewrites the `start` / `end`
   component API removed in v0.7.0 to `leading` / `trailing` — `with_start` / `with_end` slot calls and the
@@ -424,6 +427,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- fix(Demo): Render the sidenav drawer sidebar on the full-width home page so the header's hamburger works
+  there. The home page opted out of the whole drawer sidebar, but the hamburger and drawer checkbox still
+  rendered — tapping the menu button below the `xl` breakpoint locked page scrolling (DaisyUI's
+  drawer-open scroll lock) while showing no navigation at all. The sidebar now renders on every page; on
+  full-width pages its nav links break out to `_top` so the docked layout returns when navigating to a
+  docs page.
+
 - feat(Demo): Add a components overview page (Docs → Components) that renders a live miniature of every
   registered component — one card per component, grouped and alphabetized like the sidebar nav, with each
   card linking through to the component's full example page. Previews are real component renders (marked
@@ -638,6 +648,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   scrolling — a zero-specificity demo rule opts example previews out of DaisyUI's
   `:root:has(.drawer-toggle:checked)` scroll lock while the sidenav drawer keeps locking on mobile. Fixes
   #286.
+- fix(Demo): Keep the homepage Get Started button's aura sized to the button on mobile. The card body is a
+  column flex container below the `sm` breakpoint, so the aura wrapper — an `inline-block` flex item — was
+  stretched to the card's full width by the default `align-items: stretch` and painted its gradient and
+  blurred glow far past the button. The aura now gets `w-fit`, and the Aura component's YARD docs plus the
+  demo's "Aura Around a Button" example now note the pitfall and the fix.
 - fix(Demo): Make the docs and guides read cleanly on phones. The `doc_info` callout at the top of most
   pages laid its logo and text side-by-side at every width, pushing the text past the edge of a 375px
   screen (the layout's `overflow-x-clip` hides horizontal overflow, so the words were simply unreachable);
