@@ -660,7 +660,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   declared columns only at `lg`, leaving mobile with an implicit `auto` grid track that grew to the widest
   code line — an explicit `grid-cols-1` gives the track a `minmax(0, 1fr)` floor so code blocks shrink and
   scroll internally. Checklist checkboxes inherit DaisyUI's nowrap `.label`, so their long descriptions
-  rendered as a single clipped line; the checklist wrappers now let labels wrap and top-align the boxes.
+  rendered as a single clipped line; the checklists now render through a small reusable `doc_checklist`
+  demo component whose wrapper lets labels wrap and top-aligns the boxes.
   Long inline-code tokens (fully-qualified class names, rake tasks) may now break mid-token via
   `overflow-wrap: anywhere` (code blocks keep their horizontal scrolling), and the install page's
   decorative progress bar is capped at its container width instead of a fixed `w-100`.

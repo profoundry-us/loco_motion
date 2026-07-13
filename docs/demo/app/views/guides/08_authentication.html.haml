@@ -125,30 +125,25 @@
 .mt-12.prose
   %h2{ id: "checklist", class: "scroll-mt-24" } Setup checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal [&_code]:wrap-anywhere" }
-  = daisy_checkbox(name: "auth_gems", id: "auth_gems") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Add `omniauth` and `omniauth-rails_csrf_protection` to the
-        `Gemfile`, then bundle and restart.
-  = daisy_checkbox(name: "auth_initializer", id: "auth_initializer") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Create the OmniAuth initializer with the `:developer` provider
-        (development only).
-  = daisy_checkbox(name: "auth_routes", id: "auth_routes") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Add the `/login` and `/auth/:provider/callback` routes.
-  = daisy_checkbox(name: "auth_controller", id: "auth_controller") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Add the sessions controller and the login view.
-  = daisy_checkbox(name: "auth_session", id: "auth_session") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Sign in, inspect `user_info`, then replace the `raise` with your
-        own session management.
+= doc_checklist(css: "mt-6") do |list|
+  - list.with_item(name: "auth_gems") do
+    :markdown
+      Add `omniauth` and `omniauth-rails_csrf_protection` to the
+      `Gemfile`, then bundle and restart.
+  - list.with_item(name: "auth_initializer") do
+    :markdown
+      Create the OmniAuth initializer with the `:developer` provider
+      (development only).
+  - list.with_item(name: "auth_routes") do
+    :markdown
+      Add the `/login` and `/auth/:provider/callback` routes.
+  - list.with_item(name: "auth_controller") do
+    :markdown
+      Add the sessions controller and the login view.
+  - list.with_item(name: "auth_session") do
+    :markdown
+      Sign in, inspect `user_info`, then replace the `raise` with your
+      own session management.
 
 = daisy_divider
 

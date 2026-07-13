@@ -272,27 +272,23 @@
 .mt-12.prose
   %h2{ id: "checklist", class: "scroll-mt-24" } Upgrade checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal [&_code]:wrap-anywhere" }
-  = daisy_checkbox(name: "upgrade_packages", id: "upgrade_packages") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to
-        `0.7.0`, and DaisyUI to 5.6+ (now a declared peer dependency).
-  = daisy_checkbox(name: "upgrade_rename", id: "upgrade_rename") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run,
-        then `APPLY=1`) and review the diff.
-  = daisy_checkbox(name: "upgrade_icons", id: "upgrade_icons") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Sync your icons and rename `hero_icon` to `loco_icon` — see the
-        [icon migration guide](#{doc_path("migrating_icons")}).
-  = daisy_checkbox(name: "upgrade_forms", id: "upgrade_forms") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Check forms that post checkboxes / toggles for the new
-        hidden-field behavior (`include_hidden: false` opts out).
+= doc_checklist(css: "mt-6") do |list|
+  - list.with_item(name: "upgrade_packages") do
+    :markdown
+      Bump `loco_motion-rails` to `~> 0.7.0`, the npm package to
+      `0.7.0`, and DaisyUI to 5.6+ (now a declared peer dependency).
+  - list.with_item(name: "upgrade_rename") do
+    :markdown
+      Run `bin/rails loco_motion:migrate:leading_trailing` (dry-run,
+      then `APPLY=1`) and review the diff.
+  - list.with_item(name: "upgrade_icons") do
+    :markdown
+      Sync your icons and rename `hero_icon` to `loco_icon` — see the
+      [icon migration guide](#{doc_path("migrating_icons")}).
+  - list.with_item(name: "upgrade_forms") do
+    :markdown
+      Check forms that post checkboxes / toggles for the new
+      hidden-field behavior (`include_hidden: false` opts out).
 
 %p{ class: "mt-4 max-w-prose text-sm text-base-content/60" }
   These are real

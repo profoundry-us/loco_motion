@@ -188,24 +188,20 @@
 .mt-12.prose
   %h2{ class: "scroll-mt-24" } Migration checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal [&_code]:wrap-anywhere" }
-  = daisy_checkbox(name: "icons_sync", id: "icons_sync") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit
-        the SVGs.
-  = daisy_checkbox(name: "icons_rename", id: "icons_rename") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Rename `hero_icon` / `heroicon` calls to `loco_icon`.
-  = daisy_checkbox(name: "icons_component", id: "icons_component") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Replace `Hero::IconComponent` with `loco_icon`.
-  = daisy_checkbox(name: "icons_options", id: "icons_options") do |checkbox|
-    - checkbox.with_trailing do
-      :markdown
-        Sync any icon a component references that isn't in the bundled set.
+= doc_checklist(css: "mt-6") do |list|
+  - list.with_item(name: "icons_sync") do
+    :markdown
+      Run `loco_motion:icons:add heroicons` (or `:sync`) once and commit
+      the SVGs.
+  - list.with_item(name: "icons_rename") do
+    :markdown
+      Rename `hero_icon` / `heroicon` calls to `loco_icon`.
+  - list.with_item(name: "icons_component") do
+    :markdown
+      Replace `Hero::IconComponent` with `loco_icon`.
+  - list.with_item(name: "icons_options") do
+    :markdown
+      Sync any icon a component references that isn't in the bundled set.
 
 = daisy_divider
 
