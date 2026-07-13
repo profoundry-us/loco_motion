@@ -638,6 +638,17 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   scrolling — a zero-specificity demo rule opts example previews out of DaisyUI's
   `:root:has(.drawer-toggle:checked)` scroll lock while the sidenav drawer keeps locking on mobile. Fixes
   #286.
+- fix(Demo): Make the docs and guides read cleanly on phones. The `doc_info` callout at the top of most
+  pages laid its logo and text side-by-side at every width, pushing the text past the edge of a 375px
+  screen (the layout's `overflow-x-clip` hides horizontal overflow, so the words were simply unreachable);
+  it now stacks vertically with centered text below the `sm` breakpoint. The Before/After code comparisons
+  declared columns only at `lg`, leaving mobile with an implicit `auto` grid track that grew to the widest
+  code line — an explicit `grid-cols-1` gives the track a `minmax(0, 1fr)` floor so code blocks shrink and
+  scroll internally. Checklist checkboxes inherit DaisyUI's nowrap `.label`, so their long descriptions
+  rendered as a single clipped line; the checklist wrappers now let labels wrap and top-align the boxes.
+  Long inline-code tokens (fully-qualified class names, rake tasks) may now break mid-token via
+  `overflow-wrap: anywhere` (code blocks keep their horizontal scrolling), and the install page's
+  decorative progress bar is capped at its container width instead of a fixed `w-100`.
 
 ### Fixed
 
