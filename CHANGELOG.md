@@ -680,6 +680,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - test(Demo): Add RSpec component specs for the demo's code-display doc components — `DocCodeComponent`,
   `DocCodeTabComponent`, and `DocExampleComponent`, covering language options, tab titles, and the example
   source extraction (wrapper and description-block skipping, dedenting, and end-of-example detection).
+- test(Demo): Add RSpec component specs for the demo's callout and media doc components —
+  `DocNoteComponent` (all five modifiers), `DocInfoComponent` (icon box vs. image mode),
+  `DocFigureComponent` (linked figure and caption), and `DocFlairComponent` (parallax and pop modes).
 
 ### Fixed
 
