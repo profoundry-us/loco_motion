@@ -87,10 +87,11 @@ automatically on every session start: rbenv install, vendor symlink,
 
 - **Ruby**: required version from `docs/demo/Gemfile` (currently `3.4.4`),
   installed via rbenv.
-- **Node**: the demo's `package.json` `engines` requires Node `~20`. Use
-  `/opt/node20/bin` — not Node 21 or 22 which are also present.
-- **yarn**: use `/opt/node22/bin/yarn` with `PATH="/opt/node20/bin:$PATH"`
-  so esbuild and Tailwind pick up the correct Node runtime.
+- **Node**: the demo's `package.json` `engines` accepts Node 20 or 22
+  (`~20 || ~22`); the Docker images and CI run 22, so use
+  `/opt/node22/bin`.
+- **yarn**: use `/opt/node22/bin/yarn` with `PATH="/opt/node22/bin:$PATH"`
+  so esbuild and Tailwind pick up the same Node runtime.
 
 ### Step 1: Verify the setup hook ran
 
@@ -109,7 +110,7 @@ bash .claude/hooks/setup-demo.sh
 ### Step 2: Build JavaScript
 
 ```bash
-cd docs/demo && PATH="/opt/node20/bin:$PATH" /opt/node22/bin/yarn build
+cd docs/demo && PATH="/opt/node22/bin:$PATH" /opt/node22/bin/yarn build
 ```
 
 Expected: two `.js` bundles written to `docs/demo/app/assets/builds/`.
