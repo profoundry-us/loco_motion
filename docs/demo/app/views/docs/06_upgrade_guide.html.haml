@@ -189,7 +189,7 @@
       — the task only rewrites calls it can trace to a LocoMotion
       component and reports everything else for manual review.
 
-.mt-8.prose
+.mt-8.prose{ class: "[&_code]:wrap-anywhere" }
   :markdown
     ### Manual follow-ups
 
@@ -272,7 +272,7 @@
 .mt-12.prose
   %h2{ id: "checklist", class: "scroll-mt-24" } Upgrade checklist
 
-.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal" }
+.max-w-prose.mt-6.flex.flex-col.gap-4{ class: "[&_.label]:items-start [&_.label]:whitespace-normal [&_code]:wrap-anywhere" }
   = daisy_checkbox(name: "upgrade_packages", id: "upgrade_packages") do |checkbox|
     - checkbox.with_trailing do
       :markdown

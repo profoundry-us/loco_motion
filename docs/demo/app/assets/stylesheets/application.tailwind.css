@@ -61,14 +61,6 @@
   --page-scroll-lock: initial;
 }
 
-/* Fully-qualified class names and rake tasks in inline code are single
- * unbreakable tokens that can be wider than a phone screen; let them break
- * mid-token instead of clipping at the viewport edge. Code blocks
- * (`pre > code`) are untouched and keep their horizontal scrolling. */
-:not(pre) > code {
-  overflow-wrap: anywhere;
-}
-
 .max-w-prose {
   max-width: var(--max-prose-width);
 }
