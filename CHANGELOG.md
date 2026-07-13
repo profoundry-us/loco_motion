@@ -677,6 +677,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 - test(Demo): Add RSpec component specs for the demo's page-structure doc components —
   `DocTitleComponent` (default and custom API buttons), `DocFooterButtonsComponent` (Previous/Next
   derivation from the section's sorted file list), and `MasterDetailComponent` (records and panes).
+- test(Demo): Add RSpec component specs for the demo's code-display doc components — `DocCodeComponent`,
+  `DocCodeTabComponent`, and `DocExampleComponent`, covering language options, tab titles, and the example
+  source extraction (wrapper and description-block skipping, dedenting, and end-of-example detection).
 
 ### Fixed
 
