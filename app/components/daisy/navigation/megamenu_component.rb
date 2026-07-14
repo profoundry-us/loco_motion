@@ -1,69 +1,69 @@
 # frozen_string_literal: true
 
-#
-# The Megamenu component renders a large, horizontal navigation menu where
-# each item opens a popover holding a big block of navigation links — a
-# DaisyUI menu, multi-column lists, images, or any custom content. It is
-# intended to be used once, near the top of the page.
-#
-# Everything is native HTML: each item is a `<button popovertarget>` paired
-# with a `<div popover>`, and DaisyUI positions the popovers (and the sliding
-# hover highlight) with CSS anchor positioning — no JavaScript required.
-#
-# The megamenu is best suited to large screens. Add `max-sm:megamenu-vertical`
-# via `css:` to collapse it on small screens, where the always-rendered
-# toggle button (hidden at `sm` and up) opens the menu as a full-width
-# popover instead.
-#
-# @note The hover highlight and popover placement use CSS anchor positioning.
-#   Browsers without it still show and open the menus — they just skip the
-#   anchored styling.
-#
-# @part toggle The small-screen toggle `<button>` that opens the megamenu.
-#   Rendered before the megamenu container with `btn sm:hidden` by default;
-#   customize via `toggle_css` / `toggle_html`, or skip it entirely with
-#   `toggle: false`.
-# @part active_indicator The `<span class="megamenu-active">` that slides
-#   under the hovered / open item. Rendered automatically.
-#
-# @slot toggle Custom content for the toggle button (an icon, styled text,
-#   etc.). Without it, the button shows the `toggle_text` option.
-# @slot item+ The megamenu items. Each takes a `title:` for its button and a
-#   block for its popover content.
-#
-# @loco_example Basic Usage
-#   = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300") do |mega|
-#     - mega.with_item(title: "Services") do
-#       = daisy_menu do |menu|
-#         - menu.with_item do
-#           = link_to "Enterprise", "#"
-#         - menu.with_item do
-#           = link_to "Security", "#"
-#     - mega.with_item(title: "Cloud") do
-#       = daisy_menu do |menu|
-#         - menu.with_item do
-#           = link_to "Storage Solutions", "#"
-#
-# @loco_example Wide Popovers
-#   = daisy_megamenu(css: "megamenu-wide max-sm:megamenu-vertical") do |mega|
-#     - mega.with_item(title: "Products") do
-#       = daisy_menu(css: "menu-horizontal") do |menu|
-#         - menu.with_item do
-#           = link_to "UI Kit", "#"
-#         - menu.with_item do
-#           = link_to "Themes", "#"
-#
-# @loco_example Custom Toggle
-#   = daisy_megamenu(css: "max-sm:megamenu-vertical") do |mega|
-#     - mega.with_toggle do
-#       = loco_icon("bars-3", css: "size-6")
-#     - mega.with_item(title: "Navigation") do
-#       = daisy_menu do |menu|
-#         - menu.with_item do
-#           = link_to "Home", "#"
-#
 module Daisy
   module Navigation
+    #
+    # The Megamenu component renders a large, horizontal navigation menu where
+    # each item opens a popover holding a big block of navigation links — a
+    # DaisyUI menu, multi-column lists, images, or any custom content. It is
+    # intended to be used once, near the top of the page.
+    #
+    # Everything is native HTML: each item is a `<button popovertarget>` paired
+    # with a `<div popover>`, and DaisyUI positions the popovers (and the sliding
+    # hover highlight) with CSS anchor positioning — no JavaScript required.
+    #
+    # The megamenu is best suited to large screens. Add `max-sm:megamenu-vertical`
+    # via `css:` to collapse it on small screens, where the always-rendered
+    # toggle button (hidden at `sm` and up) opens the menu as a full-width
+    # popover instead.
+    #
+    # @note The hover highlight and popover placement use CSS anchor positioning.
+    #   Browsers without it still show and open the menus — they just skip the
+    #   anchored styling.
+    #
+    # @part toggle The small-screen toggle `<button>` that opens the megamenu.
+    #   Rendered before the megamenu container with `btn sm:hidden` by default;
+    #   customize via `toggle_css` / `toggle_html`, or skip it entirely with
+    #   `toggle: false`.
+    # @part active_indicator The `<span class="megamenu-active">` that slides
+    #   under the hovered / open item. Rendered automatically.
+    #
+    # @slot toggle Custom content for the toggle button (an icon, styled text,
+    #   etc.). Without it, the button shows the `toggle_text` option.
+    # @slot item+ The megamenu items. Each takes a `title:` for its button and a
+    #   block for its popover content.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300") do |mega|
+    #     - mega.with_item(title: "Services") do
+    #       = daisy_menu do |menu|
+    #         - menu.with_item do
+    #           = link_to "Enterprise", "#"
+    #         - menu.with_item do
+    #           = link_to "Security", "#"
+    #     - mega.with_item(title: "Cloud") do
+    #       = daisy_menu do |menu|
+    #         - menu.with_item do
+    #           = link_to "Storage Solutions", "#"
+    #
+    # @loco_example Wide Popovers
+    #   = daisy_megamenu(css: "megamenu-wide max-sm:megamenu-vertical") do |mega|
+    #     - mega.with_item(title: "Products") do
+    #       = daisy_menu(css: "menu-horizontal") do |menu|
+    #         - menu.with_item do
+    #           = link_to "UI Kit", "#"
+    #         - menu.with_item do
+    #           = link_to "Themes", "#"
+    #
+    # @loco_example Custom Toggle
+    #   = daisy_megamenu(css: "max-sm:megamenu-vertical") do |mega|
+    #     - mega.with_toggle do
+    #       = loco_icon("bars-3", css: "size-6")
+    #     - mega.with_item(title: "Navigation") do
+    #       = daisy_menu do |menu|
+    #         - menu.with_item do
+    #           = link_to "Home", "#"
+    #
     class MegamenuComponent < LocoMotion::BaseComponent
       #
       # One megamenu item: a `<button popovertarget>` immediately followed by

@@ -1,72 +1,72 @@
 # frozen_string_literal: true
 
-#
-# The DrawerComponent provides a sliding sidebar panel that can be toggled
-# open and closed. It's commonly used for:
-# - Navigation menus
-# - Filter panels
-# - Additional information panels
-# - Mobile-friendly navigation
-#
-# The drawer includes an overlay that covers the main content when open and
-# can be configured to slide in from either the left or right side.
-#
-# @part input            [LocoMotion::BaseComponent] The input checkbox that
-#   toggles the sidebar visibility.
-#
-# @part content_wrapper  [LocoMotion::BaseComponent] The wrapper for the main
-#   page content that remains visible when the drawer is closed.
-#
-# @part overlay         [LocoMotion::BaseComponent] The semi-transparent
-#   overlay that covers the main content when the drawer is open. Clicking it
-#   closes the drawer.
-#
-# @slot sidebar        [Daisy::Layout::DrawerSidebarComponent] The sidebar
-#   panel that slides in when the drawer is opened. Contains the overlay
-#   within itself.
-#
-# @loco_example Basic Left Drawer
-#   = daisy_drawer do |drawer|
-#     - drawer.with_sidebar do
-#       .bg-base-100.p-4.w-40
-#         Menu Items
-#
-#     = daisy_button(tag_name: "label",
-#       css: "btn btn-primary",
-#       title: "Open Menu",
-#       html: { for: drawer.id })
-#
-# @loco_example Right Drawer
-#   = daisy_drawer(css: "drawer-end") do |drawer|
-#     - drawer.with_sidebar do
-#       .bg-base-100.p-4.w-40
-#         Filter Options
-#
-#     = daisy_button(tag_name: "label",
-#       css: "btn btn-secondary",
-#       title: "Show Filters",
-#       html: { for: drawer.id })
-#
-# @loco_example Styled Drawer
-#   = daisy_drawer do |drawer|
-#     - drawer.with_sidebar do
-#       .bg-base-200.p-4.w-80.h-full
-#         .flex.justify-between.items-center.mb-4
-#           %h2.text-xl Settings
-#           = daisy_button(tag_name: "label",
-#             css: "btn btn-ghost btn-circle",
-#             icon: "x-mark",
-#             html: { for: drawer.id })
-#
 module Daisy
   module Layout
+    #
+    # The DrawerComponent provides a sliding sidebar panel that can be toggled
+    # open and closed. It's commonly used for:
+    # - Navigation menus
+    # - Filter panels
+    # - Additional information panels
+    # - Mobile-friendly navigation
+    #
+    # The drawer includes an overlay that covers the main content when open and
+    # can be configured to slide in from either the left or right side.
+    #
+    # @part input            [LocoMotion::BaseComponent] The input checkbox that
+    #   toggles the sidebar visibility.
+    #
+    # @part content_wrapper  [LocoMotion::BaseComponent] The wrapper for the main
+    #   page content that remains visible when the drawer is closed.
+    #
+    # @part overlay         [LocoMotion::BaseComponent] The semi-transparent
+    #   overlay that covers the main content when the drawer is open. Clicking it
+    #   closes the drawer.
+    #
+    # @slot sidebar        [Daisy::Layout::DrawerSidebarComponent] The sidebar
+    #   panel that slides in when the drawer is opened. Contains the overlay
+    #   within itself.
+    #
+    # @loco_example Basic Left Drawer
+    #   = daisy_drawer do |drawer|
+    #     - drawer.with_sidebar do
+    #       .bg-base-100.p-4.w-40
+    #         Menu Items
+    #
+    #     = daisy_button(tag_name: "label",
+    #       css: "btn btn-primary",
+    #       title: "Open Menu",
+    #       html: { for: drawer.id })
+    #
+    # @loco_example Right Drawer
+    #   = daisy_drawer(css: "drawer-end") do |drawer|
+    #     - drawer.with_sidebar do
+    #       .bg-base-100.p-4.w-40
+    #         Filter Options
+    #
+    #     = daisy_button(tag_name: "label",
+    #       css: "btn btn-secondary",
+    #       title: "Show Filters",
+    #       html: { for: drawer.id })
+    #
+    # @loco_example Styled Drawer
+    #   = daisy_drawer do |drawer|
+    #     - drawer.with_sidebar do
+    #       .bg-base-200.p-4.w-80.h-full
+    #         .flex.justify-between.items-center.mb-4
+    #           %h2.text-xl Settings
+    #           = daisy_button(tag_name: "label",
+    #             css: "btn btn-ghost btn-circle",
+    #             icon: "x-mark",
+    #             html: { for: drawer.id })
+    #
     class DrawerComponent < LocoMotion::BaseComponent
-      #
-      # The DrawerSidebarComponent is a child of the {DrawerComponent} and renders
-      # the drawer sidebar and the overlay.
-      #
       module Daisy
         module Layout
+          #
+          # The DrawerSidebarComponent is a child of the {DrawerComponent} and renders
+          # the drawer sidebar and the overlay.
+          #
           class DrawerSidebarComponent < LocoMotion::BaseComponent
             #
             # Sets up the component's CSS classes.

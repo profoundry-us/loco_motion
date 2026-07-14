@@ -1,50 +1,50 @@
 # frozen_string_literal: true
 
-#
-# Creates a tabbed navigation component that can be used either as links or radio
-# buttons with associated content.
-#
-# @note When using radio button tabs, the titles must be simple strings and cannot
-#   contain HTML elements or icons.
-#
-# @slot tabs+ {Daisy::Navigation::TabsComponent::TabComponent} The individual
-#   tabs to display.
-#
-# @loco_example Basic tabs with links
-#   = daisy_tabs(css: "tabs-border") do |tabs|
-#     - tabs.with_tab(title: "Home", active: true)
-#     - tabs.with_tab(title: "Click Me", html: { onclick: "alert('Clicked!')" })
-#     - tabs.with_tab(title: "Google", href: "https://google.com", target: "_blank")
-#
-# @loco_example Radio button tabs with content
-#   = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
-#     - tabs.with_tab(title: "Tab 1", checked: true) do
-#       %p Tab 1 content
-#     - tabs.with_tab(title: "Tab 2") do
-#       %p Tab 2 content
-#
-# @loco_example Tabs with custom titles and content
-#   = daisy_tabs(css: "tabs-lift") do |tabs|
-#     - tabs.with_tab do |tab|
-#       - tab.with_title do
-#         .flex.gap-2
-#           = loco_icon("home")
-#           Home
-#       - tab.with_custom_content(css: "tab-content p-4") do
-#         %p Welcome home!
-#
-# @loco_example Tabs with different sizes
-#   = daisy_tabs(css: "tabs-border tabs-xl") do |tabs|
-#     - tabs.with_tab(title: "Extra Large Tab", active: true)
-#     - tabs.with_tab(title: "Another Tab")
-#
-# @loco_example Tabs with different sizes
-#   = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
-#     - tabs.with_tab(title: "Large Tab", active: true)
-#     - tabs.with_tab(title: "Another Tab")
-#
 module Daisy
   module Navigation
+    #
+    # Creates a tabbed navigation component that can be used either as links or radio
+    # buttons with associated content.
+    #
+    # @note When using radio button tabs, the titles must be simple strings and cannot
+    #   contain HTML elements or icons.
+    #
+    # @slot tabs+ {Daisy::Navigation::TabsComponent::TabComponent} The individual
+    #   tabs to display.
+    #
+    # @loco_example Basic tabs with links
+    #   = daisy_tabs(css: "tabs-border") do |tabs|
+    #     - tabs.with_tab(title: "Home", active: true)
+    #     - tabs.with_tab(title: "Click Me", html: { onclick: "alert('Clicked!')" })
+    #     - tabs.with_tab(title: "Google", href: "https://google.com", target: "_blank")
+    #
+    # @loco_example Radio button tabs with content
+    #   = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    #     - tabs.with_tab(title: "Tab 1", checked: true) do
+    #       %p Tab 1 content
+    #     - tabs.with_tab(title: "Tab 2") do
+    #       %p Tab 2 content
+    #
+    # @loco_example Tabs with custom titles and content
+    #   = daisy_tabs(css: "tabs-lift") do |tabs|
+    #     - tabs.with_tab do |tab|
+    #       - tab.with_title do
+    #         .flex.gap-2
+    #           = loco_icon("home")
+    #           Home
+    #       - tab.with_custom_content(css: "tab-content p-4") do
+    #         %p Welcome home!
+    #
+    # @loco_example Tabs with different sizes
+    #   = daisy_tabs(css: "tabs-border tabs-xl") do |tabs|
+    #     - tabs.with_tab(title: "Extra Large Tab", active: true)
+    #     - tabs.with_tab(title: "Another Tab")
+    #
+    # @loco_example Tabs with different sizes
+    #   = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
+    #     - tabs.with_tab(title: "Large Tab", active: true)
+    #     - tabs.with_tab(title: "Another Tab")
+    #
     class TabsComponent < LocoMotion::BaseComponent
       #
       # A tab within a TabsComponent that can be either a link or a radio button.

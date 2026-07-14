@@ -1,48 +1,48 @@
 # frozen_string_literal: true
 
-#
-# The HoverGalleryComponent displays a container of images where the first
-# image is visible by default and hovering horizontally reveals the others.
-# Common use cases include product cards on e-commerce sites, portfolios, and
-# image galleries. DaisyUI supports up to 10 images.
-#
-# The underlying HTML is a `<figure>` containing `<img>` elements. DaisyUI
-# creates invisible columns over the figure; hovering each column reveals the
-# corresponding image.
-#
-# @note By default the gallery is rendered with a 3:2 aspect ratio
-#   (`where:aspect-[3/2]`) so that images with differing aspect ratios don't
-#   shift the container's height as they are revealed on hover. The default
-#   uses DaisyUI's zero-specificity `where:` variant and is skipped entirely
-#   when you pass your own `aspect-*` utility (e.g. `aspect-square`) via
-#   `css:`, so it is easy to override.
-#
-# @slot image+ One or more images to display in the gallery. Each image
-#   accepts `src:` and `alt:` keyword arguments along with any standard HTML
-#   attribute via `html:`.
-#
-# @loco_example Basic Hover Gallery
-#   = daisy_hover_gallery(css: "max-w-60") do |gallery|
-#     - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
-#     - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
-#     - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
-#
-# @loco_example Hover Gallery with Shorthand
-#   - srcs = %w[beach desert forest].map { |s| image_path("landscapes/#{s}.jpg") }
-#   = daisy_hover_gallery(srcs: srcs, css: "max-w-60")
-#
-# @loco_example Hover Gallery in a Card
-#   = daisy_card(css: "card-sm bg-base-200 max-w-60 shadow") do |card|
-#     - card.with_top_figure do
-#       = daisy_hover_gallery do |gallery|
-#         - gallery.with_image(src: image_path("landscapes/beach.jpg"))
-#         - gallery.with_image(src: image_path("landscapes/desert.jpg"))
-#         - gallery.with_image(src: image_path("landscapes/forest.jpg"))
-#     - card.with_title { "Gallery Card" }
-#     %p A card with a hover gallery as the figure.
-#
 module Daisy
   module Layout
+    #
+    # The HoverGalleryComponent displays a container of images where the first
+    # image is visible by default and hovering horizontally reveals the others.
+    # Common use cases include product cards on e-commerce sites, portfolios, and
+    # image galleries. DaisyUI supports up to 10 images.
+    #
+    # The underlying HTML is a `<figure>` containing `<img>` elements. DaisyUI
+    # creates invisible columns over the figure; hovering each column reveals the
+    # corresponding image.
+    #
+    # @note By default the gallery is rendered with a 3:2 aspect ratio
+    #   (`where:aspect-[3/2]`) so that images with differing aspect ratios don't
+    #   shift the container's height as they are revealed on hover. The default
+    #   uses DaisyUI's zero-specificity `where:` variant and is skipped entirely
+    #   when you pass your own `aspect-*` utility (e.g. `aspect-square`) via
+    #   `css:`, so it is easy to override.
+    #
+    # @slot image+ One or more images to display in the gallery. Each image
+    #   accepts `src:` and `alt:` keyword arguments along with any standard HTML
+    #   attribute via `html:`.
+    #
+    # @loco_example Basic Hover Gallery
+    #   = daisy_hover_gallery(css: "max-w-60") do |gallery|
+    #     - gallery.with_image(src: image_path("landscapes/beach.jpg"), alt: "Beach")
+    #     - gallery.with_image(src: image_path("landscapes/desert.jpg"), alt: "Desert")
+    #     - gallery.with_image(src: image_path("landscapes/forest.jpg"), alt: "Forest")
+    #
+    # @loco_example Hover Gallery with Shorthand
+    #   - srcs = %w[beach desert forest].map { |s| image_path("landscapes/#{s}.jpg") }
+    #   = daisy_hover_gallery(srcs: srcs, css: "max-w-60")
+    #
+    # @loco_example Hover Gallery in a Card
+    #   = daisy_card(css: "card-sm bg-base-200 max-w-60 shadow") do |card|
+    #     - card.with_top_figure do
+    #       = daisy_hover_gallery do |gallery|
+    #         - gallery.with_image(src: image_path("landscapes/beach.jpg"))
+    #         - gallery.with_image(src: image_path("landscapes/desert.jpg"))
+    #         - gallery.with_image(src: image_path("landscapes/forest.jpg"))
+    #     - card.with_title { "Gallery Card" }
+    #     %p A card with a hover gallery as the figure.
+    #
     class HoverGalleryComponent < LocoMotion::BaseComponent
       # Renders a single image inside the hover gallery.
       class ImageComponent < LocoMotion::BasicComponent

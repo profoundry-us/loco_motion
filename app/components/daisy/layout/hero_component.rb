@@ -1,50 +1,50 @@
 # frozen_string_literal: true
 
-#
-# The HeroComponent creates an eye-catching, full-width section typically used
-# at the top of a page. Common use cases include:
-# - Landing page introductions.
-# - Feature showcases.
-# - Call-to-action sections.
-# - Image-rich banners.
-#
-# The component is responsive by default and provides flexible layout options
-# for content positioning and image integration.
-#
-# @part content_wrapper [LocoMotion::BaseComponent] The wrapper for the hero
-#   content, providing flex-based layout control.
-#
-# @slot overlay [LocoMotion::BasicComponent] An optional `<div>` positioned
-#   behind the content for background effects like semi-transparency or blur.
-#
-# @loco_example Basic Hero
-#   = daisy_hero(css: "bg-base-200 text-center") do
-#     %div
-#       %h1.text-5xl.font-bold Welcome
-#       %p.my-6 Discover amazing features.
-#       = daisy_button(css: "btn btn-primary",
-#         title: "Get Started")
-#
-# @loco_example Hero with Image
-#   = daisy_hero(css: "bg-base-200",
-#     content_wrapper_css: "flex-col md:flex-row") do
-#     %img.h-40.rounded{
-#       src: image_path("hero-image.jpg"),
-#       alt: "Hero Image" }
-#     %div
-#       %h1.text-5xl.font-bold Features
-#       %p.my-6 Explore what we offer.
-#
-# @loco_example Hero with Background Overlay
-#   = daisy_hero(css: "min-h-96",
-#     html: { style: "background-image: url('bg.jpg')" }) do |hero|
-#     - hero.with_overlay(css: "bg-black/50 backdrop-blur")
-#     %div.text-white
-#       %h1.text-5xl.font-bold Discover
-#       %p.my-6 Start your journey today.
-#
 module Daisy
   module Layout
+    #
+    # The HeroComponent creates an eye-catching, full-width section typically used
+    # at the top of a page. Common use cases include:
+    # - Landing page introductions.
+    # - Feature showcases.
+    # - Call-to-action sections.
+    # - Image-rich banners.
+    #
+    # The component is responsive by default and provides flexible layout options
+    # for content positioning and image integration.
+    #
+    # @part content_wrapper [LocoMotion::BaseComponent] The wrapper for the hero
+    #   content, providing flex-based layout control.
+    #
+    # @slot overlay [LocoMotion::BasicComponent] An optional `<div>` positioned
+    #   behind the content for background effects like semi-transparency or blur.
+    #
+    # @loco_example Basic Hero
+    #   = daisy_hero(css: "bg-base-200 text-center") do
+    #     %div
+    #       %h1.text-5xl.font-bold Welcome
+    #       %p.my-6 Discover amazing features.
+    #       = daisy_button(css: "btn btn-primary",
+    #         title: "Get Started")
+    #
+    # @loco_example Hero with Image
+    #   = daisy_hero(css: "bg-base-200",
+    #     content_wrapper_css: "flex-col md:flex-row") do
+    #     %img.h-40.rounded{
+    #       src: image_path("hero-image.jpg"),
+    #       alt: "Hero Image" }
+    #     %div
+    #       %h1.text-5xl.font-bold Features
+    #       %p.my-6 Explore what we offer.
+    #
+    # @loco_example Hero with Background Overlay
+    #   = daisy_hero(css: "min-h-96",
+    #     html: { style: "background-image: url('bg.jpg')" }) do |hero|
+    #     - hero.with_overlay(css: "bg-black/50 backdrop-blur")
+    #     %div.text-white
+    #       %h1.text-5xl.font-bold Discover
+    #       %p.my-6 Start your journey today.
+    #
     class HeroComponent < LocoMotion::BaseComponent
       define_part :content_wrapper
 
@@ -73,6 +73,9 @@ module Daisy
       #   html: { style: "background-image: url('image.jpg')" }
       #   ```
       #
+      def initialize(*args, **kws, &block)
+        super
+      end
 
       #
       # Sets up the component's CSS classes.
