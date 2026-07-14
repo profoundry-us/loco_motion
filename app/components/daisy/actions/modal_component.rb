@@ -32,6 +32,9 @@ module Daisy
     # @part actions Container for all modal action buttons.
     # @part leading_actions Container for left-aligned action buttons.
     # @part trailing_actions Container for right-aligned action buttons.
+    # @part turbo_frame The `<turbo-frame>` element rendered inside the modal
+    #   when `turbo_frame_id` is set (see the "Global Modal with a Turbo
+    #   Frame" example).
     #
     # @slot activator A custom element that opens the modal. Automatically adds
     #   `role="button"` and a default `tabindex="0"` for accessibility; pass
@@ -64,7 +67,7 @@ module Daisy
     #       %form{ method: :dialog }
     #         = daisy_button { "Cancel" }
     #     - modal.with_trailing_actions do
-    #       = daisy_button(css: "btn-primary", type: "submit") { "Save Changes" }
+    #       = daisy_button(css: "btn-primary", html: { type: "submit" }) { "Save Changes" }
     #
     # @loco_example Custom Activator
     #   = daisy_modal(title: "User Details") do |modal|

@@ -23,6 +23,8 @@ module Daisy
       # Default list of themes to display in the controller
       SOME_THEMES = %w[light dark synthwave retro cyberpunk wireframe].freeze
 
+      # @return [Array<String>] The DaisyUI theme names available in this
+      #   controller.
       attr_reader :themes
 
       #
@@ -30,8 +32,8 @@ module Daisy
       #
       # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kws [Array<String>] :themes List of DaisyUI theme names to include
-      #   in the controller. Defaults to {SOME_THEMES}.
+      # @option kws themes [Array<String>] List of DaisyUI theme names to
+      #   include in the controller. Defaults to {SOME_THEMES}.
       #
       def initialize(**kws, &block)
         super
@@ -57,14 +59,15 @@ module Daisy
       # Builder method to create a radio input for use in selecting themes.
       #
       # @param theme [String] The name of the theme that the input controls.
+      #
       # @param options [Hash] Additional options to pass to the component.
       #
-      # @yield [radio] An optional block forwarded to the radio so you can fill
-      #   its `start` / `end` slots (e.g. drop a preview swatch or label inside
-      #   the radio's label and make the whole row one clickable control).
+      # @yield [radio] An optional block forwarded to the radio so you can
+      #   fill its `leading` / `trailing` slots (e.g. drop a preview swatch
+      #   or label inside the radio's label and make the whole row one
+      #   clickable control).
       #
-      # @return [Daisy::DataInput::RadioButtonComponent] A new radio button
-      #   component instance.
+      # @return [String] The rendered HTML for the radio input.
       #
       # @loco_example Put a preview + label inside the radio
       #   = daisy_theme_controller do |tc|
@@ -91,15 +94,9 @@ module Daisy
       #
       # @param theme [String] The theme name to preview.
       #
-      # @option options [Integer] :size Size of the preview in Tailwind size units.
-      #   Defaults to 4 (1rem).
+      # @option options css [String] Additional CSS classes.
       #
-      # @option options [Boolean] :shadow Whether to add a shadow. Defaults to true.
-      #
-      # @option options [String] :css Additional CSS classes.
-      #
-      # @return [Daisy::Actions::ThemePreviewComponent] A new theme preview
-      #   component instance.
+      # @return [String] The rendered HTML for the theme preview.
       #
       def build_theme_preview(theme, **options)
         render Daisy::Actions::ThemePreviewComponent.new(
@@ -116,20 +113,21 @@ module Daisy
       # component, it inherits the `loco-theme` Stimulus controller, so no extra
       # setup is required.
       #
-      # @option options [String] :icon The icon name for the trigger button.
-      #   Defaults to "swatch".
+      # @param icon [String] The icon name for the trigger button. Defaults
+      #   to "swatch".
       #
-      # @option options [String] :label Optional text shown beside the trigger
+      # @param label [String, nil] Optional text shown beside the trigger
       #   icon. When omitted, the trigger is an icon-only circle button.
       #
-      # @option options [Boolean] :clear Whether to append a "Clear Theme" row
-      #   that resets to the default theme. Defaults to false.
+      # @param clear [Boolean] Whether to append a "Clear Theme" row that
+      #   resets to the default theme. Defaults to false.
       #
-      # @option options [String] :name The shared `name` for the theme radios.
+      # @param name [String] The shared `name` for the theme radios.
       #   Defaults to "theme".
       #
-      # @option options [String] :css Extra CSS classes for the dropdown (e.g. a
-      #   placement modifier like "dropdown-end"). Defaults to "dropdown-end".
+      # @param css [String] Extra CSS classes for the dropdown (e.g. a
+      #   placement modifier like "dropdown-end"). Defaults to
+      #   "dropdown-end".
       #
       # @return [String] The rendered dropdown.
       #

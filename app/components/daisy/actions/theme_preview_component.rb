@@ -35,10 +35,11 @@ module Daisy
       # @param theme [String] The theme name to preview, can be provided as a
       #   positional or keyword argument.
       #
-      # @option kws [String] :theme The theme name to preview (if not provided as
-      #   positional argument).
+      # @option kws theme [String] The theme name to preview (if not provided
+      #   as positional argument).
       #
-      # @option kws [String] :css Additional CSS classes to apply to the component.
+      # @option kws css [String] Additional CSS classes to apply to the
+      #   component.
       #
       def initialize(theme = nil, **kws, &block)
         super

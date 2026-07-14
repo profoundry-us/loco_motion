@@ -12,15 +12,12 @@ module Daisy
     # It also includes built-in animations that can be enabled through CSS classes
     # like `swap-rotate` or `swap-flip`.
     #
-    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-    # tooltip addition.
+    # @note Includes the {LocoMotion::Concerns::TippableComponent} module to
+    #   enable easy tooltip addition.
     #
     # @part checkbox The checkbox input element that handles the toggle state.
     # @part on Wraps the HTML content displayed when the swap is in the "on" state.
     # @part off Wraps the HTML content displayed when the swap is in the "off" state.
-    # @part indeterminate Wraps the HTML content displayed when the swap is in an
-    #   indeterminate state. Only shown when the checkbox is in an indeterminate
-    #   state.
     #
     # @slot on The HTML content to be displayed when the swap is in the "on" state.
     # @slot off The HTML content to be displayed when the swap is in the "off" state.
@@ -121,9 +118,6 @@ module Daisy
       #
       # @option kws checked [Boolean] Whether the swap should start checked. Alternative
       #   to providing it as the third argument.
-      #
-      # @option kws indeterminate [Boolean] If true, starts the swap in an indeterminate
-      #   state. Requires the indeterminate slot to be meaningful.
       #
       # @option kws tip [String] The tooltip text to display when hovering over
       #   the component.

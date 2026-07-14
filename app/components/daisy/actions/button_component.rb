@@ -6,12 +6,12 @@ module Daisy
     # The Button component can be used to render HTML `<button>` or `<a>` elements
     # that are styled to look like a clickable element.
     #
-    # Note that we do **not** use component parts for the icons since we're calling
-    # `loco_icon` within the component. But we **do** provide custom CSS & HTML
-    # options to allow overriding / customization.
+    # @note We do **not** use component parts for the icons since we're
+    #   calling `loco_icon` within the component. But we **do** provide
+    #   custom CSS & HTML options to allow overriding / customization.
     #
-    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-    # tooltip addition.
+    # @note Includes the {LocoMotion::Concerns::TippableComponent} module to
+    #   enable easy tooltip addition.
     #
     # @loco_example Basic Usage
     #   = daisy_button("Click Me")
@@ -108,59 +108,92 @@ module Daisy
       include LocoMotion::Concerns::LinkableComponent
       include LocoMotion::Concerns::IconableComponent
 
-      define_parts :label
-
       #
       # Instantiate a new Button component.
       #
-      # @param title  [String] The title of the button. Defaults to "Submit" if none
-      #   of title, left icon, or right icon is provided. Will be considered the
-      #   `action` parameter if **both** the title and a block are provided.
+      # @param title [String] The title of the button. Defaults to "Submit"
+      #   if none of title, left icon, or right icon is provided. Will be
+      #   considered the `action` parameter if **both** the title and a
+      #   block are provided.
       #
-      # @param kws    [Hash] The keyword arguments for the component.
+      # @param action [String] A Stimulus action wired to the button via its
+      #   `data-action` attribute, provided positionally as shorthand for
+      #   the `action:` keyword (e.g. `daisy_button("Say Hello",
+      #   "greeter#greet")`). The keyword wins if both are given.
       #
-      # @option kws title           [String] The title of the button. You can also
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws title [String] The title of the button. You can also
       #   pass the title, icons, or any other HTML content as a block.
       #
-      # @option kws href            [String] A path or URL to which the user will be
-      #   directed when the button is clicked. Forces the Button to use an `<a>`
-      #   tag.
+      # @option kws href [String] A path or URL to which the user will be
+      #   directed when the button is clicked. Forces the Button to use an
+      #   `<a>` tag.
       #
-      #   > **Note:** _You should use either the `action` or the `href` option, but
-      #   not both._
+      #   > **Note:** _You should use either the `action` or the `href`
+      #   option, but not both._
       #
-      # @option kws target          [String] The HTML `target` of for the `<a>` tag
+      # @option kws target [String] The HTML `target` of for the `<a>` tag
       #   (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
       #
-      # @option kws action          [String] A Stimulus action wired to the
-      #   button via its `data-action` attribute. Stimulus infers the `click`
-      #   event for buttons, so `action: "my-controller#handle"` works as a
-      #   shorthand for `action: "click->my-controller#handle"`.
+      # @option kws action [String] A Stimulus action wired to the button
+      #   via its `data-action` attribute. Stimulus infers the `click`
+      #   event for buttons, so `action: "my-controller#handle"` works as
+      #   a shorthand for `action: "click->my-controller#handle"`.
       #
-      # @option kws icon            [String] The name of Hero icon to render inside
-      #   the button.  This is an alias of `left_icon`.
+      # @option kws tip [String] The tooltip text to display when hovering
+      #   over the button.
       #
-      # @option kws icon_css        [String] The CSS classes to apply to the icon.
-      #   This is an alias of `left_icon_css`.
+      # @option kws turbo_frame [String] The Turbo Frame to target,
+      #   rendered as `data-turbo-frame`.
       #
-      # @option kws icon_html       [Hash] Additional HTML attributes to apply to
-      #   the icon. This is an alias of `left_icon_html`.
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates
+      #   the browser history for the visit, rendered as
+      #   `data-turbo-action` (e.g. `:advance` or `:replace`).
       #
-      # @option kws left_icon       [String] The name of Hero icon to render inside
-      #   the button to the left of the text.
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo
+      #   should use for the request, rendered as `data-turbo-method`
+      #   (e.g. `:delete`).
       #
-      # @option kws left_icon_css   [String] The CSS classes to apply to the left
-      #   icon.
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo
+      #   shows before submitting, rendered as `data-turbo-confirm`.
       #
-      # @option kws left_icon_html  [Hash] Additional HTML attributes to apply to
+      # @option kws icon [String] The name of Hero icon to render inside
+      #   the button. This is an alias of `left_icon`.
+      #
+      # @option kws icon_css [String] The CSS classes to apply to the
+      #   icon. This is an alias of `left_icon_css`.
+      #
+      # @option kws icon_options [Hash] Additional keyword arguments
+      #   forwarded to the icon component. This is an alias of
+      #   `left_icon_options`.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes to apply
+      #   to the icon. This is an alias of `left_icon_html`.
+      #
+      # @option kws left_icon [String] The name of Hero icon to render
+      #   inside the button to the left of the text.
+      #
+      # @option kws left_icon_css [String] The CSS classes to apply to
       #   the left icon.
       #
-      # @option kws right_icon      [String] The name of Hero icon to render inside
-      #   the button to the right of the text.
+      # @option kws left_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the left icon component (e.g. `tip:`).
       #
-      # @option kws right_icon_css  [String] Right icon CSS (via IconableComponent).
+      # @option kws left_icon_html [Hash] Additional HTML attributes to
+      #   apply to the left icon.
       #
-      # @option kws right_icon_html [Hash] Right icon HTML (via IconableComponent).
+      # @option kws right_icon [String] The name of Hero icon to render
+      #   inside the button to the right of the text.
+      #
+      # @option kws right_icon_css [String] Right icon CSS (via
+      #   IconableComponent).
+      #
+      # @option kws right_icon_options [Hash] Additional keyword
+      #   arguments forwarded to the right icon component (e.g. `tip:`).
+      #
+      # @option kws right_icon_html [Hash] Right icon HTML (via
+      #   IconableComponent).
       #
       def initialize(title = nil, action = nil, **kws, &block)
         super
