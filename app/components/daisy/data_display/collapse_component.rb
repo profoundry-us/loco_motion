@@ -1,48 +1,48 @@
 # frozen_string_literal: true
 
-#
-# The Collapse component creates an expandable/collapsible section of content
-# with a title that toggles visibility. It's similar to the Accordion component
-# but designed for standalone use rather than groups.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @part title The clickable title bar that toggles the content visibility.
-# @part wrapper The container for the collapsible content.
-#
-# @slot title Custom content for the title bar. You can also provide a simple
-#   title string via the title option.
-#
-# @loco_example Basic Usage
-#   = daisy_collapse(title: "Click to expand") do
-#     This content can be shown or hidden.
-#
-# @loco_example With Custom Title
-#   = daisy_collapse do |collapse|
-#     - collapse.with_title do
-#       .flex.items-center.gap-2
-#         = loco_icon("chevron-down")
-#         Advanced Settings
-#     %p These are some advanced configuration options.
-#     = daisy_button("Apply Settings")
-#
-# @loco_example With Focus Mode
-#   = daisy_collapse(checkbox: false) do |collapse|
-#     - collapse.with_title do
-#       Click or use keyboard to toggle
-#     This content can be focused and toggled with the keyboard.
-#
-# @loco_example With Arrow
-#   = daisy_collapse(title: "Expandable Section", css: "collapse-arrow") do
-#     This section has an arrow indicator.
-#
-# @loco_example With Plus/Minus
-#   = daisy_collapse(title: "Expandable Section", css: "collapse-plus") do
-#     This section has a plus/minus indicator.
-#
 module Daisy
   module DataDisplay
+    #
+    # The Collapse component creates an expandable/collapsible section of content
+    # with a title that toggles visibility. It's similar to the Accordion component
+    # but designed for standalone use rather than groups.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @part title The clickable title bar that toggles the content visibility.
+    # @part wrapper The container for the collapsible content.
+    #
+    # @slot title Custom content for the title bar. You can also provide a simple
+    #   title string via the title option.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_collapse(title: "Click to expand") do
+    #     This content can be shown or hidden.
+    #
+    # @loco_example With Custom Title
+    #   = daisy_collapse do |collapse|
+    #     - collapse.with_title do
+    #       .flex.items-center.gap-2
+    #         = loco_icon("chevron-down")
+    #         Advanced Settings
+    #     %p These are some advanced configuration options.
+    #     = daisy_button("Apply Settings")
+    #
+    # @loco_example With Focus Mode
+    #   = daisy_collapse(checkbox: false) do |collapse|
+    #     - collapse.with_title do
+    #       Click or use keyboard to toggle
+    #     This content can be focused and toggled with the keyboard.
+    #
+    # @loco_example With Arrow
+    #   = daisy_collapse(title: "Expandable Section", css: "collapse-arrow") do
+    #     This section has an arrow indicator.
+    #
+    # @loco_example With Plus/Minus
+    #   = daisy_collapse(title: "Expandable Section", css: "collapse-plus") do
+    #     This section has a plus/minus indicator.
+    #
     class CollapseComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 

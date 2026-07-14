@@ -1,48 +1,48 @@
 # frozen_string_literal: true
 
-#
-# The Accordion component shows collapsible sections of content, with only one
-# section open at a time. Each section has a title that can be clicked to show
-# or hide its content.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @slot section+ Multiple sections that can be expanded or collapsed. Each
-#   section can have a title and content.
-#
-# @loco_example Basic Usage
-#   = daisy_accordion do |accordion|
-#     - accordion.with_section(title: "Section 1") do
-#       This is the content of section 1
-#     - accordion.with_section(title: "Section 2") do
-#       This is the content of section 2
-#
-# @loco_example With Arrow Icons
-#   = daisy_accordion(:arrow) do |accordion|
-#     - accordion.with_section(title: "Section 1") do
-#       This is the content of section 1
-#     - accordion.with_section(title: "Section 2") do
-#       This is the content of section 2
-#
-# @loco_example With Plus Icons
-#   = daisy_accordion(:plus) do |accordion|
-#     - accordion.with_section(title: "Section 1") do
-#       This is the content of section 1
-#     - accordion.with_section(title: "Section 2") do
-#       This is the content of section 2
-#
-# @loco_example With Custom Title Content
-#   = daisy_accordion do |accordion|
-#     - accordion.with_section do |section|
-#       - section.with_title do
-#         .flex.items-center.gap-2
-#           = loco_icon("star")
-#           Featured Section
-#       This is the content of the featured section
-#
 module Daisy
   module DataDisplay
+    #
+    # The Accordion component shows collapsible sections of content, with only one
+    # section open at a time. Each section has a title that can be clicked to show
+    # or hide its content.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @slot section+ Multiple sections that can be expanded or collapsed. Each
+    #   section can have a title and content.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_accordion do |accordion|
+    #     - accordion.with_section(title: "Section 1") do
+    #       This is the content of section 1
+    #     - accordion.with_section(title: "Section 2") do
+    #       This is the content of section 2
+    #
+    # @loco_example With Arrow Icons
+    #   = daisy_accordion(:arrow) do |accordion|
+    #     - accordion.with_section(title: "Section 1") do
+    #       This is the content of section 1
+    #     - accordion.with_section(title: "Section 2") do
+    #       This is the content of section 2
+    #
+    # @loco_example With Plus Icons
+    #   = daisy_accordion(:plus) do |accordion|
+    #     - accordion.with_section(title: "Section 1") do
+    #       This is the content of section 1
+    #     - accordion.with_section(title: "Section 2") do
+    #       This is the content of section 2
+    #
+    # @loco_example With Custom Title Content
+    #   = daisy_accordion do |accordion|
+    #     - accordion.with_section do |section|
+    #       - section.with_title do
+    #         .flex.items-center.gap-2
+    #           = loco_icon("star")
+    #           Featured Section
+    #       This is the content of the featured section
+    #
     class AccordionComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 
