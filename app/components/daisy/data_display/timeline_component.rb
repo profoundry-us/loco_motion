@@ -7,8 +7,9 @@ module Daisy
     # either vertically or horizontally. It's perfect for showing history,
     # progress, or any sequence of events that should be displayed in order.
     #
-    # @slot event+ Individual events in the timeline. Each event can have
-    #   leading, middle, and trailing sections.
+    # @slot event+ [Daisy::DataDisplay::TimelineEventComponent] Individual
+    #   events in the timeline. Each event can have leading, middle, and
+    #   trailing sections.
     #
     # @loco_example Basic Vertical Timeline
     #   = daisy_timeline do |timeline|

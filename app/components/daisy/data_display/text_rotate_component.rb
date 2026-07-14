@@ -9,12 +9,10 @@ module Daisy
     # headlines, cycling through feature keywords, or animating taglines on
     # marketing pages.
     #
+    # @part wrapper The container that wraps all of the rotated items.
+    #
     # @slot item+ Multiple text items to display in the rotation. Each item will
     #   be displayed one at a time in an infinite loop.
-    #
-    # @param texts [Array<String>] An optional array of strings for simple usage
-    #   without blocks. When provided, each string is rendered as a span inside
-    #   the rotation.
     #
     # @loco_example Basic Text Rotate
     #   = daisy_text_rotate do |rotate|
@@ -63,6 +61,86 @@ module Daisy
         include LocoMotion::Concerns::IconableComponent
 
         #
+        # Creates a new Text Rotate item.
+        #
+        # @param kws [Hash] The keyword arguments for the component.
+        #
+        # @option kws href [String] A path or URL to which the user will be
+        #   directed when the item is clicked. Forces the item to use an
+        #   `<a>` tag.
+        #
+        # @option kws target [String] The HTML `target` attribute for the
+        #   `<a>` tag (`_blank`, `_parent`, or a specific tab / window /
+        #   iframe, etc).
+        #
+        # @option kws title [String] The HTML `title` attribute for the
+        #   `<a>` tag, shown as a native tooltip on hover. Only applied when
+        #   `href` is also provided.
+        #
+        # @option kws turbo_frame [String] The Turbo Frame to target,
+        #   rendered as `data-turbo-frame`.
+        #
+        # @option kws turbo_action [String, Symbol] How Turbo Drive updates
+        #   the browser history for the visit, rendered as
+        #   `data-turbo-action` (e.g. `:advance` or `:replace`).
+        #
+        # @option kws turbo_method [String, Symbol] The HTTP method Turbo
+        #   should use for the request, rendered as `data-turbo-method`
+        #   (e.g. `:delete`).
+        #
+        # @option kws turbo_confirm [String] A confirmation prompt Turbo
+        #   shows before submitting, rendered as `data-turbo-confirm`.
+        #
+        # @option kws action [String] A Stimulus action wired to the item via
+        #   its `data-action` attribute. Stimulus infers the `click` event,
+        #   so `action: "my-controller#handle"` works as a shorthand for
+        #   `action: "click->my-controller#handle"`.
+        #
+        # @option kws icon [String] The icon to render, as a qualified
+        #   `[library:]name[/variant]` token. This is an alias of
+        #   `left_icon`.
+        #
+        # @option kws icon_css [String] The CSS classes to apply to the
+        #   icon. This is an alias of `left_icon_css`.
+        #
+        # @option kws icon_options [Hash] Additional keyword arguments
+        #   forwarded to the icon component. This is an alias of
+        #   `left_icon_options`.
+        #
+        # @option kws icon_html [Hash] Additional HTML attributes to apply
+        #   to the icon. This is an alias of `left_icon_html`.
+        #
+        # @option kws left_icon [String] The icon to render to the left of
+        #   the content, as a qualified `[library:]name[/variant]` token.
+        #
+        # @option kws left_icon_css [String] The CSS classes to apply to the
+        #   left icon.
+        #
+        # @option kws left_icon_options [Hash] Additional keyword arguments
+        #   forwarded to the left icon component (e.g. `tip:`).
+        #
+        # @option kws left_icon_html [Hash] Additional HTML attributes to
+        #   apply to the left icon.
+        #
+        # @option kws right_icon [String] The icon to render to the right of
+        #   the content, as a qualified `[library:]name[/variant]` token.
+        #
+        # @option kws right_icon_css [String] The CSS classes to apply to
+        #   the right icon.
+        #
+        # @option kws right_icon_options [Hash] Additional keyword arguments
+        #   forwarded to the right icon component (e.g. `tip:`).
+        #
+        # @option kws right_icon_html [Hash] Additional HTML attributes to
+        #   apply to the right icon.
+        #
+        # rubocop:disable Lint/UselessMethodDefinition
+        def initialize(**kws, &block)
+          super
+        end
+        # rubocop:enable Lint/UselessMethodDefinition
+
+        #
         # Runs item-specific setup before rendering. Runs before `super` so that
         # LinkableComponent can override the tag name to `<a>` when an href is set.
         #
@@ -98,11 +176,14 @@ module Daisy
       #
       # Creates a new Text Rotate component.
       #
-      # @param texts [Array<String>] An optional array of strings for simple usage.
+      # @param texts [Array<String>] An optional array of strings for
+      #   simple usage.
+      #
       # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kws [String] :wrapper_css CSS classes to apply to the wrapper part
-      #   that surrounds all of the rotated items.
+      # @option kws [String] :wrapper_css CSS classes to apply to the
+      #   wrapper part that surrounds all of the rotated items.
+      #
       # @option kws [String] :tip The tooltip text to display when hovering over
       #   the component.
       #

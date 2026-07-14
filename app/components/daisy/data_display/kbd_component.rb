@@ -79,9 +79,9 @@ module Daisy
       #
       # Renders the kbd (Keyboard) component.
       #
-      # Because this is an inline component which might be utlized alongside text,
-      # we utilize the `call` method instead of a template to ensure that no
-      # additional whitespace gets added to the output.
+      # Because this is an inline component which might be utilized alongside
+      # text, we utilize the `call` method instead of a template to ensure that
+      # no additional whitespace gets added to the output.
       #
       def call
         part(:component) { content || simple_title }

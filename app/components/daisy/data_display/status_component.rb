@@ -3,8 +3,12 @@
 module Daisy
   module DataDisplay
     #
-    # The StatusComponent displays a small icon to visually show the current status of an element,
-    # such as online, offline, error, etc. It follows the DaisyUI status component pattern.
+    # The Status component displays a small icon to visually show the current
+    # status of an element, such as online, offline, error, etc. It follows
+    # the DaisyUI status component pattern.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable
+    # easy tooltip addition.
     #
     # @loco_example Basic Status
     #   = daisy_status()
@@ -29,6 +33,20 @@ module Daisy
     #   = daisy_status(css: "status-success", html: { aria: { label: "Status: Online" } })
     class StatusComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
+
+      #
+      # Creates a new status component.
+      #
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws [String] :tip The tooltip text to display when hovering
+      #   over the component.
+      #
+      # rubocop:disable Lint/UselessMethodDefinition
+      def initialize(**kws, &block)
+        super
+      end
+      # rubocop:enable Lint/UselessMethodDefinition
 
       def before_render
         setup_component

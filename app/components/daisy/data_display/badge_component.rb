@@ -38,73 +38,17 @@ module Daisy
     #       = loco_icon("star", css: "size-4")
     #       Featured
     #
-    # @loco_example Default Badge
-    #   = daisy_badge { "Default Badge" }
+    # @loco_example With Status Colors
+    #   = daisy_badge("Info", css: "badge-info")
+    #   = daisy_badge("Success", css: "badge-success")
+    #   = daisy_badge("Warning", css: "badge-warning")
+    #   = daisy_badge("Error", css: "badge-error")
     #
-    # @loco_example Primary Badge
-    #   = daisy_badge(css: "badge-primary") { "Primary Badge" }
+    # @loco_example With Style Variants
+    #   = daisy_badge("Outline", css: "badge-primary badge-outline")
+    #   = daisy_badge("Soft", css: "badge-primary badge-soft")
+    #   = daisy_badge("Dash", css: "badge-primary badge-dash")
     #
-    # @loco_example Secondary Badge
-    #   = daisy_badge(css: "badge-secondary") { "Secondary Badge" }
-    #
-    # @loco_example Accent Badge
-    #   = daisy_badge(css: "badge-accent") { "Accent Badge" }
-    #
-    # @loco_example Ghost Badge
-    #   = daisy_badge(css: "badge-ghost") { "Ghost Badge" }
-    #
-    # @loco_example Info Badge
-    #   = daisy_badge(css: "badge-info") { "Info Badge" }
-    #
-    # @loco_example Success Badge
-    #   = daisy_badge(css: "badge-success") { "Success Badge" }
-    #
-    # @loco_example Warning Badge
-    #   = daisy_badge(css: "badge-warning") { "Warning Badge" }
-    #
-    # @loco_example Error Badge
-    #   = daisy_badge(css: "badge-error") { "Error Badge" }
-    #
-    # @loco_example Outline Primary Badge
-    #   = daisy_badge(css: "badge-primary badge-outline") { "Outline Primary" }
-    #
-    # @loco_example Outline Success Badge
-    #   = daisy_badge(css: "badge-success badge-outline") { "Outline Success" }
-    #
-    # @loco_example Outline Warning Badge
-    #   = daisy_badge(css: "badge-warning badge-outline") { "Outline Warning" }
-    #
-    # @loco_example Outline Error Badge
-    #   = daisy_badge(css: "badge-error badge-outline") { "Outline Error" }
-    #
-    # @loco_example Soft Primary Badge
-    #   = daisy_badge(css: "badge-primary badge-soft") { "Soft Primary" }
-    #
-    # @loco_example Soft Success Badge
-    #   = daisy_badge(css: "badge-success badge-soft") { "Soft Success" }
-    #
-    # @loco_example Soft Warning Badge
-    #   = daisy_badge(css: "badge-warning badge-soft") { "Soft Warning" }
-    #
-    # @loco_example Soft Error Badge
-    #   = daisy_badge(css: "badge-error badge-soft") { "Soft Error" }
-    #
-    # @loco_example Dash Primary Badge
-    #   = daisy_badge(css: "badge-primary badge-dash") { "Dash Primary" }
-    #
-    # @loco_example Dash Success Badge
-    #   = daisy_badge(css: "badge-success badge-dash") { "Dash Success" }
-    #
-    # @loco_example Dash Warning Badge
-    #   = daisy_badge(css: "badge-warning badge-dash") { "Dash Warning" }
-    #
-    # @loco_example Dash Error Badge
-    #   = daisy_badge(css: "badge-error badge-dash") { "Dash Error" }
-    #
-    # @loco_example Badge with Icon
-    #   = daisy_badge(icon: "check") { "Icon Badge" }
-    #
-    # @!parse class Daisy::DataDisplay::BadgeComponent < LocoMotion::BaseComponent; end
     class BadgeComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::IconableComponent
       include LocoMotion::Concerns::LinkableComponent
@@ -118,42 +62,76 @@ module Daisy
       # @param title [String] The text to display in the badge. You can also pass
       #   the title as a keyword argument or provide content via a block.
       #
-      # @param kwargs [Hash] The keyword arguments for the component.
+      # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kwargs title [String] The text to display in the badge. You can also
-      #   pass the title as the first argument or provide content via a block.
+      # @option kws title [String] The text to display in the badge. You can
+      #   also pass the title as the first argument or provide content via a
+      #   block.
       #
-      # @option kwargs href [String] A path or URL to which the user will be
-      #   directed when the badge is clicked. Forces the Badge to use an `<a>` tag.
+      # @option kws href [String] A path or URL to which the user will be
+      #   directed when the badge is clicked. Forces the Badge to use an
+      #   `<a>` tag.
       #
-      # @option kwargs target [String] The HTML `target` of for the `<a>` tag
-      #   (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
+      # @option kws target [String] The HTML `target` attribute for the `<a>`
+      #   tag (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
       #
-      # @option kwargs icon [String] The name of Hero icon to render inside the
-      #   badge. This is an alias of `left_icon`.
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered
+      #   as `data-turbo-frame`.
       #
-      # @option kwargs icon_css [String] The CSS classes to apply to the icon.
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo
+      #   should use for the request, rendered as `data-turbo-method`
+      #   (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws action [String] A Stimulus action wired to the badge via
+      #   its `data-action` attribute. Stimulus infers the `click` event, so
+      #   `action: "my-controller#handle"` works as a shorthand for
+      #   `action: "click->my-controller#handle"`.
+      #
+      # @option kws icon [String] The icon to render inside the badge, as a
+      #   qualified `[library:]name[/variant]` token. This is an alias of
+      #   `left_icon`.
+      #
+      # @option kws icon_css [String] The CSS classes to apply to the icon.
       #   This is an alias of `left_icon_css`.
       #
-      # @option kwargs icon_html [Hash] Additional HTML attributes to apply to the
+      # @option kws icon_options [Hash] Additional keyword arguments
+      #   forwarded to the icon component. This is an alias of
+      #   `left_icon_options`.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes to apply to the
       #   icon. This is an alias of `left_icon_html`.
       #
-      # @option kwargs left_icon [String] The name of Hero icon to render inside
-      #   the badge to the left of the text.
+      # @option kws left_icon [String] The icon to render inside the badge to
+      #   the left of the text, as a qualified `[library:]name[/variant]`
+      #   token.
       #
-      # @option kwargs left_icon_css [String] The CSS classes to apply to the left
+      # @option kws left_icon_css [String] The CSS classes to apply to the left
       #   icon.
       #
-      # @option kwargs left_icon_html [Hash] Additional HTML attributes to apply to
+      # @option kws left_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the left icon component (e.g. `tip:`).
+      #
+      # @option kws left_icon_html [Hash] Additional HTML attributes to apply to
       #   the left icon.
       #
-      # @option kwargs right_icon [String] The name of Hero icon to render inside
-      #   the badge to the right of the text.
+      # @option kws right_icon [String] The icon to render inside the badge to
+      #   the right of the text, as a qualified `[library:]name[/variant]`
+      #   token.
       #
-      # @option kwargs right_icon_css [String] The CSS classes to apply to the
+      # @option kws right_icon_css [String] The CSS classes to apply to the
       #   right icon.
       #
-      # @option kwargs right_icon_html [Hash] Additional HTML attributes to apply
+      # @option kws right_icon_options [Hash] Additional keyword arguments
+      #   forwarded to the right icon component (e.g. `tip:`).
+      #
+      # @option kws right_icon_html [Hash] Additional HTML attributes to apply
       #   to the right icon.
       #
       def initialize(title = nil, **kws, &block)
@@ -172,9 +150,9 @@ module Daisy
       #
       # Renders the badge component.
       #
-      # Because this is an inline component which might be utlized alongside text,
-      # we utilize the `call` method instead of a template to ensure that no
-      # additional whitespace gets added to the output.
+      # Because this is an inline component which might be utilized alongside
+      # text, we utilize the `call` method instead of a template to ensure that
+      # no additional whitespace gets added to the output.
       #
       def call
         part(:component) do

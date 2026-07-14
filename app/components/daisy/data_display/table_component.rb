@@ -7,11 +7,20 @@ module Daisy
     # multiple sections, and complex layouts. It provides a clean, semantic way to
     # display tabular data while maintaining proper HTML structure.
     #
-    # @slot head A header section containing column titles.
-    # @slot body A body section containing rows of data.
-    # @slot row+ Individual rows that can be added directly to the table.
-    # @slot section+ Multiple sections, each with its own header and body, for
-    #   complex table layouts.
+    # @note The top-level `head` / `body` / `row+` slots and the `section+`
+    #   slot are mutually exclusive — per the template, providing any
+    #   `section+` makes the top-level `head`, `body`, and `row+` silently
+    #   ignored.
+    #
+    # @slot head [Daisy::DataDisplay::TableComponent::HeadComponent] A header
+    #   section containing column titles.
+    # @slot body [Daisy::DataDisplay::TableComponent::BodyComponent] A body
+    #   section containing rows of data.
+    # @slot row+ [Daisy::DataDisplay::TableComponent::BodyRowComponent]
+    #   Individual rows that can be added directly to the table.
+    # @slot section+ [Daisy::DataDisplay::TableComponent::SectionComponent]
+    #   Multiple sections, each with its own header and body, for complex
+    #   table layouts.
     #
     # @loco_example Basic Usage
     #   = daisy_table do |table|
@@ -81,7 +90,8 @@ module Daisy
       # A component for rendering the table header (`<thead>`) section. Contains
       # header columns that define the structure of the table.
       #
-      # @slot column+ Individual header cells within the header row.
+      # @slot column+ [Daisy::DataDisplay::TableComponent::HeadColumnComponent]
+      #   Individual header cells within the header row.
       #
       class HeadComponent < LocoMotion::BasicComponent
         renders_many :columns, HeadColumnComponent
@@ -113,7 +123,8 @@ module Daisy
       #
       # A component for rendering table rows (`<tr>`) containing data cells.
       #
-      # @slot column+ Individual data cells within the row.
+      # @slot column+ [Daisy::DataDisplay::TableComponent::BodyColumnComponent]
+      #   Individual data cells within the row.
       #
       class BodyRowComponent < LocoMotion::BasicComponent
         renders_many :columns, BodyColumnComponent
@@ -135,7 +146,8 @@ module Daisy
       # A component for rendering the table body (`<tbody>`) section. Contains rows
       # of data.
       #
-      # @slot row+ Individual rows of data within the body.
+      # @slot row+ [Daisy::DataDisplay::TableComponent::BodyRowComponent]
+      #   Individual rows of data within the body.
       #
       class BodyComponent < LocoMotion::BasicComponent
         renders_many :rows, BodyRowComponent
@@ -157,9 +169,12 @@ module Daisy
       # A component for grouping related table content into sections. Each section
       # can have its own header and body, allowing for complex table layouts.
       #
-      # @slot head A header section for this group of data.
-      # @slot body A body section for this group of data.
-      # @slot row+ Individual rows that can be added directly to this section.
+      # @slot head [Daisy::DataDisplay::TableComponent::HeadComponent] A
+      #   header section for this group of data.
+      # @slot body [Daisy::DataDisplay::TableComponent::BodyComponent] A body
+      #   section for this group of data.
+      # @slot row+ [Daisy::DataDisplay::TableComponent::BodyRowComponent]
+      #   Individual rows that can be added directly to this section.
       #
       class SectionComponent < LocoMotion::BasicComponent
         renders_one :head, HeadComponent
@@ -195,9 +210,10 @@ module Daisy
       set_component_name :table
 
       #
-      # Instantiate a new Table component. This component takes no content, but
-      # requires you to utilize the optional `head` slot, and one of the `body` or
-      # `rows` slots.
+      # Instantiate a new Table component. This component takes no content;
+      # you may optionally use the `head` slot, and must use one of the
+      # `body` or `row+` slots (or `section+`, which supersedes all three —
+      # see the note above).
       #
       def initialize(*args, **kws, &block)
         super

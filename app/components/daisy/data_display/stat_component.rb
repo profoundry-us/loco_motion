@@ -7,11 +7,15 @@ module Daisy
     # description, and figure. It's perfect for dashboards, summaries, or any
     # situation where you need to highlight important numbers or metrics.
     #
-    # @note Stats have a transparent background by default. Use `bg-base-100` if you
-    #   need a background color.
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to
+    # enable easy tooltip addition.
     #
-    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-    # tooltip addition.
+    # @note Stats have a transparent background by default. Use
+    #   `bg-base-100` if you need a background color.
+    #
+    # @note `right_icon` and its `right_icon_*` variants have no effect on
+    #   Stat — the template only ever renders the left/aliased icon via
+    #   `render_icon` inside the figure part.
     #
     # @part title The title section above the value.
     # @part value The main value or metric being displayed.
@@ -28,22 +32,26 @@ module Daisy
     #   image via the src option or an icon via the icon option.
     #
     # @loco_example Basic Usage
-    #   = daisy_stat(title: "Downloads", value: "31K")
+    #   = daisy_stat(title: "Downloads") do
+    #     31K
     #
     # @loco_example With Description
-    #   = daisy_stat(title: "New Users", value: "2.6K", description: "↗︎ 400 (22%)")
+    #   = daisy_stat(title: "New Users", description: "↗︎ 400 (22%)") do
+    #     2.6K
     #
     # @loco_example With Icon
-    #   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
-    #     = stat.with_description do
+    #   = daisy_stat(title: "Page Views", icon: "eye") do |stat|
+    #     89,400
+    #     - stat.with_description do
     #       .flex.items-center.gap-1
     #         = loco_icon("arrow-up", css: "size-4 text-success")
     #         %span.text-success 14%
     #         from last month
     #
     # @loco_example With Custom Figure
-    #   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
-    #     = stat.with_figure do
+    #   = daisy_stat(title: "Success Rate") do |stat|
+    #     98%
+    #     - stat.with_figure do
     #       .text-success
     #         = loco_icon("check-circle", css: "size-10")
     #
@@ -74,6 +82,10 @@ module Daisy
       #
       # @option kws [String] :title The text to display in the title section.
       #   You can also provide custom title content using the title slot.
+      #   When `href` is also set, this same text becomes the anchor's
+      #   `title` HTML attribute (via
+      #   {LocoMotion::Concerns::LinkableComponent}) in addition to the
+      #   visible stat title.
       #
       # @option kws [String] :description The text to display in the description
       #   section. You can also provide custom description content using the
@@ -84,6 +96,22 @@ module Daisy
       #
       # @option kws [String] :icon Name of an icon to display in the figure
       #   section.
+      #
+      # @option kws [String] :icon_css The CSS classes to apply to the icon.
+      #
+      # @option kws [Hash] :icon_html Additional HTML attributes to apply to
+      #   the icon.
+      #
+      # @option kws [Hash] :icon_options Additional keyword arguments
+      #   forwarded to the icon component (e.g. `tip:`).
+      #
+      # @option kws [String] :href A path or URL to which the user will be
+      #   directed when the stat is clicked. Forces the Stat to use an `<a>`
+      #   tag.
+      #
+      # @option kws [String] :target The HTML `target` attribute for the
+      #   `<a>` tag (`_blank`, `_parent`, or a specific tab / window /
+      #   iframe, etc).
       #
       # @option kws [String] :tip The tooltip text to display when hovering over
       #   the component.

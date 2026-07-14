@@ -3,9 +3,9 @@
 module Daisy
   module DataDisplay
     #
-    # The Carousel component displays a horizontal scrolling list of items, such as
-    # images, cards, or any other content. It's useful for showcasing multiple
-    # items in a space-efficient manner.
+    # The Carousel component displays a horizontal scrolling list of items,
+    # such as images, cards, or any other content. It's useful for
+    # showcasing multiple items in a space-efficient manner.
     #
     # @slot item+ Multiple items to display in the carousel. Each item will be
     #   displayed side by side and can be scrolled horizontally.

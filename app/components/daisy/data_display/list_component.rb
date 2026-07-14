@@ -11,10 +11,11 @@ module Daisy
     # media libraries, or content collections with a consistent layout.
     #
     # @part component The main list container (ul element)
-    # @part header The optional header container for the list
     #
-    # @slot item+ {Daisy::DataDisplay::ListItemComponent} Individual list items or
-    #   rows in the list
+    # @slot header The optional header content for the list. You can also
+    #   provide simple header text via the header option.
+    # @slot item+ [Daisy::DataDisplay::ListItemComponent] Individual list items
+    #   or rows in the list
     #
     # @loco_example Basic Usage
     #   = daisy_list do |list|
@@ -44,7 +45,6 @@ module Daisy
     #     - list.with_item { "Another divided item" }
     #     - list.with_item { "Last item" }
     #
-    # @!parse class Daisy::DataDisplay::ListComponent < LocoMotion::BaseComponent; end
     class ListComponent < LocoMotion::BaseComponent
       renders_many :items, "Daisy::DataDisplay::ListItemComponent"
       renders_one :header, LocoMotion::BasicComponent.build(tag_name: :li)
@@ -57,12 +57,19 @@ module Daisy
       #
       # Create a new List component.
       #
-      # @param kwargs [Hash] The keyword arguments for the component.
+      # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kwargs [String] :header Optional header text to display at the top
-      #   of the list.
+      # @option kws [String] :header Optional header text to display at the top
+      #   of the list. You can also provide custom header content using the
+      #   header slot.
       #
-      # @option kwargs [String] :css Additional CSS classes to apply to the list.
+      # @option kws [String] :header_css Additional CSS classes to apply to
+      #   the header when using the simple header text option.
+      #
+      # @option kws [Hash] :header_html Additional HTML attributes to apply
+      #   to the header when using the simple header text option.
+      #
+      # @option kws [String] :css Additional CSS classes to apply to the list.
       #   Common options include:
       #   - `bg-base-100` for background color
       #   - `rounded-box` for rounded corners

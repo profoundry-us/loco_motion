@@ -5,11 +5,15 @@ module Daisy
     #
     # The Diff component displays two items side by side with a resizable divider
     # between them. It's perfect for comparing content or showing before/after
-    # states. The component requires exactly two items to function properly.
+    # states. The component is designed for exactly two items: DaisyUI only
+    # styles the first two (`diff-item-1` and `diff-item-2`), so a third item
+    # renders without diff positioning and a single item renders without
+    # anything to compare against.
     #
     # @part resizer The draggable divider between items that allows resizing.
     #
-    # @slot item Two items to be compared. Exactly two items must be provided.
+    # @slot item+ The items to be compared. Designed for exactly two; see the
+    #   note above about behavior with a different number of items.
     #
     # @loco_example Basic Usage
     #   = daisy_diff do |diff|

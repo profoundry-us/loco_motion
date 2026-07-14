@@ -7,8 +7,8 @@ module Daisy
     # specific duration. It can show days, hours, minutes, and seconds with
     # customizable separators and formats.
     #
-    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-    # tooltip addition.
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to
+    # enable easy tooltip addition.
     #
     # @part days The container for the days value.
     # @part hours The container for the hours value.
@@ -38,13 +38,15 @@ module Daisy
       #
       # Creates a new countdown component.
       #
-      # @param duration [ActiveSupport::Duration] The duration to count down from.
-      #   Can be created using Rails duration helpers like 1.day, 2.hours, etc.
+      # @param duration [ActiveSupport::Duration] The duration to count down
+      #   from. Can be created using Rails duration helpers like 1.day,
+      #   2.hours, etc.
       #
       # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kws [ActiveSupport::Duration] :duration The duration to count down
-      #   from. Alternative to providing it as the first argument.
+      # @option kws [ActiveSupport::Duration] :duration The duration to
+      #   count down from. Alternative to providing it as the first
+      #   argument.
       #
       # @option kws [Symbol] :modifier Optional display modifier. Use :words for
       #   "days", "hours", etc., or :letters for "d", "h", etc.
@@ -62,7 +64,8 @@ module Daisy
       # @option kws [String] :parts_css CSS classes to apply to all time parts
       #   (days, hours, minutes, seconds).
       #
-      # @option kws [Hash] :parts_html HTML attributes to apply to all time parts.
+      # @option kws [Hash] :parts_html HTML attributes to apply to all time
+      #   parts.
       #
       # @option kws [String] :tip The tooltip text to display when hovering over
       #   the component.
@@ -93,8 +96,8 @@ module Daisy
         %i[days hours minutes seconds].each do |part|
           default_html = {
             data: {
-              # NOTE: We can't use nested hashes here because the Rails content_tag
-              # helper is stupid and won't traverse them.
+              # NOTE: We can't use nested hashes here because the Rails
+              # content_tag helper is stupid and won't traverse them.
               "loco-countdown-target": part
             }
           }
