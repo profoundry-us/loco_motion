@@ -44,9 +44,13 @@ module Daisy
       #   - Background: `bg-base-100`, `bg-primary`
       #   - Shadow: `shadow-lg`, `shadow-xl`
       #
+      # rubocop:disable Lint/UselessMethodDefinition -- exists so the doc
+      # comment above has a real method to attach to; FrameComponent has
+      # no options of its own beyond the universal ones documented here.
       def initialize(**kws)
         super(**kws)
       end
+      # rubocop:enable Lint/UselessMethodDefinition
 
       #
       # Sets up the component's CSS classes.

@@ -57,9 +57,13 @@ module Daisy
       #   - Background: `bg-base-100`, `bg-primary`
       #   - Shadow: `shadow`, `shadow-lg`
       #
+      # rubocop:disable Lint/UselessMethodDefinition -- exists so the doc
+      # comment above has a real method to attach to; BrowserComponent has
+      # no options of its own beyond the universal ones documented here.
       def initialize(**kws)
         super(**kws)
       end
+      # rubocop:enable Lint/UselessMethodDefinition
 
       #
       # Sets up the component's CSS classes.
