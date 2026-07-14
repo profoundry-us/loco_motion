@@ -120,7 +120,7 @@ class BadgeComponent < LocoMotion::BaseComponent
   # @param args [Array] Positional arguments.
   # @param kws [Hash] Keyword arguments.
   #
-  # @option kws [String] :css Additional CSS classes.
+  # @option kws css [String] Additional CSS classes.
   def initialize(*args, **kws)
     super
   end
