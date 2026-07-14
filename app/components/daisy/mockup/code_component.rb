@@ -3,6 +3,49 @@
 module Daisy
   module Mockup
     #
+    # A component for rendering individual lines within a code block.
+    #
+    # @part code The code content for this line.
+    #
+    class CodeLineComponent < LocoMotion::BaseComponent
+      define_parts :code
+
+      #
+      # Creates a new code line.
+      #
+      # @option kws prefix [String] Optional prefix for the line (e.g., "$",
+      #   ">", or line numbers).
+      # @option kws css [String] Additional CSS classes for styling the line.
+      #
+      def initialize(**kws)
+        super(**kws)
+
+        @prefix = config_option(:prefix)
+      end
+
+      #
+      # Sets up the component's HTML tags and attributes.
+      #
+      def before_render
+        set_tag_name(:component, :pre)
+        set_tag_name(:code, :code)
+
+        add_html(:component, { "data-prefix": @prefix }) if @prefix
+      end
+
+      #
+      # Renders the line with its code content.
+      #
+      def call
+        part(:component) do
+          part(:code) do
+            content
+          end
+        end
+      end
+    end
+
+    #
     # The CodeComponent creates stylized code blocks for displaying code snippets,
     # terminal output, or any text that benefits from monospace formatting.
     # Common use cases include:
@@ -49,49 +92,6 @@ module Daisy
     #       end
     #
     class CodeComponent < LocoMotion::BaseComponent
-      #
-      # A component for rendering individual lines within a code block.
-      #
-      # @part code The code content for this line.
-      #
-      class Daisy::Mockup::CodeLineComponent < LocoMotion::BaseComponent
-        define_parts :code
-
-        #
-        # Creates a new code line.
-        #
-        # @option kws prefix [String] Optional prefix for the line (e.g., "$",
-        #   ">", or line numbers).
-        # @option kws css [String] Additional CSS classes for styling the line.
-        #
-        def initialize(**kws)
-          super(**kws)
-
-          @prefix = config_option(:prefix)
-        end
-
-        #
-        # Sets up the component's HTML tags and attributes.
-        #
-        def before_render
-          set_tag_name(:component, :pre)
-          set_tag_name(:code, :code)
-
-          add_html(:component, { "data-prefix": @prefix }) if @prefix
-        end
-
-        #
-        # Renders the line with its code content.
-        #
-        def call
-          part(:component) do
-            part(:code) do
-              content
-            end
-          end
-        end
-      end
-
       define_parts :pre, :code
       renders_many :lines, Daisy::Mockup::CodeLineComponent
 
