@@ -6,7 +6,7 @@
 # is needed at all.
 
 # Stage 1: grab node + npm + yarn from the official node image
-FROM node:20-slim AS node_source
+FROM node:22-slim AS node_source
 
 # Stage 2: main image — ruby:3.4.4 (full, already has build-essential/git/curl)
 FROM ruby:3.4.4
