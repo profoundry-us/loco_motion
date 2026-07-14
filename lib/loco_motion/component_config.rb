@@ -86,7 +86,7 @@ module LocoMotion
         @parts[part][:user_html] = @parts[part][:user_html].deep_merge(data: part_data) if part_data
       end
 
-      # Allow useres to pass some shortened attributes for the component part
+      # Allow users to pass some shortened attributes for the component part
       merge_user_options!(**@options)
     end
 
