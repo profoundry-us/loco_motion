@@ -31,9 +31,9 @@ module LocoMotion
       # The qualified token in a `loco_icon("foo")` call.
       HELPER = %r{\bloco_icon\s*\(?\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
 
-      # A token passed via icon:/left_icon:/right_icon:/middle_icon: (also covers
-      # `loco_icon(icon: "foo")`). Longest keys first so `icon` does not win
-      # inside `left_icon`.
+      # A token passed via icon:/left_icon:/right_icon:/middle_icon: (also
+      # covers `loco_icon(icon: "foo")`). Longest keys first so `icon` does not
+      # win inside `left_icon`.
       KWARG = %r{\b(?:left_icon|right_icon|middle_icon|icon)\s*:\s*(["'])([a-z0-9][a-z0-9:/-]*)\1}
 
       # The symbol forms — `loco_icon(:home)` and `icon: :home`. A bare Ruby

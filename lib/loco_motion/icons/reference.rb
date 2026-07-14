@@ -12,10 +12,10 @@ module LocoMotion
     # lockstep: the {LocoMotion::Icons::Scanner} extracts exactly the token the
     # {LocoMotion::Icons::Renderer} resolves.
     #
-    #   "heart"               => library: default,  name: "heart",  variant: default
-    #   "lucide:heart"        => library: "lucide",  name: "heart",  variant: default
-    #   "phosphor:gear/bold"  => library: "phosphor", name: "gear",  variant: "bold"
-    #   "bolt/solid"          => library: default,  name: "bolt",   variant: "solid"
+    # "heart"              => library: default, name: "heart", variant: default
+    # "lucide:heart"       => library: "lucide", name: "heart", variant: default
+    # "phosphor:gear/bold" => library: "phosphor", name: "gear", variant: "bold"
+    # "bolt/solid"         => library: default, name: "bolt", variant: "solid"
     #
     # An explicit `library:` / `variant:` passed alongside the token is used
     # only as the default — anything the token itself specifies wins.
@@ -24,7 +24,8 @@ module LocoMotion
       module_function
 
       #
-      # @param token [String, Symbol] The icon token, `[library:]name[/variant]`.
+      # @param token [String, Symbol] The icon token,
+      #   `[library:]name[/variant]`.
       #
       # @param default_library [String, Symbol, nil] Library to use when the
       #   token does not name one.
@@ -32,12 +33,12 @@ module LocoMotion
       # @param default_variant [String, Symbol, nil] Variant to use when the
       #   token does not name one.
       #
-      # @return [Hash] `{ library:, variant:, name: }`. `name` and `library`
-      #   are always Strings (library names are identifiers, and a consistent
-      #   type lets references dedupe and sort regardless of whether the default
-      #   was passed as a Symbol or String). `variant` keeps the resolved type
-      #   (or `nil`), since some backends distinguish `:outline` from
-      #   `"outline"`.
+      # @return [Hash] `{ library:, variant:, name: }`. `name` is always a
+      #   String. `library` is a String whenever the token names one explicitly
+      #   (`lib:name`) or a `default_library:` is supplied; it stays `nil` when
+      #   the token omits a library and no default was given. `variant` keeps
+      #   the resolved type (or `nil`), since some backends distinguish
+      #   `:outline` from `"outline"`.
       #
       def parse(token, default_library: nil, default_variant: nil)
         before_variant, _slash, variant_part = token.to_s.partition("/")

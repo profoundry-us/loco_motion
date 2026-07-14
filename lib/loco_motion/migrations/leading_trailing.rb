@@ -37,8 +37,10 @@ module LocoMotion
         daisy_navbar daisy_modal with_event
       ].freeze
 
+      # Matches a call to any of the helpers above.
       HELPER_CALL = /\b(?:#{HELPERS.join('|')})\b/
 
+      # Maps each removed option/slot name to its replacement.
       RENAMES = { "start" => "leading", "end" => "trailing" }.freeze
 
       # `start:` / `end:` (plus the Modal's `_actions` pair and the generated
@@ -70,15 +72,18 @@ module LocoMotion
         @leftovers = []
       end
 
+      #
       # @return [Array<Hash>] One entry per rewritten line:
       #   `{ file:, line:, before:, after: }` (line numbers are 1-based and
       #   files are relative to root).
       attr_reader :changes
 
+      #
       # @return [Array<Hash>] Occurrences that were left untouched for manual
       #   review: `{ file:, line:, text:, reason: }`.
       attr_reader :leftovers
 
+      #
       # @return [Boolean] Whether {#run} writes files or only reports.
       def apply?
         @apply

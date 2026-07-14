@@ -4,8 +4,8 @@ module LocoMotion
   module Icons
     #
     # Syncs icon libraries into a target directory (a host application's
-    # `app/assets/svg/icons` by default) using the `icons` gem. Backs both the
-    # `loco_motion:install` generator and the `loco_motion:icons:add` rake task.
+    # `app/assets/svg/icons` by default) using the `icons` gem. Backs the
+    # install generator and the icons rake tasks (`:add`, `:cache`, `:sync`).
     #
     # The sync clones each library from its upstream repository (git is required
     # at install time only); the resulting SVGs are then committed to the host
@@ -40,7 +40,8 @@ module LocoMotion
           ::Icons::Sync.new(library).now
         end
 
-        # The icons gem clones into a `tmp/icons` working directory; clean it up.
+        # The icons gem clones into a `tmp/icons` working directory; clean it
+        # up.
         ::FileUtils.rm_rf("tmp/icons")
 
         names

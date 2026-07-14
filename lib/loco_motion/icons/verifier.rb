@@ -16,6 +16,7 @@ module LocoMotion
     # `nil` variant (flat library) collapsing to `<library>/<name>.svg`.
     #
     class Verifier
+      # See {#verify}: `verified` count and the `missing` references.
       Result = ::Struct.new(:verified, :missing, keyword_init: true)
 
       #
