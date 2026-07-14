@@ -3,14 +3,14 @@
 module Daisy
   module Navigation
     #
-    # Creates a tabbed navigation component that can be used either as links or radio
-    # buttons with associated content.
+    # Creates a tabbed navigation component that can be used either as links or
+    # radio buttons with associated content.
     #
-    # @note When using radio button tabs, the titles must be simple strings and cannot
-    #   contain HTML elements or icons.
+    # @note When using radio button tabs, the titles must be simple strings and
+    #   cannot contain HTML elements or icons.
     #
-    # @slot tabs+ {Daisy::Navigation::TabsComponent::TabComponent} The individual
-    #   tabs to display.
+    # @slot tabs+ [Daisy::Navigation::TabsComponent::TabComponent] The
+    #   individual tabs to display.
     #
     # @loco_example Basic tabs with links
     #   = daisy_tabs(css: "tabs-border") do |tabs|
@@ -40,23 +40,25 @@ module Daisy
     #     - tabs.with_tab(title: "Extra Large Tab", active: true)
     #     - tabs.with_tab(title: "Another Tab")
     #
-    # @loco_example Tabs with different sizes
+    # @loco_example Large tabs
     #   = daisy_tabs(css: "tabs-border tabs-lg") do |tabs|
     #     - tabs.with_tab(title: "Large Tab", active: true)
     #     - tabs.with_tab(title: "Another Tab")
     #
     class TabsComponent < LocoMotion::BaseComponent
       #
-      # A tab within a TabsComponent that can be either a link or a radio button.
+      # A tab within a TabsComponent that can be either a link or a radio
+      # button.
       #
       # @part content_wrapper The wrapper for the tab's content when not using
       #   custom content.
       #
-      # @slot title The title content for the tab. Only used if no `title` option
-      #   is provided.
+      # @slot title The title content for the tab. Only used if no `title`
+      #   option is provided.
       #
-      # @slot custom_content Custom content to be rendered after the tab. Use this
-      #   instead of the block content for complete control over the content's HTML.
+      # @slot custom_content Custom content to be rendered after the tab. Use
+      #   this instead of the block content for complete control over the
+      #   content's HTML.
       #
       # @loco_example Basic tab with title
       #   = tabs.with_tab(title: "Home")
@@ -93,17 +95,27 @@ module Daisy
         #
         # @option kws title [String] The text to display in the tab.
         #
-        # @option kws active [Boolean] Whether this tab is active (default: false).
+        # @option kws active [Boolean] Whether this tab is active
+        #   (default: false).
         #
-        # @option kws checked [Boolean] Whether this tab is checked (default: false).
+        # @option kws checked [Boolean] Whether this tab is checked
+        #   (default: false).
         #
-        # @option kws disabled [Boolean] Whether this tab is disabled (default: false).
+        # @option kws disabled [Boolean] Whether this tab is disabled
+        #   (default: false).
         #
         # @option kws href [String] The URL to visit when the tab is clicked.
         #
-        # @option kws target [String] The target attribute for the tab (e.g., "_blank").
+        # @option kws target [String] The target attribute for the tab (e.g.,
+        #   "_blank").
         #
-        # @option kws value [String] The value attribute when using radio buttons.
+        # @option kws value [String] The value attribute when using radio
+        #   buttons.
+        #
+        # @option kws name [String] The radio input's `name` attribute, used
+        #   to group tabs together when using radio buttons. Defaults to the
+        #   parent {TabsComponent}'s `name`; override to remove a tab from its
+        #   group.
         #
         # @option kws css [String] Additional CSS classes for styling. Common
         #   options include:
@@ -196,13 +208,14 @@ module Daisy
       # @option kws name [String] The name attribute for radio button tabs
       #   (default: auto-generated UUID).
       #
-      # @option kws radio [Boolean] Whether to use radio buttons instead of links
-      #   (default: false).
+      # @option kws radio [Boolean] Whether to use radio buttons instead of
+      #   links (default: false).
       #
       # @option kws css [String] Additional CSS classes for styling. Common
       #   options include:
       #   - Style: `tabs-border`, `tabs-lift`
-      #   - Size: `tabs-xl`, `tabs-lg`, `tabs-md` (default), `tabs-sm`, `tabs-xs`
+      #   - Size: `tabs-xl`, `tabs-lg`, `tabs-md` (default), `tabs-sm`,
+      #     `tabs-xs`
       #   - Width: `w-full`, `w-[500px]`
       #
       def initialize(*args, **kws, &block)

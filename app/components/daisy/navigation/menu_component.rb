@@ -70,12 +70,14 @@ module Daisy
     end
 
     #
-    # Creates a menu component for displaying a list of items, optionally with group titles.
+    # Creates a menu component for displaying a list of items, optionally with
+    # group titles.
     #
-    # @note Vertical menus no longer have a default width. Use `w-full` or other width
-    #   classes if you want to control the width.
+    # @note Vertical menus no longer have a default width. Use `w-full` or
+    #   other width classes if you want to control the width.
     #
-    # @slot items+ {Daisy::Navigation::MenuItemComponent} The menu items to display.
+    # @slot items+ [Daisy::Navigation::MenuItemComponent] The menu items to
+    #   display.
     #
     # @loco_example Basic menu with items
     #   = daisy_menu do |menu|

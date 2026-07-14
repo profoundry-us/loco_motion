@@ -60,14 +60,15 @@ module Daisy
     end
 
     #
-    # Creates a component for displaying a series of steps that users can follow to
-    # complete a task. Useful for onboarding, form completion, and progress tracking.
+    # Creates a component for displaying a series of steps that users can follow
+    # to complete a task. Useful for onboarding, form completion, and progress
+    # tracking.
     #
-    # @note Steps are automatically numbered and connected with lines. You can use
-    #   colors to indicate progress through the steps.
+    # @note Steps are automatically numbered and connected with lines. You can
+    #   use colors to indicate progress through the steps.
     #
-    # @slot steps+ {Daisy::Navigation::StepsComponent::StepComponent} The individual
-    #   steps to display.
+    # @slot steps+ [Daisy::Navigation::StepComponent] The individual steps to
+    #   display.
     #
     # @loco_example Basic steps with progress
     #   = daisy_steps do |steps|

@@ -6,19 +6,19 @@ module Daisy
     # Creates a navigation bar component typically used at the top of a page to
     # organize navigation links and branding elements.
     #
-    # In addition to the named `leading`, `center`, and `trailing` slots, you can
-    # pass custom content directly inside the component's block. This is useful
-    # for simple navbars that don't need the three-section layout, or for adding
-    # extra elements alongside the named slots.
+    # In addition to the named `leading`, `center`, and `trailing` slots, you
+    # can pass custom content directly inside the component's block. This is
+    # useful for simple navbars that don't need the three-section layout, or for
+    # adding extra elements alongside the named slots.
     #
-    # @slot leading {LocoMotion::BasicComponent} The left section of the navbar.
+    # @slot leading [LocoMotion::BasicComponent] The left section of the navbar.
     #   Automatically gets the `navbar-start` CSS class.
     #
-    # @slot center {LocoMotion::BasicComponent} The center section of the navbar.
-    #   Automatically gets the `navbar-center` CSS class.
+    # @slot center [LocoMotion::BasicComponent] The center section of the
+    #   navbar. Automatically gets the `navbar-center` CSS class.
     #
-    # @slot trailing {LocoMotion::BasicComponent} The right section of the navbar.
-    #   Automatically gets the `navbar-end` CSS class.
+    # @slot trailing [LocoMotion::BasicComponent] The right section of the
+    #   navbar. Automatically gets the `navbar-end` CSS class.
     #
     # @loco_example Basic navbar with logo and GitHub link
     #   = daisy_navbar(css: "bg-base-100") do |navbar|
