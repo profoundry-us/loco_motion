@@ -147,6 +147,8 @@ module LocoMotion
     # `names: %w[input text_input]` above) so a component can be reached by
     # multiple aliases.
     COMPONENTS.each do |component, helper|
+      next if helper[:names].nil?
+
       framework = component.split("::").first.underscore
 
       method_names = [helper[:names]].flatten
