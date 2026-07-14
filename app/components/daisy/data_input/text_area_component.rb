@@ -1,47 +1,47 @@
 # frozen_string_literal: true
 
-#
-# The TextArea component renders a DaisyUI styled textarea field.
-# It can be used standalone or with a form builder, and supports
-# various styling options and states.
-#
-# @note Text areas have a border by default. Use `textarea-ghost` to remove the
-#   border.
-#
-# @part component The main textarea element that users can type into.
-#
-# @loco_example Basic Usage
-#   = daisy_text_area(name: "message", id: "message")
-#
-# @loco_example With Placeholder
-#   = daisy_text_area(name: "message", placeholder: "Enter your message here...")
-#
-# @loco_example With Initial Value
-#   = daisy_text_area(name: "message", value: "Initial text content")
-#
-# @loco_example With Specified Rows
-#   = daisy_text_area(name: "message", rows: 6)
-#
-# @loco_example Borderless Style
-#   = daisy_text_area(name: "message", css: "textarea-ghost")
-#
-# @loco_example Different Colors
-#   .flex.flex-col.gap-4
-#     = daisy_text_area(name: "primary", placeholder: "Primary", css: "textarea-primary")
-#     = daisy_text_area(name: "secondary", placeholder: "Secondary", css: "textarea-secondary")
-#     = daisy_text_area(name: "accent", placeholder: "Accent", css: "textarea-accent")
-#
-# @loco_example Disabled TextArea
-#   = daisy_text_area(name: "message", disabled: true)
-#
-# @loco_example Required TextArea
-#   = daisy_text_area(name: "message", required: true)
-#
-# @loco_example Readonly TextArea
-#   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
-#
 module Daisy
   module DataInput
+    #
+    # The TextArea component renders a DaisyUI styled textarea field.
+    # It can be used standalone or with a form builder, and supports
+    # various styling options and states.
+    #
+    # @note Text areas have a border by default. Use `textarea-ghost` to remove the
+    #   border.
+    #
+    # @part component The main textarea element that users can type into.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_text_area(name: "message", id: "message")
+    #
+    # @loco_example With Placeholder
+    #   = daisy_text_area(name: "message", placeholder: "Enter your message here...")
+    #
+    # @loco_example With Initial Value
+    #   = daisy_text_area(name: "message", value: "Initial text content")
+    #
+    # @loco_example With Specified Rows
+    #   = daisy_text_area(name: "message", rows: 6)
+    #
+    # @loco_example Borderless Style
+    #   = daisy_text_area(name: "message", css: "textarea-ghost")
+    #
+    # @loco_example Different Colors
+    #   .flex.flex-col.gap-4
+    #     = daisy_text_area(name: "primary", placeholder: "Primary", css: "textarea-primary")
+    #     = daisy_text_area(name: "secondary", placeholder: "Secondary", css: "textarea-secondary")
+    #     = daisy_text_area(name: "accent", placeholder: "Accent", css: "textarea-accent")
+    #
+    # @loco_example Disabled TextArea
+    #   = daisy_text_area(name: "message", disabled: true)
+    #
+    # @loco_example Required TextArea
+    #   = daisy_text_area(name: "message", required: true)
+    #
+    # @loco_example Readonly TextArea
+    #   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
+    #
     class TextAreaComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::AriableComponent
 

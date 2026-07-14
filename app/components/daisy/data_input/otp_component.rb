@@ -1,43 +1,43 @@
 # frozen_string_literal: true
 
-#
-# The OTP component renders a DaisyUI styled input for one-time passwords —
-# the 4-6 digit verification codes used in two-factor authentication and
-# passwordless login flows. It draws one character box per digit while backing
-# them with a single `<input>`, so the value submits like any other form
-# field and no JavaScript is required.
-#
-# The wrapper is a `<label>`, so clicking anywhere on the boxes focuses the
-# underlying input. The input is rendered with `inputmode="numeric"` (mobile
-# numeric keypad), `autocomplete="one-time-code"` (OS auto-fill from SMS), and
-# a `maxlength` / `pattern` matching the digit count.
-#
-# @note DaisyUI sizes the boxes for up to 8 digits, so `length` must be
-#   between 1 and 8.
-#
-# @part digit The `<span>` character boxes; one is rendered per digit. Style
-#   them all via `digit_css`.
-# @part input The single underlying `<input>` element.
-#
-# @loco_example Basic Usage
-#   = daisy_otp(name: "verification_code")
-#
-# @loco_example 6-Digit Code
-#   = daisy_otp(name: "verification_code", length: 6)
-#
-# @loco_example Joined Boxes
-#   = daisy_otp(name: "pin", css: "otp-joined")
-#
-# @loco_example Colors & Sizes
-#   = daisy_otp(name: "code", css: "otp-primary otp-lg")
-#
-# @loco_example Required in a Form
-#   = daisy_fieldset do |fieldset|
-#     - fieldset.with_legend { "Enter Verification Code" }
-#     = daisy_otp(name: "otp_code", length: 6, required: true)
-#
 module Daisy
   module DataInput
+    #
+    # The OTP component renders a DaisyUI styled input for one-time passwords —
+    # the 4-6 digit verification codes used in two-factor authentication and
+    # passwordless login flows. It draws one character box per digit while backing
+    # them with a single `<input>`, so the value submits like any other form
+    # field and no JavaScript is required.
+    #
+    # The wrapper is a `<label>`, so clicking anywhere on the boxes focuses the
+    # underlying input. The input is rendered with `inputmode="numeric"` (mobile
+    # numeric keypad), `autocomplete="one-time-code"` (OS auto-fill from SMS), and
+    # a `maxlength` / `pattern` matching the digit count.
+    #
+    # @note DaisyUI sizes the boxes for up to 8 digits, so `length` must be
+    #   between 1 and 8.
+    #
+    # @part digit The `<span>` character boxes; one is rendered per digit. Style
+    #   them all via `digit_css`.
+    # @part input The single underlying `<input>` element.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_otp(name: "verification_code")
+    #
+    # @loco_example 6-Digit Code
+    #   = daisy_otp(name: "verification_code", length: 6)
+    #
+    # @loco_example Joined Boxes
+    #   = daisy_otp(name: "pin", css: "otp-joined")
+    #
+    # @loco_example Colors & Sizes
+    #   = daisy_otp(name: "code", css: "otp-primary otp-lg")
+    #
+    # @loco_example Required in a Form
+    #   = daisy_fieldset do |fieldset|
+    #     - fieldset.with_legend { "Enter Verification Code" }
+    #     = daisy_otp(name: "otp_code", length: 6, required: true)
+    #
     class OtpComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::AriableComponent
 

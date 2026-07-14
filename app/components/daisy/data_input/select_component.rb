@@ -1,47 +1,47 @@
 # frozen_string_literal: true
 
-#
-# The Select component provides a styled dropdown select input for forms.
-# It supports various styling options, including sizes, colors, and variants.
-# Additionally, it supports labelable functionality with leading, trailing,
-# and floating labels.
-#
-# @note Select inputs have a border by default and a width of 20rem. Use
-#   `select-ghost` to remove the border.
-#
-# @part placeholder The placeholder option element that is shown when no option
-#   is selected.
-# @part label_wrapper The wrapper element for labels (when using
-#   leading/trailing/floating labels).
-# @part leading The element that contains the leading label (appears before
-#   the select).
-# @part trailing The element that contains the trailing label (appears after
-#   the select).
-# @part floating The element that contains the floating label (appears floating
-#   above the select).
-#
-# @slot options+ Custom options to be rendered in the select.
-# @slot leading Custom content for the leading label.
-# @slot trailing Custom content for the trailing label.
-# @slot floating Custom content for the floating label.
-#
-# @loco_example Using simple strings for options
-#   = daisy_select(name: "size", css: "select-sm", options: ["Small", "Medium", "Large"])
-#
-# @loco_example Using a block to define options
-#   = daisy_select(name: "color", css: "select-primary") do |select|
-#     - select.with_option(value: "red", label: "Red")
-#     - select.with_option(value: "green", label: "Green")
-#     - select.with_option(value: "blue", label: "Blue")
-#
-# @loco_example With a leading label
-#   = daisy_select(name: "color", leading: "Select a color", options: ["Red", "Green", "Blue"])
-#
-# @loco_example With a floating label
-#   = daisy_select(name: "color", floating: "Color", options: ["Red", "Green", "Blue"])
-#
 module Daisy
   module DataInput
+    #
+    # The Select component provides a styled dropdown select input for forms.
+    # It supports various styling options, including sizes, colors, and variants.
+    # Additionally, it supports labelable functionality with leading, trailing,
+    # and floating labels.
+    #
+    # @note Select inputs have a border by default and a width of 20rem. Use
+    #   `select-ghost` to remove the border.
+    #
+    # @part placeholder The placeholder option element that is shown when no option
+    #   is selected.
+    # @part label_wrapper The wrapper element for labels (when using
+    #   leading/trailing/floating labels).
+    # @part leading The element that contains the leading label (appears before
+    #   the select).
+    # @part trailing The element that contains the trailing label (appears after
+    #   the select).
+    # @part floating The element that contains the floating label (appears floating
+    #   above the select).
+    #
+    # @slot options+ Custom options to be rendered in the select.
+    # @slot leading Custom content for the leading label.
+    # @slot trailing Custom content for the trailing label.
+    # @slot floating Custom content for the floating label.
+    #
+    # @loco_example Using simple strings for options
+    #   = daisy_select(name: "size", css: "select-sm", options: ["Small", "Medium", "Large"])
+    #
+    # @loco_example Using a block to define options
+    #   = daisy_select(name: "color", css: "select-primary") do |select|
+    #     - select.with_option(value: "red", label: "Red")
+    #     - select.with_option(value: "green", label: "Green")
+    #     - select.with_option(value: "blue", label: "Blue")
+    #
+    # @loco_example With a leading label
+    #   = daisy_select(name: "color", leading: "Select a color", options: ["Red", "Green", "Blue"])
+    #
+    # @loco_example With a floating label
+    #   = daisy_select(name: "color", floating: "Color", options: ["Red", "Green", "Blue"])
+    #
     class SelectComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent

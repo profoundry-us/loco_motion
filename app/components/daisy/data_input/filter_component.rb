@@ -1,41 +1,41 @@
 # frozen_string_literal: true
 
-#
-# The Filter component is a group of radio buttons where choosing one option
-# hides the others and shows a reset button.
-#
-# @loco_example Basic Usage
-#   = daisy_filter(name: "frameworks", options: ["Svelte", "Vue", "React"])
-#
-# @loco_example Using Hash Options
-#   = daisy_filter(name: "languages", options: [
-#     { label: "Ruby", value: "ruby" },
-#     { label: "JavaScript", value: "js" },
-#     { label: "Python", value: "py" }
-#   ])
-#
-# @loco_example Custom Styling
-#   = daisy_filter(name: "priorities", css: "items-center") do |f|
-#     - f.with_reset_button(css: "btn-accent btn-sm rounded-full")
-#     - f.with_option(label: "Low", css: "btn-outline btn-success")
-#     - f.with_option(label: "Medium", css: "btn-outline btn-warning")
-#     - f.with_option(label: "High", css: "btn-outline btn-error")
-#
-# @loco_example Within Form Builder
-#   = form_with(model: @post) do |form|
-#     = form.daisy_filter(:category, options: ["News", "Tech", "Sports"])
-#     = form.submit "Save", class: "btn btn-primary mt-4"
-#
-# @loco_example Form Builder With Block
-#   = form_with(model: @user) do |form|
-#     = form.daisy_filter(:role) do |f|
-#       - f.with_option(label: "Admin", value: "admin")
-#       - f.with_option(label: "Editor", value: "editor")
-#       - f.with_option(label: "Viewer", value: "viewer")
-#     = form.submit "Update", class: "btn btn-primary mt-4"
-#
 module Daisy
   module DataInput
+    #
+    # The Filter component is a group of radio buttons where choosing one option
+    # hides the others and shows a reset button.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_filter(name: "frameworks", options: ["Svelte", "Vue", "React"])
+    #
+    # @loco_example Using Hash Options
+    #   = daisy_filter(name: "languages", options: [
+    #     { label: "Ruby", value: "ruby" },
+    #     { label: "JavaScript", value: "js" },
+    #     { label: "Python", value: "py" }
+    #   ])
+    #
+    # @loco_example Custom Styling
+    #   = daisy_filter(name: "priorities", css: "items-center") do |f|
+    #     - f.with_reset_button(css: "btn-accent btn-sm rounded-full")
+    #     - f.with_option(label: "Low", css: "btn-outline btn-success")
+    #     - f.with_option(label: "Medium", css: "btn-outline btn-warning")
+    #     - f.with_option(label: "High", css: "btn-outline btn-error")
+    #
+    # @loco_example Within Form Builder
+    #   = form_with(model: @post) do |form|
+    #     = form.daisy_filter(:category, options: ["News", "Tech", "Sports"])
+    #     = form.submit "Save", class: "btn btn-primary mt-4"
+    #
+    # @loco_example Form Builder With Block
+    #   = form_with(model: @user) do |form|
+    #     = form.daisy_filter(:role) do |f|
+    #       - f.with_option(label: "Admin", value: "admin")
+    #       - f.with_option(label: "Editor", value: "editor")
+    #       - f.with_option(label: "Viewer", value: "viewer")
+    #     = form.submit "Update", class: "btn btn-primary mt-4"
+    #
     class FilterComponent < LocoMotion::BaseComponent
       class FilterOptionComponent < Daisy::DataInput::RadioButtonComponent
         #
