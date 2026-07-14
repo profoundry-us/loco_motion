@@ -29,6 +29,17 @@ module LocoMotion
       #
       # Initialize link-related options.
       #
+      # @option kws href [String] The URL to link to. When present, the
+      #   component's tag switches to `<a>` and this becomes its `href`
+      #   attribute; when absent, the component renders as normal and none
+      #   of this concern's other options have any effect.
+      #
+      # @option kws target [String] The HTML `target` attribute for the
+      #   `<a>` tag (e.g. `"_blank"`). Only applied when `href` is present.
+      #
+      # @option kws title [String] The HTML `title` attribute for the
+      #   `<a>` tag. Only applied when `href` is present.
+      #
       def _initialize_linkable_component
         @href = config_option(:href)
         @target = config_option(:target)
