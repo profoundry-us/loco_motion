@@ -3,7 +3,8 @@
 module Daisy
   module Mockup
     #
-    # The BrowserComponent creates a realistic browser window mockup, perfect for:
+    # The BrowserComponent creates a realistic browser window mockup,
+    # perfect for:
     # - Showcasing web applications.
     # - Creating website previews.
     # - Demonstrating responsive designs.
