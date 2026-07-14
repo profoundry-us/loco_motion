@@ -20,19 +20,23 @@ module Daisy
     #   corners. Join buttons with the `with_button` slot or direct content
     #   instead, and reserve `with_item` for plain / custom content.
     #
-    # @slot item+ [LocoMotion::BaseComponent] The elements to be joined together.
-    #   The `join-item` CSS class is added automatically. Because the slot wraps
-    #   its content in a `<div>`, use it only for non-bordered content — buttons
-    #   and inputs should use `with_button` or direct content so DaisyUI's corner
-    #   rounding lands on the visible control.
+    # @note `items`, `buttons`, `radios`, and block content are mutually
+    #   exclusive — only the first populated one (in that order) renders, so
+    #   mixing slot types on the same `daisy_join` silently drops the rest.
     #
-    # @slot button+ [Daisy::Actions::ButtonComponent] Buttons to be joined together.
-    #   The `join-item` CSS class is added automatically.
+    # @slot item+ [LocoMotion::BasicComponent] The elements to be joined
+    #   together. The `join-item` CSS class is added automatically. Because the
+    #   slot wraps its content in a `<div>`, use it only for non-bordered
+    #   content — buttons and inputs should use `with_button` or direct content
+    #   so DaisyUI's corner rounding lands on the visible control.
     #
-    # @slot radio+ [Daisy::DataInput::RadioButtonComponent] Radio buttons to be joined
-    #   together. Each radio will have the `skip_styling` option set to true to prevent
-    #   the automatic `radio` class from being added, and the `join-item` and `btn`
-    #   classes are added automatically.
+    # @slot button+ [Daisy::Actions::ButtonComponent] Buttons to be joined
+    #   together. The `join-item` CSS class is added automatically.
+    #
+    # @slot radio+ [Daisy::DataInput::RadioButtonComponent] Radio buttons to be
+    #   joined together. Each radio will have the `skip_styling` option set to
+    #   true to prevent the automatic `radio` class from being added, and the
+    #   `join-item` and `btn` classes are added automatically.
     #
     # @loco_example Basic Button Group (with with_button)
     #   = daisy_join do |join|
@@ -101,7 +105,8 @@ module Daisy
       end
 
       #
-      # Renders all joined items, buttons, or radios in sequence, or renders content if none are provided.
+      # Renders all joined items, buttons, or radios in sequence, or renders
+      # content if none are provided.
       #
       def call
         part(:component) do

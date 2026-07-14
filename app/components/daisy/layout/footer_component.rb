@@ -50,7 +50,8 @@ module Daisy
       #   - Background: `bg-neutral`, `bg-base-200`
       #   - Text color: `text-neutral-content`, `text-base-content`
       #   - Spacing: `p-4`, `p-10`
-      #   - Layout: `text-center`, `footer-horizontal` (or `lg:footer-horizontal` for large screens)
+      #   - Layout: `text-center`, `footer-horizontal` (or
+      #     `lg:footer-horizontal` for large screens)
       #
       def initialize(*args, **kws, &block)
         super
