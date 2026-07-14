@@ -43,8 +43,8 @@ module Daisy
       # @option kws css [String] Additional CSS classes for styling. By default,
       #   toasts are positioned in the bottom-right corner of the viewport.
       #   Common options include:
-      #   - Position modifiers: `toast-top`, `toast-bottom`, `toast-center`,
-      #     `toast-start`, `toast-end`
+      #   - Position modifiers: `toast-top`, `toast-middle`, `toast-bottom`,
+      #     `toast-start`, `toast-center`, `toast-end`
       #   - Stack order: `z-50`
       #
       def initialize(*args, **kws, &block)
