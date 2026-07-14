@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(All Components): Fix every component's class-level YARD comment attaching to the shared `Daisy`
+  module instead of its own `class` line — comments sat directly above `module Daisy` rather than the
+  `class` declaration several lines below, so YARD bound each docstring to the wrong object and every
+  component rendered with empty generated docs. Relocated ~70 components' class comments to sit directly
+  above their `class` line (split across 4 PRs by component group), added a minimal `initialize` to the
+  dozen-plus components whose constructor docs had nothing to attach to, and flattened a handful of nested
+  sub-components' redundant module-reopening, which was also silently registering them at the wrong,
+  unreferenceable constant path. No documentation wording changed.
+
 - fix(Accordion/Collapse): Render the custom `with_title` slot inside the `collapse-title` part. The slot
   previously rendered bare — replacing the wrapper instead of filling it — so custom-titled sections lost
   the DaisyUI collapse layout: unstyled title text, no arrow/plus indicator, and the content area merged
