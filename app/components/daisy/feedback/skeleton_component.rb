@@ -1,41 +1,41 @@
 # frozen_string_literal: true
 
-#
-# The SkeletonComponent creates loading placeholder elements that mimic the
-# shape and size of content that is being loaded. This provides users with a
-# visual indication of the content's layout before it arrives, reducing
-# perceived loading times and improving user experience.
-#
-# Skeletons can be used in two ways:
-# 1. As standalone shapes with custom dimensions.
-# 2. As a modifier class on existing components to create component-specific
-#    loading states.
-#
-# @loco_example Basic Shapes
-#   = daisy_skeleton(css: "size-24 rounded-full")
-#   = daisy_skeleton(css: "w-36 h-20")
-#   = daisy_skeleton(css: "w-48 h-5")
-#
-# @loco_example Skeleton Text
-#   %span.skeleton.skeleton-text.text-2xl.font-bold AI is thinking...
-#   %span.skeleton.skeleton-text.text-base Loading your content...
-#
-# @loco_example Component Loading States
-#   = daisy_badge(css: "badge-lg skeleton text-transparent") do
-#     Loading...
-#
-#   = daisy_button(css: "skeleton text-transparent") do
-#     Loading...
-#
-#   = daisy_alert(css: "skeleton")
-#
-#   = daisy_chat do |chat|
-#     - chat.with_avatar(wrapper_css: "skeleton")
-#     - chat.with_bubble(css: "skeleton text-transparent") do
-#       Loading...
-#
 module Daisy
   module Feedback
+    #
+    # The SkeletonComponent creates loading placeholder elements that mimic the
+    # shape and size of content that is being loaded. This provides users with a
+    # visual indication of the content's layout before it arrives, reducing
+    # perceived loading times and improving user experience.
+    #
+    # Skeletons can be used in two ways:
+    # 1. As standalone shapes with custom dimensions.
+    # 2. As a modifier class on existing components to create component-specific
+    #    loading states.
+    #
+    # @loco_example Basic Shapes
+    #   = daisy_skeleton(css: "size-24 rounded-full")
+    #   = daisy_skeleton(css: "w-36 h-20")
+    #   = daisy_skeleton(css: "w-48 h-5")
+    #
+    # @loco_example Skeleton Text
+    #   %span.skeleton.skeleton-text.text-2xl.font-bold AI is thinking...
+    #   %span.skeleton.skeleton-text.text-base Loading your content...
+    #
+    # @loco_example Component Loading States
+    #   = daisy_badge(css: "badge-lg skeleton text-transparent") do
+    #     Loading...
+    #
+    #   = daisy_button(css: "skeleton text-transparent") do
+    #     Loading...
+    #
+    #   = daisy_alert(css: "skeleton")
+    #
+    #   = daisy_chat do |chat|
+    #     - chat.with_avatar(wrapper_css: "skeleton")
+    #     - chat.with_bubble(css: "skeleton text-transparent") do
+    #       Loading...
+    #
     class SkeletonComponent < LocoMotion::BaseComponent
       #
       # Creates a new Skeleton component.
@@ -53,6 +53,10 @@ module Daisy
       #   When using with other components, combine with `text-transparent`
       #   to hide placeholder text.
       #
+      def initialize(*args, **kws, &block)
+        super
+      end
+
       def before_render
         add_css(:component, "skeleton")
       end

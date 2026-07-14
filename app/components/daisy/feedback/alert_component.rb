@@ -1,139 +1,139 @@
 # frozen_string_literal: true
 
-#
-# The AlertComponent displays an important message to users. It can be used to
-# show information, success messages, warnings, or errors. Alerts can include
-# an optional icon at the start and customizable content.
-#
-# @part icon             [String] An optional icon displayed at the start of
-#   the alert. Rendered via the `loco_icon` engine.
-#
-# @part content_wrapper  [HTML] A wrapper for the main content of the alert.
-#   This allows for proper spacing and alignment with the icon.
-#
-# @part close            [Button] A close button that appears when closable is true.
-#
-# @option kws [String] :style (:default) The style of the alert.
-#   [:info, :success, :warning, :error, :default]
-# @option kws [Boolean] :soft (false) Use the soft style variant.
-# @option kws [Boolean] :outline (false) Use the outline style variant.
-# @option kws [Boolean] :dash (false) Use the dash style variant.
-# @option kws [Integer] :timeout (nil) Auto-dismiss timeout in milliseconds.
-#   If nil, uses global configuration default. If false, no auto-dismiss.
-# @option kws [Boolean] :autoclose (false) Enable auto-dismiss using timeout.
-#   Must be true for auto-dismiss to work.
-# @option kws [String] :href (nil) Converts alert to a clickable link.
-# @option kws [String] :action (nil) Stimulus action to fire on click.
-# @option kws [Boolean] :closable (false) Show close button. Set to true to enable
-#   manual dismissal.
-#
-# @loco_example Basic Alert
-#   = daisy_alert do
-#     This is a standard alert message.
-#
-# @loco_example Alert with Icon
-#   = daisy_alert(icon: "information-circle") do
-#     Here's some important information!
-#
-# @loco_example Alert Types
-#   = daisy_alert(icon: "information-circle", css: "alert-info") do
-#     Information alert.
-#
-#   = daisy_alert(icon: "check-circle", css: "alert-success") do
-#     Success alert.
-#
-#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning") do
-#     Warning alert.
-#
-#   = daisy_alert(icon: "exclamation-circle", css: "alert-error") do
-#     Error alert.
-#
-# @loco_example Default
-#   = daisy_alert do
-#     This is an default alert.
-#
-# @loco_example Info
-#   = daisy_alert(css: "alert-info") do
-#     This is an info alert.
-#
-# @loco_example Success
-#   = daisy_alert(css: "alert-success") do
-#     This is a success alert.
-#
-# @loco_example Warning
-#   = daisy_alert(css: "alert-warning") do
-#     This is a warning alert.
-#
-# @loco_example Error
-#   = daisy_alert(css: "alert-error") do
-#     This is an error alert.
-#
-# @loco_example Soft Info
-#   = daisy_alert(css: "alert-info alert-soft") do
-#     This is a soft info alert.
-#
-# @loco_example Soft Success
-#   = daisy_alert(css: "alert-success alert-soft") do
-#     This is a soft success alert.
-#
-# @loco_example Soft Warning
-#   = daisy_alert(css: "alert-warning alert-soft") do
-#     This is a soft warning alert.
-#
-# @loco_example Soft Error
-#   = daisy_alert(css: "alert-error alert-soft") do
-#     This is a soft error alert.
-#
-# @loco_example Outline Info
-#   = daisy_alert(css: "alert-info alert-outline") do
-#     This is an outline info alert.
-#
-# @loco_example Outline Success
-#   = daisy_alert(css: "alert-success alert-outline") do
-#     This is an outline success alert.
-#
-# @loco_example Outline Warning
-#   = daisy_alert(css: "alert-warning alert-outline") do
-#     This is an outline warning alert.
-#
-# @loco_example Outline Error
-#   = daisy_alert(css: "alert-error alert-outline") do
-#     This is an outline error alert.
-#
-# @loco_example Dash Info
-#   = daisy_alert(css: "alert-info alert-dash") do
-#     This is a dash info alert.
-#
-# @loco_example Dash Success
-#   = daisy_alert(css: "alert-success alert-dash") do
-#     This is a dash success alert.
-#
-# @loco_example Dash Warning
-#   = daisy_alert(css: "alert-warning alert-dash") do
-#     This is a dash warning alert.
-#
-# @loco_example Dash Error
-#   = daisy_alert(css: "alert-error alert-dash") do
-#     This is a dash error alert.
-#
-# @loco_example Closable Alert
-#   = daisy_alert(icon: "information-circle", css: "alert-info", closable: true) do
-#     This alert can be closed manually.
-#
-# @loco_example Auto-dismissing Alert
-#   = daisy_alert(icon: "check-circle", css: "alert-success", autoclose: true, timeout: 3000) do
-#     This alert will auto-dismiss in 3 seconds.
-#
-# @loco_example Clickable Link Alert
-#   = daisy_alert(icon: "information-circle", css: "alert-info", href: "/docs") do
-#     Click to view documentation.
-#
-# @loco_example Stimulus Action Alert
-#   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", action: "click->my-controller#handle") do
-#     Click to trigger custom action.
-#
 module Daisy
   module Feedback
+    #
+    # The AlertComponent displays an important message to users. It can be used to
+    # show information, success messages, warnings, or errors. Alerts can include
+    # an optional icon at the start and customizable content.
+    #
+    # @part icon             [String] An optional icon displayed at the start of
+    #   the alert. Rendered via the `loco_icon` engine.
+    #
+    # @part content_wrapper  [HTML] A wrapper for the main content of the alert.
+    #   This allows for proper spacing and alignment with the icon.
+    #
+    # @part close            [Button] A close button that appears when closable is true.
+    #
+    # @option kws [String] :style (:default) The style of the alert.
+    #   [:info, :success, :warning, :error, :default]
+    # @option kws [Boolean] :soft (false) Use the soft style variant.
+    # @option kws [Boolean] :outline (false) Use the outline style variant.
+    # @option kws [Boolean] :dash (false) Use the dash style variant.
+    # @option kws [Integer] :timeout (nil) Auto-dismiss timeout in milliseconds.
+    #   If nil, uses global configuration default. If false, no auto-dismiss.
+    # @option kws [Boolean] :autoclose (false) Enable auto-dismiss using timeout.
+    #   Must be true for auto-dismiss to work.
+    # @option kws [String] :href (nil) Converts alert to a clickable link.
+    # @option kws [String] :action (nil) Stimulus action to fire on click.
+    # @option kws [Boolean] :closable (false) Show close button. Set to true to enable
+    #   manual dismissal.
+    #
+    # @loco_example Basic Alert
+    #   = daisy_alert do
+    #     This is a standard alert message.
+    #
+    # @loco_example Alert with Icon
+    #   = daisy_alert(icon: "information-circle") do
+    #     Here's some important information!
+    #
+    # @loco_example Alert Types
+    #   = daisy_alert(icon: "information-circle", css: "alert-info") do
+    #     Information alert.
+    #
+    #   = daisy_alert(icon: "check-circle", css: "alert-success") do
+    #     Success alert.
+    #
+    #   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning") do
+    #     Warning alert.
+    #
+    #   = daisy_alert(icon: "exclamation-circle", css: "alert-error") do
+    #     Error alert.
+    #
+    # @loco_example Default
+    #   = daisy_alert do
+    #     This is an default alert.
+    #
+    # @loco_example Info
+    #   = daisy_alert(css: "alert-info") do
+    #     This is an info alert.
+    #
+    # @loco_example Success
+    #   = daisy_alert(css: "alert-success") do
+    #     This is a success alert.
+    #
+    # @loco_example Warning
+    #   = daisy_alert(css: "alert-warning") do
+    #     This is a warning alert.
+    #
+    # @loco_example Error
+    #   = daisy_alert(css: "alert-error") do
+    #     This is an error alert.
+    #
+    # @loco_example Soft Info
+    #   = daisy_alert(css: "alert-info alert-soft") do
+    #     This is a soft info alert.
+    #
+    # @loco_example Soft Success
+    #   = daisy_alert(css: "alert-success alert-soft") do
+    #     This is a soft success alert.
+    #
+    # @loco_example Soft Warning
+    #   = daisy_alert(css: "alert-warning alert-soft") do
+    #     This is a soft warning alert.
+    #
+    # @loco_example Soft Error
+    #   = daisy_alert(css: "alert-error alert-soft") do
+    #     This is a soft error alert.
+    #
+    # @loco_example Outline Info
+    #   = daisy_alert(css: "alert-info alert-outline") do
+    #     This is an outline info alert.
+    #
+    # @loco_example Outline Success
+    #   = daisy_alert(css: "alert-success alert-outline") do
+    #     This is an outline success alert.
+    #
+    # @loco_example Outline Warning
+    #   = daisy_alert(css: "alert-warning alert-outline") do
+    #     This is an outline warning alert.
+    #
+    # @loco_example Outline Error
+    #   = daisy_alert(css: "alert-error alert-outline") do
+    #     This is an outline error alert.
+    #
+    # @loco_example Dash Info
+    #   = daisy_alert(css: "alert-info alert-dash") do
+    #     This is a dash info alert.
+    #
+    # @loco_example Dash Success
+    #   = daisy_alert(css: "alert-success alert-dash") do
+    #     This is a dash success alert.
+    #
+    # @loco_example Dash Warning
+    #   = daisy_alert(css: "alert-warning alert-dash") do
+    #     This is a dash warning alert.
+    #
+    # @loco_example Dash Error
+    #   = daisy_alert(css: "alert-error alert-dash") do
+    #     This is a dash error alert.
+    #
+    # @loco_example Closable Alert
+    #   = daisy_alert(icon: "information-circle", css: "alert-info", closable: true) do
+    #     This alert can be closed manually.
+    #
+    # @loco_example Auto-dismissing Alert
+    #   = daisy_alert(icon: "check-circle", css: "alert-success", autoclose: true, timeout: 3000) do
+    #     This alert will auto-dismiss in 3 seconds.
+    #
+    # @loco_example Clickable Link Alert
+    #   = daisy_alert(icon: "information-circle", css: "alert-info", href: "/docs") do
+    #     Click to view documentation.
+    #
+    # @loco_example Stimulus Action Alert
+    #   = daisy_alert(icon: "exclamation-triangle", css: "alert-warning", action: "click->my-controller#handle") do
+    #     Click to trigger custom action.
+    #
     class AlertComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::IconableComponent
       include LocoMotion::Concerns::LinkableComponent

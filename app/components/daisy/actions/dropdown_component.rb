@@ -1,75 +1,75 @@
 # frozen_string_literal: true
 
-#
-# The Dropdown component shows a Button, or any other component you wish, with a
-# hovering menu that opens on click (or hover). It provides a flexible way to
-# create dropdown menus with customizable triggers and content.
-#
-# Note that the dropdown uses slots for both the activator and menu items,
-# allowing for maximum flexibility in how the dropdown is triggered and what
-# content it displays.
-#
-# @part menu The default / styled menu rendered by the dropdown. Contains all
-#   menu items and provides the dropdown's positioning and animation.
-# @part menu_item The styles for every item in the dropdown. Provides consistent
-#   spacing and hover states.
-#
-# @slot button The button that triggers the dropdown. This is the default trigger
-#   and is styled automatically.
-# @slot activator A custom (i.e. non-button) activator for the dropdown.
-#   Automatically adds the `role="button"` and `tabindex="0"` attributes.
-# @slot item+ The items in the dropdown. Pass a block for fully custom content,
-#   or use the structured options (`label:`, `href:`, `selected:`) and the
-#   item's `leading` / `trailing` slots to build a selectable row.
-#
-# @loco_example Basic Usage
-#   = daisy_dropdown do |dropdown|
-#     - dropdown.with_button do
-#       Click me!
-#     - dropdown.with_item do
-#       Item 1
-#     - dropdown.with_item do
-#       Item 2
-#
-# @loco_example Custom Activator
-#   = daisy_dropdown do |dropdown|
-#     - dropdown.with_activator do
-#       = loco_icon("bars-3", css: "size-6")
-#     - dropdown.with_item do
-#       Menu Item 1
-#     - dropdown.with_item do
-#       Menu Item 2
-#
-# @loco_example Complex Items
-#   = daisy_dropdown do |dropdown|
-#     - dropdown.with_button do
-#       User Settings
-#     - dropdown.with_item do
-#       .flex.gap-2.items-center
-#         = loco_icon("user-circle")
-#         Profile
-#     - dropdown.with_item do
-#       .flex.gap-2.items-center
-#         = loco_icon("cog-6-tooth")
-#         Settings
-#     - dropdown.with_item do
-#       .flex.gap-2.items-center.text-error
-#         = loco_icon("arrow-right-on-rectangle")
-#         Logout
-#
-# @loco_example Selectable Items (leading / label / trailing / selected)
-#   = daisy_dropdown(title: "Sort by") do |dropdown|
-#     - dropdown.with_item(label: "Newest", href: "#", selected: true) do |item|
-#       - item.with_trailing do
-#         = loco_icon("check", css: "size-4")
-#     - dropdown.with_item(label: "Oldest", href: "#")
-#     - dropdown.with_item(href: "#") do |item|
-#       - item.with_leading do
-#         = loco_icon("star", css: "size-4")
-#       Favorites
-#
 module Daisy
   module Actions
+    #
+    # The Dropdown component shows a Button, or any other component you wish, with a
+    # hovering menu that opens on click (or hover). It provides a flexible way to
+    # create dropdown menus with customizable triggers and content.
+    #
+    # Note that the dropdown uses slots for both the activator and menu items,
+    # allowing for maximum flexibility in how the dropdown is triggered and what
+    # content it displays.
+    #
+    # @part menu The default / styled menu rendered by the dropdown. Contains all
+    #   menu items and provides the dropdown's positioning and animation.
+    # @part menu_item The styles for every item in the dropdown. Provides consistent
+    #   spacing and hover states.
+    #
+    # @slot button The button that triggers the dropdown. This is the default trigger
+    #   and is styled automatically.
+    # @slot activator A custom (i.e. non-button) activator for the dropdown.
+    #   Automatically adds the `role="button"` and `tabindex="0"` attributes.
+    # @slot item+ The items in the dropdown. Pass a block for fully custom content,
+    #   or use the structured options (`label:`, `href:`, `selected:`) and the
+    #   item's `leading` / `trailing` slots to build a selectable row.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_dropdown do |dropdown|
+    #     - dropdown.with_button do
+    #       Click me!
+    #     - dropdown.with_item do
+    #       Item 1
+    #     - dropdown.with_item do
+    #       Item 2
+    #
+    # @loco_example Custom Activator
+    #   = daisy_dropdown do |dropdown|
+    #     - dropdown.with_activator do
+    #       = loco_icon("bars-3", css: "size-6")
+    #     - dropdown.with_item do
+    #       Menu Item 1
+    #     - dropdown.with_item do
+    #       Menu Item 2
+    #
+    # @loco_example Complex Items
+    #   = daisy_dropdown do |dropdown|
+    #     - dropdown.with_button do
+    #       User Settings
+    #     - dropdown.with_item do
+    #       .flex.gap-2.items-center
+    #         = loco_icon("user-circle")
+    #         Profile
+    #     - dropdown.with_item do
+    #       .flex.gap-2.items-center
+    #         = loco_icon("cog-6-tooth")
+    #         Settings
+    #     - dropdown.with_item do
+    #       .flex.gap-2.items-center.text-error
+    #         = loco_icon("arrow-right-on-rectangle")
+    #         Logout
+    #
+    # @loco_example Selectable Items (leading / label / trailing / selected)
+    #   = daisy_dropdown(title: "Sort by") do |dropdown|
+    #     - dropdown.with_item(label: "Newest", href: "#", selected: true) do |item|
+    #       - item.with_trailing do
+    #         = loco_icon("check", css: "size-4")
+    #     - dropdown.with_item(label: "Oldest", href: "#")
+    #     - dropdown.with_item(href: "#") do |item|
+    #       - item.with_leading do
+    #         = loco_icon("star", css: "size-4")
+    #       Favorites
+    #
     class DropdownComponent < LocoMotion::BaseComponent
       include ViewComponent::SlotableDefault
 

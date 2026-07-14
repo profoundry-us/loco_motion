@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-#
-# The ProgressComponent displays a horizontal bar that indicates the completion
-# status of a process. It can show determinate progress with a specific value
-# or indeterminate progress with an animated bar.
-#
-# The component renders as an HTML `<progress>` element and supports various
-# colors and styles through CSS classes.
-#
-# @loco_example Basic Progress Bars
-#   = daisy_progress(value: 25)
-#   = daisy_progress(css: "progress-primary", value: 50)
-#   = daisy_progress(css: "progress-secondary", value: 75)
-#   = daisy_progress(css: "progress-accent", value: 100)
-#
-# @loco_example Indeterminate Progress Bars
-#   = daisy_progress(css: "progress-info")
-#   = daisy_progress(css: "progress-success ![animation-delay:250ms]")
-#   = daisy_progress(css: "progress-warning ![animation-delay:500ms]")
-#   = daisy_progress(css: "progress-error ![animation-delay:750ms]")
-#
 module Daisy
   module Feedback
+    #
+    # The ProgressComponent displays a horizontal bar that indicates the completion
+    # status of a process. It can show determinate progress with a specific value
+    # or indeterminate progress with an animated bar.
+    #
+    # The component renders as an HTML `<progress>` element and supports various
+    # colors and styles through CSS classes.
+    #
+    # @loco_example Basic Progress Bars
+    #   = daisy_progress(value: 25)
+    #   = daisy_progress(css: "progress-primary", value: 50)
+    #   = daisy_progress(css: "progress-secondary", value: 75)
+    #   = daisy_progress(css: "progress-accent", value: 100)
+    #
+    # @loco_example Indeterminate Progress Bars
+    #   = daisy_progress(css: "progress-info")
+    #   = daisy_progress(css: "progress-success ![animation-delay:250ms]")
+    #   = daisy_progress(css: "progress-warning ![animation-delay:500ms]")
+    #   = daisy_progress(css: "progress-error ![animation-delay:750ms]")
+    #
     class ProgressComponent < LocoMotion::BaseComponent
       #
       # Creates a new Progress component.

@@ -1,111 +1,111 @@
 # frozen_string_literal: true
 
-#
-# The Modal component renders a modal dialog that can be opened and closed. It
-# provides a structured way to display content that requires user attention or
-# interaction, such as forms, confirmations, or detailed information.
-#
-# Note that the modal uses the HTML `<dialog>` element and its native methods
-# (`showModal()` and `close()`). This provides better accessibility and keyboard
-# navigation compared to div-based modals.
-#
-# @note Register the `loco-modal` Stimulus controller (see the Install guide)
-#   to drive the dialog from JavaScript. It is attached to the `<dialog>`
-#   automatically but stays inert until registered, so basic modals keep
-#   working without it. The controller adds `loco-modal#open` and
-#   `loco-modal#close` actions and dispatches bubbling `loco-modal:open` /
-#   `loco-modal:close` events. Because the native `<dialog>` `close` event does
-#   not bubble, `loco-modal:close` fires for every close — the Escape key, the
-#   backdrop, a `<form method="dialog">` submit, or the `close` action.
-#
-# @part box The container for the modal content, providing padding and layout.
-# @part close_icon_wrapper The container for the close icon, positioned in the
-#   top-right corner.
-# @part close_icon The default close icon button.
-# @part backdrop The full-bleed backdrop element behind the open modal (also
-#   the click-outside catcher). Style the page behind the modal through
-#   `backdrop_css` — e.g. `backdrop_css: "backdrop-blur-sm"` for a
-#   frosted-glass effect.
-# @part title Container for the modal title, styled for prominence.
-# @part actions Container for all modal action buttons.
-# @part leading_actions Container for left-aligned action buttons.
-# @part trailing_actions Container for right-aligned action buttons.
-#
-# @slot activator A custom element that opens the modal. Automatically adds
-#   `role="button"` and a default `tabindex="0"` for accessibility; pass
-#   `html: { tabindex: -1 }` (etc.) to override either default.
-# @slot button The button that opens the modal. Defaults to a standard Daisy
-#   button with the modal's title.
-# @slot close_icon A custom close button to replace the default 'X' icon.
-# @slot title Custom title content, replacing the default text title.
-# @slot leading_actions Left-aligned buttons, typically for secondary actions
-#   like "Cancel".
-# @slot trailing_actions Right-aligned buttons, typically for primary actions
-#   like "Submit" or "Save".
-#
-# @loco_example Basic Modal
-#   = daisy_modal(title: "Simple Modal") do |modal|
-#     - modal.with_button(css: "btn-primary") { "Open Modal" }
-#     %p This is a basic modal with some content.
-#     - modal.with_trailing_actions do
-#       %form{ method: :dialog }
-#         = daisy_button { "Close" }
-#
-# @loco_example Form Modal
-#   = daisy_modal(title: "Edit Profile") do |modal|
-#     - modal.with_button { "Edit Profile" }
-#     = form_with(model: @user) do |f|
-#       .space-y-4
-#         = f.text_field :name, class: "input w-full"
-#         = f.email_field :email, class: "input w-full"
-#     - modal.with_leading_actions do
-#       %form{ method: :dialog }
-#         = daisy_button { "Cancel" }
-#     - modal.with_trailing_actions do
-#       = daisy_button(css: "btn-primary", type: "submit") { "Save Changes" }
-#
-# @loco_example Custom Activator
-#   = daisy_modal(title: "User Details") do |modal|
-#     - modal.with_activator do
-#       .flex.items-center.gap-2.cursor-pointer
-#         = loco_icon("user-circle")
-#         %span View Details
-#
-#     %dl.space-y-2
-#       %dt Name
-#       %dd John Doe
-#       %dt Email
-#       %dd john@example.com
-#
-#     - modal.with_trailing_actions do
-#       %form{ method: :dialog }
-#         = daisy_button { "Close" }
-#
-# @loco_example Blurred Backdrop
-#   -# Frost the page behind the modal with a stock Tailwind utility on the
-#   -# backdrop part. Note that Tailwind v4 has no bare `backdrop-blur` —
-#   -# always pick a size (`backdrop-blur-xs` ~4px, `-sm` ~8px, `-md` ~12px).
-#   = daisy_modal(title: "Blurred Backdrop", backdrop_css: "backdrop-blur-sm") do |modal|
-#     - modal.with_button(css: "btn-primary") { "Open Modal" }
-#     %p The page behind this modal is frosted; the modal box stays crisp.
-#
-# @loco_example Global Modal
-#   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
-#     %p This modal has no built-in trigger — open it from anywhere.
-#     - modal.with_trailing_actions do
-#       = daisy_button(action: "loco-modal#close") { "Close" }
-#
-#   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
-#
-# @loco_example Global Modal with a Turbo Frame
-#   -# One shared modal; each link streams its content into the frame, which
-#   -# opens the dialog on load. No per-row modals, no inline JavaScript.
-#   = daisy_modal(trigger: false, turbo_frame_id: "contact", dialog_id: "contact-modal")
-#
-#   = link_to "Edit Contact", edit_contact_path(1), data: { turbo_frame: "contact" }
-#
 module Daisy
   module Actions
+    #
+    # The Modal component renders a modal dialog that can be opened and closed. It
+    # provides a structured way to display content that requires user attention or
+    # interaction, such as forms, confirmations, or detailed information.
+    #
+    # Note that the modal uses the HTML `<dialog>` element and its native methods
+    # (`showModal()` and `close()`). This provides better accessibility and keyboard
+    # navigation compared to div-based modals.
+    #
+    # @note Register the `loco-modal` Stimulus controller (see the Install guide)
+    #   to drive the dialog from JavaScript. It is attached to the `<dialog>`
+    #   automatically but stays inert until registered, so basic modals keep
+    #   working without it. The controller adds `loco-modal#open` and
+    #   `loco-modal#close` actions and dispatches bubbling `loco-modal:open` /
+    #   `loco-modal:close` events. Because the native `<dialog>` `close` event does
+    #   not bubble, `loco-modal:close` fires for every close — the Escape key, the
+    #   backdrop, a `<form method="dialog">` submit, or the `close` action.
+    #
+    # @part box The container for the modal content, providing padding and layout.
+    # @part close_icon_wrapper The container for the close icon, positioned in the
+    #   top-right corner.
+    # @part close_icon The default close icon button.
+    # @part backdrop The full-bleed backdrop element behind the open modal (also
+    #   the click-outside catcher). Style the page behind the modal through
+    #   `backdrop_css` — e.g. `backdrop_css: "backdrop-blur-sm"` for a
+    #   frosted-glass effect.
+    # @part title Container for the modal title, styled for prominence.
+    # @part actions Container for all modal action buttons.
+    # @part leading_actions Container for left-aligned action buttons.
+    # @part trailing_actions Container for right-aligned action buttons.
+    #
+    # @slot activator A custom element that opens the modal. Automatically adds
+    #   `role="button"` and a default `tabindex="0"` for accessibility; pass
+    #   `html: { tabindex: -1 }` (etc.) to override either default.
+    # @slot button The button that opens the modal. Defaults to a standard Daisy
+    #   button with the modal's title.
+    # @slot close_icon A custom close button to replace the default 'X' icon.
+    # @slot title Custom title content, replacing the default text title.
+    # @slot leading_actions Left-aligned buttons, typically for secondary actions
+    #   like "Cancel".
+    # @slot trailing_actions Right-aligned buttons, typically for primary actions
+    #   like "Submit" or "Save".
+    #
+    # @loco_example Basic Modal
+    #   = daisy_modal(title: "Simple Modal") do |modal|
+    #     - modal.with_button(css: "btn-primary") { "Open Modal" }
+    #     %p This is a basic modal with some content.
+    #     - modal.with_trailing_actions do
+    #       %form{ method: :dialog }
+    #         = daisy_button { "Close" }
+    #
+    # @loco_example Form Modal
+    #   = daisy_modal(title: "Edit Profile") do |modal|
+    #     - modal.with_button { "Edit Profile" }
+    #     = form_with(model: @user) do |f|
+    #       .space-y-4
+    #         = f.text_field :name, class: "input w-full"
+    #         = f.email_field :email, class: "input w-full"
+    #     - modal.with_leading_actions do
+    #       %form{ method: :dialog }
+    #         = daisy_button { "Cancel" }
+    #     - modal.with_trailing_actions do
+    #       = daisy_button(css: "btn-primary", type: "submit") { "Save Changes" }
+    #
+    # @loco_example Custom Activator
+    #   = daisy_modal(title: "User Details") do |modal|
+    #     - modal.with_activator do
+    #       .flex.items-center.gap-2.cursor-pointer
+    #         = loco_icon("user-circle")
+    #         %span View Details
+    #
+    #     %dl.space-y-2
+    #       %dt Name
+    #       %dd John Doe
+    #       %dt Email
+    #       %dd john@example.com
+    #
+    #     - modal.with_trailing_actions do
+    #       %form{ method: :dialog }
+    #         = daisy_button { "Close" }
+    #
+    # @loco_example Blurred Backdrop
+    #   -# Frost the page behind the modal with a stock Tailwind utility on the
+    #   -# backdrop part. Note that Tailwind v4 has no bare `backdrop-blur` —
+    #   -# always pick a size (`backdrop-blur-xs` ~4px, `-sm` ~8px, `-md` ~12px).
+    #   = daisy_modal(title: "Blurred Backdrop", backdrop_css: "backdrop-blur-sm") do |modal|
+    #     - modal.with_button(css: "btn-primary") { "Open Modal" }
+    #     %p The page behind this modal is frosted; the modal box stays crisp.
+    #
+    # @loco_example Global Modal
+    #   = daisy_modal(title: "Settings", trigger: false, dialog_id: "app-modal") do |modal|
+    #     %p This modal has no built-in trigger — open it from anywhere.
+    #     - modal.with_trailing_actions do
+    #       = daisy_button(action: "loco-modal#close") { "Close" }
+    #
+    #   = daisy_button(html: { onclick: "document.getElementById('app-modal').showModal()" }) { "Open" }
+    #
+    # @loco_example Global Modal with a Turbo Frame
+    #   -# One shared modal; each link streams its content into the frame, which
+    #   -# opens the dialog on load. No per-row modals, no inline JavaScript.
+    #   = daisy_modal(trigger: false, turbo_frame_id: "contact", dialog_id: "contact-modal")
+    #
+    #   = link_to "Edit Contact", edit_contact_path(1), data: { turbo_frame: "contact" }
+    #
     class ModalComponent < LocoMotion::BaseComponent
       set_component_name :modal
 

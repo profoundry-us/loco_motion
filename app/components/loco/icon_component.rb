@@ -1,53 +1,53 @@
 # frozen_string_literal: true
 
-#
-# Creates an icon component rendered as inline SVG from any installed icon
-# library. LocoMotion bundles only a small, curated set of
-# {https://heroicons.com Heroicons} — the icons its own components render, so
-# they work with zero setup:
-#
-# - `check`, `check-circle`
-# - `chevron-left`, `chevron-right`
-# - `exclamation-circle`, `exclamation-triangle`
-# - `information-circle`
-# - `swatch`
-# - `trash`
-# - `x-mark`
-#
-# Each is bundled in all four Heroicons variants (`outline`, `solid`, `mini`,
-# and `micro`). Every other icon — the rest of Heroicons, or any other library
-# like Lucide, Phosphor, Tabler, and brand sets — is synced into your own
-# application (see the `loco_motion:icons:add` / `loco_motion:icons:sync`
-# tasks).
-#
-# @note By default, icons are displayed with the `size-5` Tailwind class. This
-#   can be overridden without using the `!` modifier because we utilize the
-#   `:where()` pseudo-class to ensure our default classes have the lowest CSS
-#   specificity.
-#
-# @note The icon color is inherited from the parent's text color, since the
-#   bundled SVGs use `currentColor`.
-#
-# @loco_example Basic icon usage
-#   = loco_icon("academic-cap")
-#   = loco_icon(icon: "adjustments-horizontal")
-#   %span.text-blue-500
-#     = loco_icon("archive-box")
-#
-# @loco_example Variants (append `/variant` to the name)
-#   = loco_icon("bolt/solid")
-#   = loco_icon("bolt/mini")
-#
-# @loco_example Customized icons
-#   = loco_icon("no-symbol", css: "size-4 text-red-600")
-#   = loco_icon("arrow-trending-up", css: "size-10 text-green-600")
-#   = loco_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
-#
-# @loco_example Another library (after syncing it into your app)
-#   = loco_icon("lucide:heart")
-#   = loco_icon("phosphor:heart/duotone")
-#
 module Loco
+  #
+  # Creates an icon component rendered as inline SVG from any installed icon
+  # library. LocoMotion bundles only a small, curated set of
+  # {https://heroicons.com Heroicons} — the icons its own components render, so
+  # they work with zero setup:
+  #
+  # - `check`, `check-circle`
+  # - `chevron-left`, `chevron-right`
+  # - `exclamation-circle`, `exclamation-triangle`
+  # - `information-circle`
+  # - `swatch`
+  # - `trash`
+  # - `x-mark`
+  #
+  # Each is bundled in all four Heroicons variants (`outline`, `solid`, `mini`,
+  # and `micro`). Every other icon — the rest of Heroicons, or any other library
+  # like Lucide, Phosphor, Tabler, and brand sets — is synced into your own
+  # application (see the `loco_motion:icons:add` / `loco_motion:icons:sync`
+  # tasks).
+  #
+  # @note By default, icons are displayed with the `size-5` Tailwind class. This
+  #   can be overridden without using the `!` modifier because we utilize the
+  #   `:where()` pseudo-class to ensure our default classes have the lowest CSS
+  #   specificity.
+  #
+  # @note The icon color is inherited from the parent's text color, since the
+  #   bundled SVGs use `currentColor`.
+  #
+  # @loco_example Basic icon usage
+  #   = loco_icon("academic-cap")
+  #   = loco_icon(icon: "adjustments-horizontal")
+  #   %span.text-blue-500
+  #     = loco_icon("archive-box")
+  #
+  # @loco_example Variants (append `/variant` to the name)
+  #   = loco_icon("bolt/solid")
+  #   = loco_icon("bolt/mini")
+  #
+  # @loco_example Customized icons
+  #   = loco_icon("no-symbol", css: "size-4 text-red-600")
+  #   = loco_icon("arrow-trending-up", css: "size-10 text-green-600")
+  #   = loco_icon("exclamation-triangle", css: "size-14 text-yellow-400 animate-pulse")
+  #
+  # @loco_example Another library (after syncing it into your app)
+  #   = loco_icon("lucide:heart")
+  #   = loco_icon("phosphor:heart/duotone")
+  #
   class IconComponent < LocoMotion::BaseComponent
     # Tippable concern provides tooltip functionality.
     include LocoMotion::Concerns::TippableComponent

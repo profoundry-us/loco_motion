@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-#
-# The ThemeController is the foundation for theme switching. For a complete,
-# ready-made switcher, use the {#build_switcher_dropdown} builder; to build a
-# custom switcher, compose the lower-level builders ({#build_theme_preview},
-# {#build_radio_input}) yourself. Either way it wires up the `loco-theme`
-# Stimulus controller for you.
-#
-# @loco_example A complete switcher in one line
-#   = daisy_theme_controller(themes: %w[light dark]) do |tc|
-#     = tc.build_switcher_dropdown
-#
-# @loco_example Composing the lower-level builders
-#   = daisy_theme_controller do |tc|
-#     - tc.themes.each do |theme|
-#       = tc.build_theme_preview(theme)
-#       = tc.build_radio_input(theme)
-#
 module Daisy
   module Actions
+    #
+    # The ThemeController is the foundation for theme switching. For a complete,
+    # ready-made switcher, use the {#build_switcher_dropdown} builder; to build a
+    # custom switcher, compose the lower-level builders ({#build_theme_preview},
+    # {#build_radio_input}) yourself. Either way it wires up the `loco-theme`
+    # Stimulus controller for you.
+    #
+    # @loco_example A complete switcher in one line
+    #   = daisy_theme_controller(themes: %w[light dark]) do |tc|
+    #     = tc.build_switcher_dropdown
+    #
+    # @loco_example Composing the lower-level builders
+    #   = daisy_theme_controller do |tc|
+    #     - tc.themes.each do |theme|
+    #       = tc.build_theme_preview(theme)
+    #       = tc.build_radio_input(theme)
+    #
     class ThemeControllerComponent < LocoMotion::BaseComponent
       # Default list of themes to display in the controller
       SOME_THEMES = %w[light dark synthwave retro cyberpunk wireframe].freeze
