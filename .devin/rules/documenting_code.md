@@ -19,7 +19,8 @@ When documenting code, follow these procedures.
 3. If a component uses `define_part` or `define_parts`, MUST use the `@part`
    macro to document it.
    a. Include a brief description of what the part represents
-   b. Use the format: `@part name - Description of the part's purpose`
+   b. Use the format: `@part name Description of the part's purpose` (no
+      dash — the codebase convention omits it)
 
 4. If a component uses `renders_one` or `renders_many`:
    a. MUST use the `@slot` macro to document it.
