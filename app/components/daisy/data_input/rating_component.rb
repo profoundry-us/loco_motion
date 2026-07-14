@@ -8,6 +8,13 @@ module Daisy
     # rating from 1 to a configurable maximum value. Supports customization of size,
     # colors, and initial value.
     #
+    # @part hidden_input The hidden radio input that lets the rating start
+    #   unselected; checked whenever `value` is blank.
+    #
+    # @slot items+ [RatingItemComponent] Custom rating items to render
+    #   instead of the auto-generated star inputs (e.g. to build half-star
+    #   ratings with `with_item`).
+    #
     # @loco_example Basic Usage
     #   = daisy_rating(name: "product_rating", id: "product_rating")
     #
@@ -67,13 +74,20 @@ module Daisy
       #   false. When disabled, users cannot interact with the rating control.
       #
       # @option kws required [Boolean] Whether the rating input is required for form
-      #   validation. Defaults to false.
+      #   validation. Defaults to false. Applied only to the first star's
+      #   input (`rating == 1`); native radio-group validation still covers
+      #   the whole group.
       #
-      # @option kws id [String] The ID for the first radio input.
+      # @option kws id [String] The ID applied to the `.rating` container
+      #   `<div>`, not to any individual radio input.
       #
-      # @option kws inputs_css [String] CSS classes to apply to each rating input.
+      # @option kws inputs_css [String] CSS classes to apply to each rating
+      #   input. Only styles the auto-generated star items; custom `items`
+      #   slot content is unaffected.
       #
-      # @option kws inputs_html [Hash] HTML attributes to apply to each rating input.
+      # @option kws inputs_html [Hash] HTML attributes to apply to each
+      #   rating input. Only applies to the auto-generated star items;
+      #   custom `items` slot content is unaffected.
       #
       def initialize(**kws)
         super

@@ -10,8 +10,6 @@ module Daisy
     # @note Text areas have a border by default. Use `textarea-ghost` to remove the
     #   border.
     #
-    # @part component The main textarea element that users can type into.
-    #
     # @loco_example Basic Usage
     #   = daisy_text_area(name: "message", id: "message")
     #

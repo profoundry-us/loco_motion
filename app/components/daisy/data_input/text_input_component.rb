@@ -89,6 +89,28 @@ module Daisy
       # @option kws readonly [Boolean] Whether the text input is read-only. Defaults to
       #   false.
       #
+      # @option kws leading [String] Text to display in the leading label
+      #   position (before the input).
+      #
+      # @option kws trailing [String] Text to display in the trailing label
+      #   position (after the input).
+      #
+      # @option kws floating [String] Text to display in the floating label
+      #   position (above the input).
+      #
+      # @option kws placeholder [String] Placeholder text for the input. If
+      #   not set and `floating_placeholder` is provided, that value is used
+      #   instead.
+      #
+      # @option kws floating_placeholder [String] Convenience option that
+      #   sets both `floating` and `placeholder` to the same value. Both
+      #   `floating` and `placeholder`, if set explicitly, take precedence
+      #   over this.
+      #
+      # @option kws change [String] ID of an element whose `value` should be
+      #   updated to match this input's value whenever it changes. Sets an
+      #   `onchange` handler on the input; see {setup_component}.
+      #
       def initialize(**kws)
         super
 

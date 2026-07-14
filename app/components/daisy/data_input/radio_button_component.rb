@@ -70,6 +70,12 @@ module Daisy
       # @option kws required [Boolean] Whether the radio button is required for form
       #   validation. Defaults to false.
       #
+      # @option kws leading [String] Text to display in the leading label
+      #   position (before the radio button).
+      #
+      # @option kws trailing [String] Text to display in the trailing label
+      #   position (after the radio button).
+      #
       def initialize(**kws)
         super
 

@@ -8,8 +8,9 @@ module Daisy
     #
     # @part popover The container for the calendar popover.
     #
-    # @slot input The text input component.
-    # @slot calendar The calendar component that appears in the popover.
+    # @slot input [CallyTextInputComponent] The text input component.
+    # @slot calendar [CallyCalendarComponent] The calendar component that
+    #   appears in the popover.
     #
     # @loco_example Basic Usage
     #   = daisy_cally_input(name: "event_date", value: Date.today)
@@ -95,12 +96,37 @@ module Daisy
 
       # Initializes a new CallyInputComponent.
       #
-      # @param [Hash] kws The options hash
-      # @option kws [String] :id A unique identifier for the input (default: auto-generated)
-      # @option kws [String] :name The name attribute for the input field
-      # @option kws [Date, String] :value The initial value of the input (default: nil)
-      # @option kws [Integer] :auto_scroll_padding The padding to use when scrolling the calendar into view (default: 100)
-      # @option kws [String] :css Additional CSS classes for the component
+      # @param kws [Hash] The keyword arguments for the component.
+      #
+      # @option kws id [String] A unique identifier for the input. Defaults
+      #   to an auto-generated UUID.
+      #
+      # @option kws name [String] The name attribute for the input field.
+      #
+      # @option kws value [Date, String] The initial value of the input.
+      #   Defaults to nil.
+      #
+      # @option kws auto_scroll_padding [Integer] The padding to use when
+      #   scrolling the calendar into view. Defaults to 100.
+      #
+      # @option kws css [String] Additional CSS classes for the component.
+      #
+      # @option kws leading [String] Text to display in the leading label
+      #   position (before the input). Forwarded to the nested text input.
+      #
+      # @option kws trailing [String] Text to display in the trailing label
+      #   position (after the input). Forwarded to the nested text input.
+      #
+      # @option kws floating [String] Text to display in the floating label
+      #   position. Forwarded to the nested text input.
+      #
+      # @option kws placeholder [String] Placeholder text for the input.
+      #   Forwarded to the nested text input.
+      #
+      # @option kws floating_placeholder [String] Convenience option that
+      #   sets both `floating` and `placeholder` to the same value. Forwarded
+      #   to the nested text input.
+      #
       def initialize(**kws)
         super(**kws)
 

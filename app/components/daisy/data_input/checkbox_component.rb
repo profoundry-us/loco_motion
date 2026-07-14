@@ -7,10 +7,10 @@ module Daisy
     # It can be used standalone or with a form builder, and supports various styling
     # options including toggle mode for switch-like appearance.
     #
-    # Like Rails' own `check_box`, a named, enabled checkbox also emits a
-    # companion hidden field just before the input (an unchecked box submits
-    # nothing, so the hidden field supplies the "off" value — `"0"` by default).
-    # Pass `include_hidden: false` to opt out.
+    # @note Like Rails' own `check_box`, a named, enabled checkbox also emits
+    #   a companion hidden field just before the input (an unchecked box
+    #   submits nothing, so the hidden field supplies the "off" value —
+    #   `"0"` by default). Pass `include_hidden: false` to opt out.
     #
     # @part hidden The companion hidden input that submits `unchecked_value` when
     #   the box is unchecked. Rendered only for a named, enabled checkbox with
@@ -95,6 +95,12 @@ module Daisy
       #
       # @option kws unchecked_value [String] The value the companion hidden
       #   field submits when the box is unchecked. Defaults to "0".
+      #
+      # @option kws leading [String] Text to display in the leading label
+      #   position (before the checkbox).
+      #
+      # @option kws trailing [String] Text to display in the trailing label
+      #   position (after the checkbox).
       #
       def initialize(**kws)
         super

@@ -59,7 +59,10 @@ module Daisy
       #
       # @note This is used internally by CallyComponent
       class MonthComponent < LocoMotion::BaseComponent
-        # @param offset [Integer, nil] The offset of this month from the start date
+        # @param kws [Hash] The keyword arguments for the component.
+        #
+        # @option kws offset [Integer, nil] The offset of this month from the
+        #   start date.
         def initialize(**kws)
           super
 
@@ -86,23 +89,34 @@ module Daisy
 
       define_parts :months
 
-      # Initializes a new CallyComponent.
+      # Instantiate a new Cally component.
       #
-      # The Cally component provides a customizable calendar interface for date
-      # selection.  It supports single date selection by default and can be
-      # configured for date range selection.  The component automatically
-      # handles navigation between months and can display multiple months.
+      # @param kws [Hash] The keyword arguments for the component.
       #
-      # @param change [String] ID of an input to update with the selected date.
-      #   Mutually exclusive with `update`.
-      # @param update [String] ID of an element to update with the selected
-      #   date. Mutually exclusive with `change`.
-      # @param id [String] The ID of the calendar element
-      # @param value [String, Date] The currently selected date or range
-      # @param min [String, Date] The minimum selectable date
-      # @param max [String, Date] The maximum selectable date
-      # @param today [String, Date] The date to consider as 'today'
-      # @param months [Integer] Number of months to display (default: 1)
+      # @option kws change [String] ID of an input to update with the
+      #   selected date. Mutually exclusive with `update`.
+      #
+      # @option kws update [String] ID of an element to update with the
+      #   selected date. Mutually exclusive with `change`.
+      #
+      # @option kws id [String] The ID of the calendar element.
+      #
+      # @option kws value [String, Date] The currently selected date or
+      #   range.
+      #
+      # @option kws min [String, Date] The minimum selectable date.
+      #
+      # @option kws max [String, Date] The maximum selectable date.
+      #
+      # @option kws today [String, Date] The date to consider as 'today'.
+      #
+      # @option kws modifier [Symbol] Optional modifier for the calendar's
+      #   behavior. Use `:range` to enable date range selection.
+      #
+      # @option kws months [Integer] Number of months to display. Defaults
+      #   to 1 when no modifier is set; left unset (no forced default) when
+      #   a modifier like `range` is active.
+      #
       def initialize(**kws)
         super
 
