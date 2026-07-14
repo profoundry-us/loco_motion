@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 module LocoMotion
+  #
+  # Standard Rails::Engine that mounts LocoMotion's app/lib autoload paths
+  # into the host application and wires up its Action View helper
+  # extensions.
+  #
   class Engine < ::Rails::Engine
     isolate_namespace LocoMotion
 

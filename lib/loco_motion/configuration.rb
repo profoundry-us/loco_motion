@@ -2,6 +2,12 @@
 
 module LocoMotion
   class << self
+    #
+    # Yields the current {Configuration} instance so it can be customized,
+    # typically from an initializer.
+    #
+    # @return [void]
+    #
     def configure
       yield(configuration)
     end
