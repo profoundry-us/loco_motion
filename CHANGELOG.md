@@ -26,6 +26,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   template was looking up an unregistered `:simple_middle_icon` part, which always resolved to an empty
   hash, so `middle_icon_css:`/`middle_icon_html:` were silently ignored on the icon.
 
+- fix(Helpers): Skip helper generation for `COMPONENTS` registry entries with `names: nil` (the
+  `PaginationComponent`/`MaskComponent` placeholder rows) instead of generating a broken `daisy_` helper
+  for each and having the second silently overwrite the first.
+
 - feat(Icons): Add a `config.icon_dev_fallback` setting (default `true`) controlling the renderer's
   development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
   the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
