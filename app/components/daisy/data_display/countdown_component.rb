@@ -38,9 +38,9 @@ module Daisy
       #
       # Creates a new countdown component.
       #
-      # @param duration [ActiveSupport::Duration] The duration to count down
-      #   from. Can be created using Rails duration helpers like 1.day,
-      #   2.hours, etc.
+      # @param args [Array] If provided, the first argument is used as the
+      #   `duration` to count down from. Can be created using Rails duration
+      #   helpers like 1.day, 2.hours, etc.
       #
       # @param kws [Hash] The keyword arguments for the component.
       #

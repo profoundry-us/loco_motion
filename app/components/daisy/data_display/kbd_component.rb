@@ -55,7 +55,8 @@ module Daisy
       #
       # Creates a new kbd component.
       #
-      # @param text [String] The text to display in the keyboard component.
+      # @param args [Array] If provided, the first argument is used as the
+      #   text to display in the keyboard component.
       #
       # @param kws [Hash] The keyword arguments for the component.
       #
