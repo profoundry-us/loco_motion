@@ -28,8 +28,8 @@ Within the class body, YARD documentation must appear in this order:
 
 1. **Description** — one or two sentences on what the component renders
 2. **Notes** (optional) — `@note` for important behavioral caveats
-3. **Parts** — `@part name - Description` for each `define_part` call
-4. **Slots** — `@slot name [Type] - Description` for each `renders_one` /
+3. **Parts** — `@part name Description` for each `define_part` call
+4. **Slots** — `@slot name [Type] Description` for each `renders_one` /
    `renders_many` call
 5. **Examples** — `@loco_example` blocks (see below)
 
@@ -43,9 +43,9 @@ All of 1–5 go in the **class-level** doc comment. Parameter docs go on
 #
 # @note Any important behavioral note.
 #
-# @part icon - The optional leading icon.
+# @part icon The optional leading icon.
 #
-# @slot header [HeaderComponent] - Optional card header slot.
+# @slot header [HeaderComponent] Optional card header slot.
 #
 # @loco_example Basic Usage
 #   = daisy_button
@@ -69,7 +69,7 @@ the class.
 # @param args [Array] Positional arguments passed to the parent.
 # @param kws [Hash] Keyword arguments passed to the parent.
 #
-# @option kws [String] :css Additional CSS classes for the component.
+# @option kws css [String] Additional CSS classes for the component.
 ```
 
 Rules:
@@ -84,13 +84,13 @@ Rules:
 For each `define_part` call, add a `@part` tag in the class comment:
 
 ```ruby
-# @part label - The visible text label inside the badge.
+# @part label The visible text label inside the badge.
 ```
 
 For each `renders_one` / `renders_many`, add a `@slot` tag:
 
 ```ruby
-# @slot items+ [ItemComponent] - Repeating item rows.
+# @slot items+ [ItemComponent] Repeating item rows.
 ```
 
 Use `+` after the name for `renders_many` slots.
@@ -120,7 +120,7 @@ class BadgeComponent < LocoMotion::BaseComponent
   # @param args [Array] Positional arguments.
   # @param kws [Hash] Keyword arguments.
   #
-  # @option kws [String] :css Additional CSS classes.
+  # @option kws css [String] Additional CSS classes.
   def initialize(*args, **kws)
     super
   end
@@ -132,9 +132,9 @@ end
 ```ruby
 # Renders a DaisyUI card with an optional header.
 #
-# @part figure - The card's image or media area.
+# @part figure The card's image or media area.
 #
-# @slot header [Card::HeaderComponent] - Optional card header.
+# @slot header [Card::HeaderComponent] Optional card header.
 #
 # @loco_example Basic card
 #   = daisy_card do
