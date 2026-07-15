@@ -2,10 +2,12 @@
 
 module LocoMotion
   module Concerns
+    #
     # Provides a formatted inspect method for components
     #
     # This concern offers a shared way to build readable inspect strings
     # for components and configuration objects using format strings.
+    #
     module InspectableComponent
       #
       # Builds a formatted inspect string from the given attribute names.

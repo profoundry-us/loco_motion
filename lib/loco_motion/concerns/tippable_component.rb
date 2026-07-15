@@ -23,6 +23,7 @@ module LocoMotion
       # Initialize tooltip-related options.
       #
       # @option kws tip [String] The tooltip text to display when hovering
+      #   over the component.
       #
       def _initialize_tippable_component
         @tip = config_option(:tip)

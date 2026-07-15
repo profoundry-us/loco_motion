@@ -2,9 +2,10 @@
 
 module LocoMotion
   #
-  # Builder class for creating dynamic component subclasses with custom configurations.
-  # This class encapsulates the complex metaprogramming logic needed to create
-  # customized component instances without defining new classes.
+  # Builder class for creating dynamic component subclasses with custom
+  # configurations. This class encapsulates the complex metaprogramming logic
+  # needed to create customized component instances without defining new
+  # classes.
   #
   class ComponentBuilder
     attr_reader :base_class, :build_kws, :build_block
@@ -13,7 +14,10 @@ module LocoMotion
     # Initialize a new component builder.
     #
     # @param base_class [Class] The base component class to build from.
-    # @param build_kws [Hash] Keyword arguments to merge into the component config.
+    #
+    # @param build_kws [Hash] Keyword arguments to merge into the component
+    #   config.
+    #
     # @param build_block [Proc] Optional block for customizations.
     #
     def initialize(base_class, build_kws = {}, &build_block)

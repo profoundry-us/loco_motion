@@ -104,7 +104,7 @@ module LocoMotion
     "Daisy::Feedback::AlertComponent" => { names: "alert", group: "Feedback", title: "Alerts", example: "alerts" },
     "Daisy::Feedback::LoadingComponent" => { names: %w[loading loader], group: "Feedback", title: "Loaders",
                                              example: "loaders" },
-    "Daisy::Feedback::ProgressComponent" => { names: ["progress"], group: "Feedback", title: "Progress Bars",
+    "Daisy::Feedback::ProgressComponent" => { names: "progress", group: "Feedback", title: "Progress Bars",
                                               example: "progress_bars" },
     "Daisy::Feedback::RadialProgressComponent" => { names: "radial", group: "Feedback", title: "Radial Progress",
                                                     example: "radials" },
@@ -138,6 +138,14 @@ module LocoMotion
   }.freeze
 
   module Helpers
+    # For every entry in {LocoMotion::COMPONENTS}, define a Rails helper
+    # method that renders that component, e.g.
+    # `"Daisy::Actions::ButtonComponent" => { names: "button", ... }` under
+    # a `"Daisy::..."` class name defines `daisy_button`. The `framework`
+    # prefix (`daisy`/`loco`) comes from the class name's first namespace
+    # segment, and each entry may register more than one method name (see
+    # `names: %w[input text_input]` above) so a component can be reached by
+    # multiple aliases.
     COMPONENTS.each do |component, helper|
       framework = component.split("::").first.underscore
 
@@ -169,10 +177,33 @@ module LocoMotion
       Gem::Version.new(added) >= Gem::Version.new(current_series)
     end
 
+    #
+    # The demo app's example route for a component, keyed by its full class
+    # name.
+    #
+    # @param component_name [String] The full component class name, e.g.
+    #   `"Daisy::Layout::AuraComponent"`.
+    #
+    # @return [String] The path to the component's example page.
+    #
     def component_example_path(component_name)
       "/examples/#{component_name}"
     end
 
+    #
+    # The demo app's partial path for a component's example view, derived
+    # from its full class name and {LocoMotion::COMPONENTS} entry. The class
+    # name's first segment (`Daisy`/`Loco`) becomes the `framework`
+    # directory; for 3-segment names (e.g. `Daisy::Layout::AuraComponent`)
+    # the middle segment becomes an additional `section` directory (e.g.
+    # `layout/`), while 2-segment names (e.g. `Loco::IconComponent`) have no
+    # section directory.
+    #
+    # @param component_name [String] The full component class name, e.g.
+    #   `"Daisy::Layout::AuraComponent"`.
+    #
+    # @return [String] The partial path to the component's example view.
+    #
     def component_partial_path(component_name)
       comp = COMPONENTS[component_name]
 
