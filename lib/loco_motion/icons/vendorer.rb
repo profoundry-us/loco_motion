@@ -19,6 +19,7 @@ module LocoMotion
     # referenced at all are left untouched.
     #
     class Vendorer
+      # See {#vendor}: `vendored` count, `missing` refs, `libraries` rebuilt.
       Result = ::Struct.new(:vendored, :missing, :libraries, keyword_init: true)
 
       #
