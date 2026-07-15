@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
-#
-# The RadialProgressComponent displays a circular progress indicator that can be
-# customized with different sizes, thicknesses, and colors. The component can
-# also contain content within its circular display.
-#
-# The progress is always displayed as a percentage (0-100) due to the way the
-# component is rendered using CSS custom properties.
-#
-# @loco_example Basic Usage
-#   = daisy_radial(value: 66) do
-#     66%
-#
-# @loco_example With Icons
-#   = daisy_radial(value: 68) do
-#     = loco_icon("beaker", css: "size-8 text-purple-500")
-#
-#   = daisy_radial(value: 52, css: "text-success") do
-#     52%
-#
-# @loco_example Custom Size and Styling
-#   = daisy_radial(value: 19, size: "15rem", thickness: "4px",
-#     css: "bg-primary text-primary-content text-3xl") do
-#     19%
-#
 module Daisy
   module Feedback
+    #
+    # The RadialProgressComponent displays a circular progress indicator that can be
+    # customized with different sizes, thicknesses, and colors. The component can
+    # also contain content within its circular display.
+    #
+    # The progress is always displayed as a percentage (0-100) due to the way the
+    # component is rendered using CSS custom properties.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_radial(value: 66) do
+    #     66%
+    #
+    # @loco_example With Icons
+    #   = daisy_radial(value: 68) do
+    #     = loco_icon("beaker", css: "size-8 text-purple-500")
+    #
+    #   = daisy_radial(value: 52, css: "text-success") do
+    #     52%
+    #
+    # @loco_example Custom Size and Styling
+    #   = daisy_radial(value: 19, size: "15rem", thickness: "4px",
+    #     css: "bg-primary text-primary-content text-3xl") do
+    #     19%
+    #
     class RadialProgressComponent < LocoMotion::BaseComponent
       #
       # Creates a new Radial Progress component.

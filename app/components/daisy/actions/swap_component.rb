@@ -1,71 +1,71 @@
 # frozen_string_literal: true
 
-#
-# The Swap component allows toggling between two states, "on" and "off", with an
-# optional indeterminate state. It provides a flexible way to create animated
-# toggles, switches, or any other element that needs to alternate between
-# different visual states. The component supports both simple text/emoji swaps
-# and complex HTML content swaps.
-#
-# It also includes built-in animations that can be enabled through CSS classes
-# like `swap-rotate` or `swap-flip`.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @part checkbox The checkbox input element that handles the toggle state.
-# @part on Wraps the HTML content displayed when the swap is in the "on" state.
-# @part off Wraps the HTML content displayed when the swap is in the "off" state.
-# @part indeterminate Wraps the HTML content displayed when the swap is in an
-#   indeterminate state. Only shown when the checkbox is in an indeterminate
-#   state.
-#
-# @slot on The HTML content to be displayed when the swap is in the "on" state.
-# @slot off The HTML content to be displayed when the swap is in the "off" state.
-# @slot indeterminate The HTML content to be displayed when the swap is in an
-#   indeterminate state.
-#
-# @loco_example Basic Text Swap
-#   = daisy_swap(checked: true, on: "✅ On", off: "❌ Off", css: "swap-rotate")
-#
-# @loco_example Basic Usage with Args
-#   = daisy_swap("✅ On", "❌ Off", true, css: "swap-rotate")
-#
-# @loco_example Icon Swap with Tooltip
-#   = daisy_swap(tip: "Toggle Theme") do |swap|
-#     - swap.with_on do
-#       = loco_icon("sun", css: "size-6")
-#     - swap.with_off do
-#       = loco_icon("moon", css: "size-6")
-#
-# @loco_example Complex Content with Animation
-#   = daisy_swap(css: "swap-flip") do |swap|
-#     - swap.with_on do
-#       .bg-primary.text-primary-content.p-4.rounded-lg
-#         .font-bold Subscribed
-#         %p You're all set!
-#     - swap.with_off do
-#       .bg-base-200.p-4.rounded-lg
-#         .font-bold Subscribe
-#         %p Click to join
-#
-# @loco_example With Indeterminate State
-#   = daisy_swap(css: "swap-flip", tip: "Task Status") do |swap|
-#     - swap.with_on do
-#       .text-success
-#         = loco_icon("check-circle")
-#         %span Complete
-#     - swap.with_off do
-#       .text-error
-#         = loco_icon("x-circle")
-#         %span Failed
-#     - swap.with_indeterminate do
-#       .text-warning
-#         = loco_icon("clock")
-#         %span Processing
-#
 module Daisy
   module Actions
+    #
+    # The Swap component allows toggling between two states, "on" and "off", with an
+    # optional indeterminate state. It provides a flexible way to create animated
+    # toggles, switches, or any other element that needs to alternate between
+    # different visual states. The component supports both simple text/emoji swaps
+    # and complex HTML content swaps.
+    #
+    # It also includes built-in animations that can be enabled through CSS classes
+    # like `swap-rotate` or `swap-flip`.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @part checkbox The checkbox input element that handles the toggle state.
+    # @part on Wraps the HTML content displayed when the swap is in the "on" state.
+    # @part off Wraps the HTML content displayed when the swap is in the "off" state.
+    # @part indeterminate Wraps the HTML content displayed when the swap is in an
+    #   indeterminate state. Only shown when the checkbox is in an indeterminate
+    #   state.
+    #
+    # @slot on The HTML content to be displayed when the swap is in the "on" state.
+    # @slot off The HTML content to be displayed when the swap is in the "off" state.
+    # @slot indeterminate The HTML content to be displayed when the swap is in an
+    #   indeterminate state.
+    #
+    # @loco_example Basic Text Swap
+    #   = daisy_swap(checked: true, on: "✅ On", off: "❌ Off", css: "swap-rotate")
+    #
+    # @loco_example Basic Usage with Args
+    #   = daisy_swap("✅ On", "❌ Off", true, css: "swap-rotate")
+    #
+    # @loco_example Icon Swap with Tooltip
+    #   = daisy_swap(tip: "Toggle Theme") do |swap|
+    #     - swap.with_on do
+    #       = loco_icon("sun", css: "size-6")
+    #     - swap.with_off do
+    #       = loco_icon("moon", css: "size-6")
+    #
+    # @loco_example Complex Content with Animation
+    #   = daisy_swap(css: "swap-flip") do |swap|
+    #     - swap.with_on do
+    #       .bg-primary.text-primary-content.p-4.rounded-lg
+    #         .font-bold Subscribed
+    #         %p You're all set!
+    #     - swap.with_off do
+    #       .bg-base-200.p-4.rounded-lg
+    #         .font-bold Subscribe
+    #         %p Click to join
+    #
+    # @loco_example With Indeterminate State
+    #   = daisy_swap(css: "swap-flip", tip: "Task Status") do |swap|
+    #     - swap.with_on do
+    #       .text-success
+    #         = loco_icon("check-circle")
+    #         %span Complete
+    #     - swap.with_off do
+    #       .text-error
+    #         = loco_icon("x-circle")
+    #         %span Failed
+    #     - swap.with_indeterminate do
+    #       .text-warning
+    #         = loco_icon("clock")
+    #         %span Processing
+    #
     class SwapComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 

@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-#
-# The LoadingComponent displays an animated indicator to show that a process is
-# running in the background. It supports multiple animation styles and can be
-# customized with different colors and sizes.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @loco_example Basic Loading Spinners
-#   = daisy_loading(css: "loading-spinner text-primary")
-#   = daisy_loading(css: "loading-dots text-secondary")
-#   = daisy_loading(css: "loading-ring text-accent")
-#
-# @loco_example Other Loading Styles
-#   = daisy_loader(css: "loading-ball text-info")
-#   = daisy_loader(css: "loading-bars text-success")
-#   = daisy_loader(css: "loading-infinity text-error")
-#
-# @note The helper method is also aliased as `daisy_loader` for better
-#   readability, but CSS classes must still use the `loading-*` prefix.
-#
 module Daisy
   module Feedback
+    #
+    # The LoadingComponent displays an animated indicator to show that a process is
+    # running in the background. It supports multiple animation styles and can be
+    # customized with different colors and sizes.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @loco_example Basic Loading Spinners
+    #   = daisy_loading(css: "loading-spinner text-primary")
+    #   = daisy_loading(css: "loading-dots text-secondary")
+    #   = daisy_loading(css: "loading-ring text-accent")
+    #
+    # @loco_example Other Loading Styles
+    #   = daisy_loader(css: "loading-ball text-info")
+    #   = daisy_loader(css: "loading-bars text-success")
+    #   = daisy_loader(css: "loading-infinity text-error")
+    #
+    # @note The helper method is also aliased as `daisy_loader` for better
+    #   readability, but CSS classes must still use the `loading-*` prefix.
+    #
     class LoadingComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 
