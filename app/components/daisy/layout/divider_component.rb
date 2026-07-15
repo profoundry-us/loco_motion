@@ -19,6 +19,8 @@ module Daisy
     #   = daisy_divider do
     #     OR
     #
+    #   = daisy_divider("OR")
+    #
     # @loco_example Vertical Dividers
     #   .flex.grow
     #     = daisy_card(css: "h-48") do
@@ -44,8 +46,12 @@ module Daisy
       #
       # Creates a new Divider component.
       #
-      # @param args [Array] Positional arguments passed to the parent class.
-      # @param kws  [Hash]  Keyword arguments for customizing the divider.
+      # @param title [String] Optional divider text to display, used as
+      #   fallback content when no block is given. Also settable via the
+      #   `title:` keyword (`kws[:title]`); the keyword wins if both are
+      #   given.
+      #
+      # @param kws [Hash] Keyword arguments for customizing the divider.
       #
       # @option kws css [String] Additional CSS classes for styling. Common
       #   options include:

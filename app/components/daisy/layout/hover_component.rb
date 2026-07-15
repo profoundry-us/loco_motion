@@ -71,6 +71,27 @@ module Daisy
       # @option kws target [String] The link target (e.g., `_blank`). Only applied
       #   when `href:` is also provided.
       #
+      # @option kws title [String] The HTML `title` attribute for the link
+      #   (a native tooltip). Only applied when `href:` is also provided.
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered as
+      #   `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo should
+      #   use for the request, rendered as `data-turbo-method` (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws action [String] A Stimulus action wired to the component via
+      #   its `data-action` attribute (e.g. `"click->my-controller#handle"`).
+      #   Stimulus infers the `click` event, so `"my-controller#handle"` works
+      #   as a shorthand.
+      #
       def initialize(*args, **kws, &block)
         super
       end

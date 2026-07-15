@@ -19,9 +19,10 @@ module Daisy
     #   when you pass your own `aspect-*` utility (e.g. `aspect-square`) via
     #   `css:`, so it is easy to override.
     #
-    # @slot image+ One or more images to display in the gallery. Each image
-    #   accepts `src:` and `alt:` keyword arguments along with any standard HTML
-    #   attribute via `html:`.
+    # @slot image+ [Daisy::Layout::HoverGalleryComponent::ImageComponent] One or
+    #   more images to display in the gallery. Each image accepts `src:` and
+    #   `alt:` keyword arguments along with any standard HTML attribute via
+    #   `html:`.
     #
     # @loco_example Basic Hover Gallery
     #   = daisy_hover_gallery(css: "max-w-60") do |gallery|
