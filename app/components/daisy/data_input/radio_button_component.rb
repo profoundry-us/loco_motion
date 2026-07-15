@@ -1,47 +1,47 @@
 # frozen_string_literal: true
 
-#
-# The Radio Button component renders a DaisyUI styled radio button input.
-# It can be used standalone or with a form builder, and is ideal for creating
-# option groups where users must select exactly one choice.
-#
-# @part label_wrapper The wrapper element for labels (when using
-#   leading/trailing/floating labels).
-# @part leading The element that contains the leading label (appears before the
-#   radio button).
-# @part trailing The element that contains the trailing label (appears after the radio
-#   button).
-#
-# @slot leading Custom content for the leading label.
-# @slot trailing Custom content for the trailing label.
-#
-# @loco_example Basic Usage
-#   = daisy_radio(name: "option", id: "option1", value: "1")
-#
-# @loco_example Checked Radio Button
-#   = daisy_radio(name: "option", id: "option2", value: "2", checked: true)
-#
-# @loco_example Disabled Radio Button
-#   = daisy_radio(name: "option", id: "option3", value: "3", disabled: true)
-#
-# @loco_example With Leading Label
-#   = daisy_radio(name: "option", id: "option1", value: "1", leading: "Option:")
-#
-# @loco_example With Trailing Label (common for radio buttons)
-#   = daisy_radio(name: "option", id: "option1", value: "1", trailing: "Option 1")
-#
-# @loco_example With Custom Leading Content
-#   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
-#     - radio.with_leading do
-#       %span.text-primary Option:
-#
-# @loco_example With Custom Trailing Content
-#   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
-#     - radio.with_trailing do
-#       %span.text-secondary Option 1
-#
 module Daisy
   module DataInput
+    #
+    # The Radio Button component renders a DaisyUI styled radio button input.
+    # It can be used standalone or with a form builder, and is ideal for creating
+    # option groups where users must select exactly one choice.
+    #
+    # @part label_wrapper The wrapper element for labels (when using
+    #   leading/trailing/floating labels).
+    # @part leading The element that contains the leading label (appears before the
+    #   radio button).
+    # @part trailing The element that contains the trailing label (appears after the radio
+    #   button).
+    #
+    # @slot leading Custom content for the leading label.
+    # @slot trailing Custom content for the trailing label.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_radio(name: "option", id: "option1", value: "1")
+    #
+    # @loco_example Checked Radio Button
+    #   = daisy_radio(name: "option", id: "option2", value: "2", checked: true)
+    #
+    # @loco_example Disabled Radio Button
+    #   = daisy_radio(name: "option", id: "option3", value: "3", disabled: true)
+    #
+    # @loco_example With Leading Label
+    #   = daisy_radio(name: "option", id: "option1", value: "1", leading: "Option:")
+    #
+    # @loco_example With Trailing Label (common for radio buttons)
+    #   = daisy_radio(name: "option", id: "option1", value: "1", trailing: "Option 1")
+    #
+    # @loco_example With Custom Leading Content
+    #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
+    #     - radio.with_leading do
+    #       %span.text-primary Option:
+    #
+    # @loco_example With Custom Trailing Content
+    #   = daisy_radio(name: "option", id: "option1", value: "1") do |radio|
+    #     - radio.with_trailing do
+    #       %span.text-secondary Option 1
+    #
     class RadioButtonComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent

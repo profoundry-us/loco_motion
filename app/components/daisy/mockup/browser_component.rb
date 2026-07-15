@@ -1,49 +1,49 @@
 # frozen_string_literal: true
 
-#
-# The BrowserComponent creates a realistic browser window mockup, perfect for:
-# - Showcasing web applications.
-# - Creating website previews.
-# - Demonstrating responsive designs.
-# - Building marketing materials.
-#
-# The component includes an optional toolbar for URL input and browser
-# controls, and a content area that can contain any content you wish to
-# display.
-#
-# @slot toolbar [LocoMotion::BasicComponent] An optional toolbar section,
-#   typically containing a URL input field or navigation controls.
-#
-# @loco_example Basic Browser with URL
-#   = daisy_browser(css: "w-full border border-base-300") do |browser|
-#     - browser.with_toolbar do
-#       %input.input{
-#         placeholder: "https://example.com" }
-#
-#     .border-t.border-base-300.p-4
-#       Your website content here
-#
-# @loco_example Styled Browser
-#   = daisy_browser(css: "bg-primary border-2") do |browser|
-#     - browser.with_toolbar do
-#       .flex.gap-2.px-4
-#         = daisy_button(icon: "chevron-left",
-#           css: "btn-circle btn-sm")
-#         = daisy_button(icon: "chevron-right",
-#           css: "btn-circle btn-sm")
-#         %input.input.input-sm.flex-1{
-#           placeholder: "Search..." }
-#
-#     .bg-base-100.p-8.text-center
-#       Professional website mockup
-#
-# @loco_example Content-Only Browser
-#   = daisy_browser(css: "border shadow-lg") do
-#     .p-4
-#       Simple browser frame without toolbar
-#
 module Daisy
   module Mockup
+    #
+    # The BrowserComponent creates a realistic browser window mockup, perfect for:
+    # - Showcasing web applications.
+    # - Creating website previews.
+    # - Demonstrating responsive designs.
+    # - Building marketing materials.
+    #
+    # The component includes an optional toolbar for URL input and browser
+    # controls, and a content area that can contain any content you wish to
+    # display.
+    #
+    # @slot toolbar [LocoMotion::BasicComponent] An optional toolbar section,
+    #   typically containing a URL input field or navigation controls.
+    #
+    # @loco_example Basic Browser with URL
+    #   = daisy_browser(css: "w-full border border-base-300") do |browser|
+    #     - browser.with_toolbar do
+    #       %input.input{
+    #         placeholder: "https://example.com" }
+    #
+    #     .border-t.border-base-300.p-4
+    #       Your website content here
+    #
+    # @loco_example Styled Browser
+    #   = daisy_browser(css: "bg-primary border-2") do |browser|
+    #     - browser.with_toolbar do
+    #       .flex.gap-2.px-4
+    #         = daisy_button(icon: "chevron-left",
+    #           css: "btn-circle btn-sm")
+    #         = daisy_button(icon: "chevron-right",
+    #           css: "btn-circle btn-sm")
+    #         %input.input.input-sm.flex-1{
+    #           placeholder: "Search..." }
+    #
+    #     .bg-base-100.p-8.text-center
+    #       Professional website mockup
+    #
+    # @loco_example Content-Only Browser
+    #   = daisy_browser(css: "border shadow-lg") do
+    #     .p-4
+    #       Simple browser frame without toolbar
+    #
     class BrowserComponent < LocoMotion::BaseComponent
       renders_one :toolbar, LocoMotion::BasicComponent.build(css: "mockup-browser-toolbar")
 
@@ -57,6 +57,13 @@ module Daisy
       #   - Background: `bg-base-100`, `bg-primary`
       #   - Shadow: `shadow`, `shadow-lg`
       #
+      # rubocop:disable Lint/UselessMethodDefinition -- exists so the doc
+      # comment above has a real method to attach to; BrowserComponent has
+      # no options of its own beyond the universal ones documented here.
+      def initialize(**kws)
+        super(**kws)
+      end
+      # rubocop:enable Lint/UselessMethodDefinition
 
       #
       # Sets up the component's CSS classes.

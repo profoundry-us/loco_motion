@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-#
-# The Rating component renders a DaisyUI styled rating input using radio buttons.
-# It can be used standalone or with a form builder, allowing users to select a
-# rating from 1 to a configurable maximum value. Supports customization of size,
-# colors, and initial value.
-#
-# @loco_example Basic Usage
-#   = daisy_rating(name: "product_rating", id: "product_rating")
-#
-# @loco_example Disabled Rating
-#   = daisy_rating(name: "disabled_rating", value: 3, disabled: true)
-#
-# @loco_example Rating with Different Colors
-#   = daisy_rating(name: "primary_rating", css: "[&>input]:bg-primary")
-#   = daisy_rating(name: "warning_rating", css: "[&>input]:bg-warning")
-#
-# @loco_example Rating with Different Sizes
-#   = daisy_rating(name: "small_rating", css: "rating-sm")
-#   = daisy_rating(name: "large_rating", css: "rating-lg")
-#
 module Daisy
   module DataInput
+    #
+    # The Rating component renders a DaisyUI styled rating input using radio buttons.
+    # It can be used standalone or with a form builder, allowing users to select a
+    # rating from 1 to a configurable maximum value. Supports customization of size,
+    # colors, and initial value.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_rating(name: "product_rating", id: "product_rating")
+    #
+    # @loco_example Disabled Rating
+    #   = daisy_rating(name: "disabled_rating", value: 3, disabled: true)
+    #
+    # @loco_example Rating with Different Colors
+    #   = daisy_rating(name: "primary_rating", css: "[&>input]:bg-primary")
+    #   = daisy_rating(name: "warning_rating", css: "[&>input]:bg-warning")
+    #
+    # @loco_example Rating with Different Sizes
+    #   = daisy_rating(name: "small_rating", css: "rating-sm")
+    #   = daisy_rating(name: "large_rating", css: "rating-lg")
+    #
     class RatingComponent < LocoMotion::BaseComponent
       #
       # Inner component for rendering individual rating items as radio inputs.

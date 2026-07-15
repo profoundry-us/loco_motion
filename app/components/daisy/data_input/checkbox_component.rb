@@ -1,60 +1,60 @@
 # frozen_string_literal: true
 
-#
-# The Checkbox component renders a DaisyUI styled checkbox input.
-# It can be used standalone or with a form builder, and supports various styling
-# options including toggle mode for switch-like appearance.
-#
-# Like Rails' own `check_box`, a named, enabled checkbox also emits a
-# companion hidden field just before the input (an unchecked box submits
-# nothing, so the hidden field supplies the "off" value — `"0"` by default).
-# Pass `include_hidden: false` to opt out.
-#
-# @part hidden The companion hidden input that submits `unchecked_value` when
-#   the box is unchecked. Rendered only for a named, enabled checkbox with
-#   `include_hidden` on.
-# @part label_wrapper The wrapper element for labels (when using
-#   leading/trailing/floating labels).
-# @part leading The element that contains the leading label (appears before the
-#   checkbox).
-# @part trailing The element that contains the trailing label (appears after the checkbox).
-#
-# @slot leading Custom content for the leading label.
-# @slot trailing Custom content for the trailing label.
-#
-# @loco_example Basic Usage
-#   = daisy_checkbox(name: "accept", id: "accept")
-#
-# @loco_example Checked Checkbox
-#   = daisy_checkbox(name: "accept", id: "accept", checked: true)
-#
-# @loco_example Toggle Checkbox
-#   = daisy_checkbox(name: "accept", id: "accept", toggle: true)
-#
-# @loco_example Disabled Checkbox
-#   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
-#
-# @loco_example With Leading Label
-#   = daisy_checkbox(name: "accept", id: "accept", leading: "Accept:")
-#
-# @loco_example With Trailing Label (common for checkboxes)
-#   = daisy_checkbox(name: "terms", id: "terms", trailing: "I agree to the terms and conditions")
-#
-# @loco_example With Custom Leading Content
-#   = daisy_checkbox(name: "accept", id: "accept") do |checkbox|
-#     - checkbox.with_leading do
-#       %span.text-primary Accept:
-#
-# @loco_example With Custom Trailing Content
-#   = daisy_checkbox(name: "terms", id: "terms") do |checkbox|
-#     - checkbox.with_trailing do
-#       %span.text-secondary I agree to the terms
-#
-# @loco_example Without the Companion Hidden Field
-#   = daisy_checkbox(name: "accept", id: "accept", include_hidden: false)
-#
 module Daisy
   module DataInput
+    #
+    # The Checkbox component renders a DaisyUI styled checkbox input.
+    # It can be used standalone or with a form builder, and supports various styling
+    # options including toggle mode for switch-like appearance.
+    #
+    # Like Rails' own `check_box`, a named, enabled checkbox also emits a
+    # companion hidden field just before the input (an unchecked box submits
+    # nothing, so the hidden field supplies the "off" value — `"0"` by default).
+    # Pass `include_hidden: false` to opt out.
+    #
+    # @part hidden The companion hidden input that submits `unchecked_value` when
+    #   the box is unchecked. Rendered only for a named, enabled checkbox with
+    #   `include_hidden` on.
+    # @part label_wrapper The wrapper element for labels (when using
+    #   leading/trailing/floating labels).
+    # @part leading The element that contains the leading label (appears before the
+    #   checkbox).
+    # @part trailing The element that contains the trailing label (appears after the checkbox).
+    #
+    # @slot leading Custom content for the leading label.
+    # @slot trailing Custom content for the trailing label.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_checkbox(name: "accept", id: "accept")
+    #
+    # @loco_example Checked Checkbox
+    #   = daisy_checkbox(name: "accept", id: "accept", checked: true)
+    #
+    # @loco_example Toggle Checkbox
+    #   = daisy_checkbox(name: "accept", id: "accept", toggle: true)
+    #
+    # @loco_example Disabled Checkbox
+    #   = daisy_checkbox(name: "accept", id: "accept", disabled: true)
+    #
+    # @loco_example With Leading Label
+    #   = daisy_checkbox(name: "accept", id: "accept", leading: "Accept:")
+    #
+    # @loco_example With Trailing Label (common for checkboxes)
+    #   = daisy_checkbox(name: "terms", id: "terms", trailing: "I agree to the terms and conditions")
+    #
+    # @loco_example With Custom Leading Content
+    #   = daisy_checkbox(name: "accept", id: "accept") do |checkbox|
+    #     - checkbox.with_leading do
+    #       %span.text-primary Accept:
+    #
+    # @loco_example With Custom Trailing Content
+    #   = daisy_checkbox(name: "terms", id: "terms") do |checkbox|
+    #     - checkbox.with_trailing do
+    #       %span.text-secondary I agree to the terms
+    #
+    # @loco_example Without the Companion Hidden Field
+    #   = daisy_checkbox(name: "accept", id: "accept", include_hidden: false)
+    #
     class CheckboxComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent

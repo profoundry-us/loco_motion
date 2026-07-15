@@ -1,30 +1,30 @@
 # frozen_string_literal: true
 
-#
-# The FileInput component renders a DaisyUI styled file input.
-# It can be used standalone or with a form builder, and supports
-# various styling options including different sizes and variants.
-#
-# @note File inputs have a border by default. Use `file-input-ghost` to remove
-#   the border.
-#
-# @loco_example Basic Usage
-#   = daisy_file_input(name: "document", id: "document")
-#
-# @loco_example With Accept Attribute
-#   = daisy_file_input(name: "image", id: "image", accept: "image/*")
-#
-# @loco_example With Multiple Files
-#   = daisy_file_input(name: "documents[]", id: "documents", multiple: true)
-#
-# @loco_example Ghost Style (No Border)
-#   = daisy_file_input(name: "document", id: "document", css: "file-input-ghost")
-#
-# @loco_example Disabled File Input
-#   = daisy_file_input(name: "document", id: "document", disabled: true)
-#
 module Daisy
   module DataInput
+    #
+    # The FileInput component renders a DaisyUI styled file input.
+    # It can be used standalone or with a form builder, and supports
+    # various styling options including different sizes and variants.
+    #
+    # @note File inputs have a border by default. Use `file-input-ghost` to remove
+    #   the border.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_file_input(name: "document", id: "document")
+    #
+    # @loco_example With Accept Attribute
+    #   = daisy_file_input(name: "image", id: "image", accept: "image/*")
+    #
+    # @loco_example With Multiple Files
+    #   = daisy_file_input(name: "documents[]", id: "documents", multiple: true)
+    #
+    # @loco_example Ghost Style (No Border)
+    #   = daisy_file_input(name: "document", id: "document", css: "file-input-ghost")
+    #
+    # @loco_example Disabled File Input
+    #   = daisy_file_input(name: "document", id: "document", disabled: true)
+    #
     class FileInputComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::AriableComponent
 

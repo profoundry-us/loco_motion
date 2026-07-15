@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-#
-# The Range component renders a DaisyUI styled range input slider.
-# It can be used standalone or with a form builder, and supports customization
-# of min/max values, step increments, and color variants.
-#
-# @loco_example Basic Usage
-#   = daisy_range(name: "volume", id: "volume", min: 0, max: 100, value: 50)
-#
-# @loco_example Range with Steps
-#   = daisy_range(name: "step_range", id: "step_range", min: 0, max: 100, step: 25)
-#
-# @loco_example Range with Different Colors
-#   = daisy_range(name: "primary_range", id: "primary_range", css: "range-primary")
-#   = daisy_range(name: "error_range", id: "error_range", css: "range-error")
-#
 module Daisy
   module DataInput
+    #
+    # The Range component renders a DaisyUI styled range input slider.
+    # It can be used standalone or with a form builder, and supports customization
+    # of min/max values, step increments, and color variants.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_range(name: "volume", id: "volume", min: 0, max: 100, value: 50)
+    #
+    # @loco_example Range with Steps
+    #   = daisy_range(name: "step_range", id: "step_range", min: 0, max: 100, step: 25)
+    #
+    # @loco_example Range with Different Colors
+    #   = daisy_range(name: "primary_range", id: "primary_range", css: "range-primary")
+    #   = daisy_range(name: "error_range", id: "error_range", css: "range-error")
+    #
     class RangeComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::AriableComponent
 

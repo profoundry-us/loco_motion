@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-#
-# The Label component renders a DaisyUI styled label for form inputs.
-# It can be used with any form input component and provides visual styling
-# consistent with other Daisy UI elements.
-#
-# @loco_example Basic Usage
-#   = daisy_label(for: "input_id") do
-#     My Label
-#
-# @loco_example With Label Title
-#   = daisy_label(for: "input_id", title: "My Label")
-#
-# @loco_example Required Label
-#   = daisy_label(for: "input_id", required: true) do
-#     My Required Label
-#
 module Daisy
   module DataInput
+    #
+    # The Label component renders a DaisyUI styled label for form inputs.
+    # It can be used with any form input component and provides visual styling
+    # consistent with other Daisy UI elements.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_label(for: "input_id") do
+    #     My Label
+    #
+    # @loco_example With Label Title
+    #   = daisy_label(for: "input_id", title: "My Label")
+    #
+    # @loco_example Required Label
+    #   = daisy_label(for: "input_id", required: true) do
+    #     My Required Label
+    #
     class LabelComponent < LocoMotion::BaseComponent
       attr_reader :for, :title, :required
 
