@@ -11,8 +11,9 @@ module Daisy
     # @note Select inputs have a border by default and a width of 20rem. Use
     #   `select-ghost` to remove the border.
     #
-    # @part placeholder The placeholder option element that is shown when no option
-    #   is selected.
+    # @part placeholder The placeholder `<option>` element, rendered whenever
+    #   `placeholder:` text is supplied. Only *selected* by default when no
+    #   `value` is set — see {setup_placeholder}.
     # @part label_wrapper The wrapper element for labels (when using
     #   leading/trailing/floating labels).
     # @part leading The element that contains the leading label (appears before
@@ -46,6 +47,10 @@ module Daisy
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent
 
+      #
+      # Inner component for rendering individual select options as `<option>`
+      # elements.
+      #
       class SelectOptionComponent < LocoMotion::BasicComponent
         attr_reader :value, :label, :disabled
 
@@ -118,7 +123,7 @@ module Daisy
       #   Determines which option is selected on initial render.
       #
       # @option kws include_blank [Boolean] Whether to include a blank option at the
-      # top of the list.
+      #   top of the list.
       #
       # @option kws disabled [Boolean] Whether the select input is disabled. Defaults to
       #   false.
@@ -130,12 +135,38 @@ module Daisy
       #   Can be an array of strings or hashes with :value and :label keys.
       #
       # @option kws options_css [String] CSS classes to apply to each option.
+      #   Only styles options generated from the `options:` array
+      #   (`default_options`); block-form `with_option` entries are
+      #   unaffected.
       #
-      # @option kws options_html [Hash] HTML attributes to apply to each option.
+      # @option kws options_html [Hash] HTML attributes to apply to each
+      #   option. Only applies to options generated from the `options:` array
+      #   (`default_options`); block-form `with_option` entries are
+      #   unaffected.
       #
       # @option kws option_label [Symbol] The key to use for the option label.
       #
       # @option kws option_value [Symbol] The key to use for the option value.
+      #
+      # @option kws leading [String] Text to display in the leading label
+      #   position (before the select).
+      #
+      # @option kws trailing [String] Text to display in the trailing label
+      #   position (after the select).
+      #
+      # @option kws floating [String] Text to display in the floating label
+      #   position (above the select).
+      #
+      # @option kws placeholder [String] Text for the select's placeholder
+      #   option. Pulls double duty: it's LabelableComponent's generic
+      #   placeholder-text option (see `floating_placeholder`), and Select
+      #   also renders it directly as the visible text of its own
+      #   `:placeholder` `<option>` element (see {setup_placeholder}).
+      #
+      # @option kws floating_placeholder [String] Convenience option that
+      #   sets both `floating` and `placeholder` to the same value. Both
+      #   `floating` and `placeholder`, if set explicitly, take precedence
+      #   over this.
       #
       def initialize(**kws)
         super(**kws)
