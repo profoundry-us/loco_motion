@@ -15,6 +15,7 @@ module Daisy
       #
       # @option kws prefix [String] Optional prefix for the line (e.g., "$",
       #   ">", or line numbers).
+      #
       # @option kws css [String] Additional CSS classes for styling the line.
       #
       def initialize(**kws)
@@ -46,9 +47,9 @@ module Daisy
     end
 
     #
-    # The CodeComponent creates stylized code blocks for displaying code snippets,
-    # terminal output, or any text that benefits from monospace formatting.
-    # Common use cases include:
+    # The CodeComponent creates stylized code blocks for displaying code
+    # snippets, terminal output, or any text that benefits from monospace
+    # formatting. Common use cases include:
     # - Displaying code examples.
     # - Showing terminal commands and output.
     # - Highlighting important configuration settings.
@@ -56,6 +57,11 @@ module Daisy
     #
     # The component supports line prefixes (e.g., for line numbers or command
     # prompts), syntax highlighting via CSS classes, and multi-line code blocks.
+    #
+    # @part pre The `<pre>` element wrapping the code content when the
+    #   `lines` slot is not used.
+    # @part code The `<code>` element holding the code content when the
+    #   `lines` slot is not used.
     #
     # @slot lines+ [Daisy::Mockup::CodeLineComponent] Individual lines of code,
     #   each with optional prefix and styling.
@@ -100,6 +106,7 @@ module Daisy
       #
       # @option kws prefix [String] Optional prefix for all lines (if not using
       #   individual line prefixes).
+      #
       # @option kws css [String] Additional CSS classes for styling. Common
       #   options include:
       #   - Size: `w-full`, `max-w-3xl`
