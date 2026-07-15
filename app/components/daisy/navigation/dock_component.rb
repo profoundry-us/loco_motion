@@ -1,122 +1,118 @@
 # frozen_string_literal: true
 
-#
-# Creates a dock navigation bar, typically used in mobile-friendly applications
-# to provide quick access to important sections.
-#
-# @slot sections+ {Daisy::Navigation::DockSectionComponent} The sections to display in the dock.
-#
-# @loco_example Basic dock with icons
-#   = daisy_dock do |dock|
-#     - dock.with_section(icon: "home", href: "#")
-#     - dock.with_section(icon: "information-circle", href: "#", active: true)
-#     - dock.with_section(icon: "chart-bar", href: "#")
-#
-# @loco_example Dock with titles
-#   = daisy_dock do |dock|
-#     - dock.with_section(icon: "home", href: "#", title: "Home")
-#     - dock.with_section(icon: "information-circle", href: "#", title: "Info")
-#     - dock.with_section(icon: "chart-bar", href: "#", title: "Stats")
-#
-# @loco_example Colored dock
-#   = daisy_dock do |dock|
-#     - dock.with_section(icon: "home", href: "#", css: "text-primary")
-#     - dock.with_section(icon: "information-circle", href: "#", css: "text-secondary")
-#     - dock.with_section(icon: "chart-bar", href: "#", css: "text-accent")
-#
 module Daisy
   module Navigation
-    class DockComponent < LocoMotion::BaseComponent
+    #
+    # A section within a Dock component.
+    #
+    # @part icon The icon element for the section.
+    # @part title The title element for the section.
+    #
+    # @loco_example Basic section with icon
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "home", href: "#")
+    #
+    # @loco_example Active section with title
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "information-circle", href: "#", active: true, title: "Info")
+    #
+    # @loco_example Custom title content
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "chart-bar", href: "#") do
+    #       .font-bold.text-xs
+    #         Stats
+    #
+    class DockSectionComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::IconableComponent
+      include LocoMotion::Concerns::LinkableComponent
+
+      define_part :title
+
+      # Creates a new dock section.
       #
-      # A section within a Dock component.
+      # @param kws [Hash] The keyword arguments for the component.
       #
-      # @part icon The icon element for the section.
-      # @part title The title element for the section.
+      # @option kws icon [String] The icon to display, as a qualified
+      #   `[library:]name[/variant]` token (e.g. `"home"`, `"home/solid"`).
       #
-      # @loco_example Basic section with icon
-      #   = daisy_dock do |dock|
-      #     - dock.with_section(icon: "home", href: "#")
+      # @option kws icon_css [String] Additional CSS classes for the icon.
       #
-      # @loco_example Active section with title
-      #   = daisy_dock do |dock|
-      #     - dock.with_section(icon: "information-circle", href: "#", active: true, title: "Info")
+      # @option kws title [String] Optional text to display below the icon.
       #
-      # @loco_example Custom title content
-      #   = daisy_dock do |dock|
-      #     - dock.with_section(icon: "chart-bar", href: "#") do
-      #       .font-bold.text-xs
-      #         Stats
+      # @option kws href [String] Optional URL to make the section a link.
       #
-      module Daisy
-        module Navigation
-          class DockSectionComponent < LocoMotion::BaseComponent
-            include LocoMotion::Concerns::IconableComponent
-            include LocoMotion::Concerns::LinkableComponent
+      # @option kws active [Boolean] Whether this section is currently active (default: false).
+      #
+      # @option kws css [String] Additional CSS classes for styling. Common
+      #   options include:
+      #   - Text color: `text-primary`, `text-secondary`, `text-accent`
+      #   - Custom colors: `text-[#449944]`
+      #
+      def initialize(**kws)
+        super(**kws)
 
-            define_part :title
+        @title = config_option(:title)
+        @active = config_option(:active, false)
+      end
 
-            # Creates a new dock section.
-            #
-            # @param kws [Hash] The keyword arguments for the component.
-            #
-            # @option kws icon [String] The icon to display, as a qualified
-            #   `[library:]name[/variant]` token (e.g. `"home"`, `"home/solid"`).
-            #
-            # @option kws icon_css [String] Additional CSS classes for the icon.
-            #
-            # @option kws title [String] Optional text to display below the icon.
-            #
-            # @option kws href [String] Optional URL to make the section a link.
-            #
-            # @option kws active [Boolean] Whether this section is currently active (default: false).
-            #
-            # @option kws css [String] Additional CSS classes for styling. Common
-            #   options include:
-            #   - Text color: `text-primary`, `text-secondary`, `text-accent`
-            #   - Custom colors: `text-[#449944]`
-            #
-            def initialize(**kws)
-              super(**kws)
+      # Configure the component before rendering.
+      #
+      # Adds the dock-active class if this section is active and configures the
+      # title with appropriate styling.
+      def before_render
+        super
 
-              @title = config_option(:title)
-              @active = config_option(:active, false)
-            end
+        set_tag_name(:component, "button") unless @href
+        add_css(:component, "dock-active") if @active
 
-            # Configure the component before rendering.
-            #
-            # Adds the dock-active class if this section is active and configures the
-            # title with appropriate styling.
-            def before_render
-              super
+        set_tag_name(:title, :span)
+        add_css(:title, "dock-label")
+      end
 
-              set_tag_name(:component, "button") unless @href
-              add_css(:component, "dock-active") if @active
-
-              set_tag_name(:title, :span)
-              add_css(:title, "dock-label")
-            end
-
-            # Render the dock section component with icon, title, and content.
-            #
-            # @return [String] The rendered HTML for the dock section.
-            def call
-              part(:component) do
-                concat(render_icon)
-                concat(part(:title) { @title }) if @title
-                concat(content)
-              end
-            end
-
-            private
-
-            # DaisyUI's `.dock > *` already lays sections out as a centered
-            # flex column with a 1px gap under the icon; Iconable's
-            # `where:gap-2` would beat it and push the label 8px away.
-            def iconable_root_css; end
-          end
+      # Render the dock section component with icon, title, and content.
+      #
+      # @return [String] The rendered HTML for the dock section.
+      def call
+        part(:component) do
+          concat(render_icon)
+          concat(part(:title) { @title }) if @title
+          concat(content)
         end
       end
 
+      private
+
+      # DaisyUI's `.dock > *` already lays sections out as a centered
+      # flex column with a 1px gap under the icon; Iconable's
+      # `where:gap-2` would beat it and push the label 8px away.
+      def iconable_root_css; end
+    end
+
+    #
+    # Creates a dock navigation bar, typically used in mobile-friendly applications
+    # to provide quick access to important sections.
+    #
+    # @slot sections+ {Daisy::Navigation::DockSectionComponent} The sections to display in the dock.
+    #
+    # @loco_example Basic dock with icons
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "home", href: "#")
+    #     - dock.with_section(icon: "information-circle", href: "#", active: true)
+    #     - dock.with_section(icon: "chart-bar", href: "#")
+    #
+    # @loco_example Dock with titles
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "home", href: "#", title: "Home")
+    #     - dock.with_section(icon: "information-circle", href: "#", title: "Info")
+    #     - dock.with_section(icon: "chart-bar", href: "#", title: "Stats")
+    #
+    # @loco_example Colored dock
+    #   = daisy_dock do |dock|
+    #     - dock.with_section(icon: "home", href: "#", css: "text-primary")
+    #     - dock.with_section(icon: "information-circle", href: "#", css: "text-secondary")
+    #     - dock.with_section(icon: "chart-bar", href: "#", css: "text-accent")
+    #
+    class DockComponent < LocoMotion::BaseComponent
       renders_many :sections, Daisy::Navigation::DockSectionComponent
 
       # Creates a new dock component.
@@ -130,6 +126,9 @@ module Daisy
       #   - Border: `border`, `border-base-200`
       #   - Size: `dock-xs`, `dock-sm`, `dock-md`, `dock-lg`, `dock-xl`
       #
+      def initialize(*args, **kws, &block)
+        super
+      end
 
       # Configure the component before rendering.
       #

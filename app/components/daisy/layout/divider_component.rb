@@ -1,45 +1,45 @@
 # frozen_string_literal: true
 
-#
-# The DividerComponent creates a visual separator between content sections,
-# either horizontally or vertically. It can include optional text or content
-# in the center and supports various colors to match your theme.
-#
-# Common use cases include:
-# - Separating sections of a page.
-# - Creating visual breaks between cards or content blocks.
-# - Providing alternative options with "OR" text.
-# - Organizing form sections.
-#
-# @loco_example Basic Dividers
-#   = daisy_divider
-#
-#   = daisy_divider do
-#     OR
-#
-# @loco_example Vertical Dividers
-#   .flex.grow
-#     = daisy_card(css: "h-48") do
-#       Left Content
-#
-#     = daisy_divider(css: "divider-horizontal") do
-#       OR
-#
-#     = daisy_card(css: "h-48") do
-#       Right Content
-#
-# @loco_example Colored Dividers
-#   = daisy_divider(css: "divider-primary") do
-#     Primary
-#
-#   = daisy_divider(css: "divider-accent") do
-#     Accent
-#
-#   = daisy_divider(css: "divider-success") do
-#     Success
-#
 module Daisy
   module Layout
+    #
+    # The DividerComponent creates a visual separator between content sections,
+    # either horizontally or vertically. It can include optional text or content
+    # in the center and supports various colors to match your theme.
+    #
+    # Common use cases include:
+    # - Separating sections of a page.
+    # - Creating visual breaks between cards or content blocks.
+    # - Providing alternative options with "OR" text.
+    # - Organizing form sections.
+    #
+    # @loco_example Basic Dividers
+    #   = daisy_divider
+    #
+    #   = daisy_divider do
+    #     OR
+    #
+    # @loco_example Vertical Dividers
+    #   .flex.grow
+    #     = daisy_card(css: "h-48") do
+    #       Left Content
+    #
+    #     = daisy_divider(css: "divider-horizontal") do
+    #       OR
+    #
+    #     = daisy_card(css: "h-48") do
+    #       Right Content
+    #
+    # @loco_example Colored Dividers
+    #   = daisy_divider(css: "divider-primary") do
+    #     Primary
+    #
+    #   = daisy_divider(css: "divider-accent") do
+    #     Accent
+    #
+    #   = daisy_divider(css: "divider-success") do
+    #     Success
+    #
     class DividerComponent < LocoMotion::BaseComponent
       #
       # Creates a new Divider component.

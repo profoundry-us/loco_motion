@@ -1,34 +1,34 @@
 # frozen_string_literal: true
 
-#
-# Creates a styled link component that can be used for navigation or inline text
-# links. This component is designed to work similarly to Rails' `link_to` helper.
-#
-# @loco_example Link with custom styling
-#   = daisy_link "Components", "#", css: "link-primary text-xl"
-#
-# @loco_example Link with block content
-#   = daisy_link "#", css: "link-hover" do
-#     = loco_icon("home")
-#     Home
-#
-# @loco_example Link with positional arguments
-#   = daisy_link "Documentation", "#"
-#
-# @loco_example Basic link with keyword arguments
-#   = daisy_link(title: "Home", href: "#")
-#
-# @loco_example Link with icon
-#   = daisy_link(title: "Home", href: "#", icon: "home")
-#
-# @loco_example Link with left and right icons
-#   = daisy_link(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
-#
-# @loco_example Link driving a Stimulus action
-#   = daisy_link(title: "Toggle", href: "#", action: "click->my-controller#toggle")
-#
 module Daisy
   module Navigation
+    #
+    # Creates a styled link component that can be used for navigation or inline text
+    # links. This component is designed to work similarly to Rails' `link_to` helper.
+    #
+    # @loco_example Link with custom styling
+    #   = daisy_link "Components", "#", css: "link-primary text-xl"
+    #
+    # @loco_example Link with block content
+    #   = daisy_link "#", css: "link-hover" do
+    #     = loco_icon("home")
+    #     Home
+    #
+    # @loco_example Link with positional arguments
+    #   = daisy_link "Documentation", "#"
+    #
+    # @loco_example Basic link with keyword arguments
+    #   = daisy_link(title: "Home", href: "#")
+    #
+    # @loco_example Link with icon
+    #   = daisy_link(title: "Home", href: "#", icon: "home")
+    #
+    # @loco_example Link with left and right icons
+    #   = daisy_link(title: "Navigate", href: "#", left_icon: "arrow-left", right_icon: "arrow-right")
+    #
+    # @loco_example Link driving a Stimulus action
+    #   = daisy_link(title: "Toggle", href: "#", action: "click->my-controller#toggle")
+    #
     class LinkComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
       include LocoMotion::Concerns::LinkableComponent
