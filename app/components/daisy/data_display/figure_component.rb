@@ -6,6 +6,13 @@ module Daisy
     # The FigureComponent is used to display images with optional captions. It is
     # commonly used within cards and other content containers.
     #
+    # @note `before_render` sets the component's tag to `<figure>`, but
+    #   {LocoMotion::Concerns::LinkableComponent}'s setup runs afterward via
+    #   `super` and overrides it to `<a>` whenever `href` is present. Since
+    #   Figure is commonly embedded in Card's `top_figure` / `bottom_figure`
+    #   slots, passing `href:` there changes the wrapping element from a
+    #   `<figure>` to an `<a>`.
+    #
     # @part image The image element when a source URL is provided.
     #
     # @loco_example Basic Usage
@@ -40,6 +47,36 @@ module Daisy
       # @option kws alt [String] The alt text for the image, used by screen
       #   readers and shown when the image fails to load. Omitted when not
       #   provided.
+      #
+      # @option kws href [String] A path or URL to which the user will be
+      #   directed when the figure is clicked. Forces the Figure to use an
+      #   `<a>` tag (see the note above about Card's figure slots).
+      #
+      # @option kws target [String] The HTML `target` attribute for the `<a>`
+      #   tag (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
+      #
+      # @option kws title [String] The HTML `title` attribute for the `<a>`
+      #   tag, shown as a native tooltip on hover. Only applied when `href`
+      #   is also provided.
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered
+      #   as `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo
+      #   should use for the request, rendered as `data-turbo-method`
+      #   (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws action [String] A Stimulus action wired to the figure via
+      #   its `data-action` attribute. Stimulus infers the `click` event, so
+      #   `action: "my-controller#handle"` works as a shorthand for
+      #   `action: "click->my-controller#handle"`.
       #
       # @option kws css [String] Additional CSS classes for styling.
       #

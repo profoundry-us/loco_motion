@@ -3,18 +3,19 @@
 module Daisy
   module DataDisplay
     #
-    # The Collapse component creates an expandable/collapsible section of content
-    # with a title that toggles visibility. It's similar to the Accordion component
-    # but designed for standalone use rather than groups.
+    # The Collapse component creates an expandable/collapsible section of
+    # content with a title that toggles visibility. It's similar to the
+    # Accordion component but designed for standalone use rather than
+    # groups.
     #
-    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-    # tooltip addition.
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to
+    # enable easy tooltip addition.
     #
     # @part title The clickable title bar that toggles the content visibility.
     # @part wrapper The container for the collapsible content.
     #
-    # @slot title Custom content for the title bar. You can also provide a simple
-    #   title string via the title option.
+    # @slot title Custom content for the title bar. You can also provide a
+    #   simple title string via the title option.
     #
     # @loco_example Basic Usage
     #   = daisy_collapse(title: "Click to expand") do
@@ -65,8 +66,8 @@ module Daisy
       # @option kws title [String] The text to display in the title bar. You can
       #   also provide custom title content using the title slot.
       #
-      # @option kws checkbox [Boolean] Whether to use a checkbox for toggle state
-      #   (true) or focus/tabindex mode (false). Defaults to true.
+      # @option kws checkbox [Boolean] Whether to use a checkbox for toggle
+      #   state (true) or focus/tabindex mode (false). Defaults to true.
       #
       # @option kws tip [String] The tooltip text to display when hovering over
       #   the component.

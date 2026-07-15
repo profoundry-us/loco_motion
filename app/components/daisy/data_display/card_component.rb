@@ -10,13 +10,12 @@ module Daisy
     # tooltip addition.
     #
     # @part body The main content area of the card.
-    # @part title The title text container when using the simple title option.
     #
     # @slot title A custom title section, typically rendered as an `h2` element.
-    # @slot top_figure {Daisy::DataDisplay::FigureComponent} An optional figure
+    # @slot top_figure [Daisy::DataDisplay::FigureComponent] An optional figure
     #   (usually an image) to display at the top of the card.
-    # @slot bottom_figure {Daisy::DataDisplay::FigureComponent} An optional figure
-    #   (usually an image) to display at the bottom of the card.
+    # @slot bottom_figure [Daisy::DataDisplay::FigureComponent] An optional
+    #   figure (usually an image) to display at the bottom of the card.
     # @slot actions A container for action buttons or links, typically displayed at
     #   the bottom of the card.
     #
@@ -73,7 +72,36 @@ module Daisy
       # @param kws [Hash] The keyword arguments for the component.
       #
       # @option kws title [String] Optional simple title text. For more complex
-      #   titles, use the `with_title` method instead.
+      #   titles, use the `with_title` method instead. When `href` is also
+      #   set, this same text becomes the anchor's `title` HTML attribute
+      #   (via {LocoMotion::Concerns::LinkableComponent}) in addition to the
+      #   visible card title.
+      #
+      # @option kws href [String] A path or URL to which the user will be
+      #   directed when the card is clicked. Forces the Card to use an `<a>`
+      #   tag.
+      #
+      # @option kws target [String] The HTML `target` attribute for the `<a>`
+      #   tag (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered
+      #   as `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo
+      #   should use for the request, rendered as `data-turbo-method`
+      #   (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws action [String] A Stimulus action wired to the card via
+      #   its `data-action` attribute. Stimulus infers the `click` event, so
+      #   `action: "my-controller#handle"` works as a shorthand for
+      #   `action: "click->my-controller#handle"`.
       #
       # @option kws css [String] Additional CSS classes for styling. Common
       #   options include:
@@ -93,7 +121,7 @@ module Daisy
 
       def before_render
         setup_component
-        super # Runs TippableComponent's setup hook
+        super # Runs the TippableComponent and LinkableComponent setup hooks
 
         with_title { simple_title } if simple_title && !title?
       end

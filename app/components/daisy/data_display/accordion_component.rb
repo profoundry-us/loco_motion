@@ -21,14 +21,14 @@ module Daisy
     #       This is the content of section 2
     #
     # @loco_example With Arrow Icons
-    #   = daisy_accordion(:arrow) do |accordion|
+    #   = daisy_accordion(modifier: :arrow) do |accordion|
     #     - accordion.with_section(title: "Section 1") do
     #       This is the content of section 1
     #     - accordion.with_section(title: "Section 2") do
     #       This is the content of section 2
     #
     # @loco_example With Plus Icons
-    #   = daisy_accordion(:plus) do |accordion|
+    #   = daisy_accordion(modifier: :plus) do |accordion|
     #     - accordion.with_section(title: "Section 1") do
     #       This is the content of section 1
     #     - accordion.with_section(title: "Section 2") do
@@ -71,7 +71,7 @@ module Daisy
         #   You can also provide a custom title content using the title slot.
         #
         # @option kws value [String] The value for the radio button that controls
-        #   this section. Defaults to a random string.
+        #   this section. Defaults to nil.
         #
         # @option kws checked [Boolean] Whether this section should start expanded.
         #   Defaults to false.

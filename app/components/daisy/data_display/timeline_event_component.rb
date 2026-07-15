@@ -7,6 +7,9 @@ module Daisy
     # have three sections: leading (typically a date or time), middle (an icon or
     # marker), and trailing (the event description).
     #
+    # @note The middle and middle_icon options are mutually exclusive. If
+    #   both are provided, middle takes precedence.
+    #
     # @part leading The container for the leading content (e.g., date/time).
     # @part middle The container for the middle content.
     # @part middle_icon Container for a simple icon when not using custom middle
@@ -22,9 +25,6 @@ module Daisy
     #
     # @slot trailing Custom content for the trailing section. You can also provide
     #   simple text via the trailing option.
-    #
-    # @note The middle and middle_icon options are mutually exclusive. If both are
-    #   provided, middle takes precedence.
     #
     # @loco_example Simple Event
     #   = daisy_timeline do |timeline|

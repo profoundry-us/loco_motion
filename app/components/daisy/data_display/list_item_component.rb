@@ -6,8 +6,6 @@ module Daisy
     # The ListItem component represents an individual row within a List component.
     # It provides a consistent layout for displaying content in a list format.
     #
-    # @part image Optional image container for the item
-    #
     # @loco_example Basic Usage
     #   = daisy_list do |list|
     #     - list.with_item { "Simple list item" }
@@ -18,7 +16,6 @@ module Daisy
     #       = image_tag(src: "profile.jpg", class: "rounded-full size-8")
     #       User Profile
     #
-    # @!parse class Daisy::DataDisplay::ListItemComponent < LocoMotion::BaseComponent; end
     class ListItemComponent < LocoMotion::BaseComponent
       # Called before rendering to setup the component CSS and structure
       def before_render

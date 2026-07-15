@@ -12,17 +12,16 @@ module Daisy
     # It utilizes the CSS `where()` pseudo-class to reduce the specificity to 0 to
     # allow for easy overriding while giving you some sane defaults.
     #
-    # @note When using a placeholder avatar (no `src` or `icon`), the wrapper
-    #   defaults to `where:bg-neutral where:text-neutral-content` so the
-    #   placeholder text is readable. These defaults are suppressed whenever
-    #   `skeleton` appears in `wrapper_css`, allowing the skeleton shimmer to
-    #   render correctly without the neutral background bleeding through.
-    #   Use `wrapper_css: "skeleton"` to display a properly colored skeleton
-    #   avatar.
+    # @note Whenever no `src` is given — including icon-only avatars — the
+    #   wrapper defaults to `where:bg-neutral where:text-neutral-content` so
+    #   the placeholder text or icon stays readable. These defaults are
+    #   suppressed whenever `skeleton` appears in `wrapper_css`, allowing the
+    #   skeleton shimmer to render correctly without the neutral background
+    #   bleeding through. Use `wrapper_css: "skeleton"` to display a properly
+    #   colored skeleton avatar.
     #
     # @part wrapper The outer container that maintains the avatar's shape and size.
     # @part img The image element when an image source is provided.
-    # @part icon The icon element when an icon is specified.
     # @part placeholder The container for placeholder content when no image or icon
     #   is provided.
     #
@@ -64,6 +63,21 @@ module Daisy
       # @option kws icon [String] Name of the icon to display when no image is
       #   provided. If neither src nor icon is provided, placeholder content from
       #   the block will be shown.
+      #
+      # @option kws icon_css [String] The CSS classes to apply to the icon.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes to apply to the
+      #   icon.
+      #
+      # @option kws icon_options [Hash] Additional keyword arguments forwarded
+      #   to the icon component (e.g. `tip:`).
+      #
+      # @option kws href [String] A path or URL to which the user will be
+      #   directed when the avatar is clicked. Forces the Avatar to use an
+      #   `<a>` tag.
+      #
+      # @option kws target [String] The HTML `target` attribute for the `<a>`
+      #   tag (`_blank`, `_parent`, or a specific tab / window / iframe, etc).
       #
       # @option kws tip [String] The tooltip text to display when hovering over
       #   the component.
