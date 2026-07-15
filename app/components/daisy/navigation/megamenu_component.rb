@@ -9,17 +9,18 @@ module Daisy
     # intended to be used once, near the top of the page.
     #
     # Everything is native HTML: each item is a `<button popovertarget>` paired
-    # with a `<div popover>`, and DaisyUI positions the popovers (and the sliding
-    # hover highlight) with CSS anchor positioning — no JavaScript required.
+    # with a `<div popover>`, and DaisyUI positions the popovers (and the
+    # sliding hover highlight) with CSS anchor positioning — no JavaScript
+    # required.
     #
-    # The megamenu is best suited to large screens. Add `max-sm:megamenu-vertical`
-    # via `css:` to collapse it on small screens, where the always-rendered
-    # toggle button (hidden at `sm` and up) opens the menu as a full-width
-    # popover instead.
+    # The megamenu is best suited to large screens. Add
+    # `max-sm:megamenu-vertical` via `css:` to collapse it on small screens,
+    # where the always-rendered toggle button (hidden at `sm` and up) opens
+    # the menu as a full-width popover instead.
     #
-    # @note The hover highlight and popover placement use CSS anchor positioning.
-    #   Browsers without it still show and open the menus — they just skip the
-    #   anchored styling.
+    # @note The hover highlight and popover placement use CSS anchor
+    #   positioning. Browsers without it still show and open the menus — they
+    #   just skip the anchored styling.
     #
     # @part toggle The small-screen toggle `<button>` that opens the megamenu.
     #   Rendered before the megamenu container with `btn sm:hidden` by default;
@@ -30,8 +31,8 @@ module Daisy
     #
     # @slot toggle Custom content for the toggle button (an icon, styled text,
     #   etc.). Without it, the button shows the `toggle_text` option.
-    # @slot item+ The megamenu items. Each takes a `title:` for its button and a
-    #   block for its popover content.
+    # @slot items+ The megamenu items. Each takes a `title:` for its button and
+    #   a block for its popover content.
     #
     # @loco_example Basic Usage
     #   = daisy_megamenu(css: "max-sm:megamenu-vertical p-2 border border-base-300") do |mega|
@@ -69,6 +70,10 @@ module Daisy
       # One megamenu item: a `<button popovertarget>` immediately followed by
       # its `<div popover>` content block. The pairing IDs are generated
       # automatically (or pass `id:` to control them).
+      #
+      # @part button The item's toggle `<button popovertarget>`. Its text
+      #   comes from the `title:` option.
+      # @part popover The item's `<div popover>` wrapping the block content.
       #
       class ItemComponent < LocoMotion::BasicComponent
         define_parts :button, :popover

@@ -3,8 +3,15 @@
 module Daisy
   module Navigation
     #
-    # Creates a styled link component that can be used for navigation or inline text
-    # links. This component is designed to work similarly to Rails' `link_to` helper.
+    # Creates a styled link component that can be used for navigation or inline
+    # text links. This component is designed to work similarly to Rails'
+    # `link_to` helper.
+    #
+    # @loco_example Link with positional arguments
+    #   = daisy_link "Documentation", "#"
+    #
+    # @loco_example Basic link with keyword arguments
+    #   = daisy_link(title: "Home", href: "#")
     #
     # @loco_example Link with custom styling
     #   = daisy_link "Components", "#", css: "link-primary text-xl"
@@ -13,12 +20,6 @@ module Daisy
     #   = daisy_link "#", css: "link-hover" do
     #     = loco_icon("home")
     #     Home
-    #
-    # @loco_example Link with positional arguments
-    #   = daisy_link "Documentation", "#"
-    #
-    # @loco_example Basic link with keyword arguments
-    #   = daisy_link(title: "Home", href: "#")
     #
     # @loco_example Link with icon
     #   = daisy_link(title: "Home", href: "#", icon: "home")
@@ -37,20 +38,22 @@ module Daisy
       # Create a new instance of the LinkComponent.
       #
       # @param args [Array] Looks for **one** or **two** positional arguments.
-      #   - If passed **two** positional arguments, the first is considered the `title`
-      #   and the second is considered the `href`.
-      #   - If passed only **one** positional argument, it is treated as the `href`
-      #   and we assume the `title` will be provided in the block.
-      #   - If no text is passed in the block, we will use the `href` as the title.
+      #   - If passed **two** positional arguments, the first is considered the
+      #   `title` and the second is considered the `href`.
+      #   - If passed only **one** positional argument, it is treated as the
+      #   `href` and we assume the `title` will be provided in the block.
+      #   - If no text is passed in the block, we will use the `href` as the
+      #   title.
       #
       # @param kws [Hash] The keyword arguments for the component.
       #
-      # @option kws title [String] The text to display in the link. Not required if
-      #   providing block content.
+      # @option kws title [String] The text to display in the link. Not required
+      #   if providing block content.
       #
       # @option kws href [String] The URL to visit when the link is clicked.
       #
-      # @option kws target [String] The target attribute for the anchor tag (e.g., "_blank").
+      # @option kws target [String] The target attribute for the anchor tag
+      #   (e.g., "_blank").
       #
       # @option kws action [String] A Stimulus action wired to the link via its
       #   `data-action` attribute (provided by
@@ -59,6 +62,19 @@ module Daisy
       #   `action: "click->my-controller#handle"`. Have the controller call
       #   `event.preventDefault()` (or omit `href`) when the link only drives a
       #   controller rather than navigating.
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered as
+      #   `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo should
+      #   use for the request, rendered as `data-turbo-method` (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
       #
       # @option kws icon [String] The name of Hero icon to render inside the
       #   link. This is an alias of `left_icon`.
@@ -100,11 +116,13 @@ module Daisy
         super
 
         if args.size == 1
-          # If given one arg, assume it's the href and / or the title (if no block is given)
+          # If given one arg, assume it's the href and / or the title
+          # (if no block is given)
           @title = args[0]
           @href = args[0]
         elsif args.size == 2
-          # If given two args, assume the first is the title and the second is the href
+          # If given two args, assume the first is the title and the second is
+          # the href
           @title = args[0]
           @href = args[1]
         else
@@ -117,8 +135,8 @@ module Daisy
       end
 
       #
-      # Adds the relevant Daisy classes and applies the href and target attributes
-      # if provided.
+      # Adds the relevant Daisy classes and applies the href and target
+      # attributes if provided.
       #
       def before_render
         super
@@ -129,9 +147,9 @@ module Daisy
       #
       # Renders the link component.
       #
-      # Because this is an inline component which might be utlized alongside text,
-      # we utilize the `call` method instead of a template to ensure that no
-      # additional whitespace gets added to the output.
+      # Because this is an inline component which might be utilized alongside
+      # text, we utilize the `call` method instead of a template to ensure that
+      # no additional whitespace gets added to the output.
       #
       def call
         if content?

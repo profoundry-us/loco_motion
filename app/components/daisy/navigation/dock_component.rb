@@ -5,7 +5,6 @@ module Daisy
     #
     # A section within a Dock component.
     #
-    # @part icon The icon element for the section.
     # @part title The title element for the section.
     #
     # @loco_example Basic section with icon
@@ -41,7 +40,30 @@ module Daisy
       #
       # @option kws href [String] Optional URL to make the section a link.
       #
-      # @option kws active [Boolean] Whether this section is currently active (default: false).
+      # @option kws target [String] The HTML `target` attribute for the
+      #   section's `<a>` tag (e.g. "_blank"). Only applied when `href` is also
+      #   provided.
+      #
+      # @option kws action [String] A Stimulus action wired to the section via
+      #   its `data-action` attribute. Stimulus infers the `click` event, so
+      #   `action: "my-controller#handle"` is shorthand for
+      #   `action: "click->my-controller#handle"`.
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered as
+      #   `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo should
+      #   use for the request, rendered as `data-turbo-method` (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws active [Boolean] Whether this section is currently active
+      #   (default: false).
       #
       # @option kws css [String] Additional CSS classes for styling. Common
       #   options include:
@@ -89,10 +111,11 @@ module Daisy
     end
 
     #
-    # Creates a dock navigation bar, typically used in mobile-friendly applications
-    # to provide quick access to important sections.
+    # Creates a dock navigation bar, typically used in mobile-friendly
+    # applications to provide quick access to important sections.
     #
-    # @slot sections+ {Daisy::Navigation::DockSectionComponent} The sections to display in the dock.
+    # @slot sections+ [Daisy::Navigation::DockSectionComponent] The sections to
+    #   display in the dock.
     #
     # @loco_example Basic dock with icons
     #   = daisy_dock do |dock|

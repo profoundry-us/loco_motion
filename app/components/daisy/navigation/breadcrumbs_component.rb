@@ -4,14 +4,14 @@ module Daisy
   module Navigation
     # Component for a single breadcrumb item in a breadcrumbs trail.
     #
-    # @part link The link element wrapping the breadcrumb content when an href is
-    #   provided.
+    # @part link The link element wrapping the breadcrumb content when an href
+    #   is provided.
     #
     # @loco_example Simple usage
     #   = render Daisy::Navigation::BreadcrumbItemComponent.new("Home", "/")
     #
     # @loco_example With icon
-    #   = render Daisy::Navigation::BreadcrumbItemComponent.new("Home", "/", icon: :home)
+    #   = render Daisy::Navigation::BreadcrumbItemComponent.new("Home", "/", icon: "home")
     #
     # @see Daisy::Navigation::BreadcrumbsComponent
     class BreadcrumbItemComponent < LocoMotion::BaseComponent
@@ -31,7 +31,12 @@ module Daisy
       #
       # @param kws [Hash] Additional keyword options.
       #
-      # @option kws icon [Symbol] Icon name to display before the title.
+      # @option kws icon [String] Icon name to display before the title.
+      #
+      # @option kws icon_css [String] Additional CSS classes for the icon.
+      #
+      # @option kws icon_html [Hash] Additional HTML attributes to apply to
+      #   the icon.
       #
       # @option kws tip [String] Tooltip text shown on hover.
       def initialize(title = nil, href = nil, *args, **kws)
@@ -43,8 +48,8 @@ module Daisy
 
       # Configure the component before rendering.
       #
-      # Sets the component tag to be a list item and configures the link part with
-      # the href value.
+      # Sets the component tag to be a list item and configures the link part
+      # with the href value.
       def before_render
         set_tag_name(:component, :li)
 
@@ -76,13 +81,14 @@ module Daisy
     end
 
     #
-    # Creates a breadcrumb navigation component to show the user's location within
-    # a website or app.
+    # Creates a breadcrumb navigation component to show the user's location
+    # within a website or app.
     #
-    # @part list_wrapper The unordered list element that wraps the breadcrumb items.
+    # @part list_wrapper The unordered list element that wraps the breadcrumb
+    #   items.
     #
-    # @slot items+ {LocoMotion::BasicComponent} The individual breadcrumb items.
-    #   Each item is rendered as a list item (`<li>`) element.
+    # @slot items+ [Daisy::Navigation::BreadcrumbItemComponent] The individual
+    #   breadcrumb items. Each item is rendered as a list item (`<li>`) element.
     #
     # @loco_example Basic breadcrumbs with text
     #   = daisy_breadcrumbs do |breadcrumbs|
