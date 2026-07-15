@@ -22,6 +22,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   worked around this by adding `collapse-title` to the slot's `css:`, remove it — the class now comes from
   the part, which can be styled directly via `title_css:` (the demo's Advanced Collapse example shows this).
 
+- fix(TimelineEvent): Use the registered `middle_icon` part when rendering the icon's HTML attributes. The
+  template was looking up an unregistered `:simple_middle_icon` part, which always resolved to an empty
+  hash, so `middle_icon_css:`/`middle_icon_html:` were silently ignored on the icon.
+
 - feat(Icons): Add a `config.icon_dev_fallback` setting (default `true`) controlling the renderer's
   development-only fallback to the full local icon cache. Set it to `false` to resolve icons strictly from
   the vendored `app/assets/svg/icons` set in every environment — a used-but-unvendored icon then raises in
