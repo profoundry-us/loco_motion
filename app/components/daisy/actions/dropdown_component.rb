@@ -7,14 +7,12 @@ module Daisy
     # hovering menu that opens on click (or hover). It provides a flexible way to
     # create dropdown menus with customizable triggers and content.
     #
-    # Note that the dropdown uses slots for both the activator and menu items,
-    # allowing for maximum flexibility in how the dropdown is triggered and what
-    # content it displays.
+    # @note The dropdown uses slots for both the activator and menu items,
+    #   allowing for maximum flexibility in how the dropdown is triggered
+    #   and what content it displays.
     #
     # @part menu The default / styled menu rendered by the dropdown. Contains all
     #   menu items and provides the dropdown's positioning and animation.
-    # @part menu_item The styles for every item in the dropdown. Provides consistent
-    #   spacing and hover states.
     #
     # @slot button The button that triggers the dropdown. This is the default trigger
     #   and is styled automatically.
