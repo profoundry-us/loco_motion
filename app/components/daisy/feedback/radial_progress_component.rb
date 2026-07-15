@@ -34,7 +34,7 @@ module Daisy
       # @param kws  [Hash]  Keyword arguments for customizing the radial progress.
       #
       # @option kws value      [Integer] The current progress value as a
-      #   percentage (0-100). Required for the progress to be displayed.
+      #   percentage (0-100). The ring shows 0% if omitted.
       #
       # @option kws size       [String] The size of the radial progress component.
       #   Must include CSS units (e.g., "5rem", "100px"). Defaults to "5rem".

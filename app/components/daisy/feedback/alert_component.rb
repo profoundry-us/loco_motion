@@ -7,27 +7,10 @@ module Daisy
     # show information, success messages, warnings, or errors. Alerts can include
     # an optional icon at the start and customizable content.
     #
-    # @part icon             [String] An optional icon displayed at the start of
-    #   the alert. Rendered via the `loco_icon` engine.
+    # @part content_wrapper A wrapper for the main content of the alert. This
+    #   allows for proper spacing and alignment with the icon.
     #
-    # @part content_wrapper  [HTML] A wrapper for the main content of the alert.
-    #   This allows for proper spacing and alignment with the icon.
-    #
-    # @part close            [Button] A close button that appears when closable is true.
-    #
-    # @option kws [String] :style (:default) The style of the alert.
-    #   [:info, :success, :warning, :error, :default]
-    # @option kws [Boolean] :soft (false) Use the soft style variant.
-    # @option kws [Boolean] :outline (false) Use the outline style variant.
-    # @option kws [Boolean] :dash (false) Use the dash style variant.
-    # @option kws [Integer] :timeout (nil) Auto-dismiss timeout in milliseconds.
-    #   If nil, uses global configuration default. If false, no auto-dismiss.
-    # @option kws [Boolean] :autoclose (false) Enable auto-dismiss using timeout.
-    #   Must be true for auto-dismiss to work.
-    # @option kws [String] :href (nil) Converts alert to a clickable link.
-    # @option kws [String] :action (nil) Stimulus action to fire on click.
-    # @option kws [Boolean] :closable (false) Show close button. Set to true to enable
-    #   manual dismissal.
+    # @part close           A close button that appears when closable is true.
     #
     # @loco_example Basic Alert
     #   = daisy_alert do
@@ -138,7 +121,7 @@ module Daisy
       include LocoMotion::Concerns::IconableComponent
       include LocoMotion::Concerns::LinkableComponent
 
-      define_parts :icon, :content_wrapper, :close
+      define_parts :content_wrapper, :close
 
       # @return [Boolean] Whether or not this alert can be closed.
       attr_reader :closable
@@ -153,6 +136,11 @@ module Daisy
       # @option kws icon      [String] The name (or `[library:]name[/variant]`
       #   token) of the icon to display at the start of the alert.
       #
+      # @option kws icon_css  [String] Additional CSS classes for the icon.
+      #
+      # @option kws icon_options [Hash] Additional keyword arguments forwarded
+      #   to the icon component that renders the icon. Rarely needed.
+      #
       # @option kws icon_html [Hash] Additional HTML attributes for the icon
       #   element, such as `data` or `aria` attributes. To pick an icon
       #   variant, use the icon token instead (e.g. `"check-circle/solid"`).
@@ -161,17 +149,36 @@ module Daisy
       #   `alert-info`, `alert-success`, `alert-warning`, or `alert-error` for
       #   different alert types.
       #
-      # @option kws style    [String] The style of the alert.
-      #   [:info, :success, :warning, :error, :default]
-      # @option kws soft     [Boolean] Use the soft style variant.
-      # @option kws outline  [Boolean] Use the outline style variant.
-      # @option kws dash     [Boolean] Use the dash style variant.
+      # @option kws href     [String] Converts alert to a clickable link.
+      #
+      # @option kws target   [String] The HTML `target` for the `<a>` tag when
+      #   `href` is set (`_blank`, `_parent`, or a specific tab / window /
+      #   iframe, etc).
+      #
+      # @option kws title    [String] The HTML `title` attribute for the `<a>`
+      #   tag when `href` is set.
+      #
+      # @option kws turbo_frame [String] The Turbo Frame to target, rendered as
+      #   `data-turbo-frame`.
+      #
+      # @option kws turbo_action [String, Symbol] How Turbo Drive updates the
+      #   browser history for the visit, rendered as `data-turbo-action`
+      #   (e.g. `:advance` or `:replace`).
+      #
+      # @option kws turbo_method [String, Symbol] The HTTP method Turbo should
+      #   use for the request, rendered as `data-turbo-method` (e.g. `:delete`).
+      #
+      # @option kws turbo_confirm [String] A confirmation prompt Turbo shows
+      #   before submitting, rendered as `data-turbo-confirm`.
+      #
+      # @option kws action   [String] Stimulus action to fire on click.
+      #
       # @option kws timeout  [Integer] Auto-dismiss timeout in milliseconds.
       #   If nil, uses global configuration default. If false, no auto-dismiss.
+      #
       # @option kws autoclose [Boolean] Enable auto-dismiss using timeout.
       #   Must be true for auto-dismiss to work.
-      # @option kws href     [String] Converts alert to a clickable link.
-      # @option kws action   [String] Stimulus action to fire on click.
+      #
       # @option kws closable [Boolean] Show close button. Set to true to enable
       #   manual dismissal.
       #

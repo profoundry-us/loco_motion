@@ -18,9 +18,9 @@ module Daisy
     #
     # @loco_example Indeterminate Progress Bars
     #   = daisy_progress(css: "progress-info")
-    #   = daisy_progress(css: "progress-success ![animation-delay:250ms]")
-    #   = daisy_progress(css: "progress-warning ![animation-delay:500ms]")
-    #   = daisy_progress(css: "progress-error ![animation-delay:750ms]")
+    #   = daisy_progress(css: "progress-success [animation-delay:250ms]!")
+    #   = daisy_progress(css: "progress-warning [animation-delay:500ms]!")
+    #   = daisy_progress(css: "progress-error [animation-delay:750ms]!")
     #
     class ProgressComponent < LocoMotion::BaseComponent
       #
@@ -34,13 +34,15 @@ module Daisy
       #   to `nil`.
       #
       # @option kws max   [Integer] The maximum value for the progress bar.
-      #   Defaults to `100` to easily work with percentage values.
+      #   Defaults to `100` to easily work with percentage values. Only
+      #   rendered as the `max` attribute when `value` is also set, so
+      #   `daisy_progress(max: 50)` alone renders no `max` attribute.
       #
       # @option kws css   [String] Additional CSS classes for the progress bar.
       #   Available styles include: `progress-primary`, `progress-secondary`,
       #   `progress-accent`, `progress-info`, `progress-success`,
       #   `progress-warning`, and `progress-error`. Can be combined with utility
-      #   classes like `![animation-delay:250ms]` for staggered animations.
+      #   classes like `[animation-delay:250ms]!` for staggered animations.
       #
       def initialize(*args, **kws, &block)
         super

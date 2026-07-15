@@ -10,6 +10,9 @@ module Daisy
     # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
     # tooltip addition.
     #
+    # @note The helper method is also aliased as `daisy_loader` for better
+    #   readability, but CSS classes must still use the `loading-*` prefix.
+    #
     # @loco_example Basic Loading Spinners
     #   = daisy_loading(css: "loading-spinner text-primary")
     #   = daisy_loading(css: "loading-dots text-secondary")
@@ -19,9 +22,6 @@ module Daisy
     #   = daisy_loader(css: "loading-ball text-info")
     #   = daisy_loader(css: "loading-bars text-success")
     #   = daisy_loader(css: "loading-infinity text-error")
-    #
-    # @note The helper method is also aliased as `daisy_loader` for better
-    #   readability, but CSS classes must still use the `loading-*` prefix.
     #
     class LoadingComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
