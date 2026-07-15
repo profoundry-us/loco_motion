@@ -1,34 +1,34 @@
 # frozen_string_literal: true
 
-#
-# The Countdown component displays a timer that counts down to or up from a
-# specific duration. It can show days, hours, minutes, and seconds with
-# customizable separators and formats.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @part days The container for the days value.
-# @part hours The container for the hours value.
-# @part minutes The container for the minutes value.
-# @part seconds The container for the seconds value.
-#
-# @loco_example Basic Usage
-#   = daisy_countdown(1.day + 2.hours + 30.minutes)
-#
-# @loco_example With Word Separators
-#   = daisy_countdown(5.days + 12.hours + 45.minutes, modifier: :words) do |cd|
-#     1 day 12 hours 45 minutes remaining
-#
-# @loco_example With Letter Separators
-#   = daisy_countdown(24.hours + 59.minutes + 59.seconds, modifier: :letters) do |cd|
-#     24h 59m 59s left
-#
-# @loco_example With Custom Separator
-#   = daisy_countdown(3.hours + 30.minutes, separator: " → ")
-#
 module Daisy
   module DataDisplay
+    #
+    # The Countdown component displays a timer that counts down to or up from a
+    # specific duration. It can show days, hours, minutes, and seconds with
+    # customizable separators and formats.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @part days The container for the days value.
+    # @part hours The container for the hours value.
+    # @part minutes The container for the minutes value.
+    # @part seconds The container for the seconds value.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_countdown(1.day + 2.hours + 30.minutes)
+    #
+    # @loco_example With Word Separators
+    #   = daisy_countdown(5.days + 12.hours + 45.minutes, modifier: :words) do |cd|
+    #     1 day 12 hours 45 minutes remaining
+    #
+    # @loco_example With Letter Separators
+    #   = daisy_countdown(24.hours + 59.minutes + 59.seconds, modifier: :letters) do |cd|
+    #     24h 59m 59s left
+    #
+    # @loco_example With Custom Separator
+    #   = daisy_countdown(3.hours + 30.minutes, separator: " → ")
+    #
     class CountdownComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 

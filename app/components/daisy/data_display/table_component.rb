@@ -1,71 +1,71 @@
 # frozen_string_literal: true
 
-#
-# The Table component creates structured data tables with support for headers,
-# multiple sections, and complex layouts. It provides a clean, semantic way to
-# display tabular data while maintaining proper HTML structure.
-#
-# @slot head A header section containing column titles.
-# @slot body A body section containing rows of data.
-# @slot row+ Individual rows that can be added directly to the table.
-# @slot section+ Multiple sections, each with its own header and body, for
-#   complex table layouts.
-#
-# @loco_example Basic Usage
-#   = daisy_table do |table|
-#     - table.with_head do |head|
-#       - head.with_column { "Name" }
-#       - head.with_column { "Role" }
-#       - head.with_column { "Department" }
-#
-#     - table.with_row do |row|
-#       - row.with_column { "John Smith" }
-#       - row.with_column { "Developer" }
-#       - row.with_column { "Engineering" }
-#
-#     - table.with_row do |row|
-#       - row.with_column { "Jane Doe" }
-#       - row.with_column { "Designer" }
-#       - row.with_column { "Product" }
-#
-# @loco_example With Body Container
-#   = daisy_table do |table|
-#     - table.with_head do |head|
-#       - head.with_column { "Product" }
-#       - head.with_column { "Price" }
-#
-#     - table.with_body do |body|
-#       - body.with_row do |row|
-#         - row.with_column { "Basic Plan" }
-#         - row.with_column { "$10/mo" }
-#       - body.with_row do |row|
-#         - row.with_column { "Pro Plan" }
-#         - row.with_column { "$20/mo" }
-#
-# @loco_example With Multiple Sections
-#   = daisy_table do |table|
-#     - table.with_section do |section|
-#       - section.with_head do |head|
-#         - head.with_column { "Active Users" }
-#         - head.with_column { "Status" }
-#
-#       - section.with_body do |body|
-#         - body.with_row do |row|
-#           - row.with_column { "Alice" }
-#           - row.with_column { "Online" }
-#
-#     - table.with_section do |section|
-#       - section.with_head do |head|
-#         - head.with_column { "Inactive Users" }
-#         - head.with_column { "Last Seen" }
-#
-#       - section.with_body do |body|
-#         - body.with_row do |row|
-#           - row.with_column { "Bob" }
-#           - row.with_column { "2 days ago" }
-#
 module Daisy
   module DataDisplay
+    #
+    # The Table component creates structured data tables with support for headers,
+    # multiple sections, and complex layouts. It provides a clean, semantic way to
+    # display tabular data while maintaining proper HTML structure.
+    #
+    # @slot head A header section containing column titles.
+    # @slot body A body section containing rows of data.
+    # @slot row+ Individual rows that can be added directly to the table.
+    # @slot section+ Multiple sections, each with its own header and body, for
+    #   complex table layouts.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_table do |table|
+    #     - table.with_head do |head|
+    #       - head.with_column { "Name" }
+    #       - head.with_column { "Role" }
+    #       - head.with_column { "Department" }
+    #
+    #     - table.with_row do |row|
+    #       - row.with_column { "John Smith" }
+    #       - row.with_column { "Developer" }
+    #       - row.with_column { "Engineering" }
+    #
+    #     - table.with_row do |row|
+    #       - row.with_column { "Jane Doe" }
+    #       - row.with_column { "Designer" }
+    #       - row.with_column { "Product" }
+    #
+    # @loco_example With Body Container
+    #   = daisy_table do |table|
+    #     - table.with_head do |head|
+    #       - head.with_column { "Product" }
+    #       - head.with_column { "Price" }
+    #
+    #     - table.with_body do |body|
+    #       - body.with_row do |row|
+    #         - row.with_column { "Basic Plan" }
+    #         - row.with_column { "$10/mo" }
+    #       - body.with_row do |row|
+    #         - row.with_column { "Pro Plan" }
+    #         - row.with_column { "$20/mo" }
+    #
+    # @loco_example With Multiple Sections
+    #   = daisy_table do |table|
+    #     - table.with_section do |section|
+    #       - section.with_head do |head|
+    #         - head.with_column { "Active Users" }
+    #         - head.with_column { "Status" }
+    #
+    #       - section.with_body do |body|
+    #         - body.with_row do |row|
+    #           - row.with_column { "Alice" }
+    #           - row.with_column { "Online" }
+    #
+    #     - table.with_section do |section|
+    #       - section.with_head do |head|
+    #         - head.with_column { "Inactive Users" }
+    #         - head.with_column { "Last Seen" }
+    #
+    #       - section.with_body do |body|
+    #         - body.with_row do |row|
+    #           - row.with_column { "Bob" }
+    #           - row.with_column { "2 days ago" }
+    #
     class TableComponent < LocoMotion::BaseComponent
       #
       # A component for rendering individual header cells (`<th>`) within a table

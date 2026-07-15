@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-#
-# The FigureComponent is used to display images with optional captions. It is
-# commonly used within cards and other content containers.
-#
-# @part image The image element when a source URL is provided.
-#
-# @loco_example Basic Usage
-#   = daisy_figure(src: "example.jpg")
-#
-# @loco_example With Caption
-#   = daisy_figure(src: "example.jpg") do
-#     A beautiful landscape
-#
-# @loco_example Without Image
-#   = daisy_figure do
-#     Content when no image is provided
-#
-# @loco_example Image Position Bottom
-#   = daisy_figure(src: "example.jpg", position: :bottom) do
-#     Caption appears above the image
-#
 module Daisy
   module DataDisplay
+    #
+    # The FigureComponent is used to display images with optional captions. It is
+    # commonly used within cards and other content containers.
+    #
+    # @part image The image element when a source URL is provided.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_figure(src: "example.jpg")
+    #
+    # @loco_example With Caption
+    #   = daisy_figure(src: "example.jpg") do
+    #     A beautiful landscape
+    #
+    # @loco_example Without Image
+    #   = daisy_figure do
+    #     Content when no image is provided
+    #
+    # @loco_example Image Position Bottom
+    #   = daisy_figure(src: "example.jpg", position: :bottom) do
+    #     Caption appears above the image
+    #
     class FigureComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LinkableComponent
 

@@ -1,52 +1,52 @@
 # frozen_string_literal: true
 
-#
-# The Stat component displays a statistic or metric with optional title,
-# description, and figure. It's perfect for dashboards, summaries, or any
-# situation where you need to highlight important numbers or metrics.
-#
-# @note Stats have a transparent background by default. Use `bg-base-100` if you
-#   need a background color.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @part title The title section above the value.
-# @part value The main value or metric being displayed.
-# @part description Additional text below the value.
-# @part figure An optional figure (usually an icon or small image) to display.
-#
-# @slot title Custom content for the title section. You can also provide a
-#   simple title string via the title option.
-#
-# @slot description Custom content for the description section. You can also
-#   provide a simple description string via the description option.
-#
-# @slot figure Custom content for the figure section. You can also provide an
-#   image via the src option or an icon via the icon option.
-#
-# @loco_example Basic Usage
-#   = daisy_stat(title: "Downloads", value: "31K")
-#
-# @loco_example With Description
-#   = daisy_stat(title: "New Users", value: "2.6K", description: "↗︎ 400 (22%)")
-#
-# @loco_example With Icon
-#   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
-#     = stat.with_description do
-#       .flex.items-center.gap-1
-#         = loco_icon("arrow-up", css: "size-4 text-success")
-#         %span.text-success 14%
-#         from last month
-#
-# @loco_example With Custom Figure
-#   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
-#     = stat.with_figure do
-#       .text-success
-#         = loco_icon("check-circle", css: "size-10")
-#
 module Daisy
   module DataDisplay
+    #
+    # The Stat component displays a statistic or metric with optional title,
+    # description, and figure. It's perfect for dashboards, summaries, or any
+    # situation where you need to highlight important numbers or metrics.
+    #
+    # @note Stats have a transparent background by default. Use `bg-base-100` if you
+    #   need a background color.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @part title The title section above the value.
+    # @part value The main value or metric being displayed.
+    # @part description Additional text below the value.
+    # @part figure An optional figure (usually an icon or small image) to display.
+    #
+    # @slot title Custom content for the title section. You can also provide a
+    #   simple title string via the title option.
+    #
+    # @slot description Custom content for the description section. You can also
+    #   provide a simple description string via the description option.
+    #
+    # @slot figure Custom content for the figure section. You can also provide an
+    #   image via the src option or an icon via the icon option.
+    #
+    # @loco_example Basic Usage
+    #   = daisy_stat(title: "Downloads", value: "31K")
+    #
+    # @loco_example With Description
+    #   = daisy_stat(title: "New Users", value: "2.6K", description: "↗︎ 400 (22%)")
+    #
+    # @loco_example With Icon
+    #   = daisy_stat(title: "Page Views", value: "89,400", icon: "eye") do |stat|
+    #     = stat.with_description do
+    #       .flex.items-center.gap-1
+    #         = loco_icon("arrow-up", css: "size-4 text-success")
+    #         %span.text-success 14%
+    #         from last month
+    #
+    # @loco_example With Custom Figure
+    #   = daisy_stat(title: "Success Rate", value: "98%") do |stat|
+    #     = stat.with_figure do
+    #       .text-success
+    #         = loco_icon("check-circle", css: "size-10")
+    #
     class StatComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::IconableComponent
       include LocoMotion::Concerns::LinkableComponent

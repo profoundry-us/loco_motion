@@ -1,51 +1,51 @@
 # frozen_string_literal: true
 
-#
-# The Text Rotate component displays up to 6 lines of text, one at a time,
-# with an infinite loop CSS animation. The duration is 10 seconds by default
-# and the animation pauses on hover. Common use cases include rotating hero
-# headlines, cycling through feature keywords, or animating taglines on
-# marketing pages.
-#
-# @slot item+ Multiple text items to display in the rotation. Each item will
-#   be displayed one at a time in an infinite loop.
-#
-# @param texts [Array<String>] An optional array of strings for simple usage
-#   without blocks. When provided, each string is rendered as a span inside
-#   the rotation.
-#
-# @loco_example Basic Text Rotate
-#   = daisy_text_rotate do |rotate|
-#     - rotate.with_item { "ONE" }
-#     - rotate.with_item { "TWO" }
-#     - rotate.with_item { "THREE" }
-#
-# @loco_example Text Rotate with texts Shorthand
-#   = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-7xl")
-#
-# @loco_example Text Rotate with Centered Items
-#   = daisy_text_rotate(css: "text-7xl", wrapper_css: "justify-items-center") do |rotate|
-#     - rotate.with_item { "DESIGN" }
-#     - rotate.with_item { "DEVELOP" }
-#     - rotate.with_item { "DEPLOY" }
-#
-# @loco_example Text Rotate with Custom Duration
-#   = daisy_text_rotate(css: "text-7xl duration-6000") do |rotate|
-#     - rotate.with_item { "BLAZING" }
-#     - rotate.with_item(css: "font-bold italic") { "FAST" }
-#
-# @loco_example Text Rotate with Icons and Links
-#   = daisy_text_rotate(css: "text-7xl") do |rotate|
-#     - rotate.with_item(left_icon: "sparkles") { "DESIGN" }
-#     - rotate.with_item(href: "https://example.com", right_icon: "arrow-top-right-on-square") { "DEVELOP" }
-#
-# @loco_example Text Rotate with Custom Content
-#   = daisy_text_rotate(css: "text-7xl") do
-#     %span.text-rotate-item.text-primary CUSTOM
-#     %span.text-rotate-item.text-secondary CONTENT
-#
 module Daisy
   module DataDisplay
+    #
+    # The Text Rotate component displays up to 6 lines of text, one at a time,
+    # with an infinite loop CSS animation. The duration is 10 seconds by default
+    # and the animation pauses on hover. Common use cases include rotating hero
+    # headlines, cycling through feature keywords, or animating taglines on
+    # marketing pages.
+    #
+    # @slot item+ Multiple text items to display in the rotation. Each item will
+    #   be displayed one at a time in an infinite loop.
+    #
+    # @param texts [Array<String>] An optional array of strings for simple usage
+    #   without blocks. When provided, each string is rendered as a span inside
+    #   the rotation.
+    #
+    # @loco_example Basic Text Rotate
+    #   = daisy_text_rotate do |rotate|
+    #     - rotate.with_item { "ONE" }
+    #     - rotate.with_item { "TWO" }
+    #     - rotate.with_item { "THREE" }
+    #
+    # @loco_example Text Rotate with texts Shorthand
+    #   = daisy_text_rotate(texts: %w[DESIGN DEVELOP DEPLOY SCALE MAINTAIN REPEAT], css: "text-7xl")
+    #
+    # @loco_example Text Rotate with Centered Items
+    #   = daisy_text_rotate(css: "text-7xl", wrapper_css: "justify-items-center") do |rotate|
+    #     - rotate.with_item { "DESIGN" }
+    #     - rotate.with_item { "DEVELOP" }
+    #     - rotate.with_item { "DEPLOY" }
+    #
+    # @loco_example Text Rotate with Custom Duration
+    #   = daisy_text_rotate(css: "text-7xl duration-6000") do |rotate|
+    #     - rotate.with_item { "BLAZING" }
+    #     - rotate.with_item(css: "font-bold italic") { "FAST" }
+    #
+    # @loco_example Text Rotate with Icons and Links
+    #   = daisy_text_rotate(css: "text-7xl") do |rotate|
+    #     - rotate.with_item(left_icon: "sparkles") { "DESIGN" }
+    #     - rotate.with_item(href: "https://example.com", right_icon: "arrow-top-right-on-square") { "DEVELOP" }
+    #
+    # @loco_example Text Rotate with Custom Content
+    #   = daisy_text_rotate(css: "text-7xl") do
+    #     %span.text-rotate-item.text-primary CUSTOM
+    #     %span.text-rotate-item.text-secondary CONTENT
+    #
     class TextRotateComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 

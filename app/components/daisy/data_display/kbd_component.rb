@@ -1,50 +1,50 @@
 # frozen_string_literal: true
 
-#
-# The Kbd (Keyboard) component displays keyboard inputs or shortcuts in a
-# visually distinct way. It's perfect for showing keyboard shortcuts,
-# key combinations, or individual key presses in documentation or tutorials.
-#
-# Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
-# tooltip addition.
-#
-# @note This is an inline component that renders as a `<span>` to avoid adding
-#   extra whitespace when used within text.
-#
-# @loco_example Basic Usage
-#   %p
-#     Press
-#     = daisy_kbd("Ctrl")
-#     = daisy_kbd("C")
-#     to copy.
-#
-# @loco_example With Tooltip
-#   %p
-#     Press
-#     = daisy_kbd("⌘", tip: "Command")
-#     = daisy_kbd("P")
-#     to print.
-#
-# @loco_example Key Combinations
-#   %p
-#     Press
-#     = daisy_kbd("Alt")
-#     +
-#     = daisy_kbd("Shift")
-#     +
-#     = daisy_kbd("M")
-#     to open the menu.
-#
-# @loco_example Special Keys
-#   %p
-#     Press
-#     = daisy_kbd("↵")
-#     or
-#     = daisy_kbd("Enter")
-#     to confirm.
-#
 module Daisy
   module DataDisplay
+    #
+    # The Kbd (Keyboard) component displays keyboard inputs or shortcuts in a
+    # visually distinct way. It's perfect for showing keyboard shortcuts,
+    # key combinations, or individual key presses in documentation or tutorials.
+    #
+    # Includes the {LocoMotion::Concerns::TippableComponent} module to enable easy
+    # tooltip addition.
+    #
+    # @note This is an inline component that renders as a `<span>` to avoid adding
+    #   extra whitespace when used within text.
+    #
+    # @loco_example Basic Usage
+    #   %p
+    #     Press
+    #     = daisy_kbd("Ctrl")
+    #     = daisy_kbd("C")
+    #     to copy.
+    #
+    # @loco_example With Tooltip
+    #   %p
+    #     Press
+    #     = daisy_kbd("⌘", tip: "Command")
+    #     = daisy_kbd("P")
+    #     to print.
+    #
+    # @loco_example Key Combinations
+    #   %p
+    #     Press
+    #     = daisy_kbd("Alt")
+    #     +
+    #     = daisy_kbd("Shift")
+    #     +
+    #     = daisy_kbd("M")
+    #     to open the menu.
+    #
+    # @loco_example Special Keys
+    #   %p
+    #     Press
+    #     = daisy_kbd("↵")
+    #     or
+    #     = daisy_kbd("Enter")
+    #     to confirm.
+    #
     class KbdComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 

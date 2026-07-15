@@ -1,46 +1,46 @@
 # frozen_string_literal: true
 
-#
-# A component for rendering individual events within a timeline. Each event can
-# have three sections: leading (typically a date or time), middle (an icon or
-# marker), and trailing (the event description).
-#
-# @part leading The container for the leading content (e.g., date/time).
-# @part middle The container for the middle content.
-# @part middle_icon Container for a simple icon when not using custom middle
-#   content.
-# @part trailing The container for the trailing content (e.g., description).
-# @part separator The line connecting this event to the next one.
-#
-# @slot leading Custom content for the leading section. You can also provide
-#   simple text via the leading option.
-#
-# @slot middle Custom content for the middle section. You can also provide
-#   simple text via the middle option, or an icon via the middle_icon option.
-#
-# @slot trailing Custom content for the trailing section. You can also provide
-#   simple text via the trailing option.
-#
-# @note The middle and middle_icon options are mutually exclusive. If both are
-#   provided, middle takes precedence.
-#
-# @loco_example Simple Event
-#   = daisy_timeline do |timeline|
-#     - timeline.with_event(leading: "2023", middle: "🚀", trailing: "Launched product")
-#     - timeline.with_event(leading: "2024", middle: "🎉", trailing: "1M users")
-#
-# @loco_example Event with Custom Content
-#   = daisy_timeline do |timeline|
-#     - timeline.with_event do |event|
-#       - event.with_leading do
-#         .font-bold Jan 2024
-#       - event.with_middle do
-#         = loco_icon("star")
-#       - event.with_trailing do
-#         %h3.font-bold Milestone Reached
-#
 module Daisy
   module DataDisplay
+    #
+    # A component for rendering individual events within a timeline. Each event can
+    # have three sections: leading (typically a date or time), middle (an icon or
+    # marker), and trailing (the event description).
+    #
+    # @part leading The container for the leading content (e.g., date/time).
+    # @part middle The container for the middle content.
+    # @part middle_icon Container for a simple icon when not using custom middle
+    #   content.
+    # @part trailing The container for the trailing content (e.g., description).
+    # @part separator The line connecting this event to the next one.
+    #
+    # @slot leading Custom content for the leading section. You can also provide
+    #   simple text via the leading option.
+    #
+    # @slot middle Custom content for the middle section. You can also provide
+    #   simple text via the middle option, or an icon via the middle_icon option.
+    #
+    # @slot trailing Custom content for the trailing section. You can also provide
+    #   simple text via the trailing option.
+    #
+    # @note The middle and middle_icon options are mutually exclusive. If both are
+    #   provided, middle takes precedence.
+    #
+    # @loco_example Simple Event
+    #   = daisy_timeline do |timeline|
+    #     - timeline.with_event(leading: "2023", middle: "🚀", trailing: "Launched product")
+    #     - timeline.with_event(leading: "2024", middle: "🎉", trailing: "1M users")
+    #
+    # @loco_example Event with Custom Content
+    #   = daisy_timeline do |timeline|
+    #     - timeline.with_event do |event|
+    #       - event.with_leading do
+    #         .font-bold Jan 2024
+    #       - event.with_middle do
+    #         = loco_icon("star")
+    #       - event.with_trailing do
+    #         %h3.font-bold Milestone Reached
+    #
     class TimelineEventComponent < LocoMotion::BaseComponent
       renders_one :leading, LocoMotion::BasicComponent.build(css: "timeline-start")
       renders_one :middle, LocoMotion::BasicComponent.build(css: "timeline-middle")
