@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Gem): Raise `required_ruby_version` from `>= 3.0` to `>= 3.3`, and RuboCop's `TargetRubyVersion` to
+  match. Ruby 3.0–3.2 are all past end-of-life, and the modern dependency chain (Rails 8, current Bundler)
+  no longer resolves on them — which also silently broke Dependabot's root-Gemfile updates, since it
+  resolves against the lowest claimed Ruby. **Breaking:** apps on Ruby < 3.3 must upgrade Ruby before
+  taking this release.
+
 - docs(All Components): Fix every component's class-level YARD comment attaching to the shared `Daisy`
   module instead of its own `class` line — comments sat directly above `module Daisy` rather than the
   `class` declaration several lines below, so YARD bound each docstring to the wrong object and every

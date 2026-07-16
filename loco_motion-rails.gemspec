@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = "topher@profoundry.us"
   s.homepage    = "https://rubygems.org/gems/loco_motion-rails"
   s.license     = "MIT"
-  s.required_ruby_version = ">= 3.0"
+  s.required_ruby_version = ">= 3.3"
 
   s.files = Dir.glob("lib/**/*") + Dir.glob("app/**/*") + %w[README.md LICENSE] # Add CHANGELOG.md later
   s.require_paths = ["lib", "app"]

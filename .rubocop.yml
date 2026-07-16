@@ -13,7 +13,7 @@ plugins:
   - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.3
   # Don't auto-opt-in to brand-new cops; review and enable them deliberately.
   NewCops: disable
   SuggestExtensions: false
