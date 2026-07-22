@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Packaging smoke test for the npm package (issue #340).
+#
+# The 0.6.0 registry tarball silently shipped without loco.css and
+# modal_controller.js: npm drops missing `files` entries without erroring, so
+# nothing caught that the tarball no longer matched what index.js and the
+# exports map promised. This script fails loudly on exactly that drift.
+#
+# Usage:
+#   bin/npm-package-check                # packs a fresh tarball into a tmpdir
+#   bin/npm-package-check path/to.tgz    # checks an already-built tarball
+#
+# Checks:
+#   1. The tarball version matches lib/loco_motion/version.rb (npm form).
+#   2. Every package.json `files` entry is present in the tarball.
+#   3. Every `exports` target resolves to a file in the tarball.
+#   4. Every relative import in index.js resolves to a file in the tarball.
+
+require 'json'
+require 'set'
+require 'tmpdir'
+
+ROOT = File.expand_path('..', __dir__)
+
+def npm_version(version)
+  version.sub(/\.(?=[a-z])/i, '-')
+end
+
+canonical = File.read(File.join(ROOT, 'lib', 'loco_motion', 'version.rb'))
+                .match(/VERSION\s*=\s*["'](.+?)["']/)[1]
+package_json = JSON.parse(File.read(File.join(ROOT, 'package.json')))
+
+tarball = ARGV[0]
+tmpdir = nil
+if tarball
+  abort "✗ Tarball not found: #{tarball}" unless File.exist?(tarball)
+else
+  tmpdir = Dir.mktmpdir('npm-package-check')
+  puts "Packing fresh tarball (npm pack)..."
+  output = `cd #{ROOT} && npm pack --pack-destination #{tmpdir} 2>&1`
+  unless $?.success?
+    puts output
+    abort "✗ npm pack failed"
+  end
+  tarball = Dir.glob(File.join(tmpdir, '*.tgz')).first
+  abort "✗ npm pack produced no tarball" unless tarball
+end
+
+# npm tarballs nest everything under a top-level package/ directory.
+entries = `tar -tzf "#{tarball}"`.lines(chomp: true)
+           .map { |line| line.sub(%r{\Apackage/}, '') }
+abort "✗ Could not list tarball contents" unless $?.success?
+entry_set = entries.to_set
+
+failures = []
+
+# 1. Tarball version must match the canonical version.rb — a mismatch means
+#    the tarball was built from a different tree than the one being released.
+tarball_pkg = JSON.parse(`tar -xzOf "#{tarball}" package/package.json`)
+expected = npm_version(canonical)
+if tarball_pkg['version'] == expected
+  puts "✓ Version matches version.rb (#{expected})"
+else
+  failures << "version: tarball says #{tarball_pkg['version']}, version.rb says #{canonical} (npm form #{expected})"
+end
+
+# 2. Every `files` allowlist entry must be present — npm skips missing paths
+#    without erroring, which is exactly how loco.css went missing in 0.6.0.
+(package_json['files'] || []).each do |file|
+  if entry_set.include?(file)
+    puts "✓ files: #{file}"
+  else
+    failures << "files entry missing from tarball: #{file}"
+  end
+end
+
+# 3. Every exports target must resolve inside the tarball.
+(package_json['exports'] || {}).each do |key, target|
+  path = target.sub(%r{\A\./}, '')
+  if entry_set.include?(path)
+    puts "✓ exports #{key.inspect}: #{path}"
+  else
+    failures << "exports #{key.inspect} points at #{path}, which is not in the tarball"
+  end
+end
+
+# 4. Every relative import in index.js must resolve (with an implied .js).
+index_js = File.read(File.join(ROOT, 'index.js'))
+index_js.scan(/from\s+['"](\.\/[^'"]+)['"]/).flatten.each do |import|
+  path = import.sub(%r{\A\./}, '')
+  path += '.js' unless path.match?(/\.(js|mjs|css|json)\z/)
+  if entry_set.include?(path)
+    puts "✓ index.js import: #{path}"
+  else
+    failures << "index.js imports #{import}, but #{path} is not in the tarball"
+  end
+end
+
+puts
+if failures.empty?
+  puts "✓ npm package check passed (#{entries.size} files in #{File.basename(tarball)})"
+else
+  failures.each { |f| warn "✗ #{f}" }
+  warn "✗ npm package check FAILED — the published package would be broken."
+  exit 1
+end
