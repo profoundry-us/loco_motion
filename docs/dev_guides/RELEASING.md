@@ -5,6 +5,7 @@ This guide will walk you through the process of releasing a new version of
 LocoMotion.
 
 - [Preparation](#preparation)
+  - [Credentials](#credentials)
 - [Step 1 - Version Update](#step-1---version-update)
   - [Using Justfile Commands (Recommended)](#using-justfile-commands-recommended)
   - [Using the Script Directly](#using-the-script-directly)
@@ -30,12 +31,46 @@ Before releasing a new version, ensure:
 
 2. All documentation is up to date and properly formatted.
 3. All changes are committed and pushed to the main branch.
-4. You have the necessary credentials for both RubyGems.org and NPM.
+4. You have publishing credentials for both RubyGems.org and NPM (see
+   [Credentials](#credentials) below — the defaults are a trap).
 
 > [!TIP]
 > The interactive release wizard at `bin/release` walks you through all of the
 > steps below. Run `bin/release [VERSION]` and follow the prompts, or
-> `bin/release --dry-run` to preview what it would do.
+> `bin/release --dry-run` to preview what it would do. The wizard also verifies
+> all version sources agree before starting (`just version-check`), smoke-tests
+> the built NPM tarball (`just npm-check`), and finishes by bumping main to the
+> next minor pre-release (e.g. `0.8.0.pre`) so post-release commits never
+> masquerade as the released version.
+
+### Credentials
+
+Both registries need working *publish* credentials before you start — the
+wizard pre-checks them up front and offers retry loops, but it's smoother to
+have them ready.
+
+**RubyGems.org** — run `gem signin` and sign in as `profoundry-us`. When it
+asks:
+
+```
+Do you want to customise scopes? [yN]
+```
+
+answer **y** and enable `push_rubygem`. The default scope
+(`index_rubygems` only) is read-only: signin will appear to succeed and
+`~/.gem/credentials` will exist (which is all the wizard's pre-check can see),
+but `gem push` will then fail with an authorization error mid-release. Say
+**n** to the other scopes (`yank_rubygem`, `add_owner`, etc.) — the release
+only needs push.
+
+If the account's MFA level on rubygems.org is set to "UI and API", `gem push`
+prompts for an OTP code during the release as well; the "UI and gem signin"
+level only prompts at signin time.
+
+**NPM** — run `npm login` as a user with publish access to the
+`@profoundry-us` scope, and verify with `npm whoami` (this is exactly the
+wizard's pre-check). Note that with missing or expired auth, `npm publish`
+reports a misleading `E404` for scoped packages rather than an auth error.
 
 ## Step 1 - Version Update
 
