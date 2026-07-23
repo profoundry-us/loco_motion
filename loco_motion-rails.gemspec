@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'drb', '~> 2.2.1'
   s.add_dependency 'fiddle', '~> 1.1.4'
   s.add_dependency 'logger', '~> 1.6.1'
-  s.add_dependency 'mutex_m', '~> 0.2.0'
+  s.add_dependency 'mutex_m', '>= 0.2', '< 0.4'
   s.add_dependency 'ostruct', '~> 0.6.0'
   s.add_dependency 'rdoc', '~> 6.7.0'
 
