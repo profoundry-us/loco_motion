@@ -63,6 +63,16 @@ but `gem push` will then fail with an authorization error mid-release. Say
 **n** to the other scopes (`yank_rubygem`, `add_owner`, etc.) — the release
 only needs push.
 
+Two traps in the scope prompts:
+
+- Answer **n** to `show_dashboard`. It is an *exclusive* scope — answering yes
+  creates a dashboard-only key and silently skips every remaining scope
+  prompt, so you never get asked about `push_rubygem` at all.
+- Scopes are not recorded locally, so a bad key looks identical to a good one
+  on disk. Verify the key lists **Push rubygem** at
+  <https://rubygems.org/profile/api_keys>, and delete any misscoped keys
+  there.
+
 If the account's MFA level on rubygems.org is set to "UI and API", `gem push`
 prompts for an OTP code during the release as well; the "UI and gem signin"
 level only prompts at signin time.
