@@ -258,6 +258,8 @@ GEM
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
     ostruct (0.6.0)
+    posthog-ruby (3.21.0)
+      concurrent-ruby (~> 1)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -432,6 +434,7 @@ DEPENDENCIES
   jsbundling-rails
   loco_motion-rails!
   ostruct
+  posthog-ruby
   puma (>= 5.0)
   rails (~> 8.0.2)
   redcarpet (~> 3.6)
