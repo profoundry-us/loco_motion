@@ -77,6 +77,11 @@ If the account's MFA level on rubygems.org is set to "UI and API", `gem push`
 prompts for an OTP code during the release as well; the "UI and gem signin"
 level only prompts at signin time.
 
+The key is stored at `~/.gem/credentials` on legacy setups, or
+`~/.local/share/gem/credentials` (the XDG data dir) when no `~/.gem` directory
+exists — `ruby -e 'puts Gem.configuration.credentials_path'` shows which one
+your machine uses. The wizard's pre-check asks RubyGems for the same path.
+
 **NPM** — run `npm login` as a user with publish access to the
 `@profoundry-us` scope, and verify with `npm whoami` (this is exactly the
 wizard's pre-check). Note that with missing or expired auth, `npm publish`
