@@ -9,8 +9,8 @@ class GuidesController < ApplicationController
     sanitized_id = raw_id.gsub(/[^A-Za-z0-9_-]/, "")
 
     @guide_id = resolve_guide_id(sanitized_id)
-
     render "guides/#{@guide_id}", layout: "application"
+    posthog_capture("guide_page_viewed", { guide_id: @guide_id })
   rescue ActionView::MissingTemplate
     render file: Rails.root.join("public/404.html").to_s, layout: false, status: :not_found
   end

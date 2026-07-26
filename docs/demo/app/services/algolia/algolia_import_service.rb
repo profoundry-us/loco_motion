@@ -20,6 +20,20 @@ module Algolia
     #
     def initialize; end
 
+    private
+
+    def posthog_server_capture(event, properties = {})
+      return unless defined?(POSTHOG_CLIENT) && POSTHOG_CLIENT
+
+      POSTHOG_CLIENT.capture(
+        distinct_id: "server",
+        event: event,
+        properties: properties
+      )
+    end
+
+    public
+
     # Check if Algolia is configured
     #
     # @return [Boolean] Whether Algolia credentials are available
@@ -55,10 +69,22 @@ module Algolia
         index.save_objects(records)
 
         Rails.logger.debug "Successfully indexed #{records.length} examples to Algolia (index: #{index_name})"
+
+        posthog_server_capture("search_index_synced", {
+                                 record_count: records.length,
+                                 index_name: index_name
+                               })
+
         true
       rescue StandardError => e
         Rails.logger.debug "Error sending to Algolia: #{e.message}"
         Rails.logger.debug e.backtrace.inspect
+
+        posthog_server_capture("search_index_sync_failed", {
+                                 error_message: e.message,
+                                 index_name: index_name
+                               })
+
         false
       end
     end

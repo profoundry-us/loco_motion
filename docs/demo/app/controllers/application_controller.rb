@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def posthog_capture(event, properties = {})
+    return unless defined?(POSTHOG_CLIENT) && POSTHOG_CLIENT
+
+    POSTHOG_CLIENT.capture(
+      distinct_id: session.id.to_s,
+      event: event,
+      properties: properties
+    )
+  end
+
   def setup_nav_sections
     daisy_components = LocoMotion::COMPONENTS.select { |comp, _config| comp.include? "Daisy" }
 

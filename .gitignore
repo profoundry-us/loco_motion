@@ -18,3 +18,4 @@ NEXT_SESSION.md
 .claude/skills/archon/
 .archon/state/
 .archon/.env
+.env
