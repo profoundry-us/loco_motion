@@ -15,6 +15,16 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Release): Harden the release scripts against version drift (issue #340). `bin/release` now
+  verifies all version sources agree before starting (`just version-check`), smoke-tests the built NPM
+  tarball so missing `files` entries fail loudly instead of publishing a broken package (new
+  `bin/npm-package-check`, also available as `just npm-check`), and finishes by bumping `main` to the next
+  minor pre-release (e.g. `0.8.0.pre`) so a released version number exists at exactly one tagged commit.
+  `bin/update_version` and `bin/version-check` learned gem-style pre-release versions: `package.json` gets
+  the npm-normalized form (`0.8.0-pre`), while the demo dependency and documented install pins stay at the
+  last published release. The RELEASING guide now documents the credential prerequisites — notably that
+  `gem signin` must be given the non-default `push_rubygem` scope for publishing to work.
+
 - chore(Gem): Raise `required_ruby_version` from `>= 3.0` to `>= 3.3`, and RuboCop's `TargetRubyVersion` to
   match. Ruby 3.0–3.2 are all past end-of-life, and the modern dependency chain (Rails 8, current Bundler)
   no longer resolves on them — which also silently broke Dependabot's root-Gemfile updates, since it

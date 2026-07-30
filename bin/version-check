@@ -6,6 +6,11 @@ version_file=$(tr -d '[:space:]' < VERSION)
 pkg=$(grep -o '"version": *"[^"]*"' package.json | head -1 | sed -E 's/.*"version": *"([^"]*)".*/\1/')
 demo_dep=$(grep -o '"@profoundry-us/loco_motion": *"[^"]*"' docs/demo/package.json | head -1 | sed -E 's/.*: *"\^?([^"]*)".*/\1/')
 
+# package.json carries the npm (hyphenated) form of a gem-style pre-release:
+# canonical 0.8.0.pre is published to npm metadata as 0.8.0-pre. Convert only
+# the first dot-before-a-letter so numeric suffix parts stay dotted.
+npm_expected=$(echo "$canonical" | sed -E 's/\.([a-zA-Z])/-\1/')
+
 # The documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins. These must
 # track the released version, or new installs following the docs resolve to the
 # previous minor series (e.g. a stale "~> 0.5.2" excludes 0.6.0). The Install
@@ -26,7 +31,21 @@ echo "package.json:                            $pkg"
 echo "docs/demo/package.json (loco_motion dep): $demo_dep"
 echo "README install pin (~>):                 ${readme_pin:-<none>}"
 echo "Install guide install pin (~>):          ${install_pin:-<none>}"
-if [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ] && [ "$canonical" = "$readme_pin" ] && [ "$canonical" = "$install_pin" ]; then
+
+if [[ "$canonical" =~ [a-zA-Z] ]]; then
+    # Pre-release on main (the between-releases state): version.rb, VERSION,
+    # and package.json must carry the pre-release, while the demo dependency
+    # and the documented install pins stay at the last *published* release —
+    # they can't reference a version no registry serves. They still have to
+    # agree with each other, though.
+    if [ "$canonical" = "$version_file" ] && [ "$npm_expected" = "$pkg" ] \
+        && [ "$demo_dep" = "$readme_pin" ] && [ "$demo_dep" = "$install_pin" ]; then
+        echo "✓ Pre-release $canonical consistent (demo/install pins at last release: $demo_dep)"
+    else
+        echo "✗ Version mismatch! Run bin/update_version to sync them." >&2
+        exit 1
+    fi
+elif [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ] && [ "$canonical" = "$readme_pin" ] && [ "$canonical" = "$install_pin" ]; then
     echo "✓ All version sources agree ($canonical)"
 else
     echo "✗ Version mismatch! Run bin/update_version to sync them." >&2

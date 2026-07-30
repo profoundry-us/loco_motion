@@ -4,6 +4,18 @@
 require 'json'
 require 'fileutils'
 
+# Gem-style pre-release versions use a dot before the suffix (0.8.0.pre), but
+# npm requires semver's hyphen form (0.8.0-pre). Convert only the first
+# dot-before-a-letter so numeric suffix parts stay dotted (0.8.0.pre.1 ->
+# 0.8.0-pre.1).
+def npm_version(version)
+  version.sub(/\.(?=[a-z])/i, '-')
+end
+
+def prerelease?(version)
+  version.match?(/[a-z]/i)
+end
+
 def update_version(new_version = nil)
   root_dir = File.expand_path('../..', __FILE__)
   version_rb_path = File.join(root_dir, 'lib', 'loco_motion', 'version.rb')
@@ -18,9 +30,10 @@ def update_version(new_version = nil)
     exit if new_version.empty?
   end
 
-  # Validate version format (simple check for x.y.z format)
-  unless new_version.match?(/^\d+\.\d+\.\d+$/)
-    puts "Error: Version must be in format x.y.z (e.g., 1.0.0)"
+  # Validate version format: x.y.z releases, plus gem-style pre-releases
+  # (x.y.z.pre, x.y.z.alpha.1) used to mark main as unreleased between tags.
+  unless new_version.match?(/^\d+\.\d+\.\d+(\.[a-z]+(\.\d+)?)?$/i)
+    puts "Error: Version must be x.y.z or x.y.z.pre (e.g., 1.0.0, 1.1.0.pre)"
     exit 1
   end
 
@@ -44,23 +57,30 @@ def update_version(new_version = nil)
     File.write(version_file_path, new_version)
     puts "✓ Updated VERSION file"
 
-    # Update package.json
+    # Update package.json (npm requires the hyphenated semver pre-release form)
     package_json_path = File.join(root_dir, 'package.json')
     if File.exist?(package_json_path)
       package_json = JSON.parse(File.read(package_json_path))
-      package_json['version'] = new_version
+      package_json['version'] = npm_version(new_version)
       File.write(package_json_path, JSON.pretty_generate(package_json) + "\n")
       puts "✓ Updated package.json"
     end
 
-    # Update docs/demo/package.json
-    demo_package_json_path = File.join(root_dir, 'docs', 'demo', 'package.json')
-    if File.exist?(demo_package_json_path)
-      demo_package_json = JSON.parse(File.read(demo_package_json_path))
-      if demo_package_json['dependencies'] && demo_package_json['dependencies']['@profoundry-us/loco_motion']
-        demo_package_json['dependencies']['@profoundry-us/loco_motion'] = "^#{new_version}"
-        File.write(demo_package_json_path, JSON.pretty_generate(demo_package_json) + "\n")
-        puts "✓ Updated docs/demo/package.json"
+    # The demo dependency pin and the documented install pins must always point
+    # at a *published* version, so a pre-release bump leaves them at the last
+    # release rather than pointing installs at a version no registry serves.
+    if prerelease?(new_version)
+      puts "ℹ️  Pre-release version: leaving docs/demo/package.json and install pins at the last release"
+    else
+      # Update docs/demo/package.json
+      demo_package_json_path = File.join(root_dir, 'docs', 'demo', 'package.json')
+      if File.exist?(demo_package_json_path)
+        demo_package_json = JSON.parse(File.read(demo_package_json_path))
+        if demo_package_json['dependencies'] && demo_package_json['dependencies']['@profoundry-us/loco_motion']
+          demo_package_json['dependencies']['@profoundry-us/loco_motion'] = "^#{new_version}"
+          File.write(demo_package_json_path, JSON.pretty_generate(demo_package_json) + "\n")
+          puts "✓ Updated docs/demo/package.json"
+        end
       end
     end
 
@@ -71,31 +91,33 @@ def update_version(new_version = nil)
     # The Install guide's numeric prefix shifts when the docs section is
     # reordered (a hardcoded 02_install path silently broke when it became
     # 03_install), so resolve it by glob and complain when nothing matches.
-    install_docs = Dir.glob('docs/demo/app/views/docs/*_install.html.haml', base: root_dir).sort
-    if install_docs.empty?
-      puts "⚠️  No install guide matched docs/demo/app/views/docs/*_install.html.haml — install pin NOT updated!"
-    end
-
-    install_pin_files = ['README.md', *install_docs]
-    install_pin_files.each do |rel_path|
-      path = File.join(root_dir, rel_path)
-      unless File.exist?(path)
-        puts "⚠️  Install pin file missing (skipping): #{rel_path}"
-        next
+    unless prerelease?(new_version)
+      install_docs = Dir.glob('docs/demo/app/views/docs/*_install.html.haml', base: root_dir).sort
+      if install_docs.empty?
+        puts "⚠️  No install guide matched docs/demo/app/views/docs/*_install.html.haml — install pin NOT updated!"
       end
 
-      # Read/write as UTF-8 explicitly: these docs contain non-ASCII bytes
-      # (em dashes, emoji), and a US-ASCII default external encoding would
-      # otherwise raise "invalid byte sequence" on the gsub.
-      content = File.read(path, encoding: 'UTF-8')
-      updated = content.gsub(
-        /(gem\s+["']loco_motion-rails["'],\s*["']~>\s*)\d+\.\d+\.\d+/,
-        "\\1#{new_version}"
-      )
-      next if updated == content
+      install_pin_files = ['README.md', *install_docs]
+      install_pin_files.each do |rel_path|
+        path = File.join(root_dir, rel_path)
+        unless File.exist?(path)
+          puts "⚠️  Install pin file missing (skipping): #{rel_path}"
+          next
+        end
 
-      File.write(path, updated, encoding: 'UTF-8')
-      puts "✓ Updated install pin in #{rel_path}"
+        # Read/write as UTF-8 explicitly: these docs contain non-ASCII bytes
+        # (em dashes, emoji), and a US-ASCII default external encoding would
+        # otherwise raise "invalid byte sequence" on the gsub.
+        content = File.read(path, encoding: 'UTF-8')
+        updated = content.gsub(
+          /(gem\s+["']loco_motion-rails["'],\s*["']~>\s*)\d+\.\d+\.\d+/,
+          "\\1#{new_version}"
+        )
+        next if updated == content
+
+        File.write(path, updated, encoding: 'UTF-8')
+        puts "✓ Updated install pin in #{rel_path}"
+      end
     end
 
     puts "\nSuccessfully updated version to #{new_version}"

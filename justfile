@@ -230,6 +230,11 @@ npm-build:
     mkdir -p builds/npm
     npm pack --pack-destination builds/npm
 
+# Verify the NPM package contents (files, exports, and index.js imports all
+# resolve inside the tarball). Pass a .tgz path to check an existing build.
+npm-check tarball="":
+    ./bin/npm-package-check {{tarball}}
+
 # Publishes the NPM Package to NPM Registry
 npm-publish:
     npm publish --access public
