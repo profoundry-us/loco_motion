@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'redcarpet', '~> 3.6'
   s.add_development_dependency 'rspec', '~> 3.13.0'
   s.add_development_dependency 'rspec-rails', '~> 6.1.1'
-  s.add_development_dependency 'byebug', '~> 11.1', '>= 11.1.3'
+  s.add_development_dependency 'byebug', '>= 11.1.3', '~> 13.0'
   s.add_development_dependency 'webrick', '~> 1.8.1'
   s.add_development_dependency 'yard', '~> 0.9.34'
   s.add_development_dependency 'algoliasearch-rails', '~> 2.2'
