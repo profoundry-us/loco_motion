@@ -77,7 +77,8 @@ jobs:
 
       - name: Configure RubyGems credentials (trusted publishing)
         if: env.gem_published != 'true'
-        uses: rubygems/configure-rubygems-credentials@v1
+        # This action publishes only full-version tags — no @v2 major alias.
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
 
       - name: Build and push gem
         if: env.gem_published != 'true'
