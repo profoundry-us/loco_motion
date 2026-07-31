@@ -37,12 +37,20 @@ Before releasing a new version, ensure:
 
 > [!TIP]
 > The interactive release wizard at `bin/release` walks you through all of the
-> steps below. Run `bin/release [VERSION]` and follow the prompts, or
-> `bin/release --dry-run` to preview what it would do. The wizard also verifies
-> all version sources agree before starting (`just version-check`), smoke-tests
-> the built NPM tarball (`just npm-check`), and finishes by bumping main to the
-> next minor pre-release (e.g. `0.8.0.pre`) so post-release commits never
-> masquerade as the released version.
+> steps below, in **two phases with a review gate between them**:
+>
+> 1. `bin/release VERSION` publishes the *artifacts* — version bump,
+>    CHANGELOG, packages to RubyGems/NPM — and creates a **draft** GitHub
+>    release with auto-generated, mention-escaped notes, then stops.
+> 2. You review and publish the GitHub release (which deploys the API docs).
+> 3. `bin/release --finish` ships the *sites* — it verifies the release is
+>    published and the API docs serve, updates the demo app, advances the
+>    `stable` deploy branch, and bumps main to the next minor pre-release
+>    (e.g. `0.8.0.pre`). You then verify staging and promote to production.
+>
+> Along the way it verifies all version sources agree (`just version-check`)
+> and smoke-tests the built NPM tarball (`just npm-check`). Use `--dry-run`
+> with either phase to preview it.
 
 ### Credentials
 
@@ -244,10 +252,11 @@ After both packages are published, create a new release on GitHub:
 > `release: published` — a git tag alone or a draft release does nothing, and
 > the demo's API-docs links (`LOCO_DOCS_HOST/vX.Y.Z`) 404 until it runs.
 > After publishing, confirm the workflow succeeded and
-> `https://loco-motion-docs.profoundry.us/vX.Y.Z/` loads. (The bare docs
-> root intentionally shows a placeholder page — only versioned paths serve
-> docs.) To rebuild manually, run the workflow via `workflow_dispatch` with
-> the version input.
+> `https://loco-motion-docs.profoundry.us/vX.Y.Z/` loads — `bin/release
+> --finish` performs both checks for you before letting the demo deploy.
+> (The bare docs root intentionally shows a placeholder page — only
+> versioned paths serve docs.) To rebuild manually, run the workflow via
+> `workflow_dispatch` with the version input.
 
 > [!WARNING]
 > If the notes are auto-generated, wrap YARD tags and npm scopes from PR

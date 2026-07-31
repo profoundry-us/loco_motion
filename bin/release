@@ -55,6 +55,17 @@ def check_npm_auth
   end
 end
 
+def check_gh_auth
+  if system('gh auth status > /dev/null 2>&1')
+    puts "SUCCESS: GitHub CLI authenticated"
+    true
+  else
+    puts "WARNING: GitHub CLI not authenticated (gh auth status failed)."
+    puts "   The draft-release step and the --finish phase need it. Run 'gh auth login'."
+    false
+  end
+end
+
 def check_gem_auth
   # Ask RubyGems where credentials actually live: legacy setups use
   # ~/.gem/credentials, but modern ones (no ~/.gem dir) write to the XDG data
@@ -162,6 +173,7 @@ def check_prerequisites(dry_run: false)
   puts "\nCHECK: Checking publishing credentials (warnings only)..."
   check_gem_auth
   check_npm_auth
+  check_gh_auth
   puts
 
   # Check if tests pass (skip in dry run as it runs commands)
@@ -574,33 +586,153 @@ def publish_packages(dry_run: false)
   end
 end
 
-def create_github_release(version, dry_run: false)
-  puts "\nSTEP 7: Create GitHub Release"
+# GitHub renders @-tokens in release notes as user mentions, and the release
+# page's contributor strip includes everyone mentioned — so YARD tags and npm
+# scopes in PR titles (@slot, @types/node, ...) pull unrelated accounts in as
+# phantom "contributors". Wrap them in code spans.
+def escape_release_note_mentions(body)
+  # YARD tags first: in "@part/@slot" both halves need escaping, and doing
+  # tags first keeps the npm-scope pass from ever seeing them.
+  yard_tags = %w[part slot loco_example param option note example return see]
+  body = body.gsub(/(?<!`)(@(?:#{yard_tags.join('|')}))\b(?!`)/, '`\1`')
+  body.gsub(%r{(?<!`)(@[\w-]+/[\w.-]+)(?!`)}, '`\1`')
+end
+
+def create_github_release_draft(version, dry_run: false)
+  puts "\nSTEP 7: Draft GitHub Release"
   puts "=" * 50
 
   if dry_run
-    puts "DRY RUN: Skipping GitHub release creation"
-    puts "   Would create release at: https://github.com/profoundry-us/loco_motion/releases/new"
-    puts "   With tag: v#{version}"
+    puts "DRY RUN: Would create a DRAFT GitHub release for v#{version}"
+    puts "   With auto-generated notes (mention-prone tokens escaped)."
     return
   end
 
-  puts "   Please create a GitHub release:"
-  puts "   1. Go to: https://github.com/profoundry-us/loco_motion/releases/new"
-  puts "   2. Select tag: v#{version}"
-  puts "   3. Add release notes (GitHub AI can help)"
-  puts "   4. Publish the release"
-  puts
+  existing = `gh release view v#{version} --json isDraft --jq .isDraft 2>/dev/null`.strip
+  unless existing.empty?
+    puts "INFO: A release for v#{version} already exists (draft: #{existing}), skipping creation"
+    return
+  end
 
-  response = prompt_yes_no("Have you created the GitHub release?", default: 'n')
+  response = prompt_yes_no("Create a draft GitHub release with auto-generated notes?", default: 'y')
   unless response == 'y'
-    puts "WARNING: Please create the GitHub release before continuing."
-    exit 1
+    puts "INFO: Skipping — create it manually at:"
+    puts "   https://github.com/profoundry-us/loco_motion/releases/new?tag=v#{version}"
+    return
+  end
+
+  created = execute_command(
+    "Creating draft release",
+    "gh release create v#{version} --draft --title 'v#{version}' --generate-notes",
+    exit_on_failure: false
+  )
+  return unless created
+
+  # Escape mention-prone tokens in the generated notes, then hand the draft
+  # to the human for review (title included — past releases add a theme).
+  body = `gh release view v#{version} --json body --jq .body`
+  escaped = escape_release_note_mentions(body)
+  if escaped != body
+    require 'tempfile'
+    Tempfile.create(['relnotes', '.md']) do |f|
+      f.write(escaped)
+      f.flush
+      execute_command("Escaping mention tokens in notes", "gh release edit v#{version} --notes-file #{f.path}", exit_on_failure: false)
+    end
+  end
+
+  url = `gh release view v#{version} --json url --jq .url`.strip
+  puts "SUCCESS: Draft release created: #{url}"
+end
+
+def check_release_published(version, dry_run: false)
+  puts "\nFINISH STEP 1: Verify GitHub Release Is Published"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would verify the v#{version} GitHub release exists and is not a draft"
+    return
+  end
+
+  loop do
+    is_draft = `gh release view v#{version} --json isDraft --jq .isDraft 2>/dev/null`.strip
+
+    if is_draft == 'false'
+      puts "SUCCESS: Release v#{version} is published"
+      return
+    elsif is_draft == 'true'
+      puts "WARNING: Release v#{version} is still a DRAFT."
+      puts "   Publishing it is what triggers the YARD docs deployment."
+    else
+      puts "WARNING: No GitHub release found for v#{version}."
+      puts "   Run phase 1 (bin/release #{version}) or create it manually."
+    end
+
+    case prompt_retry_skip_abort("Publish the release in the browser, then:")
+    when 'retry' then next
+    when 'skip'
+      puts "WARNING: Skipping — API docs for v#{version} will NOT be deployed,"
+      puts "   and the demo's API-docs links will 404."
+      return
+    when 'abort'
+      puts "INFO: Re-run 'bin/release --finish' after publishing the release."
+      exit 1
+    end
+  end
+end
+
+def wait_for_docs_deploy(version, dry_run: false)
+  puts "\nFINISH STEP 2: Wait for API Docs Deployment"
+  puts "=" * 50
+
+  docs_host = ENV.fetch('LOCO_DOCS_HOST', 'https://loco-motion-docs.profoundry.us')
+  docs_url = "#{docs_host}/v#{version}/"
+
+  if dry_run
+    puts "DRY RUN: Would wait for the 'Publish Yard Docs' workflow, then poll #{docs_url}"
+    return
+  end
+
+  puts "   The demo site links its API docs to #{docs_url},"
+  puts "   so it must be live before the demo deploys."
+
+  require 'net/http'
+  loop do
+    # Give the release-published trigger a moment, then watch the workflow.
+    deadline = Time.now + 600
+    status = nil
+    while Time.now < deadline
+      status = `gh run list --workflow docs-yard.yml --limit 1 --json status,conclusion --jq '.[0] | "\\(.status)/\\(.conclusion)"' 2>/dev/null`.strip
+      break if status.start_with?('completed')
+      print "."
+      sleep 15
+    end
+    puts
+
+    if status == 'completed/success'
+      # Workflow green — confirm the pages actually serve.
+      code = Net::HTTP.get_response(URI(docs_url)).code rescue 'ERR'
+      if code == '200'
+        puts "SUCCESS: API docs live at #{docs_url}"
+        return
+      end
+      puts "WARNING: Docs workflow succeeded but #{docs_url} returned #{code} (CDN lag?)."
+    else
+      puts "WARNING: Docs workflow state: #{status || 'unknown'} (see gh run list --workflow docs-yard.yml)"
+    end
+
+    case prompt_retry_skip_abort("Docs not verified.")
+    when 'retry' then next
+    when 'skip'
+      puts "WARNING: Continuing without verified API docs."
+      return
+    when 'abort' then exit 1
+    end
   end
 end
 
 def update_demo_app(dry_run: false)
-  puts "\nSTEP 8: Update Demo App"
+  puts "\nFINISH STEP 3: Update Demo App"
   puts "=" * 50
 
   if dry_run
@@ -618,7 +750,7 @@ def update_demo_app(dry_run: false)
 end
 
 def update_stable_branch(version, dry_run: false)
-  puts "\nSTEP 9: Advance Stable Deploy Branch"
+  puts "\nFINISH STEP 4: Advance Stable Deploy Branch"
   puts "=" * 50
 
   # The demo sites (staging + production promote) deploy from `stable`, not
@@ -648,7 +780,7 @@ def update_stable_branch(version, dry_run: false)
 end
 
 def bump_to_next_pre_release(version, dry_run: false)
-  puts "\nSTEP 10: Bump Main to Next Pre-Release"
+  puts "\nFINISH STEP 5: Bump Main to Next Pre-Release"
   puts "=" * 50
 
   # After tagging, main must stop claiming the released version — otherwise
@@ -716,22 +848,37 @@ def main
   if ARGV.include?('--help') || ARGV.include?('-h')
     puts <<~HELP
       Usage: bin/release [VERSION] [OPTIONS]
+             bin/release --finish [VERSION] [OPTIONS]
 
-      This wizard walks you through the complete LocoMotion release process:
+      The release runs in two phases with a human review gate between them.
+
+      PHASE 1 — publish the artifacts (bin/release VERSION):
       1. Check prerequisites (tests, version sync, credentials)
       2. Update version
       3. Update CHANGELOG
-      4. Build packages (with an NPM package content check)
-      5. Push to main
-      6. Tag release
-      7. Publish packages (requires credentials)
-      8. Create GitHub release
-      9. Update demo app
-      10. Advance the `stable` deploy branch (demo sites build from it)
-      11. Bump main to the next pre-release (e.g. 0.8.0.pre)
+      4. Generate llms.txt docs
+      5. Build packages (with an NPM package content check)
+      6. Push to main
+      7. Tag release
+      8. Publish packages to RubyGems + NPM (requires credentials)
+      9. Create a DRAFT GitHub release with auto-generated notes
+
+      ...then STOP. Review and publish the GitHub release in the browser —
+      publishing is what triggers the API docs deployment.
+
+      PHASE 2 — ship the sites (bin/release --finish):
+      1. Verify the GitHub release is published (not a draft)
+      2. Wait for the API docs workflow and verify the docs URL serves
+      3. Update demo app
+      4. Advance the `stable` deploy branch (staging deploys from it)
+      5. Bump main to the next pre-release (e.g. 0.8.0.pre)
+
+      ...then verify staging and promote to production yourself.
 
       Options:
         VERSION        Optional: Skip version prompt and use this version
+                       (--finish infers it from version.rb when omitted)
+        --finish       Run phase 2 (after the GitHub release is published)
         --dry-run      Run in dry run mode (skips git state checks and actual commands)
         --help         Show this help message
 
@@ -754,32 +901,68 @@ def main
     puts
   end
 
+  finish = ARGV.include?('--finish')
+
   begin
-    check_prerequisites(dry_run: dry_run)
+    if finish
+      # PHASE 2 — ship the sites. Runs after the human has reviewed and
+      # published the GitHub release. The pre-bump hasn't happened yet, so
+      # version.rb still holds the released version when no arg is given.
+      version_arg = ARGV.find { |arg| !arg.start_with?('-') }
+      version = version_arg || get_current_version
 
-    version = update_version(dry_run: dry_run)
-    update_changelog(version, dry_run: dry_run)
-    generate_llms_docs(version, dry_run: dry_run)
-    build_packages(dry_run: dry_run)
-    push_to_main(dry_run: dry_run)
-    tag_release(version, dry_run: dry_run)
-    publish_packages(dry_run: dry_run)
-    create_github_release(version, dry_run: dry_run)
-    update_demo_app(dry_run: dry_run)
-    update_stable_branch(version, dry_run: dry_run)
-    bump_to_next_pre_release(version, dry_run: dry_run)
+      if version.match?(/[a-z]/i)
+        puts "ERROR: Current version #{version} is a pre-release — this release"
+        puts "   was already finished. Pass the version explicitly to re-run."
+        exit 1
+      end
 
-    if dry_run
-      puts "\nDRY RUN COMPLETED"
-      puts "   No actual changes were made."
-      puts "   Run without --dry-run to execute the release."
+      puts "FINISH: Shipping the sites for v#{version}"
+      puts
+
+      check_release_published(version, dry_run: dry_run)
+      wait_for_docs_deploy(version, dry_run: dry_run)
+      update_demo_app(dry_run: dry_run)
+      update_stable_branch(version, dry_run: dry_run)
+      bump_to_next_pre_release(version, dry_run: dry_run)
+
+      if dry_run
+        puts "\nDRY RUN COMPLETED (finish phase)"
+      else
+        puts "\nSUCCESS: Release v#{version} fully shipped!"
+        puts "=" * 50
+        puts "   What's next:"
+        puts "   1. Verify staging: https://loco-motion-demo-staging.profoundry.us"
+        puts "   2. Promote to production: heroku pipelines:promote -a loco-motion-demo-staging"
+        puts "   3. Verify production: https://loco-motion.profoundry.us"
+      end
     else
-      puts "\nSUCCESS: Release v#{version} completed successfully!"
-      puts "=" * 50
-      puts "   What's next:"
-      puts "   1. Monitor demo app deployment"
-      puts "   2. Verify Algolia indexing"
-      puts "   3. Test the demo site"
+      # PHASE 1 — publish the artifacts. Stops before anything user-facing
+      # goes live so the release notes and the app get a human review.
+      check_prerequisites(dry_run: dry_run)
+
+      version = update_version(dry_run: dry_run)
+      update_changelog(version, dry_run: dry_run)
+      generate_llms_docs(version, dry_run: dry_run)
+      build_packages(dry_run: dry_run)
+      push_to_main(dry_run: dry_run)
+      tag_release(version, dry_run: dry_run)
+      publish_packages(dry_run: dry_run)
+      create_github_release_draft(version, dry_run: dry_run)
+
+      if dry_run
+        puts "\nDRY RUN COMPLETED (publish phase)"
+        puts "   No actual changes were made."
+        puts "   Run without --dry-run to execute the release."
+      else
+        puts "\nSUCCESS: Packages for v#{version} are published!"
+        puts "=" * 50
+        puts "   Nothing user-facing is live yet. When you're ready:"
+        puts "   1. Review + publish the draft GitHub release (this deploys the API docs):"
+        puts "      #{`gh release view v#{version} --json url --jq .url 2>/dev/null`.strip}"
+        puts "   2. Then ship the sites:"
+        puts "      bin/release --finish"
+      end
     end
 
   rescue Interrupt
