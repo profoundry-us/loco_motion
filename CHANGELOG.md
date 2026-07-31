@@ -11,6 +11,15 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### General Changes
+
+- feat(Release): Walk the operator through shipping the sites. The `--finish` phase now ends by waiting
+  for staging to serve the released version (offering to open it in the browser for review), prompting for
+  the production promotion, and then waiting on and offering to open production — replacing the printed
+  "what's next" checklist with guided, verified steps.
+
 ## [0.7.1] - 2026-07-31
 
 ### Demo / Docs Changes

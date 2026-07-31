@@ -309,6 +309,12 @@ version, promote to production:
 heroku pipelines:promote -a loco-motion-demo-staging
 ```
 
+> [!TIP]
+> `bin/release --finish` automates this whole stretch: it waits for staging
+> to serve the released version, offers to open it in your browser for
+> review, prompts for the promotion, then waits for production and offers to
+> open that too.
+
 ## Step 7 - Algolia Indexing
 
 When the demo application is deployed to Heroku after a new release, the Algolia

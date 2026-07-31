@@ -890,6 +890,84 @@ def bump_to_next_pre_release(version, dry_run: false)
   end
 end
 
+STAGING_URL = "https://loco-motion-demo-staging.profoundry.us"
+PRODUCTION_URL = "https://loco-motion.profoundry.us"
+
+# Opens a URL in the user's default browser (macOS `open`, Linux `xdg-open`).
+def open_in_browser(url)
+  cmd = RUBY_PLATFORM.include?("darwin") ? "open" : "xdg-open"
+  system(cmd, url) || puts("WARNING: Could not open browser — visit #{url} yourself.")
+end
+
+# Polls a site until its rendered homepage reports the released version (the
+# header badge renders "vX.Y.Z"), then offers to open it for eyeball review.
+def verify_site(label, step, url, version, dry_run: false)
+  puts "\nFINISH STEP #{step}: Verify #{label}"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would poll #{url} until it serves v#{version},"
+    puts "   then offer to open it in your browser."
+    return true
+  end
+
+  require 'net/http'
+  puts "   Waiting for #{url} to serve v#{version} (deploys take a few minutes)..."
+
+  loop do
+    deadline = Time.now + 900
+    found = false
+    while Time.now < deadline
+      body = Net::HTTP.get(URI(url)) rescue ""
+      if body.match?(/v#{Regexp.escape(version)}(?![\w.])/)
+        found = true
+        break
+      end
+      print "."
+      sleep 20
+    end
+    puts
+
+    if found
+      puts "SUCCESS: #{label} is serving v#{version}"
+      response = prompt_yes_no("Open #{label.downcase} in your browser to review?", default: 'y')
+      open_in_browser(url) if response == 'y'
+      return true
+    end
+
+    puts "WARNING: #{label} still isn't serving v#{version} after 15 minutes."
+    puts "   Check the deploy in the Heroku dashboard."
+    case prompt_retry_skip_abort("#{label} not verified.")
+    when 'retry' then next
+    when 'skip' then return false
+    when 'abort' then exit 1
+    end
+  end
+end
+
+def promote_to_production(dry_run: false)
+  puts "\nFINISH STEP 7: Promote to Production"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would run: heroku pipelines:promote -a loco-motion-demo-staging"
+    return true
+  end
+
+  response = prompt_yes_no("Promote staging to production?", default: 'y')
+  unless response == 'y'
+    puts "INFO: Skipping — promote later with:"
+    puts "   heroku pipelines:promote -a loco-motion-demo-staging"
+    return false
+  end
+
+  execute_command(
+    "Promoting staging to production",
+    "heroku pipelines:promote -a loco-motion-demo-staging",
+    exit_on_failure: false
+  )
+end
+
 def main
   puts "RELEASE: LocoMotion Release Wizard"
   puts "=" * 50
@@ -928,8 +1006,9 @@ def main
       3. Update demo app
       4. Advance the `stable` deploy branch (staging deploys from it)
       5. Bump main to the next pre-release (e.g. 0.8.0.pre)
-
-      ...then verify staging and promote to production yourself.
+      6. Wait for staging to serve the release; open it for review
+      7. Promote staging to production (prompted)
+      8. Wait for production to serve the release; open it for review
 
       Options:
         VERSION        Optional: Skip version prompt and use this version
@@ -981,16 +1060,22 @@ def main
       update_demo_app(dry_run: dry_run)
       update_stable_branch(version, dry_run: dry_run)
       bump_to_next_pre_release(version, dry_run: dry_run)
+      staging_ok = verify_site("Staging", 6, STAGING_URL, version, dry_run: dry_run)
+
+      promote = staging_ok ||
+                prompt_yes_no("Staging unverified — promote anyway?", default: 'n') == 'y'
+      promoted = promote && promote_to_production(dry_run: dry_run)
+
+      verify_site("Production", 8, PRODUCTION_URL, version, dry_run: dry_run) if promoted
 
       if dry_run
         puts "\nDRY RUN COMPLETED (finish phase)"
       else
-        puts "\nSUCCESS: Release v#{version} fully shipped!"
+        puts "\nSUCCESS: Release v#{version} is fully shipped and live!"
         puts "=" * 50
-        puts "   What's next:"
-        puts "   1. Verify staging: https://loco-motion-demo-staging.profoundry.us"
-        puts "   2. Promote to production: heroku pipelines:promote -a loco-motion-demo-staging"
-        puts "   3. Verify production: https://loco-motion.profoundry.us"
+        puts "   Optional follow-ups:"
+        puts "   1. Reindex your local dev Algolia: just algolia-index"
+        puts "   2. Close out any release-blocking issues"
       end
     else
       # PHASE 1 — publish the artifacts. Stops before anything user-facing
