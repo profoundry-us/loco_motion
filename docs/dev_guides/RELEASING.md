@@ -54,9 +54,11 @@ Before releasing a new version, ensure:
 
 ### Credentials
 
-Both registries need working *publish* credentials before you start — the
-wizard pre-checks them up front and offers retry loops, but it's smoother to
-have them ready.
+> [!NOTE]
+> Since CI took over publishing (trusted publishing on a tag push — see
+> [Step 4](#step-4---publishing)), personal registry credentials are only
+> needed for the **manual fallback** path. The GitHub CLI (`gh auth login`)
+> is the one local credential the wizard always requires.
 
 **RubyGems.org** — run `gem signin` and sign in as `profoundry-us`. When it
 asks:
@@ -182,59 +184,39 @@ git commands to build a relevant changelog update.
 ## Step 4 - Publishing
 
 > [!IMPORTANT]
-> This step publishes the packages to their respective registries. The demo app
-> will be updated in Step 6 after publication to avoid circular dependencies.
->
-> **AI Assistance**: The AI assistant will prepare the packages for publishing
-> but will **NOT** execute the actual publishing commands. You must manually run
-> the publishing commands using your own credentials.
+> Publishing happens **in CI, not locally**. Pushing the release tag triggers
+> the "Publish Packages" workflow (`.github/workflows/publish.yml`), which
+> builds both packages from the tagged commit and publishes them to
+> RubyGems and NPM via OIDC **trusted publishing** — no local credentials, and
+> registry artifacts are provably built from the tag. The wizard pushes the
+> tag, waits for the workflow, and verifies both registries serve the version.
 
-Before publishing the packages, ensure your changes are merged to the main
-branch:
+The workflow refuses to publish if the tag doesn't match `version.rb`, runs
+`bin/version-check` and `bin/npm-package-check` first, and skips any version
+a registry already has — so a partial failure can be re-run safely:
 
-1. Commit any changes to the Gemfile, Gemfile.lock, CHANGELOG, etc
-2. Create a pull request with your changes
-3. Get the pull request reviewed and approved
-4. Merge the pull request into main
-5. Pull the latest main branch locally:
+```bash
+gh workflow run publish.yml -f tag=vX.Y.Z
+```
 
-   ```bash
-   git checkout main
-   git pull
-   ```
+### One-time registry setup (required before the first CI publish)
 
-### Ruby Gem
+- **RubyGems**: on the [gem's page][rubygems] (signed in as an owner) →
+  *Ownership* → *Trusted publishers* → *Create* → GitHub Actions with
+  repository `profoundry-us/loco_motion` and workflow `publish.yml`.
+- **NPM**: on the [package's page][npm] → *Settings* → *Publishing access /
+  Trusted publisher* → GitHub Actions with the same repository and workflow
+  filename.
 
-1. Create and push a version tag:
+Until both are configured, the workflow's publish steps fail with an auth
+error — configure the registries and re-run it via `workflow_dispatch`.
 
-   ```bash
-   git tag v$(just version)
-   git push origin v$(just version)
-   ```
+### Manual fallback
 
-2. **Manually** publish the gem to RubyGems.org:
-
-   ```bash
-   just gem-publish
-   ```
-
-   > **Note**: This command requires RubyGems.org credentials and must be run manually.
-
-3. Verify the gem is available on [RubyGems][rubygems].
-
-### NPM Package
-
-1. Ensure you're on the main branch with the latest changes.
-
-2. **Manually** publish the NPM package:
-
-   ```bash
-   just npm-publish
-   ```
-
-   > **Note**: This command requires NPM credentials and must be run manually.
-
-3. Verify the package is available on [npmjs.com][npm].
+If CI publishing is unavailable, the wizard offers a local fallback
+(`just gem-publish` / `just npm-publish`), which needs the personal
+credentials described in [Credentials](#credentials). Verify afterward on
+[RubyGems][rubygems] and [npmjs.com][npm].
 
 ## Step 5 - GitHub Release
 

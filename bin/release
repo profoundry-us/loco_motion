@@ -167,13 +167,13 @@ def check_prerequisites(dry_run: false)
     prerequisites_ok = false
   end
 
-  # Warn early about missing publishing credentials so they can be fixed
-  # before the release work starts. Non-fatal: publishing (step 6) re-checks
-  # and offers a retry loop.
-  puts "\nCHECK: Checking publishing credentials (warnings only)..."
-  check_gem_auth
-  check_npm_auth
+  # Publishing runs in CI via trusted publishing, so no registry credentials
+  # are needed locally — only the GitHub CLI (draft release + --finish phase).
+  # Gem/npm credentials matter only for the local-publish fallback.
+  puts "\nCHECK: Checking credentials (warnings only)..."
   check_gh_auth
+  puts "INFO: Registry credentials are not needed — the tag push triggers the"
+  puts "   'Publish Packages' workflow, which publishes via trusted publishing."
   puts
 
   # Check if tests pass (skip in dry run as it runs commands)
@@ -526,8 +526,63 @@ def publish_with_retries(name, command, auth_check:, fix_hint:)
   end
 end
 
+def wait_for_ci_publish(version, dry_run: false)
+  puts "\nSTEP 6: Wait for CI Publish"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would wait for the 'Publish Packages' workflow triggered by"
+    puts "   the v#{version} tag push, then verify both registries serve #{version}."
+    return
+  end
+
+  puts "   The tag push triggered .github/workflows/publish.yml, which builds"
+  puts "   and publishes both packages from the tagged commit via trusted"
+  puts "   publishing — no local credentials involved."
+
+  loop do
+    status = nil
+    deadline = Time.now + 900
+    while Time.now < deadline
+      status = `gh run list --workflow publish.yml --limit 5 --json headBranch,status,conclusion --jq '[.[] | select(.headBranch == "v#{version}")][0] | "\\(.status)/\\(.conclusion)"' 2>/dev/null`.strip
+      break if status.start_with?('completed')
+      print "."
+      sleep 15
+    end
+    puts
+
+    if status == 'completed/success'
+      gem_live = system("curl -sf https://rubygems.org/api/v1/versions/loco_motion-rails.json | grep -q '\"number\":\"#{version}\"'")
+      npm_live = system("npm view @profoundry-us/loco_motion@#{version} version > /dev/null 2>&1")
+      if gem_live && npm_live
+        puts "SUCCESS: v#{version} live on RubyGems and NPM, built from the tagged commit"
+        return
+      end
+      puts "WARNING: Workflow succeeded but registries not confirmed yet (gem: #{gem_live}, npm: #{npm_live}) — likely propagation lag."
+    else
+      puts "WARNING: Publish workflow state: #{status.to_s.empty? ? 'not found — did the tag push fire it?' : status}"
+      puts "   Inspect with: gh run list --workflow publish.yml"
+      puts "   Re-run with:  gh workflow run publish.yml -f tag=v#{version}"
+    end
+
+    case prompt_retry_skip_abort("CI publish not verified.")
+    when 'retry' then next
+    when 'skip'
+      response = prompt_yes_no("Fall back to publishing locally (requires credentials)?", default: 'n')
+      if response == 'y'
+        publish_packages
+        return
+      end
+      puts "WARNING: Continuing without verified packages — the demo update in"
+      puts "   --finish will fail if the NPM package isn't published."
+      return
+    when 'abort' then exit 1
+    end
+  end
+end
+
 def publish_packages(dry_run: false)
-  puts "\nSTEP 6: Publish Packages"
+  puts "\nFALLBACK: Publish Packages Locally"
   puts "=" * 50
 
   if dry_run
@@ -859,8 +914,9 @@ def main
       4. Generate llms.txt docs
       5. Build packages (with an NPM package content check)
       6. Push to main
-      7. Tag release
-      8. Publish packages to RubyGems + NPM (requires credentials)
+      7. Tag release (the tag push triggers the CI publish workflow)
+      8. Wait for CI to publish to RubyGems + NPM and verify both registries
+         (trusted publishing — no local credentials; local publish is a fallback)
       9. Create a DRAFT GitHub release with auto-generated notes
 
       ...then STOP. Review and publish the GitHub release in the browser —
@@ -947,7 +1003,7 @@ def main
       build_packages(dry_run: dry_run)
       push_to_main(dry_run: dry_run)
       tag_release(version, dry_run: dry_run)
-      publish_packages(dry_run: dry_run)
+      wait_for_ci_publish(version, dry_run: dry_run)
       create_github_release_draft(version, dry_run: dry_run)
 
       if dry_run
