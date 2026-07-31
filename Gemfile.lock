@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    loco_motion-rails (0.8.0.pre)
+    loco_motion-rails (0.7.1)
       base64 (~> 0.2.0)
       benchmark (~> 0.4)
       bigdecimal (~> 3.1.8)
