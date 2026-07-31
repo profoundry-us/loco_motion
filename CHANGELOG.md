@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Release): Deploy the demo sites from a new `stable` branch that only ever points at release
+  commits, instead of from `main` — main's between-releases pre-version (`0.8.0.pre`) was surfacing in the
+  deployed header badge, llms.txt links, and Algolia index names. The release wizard now advances `stable`
+  after the demo-update step, and Heroku staging's auto-deploy branch switches from `main` to `stable`.
+
 - fix(Release): Make the post-release pre-bump CI-safe. `new_component?` now treats a pre-release version
   (`0.8.0.pre`) as still within the last released series, so "New" badges on main match the published demo
   instead of expiring the moment main is pre-bumped; the pre-bump step in `bin/release` also regenerates
