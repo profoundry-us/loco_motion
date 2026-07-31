@@ -16,6 +16,7 @@ LocoMotion.
   - [NPM Package](#npm-package)
 - [Step 5 - GitHub Release](#step-5---github-release)
 - [Step 6 - Demo App Update](#step-6---demo-app-update)
+- [Step 6.5 - Advance the Stable Deploy Branch](#step-65---advance-the-stable-deploy-branch)
 - [Step 7 - Algolia Indexing](#step-7---algolia-indexing)
 - [Step 8 - LLM Documentation Generation](#step-8---llm-documentation-generation)
 
@@ -273,6 +274,31 @@ After both packages are published, update the demo app to use the new versions:
 > [!NOTE]
 > The demo app auto-deploys on every commit, so this step creates a separate
 > commit after the packages are published to avoid circular dependencies.
+
+## Step 6.5 - Advance the Stable Deploy Branch
+
+The public demo sites do **not** deploy from `main`. Between releases, main
+carries a pre-release version (e.g. `0.8.0.pre`), so building it would publish
+docs that claim an unreleased version, link to `llms-v0.8.0.pre.txt` files
+that were never generated, and index Algolia under the pre version.
+
+Instead, Heroku staging auto-deploys the `stable` branch, which only ever
+points at release commits. The wizard advances it for you; manually it's:
+
+```bash
+git push origin <release-sha>:stable
+```
+
+where `<release-sha>` is the demo-update commit from Step 6. A release always
+fast-forwards `stable` (it lives in main's history) — if the push is rejected,
+`stable` has diverged and you should inspect it rather than force-push.
+
+After staging builds `stable` and you've verified the site shows the new
+version, promote to production:
+
+```bash
+heroku pipelines:promote -a loco-motion-demo-staging
+```
 
 ## Step 7 - Algolia Indexing
 
