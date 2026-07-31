@@ -29,6 +29,10 @@ namespace :algolia do
       parser.on("-o", "--output FILEPATH", "Save the results to a JSON file at the specified path") do |path|
         options[:output_path] = path if path.present?
       end
+
+      parser.on("-p", "--skip-pages", "Skip indexing the guide and docs pages") do
+        options[:skip_pages] = true
+      end
     end.parse!(ENV["ARGS"]&.split || [])
 
     # Check for Algolia credentials
@@ -110,6 +114,17 @@ namespace :algolia do
       else
         puts "[WARN] No file found!!!"
       end
+    end
+
+    # Index the guide and docs pages alongside the components (skipped when
+    # targeting a single component, since that flag means "just this one").
+    if options[:component] || options[:skip_pages]
+      puts "\nSkipping guide and docs pages"
+    else
+      puts "\nProcessing guide and docs pages..."
+      page_records = Algolia::PageMetadataExtractor.new.extract_all
+      puts "Generated #{page_records.length} page records"
+      all_records.concat(page_records)
     end
 
     # Now handle all records at once
