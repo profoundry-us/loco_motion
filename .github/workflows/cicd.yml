@@ -6,6 +6,9 @@ on:
   push:
     branches:
     - main
+    # `stable` is the demo sites' deploy branch; Heroku staging's auto-deploy
+    # waits for CI on it, so pushes there must produce check runs.
+    - stable
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
