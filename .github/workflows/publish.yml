@@ -1,0 +1,96 @@
+# Publishes the gem (RubyGems) and npm package from a pushed release tag, so
+# registry artifacts are provably built from the tagged commit (issue #340) —
+# replacing local `gem push` / `npm publish` and their local credentials.
+#
+# Auth is OIDC "trusted publishing" on both registries — no stored secrets.
+# One-time registry setup (see docs/dev_guides/RELEASING.md):
+#   - rubygems.org: gem -> Trusted publishers -> GitHub Actions
+#     (repo profoundry-us/loco_motion, workflow publish.yml)
+#   - npmjs.com: package -> Settings -> Trusted publisher -> GitHub Actions
+#     (same repo + workflow filename)
+#
+# Each publish step is skipped if the version already exists on its registry,
+# so a partial failure can be re-run safely (via workflow_dispatch).
+name: Publish Packages
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        required: true
+        description: 'Existing tag to (re-)publish, e.g. v0.8.0'
+
+permissions:
+  contents: read
+  id-token: write # OIDC token for trusted publishing on both registries
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+
+      - name: Verify tag matches version.rb
+        run: |
+          TAG="${{ inputs.tag || github.ref_name }}"
+          VERSION=$(grep -o '".*"' lib/loco_motion/version.rb | tr -d '"')
+          echo "version=$VERSION" >> "$GITHUB_ENV"
+          if [ "v$VERSION" != "$TAG" ]; then
+            echo "::error::Tag $TAG does not match version.rb ($VERSION) — refusing to publish."
+            exit 1
+          fi
+
+      - name: Verify version sources agree
+        run: ./bin/version-check
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false # gem build only needs the gemspec, not the bundle
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Trusted publishing via OIDC needs a current npm CLI.
+      - name: Update npm
+        run: npm install -g npm@latest && npm --version
+
+      - name: Verify NPM package contents
+        run: ./bin/npm-package-check
+
+      - name: Check whether versions are already published
+        run: |
+          if curl -sf https://rubygems.org/api/v1/versions/loco_motion-rails.json | grep -q "\"number\":\"${version}\""; then
+            echo "gem_published=true" >> "$GITHUB_ENV"
+            echo "Gem ${version} already on RubyGems — will skip."
+          fi
+          if npm view "@profoundry-us/loco_motion@${version}" version > /dev/null 2>&1; then
+            echo "npm_published=true" >> "$GITHUB_ENV"
+            echo "NPM package ${version} already on the registry — will skip."
+          fi
+
+      - name: Configure RubyGems credentials (trusted publishing)
+        if: env.gem_published != 'true'
+        uses: rubygems/configure-rubygems-credentials@v1
+
+      - name: Build and push gem
+        if: env.gem_published != 'true'
+        run: |
+          gem build loco_motion-rails.gemspec -o "loco_motion-rails-${version}.gem"
+          gem push "loco_motion-rails-${version}.gem"
+
+      - name: Publish NPM package (with provenance)
+        if: env.npm_published != 'true'
+        run: npm publish --access public --provenance
+
+      - name: Summary
+        run: |
+          echo "## Published v${version}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Gem: https://rubygems.org/gems/loco_motion-rails/versions/${version}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- NPM: https://www.npmjs.com/package/@profoundry-us/loco_motion/v/${version}" >> "$GITHUB_STEP_SUMMARY"

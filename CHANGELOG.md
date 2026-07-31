@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Release): Publish packages from CI instead of locally (issue #340's last item). Pushing a release
+  tag now triggers a `publish.yml` workflow that verifies the tag matches `version.rb`, runs the
+  version-sync and npm-tarball checks, and publishes the gem and npm package (with provenance) from the
+  tagged commit via OIDC trusted publishing — no stored secrets or local registry credentials. The wizard
+  waits for the workflow and verifies both registries; local publishing remains as a prompted fallback.
+
 - chore(Release): Split the release wizard into two phases with a human review gate between them.
   `bin/release VERSION` now stops after publishing the packages and creating a **draft** GitHub release
   (auto-generated notes with YARD tags / npm scopes escaped so unrelated accounts aren't mention-linked as
