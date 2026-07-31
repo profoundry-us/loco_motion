@@ -829,9 +829,11 @@ def update_stable_branch(version, dry_run: false)
     return
   end
 
-  # A release always fast-forwards stable (it lives in main's history). If
-  # this fails, stable has diverged — inspect before forcing anything.
-  execute_command("Advancing stable to v#{version}", "git push origin HEAD:stable")
+  # A release normally fast-forwards stable, but hotfixes cherry-picked onto
+  # stable between releases give it commits with SHAs not in main's history —
+  # their content ships with the release, so overwriting them is correct.
+  # force-with-lease still guards against clobbering an unfetched push.
+  execute_command("Advancing stable to v#{version}", "git fetch origin stable && git push --force-with-lease=stable origin HEAD:stable")
 end
 
 def bump_to_next_pre_release(version, dry_run: false)
