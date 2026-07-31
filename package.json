@@ -23,10 +23,8 @@
   "files": [
     "index.js",
     "app/assets/stylesheets/loco.css",
-    "app/components/daisy/feedback/alert_controller.js",
-    "app/components/daisy/data_input/cally_input_controller.js",
-    "app/components/daisy/data_display/countdown_controller.js",
-    "app/components/daisy/actions/modal_controller.js",
-    "app/components/daisy/actions/theme_controller.js"
+    "app/components/**/*_controller.js",
+    "app/components/**/*.rb",
+    "app/components/**/*.html.haml"
   ]
 }
