@@ -13,6 +13,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
+### Demo / Docs Changes
+
+- feat(Search): Index the demo's guide and docs pages into Algolia alongside the component examples. A new
+  `Algolia::PageMetadataExtractor` renders each page through the real view pipeline and emits one record
+  per `h2` section (deep-linking to the section anchor, with a page-level intro record), tagged
+  `type: "guide"` / `type: "doc"` and ranked between components and examples. Pages ride the existing
+  `rake algolia:index` (new `--skip-pages` flag), so the Heroku release-phase reindex picks them up
+  automatically.
+
 ### General Changes
 
 - feat(NPM): Ship the ~112 component templates (`app/components/**/*.{rb,html.haml}`) in the npm package so
