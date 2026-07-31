@@ -11,7 +11,7 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
-## [Unreleased]
+## [0.7.1] - 2026-07-31
 
 ### Demo / Docs Changes
 
