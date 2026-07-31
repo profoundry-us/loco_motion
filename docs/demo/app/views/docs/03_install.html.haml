@@ -153,13 +153,36 @@
 
     Next, create or update your `tailwind.config.js` to tell Tailwind where to
     scan for class names. In Tailwind 4 this file handles **only** content
-    paths — plugins belong in your CSS file (see above). Scan every LocoMotion
-    component, or list just the ones you use for an _even smaller_ bundle (at
-    the cost of updating the list every time you adopt a new component):
+    paths — plugins belong in your CSS file (see above).
+
+    Scan LocoMotion's component templates from the **npm package** you
+    installed above (they ship in the package as of `v0.7.1`) — it resolves
+    with no Bundler subprocess and keeps your CSS build decoupled from Ruby.
+    The Ruby gem's path works too, and you can always list just the
+    components you use for an _even smaller_ bundle (at the cost of updating
+    the list every time you adopt a new component):
 
 .max-w-prose.mt-4
   = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
-    - tabs.with_tab(title: "All components", checked: true, content_wrapper_css: "pt-2") do
+    - tabs.with_tab(title: "npm package (recommended)", checked: true, content_wrapper_css: "pt-2") do
+      = doc_code(language: "javascript") do
+        :plain
+          // tailwind.config.js
+          const path = require('path');
+
+          // Resolve the installed npm package (ships the component templates)
+          const locoPath = path.dirname(
+            require.resolve('@profoundry-us/loco_motion/package.json')
+          );
+
+          module.exports = {
+            content: [
+              `${locoPath}/app/components/**/*.{rb,js,html,haml}`,
+              'app/components/**/*.{rb,js,html,haml}',
+              'app/views/**/*.{rb,js,html,haml}',
+            ]
+          }
+    - tabs.with_tab(title: "Ruby gem path", content_wrapper_css: "pt-2") do
       = doc_code(language: "javascript") do
         :plain
           // tailwind.config.js
@@ -179,27 +202,39 @@
       = doc_code(language: "javascript") do
         :plain
           // tailwind.config.js
-          const { execSync } = require('child_process');
+          const path = require('path');
 
-          // Get the path to the loco_motion gem
-          let locoBundlePath = execSync('bundle show loco_motion-rails').toString().trim();
+          // Resolve the installed npm package (ships the component templates)
+          const locoPath = path.dirname(
+            require.resolve('@profoundry-us/loco_motion/package.json')
+          );
 
           module.exports = {
             content: [
-              `${locoBundlePath}/app/components/daisy/actions/button_component.{rb,haml}`,
-              `${locoBundlePath}/app/components/daisy/data_display/countdown_component.{rb,haml}`,
-              `${locoBundlePath}/app/components/daisy/data_display/countdown_controller.js`,
+              `${locoPath}/app/components/daisy/actions/button_component.{rb,haml}`,
+              `${locoPath}/app/components/daisy/data_display/countdown_component.{rb,haml}`,
+              `${locoPath}/app/components/daisy/data_display/countdown_controller.js`,
               /* And so on and so forth */
               'app/components/**/*.{rb,js,html,haml}',
               'app/views/**/*.{rb,js,html,haml}',
             ]
           }
 
-= doc_note(css: "mt-6", modifier: :warning, title: "Gem Name Must Match") do
+.mt-4.prose
   :markdown
-    `bundle show loco_motion-rails` outputs nothing if the gem is not installed
-    or the name is wrong, which makes Tailwind silently skip every component
-    class. Make sure the gem name matches exactly.
+    Not using a JS config at all? Tailwind 4 can take the scan path directly
+    in your CSS entry with `@source "../node_modules/@profoundry-us/loco_motion/app/components";`
+    (adjust the relative path to your CSS file's location) instead of the
+    `@config` line.
+
+= doc_note(css: "mt-6", modifier: :warning, title: "Versions & Names Must Match") do
+  :markdown
+    npm package versions **before `0.7.1`** ship no component templates, so
+    scanning `node_modules` on an older version silently matches nothing and
+    your CSS loses every LocoMotion class — upgrade the package alongside the
+    gem. On the gem path, `bundle show loco_motion-rails` outputs nothing if
+    the gem is not installed or the name is wrong, with the same silent
+    result. Make sure names and versions match exactly.
 
 .mt-12.prose
   %h2{ id: "icons", class: "scroll-mt-24" } 4. Icons
