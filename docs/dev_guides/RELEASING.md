@@ -238,6 +238,24 @@ After both packages are published, create a new release on GitHub:
 4. Add release notes describing the changes (GitHub has an AI tool to do this)
 5. Publish the release
 
+> [!IMPORTANT]
+> **Publishing the release is what deploys the API docs.** The "Publish Yard
+> Docs" workflow (`.github/workflows/docs-yard.yml`) triggers only on
+> `release: published` — a git tag alone or a draft release does nothing, and
+> the demo's API-docs links (`LOCO_DOCS_HOST/vX.Y.Z`) 404 until it runs.
+> After publishing, confirm the workflow succeeded and
+> `https://loco-motion-docs.profoundry.us/vX.Y.Z/` loads. (The bare docs
+> root intentionally shows a placeholder page — only versioned paths serve
+> docs.) To rebuild manually, run the workflow via `workflow_dispatch` with
+> the version input.
+
+> [!WARNING]
+> If the notes are auto-generated, wrap YARD tags and npm scopes from PR
+> titles (`@slot`, `@part`, `@loco_example`, `@types/...`,
+> `@tailwindcss/...`, `@playwright/...`) in code spans before publishing.
+> GitHub mention-links them in release bodies and shows the matching
+> (unrelated) accounts in the release page's contributor strip.
+
 ## Step 6 - Demo App Update
 
 After both packages are published, update the demo app to use the new versions:
