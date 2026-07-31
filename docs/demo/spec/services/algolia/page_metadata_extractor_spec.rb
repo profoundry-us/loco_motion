@@ -27,7 +27,7 @@ RSpec.describe Algolia::PageMetadataExtractor do
       expect(record).to include(
         type: "guide",
         section: "Guides",
-        url: "/guides/08_authentication#omniauth",
+        url: "/guides/authentication#omniauth",
         page_title: "Authentication"
       )
       expect(record[:title]).to eq("Authentication with OmniAuth")
@@ -40,14 +40,14 @@ RSpec.describe Algolia::PageMetadataExtractor do
       expect(record).to include(
         type: "doc",
         section: "Docs",
-        url: "/docs/03_install#tailwind"
+        url: "/docs/install#tailwind"
       )
     end
 
     it "creates a page-level intro record without a fragment" do
       record = records.find { |r| r[:objectID] == "guide-08_authentication-intro" }
 
-      expect(record[:url]).to eq("/guides/08_authentication")
+      expect(record[:url]).to eq("/guides/authentication")
       expect(record[:title]).to eq("Authentication")
     end
 

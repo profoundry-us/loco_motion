@@ -194,10 +194,31 @@ function initializeSearch(appId, apiKey, indexName) {
     </svg>
   `;
 
+  // Icons for guide / docs page hits. These intentionally mirror the sidebar
+  // nav's iconography (ApplicationController#setup_nav_sections): docs get
+  // book-open, guides get document-text — so the two surfaces agree.
+  const docIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+  `;
+
+  const guideIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+    </svg>
+  `;
+
+  const hitTemplate = (hit) => {
+    if (hit.type == "example") return exampleTemplate(hit);
+    if (hit.type == "guide" || hit.type == "doc") return pageTemplate(hit);
+    return componentTemplate(hit);
+  };
+
   const groupTemplate = (section, hits) =>`
     <div class="group px-2 mb-6 first:mt-2">
       <h2 class="text-lg font-bold mb-2 pl-1 capitalize">${section}</h2>
-      ${hits.map(hit => `${hit.type == "example" ? exampleTemplate(hit) : componentTemplate(hit)}`).join('')}
+      ${hits.map(hitTemplate).join('')}
     </div>
   `;
 
@@ -225,6 +246,20 @@ function initializeSearch(appId, apiKey, indexName) {
           ${arrowIcon}
         </a>
       </div>
+    `;
+  };
+
+  // Guide and docs-page hits: same row shape as components, but with the
+  // type-specific icon; hit.url already carries the section anchor.
+  const pageTemplate = (hit) => {
+    return `
+      <a href="javascript:visitDoc('${hit.url || ''}')" class="w-full ${shared_css}">
+        ${hit.type == "doc" ? docIcon : guideIcon}
+        <span class="whitespace-nowrap">${instantsearch.highlight({ attribute: 'title', hit })}</span>
+        ${dashIcon}
+        <span class="flex-1 italic truncate">${instantsearch.highlight({ attribute: 'description', hit }) || ""}</span>
+        ${arrowIcon}
+      </a>
     `;
   };
 
