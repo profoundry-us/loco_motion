@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Release): Consolidate phase 1's release prep into a single `Release version X.Y.Z` commit —
+  version files, lockfiles, CHANGELOG finalization, and llms.txt now land together (three commit prompts
+  become one), so the release tag points at exactly one commit containing the entire release. The version
+  step also syncs the demo lockfile immediately, so the release commit passes demo CI's frozen bundle on
+  its own instead of relying on the later demo-update commit. Phase 2's two commits stay separate by
+  design: the demo-update commit is `stable`'s deploy target and must exist after packages publish, and
+  the pre-release bump must come after it so the deployed sites never carry a pre version.
+
 - feat(Release): Walk the operator through shipping the sites. The `--finish` phase now ends by waiting
   for staging to serve the released version (offering to open it in the browser for review), prompting for
   the production promotion, and then waiting on and offering to open production — replacing the printed

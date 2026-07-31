@@ -250,16 +250,12 @@ def update_version(dry_run: false)
   # Update loco container
   execute_command("Updating loco container", "just loco-version-lock")
 
-  # Show changes
-  puts "\nCHANGES: Changes made:"
-  system('git diff --name-only')
-  puts
+  # The demo lockfile embeds the path gem's version, so sync it with the new
+  # version or the release commit fails demo CI in frozen mode.
+  execute_command("Syncing demo lockfile", "docker compose exec -T demo bundle install --quiet")
 
-  response = prompt_yes_no("Commit version changes?", default: 'y')
-  if response == 'y'
-    execute_command("Committing version changes", "git add . && git commit -m 'Release version #{new_version}'")
-  end
-
+  # No commit here — all release prep lands in one commit (step 4), so the
+  # tag points at a single commit containing the entire release.
   new_version
 end
 
@@ -305,14 +301,12 @@ def update_changelog(version, dry_run: false)
     end
   end
 
-  response = prompt_yes_no("Commit CHANGELOG changes?", default: 'y')
-  if response == 'y'
-    execute_command("Committing CHANGELOG", "git add CHANGELOG.md && git commit -m 'docs: Finalize CHANGELOG for release v#{version}'")
-  end
+  # No commit here — the CHANGELOG lands in the single release commit
+  # (step 4).
 end
 
 def generate_llms_docs(version, dry_run: false)
-  puts "\nSTEP 2.5: Generate LLM Documentation"
+  puts "\nSTEP 3: Generate LLM Documentation"
   puts "=" * 50
 
   if dry_run
@@ -323,22 +317,47 @@ def generate_llms_docs(version, dry_run: false)
 
   response = prompt_yes_no("Generate llms.txt documentation?", default: 'y')
   if response == 'y'
+    # `just llm` writes the files into docs/demo/public/ (llms.txt,
+    # llms-full.txt, and versioned copies). They land in the single release
+    # commit (step 4) along with everything else.
     execute_command("Generating llms.txt", "just llm")
-
-    response = prompt_yes_no("Commit llms.txt changes?", default: 'y')
-    if response == 'y'
-      # `just llm` writes the files into docs/demo/public/ (llms.txt,
-      # llms-full.txt, and versioned copies). It also boots the demo
-      # container, which can refresh docs/demo/Gemfile.lock, so include it.
-      execute_command("Committing llms.txt", "git add docs/demo/public/llms*.txt docs/demo/Gemfile.lock && git commit -m 'docs: Update llms.txt for release v#{version}'")
-    end
   else
     puts "INFO: Skipping llms.txt generation (you can run it later with 'just llm')"
   end
 end
 
+def commit_release(version, dry_run: false)
+  puts "\nSTEP 4: Commit Release"
+  puts "=" * 50
+
+  if dry_run
+    puts "DRY RUN: Would commit all release prep in one 'Release version #{version}' commit"
+    return
+  end
+
+  if `git status --porcelain`.strip.empty?
+    puts "INFO: Nothing to commit (already committed?)"
+    return
+  end
+
+  # One commit for the whole release prep (version files, lockfiles,
+  # CHANGELOG, llms) — so the tag points at a single commit containing the
+  # entire release.
+  puts "CHANGES: Files in the release commit:"
+  system('git status --short')
+  puts
+
+  response = prompt_yes_no("Commit all release changes?", default: 'y')
+  unless response == 'y'
+    puts "ERROR: The release commit is required before building and tagging."
+    exit 1
+  end
+
+  execute_command("Committing release", "git add . && git commit -m 'Release version #{version}'")
+end
+
 def build_packages(dry_run: false)
-  puts "\nSTEP 3: Build Packages"
+  puts "\nSTEP 5: Build Packages"
   puts "=" * 50
 
   version = get_current_version
@@ -421,7 +440,7 @@ def build_packages(dry_run: false)
 end
 
 def push_to_main(dry_run: false)
-  puts "\nSTEP 4: Push to Main"
+  puts "\nSTEP 6: Push to Main"
   puts "=" * 50
 
   if dry_run
@@ -447,7 +466,7 @@ def push_to_main(dry_run: false)
 end
 
 def tag_release(version, dry_run: false)
-  puts "\nSTEP 5: Tag Release"
+  puts "\nSTEP 7: Tag Release"
   puts "=" * 50
 
   # Helper function to check tag existence
@@ -536,7 +555,7 @@ def publish_with_retries(name, command, auth_check:, fix_hint:)
 end
 
 def wait_for_ci_publish(version, dry_run: false)
-  puts "\nSTEP 6: Wait for CI Publish"
+  puts "\nSTEP 8: Wait for CI Publish"
   puts "=" * 50
 
   if dry_run
@@ -663,7 +682,7 @@ def escape_release_note_mentions(body)
 end
 
 def create_github_release_draft(version, dry_run: false)
-  puts "\nSTEP 7: Draft GitHub Release"
+  puts "\nSTEP 9: Draft GitHub Release"
   puts "=" * 50
 
   if dry_run
@@ -997,16 +1016,18 @@ def main
       The release runs in two phases with a human review gate between them.
 
       PHASE 1 — publish the artifacts (bin/release VERSION):
-      1. Check prerequisites (tests, version sync, credentials)
-      2. Update version
+      1. Check prerequisites (lint, tests, version sync, credentials)
+      2. Update version (incl. lockfile syncs)
       3. Update CHANGELOG
       4. Generate llms.txt docs
-      5. Build packages (with an NPM package content check)
-      6. Push to main
-      7. Tag release (the tag push triggers the CI publish workflow)
-      8. Wait for CI to publish to RubyGems + NPM and verify both registries
+      5. Commit everything as a single 'Release version X.Y.Z' commit
+         (the tag lands on this one commit)
+      6. Build packages (with an NPM package content check)
+      7. Push to main
+      8. Tag release (the tag push triggers the CI publish workflow)
+      9. Wait for CI to publish to RubyGems + NPM and verify both registries
          (trusted publishing — no local credentials; local publish is a fallback)
-      9. Create a DRAFT GitHub release with auto-generated notes
+      10. Create a DRAFT GitHub release with auto-generated notes
 
       ...then STOP. Review and publish the GitHub release in the browser —
       publishing is what triggers the API docs deployment.
@@ -1096,6 +1117,7 @@ def main
       version = update_version(dry_run: dry_run)
       update_changelog(version, dry_run: dry_run)
       generate_llms_docs(version, dry_run: dry_run)
+      commit_release(version, dry_run: dry_run)
       build_packages(dry_run: dry_run)
       push_to_main(dry_run: dry_run)
       tag_release(version, dry_run: dry_run)
