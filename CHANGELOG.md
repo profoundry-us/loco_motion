@@ -11,6 +11,15 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### General Changes
+
+- fix(Release): Make the post-release pre-bump CI-safe. `new_component?` now treats a pre-release version
+  (`0.8.0.pre`) as still within the last released series, so "New" badges on main match the published demo
+  instead of expiring the moment main is pre-bumped; the pre-bump step in `bin/release` also regenerates
+  `docs/demo/Gemfile.lock`, whose frozen PATH entry embeds the gem version and broke the demo CI job.
+
 ## [0.7.0] - 2026-07-30
 
 ### General Changes

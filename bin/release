@@ -653,6 +653,12 @@ def bump_to_next_pre_release(version, dry_run: false)
   execute_command("Bumping version to #{next_pre}", "just version-set #{next_pre}")
   execute_command("Updating loco container", "just loco-version-lock")
 
+  # The demo app consumes the gem via path, so its frozen lockfile embeds the
+  # gem's version — regenerate it or CI's demo job fails on the stale stamp.
+  # (Deliberately NOT `just demo-version-lock`: that also upgrades the npm
+  # package, which must stay at the just-published release.)
+  execute_command("Syncing demo lockfile", "docker compose exec -T demo bundle install --quiet")
+
   puts "\nCHANGES: Changes made:"
   system('git diff --name-only')
   puts

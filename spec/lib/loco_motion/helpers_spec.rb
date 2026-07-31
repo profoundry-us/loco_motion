@@ -27,5 +27,17 @@ RSpec.describe LocoMotion::Helpers do
 
       expect(described_class.new_component?("Daisy::Layout::AuraComponent")).to be false
     end
+
+    it "stays new on the next series' pre-release (main between releases)" do
+      stub_const("LocoMotion::VERSION", "0.8.0.pre")
+
+      expect(described_class.new_component?("Daisy::Layout::AuraComponent")).to be true
+    end
+
+    it "expires on the pre-release after the added series has shipped" do
+      stub_const("LocoMotion::VERSION", "0.9.0.pre")
+
+      expect(described_class.new_component?("Daisy::Layout::AuraComponent")).to be false
+    end
   end
 end

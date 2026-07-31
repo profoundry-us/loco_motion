@@ -175,8 +175,15 @@ module LocoMotion
       added = COMPONENTS.dig(component_name, :added)
       return false if added.nil?
 
-      current_series = Gem::Version.new(LocoMotion::VERSION).segments[0..1].join(".")
-      Gem::Version.new(added) >= Gem::Version.new(current_series)
+      version = Gem::Version.new(LocoMotion::VERSION)
+      major, minor = version.segments[0..1]
+
+      # A pre-release on main (e.g. `0.8.0.pre`) sits *between* series: 0.8
+      # hasn't shipped, so badges must match what the published 0.7 demo
+      # shows. Compare against the last released series instead.
+      minor -= 1 if version.prerelease? && minor.positive?
+
+      Gem::Version.new(added) >= Gem::Version.new("#{major}.#{minor}")
     end
 
     #
