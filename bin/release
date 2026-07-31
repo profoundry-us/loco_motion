@@ -176,14 +176,23 @@ def check_prerequisites(dry_run: false)
   puts "   'Publish Packages' workflow, which publishes via trusted publishing."
   puts
 
-  # Check if tests pass (skip in dry run as it runs commands)
+  # Lint and the fast test suites always run — a red main blocks staging's
+  # CI-gated deploy of `stable`, so catching failures BEFORE the release
+  # commits exist is much cheaper than after (learned on v0.7.1, which
+  # shipped packages fine but stalled at the staging deploy on a rubocop
+  # offense). Each is an execute_command, so a failure still offers the
+  # continue-anyway escape hatch for genuine emergencies. Playwright stays
+  # optional: it's the slow suite and can crash locally on a busy Docker VM.
   if dry_run
-    puts "DRY RUN: Skipping test execution (would run 'just test')"
+    puts "DRY RUN: Skipping lint/test execution (would run 'just lint',"
+    puts "   'just loco-test', 'just demo-test', and offer Playwright)"
   else
-    response = prompt_yes_no("Run tests to ensure everything is working?", default: 'y')
-    if response == 'y'
-      execute_command("Running all tests", "just test")
-    end
+    execute_command("Running RuboCop", "just lint")
+    execute_command("Running library specs", "just loco-test")
+    execute_command("Running demo specs", "just demo-test")
+
+    response = prompt_yes_no("Also run the Playwright e2e suite? (slow)", default: 'y')
+    execute_command("Running Playwright", "just playwright") if response == 'y'
   end
 
   unless prerequisites_ok
