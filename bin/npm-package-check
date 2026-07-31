@@ -68,8 +68,24 @@ end
 
 # 2. Every `files` allowlist entry must be present — npm skips missing paths
 #    without erroring, which is exactly how loco.css went missing in 0.6.0.
+#    Glob entries are expanded against the working tree, so every component
+#    template on disk must have made it into the tarball (issue #358: a
+#    registry install must ship the .rb/.haml templates Tailwind scans).
 (package_json['files'] || []).each do |file|
-  if entry_set.include?(file)
+  if file.include?('*')
+    matches = Dir.glob(file, base: ROOT).sort
+    if matches.empty?
+      failures << "files glob matches nothing in the working tree: #{file}"
+      next
+    end
+
+    missing = matches.reject { |m| entry_set.include?(m) }
+    if missing.empty?
+      puts "✓ files: #{file} (#{matches.size} files)"
+    else
+      missing.each { |m| failures << "files glob #{file}: #{m} missing from tarball" }
+    end
+  elsif entry_set.include?(file)
     puts "✓ files: #{file}"
   else
     failures << "files entry missing from tarball: #{file}"

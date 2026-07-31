@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(NPM): Ship the ~112 component templates (`app/components/**/*.{rb,html.haml}`) in the npm package so
+  Tailwind content scanning against `node_modules/@profoundry-us/loco_motion/app/components` works on
+  registry installs — previously only yarn-1 git installs (which ignore `files`) delivered scannable
+  templates, so switching install methods silently shipped CSS missing every LocoMotion class. The
+  hand-enumerated controller list is now a `**/*_controller.js` glob (the modal controller was once missed
+  precisely because that list was maintained by hand), and `bin/npm-package-check` expands `files` globs
+  against the working tree so a template missing from the tarball fails the release.
+
 - feat(Release): Publish packages from CI instead of locally (issue #340's last item). Pushing a release
   tag now triggers a `publish.yml` workflow that verifies the tag matches `version.rb`, runs the
   version-sync and npm-tarball checks, and publishes the gem and npm package (with provenance) from the
