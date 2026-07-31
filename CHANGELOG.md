@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Release): Split the release wizard into two phases with a human review gate between them.
+  `bin/release VERSION` now stops after publishing the packages and creating a **draft** GitHub release
+  (auto-generated notes with YARD tags / npm scopes escaped so unrelated accounts aren't mention-linked as
+  contributors); `bin/release --finish` then verifies the release was published and the API docs actually
+  serve before updating the demo app, advancing `stable`, and pre-bumping main — so the demo can never go
+  live linking to API docs that don't exist yet.
+
 - chore(Release): Deploy the demo sites from a new `stable` branch that only ever points at release
   commits, instead of from `main` — main's between-releases pre-version (`0.8.0.pre`) was surfacing in the
   deployed header badge, llms.txt links, and Algolia index names. The release wizard now advances `stable`
