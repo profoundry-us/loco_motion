@@ -22,6 +22,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `rake algolia:index` (new `--skip-pages` flag), so the Heroku release-phase reindex picks them up
   automatically.
 
+- feat(Search): Surface guide and docs hits in the search modal with their own icons — docs get
+  `book-open` and guides get `document-text`, mirroring the sidebar nav's iconography, while components
+  keep their existing icon. Page hits group under their page title and deep-link to the matched section.
+  Page record URLs now use the nav's canonical un-prefixed form (`/docs/install`, not `/docs/03_install`).
+
 ### General Changes
 
 - feat(NPM): Ship the ~112 component templates (`app/components/**/*.{rb,html.haml}`) in the npm package so

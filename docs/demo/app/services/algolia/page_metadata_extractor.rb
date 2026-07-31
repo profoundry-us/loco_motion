@@ -71,7 +71,9 @@ module Algolia
 
       page_title = body.at_css("h1")&.text&.strip.presence ||
                    page_id.sub(/\A\d+_/, "").humanize
-      url = "/#{source[:directory]}/#{page_id}"
+      # The prefixed id also routes, but the nav links use the stripped form
+      # — keep hit URLs canonical with it.
+      url = "/#{source[:directory]}/#{page_id.sub(/\A\d+_/, '')}"
 
       used_ids = Set.new
       sections_for(body, page_title).each_with_index.map do |section, idx|
