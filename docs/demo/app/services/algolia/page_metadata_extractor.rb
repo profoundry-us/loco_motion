@@ -69,32 +69,72 @@ module Algolia
       body = Nokogiri::HTML(html).at("body")
       return [] if body.nil?
 
-      page_title = body.at_css("h1")&.text&.strip.presence ||
-                   page_id.sub(/\A\d+_/, "").humanize
-      # The prefixed id also routes, but the nav links use the stripped form
-      # — keep hit URLs canonical with it.
-      url = "/#{source[:directory]}/#{page_id.sub(/\A\d+_/, '')}"
+      page = {
+        source: source,
+        page_id: page_id,
+        position: position,
+        page_title: page_title_for(body, page_id),
+        # The prefixed id also routes, but the nav links use the stripped
+        # form — keep hit URLs canonical with it.
+        url: "/#{source[:directory]}/#{page_id.sub(/\A\d+_/, '')}"
+      }
 
       used_ids = Set.new
-      sections_for(body, page_title).each_with_index.map do |section, idx|
-        # Anchor-less sections (the intro, or an h2 without an id) fall back
-        # to a slug of their title, index-suffixed on collision.
-        fragment = section[:anchor] || (idx.zero? ? "intro" : section[:title].parameterize)
-        fragment = "#{fragment}-#{idx}" unless used_ids.add?(fragment)
-
-        {
-          type: source[:type],
-          objectID: [source[:type], page_id, fragment].join("-"),
-          framework: "LocoMotion",
-          section: source[:section],
-          component: page_title,
-          title: section[:title],
-          page_title: page_title,
-          description: section[:description],
-          url: section[:anchor] ? "#{url}##{section[:anchor]}" : url,
-          priority: source[:priority_base] + (position * 20) + idx
-        }
+      sections_for(body, page[:page_title]).each_with_index.map do |section, idx|
+        build_record(section, idx, fragment_for(section, idx, used_ids), page)
       end
+    end
+
+    # The page's own title, from its `h1` (fallback: humanized file id).
+    #
+    # @param body [Nokogiri::XML::Node] The rendered page body
+    # @param page_id [String] The page's file basename
+    # @return [String] The page title
+    #
+    def page_title_for(body, page_id)
+      body.at_css("h1")&.text&.strip.presence ||
+        page_id.sub(/\A\d+_/, "").humanize
+    end
+
+    # The objectID fragment for a section. Anchor-less sections (the intro,
+    # or an h2 without an id) fall back to a slug of their title,
+    # index-suffixed on collision.
+    #
+    # @param section [Hash] The section (:title, :anchor, :description)
+    # @param idx [Integer] The section's index within its page
+    # @param used_ids [Set] Fragments already used on this page
+    # @return [String] A page-unique objectID fragment
+    #
+    def fragment_for(section, idx, used_ids)
+      fragment = section[:anchor] ||
+                 (idx.zero? ? "intro" : section[:title].parameterize)
+      used_ids.add?(fragment) ? fragment : "#{fragment}-#{idx}"
+    end
+
+    # One Algolia record for one page section.
+    #
+    # @param section [Hash] The section (:title, :anchor, :description)
+    # @param idx [Integer] The section's index within its page
+    # @param fragment [String] The page-unique objectID fragment
+    # @param page [Hash] Page context (:source, :page_id, :page_title, :url,
+    #   :position)
+    # @return [Hash] The Algolia record
+    #
+    def build_record(section, idx, fragment, page)
+      source = page[:source]
+
+      {
+        type: source[:type],
+        objectID: [source[:type], page[:page_id], fragment].join("-"),
+        framework: "LocoMotion",
+        section: source[:section],
+        component: page[:page_title],
+        title: section[:title],
+        page_title: page[:page_title],
+        description: section[:description],
+        url: section[:anchor] ? "#{page[:url]}##{section[:anchor]}" : page[:url],
+        priority: source[:priority_base] + (page[:position] * 20) + idx
+      }
     end
 
     # Some pages read the nav structure (e.g. the introduction counts the
