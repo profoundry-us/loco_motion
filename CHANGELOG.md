@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Gem): Require `loco_motion/version` from the gem's entry point. Registry installs never define
+  `LocoMotion::VERSION` in versions before 0.7.2 — only path/git installs got it, by accident, via
+  Bundler evaluating the gemspec (whose `require_relative` defines the constant as a side effect). Found
+  by the first registry-consuming staging build (issue #365); the demo app also requires it explicitly so
+  it deploys against the already-published 0.7.1.
+
 - feat(Deploy): Commit both Gemfile arrangements for the demo app (issue #365). The canonical
   `docs/demo/Gemfile`/`Gemfile.lock` now install the **published** gem (`~> 0.7.1`), so staging and
   production can build the exact artifacts consumers install using plain buildpacks; the path-based pair
