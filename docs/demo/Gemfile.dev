@@ -101,17 +101,18 @@ gem "unsplash"
 
 #############################################
 #
-# REGISTRY arrangement: this Gemfile (and its Gemfile.lock) install the
-# PUBLISHED gem, so the staging/production sites build the exact artifacts
-# consumers install (issue #365). The release wizard bumps the pin and
-# regenerates the lock after each release.
+# DEV/PATH arrangement (select with `BUNDLE_GEMFILE=Gemfile.dev`): points
+# directly at our gem source. The canonical Gemfile installs the published
+# gem for staging/production (issue #365).
 #
-# Everything that runs the repo's own source uses the path-based pair
-# instead: local dev and CI select it via `BUNDLE_GEMFILE=Gemfile.dev`,
-# and the edge app's custom buildpack copies the .dev pair over these
-# canonical names at build time (heroku/ruby ignores BUNDLE_GEMFILE).
+# Point directly to our gem. The `docker-compose.yml` file mounts it in the
+# vendor directory, and we have a custom Heroku buildpack that copies the
+# relevant files into that directory for release.
 #
 # See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 #
+# This ensures that our demo site always uses the latest version of the gem (or
+# whatever branch you are developing on).
+#
 #############################################
-gem "loco_motion-rails", "~> 0.7.1", require: "loco_motion"
+gem "loco_motion-rails", path: "vendor/loco_motion-rails", require: "loco_motion"
