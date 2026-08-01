@@ -26,6 +26,10 @@ jobs:
 
   demo-rspec:
     runs-on: ubuntu-latest
+    # CI tests the repo's own source: use the path-based Gemfile pair. The
+    # canonical Gemfile installs the published gem (issue #365).
+    env:
+      BUNDLE_GEMFILE: Gemfile.dev
     steps:
     - uses: actions/checkout@v7
 

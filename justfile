@@ -209,7 +209,10 @@ demo-version-lock:
         echo "✓ NPM package @profoundry-us/loco_motion@{{version}} found"; \
         docker compose exec -it demo bundle; \
         docker compose exec -it demo yarn; \
-        echo "✓ Demo app updated to version {{version}}"; \
+        echo "Updating registry Gemfile pin to ~> {{version}}..."; \
+        ruby -pi -e 'sub(/gem "loco_motion-rails", "~> [\d.]+"/, %q{gem "loco_motion-rails", "~> {{version}}"})' docs/demo/Gemfile; \
+        docker compose exec -T -e BUNDLE_GEMFILE=Gemfile demo bundle lock --update loco_motion-rails; \
+        echo "✓ Demo app updated to version {{version}} (dev + registry pairs)"; \
     else \
         echo "✗ NPM package @profoundry-us/loco_motion@{{version}} not found in registry"; \
         echo "  Please publish the NPM package first with: just npm-publish"; \

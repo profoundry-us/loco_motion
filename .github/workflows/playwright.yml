@@ -19,6 +19,10 @@ jobs:
   playwright:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
+    # E2E tests the repo's own source: use the path-based Gemfile pair. The
+    # canonical Gemfile installs the published gem (issue #365).
+    env:
+      BUNDLE_GEMFILE: Gemfile.dev
     # Heaviest suite and the only one that exercises the live demo in a browser:
     # only on full/non-draft PRs. Always runs on pushes to main and manual
     # dispatches.

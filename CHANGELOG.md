@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Deploy): Commit both Gemfile arrangements for the demo app (issue #365). The canonical
+  `docs/demo/Gemfile`/`Gemfile.lock` now install the **published** gem (`~> 0.7.1`), so staging and
+  production can build the exact artifacts consumers install using plain buildpacks; the path-based pair
+  moves to `Gemfile.dev`/`Gemfile.dev.lock`, selected via `BUNDLE_GEMFILE=Gemfile.dev` by local dev
+  (docker-compose) and CI, and swapped in at build time by the custom buildpack for the edge app.
+  `just demo-version-lock` now maintains both pairs at release. **Local dev note:** run
+  `docker compose up -d demo` once after pulling (the env var lands via compose config, so the container
+  must be recreated, not just restarted).
+
 - chore(Release): Consolidate phase 1's release prep into a single `Release version X.Y.Z` commit —
   version files, lockfiles, CHANGELOG finalization, and llms.txt now land together (three commit prompts
   become one), so the release tag points at exactly one commit containing the entire release. The version

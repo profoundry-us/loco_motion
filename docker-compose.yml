@@ -24,6 +24,11 @@ services:
     build:
       context: docs/demo
       dockerfile: Dockerfile.demo
+    environment:
+      # Local dev runs the repo's own source: select the path-based Gemfile
+      # pair. The canonical Gemfile installs the PUBLISHED gem for the
+      # staging/production builds (issue #365).
+      BUNDLE_GEMFILE: Gemfile.dev
     env_file:
       - path: docs/demo/.env.local
         required: false
