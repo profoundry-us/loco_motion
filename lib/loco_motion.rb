@@ -5,6 +5,13 @@ require "haml-rails"
 
 require "view_component"
 
+# Load VERSION first: nothing else here requires it, and only path/git
+# installs got it by accident (Bundler evaluates their gemspec, whose
+# require_relative defines the constant as a side effect). Registry installs
+# never run the gemspec, so without this line LocoMotion::VERSION is
+# undefined for real consumers.
+require "loco_motion/version"
+
 require "loco_motion/errors"
 require "loco_motion/configuration"
 require "loco_motion/concerns/inspectable_component"

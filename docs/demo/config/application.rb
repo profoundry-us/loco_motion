@@ -37,7 +37,11 @@ module LocoDemo
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Setup our demo app configuration options
+    # Setup our demo app configuration options. Require what we reference:
+    # gem versions before 0.7.2 don't load their own version file on a
+    # registry install (only path/git installs got it via gemspec
+    # evaluation), so be explicit rather than relying on the gem's entry.
+    require "loco_motion/version"
     docs_host = ENV.fetch("LOCO_DOCS_HOST", "http://localhost:8808")
     docs_path = docs_host.include?("localhost") ? "docs" : "v#{LocoMotion::VERSION}"
 
