@@ -211,7 +211,7 @@ demo-version-lock:
         docker compose exec -it demo yarn; \
         echo "Updating registry Gemfile pin to ~> {{version}}..."; \
         ruby -pi -e 'sub(/gem "loco_motion-rails", "~> [\d.]+"/, %q{gem "loco_motion-rails", "~> {{version}}"})' docs/demo/Gemfile; \
-        docker compose exec -T -e BUNDLE_GEMFILE=Gemfile demo bundle lock --update loco_motion-rails; \
+        docker compose exec -T -e BUNDLE_GEMFILE=Gemfile demo bundle lock --update loco_motion-rails --add-platform x86_64-linux; \
         echo "✓ Demo app updated to version {{version}} (dev + registry pairs)"; \
     else \
         echo "✗ NPM package @profoundry-us/loco_motion@{{version}} not found in registry"; \
