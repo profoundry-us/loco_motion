@@ -70,7 +70,7 @@ Add the gem to your `Gemfile` and run `bundle`:
 
 ```ruby
 # Gemfile
-gem "loco_motion-rails", "~> 0.7.1", require: "loco_motion"
+gem "loco_motion-rails", "~> 0.7.2", require: "loco_motion"
 ```
 
 Some components also need a JavaScript package (for their Stimulus controllers)
