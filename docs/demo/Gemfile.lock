@@ -201,7 +201,7 @@ GEM
       logger
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loco_motion-rails (0.7.1)
+    loco_motion-rails (0.7.2)
       base64 (~> 0.2.0)
       benchmark (~> 0.4)
       bigdecimal (~> 3.1.8)
@@ -433,7 +433,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.8.2)
+    zeitwerk (2.8.3)
 
 PLATFORMS
   aarch64-linux-gnu
@@ -464,7 +464,7 @@ DEPENDENCIES
   html2haml
   jbuilder
   jsbundling-rails
-  loco_motion-rails (~> 0.7.1)
+  loco_motion-rails (~> 0.7.2)
   ostruct
   posthog-ruby
   puma (>= 5.0)
