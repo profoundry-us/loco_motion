@@ -861,7 +861,28 @@ def update_stable_branch(version, dry_run: false)
   # stable between releases give it commits with SHAs not in main's history —
   # their content ships with the release, so overwriting them is correct.
   # force-with-lease still guards against clobbering an unfetched push.
-  execute_command("Advancing stable to v#{version}", "git fetch origin stable && git push --force-with-lease=stable origin HEAD:stable")
+  #
+  # Heroku's GitHub auto-deploy silently IGNORES force pushes (learned on
+  # v0.7.2: stable advanced, CI went green, and no deploy ever fired), so
+  # when the advance was not a fast-forward, follow it with an empty commit
+  # pushed normally — that push event is what actually triggers the deploy.
+  advanced = execute_command(
+    "Advancing stable to v#{version}",
+    "git fetch origin stable && git push origin HEAD:stable",
+    exit_on_failure: false
+  )
+
+  unless advanced
+    puts "INFO: Fast-forward failed (stable has cherry-picked hotfixes);"
+    puts "   force-advancing, then adding a deploy-trigger commit."
+    execute_command("Force-advancing stable", "git push --force-with-lease=stable origin HEAD:stable")
+    execute_command(
+      "Pushing deploy trigger",
+      "git fetch origin stable && " \
+      "git commit-tree -p origin/stable -m 'chore: Trigger staging deploy after force advance' 'origin/stable^{tree}' " \
+      "| xargs -I SHA git push origin SHA:stable"
+    )
+  end
 end
 
 def bump_to_next_pre_release(version, dry_run: false)

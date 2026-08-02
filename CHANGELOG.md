@@ -11,6 +11,16 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### General Changes
+
+- fix(Release): Make the stable advance always trigger the staging deploy. Heroku's GitHub auto-deploy
+  silently ignores force pushes, so when `stable` carries cherry-picked hotfixes (making the advance a
+  force push), the wizard now follows it with an empty deploy-trigger commit pushed normally — the push
+  event Heroku actually reacts to. Found on v0.7.2, where stable advanced and CI went green but no deploy
+  ever fired. Fast-forward advances are unchanged (single normal push).
+
 ## [0.7.2] - 2026-08-01
 
 ### General Changes
