@@ -15,11 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
-- fix(Release): Make the stable advance always trigger the staging deploy. Heroku's GitHub auto-deploy
-  silently ignores force pushes, so when `stable` carries cherry-picked hotfixes (making the advance a
-  force push), the wizard now follows it with an empty deploy-trigger commit pushed normally — the push
-  event Heroku actually reacts to. Found on v0.7.2, where stable advanced and CI went green but no deploy
-  ever fired. Fast-forward advances are unchanged (single normal push).
+- fix(Release): Never force-push the `stable` deploy branch. Heroku's GitHub auto-deploy silently ignores
+  force pushes (found on v0.7.2: stable advanced, CI went green, and no deploy ever fired), so when
+  `stable` carries cherry-picked hotfixes the wizard now reconciles with a *merge* instead of a rewrite —
+  built via `git commit-tree` with the release commit's exact tree and both histories as parents, so the
+  content is guaranteed identical, no conflict resolution can occur, and the push is always a normal,
+  deploy-triggering fast-forward. Plain releases remain a single fast-forward push.
 
 ## [0.7.2] - 2026-08-01
 

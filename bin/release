@@ -862,10 +862,15 @@ def update_stable_branch(version, dry_run: false)
   # their content ships with the release, so overwriting them is correct.
   # force-with-lease still guards against clobbering an unfetched push.
   #
-  # Heroku's GitHub auto-deploy silently IGNORES force pushes (learned on
-  # v0.7.2: stable advanced, CI went green, and no deploy ever fired), so
-  # when the advance was not a fast-forward, follow it with an empty commit
-  # pushed normally — that push event is what actually triggers the deploy.
+  # Never force-push: Heroku's GitHub auto-deploy silently ignores force
+  # pushes (learned on v0.7.2 — stable advanced, CI went green, no deploy
+  # ever fired). A fast-forward push covers the normal case; when stable
+  # carries cherry-picked hotfixes, reconcile with a MERGE instead of a
+  # rewrite. Every cherry-pick is a copy of a main commit, so the merged
+  # content must equal the release commit's — build the merge directly with
+  # commit-tree (tree = the release tree, parents = both histories): no
+  # conflict resolution, identical content guaranteed, and a normal
+  # deploy-triggering push.
   advanced = execute_command(
     "Advancing stable to v#{version}",
     "git fetch origin stable && git push origin HEAD:stable",
@@ -874,12 +879,11 @@ def update_stable_branch(version, dry_run: false)
 
   unless advanced
     puts "INFO: Fast-forward failed (stable has cherry-picked hotfixes);"
-    puts "   force-advancing, then adding a deploy-trigger commit."
-    execute_command("Force-advancing stable", "git push --force-with-lease=stable origin HEAD:stable")
+    puts "   merging the release into stable instead."
     execute_command(
-      "Pushing deploy trigger",
-      "git fetch origin stable && " \
-      "git commit-tree -p origin/stable -m 'chore: Trigger staging deploy after force advance' 'origin/stable^{tree}' " \
+      "Merging release into stable",
+      "git commit-tree 'HEAD^{tree}' -p origin/stable -p HEAD " \
+      "-m 'Merge release v#{version} into stable' " \
       "| xargs -I SHA git push origin SHA:stable"
     )
   end
