@@ -13,6 +13,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
+### Demo / Docs Changes
+
+- fix(Docs): Add keyboard focus support to the cards on the Components overview page. Tabbing to a card
+  now mirrors the hover treatment (lift, shadow, visible arrow) and adds a primary focus ring, since the
+  stretched link that makes each card clickable is invisible and couldn't show its own focus outline.
+
 ### General Changes
 
 - fix(Release): Never force-push the `stable` deploy branch. Heroku's GitHub auto-deploy silently ignores
