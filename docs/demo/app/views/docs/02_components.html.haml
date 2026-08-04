@@ -39,7 +39,10 @@
 
     %div{ class: "mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" }
       - components.each do |name, config|
-        = daisy_card(css: "group relative overflow-hidden border border-base-300 bg-base-100 transition hover:-translate-y-1 hover:shadow-xl", body_css: "gap-0 p-0") do
+        - # `has-[a:focus-visible]` mirrors the hover treatment for keyboard
+        - # users and adds a ring, since the stretched link that makes the
+        - # card clickable is invisible and can't show its own focus outline.
+        = daisy_card(css: "group relative overflow-hidden border border-base-300 bg-base-100 transition hover:-translate-y-1 hover:shadow-xl has-[a:focus-visible]:-translate-y-1 has-[a:focus-visible]:shadow-xl has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-primary has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-base-100", body_css: "gap-0 p-0") do
           - # `inert` keeps the miniature components from stealing clicks,
           - # keyboard focus, or screen-reader attention — the whole card acts
           - # as one link to the example page. `isolate` scopes the sky-high
@@ -52,9 +55,9 @@
             %span{ class: "text-sm font-bold" }= config[:title]
             - if LocoMotion::Helpers.new_component?(name)
               = daisy_badge("New", css: "badge-secondary badge-xs")
-            = loco_icon("arrow-right", css: "ml-auto size-4 text-primary opacity-0 transition group-hover:opacity-100")
+            = loco_icon("arrow-right", css: "ml-auto size-4 text-primary opacity-0 transition group-hover:opacity-100 group-has-[a:focus-visible]:opacity-100")
 
-          = link_to "", "/examples/#{name}", class: "absolute inset-0 z-10", aria: { label: "#{config[:title]} examples" }, data: { action: "click->nav#refresh", "turbo-action": "advance" }
+          = link_to "", "/examples/#{name}", class: "absolute inset-0 z-10 focus-visible:outline-none", aria: { label: "#{config[:title]} examples" }, data: { action: "click->nav#refresh", "turbo-action": "advance" }
 
 = daisy_divider
 

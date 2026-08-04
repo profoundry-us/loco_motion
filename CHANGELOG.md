@@ -11,6 +11,14 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### Demo / Docs Changes
+
+- fix(Docs): Add keyboard focus support to the cards on the Components overview page. Tabbing to a card
+  now mirrors the hover treatment (lift, shadow, visible arrow) and adds a primary focus ring, since the
+  stretched link that makes each card clickable is invisible and couldn't show its own focus outline.
+
 ## [0.7.2] - 2026-08-01
 
 ### General Changes
