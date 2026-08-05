@@ -11,7 +11,9 @@
     = content
 
   = daisy_tabs(css: "tabs-lift tabs-sm relative") do |tabs|
-    - tabs.with_tab(active: true, html: active_tab_html, css: "px-6! rounded-t-lg!") do |tab|
+    -# The Preview/Code tabs have custom content, so the TabsComponent wires
+    -# them to the shipped loco-tabs controller automatically.
+    - tabs.with_tab(active: true, css: "px-6! rounded-t-lg!") do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.size-4
@@ -22,7 +24,7 @@
         = part(:example) do
           = content
 
-    - tabs.with_tab(css: "px-6! rounded-t-lg! [&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!", html: active_tab_html) do |tab|
+    - tabs.with_tab(css: "px-6! rounded-t-lg! [&.tab-active]:[--tab-bg:#282c34]! [&.tab-active]:text-white!") do |tab|
       - tab.with_title do
         .flex.gap-x-2.items-center
           %span.size-4
