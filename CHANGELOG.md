@@ -36,6 +36,22 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Theme): Store theme preferences per color scheme with an OS-sync mode (issue #378). The
+  ThemeController now saves a preferred theme for each scheme (`savedLightTheme` / `savedDarkTheme`,
+  chosen by the theme's own `color-scheme` declaration) plus a `savedThemeMode` of `light`, `dark`, or
+  `system`. Picking a theme in a switcher pins its scheme — classic single-theme behavior is preserved —
+  while `system` mode follows the OS preference live, swapping between the two saved themes via a
+  `matchMedia` listener (opt in with the new `setMode` action, e.g.
+  `data-loco-theme-mode-param="system"`). The legacy single `savedTheme` key is migrated automatically on
+  first load, and `theme_preload_script` resolves the new model pre-paint.
+
+- feat(CSS): Key the `dark:` variant off the active theme's actual color scheme. Whenever a theme is
+  applied, the ThemeController stamps its computed `color-scheme` onto `<html>` as `data-color-scheme`,
+  and the `dark:` variant now checks that first — so `dark:` utilities follow *any* dark DaisyUI theme
+  (`night`, `synthwave`, custom themes) with no hardcoded names. The `data-theme="dark"` name-based
+  check, the checked `.theme-controller` input, and the OS fallback remain for apps not running the
+  controller; a stamped `light` scheme also suppresses the OS dark fallback.
+
 - fix(CSS): Key the `dark:` custom variant off `data-theme` so it follows the app's actual theme (issue
   #293). Apps that switch themes programmatically — setting `data-theme` on `<html>` with no
   ThemeController inputs rendered — previously got `dark:` utilities that silently tracked only the OS

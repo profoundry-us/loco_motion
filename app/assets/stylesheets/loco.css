@@ -31,25 +31,33 @@
  * `dark` variant — make `dark:` utilities follow the app's actual theme, not
  * just the OS preference. In priority order, `dark:` styles apply when:
  *
- *   1. `data-theme="dark"` is set on an ancestor (usually `<html>`) — the
- *      attribute DaisyUI themes from and the one LocoMotion's ThemeController
- *      and `theme_preload_script` maintain, so it also covers apps that switch
- *      themes programmatically.
- *   2. A checked `.theme-controller` input with `value="dark"` is present —
+ *   1. `data-color-scheme="dark"` is set on an ancestor. LocoMotion's
+ *      ThemeController stamps this on `<html>` from the active theme's own
+ *      `color-scheme` declaration, so *any* dark DaisyUI theme (`night`,
+ *      `synthwave`, a custom theme, …) enables `dark:` utilities — no
+ *      hardcoded names.
+ *   2. `data-theme="dark"` is set on an ancestor — the name-based fallback
+ *      for apps that manage `data-theme` themselves without stamping a
+ *      scheme.
+ *   3. A checked `.theme-controller` input with `value="dark"` is present —
  *      kept for pure-CSS/no-JS DaisyUI theme switching, where the theme
  *      changes without `data-theme` ever being set.
- *   3. The OS prefers dark (`prefers-color-scheme`) — the no-choice-saved
- *      fallback, suppressed when *any* theme other than `dark` is explicitly
- *      applied via `data-theme` (mirrors DaisyUI's `--default` /
- *      `--prefersdark` semantics: an explicit choice always wins).
+ *   4. The OS prefers dark (`prefers-color-scheme`) — the no-choice-saved
+ *      fallback, suppressed when any theme other than `dark` is explicitly
+ *      applied via `data-theme`, or when the stamped scheme is `light`
+ *      (mirrors DaisyUI's `--default` / `--prefersdark` semantics: an
+ *      explicit choice always wins).
  *
- * Note: the variant keys on the theme *name* `dark`. To restyle dark mode,
- * override the built-in `dark` theme's values (`@plugin "daisyui/theme" {
- * name: "dark"; prefersdark: true; ... }`) rather than introducing a
- * differently-named dark theme — only a dark theme that must keep another
- * name (`synthwave`, `night`, …) needs its own `dark` variant.
+ * Note: without the scheme stamping (1), the fallbacks key on the theme
+ * *name* `dark`. Apps not running LocoMotion's ThemeController should either
+ * restyle the built-in `dark` theme (`@plugin "daisyui/theme" { name:
+ * "dark"; prefersdark: true; ... }`), stamp `data-color-scheme` themselves,
+ * or define their own `dark` variant.
  */
 @custom-variant dark {
+  &:where([data-color-scheme="dark"], [data-color-scheme="dark"] *) {
+    @slot;
+  }
   &:where([data-theme="dark"], [data-theme="dark"] *) {
     @slot;
   }
@@ -57,7 +65,7 @@
     @slot;
   }
   @media (prefers-color-scheme: dark) {
-    &:not(:where([data-theme]:not([data-theme="dark"]), [data-theme]:not([data-theme="dark"]) *)) {
+    &:not(:where([data-theme]:not([data-theme="dark"]), [data-theme]:not([data-theme="dark"]) *, [data-color-scheme="light"], [data-color-scheme="light"] *)) {
       @slot;
     }
   }

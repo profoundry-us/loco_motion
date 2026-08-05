@@ -27,8 +27,10 @@ const darkApplies = (page) =>
 // theme-controller inputs rendered by the header's Themes dropdown.
 const resetTheme = (page) =>
   page.evaluate(() => {
-    localStorage.removeItem('savedTheme');
+    ['savedTheme', 'savedThemeMode', 'savedLightTheme', 'savedDarkTheme']
+      .forEach((key) => localStorage.removeItem(key));
     document.documentElement.removeAttribute('data-theme');
+    document.documentElement.removeAttribute('data-color-scheme');
     document
       .querySelectorAll('input.theme-controller:checked')
       .forEach((input: any) => (input.checked = false));
@@ -65,6 +67,42 @@ test('dark: uses the OS preference as fallback, suppressed by any explicit theme
 
   // Explicitly choosing dark still applies, of course.
   await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+  expect(await darkApplies(page)).toBe(true);
+});
+
+test('dark: follows the stamped data-color-scheme, regardless of theme name', async ({ page }) => {
+  // The scheme stamp is how ANY dark theme (night, synthwave, custom...)
+  // enables dark: utilities without hardcoding theme names (issue #378).
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await resetTheme(page);
+
+  expect(await darkApplies(page)).toBe(false);
+
+  await page.evaluate(() => document.documentElement.setAttribute('data-color-scheme', 'dark'));
+  expect(await darkApplies(page)).toBe(true);
+
+  // A stamped light scheme also suppresses the OS dark fallback.
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.evaluate(() => document.documentElement.setAttribute('data-color-scheme', 'light'));
+  expect(await darkApplies(page)).toBe(false);
+});
+
+test('picking a dark theme by any name enables dark: utilities', async ({ page }) => {
+  // End-to-end: the ThemeController stamps the scheme from the theme's own
+  // color-scheme declaration, so "synthwave" lights up dark: styles even
+  // though the variant never mentions it.
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/examples/Daisy::Actions::ThemeControllerComponent');
+  await resetTheme(page);
+
+  expect(await darkApplies(page)).toBe(false);
+
+  const switcher = page.locator('.dropdown', { has: page.locator('input[name="docs-switcher"]') });
+  await switcher.getByRole('button').first().click();
+  await switcher.locator('a:has(input[value="synthwave"])').click();
+
+  await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
   expect(await darkApplies(page)).toBe(true);
 });
 

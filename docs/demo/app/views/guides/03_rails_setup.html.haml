@@ -277,18 +277,18 @@
     - accordion.with_section(title: "Dark mode stays in sync (dark:)") do
       .prose
         :markdown
-          The custom `dark:` variant follows the app's actual theme: it
-          applies when `data-theme="dark"` is set on an ancestor (however
-          your app switches themes — the ThemeController component or your
-          own code), or when a checked DaisyUI `.theme-controller` input
-          selects a dark theme. The OS-level dark preference is only the
-          fallback when no theme is chosen — explicitly applying *any*
-          other theme overrides it. The variant keys on the theme *name*
-          `dark`, so to restyle dark mode, override the built-in `dark`
-          theme's values with `@plugin "daisyui/theme"` (keeping
-          `name: "dark"`) rather than introducing a differently-named dark
-          theme; only a dark theme that must keep another name (like
-          `synthwave` or `night`) needs its own `dark` variant.
+          The custom `dark:` variant follows the app's actual theme. When
+          LocoMotion's ThemeController applies a theme, it stamps the
+          theme's own `color-scheme` declaration onto `<html>` as
+          `data-color-scheme` — so `dark:` utilities light up for *any*
+          dark theme (`night`, `synthwave`, a custom theme), no hardcoded
+          names. Without the stamp, the variant falls back to
+          `data-theme="dark"` by name, then to a checked DaisyUI
+          `.theme-controller` input, and finally to the OS-level dark
+          preference — which only applies when no theme is chosen at all.
+          If your app manages `data-theme` itself, either stamp
+          `data-color-scheme` alongside it or restyle the built-in `dark`
+          theme with `@plugin "daisyui/theme"` (keeping `name: "dark"`).
 
     - accordion.with_section(title: "Floating labels keep their placeholder (floating-sticky)") do
       .prose
