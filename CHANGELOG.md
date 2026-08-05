@@ -13,7 +13,22 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
+### Component Changes
+
+- fix(Tabs): Render href-less link-mode tabs as `<button>` elements so they are keyboard-accessible
+  (issue #380). An anchor without an `href` is unfocusable and can't be activated from the keyboard, which
+  made JavaScript-driven tabs (like the demo's Preview/Code tabs) unreachable for keyboard users. Tabs
+  given an `href` still render as `<a>` elements, and radio mode is unchanged. All modes now also emit
+  `aria-selected` from the active/checked state so assistive technology hears which tab is selected.
+
 ### Demo / Docs Changes
+
+- fix(Docs): Complete the ARIA tabs pattern for the example Preview/Code tabs (issue #380). The
+  `active-tab` Stimulus controller now syncs `aria-selected` when switching — DaisyUI styles
+  `[aria-selected="true"]` as the active tab, so a stale value left both panels open at once — keeps a
+  roving `tabindex` so each tablist is a single Tab stop, and activates tabs with the Left/Right arrow
+  keys. The static code-block tab heading (`DocCodeTabComponent`) is removed from the tab order since it
+  has nothing to activate.
 
 - fix(Docs): Add keyboard focus support to the cards on the Components overview page. Tabbing to a card
   now mirrors the hover treatment (lift, shadow, visible arrow) and adds a primary focus ring, since the

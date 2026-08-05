@@ -35,8 +35,8 @@ RSpec.describe DocExampleComponent, type: :component do
   it "renders a Preview tab and a Code tab" do
     render_example
 
-    expect(page).to have_css("a.tab", text: "Preview")
-    expect(page).to have_css("a.tab", text: "Code")
+    expect(page).to have_css("button.tab", text: "Preview")
+    expect(page).to have_css("button.tab", text: "Code")
   end
 
   it "shows the block content in the preview pane" do
@@ -104,13 +104,13 @@ RSpec.describe DocExampleComponent, type: :component do
   it "omits the Reset tab by default" do
     render_example
 
-    expect(page).not_to have_css("a.tab", text: "Reset")
+    expect(page).not_to have_css("button.tab", text: "Reset")
   end
 
   it "renders a Reset tab when allow_reset is set" do
     render_example(allow_reset: true)
 
-    expect(page).to have_css("a.tab", text: "Reset")
+    expect(page).to have_css("button.tab", text: "Reset")
   end
 
   it "wires up the doc-example and active-tab controllers" do
