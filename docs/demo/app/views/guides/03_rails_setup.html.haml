@@ -277,9 +277,18 @@
     - accordion.with_section(title: "Dark mode stays in sync (dark:)") do
       .prose
         :markdown
-          The custom `dark:` variant responds to both the OS-level dark
-          preference *and* a DaisyUI theme controller set to a dark theme,
-          so manual theme switching and system preference agree.
+          The custom `dark:` variant follows the app's actual theme: it
+          applies when `data-theme="dark"` is set on an ancestor (however
+          your app switches themes — the ThemeController component or your
+          own code), or when a checked DaisyUI `.theme-controller` input
+          selects a dark theme. The OS-level dark preference is only the
+          fallback when no theme is chosen — explicitly applying *any*
+          other theme overrides it. The variant keys on the theme *name*
+          `dark`, so to restyle dark mode, override the built-in `dark`
+          theme's values with `@plugin "daisyui/theme"` (keeping
+          `name: "dark"`) rather than introducing a differently-named dark
+          theme; only a dark theme that must keep another name (like
+          `synthwave` or `night`) needs its own `dark` variant.
 
     - accordion.with_section(title: "Floating labels keep their placeholder (floating-sticky)") do
       .prose

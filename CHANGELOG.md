@@ -21,6 +21,18 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(CSS): Key the `dark:` custom variant off `data-theme` so it follows the app's actual theme (issue
+  #293). Apps that switch themes programmatically — setting `data-theme` on `<html>` with no
+  ThemeController inputs rendered — previously got `dark:` utilities that silently tracked only the OS
+  preference. The variant now applies when an ancestor has `data-theme="dark"`, keeps the checked
+  `.theme-controller` input selector for pure-CSS/no-JS switching, and treats the OS dark preference as a
+  no-choice-saved fallback. **Behavior change:** explicitly applying any theme other than `dark` via
+  `data-theme` now suppresses the OS dark fallback, so users who pick light (or any other theme) on an
+  OS-dark machine no longer get `dark:` styles (matching DaisyUI's `--default` / `--prefersdark`
+  semantics: an explicit choice always wins). The variant keys on the theme *name* `dark` — restyle dark
+  mode by overriding the built-in `dark` theme's values (`@plugin "daisyui/theme" { name: "dark"; ... }`)
+  rather than introducing a differently-named dark theme.
+
 - fix(Release): Never force-push the `stable` deploy branch. Heroku's GitHub auto-deploy silently ignores
   force pushes (found on v0.7.2: stable advanced, CI went green, and no deploy ever fired), so when
   `stable` carries cherry-picked hotfixes the wizard now reconciles with a *merge* instead of a rewrite —
