@@ -67,6 +67,32 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
     end
   end
 
+  context "with and without hrefs" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "Tab 1", active: true) { "Content 1" }
+        t.with_tab(title: "Tab 2", href: "/somewhere", target: "_blank")
+      end
+    end
+
+    describe "rendering" do
+      it "renders href-less tabs as buttons so they are keyboard-focusable" do
+        expect(page).to have_selector("button.tab[type='button']", text: "Tab 1")
+      end
+
+      it "renders tabs with an href as links" do
+        expect(page).to have_selector("a.tab[href='/somewhere'][target='_blank']", text: "Tab 2")
+      end
+
+      it "marks only the active tab as selected" do
+        expect(page).to have_selector(".tab[aria-selected='true']", text: "Tab 1")
+        expect(page).to have_selector(".tab[aria-selected='false']", text: "Tab 2")
+      end
+    end
+  end
+
   context "with disabled tab" do
     let(:tabs) { described_class.new }
 
@@ -171,6 +197,11 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
 
       it "sets ARIA attributes" do
         expect(page).to have_selector("input[type='radio'].tab[role='tab'][aria-label='Option 1']")
+      end
+
+      it "marks only the checked tab as selected" do
+        expect(page).to have_selector("input[type='radio'].tab[value='2'][aria-selected='true']")
+        expect(page).to have_selector("input[type='radio'].tab[aria-selected='false']", count: 2)
       end
     end
   end

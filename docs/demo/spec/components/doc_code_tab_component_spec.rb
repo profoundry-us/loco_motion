@@ -14,7 +14,7 @@ RSpec.describe DocCodeTabComponent, type: :component do
   it "titles the tab 'Code' by default" do
     render_inline(described_class.new) { "some code" }
 
-    expect(page).to have_css("a.tab", text: "Code")
+    expect(page).to have_css("button.tab", text: "Code")
   end
 
   it "accepts a custom tab title" do
@@ -22,7 +22,7 @@ RSpec.describe DocCodeTabComponent, type: :component do
       "some code"
     end
 
-    expect(page).to have_css("a.tab", text: "app/views/home.html.haml")
+    expect(page).to have_css("button.tab", text: "app/views/home.html.haml")
   end
 
   it "highlights as HAML by default" do
@@ -41,6 +41,6 @@ RSpec.describe DocCodeTabComponent, type: :component do
   it "applies tabs_css to the tab itself" do
     render_inline(described_class.new(tabs_css: "w-32")) { "some code" }
 
-    expect(page).to have_css("a.tab.w-32")
+    expect(page).to have_css("button.tab.w-32")
   end
 end

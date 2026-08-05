@@ -9,6 +9,10 @@ module Daisy
     # @note When using radio button tabs, the titles must be simple strings and
     #   cannot contain HTML elements or icons.
     #
+    # @note Link-mode tabs render as `<a>` elements when given an `href`, and
+    #   as `<button>` elements otherwise, so JavaScript-driven tabs remain
+    #   focusable and keyboard-activatable.
+    #
     # @slot tabs+ [Daisy::Navigation::TabsComponent::TabComponent] The
     #   individual tabs to display.
     #
@@ -105,6 +109,8 @@ module Daisy
         #   (default: false).
         #
         # @option kws href [String] The URL to visit when the tab is clicked.
+        #   When omitted (and not using radio buttons), the tab renders as a
+        #   `<button>` element so it stays keyboard-accessible.
         #
         # @option kws target [String] The target attribute for the tab (e.g.,
         #   "_blank").
@@ -149,11 +155,20 @@ module Daisy
         end
 
         def setup_component
-          set_tag_name(:component, :a)
+          # An anchor without an href is unfocusable and can't be activated
+          # from the keyboard, so href-less tabs render as buttons instead.
+          if @href
+            set_tag_name(:component, :a)
+            add_html(:component, { href: @href, target: @target })
+          else
+            set_tag_name(:component, :button)
+            add_html(:component, { type: "button" })
+          end
+
           add_css(:component, "tab")
           add_css(:component, "tab-active") if @active || @checked
-          add_html(:component, { role: "tab", href: @href, target: @target })
-          add_aria(:component, label: @simple_title)
+          add_html(:component, { role: "tab" })
+          add_aria(:component, label: @simple_title, selected: (@active || @checked).to_s)
           add_html(:component, { disabled: @disabled }) if @disabled
         end
 
@@ -167,7 +182,7 @@ module Daisy
                      value: @value,
                      checked: @active || @checked
                    })
-          add_aria(:component, label: @simple_title)
+          add_aria(:component, label: @simple_title, selected: (@active || @checked).to_s)
           add_html(:component, { disabled: @disabled }) if @disabled
         end
 

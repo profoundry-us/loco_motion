@@ -175,7 +175,16 @@ class DocExampleComponent < ApplicationComponent
   end
 
   def active_tab_html
-    { data: { "active-tab-target": "tab", action: "active-tab#activate" } }
+    {
+      data: {
+        "active-tab-target": "tab",
+        action: [
+          "active-tab#activate",
+          "keydown.right->active-tab#activateNext",
+          "keydown.left->active-tab#activatePrevious"
+        ].join(" ")
+      }
+    }
   end
 
   def reset_css
