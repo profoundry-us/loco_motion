@@ -7,7 +7,10 @@ module Daisy
     # radio buttons with associated content.
     #
     # @note When using radio button tabs, the titles must be simple strings and
-    #   cannot contain HTML elements or icons.
+    #   cannot contain HTML elements or icons. Radio tabs also keep the
+    #   browser's native radio-group keyboard behavior: arrow keys move the
+    #   selection immediately (automatic activation), unlike JS-driven tabs
+    #   below, where arrows only move focus and Enter/Space selects.
     #
     # @note Link-mode tabs render as `<a>` elements when given an `href`, and
     #   as `<button>` elements otherwise, so JavaScript-driven tabs remain
