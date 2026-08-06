@@ -14,11 +14,13 @@ module Daisy
     #   focusable and keyboard-activatable.
     #
     # @note Tabs that have a content panel but no `href` are automatically
-    #   wired to the `loco-tabs` Stimulus controller, which switches tabs on
-    #   click and implements the ARIA tabs pattern (roving tabindex plus
-    #   Left / Right / Home / End keys). Register it once from the npm
-    #   package: `application.register("loco-tabs", TabsController)`. The
-    #   attributes are inert if the controller is not registered.
+    #   wired to the `loco-tabs` Stimulus controller, which implements the
+    #   ARIA tabs pattern with manual activation: a roving tabindex keeps
+    #   each tablist a single Tab stop, Left / Right / Home / End move focus
+    #   between tabs, and Enter / Space (or a click) activates the focused
+    #   tab. Register it once from the npm package:
+    #   `application.register("loco-tabs", TabsController)`. The attributes
+    #   are inert if the controller is not registered.
     #
     # @slot tabs+ [Daisy::Navigation::TabsComponent::TabComponent] The
     #   individual tabs to display.
@@ -181,19 +183,21 @@ module Daisy
           setup_switching if switchable?
         end
 
-        # Wires the tab into the parent's `loco-tabs` Stimulus controller so
-        # clicking or pressing arrow / Home / End keys switches tabs (see
-        # tabs_controller.js). Inert until the app registers the controller.
+        # Wires the tab into the parent's `loco-tabs` Stimulus controller:
+        # arrow / Home / End keys move focus between tabs, and click (which
+        # Enter/Space fire natively on a button) activates the focused tab —
+        # the ARIA manual-activation pattern (see tabs_controller.js). Inert
+        # until the app registers the controller.
         def setup_switching
           add_html(:component, {
                      data: {
                        "loco-tabs-target": "tab",
                        action: [
                          "loco-tabs#activate",
-                         "keydown.right->loco-tabs#activateNext",
-                         "keydown.left->loco-tabs#activatePrevious",
-                         "keydown.home->loco-tabs#activateFirst",
-                         "keydown.end->loco-tabs#activateLast"
+                         "keydown.right->loco-tabs#focusNext",
+                         "keydown.left->loco-tabs#focusPrevious",
+                         "keydown.home->loco-tabs#focusFirst",
+                         "keydown.end->loco-tabs#focusLast"
                        ].join(" ")
                      }
                    })

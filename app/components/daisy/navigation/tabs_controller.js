@@ -2,14 +2,18 @@
  * Tabs Controller
  *
  * A Stimulus controller that drives JavaScript-powered tab switching for the
- * TabsComponent, following the ARIA tabs pattern:
+ * TabsComponent, following the ARIA tabs pattern with **manual activation**:
  *
+ *   - Left/Right arrows move focus between tabs (with wrap-around) and
+ *     Home/End jump to the first/last tab — moving focus only browses; it
+ *     does not select. Enter or Space (a native button click) activates the
+ *     focused tab. Manual activation keeps arrow-key browsing free of side
+ *     effects, which matters when panels are expensive to show.
  *   - The active tab carries the active class (default `tab-active`) AND
  *     `aria-selected="true"`. DaisyUI styles both as the active state —
  *     including which panel is displayed — so they must stay in sync.
- *   - A roving tabindex keeps the tablist a single Tab stop; Left/Right
- *     arrows move between and activate tabs (with wrap-around), and
- *     Home/End jump to the first/last tab.
+ *   - A roving tabindex keeps the tablist a single Tab stop; it follows the
+ *     most recently focused tab, per the ARIA APG manual-activation pattern.
  *
  * The TabsComponent wires this controller automatically for tabs that have
  * a content panel but no `href` — no manual setup required beyond
@@ -30,14 +34,13 @@ export default class extends Controller {
    * Establishes the roving tabindex from the server-rendered active state.
    */
   connect() {
-    this.tabTargets.forEach((tab) => {
-      const active = tab.classList.contains(this.activeClassValue)
-      tab.setAttribute("tabindex", active ? "0" : "-1")
-    })
+    const active = this.tabTargets.find((tab) => tab.classList.contains(this.activeClassValue))
+
+    this.rove(active || this.tabTargets[0])
   }
 
   /**
-   * Activates the clicked tab.
+   * Activates the clicked (or Enter/Space-pressed) tab.
    *
    * @param {Event} event - The triggering click event
    */
@@ -46,83 +49,88 @@ export default class extends Controller {
   }
 
   /**
-   * Activates the next tab, wrapping to the first.
+   * Moves focus to the next tab, wrapping to the first. Does not select.
    *
    * @param {Event} event - The triggering keydown event
    */
-  activateNext(event) {
-    this.step(event, 1)
+  focusNext(event) {
+    this.focusStep(event, 1)
   }
 
   /**
-   * Activates the previous tab, wrapping to the last.
+   * Moves focus to the previous tab, wrapping to the last. Does not select.
    *
    * @param {Event} event - The triggering keydown event
    */
-  activatePrevious(event) {
-    this.step(event, -1)
+  focusPrevious(event) {
+    this.focusStep(event, -1)
   }
 
   /**
-   * Activates the first tab.
+   * Moves focus to the first tab. Does not select.
    *
    * @param {Event} event - The triggering keydown event
    */
-  activateFirst(event) {
-    this.jump(event, 0)
+  focusFirst(event) {
+    this.focusJump(event, 0)
   }
 
   /**
-   * Activates the last tab.
+   * Moves focus to the last tab. Does not select.
    *
    * @param {Event} event - The triggering keydown event
    */
-  activateLast(event) {
-    this.jump(event, this.tabTargets.length - 1)
+  focusLast(event) {
+    this.focusJump(event, this.tabTargets.length - 1)
   }
 
   /**
-   * Activates the tab `delta` positions away from the event's tab (wrapping)
-   * and moves focus to it, so arrow keys both navigate and select.
+   * Moves focus to the tab `delta` positions away (wrapping).
    *
    * @param {Event} event - The triggering keydown event
    * @param {number} delta - How many positions to move (+1 / -1)
    */
-  step(event, delta) {
+  focusStep(event, delta) {
     const current = event.target.closest("[role='tab']")
     const index = this.tabTargets.indexOf(current)
 
     if (index === -1) return
 
     const count = this.tabTargets.length
-    const next = this.tabTargets[(index + delta + count) % count]
 
-    this.select(next)
-    next.focus()
-
+    this.focusTab(this.tabTargets[(index + delta + count) % count])
     event.preventDefault()
   }
 
   /**
-   * Activates the tab at the given index and moves focus to it.
+   * Moves focus to the tab at the given index.
    *
    * @param {Event} event - The triggering keydown event
-   * @param {number} index - The tab index to activate
+   * @param {number} index - The tab index to focus
    */
-  jump(event, index) {
+  focusJump(event, index) {
     const tab = this.tabTargets[index]
 
     if (!tab) return
 
-    this.select(tab)
-    tab.focus()
-
+    this.focusTab(tab)
     event.preventDefault()
   }
 
   /**
-   * Marks the given tab as the single active tab: active class,
-   * `aria-selected="true"`, and the roving `tabindex="0"`.
+   * Focuses the given tab and roves the tabindex to it, so Tabbing away and
+   * back returns to the tab the user was browsing.
+   *
+   * @param {HTMLElement} tab - The tab element to focus
+   */
+  focusTab(tab) {
+    this.rove(tab)
+    tab.focus()
+  }
+
+  /**
+   * Marks the given tab as the single active tab: active class and
+   * `aria-selected="true"`, with the roving tabindex on it.
    *
    * @param {HTMLElement} tab - The tab element to activate
    */
@@ -133,18 +141,30 @@ export default class extends Controller {
 
     tab.classList.add(this.activeClassValue)
     tab.setAttribute("aria-selected", "true")
-    tab.setAttribute("tabindex", "0")
+    this.rove(tab)
   }
 
   /**
-   * Deactivates every tab: removes the active class, sets
-   * `aria-selected="false"`, and removes each tab from the Tab order.
+   * Deactivates every tab: removes the active class and sets
+   * `aria-selected="false"`.
    */
   clear() {
     this.tabTargets.forEach((tab) => {
       tab.classList.remove(this.activeClassValue)
       tab.setAttribute("aria-selected", "false")
-      tab.setAttribute("tabindex", "-1")
+    })
+  }
+
+  /**
+   * Makes the given tab the tablist's single Tab stop.
+   *
+   * @param {HTMLElement} tab - The tab element to make focusable
+   */
+  rove(tab) {
+    if (!tab) return
+
+    this.tabTargets.forEach((t) => {
+      t.setAttribute("tabindex", t === tab ? "0" : "-1")
     })
   }
 }

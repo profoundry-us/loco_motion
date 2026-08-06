@@ -16,10 +16,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 ### Component Changes
 
 - feat(Tabs): Ship a `loco-tabs` Stimulus controller for JavaScript-driven tab switching (issue #382).
-  Tabs that have a content panel but no `href` are wired automatically: clicking switches panels (the
-  controller keeps `tab-active` and `aria-selected` in sync — DaisyUI styles both as the active state),
-  a roving `tabindex` keeps each tablist a single Tab stop, and Left / Right / Home / End keys move
-  between and activate tabs per the ARIA tabs pattern. Register it once from the npm package
+  Tabs that have a content panel but no `href` are wired automatically, following the ARIA tabs pattern
+  with manual activation: a roving `tabindex` keeps each tablist a single Tab stop, Left / Right / Home /
+  End keys move focus between tabs to browse without side effects, and Enter / Space (or a click)
+  activates the focused tab — the controller keeps `tab-active` and `aria-selected` in sync since DaisyUI
+  styles both as the active state. Register it once from the npm package
   (`application.register("loco-tabs", TabsController)`); the attributes are inert until you do. Radio
   tabs and `href` tabs are untouched.
 

@@ -115,7 +115,7 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
           text: "Panel Tab"
         )
         expect(page).to have_selector(
-          ".tab[data-action*='keydown.left->loco-tabs#activatePrevious']",
+          ".tab[data-action*='keydown.left->loco-tabs#focusPrevious']",
           text: "Panel Tab"
         )
       end
