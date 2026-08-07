@@ -7,11 +7,23 @@ module Daisy
     # radio buttons with associated content.
     #
     # @note When using radio button tabs, the titles must be simple strings and
-    #   cannot contain HTML elements or icons.
+    #   cannot contain HTML elements or icons. Radio tabs also keep the
+    #   browser's native radio-group keyboard behavior: arrow keys move the
+    #   selection immediately (automatic activation), unlike JS-driven tabs
+    #   below, where arrows only move focus and Enter/Space selects.
     #
     # @note Link-mode tabs render as `<a>` elements when given an `href`, and
     #   as `<button>` elements otherwise, so JavaScript-driven tabs remain
     #   focusable and keyboard-activatable.
+    #
+    # @note Tabs that have a content panel but no `href` are automatically
+    #   wired to the `loco-tabs` Stimulus controller, which implements the
+    #   ARIA tabs pattern with manual activation: a roving tabindex keeps
+    #   each tablist a single Tab stop, Left / Right / Home / End move focus
+    #   between tabs, and Enter / Space (or a click) activates the focused
+    #   tab. Register it once from the npm package:
+    #   `application.register("loco-tabs", TabsController)`. The attributes
+    #   are inert if the controller is not registered.
     #
     # @slot tabs+ [Daisy::Navigation::TabsComponent::TabComponent] The
     #   individual tabs to display.
@@ -170,6 +182,35 @@ module Daisy
           add_html(:component, { role: "tab" })
           add_aria(:component, label: @simple_title, selected: (@active || @checked).to_s)
           add_html(:component, { disabled: @disabled }) if @disabled
+
+          setup_switching if switchable?
+        end
+
+        # Wires the tab into the parent's `loco-tabs` Stimulus controller:
+        # arrow / Home / End keys move focus between tabs, and click (which
+        # Enter/Space fire natively on a button) activates the focused tab —
+        # the ARIA manual-activation pattern (see tabs_controller.js). Inert
+        # until the app registers the controller.
+        def setup_switching
+          add_html(:component, {
+                     data: {
+                       "loco-tabs-target": "tab",
+                       action: [
+                         "loco-tabs#activate",
+                         "keydown.right->loco-tabs#focusNext",
+                         "keydown.left->loco-tabs#focusPrevious",
+                         "keydown.home->loco-tabs#focusFirst",
+                         "keydown.end->loco-tabs#focusLast"
+                       ].join(" ")
+                     }
+                   })
+        end
+
+        # A tab participates in JS-driven switching only when it toggles a
+        # panel: it has content to show and no `href` (href tabs navigate,
+        # and content-less tabs are plain action or display tabs).
+        def switchable?
+          @href.nil? && (content? || custom_content?)
         end
 
         def setup_radio_button
@@ -243,6 +284,11 @@ module Daisy
       def before_render
         add_css(:component, "tabs")
         add_html(:component, { role: "tablist" })
+
+        # Radio tabs switch natively; link/button tablists get the loco-tabs
+        # Stimulus controller for JS-driven switching. The attributes are
+        # inert until the app registers the controller.
+        add_stimulus_controller(:component, "loco-tabs") unless radio?
       end
 
       def radio?

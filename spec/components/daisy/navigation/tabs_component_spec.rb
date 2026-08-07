@@ -93,6 +93,60 @@ RSpec.describe Daisy::Navigation::TabsComponent, type: :component do
     end
   end
 
+  context "loco-tabs controller wiring" do
+    let(:tabs) { described_class.new }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "Panel Tab", active: true) { "Content 1" }
+        t.with_tab(title: "Action Tab")
+        t.with_tab(title: "Link Tab", href: "/somewhere") { "Content 3" }
+      end
+    end
+
+    describe "rendering" do
+      it "attaches the loco-tabs controller to the tablist" do
+        expect(page).to have_selector("[role='tablist'][data-controller~='loco-tabs']")
+      end
+
+      it "wires tabs that have a panel as switch targets with keyboard actions" do
+        expect(page).to have_selector(
+          ".tab[data-loco-tabs-target='tab'][data-action*='loco-tabs#activate']",
+          text: "Panel Tab"
+        )
+        expect(page).to have_selector(
+          ".tab[data-action*='keydown.left->loco-tabs#focusPrevious']",
+          text: "Panel Tab"
+        )
+      end
+
+      it "does not wire content-less action tabs" do
+        expect(page).not_to have_selector(".tab[data-loco-tabs-target]", text: "Action Tab")
+      end
+
+      it "does not wire navigation tabs that have an href" do
+        expect(page).not_to have_selector(".tab[data-loco-tabs-target]", text: "Link Tab")
+      end
+    end
+  end
+
+  context "loco-tabs controller wiring in radio mode" do
+    let(:tabs) { described_class.new(radio: true) }
+
+    before do
+      render_inline(tabs) do |t|
+        t.with_tab(title: "Option 1", value: "1", checked: true) { "Content 1" }
+      end
+    end
+
+    describe "rendering" do
+      it "does not attach the controller (radios switch natively)" do
+        expect(page).not_to have_selector("[data-controller~='loco-tabs']")
+        expect(page).not_to have_selector("[data-loco-tabs-target]")
+      end
+    end
+  end
+
   context "with disabled tab" do
     let(:tabs) { described_class.new }
 
