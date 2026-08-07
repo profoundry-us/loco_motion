@@ -51,6 +51,38 @@ test('example tabs are keyboard-operable with manual activation', async ({ page 
   await expect(previewPanel).toBeVisible();
 });
 
+// The Turbo Frame Tabs example is the guard case for the switchable
+// heuristic: its tabs have BOTH an href and custom content, and the href
+// must win — Turbo owns the switching (a click navigates and re-renders
+// the frame server-side), so loco-tabs wiring on these tabs would fight
+// Turbo for control of the active state.
+test('turbo frame tabs stay unwired and swap via frame navigation', async ({ page }) => {
+  await page.goto('/examples/Daisy::Navigation::TabsComponent');
+
+  const frame = page.locator('turbo-frame#tabs--turbo-tabs-example');
+  const tab3 = frame.getByRole('tab', { name: '3 Bars' });
+  const tab2 = frame.getByRole('tab', { name: '2 Bars' });
+
+  // The tabs render as real links (they navigate) with NO loco-tabs wiring.
+  await expect(frame.locator("a[role='tab']")).toHaveCount(3);
+  await expect(frame.locator('[data-loco-tabs-target]')).toHaveCount(0);
+  await expect(frame.locator("[data-action*='loco-tabs']")).toHaveCount(0);
+
+  // Tab 3 is checked by default and shows its content.
+  await expect(tab3).toHaveAttribute('aria-selected', 'true');
+  await expect(frame.getByText('3 bars content...', { exact: true })).toBeVisible();
+
+  // Clicking another tab swaps the frame server-side: new content, new
+  // checked tab — all driven by Turbo, not loco-tabs.
+  await tab2.click();
+  await expect(frame.getByText('2 bars content...', { exact: true })).toBeVisible();
+  await expect(tab2).toHaveAttribute('aria-selected', 'true');
+  await expect(tab3).toHaveAttribute('aria-selected', 'false');
+
+  // The re-rendered frame still has unwired link tabs.
+  await expect(frame.locator('[data-loco-tabs-target]')).toHaveCount(0);
+});
+
 // The Switchable Tabs example on the Tabs page is auto-wired by the
 // TabsComponent itself (content + no href → loco-tabs). It also nests
 // inside the doc_example Preview/Code tablist, proving Stimulus scopes the
