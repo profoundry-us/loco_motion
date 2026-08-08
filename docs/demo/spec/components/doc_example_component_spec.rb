@@ -113,11 +113,10 @@ RSpec.describe DocExampleComponent, type: :component do
     expect(page).to have_css("button.tab", text: "Reset")
   end
 
-  it "wires up the doc-example and active-tab controllers" do
+  it "wires up the doc-example controller and the loco-tabs tablist" do
     render_example
 
-    expect(page).to have_css(
-      "[data-controller~='doc-example'][data-controller~='active-tab']"
-    )
+    expect(page).to have_css("[data-controller~='doc-example']")
+    expect(page).to have_css("[role='tablist'][data-controller~='loco-tabs']")
   end
 end

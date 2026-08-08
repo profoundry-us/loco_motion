@@ -30,7 +30,6 @@ class DocExampleComponent < ApplicationComponent
 
   def setup_component
     add_stimulus_controller(:component, "doc-example")
-    add_stimulus_controller(:component, "active-tab")
     add_css(:component, "mt-8")
   end
 
@@ -171,19 +170,6 @@ class DocExampleComponent < ApplicationComponent
 
       # Empty
       # style: %()
-    }
-  end
-
-  def active_tab_html
-    {
-      data: {
-        "active-tab-target": "tab",
-        action: [
-          "active-tab#activate",
-          "keydown.right->active-tab#activateNext",
-          "keydown.left->active-tab#activatePrevious"
-        ].join(" ")
-      }
     }
   end
 

@@ -32,6 +32,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### Demo / Docs Changes
 
+- refactor(Docs): Replace the demo's private `active-tab` Stimulus controller with the shipped
+  `loco-tabs` controller (issue #382). The example Preview/Code tabs now get their click, arrow-key, and
+  roving-tabindex behavior from the TabsComponent's automatic wiring, and the Tabs example page gains a
+  "Switchable Tabs (JavaScript)" example demonstrating it.
+
 - fix(Docs): Complete the ARIA tabs pattern for the example Preview/Code tabs (issue #380). The
   `active-tab` Stimulus controller now syncs `aria-selected` when switching — DaisyUI styles
   `[aria-selected="true"]` as the active tab, so a stale value left both panels open at once — keeps a
