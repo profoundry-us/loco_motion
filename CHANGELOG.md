@@ -85,6 +85,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   content is guaranteed identical, no conflict resolution can occur, and the push is always a normal,
   deploy-triggering fast-forward. Plain releases remain a single fast-forward push.
 
+- chore(Docker): Flatten the dev Dockerfiles to the conventional root-level name (issue #295).
+  `dev/Dockerfile.dev` moves to `Dockerfile.dev` and the starter kit's `examples/dev/Dockerfile` moves to
+  `examples/Dockerfile.dev`, so every Dockerfile in the kit now sits at the project root (matching
+  `docs/demo/Dockerfile.demo`). Both compose files point at the new paths (the starter kit's dev service
+  gains an explicit `context: .` + `dockerfile:`, behavior-neutral since the file has no `COPY`/`ADD`),
+  and the Docker + Rails-setup guides teach the flat layout.
+
 ## [0.7.2] - 2026-08-01
 
 ### General Changes
