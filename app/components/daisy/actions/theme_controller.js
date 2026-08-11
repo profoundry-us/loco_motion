@@ -34,6 +34,7 @@ export default class extends Controller {
   connect() {
     this.migrateLegacyStorage()
     this.stampScheme()
+    this.stampMode(this.safeStorageGet('savedThemeMode'))
     this.setInput()
 
     // Setup a custom listener to watch for changes on the page in case the
@@ -108,6 +109,7 @@ export default class extends Controller {
     // Remove the theme attributes from the document element
     document.documentElement.removeAttribute('data-theme')
     document.documentElement.removeAttribute('data-color-scheme')
+    document.documentElement.removeAttribute('data-theme-mode')
 
     // Fire off an update
     this.broadcast(null)
@@ -154,6 +156,7 @@ export default class extends Controller {
     if (!mode) return
 
     this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
     this.applyResolvedTheme()
 
     if (event.preventDefault) event.preventDefault()
@@ -189,13 +192,14 @@ export default class extends Controller {
   applyTheme(value) {
     document.documentElement.setAttribute('data-theme', value)
 
-    const scheme = this.computedScheme()
+    const scheme = this.schemeForTheme(value)
 
     this.safeStorageSet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
     this.safeStorageSet('savedThemeMode', scheme)
     this.safeStorageRemove('savedTheme')
 
     document.documentElement.setAttribute('data-color-scheme', scheme)
+    this.stampMode(scheme)
 
     this.broadcast(value)
   }
@@ -289,6 +293,23 @@ export default class extends Controller {
   }
 
   /**
+   * Stamps the saved theme mode on `<html>` as `data-theme-mode` so UI can
+   * reflect the active mode with pure CSS — e.g. the switcher dropdown's
+   * "Sync with system" checkmark uses a
+   * `[[data-theme-mode=system]_&]:visible` variant. Removes the attribute
+   * when no mode is saved.
+   *
+   * @param {?string} mode - `"light"`, `"dark"`, `"system"`, or null
+   */
+  stampMode(mode) {
+    if (mode) {
+      document.documentElement.setAttribute('data-theme-mode', mode)
+    } else {
+      document.documentElement.removeAttribute('data-theme-mode')
+    }
+  }
+
+  /**
    * Reads the active theme's own scheme from the document element's computed
    * `color-scheme` — every DaisyUI theme declares `color-scheme: light` or
    * `color-scheme: dark`.
@@ -299,6 +320,35 @@ export default class extends Controller {
     const value = getComputedStyle(document.documentElement).colorScheme || ''
 
     return value.includes('dark') && !value.includes('light') ? 'dark' : 'light'
+  }
+
+  /**
+   * Classifies a specific theme by probing its own `color-scheme`
+   * declaration on a scratch element.
+   *
+   * Reading the ROOT's computed value at apply time is unreliable: DaisyUI
+   * theme blocks also match `:root:has(input.theme-controller:checked)`,
+   * which outranks `[data-theme]` in the cascade — so until the page's
+   * radios re-sync, the PREVIOUS theme's checked radio can misclassify the
+   * theme being applied (e.g. synthwave filed as a light preference). The
+   * probe carries only `data-theme`, so only the theme's own declaration
+   * can match it.
+   *
+   * @param {string} value - The theme name to classify
+   * @returns {string} `"dark"` or `"light"`
+   */
+  schemeForTheme(value) {
+    const probe = document.createElement('div')
+
+    probe.setAttribute('data-theme', value)
+    probe.style.display = 'none'
+    document.documentElement.appendChild(probe)
+
+    const scheme = getComputedStyle(probe).colorScheme || ''
+
+    probe.remove()
+
+    return scheme.includes('dark') && !scheme.includes('light') ? 'dark' : 'light'
   }
 
   /**

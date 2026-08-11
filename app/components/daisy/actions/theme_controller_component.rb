@@ -122,6 +122,12 @@ module Daisy
       # @param clear [Boolean] Whether to append a "Clear Theme" row that
       #   resets to the default theme. Defaults to false.
       #
+      # @param system [Boolean] Whether to append a "Sync with system" row
+      #   that switches to `system` mode: the active theme follows the OS
+      #   color scheme live, swapping between the user's saved light and
+      #   dark theme preferences. Picking any theme afterwards pins its
+      #   scheme again. Defaults to false.
+      #
       # @param name [String] The shared `name` for the theme radios.
       #   Defaults to "theme".
       #
@@ -139,7 +145,11 @@ module Daisy
       #   = daisy_theme_controller do |tc|
       #     = tc.build_switcher_dropdown(label: "Theme", clear: true)
       #
-      def build_switcher_dropdown(icon: "swatch", label: nil, clear: false, name: "theme", css: "dropdown-end")
+      # @loco_example With a Sync with system row (GitHub-style day / night preferences)
+      #   = daisy_theme_controller do |tc|
+      #     = tc.build_switcher_dropdown(system: true)
+      #
+      def build_switcher_dropdown(icon: "swatch", label: nil, clear: false, system: false, name: "theme", css: "dropdown-end")
         button_css = label ? "btn-ghost" : "btn-ghost btn-circle"
 
         render(Daisy::Actions::DropdownComponent.new(css: css)) do |dropdown|
@@ -151,6 +161,8 @@ module Daisy
           themes.each do |theme|
             dropdown.with_item { switcher_row(theme, name) }
           end
+
+          dropdown.with_item { system_row } if system
         end
       end
 
@@ -171,6 +183,26 @@ module Daisy
 
         link_to("#", class: "flex items-center gap-3 no-underline",
                      data: { action: "click->loco-theme#setTheme" }) { safe_join(parts) }
+      end
+
+      # Renders the optional "Sync with system" row, shown after the theme
+      # rows. It switches the controller into `system` mode via
+      # `loco-theme#setMode`; the checkmark is driven purely by CSS off the
+      # `data-theme-mode` attribute the controller stamps on `<html>`, so it
+      # stays correct across every switcher on the page.
+      def system_row
+        parts = [
+          helpers.loco_icon("computer-desktop", css: "size-5"),
+          content_tag(:span, "Sync with system", class: "grow text-left"),
+          helpers.loco_icon("check", css: "size-4 text-primary invisible [[data-theme-mode=system]_&]:visible")
+        ]
+
+        content_tag(:button, type: "button",
+                             class: "flex items-center gap-3 w-full",
+                             data: { action: "loco-theme#setMode",
+                                     "loco-theme-mode-param": "system" }) do
+          safe_join(parts)
+        end
       end
 
       # Renders the optional, danger-styled "Clear Theme" row, shown at the top

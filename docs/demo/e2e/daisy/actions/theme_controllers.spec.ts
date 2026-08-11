@@ -174,3 +174,58 @@ test('system mode follows the OS scheme live, swapping between saved themes', as
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'night');
   await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
 });
+
+// The "Sync with system" dropdown row (issue #378's UI piece): switching to
+// system mode via the row, the data-theme-mode stamp that drives its
+// checkmark, and re-pinning when a theme is picked afterwards.
+test('sync-with-system row enters system mode and pins again on a pick', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto(PAGE);
+  await clearThemeStorage(page);
+
+  const switcher = page.locator('.dropdown', { has: page.locator('input[name="docs-switcher-system"]') });
+  const systemRow = switcher.getByRole('button', { name: /Sync with system/ });
+  const checkmark = systemRow.locator('svg').last();
+
+  // Enter system mode from the dropdown row.
+  await switcher.getByRole('button').first().click();
+  await expect(checkmark).not.toBeVisible();
+  await systemRow.click();
+
+  // Mode is saved and stamped on <html>, the checkmark appears, and the
+  // OS-light scheme resolves (no saved preference → built-in light).
+  await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(checkmark).toBeVisible();
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'system', light: null, dark: null, legacy: null });
+
+  // Picking a concrete theme afterwards pins its scheme again.
+  await switcher.locator('a:has(input[value="retro"])').click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'light');
+  await expect(checkmark).not.toBeVisible();
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'retro', dark: null, legacy: null });
+});
+
+// Regression for a cascade bug: DaisyUI theme blocks also match
+// `:root:has(input.theme-controller:checked)`, which outranks `[data-theme]`
+// — so with a light theme's radio still checked, applying synthwave from a
+// dropdown misread the root's computed scheme and filed synthwave as the
+// LIGHT preference. schemeForTheme() probes the theme's own declaration
+// instead of the root.
+test('a dark theme picked while a light radio is checked is classified dark', async ({ page }) => {
+  await page.goto(PAGE);
+  await clearThemeStorage(page);
+
+  // Check "light" through a real radio first (its change event applies it).
+  await page.locator('input[name="docs-radio-theme"][value="light"]').check();
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'light', dark: null, legacy: null });
+
+  // Now pick synthwave from the builder dropdown (link → setTheme path).
+  const switcher = page.locator('.dropdown', { has: page.locator('input[name="docs-switcher"]') });
+  await switcher.getByRole('button').first().click();
+  await switcher.locator('a:has(input[value="synthwave"])').click();
+
+  // Synthwave must land in the DARK slot with the mode pinned dark.
+  await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'dark', light: 'light', dark: 'synthwave', legacy: null });
+});

@@ -12,9 +12,10 @@ module Daisy
     # This script runs synchronously in the head section before the page
     # renders. It resolves the saved theme mode (`light` / `dark` pin that
     # scheme; `system` follows the OS preference) and the matching per-scheme
-    # theme preference, then sets the `data-theme` and `data-color-scheme`
-    # attributes on the html element. The legacy single `savedTheme` key is
-    # still honored until the ThemeController migrates it.
+    # theme preference, then sets the `data-theme`, `data-color-scheme`, and
+    # `data-theme-mode` attributes on the html element. The legacy single
+    # `savedTheme` key is still honored until the ThemeController migrates
+    # it.
     #
     # @return [String] The inline script as a string
     #
@@ -48,6 +49,9 @@ module Daisy
               }
               if (scheme) {
                 document.documentElement.setAttribute('data-color-scheme', scheme);
+              }
+              if (mode) {
+                document.documentElement.setAttribute('data-theme-mode', mode);
               }
             } catch (e) {
               // localStorage not available (e.g., private browsing mode)

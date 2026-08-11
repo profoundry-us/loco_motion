@@ -50,6 +50,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Theme): Add a "Sync with system" switcher row and a `data-theme-mode` stamp (issue #378). Passing
+  `system: true` to `build_switcher_dropdown` appends a row wired to the `setMode` action, giving apps a
+  one-line GitHub-style day / night preference UI: picking a theme saves it for its own scheme, and the
+  sync row follows the OS live. The controller (and `theme_preload_script`) now stamp the saved mode on
+  `<html>` as `data-theme-mode`, so mode indicators — like the row's checkmark — are pure CSS. Also fixes
+  a scheme-classification bug: applying a theme while another theme's radio was still checked could
+  misfile it under the wrong scheme (the `:root:has(input:checked)` theme selectors outrank
+  `[data-theme]`), so themes are now classified by probing their own `color-scheme` declaration.
+
 - feat(Theme): Store theme preferences per color scheme with an OS-sync mode (issue #378). The
   ThemeController now saves a preferred theme for each scheme (`savedLightTheme` / `savedDarkTheme`,
   chosen by the theme's own `color-scheme` declaration) plus a `savedThemeMode` of `light`, `dark`, or

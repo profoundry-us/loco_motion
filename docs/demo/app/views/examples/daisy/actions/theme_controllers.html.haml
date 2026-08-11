@@ -107,6 +107,21 @@
       = theme_controller.build_switcher_dropdown(label: "Theme", clear: true, css: "dropdown-start", name: "docs-switcher-labeled")
 
 
+= doc_example(title: "Sync with System (Day / Night Preferences)", example_css: "pb-72") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `system: true` to append a **Sync with system** row — the
+      GitHub-style model where the user keeps a preferred light theme *and* a
+      preferred dark theme. Picking a theme saves it as the preference for
+      its own color scheme and pins that scheme; the sync row switches to
+      `system` mode, which follows the OS preference live and swaps between
+      the two saved themes. The row's checkmark reflects the active mode via
+      the `data-theme-mode` attribute the controller stamps on `html`.
+
+  = daisy_theme_controller(themes: %w[light dark synthwave retro]) do |theme_controller|
+    = theme_controller.build_switcher_dropdown(label: "Theme", system: true, css: "dropdown-start", name: "docs-switcher-system")
+
+
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
   - doc.with_description do
     :markdown
