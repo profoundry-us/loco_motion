@@ -24,6 +24,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (`application.register("loco-tabs", TabsController)`); the attributes are inert until you do. Radio
   tabs and `href` tabs are untouched.
 
+- feat(Collapse): Support DaisyUI's details/summary flavor (issue #387). Passing `details: true` renders
+  the component as a native `<details>` element with the title as its `<summary>` — no JavaScript, no
+  hidden checkbox input, keyboard-accessible out of the box, and programmatically controllable via the
+  standard `open` property (handy for auto-expanding cards while filtering). An `open: true` option sets
+  the initial expanded state, and the pure-CSS `collapse-arrow` / `collapse-plus` modifiers work
+  unchanged. Checkbox and focus modes are untouched.
+
 - fix(Tabs): Render href-less link-mode tabs as `<button>` elements so they are keyboard-accessible
   (issue #380). An anchor without an `href` is unfocusable and can't be activated from the keyboard, which
   made JavaScript-driven tabs (like the demo's Preview/Code tabs) unreachable for keyboard users. Tabs
