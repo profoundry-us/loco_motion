@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Parse-check the JavaScript files touched this turn. Highball exports
+# HIGHBALL_CHANGED_FILES (newline-separated, repo-relative).
+set -uo pipefail
+
+status=0
+while IFS= read -r file; do
+  [[ "$file" == *.js ]] || continue
+  [[ "$file" == node_modules/* ]] && continue
+  [[ -f "$file" ]] || continue
+  node --check "$file" || status=1
+done <<< "${HIGHBALL_CHANGED_FILES:-}"
+
+exit $status

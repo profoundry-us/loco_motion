@@ -1,0 +1,59 @@
+# loco_motion's Highball rules — the file `highball run` reads and
+# reports from. `fast: true` marks rules cheap enough to run on every
+# agent edit; the rest join at turn end. `todo: true` declares a rule
+# you're committed to but haven't built — tracked on the dashboard,
+# never a failure.
+version: 1
+project: loco-motion
+
+# Where runs get reported. The URL is per-team and not a secret, so it
+# lives here in committed config; the token never enters the repo — run
+# `highball login` once per machine (or set HIGHBALL_TOKEN in CI).
+reporting:
+  url: http://localhost:3600
+
+# The Ruby toolchain lives in the loco container (whole repo mounted at
+# /home/loco_motion, its default workdir). Rules that target the demo
+# container or host tools opt out with `exec: host` and orchestrate
+# themselves.
+exec:
+  via: docker compose exec -T loco
+
+checks:
+  # Host ruby matches the containers (3.4.4), so the per-edit syntax
+  # check skips the docker round-trip entirely.
+  - id: ruby-syntax
+    name: Changed Ruby files parse
+    run: .highball/scripts/ruby-syntax
+    exec: host
+    fast: true
+
+  - id: js-syntax
+    name: Changed JS files parse
+    run: .highball/scripts/js-syntax
+    exec: host
+    fast: true
+
+  # The three suites CI runs (cicd.yml): RuboCop at the root, the
+  # library RSpec suite, and the demo app's RSpec suite.
+  - id: rubocop
+    name: RuboCop
+    run: bundle exec rubocop
+
+  - id: loco-specs
+    name: Library RSpec suite
+    run: bundle exec rspec spec
+
+  # Runs in the demo container (workdir /home/loco_demo = docs/demo),
+  # not the loco wrapper — so it opts out and execs itself.
+  - id: demo-specs
+    name: Demo app RSpec suite
+    run: docker compose exec -T demo bundle exec rspec spec
+    exec: host
+
+  # Needs the live demo server and trusted browser input; local runs
+  # flake under shared Docker VM load, so CI (playwright.yml) stays the
+  # gate. Tracked here as an aspiration, never run by the hooks.
+  - id: playwright
+    name: Playwright e2e suite
+    todo: true

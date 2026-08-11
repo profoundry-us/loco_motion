@@ -4,5 +4,22 @@
 
 "@hotwired/stimulus@^3.2.2":
   version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.2.2.tgz#071aab59c600fed95b97939e605ff261a4251608"
+  resolved "https://registry.npmjs.org/@hotwired/stimulus/-/stimulus-3.2.2.tgz"
   integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
+
+"@profoundry-us/highball@file:../highball-runner/profoundry-us-highball-0.1.0.tgz":
+  version "0.1.0"
+  resolved "file:../highball-runner/profoundry-us-highball-0.1.0.tgz"
+  integrity sha512-P//2TiL4Bfy87HIapmD11Cu+BkOyL8B4IGzvfntQnLTrmNXcBNWAoAMCdhgOX2fQu0Gc8hBa7b0fzGopRaA1og==
+  dependencies:
+    yaml "^2.5.0"
+
+daisyui@^5.6.0:
+  version "5.7.16"
+  resolved "https://registry.npmjs.org/daisyui/-/daisyui-5.7.16.tgz"
+  integrity sha512-V9CJxvrWIXTDuP/0tpijjWaKaKJNYo2IrULJfTWs3/DjW9rPqswk1n8NCLQRLrTutmlG2Ech7nkJDpCnF+6Dzw==
+
+yaml@^2.5.0:
+  version "2.9.0"
+  resolved "https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz"
+  integrity sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==
