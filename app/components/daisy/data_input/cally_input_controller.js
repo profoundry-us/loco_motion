@@ -146,11 +146,19 @@ export default class extends Controller {
    * Updates the input value from the calendar and closes the popover.
    * Synchronizes the input field with the selected date.
    *
+   * Programmatically setting `.value` fires no events, and the calendar's
+   * own `change` event does not bubble, so we re-dispatch bubbling
+   * `input` / `change` events from the input — mirroring a native date
+   * input — for form-level listeners (autosave, dirty-tracking, live
+   * validation).
+   *
    * @returns {void}
    */
   updateInput() {
     // Update the input value and close the popover
     this.inputTarget.value = this.calendarTarget.value
+    this.inputTarget.dispatchEvent(new Event("input", { bubbles: true }))
+    this.inputTarget.dispatchEvent(new Event("change", { bubbles: true }))
     this.closeCalendar()
   }
 
