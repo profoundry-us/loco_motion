@@ -11,6 +11,20 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [0.7.3] - 2026-08-14
+
+### General Changes
+
+- fix(Gem): Allow Rails 8.1 by widening the dependency to `>= 6.1, < 9` (runtime and development). The
+  previous `< 8.1` ceiling blocked consuming apps from upgrading, which matters now that **Rails 8.0
+  reaches end of support on 2026-10-07** — Brakeman already flags it inside the 60-day window. Capping at
+  the next *minor* means a LocoMotion release is required for every Rails minor; `< 9` is permissive
+  within the major, where semver promises compatibility, and still guards against Rails 9. Most of the
+  ecosystem declares no ceiling at all (turbo-rails, rspec-rails, and haml-rails all use a bare `>=`);
+  `view_component` caps at the next minor, and since we depend on it, **it** remains the effective
+  ceiling regardless of what we declare here. Verified by running this release's suite against Rails
+  8.1.3.1 (1396 examples, 0 failures) as well as the 6.1 floor the lockfile pins.
+
 ## [0.7.2] - 2026-08-01
 
 ### General Changes
