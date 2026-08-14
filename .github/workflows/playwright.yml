@@ -65,6 +65,20 @@ jobs:
     - name: Install Yarn dependencies
       run: yarn install
 
+    # Fail fast, and legibly, when the demo pins a version npm can't serve.
+    # Without this the same condition surfaces two minutes into the job as a
+    # bare "Couldn't find any versions" out of yarn.
+    - name: Verify the demo's loco_motion pin is published
+      working-directory: docs/demo
+      run: |
+        pin=$(node -p "require('./package.json').dependencies['@profoundry-us/loco_motion']")
+        if npm view "@profoundry-us/loco_motion@${pin}" version >/dev/null 2>&1; then
+          echo "✓ demo pin ${pin} is published"
+        else
+          echo "::error::docs/demo/package.json pins @profoundry-us/loco_motion@${pin}, which npm does not serve. The demo pin must always name a PUBLISHED version; it advances after publication via bin/update_demo_after_release, never in the version-bump commit."
+          exit 1
+        fi
+
     # Install Demo dependencies
     - name: Install Demo dependencies
       run: yarn install

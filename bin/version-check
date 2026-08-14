@@ -45,8 +45,25 @@ if [[ "$canonical" =~ [a-zA-Z] ]]; then
         echo "✗ Version mismatch! Run bin/update_version to sync them." >&2
         exit 1
     fi
-elif [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] && [ "$canonical" = "$demo_dep" ] && [ "$canonical" = "$readme_pin" ] && [ "$canonical" = "$install_pin" ]; then
-    echo "✓ All version sources agree ($canonical)"
+elif [ "$canonical" = "$version_file" ] && [ "$canonical" = "$pkg" ] \
+    && [ "$canonical" = "$readme_pin" ] && [ "$canonical" = "$install_pin" ]; then
+    # Release. The demo dependency is the one source that must NOT be required
+    # to match yet: this check runs inside publish.yml against the tag, i.e.
+    # before the registries have the version, and the demo pin is executable
+    # (CI yarn-installs it). So it legitimately trails by one release until
+    # `bin/update_demo_after_release` advances it post-publish.
+    #
+    # What must never happen is the pin naming a version ahead of canonical —
+    # that is the unpublishable state this whole carve-out exists to prevent.
+    if [ "$demo_dep" = "$canonical" ]; then
+        echo "✓ All version sources agree ($canonical)"
+    elif [ "$demo_dep" = "$(printf '%s\n%s\n' "$demo_dep" "$canonical" | sort -V | head -1)" ]; then
+        echo "✓ Release $canonical consistent (demo pin trails at $demo_dep;" \
+             "advances post-publish via bin/update_demo_after_release)"
+    else
+        echo "✗ docs/demo/package.json pins $demo_dep, ahead of $canonical — no registry can serve it." >&2
+        exit 1
+    fi
 else
     echo "✗ Version mismatch! Run bin/update_version to sync them." >&2
     exit 1
