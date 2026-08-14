@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'view_component', '~> 3.22'
 
   # Add some things that are no longer part of the standard Ruby distribution
-  s.add_dependency 'base64', '~> 0.2.0'
+  s.add_dependency 'base64', '>= 0.2', '< 0.4'
   s.add_dependency 'bigdecimal', '~> 3.1.8'
   s.add_dependency 'drb', '~> 2.2.1'
   s.add_dependency 'fiddle', '~> 1.1.4'
