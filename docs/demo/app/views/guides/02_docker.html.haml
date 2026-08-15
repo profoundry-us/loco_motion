@@ -5,7 +5,7 @@
 - config_files = []
 - config_files << ["docker-compose.yml", "Defines your application services"]
 - config_files << ["Dockerfile", "Instructions for building your app container"]
-- config_files << ["dev/Dockerfile", "Development environment container"]
+- config_files << ["Dockerfile.dev", "Development environment container"]
 - config_files << ["entrypoint.sh", "Script that runs when containers start"]
 - config_files << ["justfile", "Shortcuts for common commands"]
 
@@ -94,9 +94,8 @@
       └── mycompany
           └── myproject
               ├── Dockerfile
+              ├── Dockerfile.dev
               ├── justfile
-              ├── dev
-              │   └── Dockerfile
               ├── docker-compose.yml
               └── entrypoint.sh
 

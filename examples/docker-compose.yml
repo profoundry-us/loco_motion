@@ -20,7 +20,9 @@ services:
       - 'redis:/data'
 
   dev:
-    build: ./dev/
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/home/app
     tty: true
