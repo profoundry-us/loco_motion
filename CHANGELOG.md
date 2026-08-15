@@ -24,6 +24,19 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (`application.register("loco-tabs", TabsController)`); the attributes are inert until you do. Radio
   tabs and `href` tabs are untouched.
 
+- feat(Collapse): Support DaisyUI's details/summary flavor (issue #387). Passing `details: true` renders
+  the component as a native `<details>` element with the title as its `<summary>` — no JavaScript, no
+  hidden checkbox input, keyboard-accessible out of the box, and programmatically controllable via the
+  standard `open` property (handy for auto-expanding cards while filtering). An `open: true` option sets
+  the initial expanded state, and the pure-CSS `collapse-arrow` / `collapse-plus` modifiers work
+  unchanged. Checkbox and focus modes are untouched.
+
+- fix(CallyInput): Dispatch bubbling `input` / `change` events when a date is picked from the calendar
+  (issue #388). The cally web component's own `change` event doesn't bubble and syncing the input's value
+  programmatically fires nothing, so form-level listeners (autosave, dirty-tracking, live validation)
+  silently missed calendar picks — the controller now re-dispatches both events from the input, mirroring
+  a native date input. Typed input is unchanged.
+
 - fix(Tabs): Render href-less link-mode tabs as `<button>` elements so they are keyboard-accessible
   (issue #380). An anchor without an `href` is unfocusable and can't be activated from the keyboard, which
   made JavaScript-driven tabs (like the demo's Preview/Code tabs) unreachable for keyboard users. Tabs
@@ -93,6 +106,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   built via `git commit-tree` with the release commit's exact tree and both histories as parents, so the
   content is guaranteed identical, no conflict resolution can occur, and the push is always a normal,
   deploy-triggering fast-forward. Plain releases remain a single fast-forward push.
+
+- chore(Docker): Flatten the dev Dockerfiles to the conventional root-level name (issue #295).
+  `dev/Dockerfile.dev` moves to `Dockerfile.dev` and the starter kit's `examples/dev/Dockerfile` moves to
+  `examples/Dockerfile.dev`, so every Dockerfile in the kit now sits at the project root (matching
+  `docs/demo/Dockerfile.demo`). Both compose files point at the new paths (the starter kit's dev service
+  gains an explicit `context: .` + `dockerfile:`, behavior-neutral since the file has no `COPY`/`ADD`),
+  and the Docker + Rails-setup guides teach the flat layout.
 
 ## [0.7.2] - 2026-08-01
 
