@@ -66,23 +66,23 @@ def update_version(new_version = nil)
       puts "✓ Updated package.json"
     end
 
-    # The demo dependency pin and the documented install pins must always point
-    # at a *published* version, so a pre-release bump leaves them at the last
-    # release rather than pointing installs at a version no registry serves.
-    if prerelease?(new_version)
-      puts "ℹ️  Pre-release version: leaving docs/demo/package.json and install pins at the last release"
-    else
-      # Update docs/demo/package.json
-      demo_package_json_path = File.join(root_dir, 'docs', 'demo', 'package.json')
-      if File.exist?(demo_package_json_path)
-        demo_package_json = JSON.parse(File.read(demo_package_json_path))
-        if demo_package_json['dependencies'] && demo_package_json['dependencies']['@profoundry-us/loco_motion']
-          demo_package_json['dependencies']['@profoundry-us/loco_motion'] = "^#{new_version}"
-          File.write(demo_package_json_path, JSON.pretty_generate(demo_package_json) + "\n")
-          puts "✓ Updated docs/demo/package.json"
-        end
-      end
-    end
+    # The demo dependency pin must always point at a *published* version. It is
+    # executable, not documentation: CI runs `yarn install` against it, so a pin
+    # no registry serves fails the build outright.
+    #
+    # That rules it out of the version-bump commit entirely — releases included.
+    # A release commit is written BEFORE its tag publishes, so bumping the pin
+    # here names a version that won't exist for several minutes, and every demo
+    # `yarn install` in that window fails. It took out the Playwright job on
+    # v0.7.3; v0.7.2 escaped only by winning the race against publish.
+    #
+    # The pin advances after publication instead, via
+    # `bin/update_demo_after_release` -> `just demo-version-lock`, which refuses
+    # to run until `npm view` confirms the version is live. The documented
+    # install pins below are different — they're prose, nothing installs from
+    # them during CI — so they still track the version being released.
+    puts "ℹ️  Leaving docs/demo/package.json at the last published release " \
+         "(it advances post-publish via bin/update_demo_after_release)"
 
     # Update the documented `gem "loco_motion-rails", "~> X.Y.Z"` install pins
     # so the README and Install guide track the released version. A stale pin
