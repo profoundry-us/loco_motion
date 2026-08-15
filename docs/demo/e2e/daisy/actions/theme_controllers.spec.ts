@@ -17,7 +17,8 @@ const themeStorage = (page) =>
 
 const clearThemeStorage = (page) =>
   page.evaluate(() => {
-    ['savedTheme', 'savedThemeMode', 'savedLightTheme', 'savedDarkTheme']
+    ['savedTheme', 'savedThemeMode', 'savedLightTheme', 'savedDarkTheme',
+     'savedLightScheme', 'savedDarkScheme']
       .forEach((key) => localStorage.removeItem(key));
   });
 
@@ -161,6 +162,11 @@ test('system mode follows the OS scheme live, swapping between saved themes', as
     localStorage.setItem('savedThemeMode', 'system');
     localStorage.setItem('savedLightTheme', 'cupcake');
     localStorage.setItem('savedDarkTheme', 'night');
+    // The controller caches each slot's actual scheme at save time (these
+    // themes aren't in the demo's CSS bundle, so the cache is the only way
+    // to classify them — exactly the case it exists for).
+    localStorage.setItem('savedLightScheme', 'light');
+    localStorage.setItem('savedDarkScheme', 'dark');
   });
   await page.goto(PAGE);
 
@@ -175,10 +181,12 @@ test('system mode follows the OS scheme live, swapping between saved themes', as
   await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
 });
 
-// The day / night picker UI (issue #378's UI piece): scheme-scoped dropdowns
-// apply on pick (an explicit choice always shows — even a night theme during
-// the day) while their checkmarks track the saved slot; the "Night mode"
-// toggle flips between the two saved picks without OS involvement; and the
+// The day / night picker UI (issue #378's UI piece): both dropdowns list ALL
+// themes and bind to a preference SLOT — either slot may hold any theme (a
+// dark theme can be someone's daytime choice, with data-color-scheme still
+// following the displayed theme's own scheme so `dark:` stays truthful).
+// Picks apply immediately, checkmarks track the saved slot, the "Night mode"
+// toggle flips between the two saved picks without OS involvement, and the
 // "Match system appearance" toggle follows the OS live.
 test('day/night pickers, night-mode toggle, and system toggle work together', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
@@ -190,44 +198,52 @@ test('day/night pickers, night-mode toggle, and system toggle work together', as
   const nightToggle = page.locator('input[data-loco-theme-night-toggle]');
   const syncToggle = page.locator('input[data-loco-theme-mode-toggle]');
 
-  // A day pick applies and pins light.
+  // Both pickers offer the full theme list, not a scheme-filtered subset.
+  await expect(dayPicker.locator("input[name='docs-day-theme']")).toHaveCount(6);
+  await expect(nightPicker.locator("input[name='docs-night-theme']")).toHaveCount(6);
+
+  // A DARK theme picked as the DAY choice: applies immediately, lands in
+  // the day slot (mode pins light), the night toggle stays off — and
+  // data-color-scheme follows the theme's own scheme, not the slot.
   await dayPicker.getByRole('button').first().click();
-  await dayPicker.locator("a:has(input[value='retro'])").click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'retro');
-  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'retro', dark: null, legacy: null });
+  await dayPicker.locator("a:has(input[value='synthwave'])").click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
+  await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'light');
+  await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'synthwave', dark: null, legacy: null });
   await expect(nightToggle).not.toBeChecked();
 
-  // A night pick during the day applies IMMEDIATELY (explicit choice wins),
-  // saves the dark slot, and the night toggle flips on to match. The day
-  // picker's checkmark still shows its own saved slot.
+  // A night pick applies and pins night; each picker's checkmark tracks
+  // its own slot.
   await nightPicker.getByRole('button').first().click();
-  await nightPicker.locator("a:has(input[value='synthwave'])").click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
-  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'dark', light: 'retro', dark: 'synthwave', legacy: null });
+  await nightPicker.locator("a:has(input[value='dark'])").click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'dark', light: 'synthwave', dark: 'dark', legacy: null });
   await expect(nightToggle).toBeChecked();
-  await expect(dayPicker.locator("input[value='retro']")).toBeChecked();
+  await expect(dayPicker.locator("input[value='synthwave']")).toBeChecked();
 
   // The night toggle flips between the two saved picks — no OS settings.
   await nightToggle.uncheck();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'retro');
-  await nightToggle.check();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
+  await expect(page.locator('html')).toHaveAttribute('data-color-scheme', 'dark');
+  await nightToggle.check();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
-  // Match system appearance follows the OS scheme live.
+  // Match system appearance follows the OS scheme live, choosing by SLOT.
   await syncToggle.check();
   await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'system');
   await page.emulateMedia({ colorScheme: 'light' });
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'retro');
-  await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   // Flipping night mode while synced is an explicit choice: it leaves
-  // system mode and pins the chosen scheme.
+  // system mode and pins the chosen slot.
   await nightToggle.uncheck();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'retro');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'synthwave');
   await expect(page.locator('html')).toHaveAttribute('data-theme-mode', 'light');
   await expect(syncToggle).not.toBeChecked();
-  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'retro', dark: 'synthwave', legacy: null });
+  await expect.poll(() => themeStorage(page)).toEqual({ mode: 'light', light: 'synthwave', dark: 'dark', legacy: null });
 });
 
 // Regression for a cascade bug: DaisyUI theme blocks also match

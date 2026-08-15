@@ -60,12 +60,12 @@ module Daisy
       #
       # @param theme [String] The name of the theme that the input controls.
       #
-      # @param scheme [Symbol, String, nil] Scope the radio to one color
-      #   scheme (`:light` / `:dark`) for day / night picker UIs. Scheme
-      #   radios omit the `theme-controller` class (so a checked-but-inactive
-      #   pick can't force its theme onto the page via DaisyUI's CSS) and
-      #   sync their checked state to the scheme's saved preference instead
-      #   of the active theme. Defaults to nil.
+      # @param scheme [Symbol, String, nil] Bind the radio to one preference
+      #   slot (`:light` / `:dark`) for day / night picker UIs. Slot radios
+      #   omit the `theme-controller` class (so a checked-but-inactive pick
+      #   can't force its theme onto the page via DaisyUI's CSS) and sync
+      #   their checked state to the slot's saved preference instead of the
+      #   active theme. Defaults to nil.
       #
       # @param options [Hash] Additional options to pass to the component.
       #
@@ -140,14 +140,15 @@ module Daisy
       # @param clear [Boolean] Whether to append a "Clear Theme" row that
       #   resets to the default theme. Defaults to false.
       #
-      # @param scheme [Symbol, String, nil] Scope this dropdown to one color
-      #   scheme (`:light` or `:dark`), turning it into a "Day theme" /
-      #   "Night theme" picker. Picking applies immediately like any
-      #   switcher (an explicit choice always shows, even a night theme
-      #   during the day) and saves as that scheme's preferred theme — the
-      #   difference is the checkmark, which tracks the scheme's saved
-      #   preference rather than the page's active theme. Pass only themes
-      #   belonging to that scheme. Pair two of these with
+      # @param scheme [Symbol, String, nil] Bind this dropdown to one
+      #   preference slot (`:light` for the day slot, `:dark` for night),
+      #   turning it into a "Day theme" / "Night theme" picker. Show ALL
+      #   your themes in both pickers — either slot may hold any theme
+      #   (some people prefer a dark theme during the day; the `dark:`
+      #   variant follows the displayed theme's own scheme regardless).
+      #   Picking applies immediately like any switcher and saves into the
+      #   picker's slot; the checkmark tracks the slot's saved preference
+      #   rather than the page's active theme. Pair two of these with
       #   {#build_night_toggle} and {#build_system_toggle} for a
       #   GitHub-style appearance picker. Defaults to nil (a classic
       #   switcher).
@@ -264,13 +265,21 @@ module Daisy
 
       # Renders a single theme row for {build_switcher_dropdown}: a clickable
       # link wrapping a hidden radio (the `peer` that drives the checkmark)
-      # plus the preview, name, and checkmark. The explicit `setTheme` action
-      # is what makes selection reliable inside a focus dropdown (a hidden
-      # radio's `change` event does not propagate there). Scheme-scoped rows
-      # apply exactly like classic rows — an explicit pick always shows
-      # immediately — they only differ in checkmark bookkeeping (the radio
-      # tracks the scheme's saved slot).
+      # plus the preview, name, and checkmark. The explicit action is what
+      # makes selection reliable inside a focus dropdown (a hidden radio's
+      # `change` event does not propagate there). Slot-scoped rows use
+      # `setSchemeTheme` with the slot as an action param: the pick applies
+      # immediately like any switcher, but is saved into the PICKER's slot
+      # rather than the slot matching the theme's own scheme — so a dark
+      # theme can be somebody's daytime choice.
       def switcher_row(theme, name, scheme: nil)
+        data = if scheme
+                 { action: "click->loco-theme#setSchemeTheme",
+                   "loco-theme-scheme-param": scheme }
+               else
+                 { action: "click->loco-theme#setTheme" }
+               end
+
         parts = [
           build_radio_input(theme, name: name, scheme: scheme, css: "hidden peer"),
           build_theme_preview(theme, css: "size-5"),
@@ -278,8 +287,7 @@ module Daisy
           helpers.loco_icon("check", css: "size-4 text-primary invisible peer-checked:visible")
         ]
 
-        link_to("#", class: "flex items-center gap-3 no-underline",
-                     data: { action: "click->loco-theme#setTheme" }) { safe_join(parts) }
+        link_to("#", class: "flex items-center gap-3 no-underline", data: data) { safe_join(parts) }
       end
 
       # Renders the optional, danger-styled "Clear Theme" row, shown at the top

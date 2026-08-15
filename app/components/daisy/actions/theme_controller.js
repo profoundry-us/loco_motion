@@ -5,23 +5,27 @@
  * It handles theme switching, localStorage persistence, and synchronization
  * across multiple theme selectors on the same page.
  *
- * Themes are stored per color scheme so users can keep a preferred light
- * theme AND a preferred dark theme:
+ * Themes are stored in two preference SLOTS — day and night — so users can
+ * keep a preferred theme for each. Either slot may hold ANY theme (some
+ * people run a dark theme during the day):
  *
- *   - `savedLightTheme` / `savedDarkTheme` — the preferred theme for each
- *     scheme. A theme lands in the slot matching its own `color-scheme`
- *     declaration (every DaisyUI theme declares one).
- *   - `savedThemeMode` — how the active scheme is chosen: `"light"` or
- *     `"dark"` pin that scheme (picking a theme in a switcher pins its
- *     scheme, preserving classic single-theme behavior), while `"system"`
- *     follows the OS preference live, swapping between the two saved themes
- *     as the OS switches.
+ *   - `savedLightTheme` / `savedDarkTheme` — the theme saved in the day /
+ *     night slot. Classic switchers file a pick under the slot matching the
+ *     theme's own `color-scheme` declaration; slot-scoped pickers (the
+ *     `setSchemeTheme` action) file it under THEIR slot regardless.
+ *   - `savedLightScheme` / `savedDarkScheme` — the actual `color-scheme`
+ *     of the theme in each slot, cached at save time so the pre-paint
+ *     script can stamp it before any CSS loads.
+ *   - `savedThemeMode` — which slot is active: `"light"` or `"dark"` pin
+ *     that slot, while `"system"` follows the OS preference live, swapping
+ *     between the two saved themes as the OS switches.
  *   - The legacy single `savedTheme` key is migrated on connect.
  *
- * Whenever a theme is applied, the active scheme is stamped on `<html>` as
- * `data-color-scheme`, which drives the `dark:` Tailwind variant shipped in
- * loco.css — so `dark:` utilities follow any dark theme, not just the one
- * named "dark".
+ * Whenever a theme is applied, the DISPLAYED theme's own scheme is stamped
+ * on `<html>` as `data-color-scheme`, which drives the `dark:` Tailwind
+ * variant shipped in loco.css — so `dark:` utilities follow the theme
+ * actually showing, even a dark theme sitting in the day slot. The active
+ * slot is stamped as `data-theme-mode`.
  */
 import { Controller } from "@hotwired/stimulus"
 
@@ -131,6 +135,8 @@ export default class extends Controller {
     this.safeStorageRemove("savedThemeMode")
     this.safeStorageRemove("savedLightTheme")
     this.safeStorageRemove("savedDarkTheme")
+    this.safeStorageRemove("savedLightScheme")
+    this.safeStorageRemove("savedDarkScheme")
 
     // Remove the theme attributes from the document element
     document.documentElement.removeAttribute('data-theme')
@@ -189,6 +195,35 @@ export default class extends Controller {
   }
 
   /**
+   * Applies a theme into a SPECIFIC preference slot — the action behind
+   * slot-scoped pickers (a "Day theme" / "Night theme" dropdown pair).
+   * Expects a Stimulus action param naming the slot, e.g.
+   * `data-loco-theme-scheme-param="light"`. Unlike a classic switcher pick
+   * (which files the theme under its own color-scheme), the pick lands in
+   * the picker's slot even when the theme's scheme differs — a dark theme
+   * can be someone's daytime choice. The pick applies immediately and pins
+   * its slot.
+   *
+   * Like {setTheme}, the action can sit on a wrapper element containing an
+   * `<input>` or on the input itself.
+   *
+   * @param {Event} event - The triggering click event with a `scheme` param
+   */
+  setSchemeTheme(event) {
+    const slot = event && event.params && event.params.scheme
+    const target = event.currentTarget
+    const input = target.matches && target.matches('input')
+      ? target
+      : target.querySelector('input')
+
+    if (input && slot) {
+      this.applyTheme(input.value, slot)
+    }
+
+    event.preventDefault()
+  }
+
+  /**
    * Backs the "Night mode" toggle (see the component's
    * `build_night_toggle`). Checking it pins the dark scheme — the saved
    * night theme applies immediately, no OS setting required — and
@@ -244,24 +279,31 @@ export default class extends Controller {
    * Persists the given theme, applies it to the document, and notifies every
    * other theme controller on the page so they can sync their inputs.
    *
-   * The theme is saved as the preference for the scheme it belongs to (read
-   * from its own computed `color-scheme`), and the mode is pinned to that
-   * scheme so the selection behaves like classic single-theme switching until
-   * an app opts into `"system"` mode.
+   * Without a `slot`, the theme is saved as the preference for the scheme
+   * it belongs to (read from its own computed `color-scheme`) — classic
+   * switcher behavior. With a `slot` (from a day / night picker), it lands
+   * in that slot regardless of its own scheme. Either way the slot's actual
+   * scheme is cached for the pre-paint script, the mode pins to the slot,
+   * and `data-color-scheme` reflects the DISPLAYED theme's own scheme so
+   * `dark:` utilities stay truthful.
    *
    * @param {string} value - The theme name to apply
+   * @param {?string} slot - The preference slot to fill (`"light"` /
+   *   `"dark"`); defaults to the theme's own scheme
    */
-  applyTheme(value) {
+  applyTheme(value, slot = null) {
     document.documentElement.setAttribute('data-theme', value)
 
     const scheme = this.schemeForTheme(value)
+    const targetSlot = slot || scheme
 
-    this.safeStorageSet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
-    this.safeStorageSet('savedThemeMode', scheme)
+    this.safeStorageSet(targetSlot === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
+    this.safeStorageSet(targetSlot === 'dark' ? 'savedDarkScheme' : 'savedLightScheme', scheme)
+    this.safeStorageSet('savedThemeMode', targetSlot)
     this.safeStorageRemove('savedTheme')
 
     document.documentElement.setAttribute('data-color-scheme', scheme)
-    this.stampMode(scheme)
+    this.stampMode(targetSlot)
 
     this.broadcast(value)
   }
@@ -278,7 +320,14 @@ export default class extends Controller {
     if (!resolved) return
 
     document.documentElement.setAttribute('data-theme', resolved.theme)
-    document.documentElement.setAttribute('data-color-scheme', resolved.scheme)
+
+    // Stamp the DISPLAYED theme's own scheme, not the slot name — the day
+    // slot can legitimately hold a dark theme. Prefer the scheme cached at
+    // save time (it works even when the theme's CSS isn't loaded); probe
+    // the stylesheet only as a fallback.
+    const cached = this.safeStorageGet(resolved.scheme === 'dark' ? 'savedDarkScheme' : 'savedLightScheme')
+
+    document.documentElement.setAttribute('data-color-scheme', cached || this.schemeForTheme(resolved.theme))
 
     this.broadcast(resolved.theme)
   }

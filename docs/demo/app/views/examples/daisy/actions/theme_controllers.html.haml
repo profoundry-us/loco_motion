@@ -107,33 +107,37 @@
       = theme_controller.build_switcher_dropdown(label: "Theme", clear: true, css: "dropdown-start", name: "docs-switcher-labeled")
 
 
-= doc_example(title: "Day / Night Theme Pickers", example_css: "pb-72") do |doc|
+= doc_example(title: "Day / Night Theme Pickers", example_css: "pb-96") do |doc|
   - doc.with_description do
     :markdown
-      Build a GitHub-style appearance picker: give each color scheme its own
-      dropdown by passing `scheme: :light` (with your light themes) or
-      `scheme: :dark` (with your dark themes). Picking applies immediately —
-      an explicit choice always shows, even a night theme during the day —
-      and saves as that scheme's **preferred theme**; each picker's
-      checkmark tracks its saved preference rather than the active theme.
-      `build_night_toggle` flips between the two saved picks on demand (no
-      OS settings required), and `build_system_toggle` renders a **Match
-      system appearance** toggle that follows the OS color scheme live.
-      Flipping either toggle is an explicit choice: night mode leaves
-      system mode, and turning sync off pins whichever scheme is showing.
+      Build a GitHub-style appearance picker: bind a dropdown to each
+      preference **slot** with `scheme: :light` (day) or `scheme: :dark`
+      (night). Show **all** of your themes in both pickers — either slot
+      can hold any theme, so a dark theme can be someone's daytime choice
+      (the `dark:` variant follows the displayed theme's own scheme
+      regardless). Picking applies immediately and saves into the picker's
+      slot; each checkmark tracks its slot's saved preference rather than
+      the active theme. `build_night_toggle` flips between the two saved
+      picks on demand (no OS settings required), and `build_system_toggle`
+      renders a **Match system appearance** toggle that follows the OS
+      color scheme live. Flipping either toggle is an explicit choice:
+      night mode leaves system mode, and turning sync off pins whichever
+      slot is showing.
 
-  .flex.flex-wrap.gap-6.items-center
-    = daisy_theme_controller(themes: %w[light retro wireframe]) do |theme_controller|
-      = theme_controller.build_switcher_dropdown(label: "Day theme", scheme: :light, css: "dropdown-start", name: "docs-day-theme")
+  .flex.flex-col.gap-4.items-start
+    .flex.flex-wrap.gap-6.items-center
+      = daisy_theme_controller do |theme_controller|
+        = theme_controller.build_night_toggle(name: "docs-theme-night")
 
-    = daisy_theme_controller(themes: %w[dark synthwave]) do |theme_controller|
-      = theme_controller.build_switcher_dropdown(label: "Night theme", scheme: :dark, css: "dropdown-start", name: "docs-night-theme")
+      = daisy_theme_controller do |theme_controller|
+        = theme_controller.build_system_toggle(name: "docs-theme-mode")
 
-    = daisy_theme_controller do |theme_controller|
-      = theme_controller.build_night_toggle(name: "docs-theme-night")
+    .flex.flex-wrap.gap-4.items-center
+      = daisy_theme_controller do |theme_controller|
+        = theme_controller.build_switcher_dropdown(label: "Day theme", scheme: :light, css: "dropdown-start", name: "docs-day-theme")
 
-    = daisy_theme_controller do |theme_controller|
-      = theme_controller.build_system_toggle(name: "docs-theme-mode")
+      = daisy_theme_controller do |theme_controller|
+        = theme_controller.build_switcher_dropdown(label: "Night theme", scheme: :dark, css: "dropdown-start", name: "docs-night-theme")
 
 
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|
