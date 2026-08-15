@@ -142,12 +142,15 @@ module Daisy
       #
       # @param scheme [Symbol, String, nil] Scope this dropdown to one color
       #   scheme (`:light` or `:dark`), turning it into a "Day theme" /
-      #   "Night theme" picker: selections save as that scheme's preferred
-      #   theme WITHOUT pinning the mode, and the checkmark tracks the
-      #   scheme's saved preference rather than the page's active theme.
-      #   Pass only themes belonging to that scheme. Pair two of these with
-      #   {#build_system_toggle} for a GitHub-style appearance picker.
-      #   Defaults to nil (a classic switcher).
+      #   "Night theme" picker. Picking applies immediately like any
+      #   switcher (an explicit choice always shows, even a night theme
+      #   during the day) and saves as that scheme's preferred theme — the
+      #   difference is the checkmark, which tracks the scheme's saved
+      #   preference rather than the page's active theme. Pass only themes
+      #   belonging to that scheme. Pair two of these with
+      #   {#build_night_toggle} and {#build_system_toggle} for a
+      #   GitHub-style appearance picker. Defaults to nil (a classic
+      #   switcher).
       #
       # @param name [String] The shared `name` for the theme radios.
       #   Defaults to "theme".
@@ -166,12 +169,14 @@ module Daisy
       #   = daisy_theme_controller do |tc|
       #     = tc.build_switcher_dropdown(label: "Theme", clear: true)
       #
-      # @loco_example Day / night pickers with an OS-sync toggle
+      # @loco_example Day / night pickers with night-mode and OS-sync toggles
       #   .flex.gap-4.items-center
       #     = daisy_theme_controller(themes: %w[light retro]) do |tc|
       #       = tc.build_switcher_dropdown(label: "Day theme", scheme: :light, name: "day-theme")
       #     = daisy_theme_controller(themes: %w[dark synthwave]) do |tc|
       #       = tc.build_switcher_dropdown(label: "Night theme", scheme: :dark, name: "night-theme")
+      #     = daisy_theme_controller do |tc|
+      #       = tc.build_night_toggle
       #     = daisy_theme_controller do |tc|
       #       = tc.build_system_toggle
       #
@@ -188,6 +193,38 @@ module Daisy
             dropdown.with_item { switcher_row(theme, name, scheme: scheme) }
           end
         end
+      end
+
+      #
+      # Builder method that renders a "Night mode" toggle wired to the
+      # `loco-theme` controller. Checking it pins the dark scheme — the
+      # saved night theme applies immediately, letting users try night mode
+      # without touching their OS settings — and unchecking pins light.
+      # Either direction is an explicit choice, so it leaves `system` mode.
+      # The toggle's checked state tracks the scheme actually showing, so it
+      # reads correctly in system mode too.
+      #
+      # @param title [String] The label text shown after the toggle.
+      #   Defaults to "Night mode".
+      #
+      # @param name [String] The `name` (and default `id`) for the toggle's
+      #   checkbox. Defaults to "theme-night".
+      #
+      # @param css [String] Extra CSS classes for the toggle input.
+      #   Defaults to "".
+      #
+      # @return [String] The rendered toggle.
+      #
+      # @loco_example A night-mode toggle beside day / night pickers
+      #   = daisy_theme_controller do |tc|
+      #     = tc.build_night_toggle
+      #
+      def build_night_toggle(title: "Night mode", name: "theme-night", css: "")
+        render(Daisy::DataInput::ToggleComponent.new(
+                 name: name, id: name, css: css, trailing: title,
+                 html: { data: { "loco-theme-night-toggle": true,
+                                 action: "change->loco-theme#toggleNightMode" } }
+               ))
       end
 
       #
@@ -227,14 +264,13 @@ module Daisy
 
       # Renders a single theme row for {build_switcher_dropdown}: a clickable
       # link wrapping a hidden radio (the `peer` that drives the checkmark)
-      # plus the preview, name, and checkmark. The explicit action is what
-      # makes selection reliable inside a focus dropdown (a hidden radio's
-      # `change` event does not propagate there). Scheme-scoped rows use
-      # `setSchemeTheme`, which saves the pick into its scheme's slot
-      # without pinning the mode.
+      # plus the preview, name, and checkmark. The explicit `setTheme` action
+      # is what makes selection reliable inside a focus dropdown (a hidden
+      # radio's `change` event does not propagate there). Scheme-scoped rows
+      # apply exactly like classic rows — an explicit pick always shows
+      # immediately — they only differ in checkmark bookkeeping (the radio
+      # tracks the scheme's saved slot).
       def switcher_row(theme, name, scheme: nil)
-        action = scheme ? "click->loco-theme#setSchemeTheme" : "click->loco-theme#setTheme"
-
         parts = [
           build_radio_input(theme, name: name, scheme: scheme, css: "hidden peer"),
           build_theme_preview(theme, css: "size-5"),
@@ -243,7 +279,7 @@ module Daisy
         ]
 
         link_to("#", class: "flex items-center gap-3 no-underline",
-                     data: { action: action }) { safe_join(parts) }
+                     data: { action: "click->loco-theme#setTheme" }) { safe_join(parts) }
       end
 
       # Renders the optional, danger-styled "Clear Theme" row, shown at the top

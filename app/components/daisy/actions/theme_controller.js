@@ -90,11 +90,19 @@ export default class extends Controller {
       }
     })
 
-    // "Match system appearance" toggles reflect the saved mode.
+    // "Match system appearance" toggles reflect the saved mode, and
+    // "Night mode" toggles reflect the scheme actually showing (so they
+    // read correctly in system mode too).
     const synced = this.safeStorageGet('savedThemeMode') === 'system'
+    const resolved = this.resolveTheme()
+    const activeScheme = (resolved && resolved.scheme) || this.computedScheme()
 
     this.element.querySelectorAll('input[data-loco-theme-mode-toggle]').forEach((toggle) => {
       toggle.checked = synced
+    })
+
+    this.element.querySelectorAll('input[data-loco-theme-night-toggle]').forEach((toggle) => {
+      toggle.checked = activeScheme === 'dark'
     })
   }
 
@@ -181,40 +189,20 @@ export default class extends Controller {
   }
 
   /**
-   * Saves a theme as the preference for its own scheme WITHOUT changing the
-   * saved mode — the action behind scheme-scoped pickers (a "Day theme" /
-   * "Night theme" dropdown pair). The page only changes when the picked
-   * theme's scheme is currently active (pinned to it, or system mode with
-   * the OS on that scheme); otherwise the pick is stored silently and every
-   * picker's checkmark re-syncs. With no mode saved yet, it behaves like a
-   * classic first pick: the theme applies and its scheme is pinned.
+   * Backs the "Night mode" toggle (see the component's
+   * `build_night_toggle`). Checking it pins the dark scheme — the saved
+   * night theme applies immediately, no OS setting required — and
+   * unchecking pins light. Either direction is an explicit choice, so it
+   * leaves `system` mode.
    *
-   * Like {setTheme}, the action can sit on a wrapper element containing an
-   * `<input>` or on the input itself.
-   *
-   * @param {Event} event - The triggering click event
+   * @param {Event} event - The change event from the toggle's checkbox
    */
-  setSchemeTheme(event) {
-    const target = event.currentTarget
-    const input = target.matches && target.matches('input')
-      ? target
-      : target.querySelector('input')
+  toggleNightMode(event) {
+    const mode = event.currentTarget.checked ? 'dark' : 'light'
 
-    if (input) {
-      const value = input.value
-      const scheme = this.schemeForTheme(value)
-
-      this.safeStorageSet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
-
-      if (!this.safeStorageGet('savedThemeMode')) {
-        this.safeStorageSet('savedThemeMode', scheme)
-        this.stampMode(scheme)
-      }
-
-      this.applyResolvedTheme()
-    }
-
-    event.preventDefault()
+    this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
+    this.applyResolvedTheme()
   }
 
   /**

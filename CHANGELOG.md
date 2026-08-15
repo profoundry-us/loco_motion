@@ -63,14 +63,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
-- feat(Theme): Add day / night theme pickers and a "Match system appearance" toggle (issue #378).
+- feat(Theme): Add day / night theme pickers with night-mode and OS-sync toggles (issue #378).
   `build_switcher_dropdown` gains a `scheme:` option that turns a dropdown into a scoped picker: pass
-  `scheme: :light` with your light themes (and a `:dark` twin), and selections save as that scheme's
-  preferred theme — without switching the page's mode, with the checkmark tracking the saved slot. The
-  new `build_system_toggle` builder renders a labeled toggle wired to the new `toggleSystemMode` action:
-  on, the page follows the OS color scheme live, swapping between the two saved picks; off, it pins the
-  currently-visible scheme. The controller also gains a `setSchemeTheme` action backing the pickers, and
-  the saved mode is stamped on `<html>` as `data-theme-mode` (by the controller and
+  `scheme: :light` with your light themes (and a `:dark` twin). Picking applies immediately — an explicit
+  choice always shows, even a night theme during the day — and saves as that scheme's preferred theme,
+  with the picker's checkmark tracking the saved slot rather than the active theme. Two new builders
+  round out the appearance-settings kit: `build_night_toggle` flips between the saved day and night
+  themes on demand (no OS settings required), and `build_system_toggle` renders a "Match system
+  appearance" toggle that follows the OS color scheme live (unchecking pins whichever scheme is
+  showing). The saved mode is stamped on `<html>` as `data-theme-mode` (by the controller and
   `theme_preload_script`) so custom mode indicators can be pure CSS. Also fixes a scheme-classification
   bug: applying a theme while another theme's radio was still checked could misfile it under the wrong
   scheme (the `:root:has(input:checked)` theme selectors outrank `[data-theme]`), so themes are now
