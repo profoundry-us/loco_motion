@@ -73,10 +73,28 @@ export default class extends Controller {
    */
   setInput() {
     const theme = this.getCurrentTheme()
-    const inputs = this.element.querySelectorAll('input.theme-controller')
+    const inputs = this.element.querySelectorAll('input.theme-controller, input[data-loco-theme-scheme]')
 
     inputs.forEach((input) => {
-      input.checked = input.value === theme
+      const scheme = input.dataset.locoThemeScheme
+
+      if (scheme) {
+        // Scheme-scoped picker radios show their SLOT's saved theme
+        // (falling back to the built-in theme of the same name), not the
+        // theme currently applied to the page.
+        const saved = this.safeStorageGet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme')
+
+        input.checked = input.value === (saved || scheme)
+      } else {
+        input.checked = input.value === theme
+      }
+    })
+
+    // "Match system appearance" toggles reflect the saved mode.
+    const synced = this.safeStorageGet('savedThemeMode') === 'system'
+
+    this.element.querySelectorAll('input[data-loco-theme-mode-toggle]').forEach((toggle) => {
+      toggle.checked = synced
     })
   }
 
@@ -160,6 +178,62 @@ export default class extends Controller {
     this.applyResolvedTheme()
 
     if (event.preventDefault) event.preventDefault()
+  }
+
+  /**
+   * Saves a theme as the preference for its own scheme WITHOUT changing the
+   * saved mode — the action behind scheme-scoped pickers (a "Day theme" /
+   * "Night theme" dropdown pair). The page only changes when the picked
+   * theme's scheme is currently active (pinned to it, or system mode with
+   * the OS on that scheme); otherwise the pick is stored silently and every
+   * picker's checkmark re-syncs. With no mode saved yet, it behaves like a
+   * classic first pick: the theme applies and its scheme is pinned.
+   *
+   * Like {setTheme}, the action can sit on a wrapper element containing an
+   * `<input>` or on the input itself.
+   *
+   * @param {Event} event - The triggering click event
+   */
+  setSchemeTheme(event) {
+    const target = event.currentTarget
+    const input = target.matches && target.matches('input')
+      ? target
+      : target.querySelector('input')
+
+    if (input) {
+      const value = input.value
+      const scheme = this.schemeForTheme(value)
+
+      this.safeStorageSet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
+
+      if (!this.safeStorageGet('savedThemeMode')) {
+        this.safeStorageSet('savedThemeMode', scheme)
+        this.stampMode(scheme)
+      }
+
+      this.applyResolvedTheme()
+    }
+
+    event.preventDefault()
+  }
+
+  /**
+   * Backs the "Match system appearance" toggle (see the component's
+   * `build_system_toggle`). Checking it enters `system` mode; unchecking it
+   * pins whichever scheme is currently showing, so the visible theme does
+   * not change when sync turns off.
+   *
+   * @param {Event} event - The change event from the toggle's checkbox
+   */
+  toggleSystemMode(event) {
+    const resolved = this.resolveTheme()
+    const mode = event.currentTarget.checked
+      ? 'system'
+      : ((resolved && resolved.scheme) || this.computedScheme())
+
+    this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
+    this.applyResolvedTheme()
   }
 
   /**

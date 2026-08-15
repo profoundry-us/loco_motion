@@ -60,6 +60,13 @@ module Daisy
       #
       # @param theme [String] The name of the theme that the input controls.
       #
+      # @param scheme [Symbol, String, nil] Scope the radio to one color
+      #   scheme (`:light` / `:dark`) for day / night picker UIs. Scheme
+      #   radios omit the `theme-controller` class (so a checked-but-inactive
+      #   pick can't force its theme onto the page via DaisyUI's CSS) and
+      #   sync their checked state to the scheme's saved preference instead
+      #   of the active theme. Defaults to nil.
+      #
       # @param options [Hash] Additional options to pass to the component.
       #
       # @yield [radio] An optional block forwarded to the radio so you can
@@ -77,8 +84,19 @@ module Daisy
       #           = tc.build_theme_preview(theme)
       #           %span.capitalize= theme.humanize
       #
-      def build_radio_input(theme, **options, &block)
-        options[:css] = "#{options[:css]} theme-controller".lstrip
+      def build_radio_input(theme, scheme: nil, **options, &block)
+        # Scheme-scoped radios deliberately OMIT the `theme-controller`
+        # class: DaisyUI's own CSS applies a theme whenever any checked
+        # `.theme-controller` input carries its name, and a scheme picker's
+        # radio stays checked even while the OTHER scheme is active — the
+        # class would force its theme onto the page. The data attribute
+        # tells the Stimulus controller to sync it to the scheme's saved
+        # slot instead of the active theme.
+        if scheme
+          options[:html] = { data: { "loco-theme-scheme": scheme } }.deep_merge(options[:html] || {})
+        else
+          options[:css] = "#{options[:css]} theme-controller".lstrip
+        end
 
         # Namespace the id by the input name so multiple theme controllers can
         # coexist on the same page without generating duplicate ids.
@@ -122,11 +140,14 @@ module Daisy
       # @param clear [Boolean] Whether to append a "Clear Theme" row that
       #   resets to the default theme. Defaults to false.
       #
-      # @param system [Boolean] Whether to append a "Sync with system" row
-      #   that switches to `system` mode: the active theme follows the OS
-      #   color scheme live, swapping between the user's saved light and
-      #   dark theme preferences. Picking any theme afterwards pins its
-      #   scheme again. Defaults to false.
+      # @param scheme [Symbol, String, nil] Scope this dropdown to one color
+      #   scheme (`:light` or `:dark`), turning it into a "Day theme" /
+      #   "Night theme" picker: selections save as that scheme's preferred
+      #   theme WITHOUT pinning the mode, and the checkmark tracks the
+      #   scheme's saved preference rather than the page's active theme.
+      #   Pass only themes belonging to that scheme. Pair two of these with
+      #   {#build_system_toggle} for a GitHub-style appearance picker.
+      #   Defaults to nil (a classic switcher).
       #
       # @param name [String] The shared `name` for the theme radios.
       #   Defaults to "theme".
@@ -145,11 +166,16 @@ module Daisy
       #   = daisy_theme_controller do |tc|
       #     = tc.build_switcher_dropdown(label: "Theme", clear: true)
       #
-      # @loco_example With a Sync with system row (GitHub-style day / night preferences)
-      #   = daisy_theme_controller do |tc|
-      #     = tc.build_switcher_dropdown(system: true)
+      # @loco_example Day / night pickers with an OS-sync toggle
+      #   .flex.gap-4.items-center
+      #     = daisy_theme_controller(themes: %w[light retro]) do |tc|
+      #       = tc.build_switcher_dropdown(label: "Day theme", scheme: :light, name: "day-theme")
+      #     = daisy_theme_controller(themes: %w[dark synthwave]) do |tc|
+      #       = tc.build_switcher_dropdown(label: "Night theme", scheme: :dark, name: "night-theme")
+      #     = daisy_theme_controller do |tc|
+      #       = tc.build_system_toggle
       #
-      def build_switcher_dropdown(icon: "swatch", label: nil, clear: false, system: false, name: "theme", css: "dropdown-end")
+      def build_switcher_dropdown(icon: "swatch", label: nil, clear: false, scheme: nil, name: "theme", css: "dropdown-end")
         button_css = label ? "btn-ghost" : "btn-ghost btn-circle"
 
         render(Daisy::Actions::DropdownComponent.new(css: css)) do |dropdown|
@@ -159,50 +185,65 @@ module Daisy
           dropdown.with_item { clear_row(name) } if clear
 
           themes.each do |theme|
-            dropdown.with_item { switcher_row(theme, name) }
+            dropdown.with_item { switcher_row(theme, name, scheme: scheme) }
           end
-
-          dropdown.with_item { system_row } if system
         end
+      end
+
+      #
+      # Builder method that renders a "Match system appearance" toggle wired
+      # to the `loco-theme` controller. Checking it enters `system` mode —
+      # the active theme follows the OS color scheme live, swapping between
+      # the saved light and dark preferences — and unchecking it pins the
+      # currently-visible scheme, so the page doesn't change when sync turns
+      # off. The controller keeps the toggle's checked state in sync with
+      # the saved mode across every switcher on the page.
+      #
+      # @param title [String] The label text shown after the toggle.
+      #   Defaults to "Match system appearance".
+      #
+      # @param name [String] The `name` (and default `id`) for the toggle's
+      #   checkbox. Defaults to "theme-mode".
+      #
+      # @param css [String] Extra CSS classes for the toggle input.
+      #   Defaults to "".
+      #
+      # @return [String] The rendered toggle.
+      #
+      # @loco_example An OS-sync toggle beside a switcher
+      #   = daisy_theme_controller do |tc|
+      #     = tc.build_switcher_dropdown
+      #     = tc.build_system_toggle
+      #
+      def build_system_toggle(title: "Match system appearance", name: "theme-mode", css: "")
+        render(Daisy::DataInput::ToggleComponent.new(
+                 name: name, id: name, css: css, trailing: title,
+                 html: { data: { "loco-theme-mode-toggle": true,
+                                 action: "change->loco-theme#toggleSystemMode" } }
+               ))
       end
 
       private
 
       # Renders a single theme row for {build_switcher_dropdown}: a clickable
-      # link wrapping a hidden `.theme-controller` radio (the `peer` that drives
-      # the checkmark) plus the preview, name, and checkmark. The explicit
-      # `setTheme` action is what makes selection reliable inside a focus
-      # dropdown (a hidden radio's `change` event does not propagate there).
-      def switcher_row(theme, name)
+      # link wrapping a hidden radio (the `peer` that drives the checkmark)
+      # plus the preview, name, and checkmark. The explicit action is what
+      # makes selection reliable inside a focus dropdown (a hidden radio's
+      # `change` event does not propagate there). Scheme-scoped rows use
+      # `setSchemeTheme`, which saves the pick into its scheme's slot
+      # without pinning the mode.
+      def switcher_row(theme, name, scheme: nil)
+        action = scheme ? "click->loco-theme#setSchemeTheme" : "click->loco-theme#setTheme"
+
         parts = [
-          build_radio_input(theme, name: name, css: "hidden peer"),
+          build_radio_input(theme, name: name, scheme: scheme, css: "hidden peer"),
           build_theme_preview(theme, css: "size-5"),
           content_tag(:span, theme.humanize, class: "grow capitalize"),
           helpers.loco_icon("check", css: "size-4 text-primary invisible peer-checked:visible")
         ]
 
         link_to("#", class: "flex items-center gap-3 no-underline",
-                     data: { action: "click->loco-theme#setTheme" }) { safe_join(parts) }
-      end
-
-      # Renders the optional "Sync with system" row, shown after the theme
-      # rows. It switches the controller into `system` mode via
-      # `loco-theme#setMode`; the checkmark is driven purely by CSS off the
-      # `data-theme-mode` attribute the controller stamps on `<html>`, so it
-      # stays correct across every switcher on the page.
-      def system_row
-        parts = [
-          helpers.loco_icon("computer-desktop", css: "size-5"),
-          content_tag(:span, "Sync with system", class: "grow text-left"),
-          helpers.loco_icon("check", css: "size-4 text-primary invisible [[data-theme-mode=system]_&]:visible")
-        ]
-
-        content_tag(:button, type: "button",
-                             class: "flex items-center gap-3 w-full",
-                             data: { action: "loco-theme#setMode",
-                                     "loco-theme-mode-param": "system" }) do
-          safe_join(parts)
-        end
+                     data: { action: action }) { safe_join(parts) }
       end
 
       # Renders the optional, danger-styled "Clear Theme" row, shown at the top

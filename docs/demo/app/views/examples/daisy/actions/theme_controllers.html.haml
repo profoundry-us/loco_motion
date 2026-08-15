@@ -107,19 +107,28 @@
       = theme_controller.build_switcher_dropdown(label: "Theme", clear: true, css: "dropdown-start", name: "docs-switcher-labeled")
 
 
-= doc_example(title: "Sync with System (Day / Night Preferences)", example_css: "pb-72") do |doc|
+= doc_example(title: "Day / Night Theme Pickers", example_css: "pb-72") do |doc|
   - doc.with_description do
     :markdown
-      Pass `system: true` to append a **Sync with system** row — the
-      GitHub-style model where the user keeps a preferred light theme *and* a
-      preferred dark theme. Picking a theme saves it as the preference for
-      its own color scheme and pins that scheme; the sync row switches to
-      `system` mode, which follows the OS preference live and swaps between
-      the two saved themes. The row's checkmark reflects the active mode via
-      the `data-theme-mode` attribute the controller stamps on `html`.
+      Build a GitHub-style appearance picker: give each color scheme its own
+      dropdown by passing `scheme: :light` (with your light themes) or
+      `scheme: :dark` (with your dark themes). A scheme picker saves its
+      selection as that scheme's **preferred theme** without switching the
+      page's mode, and its checkmark tracks the saved preference rather
+      than the active theme. `build_system_toggle` renders a **Match system
+      appearance** toggle: on, the page follows the OS color scheme live,
+      swapping between the two saved picks; off, it pins whichever scheme
+      is currently showing.
 
-  = daisy_theme_controller(themes: %w[light dark synthwave retro]) do |theme_controller|
-    = theme_controller.build_switcher_dropdown(label: "Theme", system: true, css: "dropdown-start", name: "docs-switcher-system")
+  .flex.flex-wrap.gap-6.items-center
+    = daisy_theme_controller(themes: %w[light retro wireframe]) do |theme_controller|
+      = theme_controller.build_switcher_dropdown(label: "Day theme", scheme: :light, css: "dropdown-start", name: "docs-day-theme")
+
+    = daisy_theme_controller(themes: %w[dark synthwave]) do |theme_controller|
+      = theme_controller.build_switcher_dropdown(label: "Night theme", scheme: :dark, css: "dropdown-start", name: "docs-night-theme")
+
+    = daisy_theme_controller do |theme_controller|
+      = theme_controller.build_system_toggle(name: "docs-theme-mode")
 
 
 = doc_example(title: "Custom Switcher", example_css: "pb-48") do |doc|

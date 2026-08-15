@@ -63,14 +63,18 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
-- feat(Theme): Add a "Sync with system" switcher row and a `data-theme-mode` stamp (issue #378). Passing
-  `system: true` to `build_switcher_dropdown` appends a row wired to the `setMode` action, giving apps a
-  one-line GitHub-style day / night preference UI: picking a theme saves it for its own scheme, and the
-  sync row follows the OS live. The controller (and `theme_preload_script`) now stamp the saved mode on
-  `<html>` as `data-theme-mode`, so mode indicators — like the row's checkmark — are pure CSS. Also fixes
-  a scheme-classification bug: applying a theme while another theme's radio was still checked could
-  misfile it under the wrong scheme (the `:root:has(input:checked)` theme selectors outrank
-  `[data-theme]`), so themes are now classified by probing their own `color-scheme` declaration.
+- feat(Theme): Add day / night theme pickers and a "Match system appearance" toggle (issue #378).
+  `build_switcher_dropdown` gains a `scheme:` option that turns a dropdown into a scoped picker: pass
+  `scheme: :light` with your light themes (and a `:dark` twin), and selections save as that scheme's
+  preferred theme — without switching the page's mode, with the checkmark tracking the saved slot. The
+  new `build_system_toggle` builder renders a labeled toggle wired to the new `toggleSystemMode` action:
+  on, the page follows the OS color scheme live, swapping between the two saved picks; off, it pins the
+  currently-visible scheme. The controller also gains a `setSchemeTheme` action backing the pickers, and
+  the saved mode is stamped on `<html>` as `data-theme-mode` (by the controller and
+  `theme_preload_script`) so custom mode indicators can be pure CSS. Also fixes a scheme-classification
+  bug: applying a theme while another theme's radio was still checked could misfile it under the wrong
+  scheme (the `:root:has(input:checked)` theme selectors outrank `[data-theme]`), so themes are now
+  classified by probing their own `color-scheme` declaration.
 
 - feat(Theme): Store theme preferences per color scheme with an OS-sync mode (issue #378). The
   ThemeController now saves a preferred theme for each scheme (`savedLightTheme` / `savedDarkTheme`,
