@@ -24,6 +24,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   (`application.register("loco-tabs", TabsController)`); the attributes are inert until you do. Radio
   tabs and `href` tabs are untouched.
 
+- feat(Collapse): Support DaisyUI's details/summary flavor (issue #387). Passing `details: true` renders
+  the component as a native `<details>` element with the title as its `<summary>` — no JavaScript, no
+  hidden checkbox input, keyboard-accessible out of the box, and programmatically controllable via the
+  standard `open` property (handy for auto-expanding cards while filtering). An `open: true` option sets
+  the initial expanded state, and the pure-CSS `collapse-arrow` / `collapse-plus` modifiers work
+  unchanged. Checkbox and focus modes are untouched.
+
 - fix(CallyInput): Dispatch bubbling `input` / `change` events when a date is picked from the calendar
   (issue #388). The cally web component's own `change` event doesn't bubble and syncing the input's value
   programmatically fires nothing, so form-level listeners (autosave, dirty-tracking, live validation)
