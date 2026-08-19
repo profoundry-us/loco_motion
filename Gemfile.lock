@@ -13,7 +13,7 @@ PATH
       mutex_m (>= 0.2, < 0.4)
       ostruct (~> 0.6.0)
       rails (>= 6.1, < 9)
-      rdoc (~> 6.7.0)
+      rdoc (>= 6.7, < 8.1)
       view_component (~> 3.22)
 
 GEM

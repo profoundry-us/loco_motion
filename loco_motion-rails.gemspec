@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'logger', '~> 1.6.1'
   s.add_dependency 'mutex_m', '>= 0.2', '< 0.4'
   s.add_dependency 'ostruct', '~> 0.6.0'
-  s.add_dependency 'rdoc', '~> 6.7.0'
+  s.add_dependency 'rdoc', '>= 6.7', '< 8.1'
 
   # Add our development dependencies
   s.add_development_dependency 'capybara', '~> 3.40'
