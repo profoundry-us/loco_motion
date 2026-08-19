@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     loco_motion-rails (0.8.0.pre)
-      base64 (~> 0.2.0)
+      base64 (>= 0.2, < 0.4)
       benchmark (~> 0.4)
       bigdecimal (~> 3.1.8)
       drb (~> 2.2.1)
@@ -104,7 +104,7 @@ GEM
       algolia (< 3.0.0)
       json (>= 1.5.1)
     ast (2.4.3)
-    base64 (0.2.0)
+    base64 (0.3.0)
     benchmark (0.4.1)
     bigdecimal (3.1.8)
     builder (3.3.0)
