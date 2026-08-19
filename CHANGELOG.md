@@ -121,6 +121,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   gains an explicit `context: .` + `dockerfile:`, behavior-neutral since the file has no `COPY`/`ADD`),
   and the Docker + Rails-setup guides teach the flat layout.
 
+- chore(Tooling): Wire the Highball checks runner into the repo. A new `.highball/checks.yml` mirrors
+  what CI already trusts — RuboCop plus the library and demo RSpec suites at turn end, with fast
+  changed-files syntax checks (`ruby -c` / `node --check`) on every agent edit — and Claude Code hooks in
+  <code>.claude/settings.json</code> now block an agent's turn (exit 2) until the rules pass, reporting
+  every run to a local Highball dashboard. Playwright stays CI-only, declared as a `todo:` rule.
+
 ## [0.7.2] - 2026-08-01
 
 ### General Changes
