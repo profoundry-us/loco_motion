@@ -76,8 +76,13 @@ Metrics/PerceivedComplexity:
   Enabled: true
 Style/StringConcatenation:
   Enabled: true
+# Keyword arguments with defaults don't have positional lists' call-site
+# ambiguity, and builder methods (e.g. ThemeController's
+# `build_switcher_dropdown`) legitimately take several optional knobs —
+# the cop still guards positional parameter bloat.
 Metrics/ParameterLists:
   Enabled: true
+  CountKeywordArgs: false
 Rails/SkipsModelValidations:
   Enabled: true
 Metrics/ModuleLength:
