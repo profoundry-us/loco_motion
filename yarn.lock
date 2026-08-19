@@ -43,13 +43,14 @@
     zod-to-json-schema "^3.25.1"
 
 "@profoundry-us/highball@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@profoundry-us/highball/-/highball-0.4.0.tgz#f85da1a42122a5db38062de5a26b6f8b85476b55"
-  integrity sha512-X8owI3opyUHuRFMllsCzWf1shmlFVjf3uKL/Bcr+GRp+SKy+j/ikEYFYWxI/8Qg7EZLPml5/YhjYU0NpcthHqg==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@profoundry-us/highball/-/highball-0.4.1.tgz#5b7e6db34c9a41a5b50927ff6b75534290a2a04d"
+  integrity sha512-DnvdV8wUShPwgIg0ZRMv3cI3Xg35jPvU34xE284CWVNrLh9IZlMS1Yr9xg/+hKyYKkXfEzo1ooKPZvtt5uQUEg==
   dependencies:
     "@modelcontextprotocol/ext-apps" "^1.7.5"
     "@modelcontextprotocol/sdk" "^1.30.0"
     yaml "^2.5.0"
+    zod "^3.25 || ^4.0"
 
 "@standard-schema/spec@^1.1.0":
   version "1.1.0"
@@ -672,7 +673,7 @@ wrappy@1:
 
 yaml@^2.5.0:
   version "2.9.0"
-  resolved "https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.9.0.tgz#78274afd93598a1dfdd6130df6a566defcbf9aa4"
   integrity sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==
 
 zod-to-json-schema@^3.25.1:
