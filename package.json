@@ -28,6 +28,6 @@
     "app/components/**/*.html.haml"
   ],
   "devDependencies": {
-    "@profoundry-us/highball": "file:../highball-runner/profoundry-us-highball-0.1.0.tgz"
+    "@profoundry-us/highball": "^0.4.0"
   }
 }

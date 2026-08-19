@@ -24,13 +24,13 @@ checks:
   # check skips the docker round-trip entirely.
   - id: ruby-syntax
     name: Changed Ruby files parse
-    run: .highball/scripts/ruby-syntax
+    run: .highball/bin/ruby-syntax
     exec: host
     fast: true
 
   - id: js-syntax
     name: Changed JS files parse
-    run: .highball/scripts/js-syntax
+    run: .highball/bin/js-syntax
     exec: host
     fast: true
 
