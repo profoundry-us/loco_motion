@@ -107,7 +107,6 @@ module Daisy
         end
 
         # Add the daisy_select method to FormBuilder
-        # rubocop:disable Metrics/ParameterLists
         def daisy_select(method, options: nil, option_groups: nil, placeholder: nil,
                          options_css: nil, options_html: {}, **args, &block)
           # Extract the name from the form builder's object_name and method
@@ -132,7 +131,6 @@ module Daisy
             &block
           )
         end
-        # rubocop:enable Metrics/ParameterLists
 
         # Add the daisy_filter method to FormBuilder
         def daisy_filter(method, options: nil, **args, &block)
