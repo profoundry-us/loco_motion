@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml-rails', '>= 2.1', '< 4.0'
   s.add_dependency 'icons', '~> 0.9'
   s.add_dependency 'rails', '>= 6.1', '< 9'
-  s.add_dependency 'view_component', '~> 3.22'
+  s.add_dependency 'view_component', '>= 3.22', '< 5.0'
 
   # Add some things that are no longer part of the standard Ruby distribution
   s.add_dependency 'base64', '>= 0.2', '< 0.4'
