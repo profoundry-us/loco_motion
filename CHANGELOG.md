@@ -69,7 +69,9 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   DERIVED from `LocoMotion::COMPONENTS` and each component's own `add_css` declaration rather than
   hand-maintained, so a component added in a release is enforced by that release; a spec pins the
   components that declare no literal root class, so a new one cannot go silently unenforced. Tailwind
-  utilities and DaisyUI modifiers are never flagged.
+  utilities and DaisyUI modifiers are never flagged. An erb_lint counterpart ships alongside it for
+  ERB apps, reading the SAME derived map so the two template languages cannot enforce different rules;
+  load it from a `.erb_linters/` shim. Both rules are wired into `.highball/checks.yml`.
 
 - feat(Theme): Add day / night theme pickers with night-mode and OS-sync toggles (issue #378).
   `build_switcher_dropdown` gains a `scheme:` option that binds a dropdown to a preference slot

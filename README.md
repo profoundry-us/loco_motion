@@ -112,7 +112,10 @@ views hand-rolling DaisyUI markup instead of calling the helper that owns it —
 `.card` where `daisy_card` belongs. Views compose components; components own
 markup.
 
-Add haml_lint to your bundle, then in `.haml-lint.yml`:
+Wire it up for whichever template language you use — both read the same derived
+map, so HAML and ERB are held to identical rules.
+
+**HAML** — add `haml_lint` to your bundle, then `.haml-lint.yml`:
 
 ```yaml
 require:
@@ -126,6 +129,27 @@ linters:
 ```bash
 bundle exec haml-lint --include-linter LocoMotionComponentUsage app/views
 ```
+
+**ERB** — add `erb_lint` to your bundle. It loads custom linters from a
+directory rather than a config key, so create `.erb_linters/loco_motion.rb`:
+
+```ruby
+require "loco_motion/lint/erb_lint/component_usage"
+```
+
+Then `.erb_lint.yml`:
+
+```yaml
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+```
+
+```bash
+bundle exec erb_lint --lint-all --enable-linters LocoMotionComponentUsage
+```
+
+Either way the output names the helper to reach for:
 
 ```
 app/views/orders/show.html.haml:12 [W] LocoMotionComponentUsage: `.card` is
