@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
 
   # Add our few dependencies
   s.add_dependency 'benchmark', '~> 0.4'
-  s.add_dependency 'haml-rails', '~> 2.1'
+  s.add_dependency 'haml-rails', '>= 2.1', '< 4.0'
   s.add_dependency 'icons', '~> 0.9'
   s.add_dependency 'rails', '>= 6.1', '< 9'
   s.add_dependency 'view_component', '~> 3.22'
