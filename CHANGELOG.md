@@ -63,6 +63,16 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Lint): Ship a haml_lint rule that flags views hand-rolling DaisyUI markup instead of calling the
+  LocoMotion helper that owns it (`.card` where `daisy_card` belongs). Enable it with `require:
+  loco_motion/lint/haml_lint/component_usage` in `.haml-lint.yml` — see the README. The class list is
+  DERIVED from `LocoMotion::COMPONENTS` and each component's own `add_css` declaration rather than
+  hand-maintained, so a component added in a release is enforced by that release; a spec pins the
+  components that declare no literal root class, so a new one cannot go silently unenforced. Tailwind
+  utilities and DaisyUI modifiers are never flagged. An erb_lint counterpart ships alongside it for
+  ERB apps, reading the SAME derived map so the two template languages cannot enforce different rules;
+  load it from a `.erb_linters/` shim. Both rules are wired into `.highball/checks.yml`.
+
 - feat(Theme): Add day / night theme pickers with night-mode and OS-sync toggles (issue #378).
   `build_switcher_dropdown` gains a `scheme:` option that binds a dropdown to a preference slot
   (`:light` = day, `:dark` = night). Both pickers should list ALL themes — either slot may hold any

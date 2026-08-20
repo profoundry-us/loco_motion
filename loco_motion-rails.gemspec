@@ -44,6 +44,8 @@ Gem::Specification.new do |s|
   # Add our development dependencies
   s.add_development_dependency 'capybara', '~> 3.40'
   s.add_development_dependency 'combustion', '~> 1.3'
+  s.add_development_dependency 'erb_lint', '~> 0.9'
+  s.add_development_dependency 'haml_lint', '~> 0.78'
   s.add_development_dependency 'pry', '~> 0.16.0'
   s.add_development_dependency 'rails', '>= 6.1', '< 9'
   s.add_development_dependency 'redcarpet', '~> 3.6'
