@@ -139,18 +139,20 @@ for the time being, the latest documentation is available at the links below.
 To work on LocoMotion, first clone the repository and make sure you have Docker
 installed and running on your machine.
 
-Next, create a `.env.local` file with the following contents, making sure to
-replace the Unsplash keys with real ones (you can create your own account or ask
-Topher for his keys).
+Next, create a `docs/demo/.env.local` file with the following contents, making
+sure to replace the Unsplash keys with real ones (you can create your own
+account or ask Topher for his keys). The demo boots fine without them — only the
+example pages that pull sample photos will fail.
 
 ```.env
-# .env.local
+# docs/demo/.env.local
 UNSPLASH_ACCESS_KEY="<< INSERT ACCESS KEY >>"
 UNSPLASH_SECRET_KEY="<< INSERT SECRET KEY >>"
 ```
 
-You should then be able to run `just rebuild` in the project directory and then
-`just all-quick` to start the services.
+You should then be able to run `just build` in the project directory and then
+`just all-fast` to start the services. (`just rebuild` also works, but it passes
+`--no-cache`, which is wasted effort on a fresh clone with an empty cache.)
 
 > [!NOTE]
 >
@@ -165,7 +167,7 @@ You should then be able to run `just rebuild` in the project directory and then
 > See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 
 From here, you can access the demo site at http://localhost:3000 and the YARD
-docs at http://localhost:8808/docs/yard
+docs at http://localhost:8808
 
 You can type `just demo-shell` to open a shell inside the demo Docker container,
 or `just loco-shell` to get a shell inside the gem's Docker container.
