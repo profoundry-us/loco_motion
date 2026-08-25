@@ -1,0 +1,22 @@
+# HAML linting for LocoMotion.
+#
+# This file only wires up the rule this gem ships — it does NOT turn haml_lint's
+# default linters on or off. haml_lint has no `ALL` / DisabledByDefault switch
+# (unlike RuboCop), so rather than hand-maintaining a list of every default
+# linter to disable — a list that would silently fall behind haml_lint releases —
+# the linter selection lives in the command:
+#
+#   bundle exec haml-lint --include-linter LocoMotionComponentUsage .
+#
+# Adopt more of haml_lint's defaults by naming them there (or by ratifying them
+# here) as conventions solidify, matching the opt-in stance .rubocop.yml takes.
+require:
+  - loco_motion/lint/haml_lint/component_usage
+
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+    exclude:
+      # Components own their markup — raw DaisyUI classes are correct here, and
+      # are precisely where all of these classes are supposed to live.
+      - "app/components/**/*.haml"

@@ -13,6 +13,7 @@ ViewComponent, TailwindCSS, DaisyUI and more!
 - [Current Status](#current-status)
 - [Installation](#installation)
 - [Using Components](#using-components)
+- [Linting Component Usage](#linting-component-usage)
 - [Guides](#guides)
 - [Documentation & Demo](#documentation--demo)
 - [Developing](#developing)
@@ -103,6 +104,75 @@ option — there are no `color:` or `size:` parameters:
 For the full set of available components, parts, slots, and live examples, see
 the [demo site](https://loco-motion.profoundry.us/) and the
 [API documentation](#documentation--demo).
+
+## Linting Component Usage
+
+LocoMotion ships a [haml_lint](https://github.com/sds/haml-lint) rule that flags
+views hand-rolling DaisyUI markup instead of calling the helper that owns it —
+`.card` where `daisy_card` belongs. Views compose components; components own
+markup.
+
+Wire it up for whichever template language you use — both read the same derived
+map, so HAML and ERB are held to identical rules.
+
+**HAML** — add `haml_lint` to your bundle, then `.haml-lint.yml`:
+
+```yaml
+require:
+  - loco_motion/lint/haml_lint/component_usage
+
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+```
+
+```bash
+bundle exec haml-lint --include-linter LocoMotionComponentUsage app/views
+```
+
+**ERB** — add `erb_lint` to your bundle. It loads custom linters from a
+directory rather than a config key, so create `.erb_linters/loco_motion.rb`:
+
+```ruby
+require "loco_motion/lint/erb_lint/component_usage"
+```
+
+Then `.erb_lint.yml`:
+
+```yaml
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+```
+
+```bash
+bundle exec erb_lint --lint-all --enable-linters LocoMotionComponentUsage
+```
+
+Either way the output names the helper to reach for:
+
+```
+app/views/orders/show.html.haml:12 [W] LocoMotionComponentUsage: `.card` is
+  LocoMotion's daisy_card — call the helper instead of hand-rolling the markup
+```
+
+The class list is **derived** from the component registry and each component's
+own `add_css` declaration, so it tracks the library automatically — a component
+added in a release is covered by that release. Tailwind utilities (`flex`,
+`p-4`, `hover:*`) and DaisyUI modifiers (`btn-primary`) are never flagged;
+`css:` remains the sanctioned way to pass those to a helper.
+
+Suppress a deliberate exception the usual haml_lint way:
+
+```haml
+-# haml-lint:disable LocoMotionComponentUsage
+.card.custom-thing
+-# haml-lint:enable LocoMotionComponentUsage
+```
+
+Adopting this on an existing codebase will surface a backlog. `haml-lint
+--auto-gen-config` writes a TODO file that excludes today's offenders so new
+views are held to the rule while the backlog drains.
 
 ## Guides
 

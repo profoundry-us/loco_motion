@@ -1,0 +1,25 @@
+#!/bin/sh
+# Lints the HAML this turn touched against LocoMotion's own component-usage
+# rule — the ratchet: new and edited views must comply, while the demo app's
+# existing backlog waits its turn rather than blocking every turn.
+#
+# Runs INSIDE the container (no `exec: host`): haml_lint is a bundled gem.
+# Lives in a file rather than inline because the runner hands "<exec.via> <run>"
+# to the host shell, so only the first line of an inline script would reach the
+# container.
+#
+# Run the whole repo for the full picture:
+#   bundle exec haml-lint --include-linter LocoMotionComponentUsage .
+[ -n "$HIGHBALL_CHANGED_FILES" ] || exit 0
+
+files=""
+for file in $HIGHBALL_CHANGED_FILES; do
+  case "$file" in
+    *.haml) [ -f "$file" ] && files="$files $file" ;;
+  esac
+done
+
+[ -n "$files" ] || exit 0
+
+# shellcheck disable=SC2086 # deliberate word-splitting: $files is a path list
+exec bundle exec haml-lint --include-linter LocoMotionComponentUsage $files
