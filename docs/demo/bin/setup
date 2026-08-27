@@ -20,6 +20,13 @@ FileUtils.chdir APP_ROOT do
   system!("cd /home/loco_motion; yarn link")
   system!('cd /home/loco_demo; yarn link "@profoundry-us/loco_motion"')
 
+  # The link above points at the gem's real path, and esbuild resolves the
+  # symlink before looking for imports. Without node_modules alongside the gem,
+  # its Stimulus controllers fail with `Could not resolve "@hotwired/stimulus"`,
+  # application.js is never emitted, and every demo page 500s.
+  puts "\n== Installing LocoMotion's own JS dependencies =="
+  system!("cd /home/loco_motion; yarn install")
+
   puts "== Installing dependencies =="
   system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")
