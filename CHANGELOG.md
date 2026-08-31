@@ -124,6 +124,19 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   content is guaranteed identical, no conflict resolution can occur, and the push is always a normal,
   deploy-triggering fast-forward. Plain releases remain a single fast-forward push.
 
+- fix(Release): Keep the demo pin off unpublished versions (PR #406). The demo's
+  `@profoundry-us/loco_motion` dependency is executable — CI runs `yarn install` against it — so it can
+  only ever name a version the registry serves. `bin/update_version` no longer touches
+  `docs/demo/package.json` (the pin advances after publication via `bin/update_demo_after_release`, which
+  refuses to run until `npm view` confirms the version is live), `bin/version-check` accepts a demo pin
+  that trails canonical but fails when it runs ahead, and the Playwright workflow pre-flights the pin so a
+  regression fails in seconds with an explanation.
+
+- chore(Deps): Refresh the dependency train. The demo's DaisyUI moves 5.7.4 → 5.7.22 and
+  instantsearch.js 4.108 → 4.112 among routine bumps; dev dependencies pick up rspec-rails 8.x, rdoc 8,
+  and RuboCop 1.90 (whose new cops flagged — and we removed — four now-redundant `rubocop:disable`
+  directives and two spacing nits).
+
 - chore(Docker): Flatten the dev Dockerfiles to the conventional root-level name (issue #295).
   `dev/Dockerfile.dev` moves to `Dockerfile.dev` and the starter kit's `examples/dev/Dockerfile` moves to
   `examples/Dockerfile.dev`, so every Dockerfile in the kit now sits at the project root (matching
@@ -136,6 +149,17 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   changed-files syntax checks (`ruby -c` / `node --check`) on every agent edit — and Claude Code hooks in
   <code>.claude/settings.json</code> now block an agent's turn (exit 2) until the rules pass, reporting
   every run to a local Highball dashboard. Playwright stays CI-only, declared as a `todo:` rule.
+
+## [0.7.3] - 2026-08-14
+
+### General Changes
+
+- fix(Gem): Allow Rails 8.1+ by widening the `rails` ceiling from `>= 6.1, < 8.1` to `>= 6.1, < 9` on
+  both the runtime and development dependency. Rails 8.0 reaches end of support on 2026-10-07 and the old
+  ceiling blocked consumers from upgrading past it. Cut as a patch release from v0.7.2 — with nothing
+  else moving underneath — so apps pinned `~> 0.7.2` pick it up with no Gemfile change. Both ends of the
+  widened range were verified against this codebase (Rails 8.1.3.1 and the 6.1.7.7 floor): 1396 examples,
+  0 failures each. The same widening landed on main via PR #405.
 
 ## [0.7.2] - 2026-08-01
 
