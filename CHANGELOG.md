@@ -132,6 +132,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   that trails canonical but fails when it runs ahead, and the Playwright workflow pre-flights the pin so a
   regression fails in seconds with an explanation.
 
+- feat(Release): Make `bin/release` non-interactive by default so a release is deterministic whether a
+  human or an agent drives it. Every prompt now takes a documented default (failures abort — fix and
+  re-run; completed steps skip themselves, including two new idempotency guards: the demo update skips
+  when the pin already matches the release, and the stable advance skips when `stable` already contains
+  the tag, which previously would have shipped the post-release `.pre` commit on a re-run). Playwright is
+  opt-in via `--playwright` (CI gates it either way) and production promotion via `--promote` — without
+  it, `--finish` stops after staging verifies and prints the promote command. `--interactive` restores
+  the original ask-at-every-step wizard, which is also the only path to the local-publish fallback.
+
 - chore(Deps): Refresh the dependency train. The demo's DaisyUI moves 5.7.4 → 5.7.22 and
   instantsearch.js 4.108 → 4.112 among routine bumps; dev dependencies pick up rspec-rails 8.x, rdoc 8,
   and RuboCop 1.90 (whose new cops flagged — and we removed — four now-redundant `rubocop:disable`
