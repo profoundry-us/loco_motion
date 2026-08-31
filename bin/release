@@ -10,7 +10,23 @@ def get_current_version
   File.read(version_rb_path).match(/VERSION\s*=\s*["'](.+?)["']/)[1]
 end
 
+# The wizard is non-interactive by default so a release is deterministic —
+# the same inputs take the same path whether a human or an agent drives it.
+# Every prompt has a scripted answer: yes/no prompts take their documented
+# default, required free-form input must arrive as an argument, and
+# retry/skip/abort recovery prompts abort (fix the problem, re-run; every
+# step is idempotent). Pass --interactive to get the original
+# ask-at-every-step behavior.
+def interactive?
+  $interactive
+end
+
 def prompt_user(message, required: true)
+  unless interactive?
+    puts "ERROR: Required input (#{message.sub(/:\s*\z/, '')}) but running non-interactively."
+    puts "   Pass the value on the command line, or re-run with --interactive."
+    exit 1
+  end
   loop do
     print "#{message} "
     input = $stdin.gets.strip
@@ -21,6 +37,11 @@ def prompt_user(message, required: true)
 end
 
 def prompt_yes_no(message, default: 'n')
+  unless interactive?
+    answer = default.start_with?('y') ? 'y' : 'n'
+    puts "AUTO: #{message} -> #{answer}"
+    return answer
+  end
   loop do
     print "#{message} (y/N): "
     response = $stdin.gets.strip.downcase
@@ -31,6 +52,10 @@ def prompt_yes_no(message, default: 'n')
 end
 
 def prompt_retry_skip_abort(message)
+  unless interactive?
+    puts "AUTO: #{message} -> abort (fix the issue and re-run; steps are idempotent)"
+    return 'abort'
+  end
   loop do
     print "#{message} (r)etry / (s)kip / (a)bort: "
     response = $stdin.gets.strip.downcase
@@ -90,6 +115,10 @@ def execute_command(description, command, exit_on_failure: true)
     puts "ERROR: Command failed"
     if exit_on_failure
       puts "   This step is required for the release process."
+      unless interactive?
+        puts "   Aborting (non-interactive). Fix the failure and re-run."
+        exit 1
+      end
       print "   Continue anyway? (y/N): "
       response = $stdin.gets.strip.downcase
       exit unless response == 'y' || response == 'yes'
@@ -191,8 +220,18 @@ def check_prerequisites(dry_run: false)
     execute_command("Running library specs", "just loco-test")
     execute_command("Running demo specs", "just demo-test")
 
-    response = prompt_yes_no("Also run the Playwright e2e suite? (slow)", default: 'y')
-    execute_command("Running Playwright", "just playwright") if response == 'y'
+    # Playwright is opt-in: CI is its gate (.highball/checks.yml declares it
+    # CI-only) and local runs can flake on a busy Docker VM, so the
+    # deterministic default is to trust CI. --playwright opts in; interactive
+    # mode asks like it always did.
+    if interactive?
+      response = prompt_yes_no("Also run the Playwright e2e suite? (slow)", default: 'y')
+      execute_command("Running Playwright", "just playwright") if response == 'y'
+    elsif $run_playwright
+      execute_command("Running Playwright", "just playwright")
+    else
+      puts "INFO: Skipping the Playwright e2e suite (CI gates it; opt in with --playwright)"
+    end
   end
 
   unless prerequisites_ok
@@ -295,6 +334,11 @@ def update_changelog(version, dry_run: false)
     puts
   else
     puts "WARNING: CHANGELOG.md has no '## [Unreleased]' section to replace."
+    unless interactive?
+      puts "ERROR: Add an '## [Unreleased]' section (or a '[#{version}]' section)"
+      puts "   to CHANGELOG.md and re-run."
+      exit 1
+    end
     response = prompt_yes_no("Open CHANGELOG.md for manual editing?", default: 'y')
     if response == 'y'
       system("#{ENV['EDITOR'] || 'nano'} CHANGELOG.md")
@@ -613,6 +657,16 @@ def publish_packages(dry_run: false)
   puts "\nFALLBACK: Publish Packages Locally"
   puts "=" * 50
 
+  # The local fallback exists for humans rescuing a broken CI publish — it
+  # juggles credentials and mid-flight retry prompts, so it is
+  # interactive-only by design.
+  unless interactive? || dry_run
+    puts "ERROR: Local publishing is an interactive-only fallback."
+    puts "   Prefer re-running CI: gh workflow run publish.yml -f tag=v<version>"
+    puts "   or re-run with --interactive to publish locally."
+    exit 1
+  end
+
   if dry_run
     puts "DRY RUN: Skipping package publishing"
     puts "   Would run an auth pre-check before each publish:"
@@ -814,7 +868,7 @@ def wait_for_docs_deploy(version, dry_run: false)
   end
 end
 
-def update_demo_app(dry_run: false)
+def update_demo_app(version, dry_run: false)
   puts "\nFINISH STEP 3: Update Demo App"
   puts "=" * 50
 
@@ -822,6 +876,26 @@ def update_demo_app(dry_run: false)
     puts "DRY RUN: Skipping demo app update"
     puts "   Would run: bin/update_demo_after_release"
     return
+  end
+
+  # Skip when the demo already pins this release. This is what makes a
+  # --finish re-run idempotent: after the pre-bump, version.rb carries the
+  # NEXT pre-release, which `just demo-version-lock` would refuse (it only
+  # pins published versions) — so re-running the update script would abort
+  # the wizard even though this step's work is already done.
+  pin = JSON.parse(File.read('docs/demo/package.json'))
+             .dig('dependencies', '@profoundry-us/loco_motion').to_s
+  if pin.delete_prefix('^').delete_prefix('~') == version
+    puts "INFO: Demo already pins #{pin} — skipping (idempotent re-run)"
+    return
+  end
+
+  # bin/update_demo_after_release prompts on a non-main branch (a raw prompt
+  # this wizard can't answer for it), so enforce the branch here instead.
+  current_branch = `git branch --show-current`.strip
+  unless current_branch == 'main'
+    puts "ERROR: The demo update must run from 'main' (currently on: #{current_branch})."
+    exit 1
   end
 
   puts "   This will run the post-release script to update the demo app."
@@ -845,6 +919,16 @@ def update_stable_branch(version, dry_run: false)
   if dry_run
     puts "DRY RUN: Would advance origin/stable to the current release commit"
     puts "   Running: git push origin HEAD:stable"
+    return
+  end
+
+  # Idempotency guard, and a safety one: on a --finish re-run HEAD is the
+  # post-release pre-bump commit, and pushing THAT to stable would deploy a
+  # `.pre` version to the public sites. If stable already contains the
+  # release tag, this step's work is done — skip it.
+  system("git fetch origin stable --quiet")
+  if system("git merge-base --is-ancestor v#{version} origin/stable 2>/dev/null")
+    puts "INFO: origin/stable already contains v#{version} — skipping (idempotent re-run)"
     return
   end
 
@@ -985,8 +1069,12 @@ def verify_site(label, step, url, version, dry_run: false)
 
     if found
       puts "SUCCESS: #{label} is serving v#{version}"
-      response = prompt_yes_no("Open #{label.downcase} in your browser to review?", default: 'y')
-      open_in_browser(url) if response == 'y'
+      if interactive?
+        response = prompt_yes_no("Open #{label.downcase} in your browser to review?", default: 'y')
+        open_in_browser(url) if response == 'y'
+      else
+        puts "   Review at: #{url}"
+      end
       return true
     end
 
@@ -1000,16 +1088,30 @@ def verify_site(label, step, url, version, dry_run: false)
   end
 end
 
-def promote_to_production(dry_run: false)
+def promote_to_production(version, dry_run: false)
   puts "\nFINISH STEP 7: Promote to Production"
   puts "=" * 50
 
   if dry_run
     puts "DRY RUN: Would run: heroku pipelines:promote -a loco-motion-demo-staging"
+    puts "   (non-interactive runs skip this unless --promote is passed)"
     return true
   end
 
-  response = prompt_yes_no("Promote staging to production?", default: 'y')
+  # Production promotion is the one step that ships to real users, so the
+  # deterministic default is to STOP after staging verifies and leave the
+  # promote as an explicit act: eyeball staging, then pass --promote (or run
+  # the heroku command yourself). Interactive mode asks like it always did.
+  unless interactive? || $promote
+    puts "INFO: Staging is verified; production promotion needs an explicit opt-in."
+    puts "   Review staging at #{STAGING_URL}, then either:"
+    puts "     heroku pipelines:promote -a loco-motion-demo-staging"
+    puts "   or re-run with the flag (idempotent — completed steps skip themselves):"
+    puts "     bin/release --finish #{version} --promote"
+    return false
+  end
+
+  response = interactive? ? prompt_yes_no("Promote staging to production?", default: 'y') : 'y'
   unless response == 'y'
     puts "INFO: Skipping — promote later with:"
     puts "   heroku pipelines:promote -a loco-motion-demo-staging"
@@ -1026,11 +1128,21 @@ end
 def main
   puts "RELEASE: LocoMotion Release Wizard"
   puts "=" * 50
-  puts "   This wizard will walk you through the complete release process."
-  puts
 
-  # Parse arguments
+  # Parse arguments. Non-interactive is the default so the release is
+  # deterministic for humans and agents alike; --interactive restores the
+  # original ask-at-every-step behavior.
   dry_run = ARGV.include?('--dry-run')
+  $interactive = ARGV.include?('--interactive')
+  $run_playwright = ARGV.include?('--playwright')
+  $promote = ARGV.include?('--promote')
+
+  if $interactive
+    puts "   This wizard will walk you through the complete release process."
+  else
+    puts "   Running non-interactively (deterministic defaults; --interactive to be prompted)."
+  end
+  puts
 
   # Show help if requested
   if ARGV.include?('--help') || ARGV.include?('-h')
@@ -1067,10 +1179,25 @@ def main
       7. Promote staging to production (prompted)
       8. Wait for production to serve the release; open it for review
 
+      The wizard runs NON-INTERACTIVELY by default: every prompt takes a
+      deterministic answer (documented defaults; anything that needs human
+      judgment either has an opt-in flag or stops with instructions), so a
+      release behaves identically whether a human or an agent drives it.
+      Failures abort — fix the problem and re-run; every step skips itself
+      once its work exists (commit, tag, packages, release, pre-bump).
+
       Options:
-        VERSION        Optional: Skip version prompt and use this version
-                       (--finish infers it from version.rb when omitted)
+        VERSION        The version to release. Required in phase 1 unless
+                       running with --interactive (which prompts for it);
+                       --finish infers it from version.rb when omitted.
         --finish       Run phase 2 (after the GitHub release is published)
+        --promote      Phase 2: promote staging to production. Without it a
+                       non-interactive --finish stops after staging verifies
+                       and prints the promote command.
+        --playwright   Phase 1: also run the Playwright e2e suite in the
+                       preflight checks (CI gates it either way).
+        --interactive  Restore the original ask-at-every-step wizard,
+                       including the local-publish fallback.
         --dry-run      Run in dry run mode (skips git state checks and actual commands)
         --help         Show this help message
 
@@ -1081,9 +1208,9 @@ def main
 
       Prerequisites:
         - Clean git state (unless in dry run mode)
-        - RubyGems.org credentials
-        - NPM credentials
-        - GitHub access for creating releases
+        - GitHub CLI auth (draft release + --finish verification)
+        - Registry credentials only for the --interactive local-publish
+          fallback (CI publishes via trusted publishing on the tag push)
     HELP
     exit 0
   end
@@ -1114,25 +1241,31 @@ def main
 
       check_release_published(version, dry_run: dry_run)
       wait_for_docs_deploy(version, dry_run: dry_run)
-      update_demo_app(dry_run: dry_run)
+      update_demo_app(version, dry_run: dry_run)
       update_stable_branch(version, dry_run: dry_run)
       bump_to_next_pre_release(version, dry_run: dry_run)
       staging_ok = verify_site("Staging", 6, STAGING_URL, version, dry_run: dry_run)
 
       promote = staging_ok ||
                 prompt_yes_no("Staging unverified — promote anyway?", default: 'n') == 'y'
-      promoted = promote && promote_to_production(dry_run: dry_run)
+      promoted = promote && promote_to_production(version, dry_run: dry_run)
 
       verify_site("Production", 8, PRODUCTION_URL, version, dry_run: dry_run) if promoted
 
       if dry_run
         puts "\nDRY RUN COMPLETED (finish phase)"
-      else
+      elsif promoted
         puts "\nSUCCESS: Release v#{version} is fully shipped and live!"
         puts "=" * 50
         puts "   Optional follow-ups:"
         puts "   1. Reindex your local dev Algolia: just algolia-index"
         puts "   2. Close out any release-blocking issues"
+      else
+        puts "\nSUCCESS: Release v#{version} is live on staging; production is pending."
+        puts "=" * 50
+        puts "   Review staging at #{STAGING_URL}, then promote with:"
+        puts "     heroku pipelines:promote -a loco-motion-demo-staging"
+        puts "   or: bin/release --finish #{version} --promote"
       end
     else
       # PHASE 1 — publish the artifacts. Stops before anything user-facing
