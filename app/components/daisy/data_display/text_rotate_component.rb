@@ -134,11 +134,9 @@ module Daisy
         # @option kws right_icon_html [Hash] Additional HTML attributes to
         #   apply to the right icon.
         #
-        # rubocop:disable Lint/UselessMethodDefinition
         def initialize(**kws, &block)
           super
         end
-        # rubocop:enable Lint/UselessMethodDefinition
 
         #
         # Runs item-specific setup before rendering. Runs before `super` so that
