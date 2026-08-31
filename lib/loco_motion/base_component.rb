@@ -87,7 +87,7 @@ module LocoMotion
     #
     def self.renders_one(*args)
       # If they don't pass extra options, default to BasicComponent
-      args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
+      args&.size == 1 ? super(*args + [LocoMotion::BasicComponent]) : super
     end
 
     #
@@ -96,7 +96,7 @@ module LocoMotion
     #
     def self.renders_many(*args)
       # If they don't pass extra options, default to BasicComponent
-      args&.size == 1 ?  super(*args + [LocoMotion::BasicComponent]) : super
+      args&.size == 1 ? super(*args + [LocoMotion::BasicComponent]) : super
     end
 
     #
