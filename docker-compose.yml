@@ -3,7 +3,7 @@ services:
   dev:
     build:
       context: .
-      dockerfile: dev/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/home/loco_motion
     tty: true

@@ -11,13 +11,164 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
-## [Unreleased]
+## [0.8.0] - 2026-09-02
+
+### Component Changes
+
+- feat(Tabs): Ship a `loco-tabs` Stimulus controller for JavaScript-driven tab switching (issue #382).
+  Tabs that have a content panel but no `href` are wired automatically, following the ARIA tabs pattern
+  with manual activation: a roving `tabindex` keeps each tablist a single Tab stop, Left / Right / Home /
+  End keys move focus between tabs to browse without side effects, and Enter / Space (or a click)
+  activates the focused tab — the controller keeps `tab-active` and `aria-selected` in sync since DaisyUI
+  styles both as the active state. Register it once from the npm package
+  (`application.register("loco-tabs", TabsController)`); the attributes are inert until you do. Radio
+  tabs and `href` tabs are untouched.
+
+- feat(Collapse): Support DaisyUI's details/summary flavor (issue #387). Passing `details: true` renders
+  the component as a native `<details>` element with the title as its `<summary>` — no JavaScript, no
+  hidden checkbox input, keyboard-accessible out of the box, and programmatically controllable via the
+  standard `open` property (handy for auto-expanding cards while filtering). An `open: true` option sets
+  the initial expanded state, and the pure-CSS `collapse-arrow` / `collapse-plus` modifiers work
+  unchanged. Checkbox and focus modes are untouched.
+
+- fix(CallyInput): Dispatch bubbling `input` / `change` events when a date is picked from the calendar
+  (issue #388). The cally web component's own `change` event doesn't bubble and syncing the input's value
+  programmatically fires nothing, so form-level listeners (autosave, dirty-tracking, live validation)
+  silently missed calendar picks — the controller now re-dispatches both events from the input, mirroring
+  a native date input. Typed input is unchanged.
+
+- fix(Tabs): Render href-less link-mode tabs as `<button>` elements so they are keyboard-accessible
+  (issue #380). An anchor without an `href` is unfocusable and can't be activated from the keyboard, which
+  made JavaScript-driven tabs (like the demo's Preview/Code tabs) unreachable for keyboard users. Tabs
+  given an `href` still render as `<a>` elements, and radio mode is unchanged. All modes now also emit
+  `aria-selected` from the active/checked state so assistive technology hears which tab is selected.
 
 ### Demo / Docs Changes
+
+- refactor(Docs): Replace the demo's private `active-tab` Stimulus controller with the shipped
+  `loco-tabs` controller (issue #382). The example Preview/Code tabs now get their click, arrow-key, and
+  roving-tabindex behavior from the TabsComponent's automatic wiring, and the Tabs example page gains a
+  "Switchable Tabs (JavaScript)" example demonstrating it.
+
+- fix(Docs): Complete the ARIA tabs pattern for the example Preview/Code tabs (issue #380). The
+  `active-tab` Stimulus controller now syncs `aria-selected` when switching — DaisyUI styles
+  `[aria-selected="true"]` as the active tab, so a stale value left both panels open at once — keeps a
+  roving `tabindex` so each tablist is a single Tab stop, and activates tabs with the Left/Right arrow
+  keys. The static code-block tab heading (`DocCodeTabComponent`) is removed from the tab order since it
+  has nothing to activate.
 
 - fix(Docs): Add keyboard focus support to the cards on the Components overview page. Tabbing to a card
   now mirrors the hover treatment (lift, shadow, visible arrow) and adds a primary focus ring, since the
   stretched link that makes each card clickable is invisible and couldn't show its own focus outline.
+
+### General Changes
+
+- feat(Lint): Ship a haml_lint rule that flags views hand-rolling DaisyUI markup instead of calling the
+  LocoMotion helper that owns it (`.card` where `daisy_card` belongs). Enable it with `require:
+  loco_motion/lint/haml_lint/component_usage` in `.haml-lint.yml` — see the README. The class list is
+  DERIVED from `LocoMotion::COMPONENTS` and each component's own `add_css` declaration rather than
+  hand-maintained, so a component added in a release is enforced by that release; a spec pins the
+  components that declare no literal root class, so a new one cannot go silently unenforced. Tailwind
+  utilities and DaisyUI modifiers are never flagged. An erb_lint counterpart ships alongside it for
+  ERB apps, reading the SAME derived map so the two template languages cannot enforce different rules;
+  load it from a `.erb_linters/` shim. Both rules are wired into `.highball/checks.yml`.
+
+- feat(Theme): Add day / night theme pickers with night-mode and OS-sync toggles (issue #378).
+  `build_switcher_dropdown` gains a `scheme:` option that binds a dropdown to a preference slot
+  (`:light` = day, `:dark` = night). Both pickers should list ALL themes — either slot may hold any
+  theme, so a dark theme can be someone's daytime choice; `data-color-scheme` (which drives the `dark:`
+  variant) always follows the displayed theme's own scheme, cached per slot at save time so the pre-paint
+  script stays correct. Picking applies immediately and saves into the picker's slot, with the checkmark
+  tracking the saved slot rather than the active theme. Two new builders round out the
+  appearance-settings kit: `build_night_toggle` flips between the saved day and night themes on demand
+  (no OS settings required), and `build_system_toggle` renders a "Match system appearance" toggle that
+  follows the OS color scheme live (unchecking pins whichever slot is showing). The saved mode is stamped
+  on `<html>` as `data-theme-mode` (by the controller and `theme_preload_script`) so custom mode
+  indicators can be pure CSS. Also fixes a scheme-classification bug: applying a theme while another
+  theme's radio was still checked could misfile it under the wrong scheme (the `:root:has(input:checked)`
+  theme selectors outrank `[data-theme]`), so themes are now classified by probing their own
+  `color-scheme` declaration.
+
+- feat(Theme): Store theme preferences per color scheme with an OS-sync mode (issue #378). The
+  ThemeController now saves a preferred theme for each scheme (`savedLightTheme` / `savedDarkTheme`,
+  chosen by the theme's own `color-scheme` declaration) plus a `savedThemeMode` of `light`, `dark`, or
+  `system`. Picking a theme in a switcher pins its scheme — classic single-theme behavior is preserved —
+  while `system` mode follows the OS preference live, swapping between the two saved themes via a
+  `matchMedia` listener (opt in with the new `setMode` action, e.g.
+  `data-loco-theme-mode-param="system"`). The legacy single `savedTheme` key is migrated automatically on
+  first load, and `theme_preload_script` resolves the new model pre-paint.
+
+- feat(CSS): Key the `dark:` variant off the active theme's actual color scheme. Whenever a theme is
+  applied, the ThemeController stamps its computed `color-scheme` onto `<html>` as `data-color-scheme`,
+  and the `dark:` variant now checks that first — so `dark:` utilities follow *any* dark DaisyUI theme
+  (`night`, `synthwave`, custom themes) with no hardcoded names. The `data-theme="dark"` name-based
+  check, the checked `.theme-controller` input, and the OS fallback remain for apps not running the
+  controller; a stamped `light` scheme also suppresses the OS dark fallback.
+
+- fix(CSS): Key the `dark:` custom variant off `data-theme` so it follows the app's actual theme (issue
+  #293). Apps that switch themes programmatically — setting `data-theme` on `<html>` with no
+  ThemeController inputs rendered — previously got `dark:` utilities that silently tracked only the OS
+  preference. The variant now applies when an ancestor has `data-theme="dark"`, keeps the checked
+  `.theme-controller` input selector for pure-CSS/no-JS switching, and treats the OS dark preference as a
+  no-choice-saved fallback. **Behavior change:** explicitly applying any theme other than `dark` via
+  `data-theme` now suppresses the OS dark fallback, so users who pick light (or any other theme) on an
+  OS-dark machine no longer get `dark:` styles (matching DaisyUI's `--default` / `--prefersdark`
+  semantics: an explicit choice always wins). The variant keys on the theme *name* `dark` — restyle dark
+  mode by overriding the built-in `dark` theme's values (`@plugin "daisyui/theme" { name: "dark"; ... }`)
+  rather than introducing a differently-named dark theme.
+
+- fix(Release): Never force-push the `stable` deploy branch. Heroku's GitHub auto-deploy silently ignores
+  force pushes (found on v0.7.2: stable advanced, CI went green, and no deploy ever fired), so when
+  `stable` carries cherry-picked hotfixes the wizard now reconciles with a *merge* instead of a rewrite —
+  built via `git commit-tree` with the release commit's exact tree and both histories as parents, so the
+  content is guaranteed identical, no conflict resolution can occur, and the push is always a normal,
+  deploy-triggering fast-forward. Plain releases remain a single fast-forward push.
+
+- fix(Release): Keep the demo pin off unpublished versions (PR #406). The demo's
+  `@profoundry-us/loco_motion` dependency is executable — CI runs `yarn install` against it — so it can
+  only ever name a version the registry serves. `bin/update_version` no longer touches
+  `docs/demo/package.json` (the pin advances after publication via `bin/update_demo_after_release`, which
+  refuses to run until `npm view` confirms the version is live), `bin/version-check` accepts a demo pin
+  that trails canonical but fails when it runs ahead, and the Playwright workflow pre-flights the pin so a
+  regression fails in seconds with an explanation.
+
+- feat(Release): Make `bin/release` non-interactive by default so a release is deterministic whether a
+  human or an agent drives it. Every prompt now takes a documented default (failures abort — fix and
+  re-run; completed steps skip themselves, including two new idempotency guards: the demo update skips
+  when the pin already matches the release, and the stable advance skips when `stable` already contains
+  the tag, which previously would have shipped the post-release `.pre` commit on a re-run). Playwright is
+  opt-in via `--playwright` (CI gates it either way) and production promotion via `--promote` — without
+  it, `--finish` stops after staging verifies and prints the promote command. `--interactive` restores
+  the original ask-at-every-step wizard, which is also the only path to the local-publish fallback.
+
+- chore(Deps): Refresh the dependency train. The demo's DaisyUI moves 5.7.4 → 5.7.22 and
+  instantsearch.js 4.108 → 4.112 among routine bumps; dev dependencies pick up rspec-rails 8.x, rdoc 8,
+  and RuboCop 1.90 (whose new cops flagged — and we removed — four now-redundant `rubocop:disable`
+  directives and two spacing nits).
+
+- chore(Docker): Flatten the dev Dockerfiles to the conventional root-level name (issue #295).
+  `dev/Dockerfile.dev` moves to `Dockerfile.dev` and the starter kit's `examples/dev/Dockerfile` moves to
+  `examples/Dockerfile.dev`, so every Dockerfile in the kit now sits at the project root (matching
+  `docs/demo/Dockerfile.demo`). Both compose files point at the new paths (the starter kit's dev service
+  gains an explicit `context: .` + `dockerfile:`, behavior-neutral since the file has no `COPY`/`ADD`),
+  and the Docker + Rails-setup guides teach the flat layout.
+
+- chore(Tooling): Wire the Highball checks runner into the repo. A new `.highball/checks.yml` mirrors
+  what CI already trusts — RuboCop plus the library and demo RSpec suites at turn end, with fast
+  changed-files syntax checks (`ruby -c` / `node --check`) on every agent edit — and Claude Code hooks in
+  <code>.claude/settings.json</code> now block an agent's turn (exit 2) until the rules pass, reporting
+  every run to a local Highball dashboard. Playwright stays CI-only, declared as a `todo:` rule.
+
+## [0.7.3] - 2026-08-14
+
+### General Changes
+
+- fix(Gem): Allow Rails 8.1+ by widening the `rails` ceiling from `>= 6.1, < 8.1` to `>= 6.1, < 9` on
+  both the runtime and development dependency. Rails 8.0 reaches end of support on 2026-10-07 and the old
+  ceiling blocked consumers from upgrading past it. Cut as a patch release from v0.7.2 — with nothing
+  else moving underneath — so apps pinned `~> 0.7.2` pick it up with no Gemfile change. Both ends of the
+  widened range were verified against this codebase (Rails 8.1.3.1 and the 6.1.7.7 floor): 1396 examples,
+  0 failures each. The same widening landed on main via PR #405.
 
 ## [0.7.2] - 2026-08-01
 

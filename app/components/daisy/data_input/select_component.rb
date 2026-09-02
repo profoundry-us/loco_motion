@@ -77,7 +77,6 @@ module Daisy
         #
         # @param html [Hash] HTML attributes to apply to the option.
         #
-        # rubocop:disable Metrics/ParameterLists
         def initialize(value:, label:, selected: nil, disabled: false, css: "", html: {}, **kws)
           @value = value
           @label = label
@@ -87,7 +86,6 @@ module Daisy
           @html = html
           super(**kws)
         end
-        # rubocop:enable Metrics/ParameterLists
 
         #
         # Renders the option element with the appropriate attributes.

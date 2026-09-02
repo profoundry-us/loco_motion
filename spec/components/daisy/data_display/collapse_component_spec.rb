@@ -214,6 +214,74 @@ RSpec.describe Daisy::DataDisplay::CollapseComponent, type: :component do
     end
   end
 
+  context "with details mode" do
+    let(:content_text) { "Details collapse content" }
+    let(:collapse) { described_class.new(details: true, title: "Native Disclosure") }
+
+    before do
+      render_inline(collapse) do
+        content_text
+      end
+    end
+
+    describe "rendering" do
+      include_examples "a collapse component"
+
+      it "renders a details element" do
+        expect(page).to have_selector("details.collapse", visible: :all)
+      end
+
+      it "renders the title as a summary element" do
+        expect(page).to have_selector(
+          "details > summary.collapse-title",
+          text: "Native Disclosure", visible: :all
+        )
+      end
+
+      it "renders no hidden checkbox" do
+        expect(page).not_to have_selector("input[type='checkbox']", visible: :all)
+      end
+
+      it "renders no tabindex (the summary is natively focusable)" do
+        expect(page).not_to have_selector("details[tabindex]", visible: :all)
+      end
+
+      it "is initially closed" do
+        expect(page).not_to have_selector("details[open]", visible: :all)
+      end
+    end
+
+    context "when open" do
+      let(:collapse) do
+        described_class.new(details: true, open: true, title: "Native Disclosure")
+      end
+
+      it "renders the native open attribute" do
+        expect(page).to have_selector("details[open]")
+      end
+    end
+
+    context "with a modifier" do
+      let(:collapse) do
+        described_class.new(details: true, title: "Native Disclosure", css: "collapse-arrow")
+      end
+
+      it "keeps the pure-CSS modifier classes" do
+        expect(page).to have_selector("details.collapse.collapse-arrow", visible: :all)
+      end
+    end
+
+    context "with checkbox: true alongside details" do
+      let(:collapse) do
+        described_class.new(details: true, checkbox: true, title: "Native Disclosure")
+      end
+
+      it "still renders no checkbox (details wins)" do
+        expect(page).not_to have_selector("input[type='checkbox']", visible: :all)
+      end
+    end
+  end
+
   context "with custom wrapper" do
     let(:content_text) { "Wrapped content" }
     let(:collapse) { described_class.new(wrapper_css: "bg-base-200", title: "Wrapped Collapse") }

@@ -11,7 +11,17 @@ module Daisy
     # Includes the {LocoMotion::Concerns::TippableComponent} module to
     # enable easy tooltip addition.
     #
-    # @part title The clickable title bar that toggles the content visibility.
+    # @note In details mode the toggle is the `<summary>` element itself, so
+    #   the component keeps native disclosure semantics: it works with no
+    #   JavaScript, stays keyboard-accessible, exposes the `open`
+    #   property / attribute for programmatic control (e.g.
+    #   `details.open = true` while filtering a list), and interactive
+    #   elements near the title remain clickable — checkbox mode overlays an
+    #   invisible input across the title area, which can swallow those
+    #   clicks.
+    #
+    # @part title The clickable title bar that toggles the content
+    #   visibility. Renders as a `<summary>` element in details mode.
     # @part wrapper The container for the collapsible content.
     #
     # @slot title Custom content for the title bar. You can also provide a
@@ -44,6 +54,10 @@ module Daisy
     #   = daisy_collapse(title: "Expandable Section", css: "collapse-plus") do
     #     This section has a plus/minus indicator.
     #
+    # @loco_example Details / Summary Mode
+    #   = daisy_collapse(details: true, open: true, title: "Native Disclosure", css: "collapse-arrow") do
+    #     Rendered as a details / summary pair with native semantics.
+    #
     class CollapseComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::TippableComponent
 
@@ -58,6 +72,13 @@ module Daisy
       #   focus/tabindex mode (false).
       attr_reader :checkbox
 
+      # @return [Boolean] Whether to render native `<details>` / `<summary>`
+      #   elements instead of the checkbox / focus mechanisms.
+      attr_reader :details
+
+      # @return [Boolean] Whether a details-mode collapse starts expanded.
+      attr_reader :open
+
       #
       # Creates a new collapse component.
       #
@@ -69,6 +90,16 @@ module Daisy
       # @option kws checkbox [Boolean] Whether to use a checkbox for toggle
       #   state (true) or focus/tabindex mode (false). Defaults to true.
       #
+      # @option kws details [Boolean] Whether to render the DaisyUI
+      #   details/summary flavor: the component becomes a `<details>`
+      #   element, the title renders as its `<summary>`, and no hidden
+      #   checkbox or tabindex is emitted (the `checkbox` option is
+      #   ignored). Defaults to false.
+      #
+      # @option kws open [Boolean] Whether a details-mode collapse is
+      #   initially expanded (renders the native `open` attribute). Only
+      #   meaningful when `details` is true. Defaults to false.
+      #
       # @option kws tip [String] The tooltip text to display when hovering over
       #   the component.
       #
@@ -77,6 +108,8 @@ module Daisy
 
         @simple_title = config_option(:title)
         @checkbox = config_option(:checkbox, true)
+        @details = config_option(:details, false)
+        @open = config_option(:open, false)
       end
 
       def before_render
@@ -88,11 +121,24 @@ module Daisy
 
       def setup_component
         add_css(:component, "collapse")
-        add_html(:component, { tabindex: 0 }) unless @checkbox
+
+        if @details
+          set_tag_name(:component, :details)
+          add_html(:component, { open: true }) if @open
+        else
+          add_html(:component, { tabindex: 0 }) unless @checkbox
+        end
       end
 
       def setup_title
         add_css(:title, "collapse-title")
+        set_tag_name(:title, :summary) if @details
+      end
+
+      # Details mode toggles via its summary element, so the hidden
+      # checkbox input is only rendered for checkbox mode.
+      def render_checkbox?
+        @checkbox && !@details
       end
 
       def setup_wrapper

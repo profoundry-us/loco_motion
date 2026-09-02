@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Syntax-check the Ruby files touched this turn. Highball exports
+# HIGHBALL_CHANGED_FILES (newline-separated, repo-relative); host ruby
+# is 3.4.4, matching the containers, so no docker round-trip is needed.
+set -uo pipefail
+
+status=0
+while IFS= read -r file; do
+  [[ "$file" == *.rb ]] || continue
+  [[ -f "$file" ]] || continue
+  ruby -c "$file" > /dev/null || status=1
+done <<< "${HIGHBALL_CHANGED_FILES:-}"
+
+exit $status

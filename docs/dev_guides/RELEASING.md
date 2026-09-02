@@ -36,8 +36,8 @@ Before releasing a new version, ensure:
    [Credentials](#credentials) below — the defaults are a trap).
 
 > [!TIP]
-> The interactive release wizard at `bin/release` walks you through all of the
-> steps below, in **two phases with a review gate between them**:
+> The release wizard at `bin/release` runs all of the steps below, in **two
+> phases with a review gate between them**:
 >
 > 1. `bin/release VERSION` publishes the *artifacts* — version bump,
 >    CHANGELOG, packages to RubyGems/NPM — and creates a **draft** GitHub
@@ -45,8 +45,19 @@ Before releasing a new version, ensure:
 > 2. You review and publish the GitHub release (which deploys the API docs).
 > 3. `bin/release --finish` ships the *sites* — it verifies the release is
 >    published and the API docs serve, updates the demo app, advances the
->    `stable` deploy branch, and bumps main to the next minor pre-release
->    (e.g. `0.8.0.pre`). You then verify staging and promote to production.
+>    `stable` deploy branch, bumps main to the next minor pre-release
+>    (e.g. `0.8.0.pre`), and waits for staging to serve the release. It then
+>    stops so you can review staging; promote with
+>    `heroku pipelines:promote -a loco-motion-demo-staging` (or re-run with
+>    `--promote`, which also verifies production afterward).
+>
+> The wizard is **non-interactive by default** so a release is deterministic
+> whether a human or an agent drives it: every prompt takes a documented
+> default, failures abort (fix and re-run — completed steps skip
+> themselves), Playwright is opt-in via `--playwright` (CI gates it either
+> way), and production promotion is opt-in via `--promote`. Pass
+> `--interactive` for the original ask-at-every-step behavior, which is also
+> the only way to reach the local-publish fallback.
 >
 > Along the way it verifies all version sources agree (`just version-check`)
 > and smoke-tests the built NPM tarball (`just npm-check`). Use `--dry-run`

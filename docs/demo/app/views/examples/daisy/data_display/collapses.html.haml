@@ -29,6 +29,27 @@
       This is the content of the plus collapse.
 
 
+= doc_example(title: "Details / Summary Collapse") do |doc|
+  - doc.with_description do
+    :markdown
+      The `details` option renders DaisyUI's native `<details>` /
+      `<summary>` flavor: no JavaScript or hidden input, keyboard-accessible
+      out of the box, and programmatic control via the standard `open`
+      property — handy for auto-expanding matching cards while filtering a
+      list. Interactive elements near the title also stay clickable, since
+      there is no invisible checkbox overlay. Use `open: true` to start
+      expanded.
+
+  .flex.flex-col.gap-4{ class: "w-[400px]" }
+    = daisy_collapse(details: true, title: "Click to Open", css: "bg-base-100 border border-base-300 collapse-arrow") do |collapse|
+      This is the content of the details collapse.
+
+    = daisy_collapse(details: true, open: true, title: "Starts Open", css: "bg-base-100 border border-base-300 collapse-plus") do |collapse|
+      This one renders with the native
+      %code open
+      attribute.
+
+
 = doc_example(title: "Advanced Collapse") do |doc|
   - doc.with_description do
     %p

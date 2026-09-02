@@ -42,11 +42,9 @@ module Daisy
       # @option kws [String] :tip The tooltip text to display when hovering
       #   over the component.
       #
-      # rubocop:disable Lint/UselessMethodDefinition
       def initialize(**kws, &block)
         super
       end
-      # rubocop:enable Lint/UselessMethodDefinition
 
       def before_render
         setup_component

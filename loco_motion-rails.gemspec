@@ -26,31 +26,33 @@ Gem::Specification.new do |s|
 
   # Add our few dependencies
   s.add_dependency 'benchmark', '~> 0.4'
-  s.add_dependency 'haml-rails', '~> 2.1'
+  s.add_dependency 'haml-rails', '>= 2.1', '< 4.0'
   s.add_dependency 'icons', '~> 0.9'
-  s.add_dependency 'rails', '>= 6.1', '< 8.1'
+  s.add_dependency 'rails', '>= 6.1', '< 9'
   s.add_dependency 'view_component', '~> 3.22'
 
   # Add some things that are no longer part of the standard Ruby distribution
-  s.add_dependency 'base64', '~> 0.2.0'
+  s.add_dependency 'base64', '>= 0.2', '< 0.4'
   s.add_dependency 'bigdecimal', '~> 3.1.8'
   s.add_dependency 'drb', '~> 2.2.1'
   s.add_dependency 'fiddle', '~> 1.1.4'
   s.add_dependency 'logger', '~> 1.6.1'
   s.add_dependency 'mutex_m', '>= 0.2', '< 0.4'
   s.add_dependency 'ostruct', '~> 0.6.0'
-  s.add_dependency 'rdoc', '~> 6.7.0'
+  s.add_dependency 'rdoc', '>= 6.7', '< 8.1'
 
   # Add our development dependencies
   s.add_development_dependency 'capybara', '~> 3.40'
   s.add_development_dependency 'combustion', '~> 1.3'
+  s.add_development_dependency 'erb_lint', '~> 0.9'
+  s.add_development_dependency 'haml_lint', '~> 0.78'
   s.add_development_dependency 'pry', '~> 0.16.0'
-  s.add_development_dependency 'rails', '>= 6.1', '< 8.1'
+  s.add_development_dependency 'rails', '>= 6.1', '< 9'
   s.add_development_dependency 'redcarpet', '~> 3.6'
   s.add_development_dependency 'rspec', '~> 3.13.0'
-  s.add_development_dependency 'rspec-rails', '~> 6.1.1'
+  s.add_development_dependency 'rspec-rails', '~> 8.0.4'
   s.add_development_dependency 'byebug', '>= 11.1.3', '~> 13.0'
-  s.add_development_dependency 'webrick', '~> 1.8.1'
+  s.add_development_dependency 'webrick', '~> 1.9.2'
   s.add_development_dependency 'yard', '~> 0.9.34'
   s.add_development_dependency 'algoliasearch-rails', '~> 2.2'
 

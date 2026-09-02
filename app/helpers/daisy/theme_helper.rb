@@ -10,8 +10,12 @@ module Daisy
     # to prevent a flash of content when the page loads.
     #
     # This script runs synchronously in the head section before the page
-    # renders, setting the `data-theme` attribute on the html element if a
-    # theme has been saved in localStorage.
+    # renders. It resolves the saved theme mode (`light` / `dark` pin that
+    # scheme; `system` follows the OS preference) and the matching per-scheme
+    # theme preference, then sets the `data-theme`, `data-color-scheme`, and
+    # `data-theme-mode` attributes on the html element. The legacy single
+    # `savedTheme` key is still honored until the ThemeController migrates
+    # it.
     #
     # @return [String] The inline script as a string
     #
@@ -25,9 +29,35 @@ module Daisy
         <script>
           (function() {
             try {
-              var savedTheme = localStorage.getItem('savedTheme');
-              if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
+              var mode = localStorage.getItem('savedThemeMode');
+              var theme = null;
+              var slot = null;
+              var colorScheme = null;
+
+              if (mode) {
+                slot = mode === 'system'
+                  ? (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                  : mode;
+                theme = localStorage.getItem(slot === 'dark' ? 'savedDarkTheme' : 'savedLightTheme') || slot;
+
+                // A slot may hold a theme of the OTHER scheme (a dark theme
+                // as the daytime choice); its actual scheme was cached at
+                // save time since CSS isn't loaded yet to compute it.
+                colorScheme = localStorage.getItem(slot === 'dark' ? 'savedDarkScheme' : 'savedLightScheme') || slot;
+              } else {
+                // Legacy single-theme key; the ThemeController migrates it to
+                // the per-slot model on connect.
+                theme = localStorage.getItem('savedTheme');
+              }
+
+              if (theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+              }
+              if (colorScheme) {
+                document.documentElement.setAttribute('data-color-scheme', colorScheme);
+              }
+              if (mode) {
+                document.documentElement.setAttribute('data-theme-mode', mode);
               }
             } catch (e) {
               // localStorage not available (e.g., private browsing mode)

@@ -8,14 +8,34 @@
 = doc_example(title: "Basic Tabs") do |doc|
   - doc.with_description do
     :markdown
-      Tabs are transparent by default and don't automatically do anything since
-      they are simple `<a>` (anchor) elements. You can set the `href` attribute
-      to make them link to another page.
+      Tabs are transparent by default and don't automatically do anything.
+      Content-less tabs render as `<button>` elements you can wire up
+      yourself; set the `href` attribute to render a link to another page
+      instead.
 
   = daisy_tabs(css: "tabs-border") do |tabs|
     - tabs.with_tab(title: "I Do Nothing", active: true)
     - tabs.with_tab(title: "Ditto", html: { onclick: "alert('Ha! Gotcha ;-)')" })
     - tabs.with_tab(title: "Open Google", href: "https://google.com", target: "_blank")
+
+
+= doc_example(title: "Switchable Tabs (JavaScript)") do |doc|
+  - doc.with_description do
+    :markdown
+      Tabs with content but no `href` are automatically wired to the
+      `loco-tabs` Stimulus controller (register it once from the npm
+      package). The tablist follows the ARIA tabs pattern with manual
+      activation: it is a single Tab stop, the Left / Right / Home / End
+      keys move focus to browse, and Enter / Space (or a click) selects
+      the focused tab.
+
+  = daisy_tabs(css: "tabs-lift") do |tabs|
+    - tabs.with_tab(title: "Morning", active: true, content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6") do
+      %p Start the day with a strong cup of coffee.
+    - tabs.with_tab(title: "Afternoon", content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6") do
+      %p A brisk walk beats the post-lunch slump.
+    - tabs.with_tab(title: "Evening", content_wrapper_css: "bg-base-100 border-base-300 rounded-box p-6") do
+      %p Wind down with a good book.
 
 
 = doc_example(title: "Tab Sizes") do |doc|
@@ -66,7 +86,8 @@
     :markdown
       If you want the tabs to change their content, you can use the `radio`
       option. Note that this does *not* allow the use of icons or other HTML
-      elements in the title.
+      elements in the title. Radio tabs keep the browser's native radio
+      keyboard behavior: arrow keys move the selection immediately.
 
   = daisy_tabs(css: "tabs-lift w-[500px]", radio: true) do |tabs|
     - # Add some space before the first tab

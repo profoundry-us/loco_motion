@@ -114,4 +114,4 @@ gem "unsplash"
 # See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 #
 #############################################
-gem "loco_motion-rails", "~> 0.7.2", require: "loco_motion"
+gem "loco_motion-rails", "~> 0.8.0", require: "loco_motion"

@@ -77,7 +77,7 @@
     <br /><br />
     We also tend to recommend lagging slightly behind the latest Ruby version,
     as the newest release occasionally has trouble building the Rails project.
-    You can change it in `dev/Dockerfile` via the `FROM` line at the top.
+    You can change it in `Dockerfile.dev` via the `FROM` line at the top.
 
 .mt-6.prose
   :markdown
@@ -277,9 +277,18 @@
     - accordion.with_section(title: "Dark mode stays in sync (dark:)") do
       .prose
         :markdown
-          The custom `dark:` variant responds to both the OS-level dark
-          preference *and* a DaisyUI theme controller set to a dark theme,
-          so manual theme switching and system preference agree.
+          The custom `dark:` variant follows the app's actual theme. When
+          LocoMotion's ThemeController applies a theme, it stamps the
+          theme's own `color-scheme` declaration onto `<html>` as
+          `data-color-scheme` — so `dark:` utilities light up for *any*
+          dark theme (`night`, `synthwave`, a custom theme), no hardcoded
+          names. Without the stamp, the variant falls back to
+          `data-theme="dark"` by name, then to a checked DaisyUI
+          `.theme-controller` input, and finally to the OS-level dark
+          preference — which only applies when no theme is chosen at all.
+          If your app manages `data-theme` itself, either stamp
+          `data-color-scheme` alongside it or restyle the built-in `dark`
+          theme with `@plugin "daisyui/theme"` (keeping `name: "dark"`).
 
     - accordion.with_section(title: "Floating labels keep their placeholder (floating-sticky)") do
       .prose

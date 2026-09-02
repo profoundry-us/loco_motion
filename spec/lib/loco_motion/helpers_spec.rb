@@ -5,6 +5,12 @@ require "rails_helper"
 RSpec.describe LocoMotion::Helpers do
   describe ".new_component?" do
     it "is true for a component added in the upcoming release series" do
+      # Stubbed like the other cases: against the real VERSION this
+      # assertion only holds while main carries a pre-release, so it broke
+      # on the release commit itself (v0.8.0), where Aura's 0.7 badge
+      # correctly expires.
+      stub_const("LocoMotion::VERSION", "0.6.3")
+
       expect(described_class.new_component?("Daisy::Layout::AuraComponent")).to be true
     end
 

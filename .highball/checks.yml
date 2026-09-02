@@ -1,0 +1,82 @@
+# loco_motion's Highball rules — the file `highball run` reads and
+# reports from. `fast: true` marks rules cheap enough to run on every
+# agent edit; the rest join at turn end. `todo: true` declares a rule
+# you're committed to but haven't built — tracked on the dashboard,
+# never a failure.
+version: 1
+project: loco-motion
+
+# Where runs get reported. The URL is per-team and not a secret, so it
+# lives here in committed config; the token never enters the repo — run
+# `highball login` once per machine (or set HIGHBALL_TOKEN in CI).
+reporting:
+  url: http://localhost:3600
+
+# The Ruby toolchain lives in the loco container (whole repo mounted at
+# /home/loco_motion, its default workdir). Rules that target the demo
+# container or host tools opt out with `exec: host` and orchestrate
+# themselves.
+exec:
+  # The bare `-e HIGHBALL_CHANGED_FILES` is load-bearing: the runner exports
+  # that variable on the HOST, and `docker compose exec` does not otherwise
+  # forward it, so a changed-files rule would see an empty list and pass
+  # without checking anything.
+  via: docker compose exec -T -e HIGHBALL_CHANGED_FILES loco
+
+checks:
+  # Host ruby matches the containers (3.4.4), so the per-edit syntax
+  # check skips the docker round-trip entirely.
+  - id: ruby-syntax
+    name: Changed Ruby files parse
+    run: .highball/bin/ruby-syntax
+    exec: host
+    fast: true
+
+  - id: js-syntax
+    name: Changed JS files parse
+    run: .highball/bin/js-syntax
+    exec: host
+    fast: true
+
+  # The three suites CI runs (cicd.yml): RuboCop at the root, the
+  # library RSpec suite, and the demo app's RSpec suite.
+  # LocoMotion's OWN component-usage rule, shipped by this gem for consumers and
+  # run here on itself (haml_lint; see README "Linting Component Usage"). Views
+  # compose components, components own markup — the boundary this library exists
+  # to sell, now enforced in the repo that defines it.
+  #
+  # Changed-files ratchet, deliberately: the demo app carries 37 existing
+  # offences, and gating on those would block every turn on markup nobody
+  # touched. New and edited views must comply; the backlog drains as files are
+  # touched. `bundle exec haml-lint --include-linter LocoMotionComponentUsage .`
+  # for the full picture.
+  #
+  # The ERB counterpart ships too, but this repo has no ERB views, so there is
+  # nothing here for it to gate — it is covered by the specs the rspec rule runs
+  # rather than by a rule that would pass without inspecting anything.
+  - id: component-usage
+    name: Views use LocoMotion components (changed)
+    run: sh .highball/bin/haml-lint-changed
+    fast: true
+
+  - id: rubocop
+    name: RuboCop
+    run: bundle exec rubocop
+
+  - id: loco-specs
+    name: Library RSpec suite
+    run: bundle exec rspec spec
+
+  # Runs in the demo container (workdir /home/loco_demo = docs/demo),
+  # not the loco wrapper — so it opts out and execs itself.
+  - id: demo-specs
+    name: Demo app RSpec suite
+    run: docker compose exec -T demo bundle exec rspec spec
+    exec: host
+
+  # Needs the live demo server and trusted browser input; local runs
+  # flake under shared Docker VM load, so CI (playwright.yml) stays the
+  # gate. Tracked here as an aspiration, never run by the hooks.
+  - id: playwright
+    name: Playwright e2e suite
+    todo: true

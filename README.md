@@ -13,6 +13,7 @@ ViewComponent, TailwindCSS, DaisyUI and more!
 - [Current Status](#current-status)
 - [Installation](#installation)
 - [Using Components](#using-components)
+- [Linting Component Usage](#linting-component-usage)
 - [Guides](#guides)
 - [Documentation & Demo](#documentation--demo)
 - [Developing](#developing)
@@ -70,7 +71,7 @@ Add the gem to your `Gemfile` and run `bundle`:
 
 ```ruby
 # Gemfile
-gem "loco_motion-rails", "~> 0.7.2", require: "loco_motion"
+gem "loco_motion-rails", "~> 0.8.0", require: "loco_motion"
 ```
 
 Some components also need a JavaScript package (for their Stimulus controllers)
@@ -103,6 +104,75 @@ option — there are no `color:` or `size:` parameters:
 For the full set of available components, parts, slots, and live examples, see
 the [demo site](https://loco-motion.profoundry.us/) and the
 [API documentation](#documentation--demo).
+
+## Linting Component Usage
+
+LocoMotion ships a [haml_lint](https://github.com/sds/haml-lint) rule that flags
+views hand-rolling DaisyUI markup instead of calling the helper that owns it —
+`.card` where `daisy_card` belongs. Views compose components; components own
+markup.
+
+Wire it up for whichever template language you use — both read the same derived
+map, so HAML and ERB are held to identical rules.
+
+**HAML** — add `haml_lint` to your bundle, then `.haml-lint.yml`:
+
+```yaml
+require:
+  - loco_motion/lint/haml_lint/component_usage
+
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+```
+
+```bash
+bundle exec haml-lint --include-linter LocoMotionComponentUsage app/views
+```
+
+**ERB** — add `erb_lint` to your bundle. It loads custom linters from a
+directory rather than a config key, so create `.erb_linters/loco_motion.rb`:
+
+```ruby
+require "loco_motion/lint/erb_lint/component_usage"
+```
+
+Then `.erb_lint.yml`:
+
+```yaml
+linters:
+  LocoMotionComponentUsage:
+    enabled: true
+```
+
+```bash
+bundle exec erb_lint --lint-all --enable-linters LocoMotionComponentUsage
+```
+
+Either way the output names the helper to reach for:
+
+```
+app/views/orders/show.html.haml:12 [W] LocoMotionComponentUsage: `.card` is
+  LocoMotion's daisy_card — call the helper instead of hand-rolling the markup
+```
+
+The class list is **derived** from the component registry and each component's
+own `add_css` declaration, so it tracks the library automatically — a component
+added in a release is covered by that release. Tailwind utilities (`flex`,
+`p-4`, `hover:*`) and DaisyUI modifiers (`btn-primary`) are never flagged;
+`css:` remains the sanctioned way to pass those to a helper.
+
+Suppress a deliberate exception the usual haml_lint way:
+
+```haml
+-# haml-lint:disable LocoMotionComponentUsage
+.card.custom-thing
+-# haml-lint:enable LocoMotionComponentUsage
+```
+
+Adopting this on an existing codebase will surface a backlog. `haml-lint
+--auto-gen-config` writes a TODO file that excludes today's offenders so new
+views are held to the rule while the backlog drains.
 
 ## Guides
 
@@ -139,18 +209,20 @@ for the time being, the latest documentation is available at the links below.
 To work on LocoMotion, first clone the repository and make sure you have Docker
 installed and running on your machine.
 
-Next, create a `.env.local` file with the following contents, making sure to
-replace the Unsplash keys with real ones (you can create your own account or ask
-Topher for his keys).
+Next, create a `docs/demo/.env.local` file with the following contents, making
+sure to replace the Unsplash keys with real ones (you can create your own
+account or ask Topher for his keys). The demo boots fine without them — only the
+example pages that pull sample photos will fail.
 
 ```.env
-# .env.local
+# docs/demo/.env.local
 UNSPLASH_ACCESS_KEY="<< INSERT ACCESS KEY >>"
 UNSPLASH_SECRET_KEY="<< INSERT SECRET KEY >>"
 ```
 
-You should then be able to run `just rebuild` in the project directory and then
-`just all-quick` to start the services.
+You should then be able to run `just build` in the project directory and then
+`just all-fast` to start the services. (`just rebuild` also works, but it passes
+`--no-cache`, which is wasted effort on a fresh clone with an empty cache.)
 
 > [!NOTE]
 >
@@ -165,7 +237,7 @@ You should then be able to run `just rebuild` in the project directory and then
 > See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 
 From here, you can access the demo site at http://localhost:3000 and the YARD
-docs at http://localhost:8808/docs/yard
+docs at http://localhost:8808
 
 You can type `just demo-shell` to open a shell inside the demo Docker container,
 or `just loco-shell` to get a shell inside the gem's Docker container.

@@ -4,15 +4,41 @@
  * A Stimulus controller that manages theme selection and persistence.
  * It handles theme switching, localStorage persistence, and synchronization
  * across multiple theme selectors on the same page.
+ *
+ * Themes are stored in two preference SLOTS — day and night — so users can
+ * keep a preferred theme for each. Either slot may hold ANY theme (some
+ * people run a dark theme during the day):
+ *
+ *   - `savedLightTheme` / `savedDarkTheme` — the theme saved in the day /
+ *     night slot. Classic switchers file a pick under the slot matching the
+ *     theme's own `color-scheme` declaration; slot-scoped pickers (the
+ *     `setSchemeTheme` action) file it under THEIR slot regardless.
+ *   - `savedLightScheme` / `savedDarkScheme` — the actual `color-scheme`
+ *     of the theme in each slot, cached at save time so the pre-paint
+ *     script can stamp it before any CSS loads.
+ *   - `savedThemeMode` — which slot is active: `"light"` or `"dark"` pin
+ *     that slot, while `"system"` follows the OS preference live, swapping
+ *     between the two saved themes as the OS switches.
+ *   - The legacy single `savedTheme` key is migrated on connect.
+ *
+ * Whenever a theme is applied, the DISPLAYED theme's own scheme is stamped
+ * on `<html>` as `data-color-scheme`, which drives the `dark:` Tailwind
+ * variant shipped in loco.css — so `dark:` utilities follow the theme
+ * actually showing, even a dark theme sitting in the day slot. The active
+ * slot is stamped as `data-theme-mode`.
  */
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   /**
    * Called when the controller is connected to the DOM.
-   * Sets the initial theme input state and sets up event listeners.
+   * Migrates legacy storage, stamps the active color scheme, sets the
+   * initial theme input state, and sets up event listeners.
    */
   connect() {
+    this.migrateLegacyStorage()
+    this.stampScheme()
+    this.stampMode(this.safeStorageGet('savedThemeMode'))
     this.setInput()
 
     // Setup a custom listener to watch for changes on the page in case the
@@ -26,6 +52,11 @@ export default class extends Controller {
     // enough to save the theme and keep every other selector in sync.
     this.inputChangeListener = this.handleInputChange.bind(this)
     this.element.addEventListener('change', this.inputChangeListener)
+
+    // In "system" mode the active theme follows the OS preference live.
+    this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    this.mediaChangeListener = this.mediaChanged.bind(this)
+    this.mediaQuery.addEventListener('change', this.mediaChangeListener)
   }
 
   /**
@@ -35,6 +66,7 @@ export default class extends Controller {
   disconnect() {
     window.removeEventListener('localstorage-update', this.storageChangeListener)
     this.element.removeEventListener('change', this.inputChangeListener)
+    this.mediaQuery.removeEventListener('change', this.mediaChangeListener)
   }
 
   /**
@@ -45,17 +77,44 @@ export default class extends Controller {
    */
   setInput() {
     const theme = this.getCurrentTheme()
-    const inputs = this.element.querySelectorAll('input.theme-controller')
+    const inputs = this.element.querySelectorAll('input.theme-controller, input[data-loco-theme-scheme]')
 
     inputs.forEach((input) => {
-      input.checked = input.value === theme
+      const scheme = input.dataset.locoThemeScheme
+
+      if (scheme) {
+        // Scheme-scoped picker radios show their SLOT's saved theme
+        // (falling back to the built-in theme of the same name), not the
+        // theme currently applied to the page.
+        const saved = this.safeStorageGet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme')
+
+        input.checked = input.value === (saved || scheme)
+      } else {
+        input.checked = input.value === theme
+      }
+    })
+
+    // "Match system appearance" toggles reflect the saved mode, and
+    // "Night mode" toggles reflect the scheme actually showing (so they
+    // read correctly in system mode too).
+    const synced = this.safeStorageGet('savedThemeMode') === 'system'
+    const resolved = this.resolveTheme()
+    const activeScheme = (resolved && resolved.scheme) || this.computedScheme()
+
+    this.element.querySelectorAll('input[data-loco-theme-mode-toggle]').forEach((toggle) => {
+      toggle.checked = synced
+    })
+
+    this.element.querySelectorAll('input[data-loco-theme-night-toggle]').forEach((toggle) => {
+      toggle.checked = activeScheme === 'dark'
     })
   }
 
   /**
-   * Clears the user's theme preference from localStorage.
-   * Removes the saved theme and dispatches an event to notify other controllers.
-   * Also removes the data-theme attribute from the document element.
+   * Clears the user's theme preferences from localStorage.
+   * Removes every saved theme key and dispatches an event to notify other
+   * controllers. Also removes the `data-theme` and `data-color-scheme`
+   * attributes from the document element.
    *
    * @param {Event} event - The triggering click event
    */
@@ -71,15 +130,21 @@ export default class extends Controller {
       }
     }
 
-    // Remove the savedTheme from local storage
+    // Remove every saved theme key from local storage
     this.safeStorageRemove("savedTheme")
+    this.safeStorageRemove("savedThemeMode")
+    this.safeStorageRemove("savedLightTheme")
+    this.safeStorageRemove("savedDarkTheme")
+    this.safeStorageRemove("savedLightScheme")
+    this.safeStorageRemove("savedDarkScheme")
 
-    // Remove the data-theme attribute from the document element
+    // Remove the theme attributes from the document element
     document.documentElement.removeAttribute('data-theme')
+    document.documentElement.removeAttribute('data-color-scheme')
+    document.documentElement.removeAttribute('data-theme-mode')
 
     // Fire off an update
-    const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: null } })
-    window.dispatchEvent(updateEvent)
+    this.broadcast(null)
   }
 
   /**
@@ -107,6 +172,94 @@ export default class extends Controller {
   }
 
   /**
+   * Changes how the active color scheme is chosen. Expects a Stimulus action
+   * param, e.g. `data-loco-theme-mode-param="system"`:
+   *
+   *   - `"light"` / `"dark"` — pin that scheme; its saved theme (or the
+   *     built-in `light`/`dark` theme when none is saved) applies.
+   *   - `"system"` — follow the OS preference live, swapping between the
+   *     saved light and dark themes as the OS switches.
+   *
+   * @param {Event} event - The triggering event with a `mode` param
+   */
+  setMode(event) {
+    const mode = event && event.params && event.params.mode
+
+    if (!mode) return
+
+    this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
+    this.applyResolvedTheme()
+
+    if (event.preventDefault) event.preventDefault()
+  }
+
+  /**
+   * Applies a theme into a SPECIFIC preference slot — the action behind
+   * slot-scoped pickers (a "Day theme" / "Night theme" dropdown pair).
+   * Expects a Stimulus action param naming the slot, e.g.
+   * `data-loco-theme-scheme-param="light"`. Unlike a classic switcher pick
+   * (which files the theme under its own color-scheme), the pick lands in
+   * the picker's slot even when the theme's scheme differs — a dark theme
+   * can be someone's daytime choice. The pick applies immediately and pins
+   * its slot.
+   *
+   * Like {setTheme}, the action can sit on a wrapper element containing an
+   * `<input>` or on the input itself.
+   *
+   * @param {Event} event - The triggering click event with a `scheme` param
+   */
+  setSchemeTheme(event) {
+    const slot = event && event.params && event.params.scheme
+    const target = event.currentTarget
+    const input = target.matches && target.matches('input')
+      ? target
+      : target.querySelector('input')
+
+    if (input && slot) {
+      this.applyTheme(input.value, slot)
+    }
+
+    event.preventDefault()
+  }
+
+  /**
+   * Backs the "Night mode" toggle (see the component's
+   * `build_night_toggle`). Checking it pins the dark scheme — the saved
+   * night theme applies immediately, no OS setting required — and
+   * unchecking pins light. Either direction is an explicit choice, so it
+   * leaves `system` mode.
+   *
+   * @param {Event} event - The change event from the toggle's checkbox
+   */
+  toggleNightMode(event) {
+    const mode = event.currentTarget.checked ? 'dark' : 'light'
+
+    this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
+    this.applyResolvedTheme()
+  }
+
+  /**
+   * Backs the "Match system appearance" toggle (see the component's
+   * `build_system_toggle`). Checking it enters `system` mode; unchecking it
+   * pins whichever scheme is currently showing, so the visible theme does
+   * not change when sync turns off.
+   *
+   * @param {Event} event - The change event from the toggle's checkbox
+   */
+  toggleSystemMode(event) {
+    const resolved = this.resolveTheme()
+    const mode = event.currentTarget.checked
+      ? 'system'
+      : ((resolved && resolved.scheme) || this.computedScheme())
+
+    this.safeStorageSet('savedThemeMode', mode)
+    this.stampMode(mode)
+    this.applyResolvedTheme()
+  }
+
+  /**
    * Handles `change` events bubbling up from any theme-controller input within
    * this controller. Persists and broadcasts the newly selected theme so every
    * other selector stays in sync — no per-input action wiring required.
@@ -126,14 +279,79 @@ export default class extends Controller {
    * Persists the given theme, applies it to the document, and notifies every
    * other theme controller on the page so they can sync their inputs.
    *
+   * Without a `slot`, the theme is saved as the preference for the scheme
+   * it belongs to (read from its own computed `color-scheme`) — classic
+   * switcher behavior. With a `slot` (from a day / night picker), it lands
+   * in that slot regardless of its own scheme. Either way the slot's actual
+   * scheme is cached for the pre-paint script, the mode pins to the slot,
+   * and `data-color-scheme` reflects the DISPLAYED theme's own scheme so
+   * `dark:` utilities stay truthful.
+   *
    * @param {string} value - The theme name to apply
+   * @param {?string} slot - The preference slot to fill (`"light"` /
+   *   `"dark"`); defaults to the theme's own scheme
    */
-  applyTheme(value) {
-    this.safeStorageSet("savedTheme", value)
+  applyTheme(value, slot = null) {
     document.documentElement.setAttribute('data-theme', value)
 
-    const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: value } })
-    window.dispatchEvent(updateEvent)
+    const scheme = this.schemeForTheme(value)
+    const targetSlot = slot || scheme
+
+    this.safeStorageSet(targetSlot === 'dark' ? 'savedDarkTheme' : 'savedLightTheme', value)
+    this.safeStorageSet(targetSlot === 'dark' ? 'savedDarkScheme' : 'savedLightScheme', scheme)
+    this.safeStorageSet('savedThemeMode', targetSlot)
+    this.safeStorageRemove('savedTheme')
+
+    document.documentElement.setAttribute('data-color-scheme', scheme)
+    this.stampMode(targetSlot)
+
+    this.broadcast(value)
+  }
+
+  /**
+   * Resolves the active theme from the saved mode + per-scheme preferences
+   * and applies it: sets `data-theme`, stamps `data-color-scheme`, and
+   * broadcasts so all selectors re-sync. Used when the mode or the OS
+   * preference changes.
+   */
+  applyResolvedTheme() {
+    const resolved = this.resolveTheme()
+
+    if (!resolved) return
+
+    document.documentElement.setAttribute('data-theme', resolved.theme)
+
+    // Stamp the DISPLAYED theme's own scheme, not the slot name — the day
+    // slot can legitimately hold a dark theme. Prefer the scheme cached at
+    // save time (it works even when the theme's CSS isn't loaded); probe
+    // the stylesheet only as a fallback.
+    const cached = this.safeStorageGet(resolved.scheme === 'dark' ? 'savedDarkScheme' : 'savedLightScheme')
+
+    document.documentElement.setAttribute('data-color-scheme', cached || this.schemeForTheme(resolved.theme))
+
+    this.broadcast(resolved.theme)
+  }
+
+  /**
+   * Resolves which theme and scheme should be active from localStorage.
+   *
+   * @returns {?{theme: string, scheme: string}} The resolved theme and
+   *   scheme, or null when no mode is saved (no explicit choice yet)
+   */
+  resolveTheme() {
+    const mode = this.safeStorageGet('savedThemeMode')
+
+    if (!mode) return null
+
+    const scheme = mode === 'system'
+      ? (this.mediaQuery && this.mediaQuery.matches ? 'dark' : 'light')
+      : mode
+    const saved = this.safeStorageGet(scheme === 'dark' ? 'savedDarkTheme' : 'savedLightTheme')
+
+    // With no saved preference for the scheme, fall back to the built-in
+    // theme of the same name — DaisyUI always defines `light` and `dark`,
+    // and downstream apps restyle those names rather than renaming them.
+    return { theme: saved || scheme, scheme }
   }
 
   /**
@@ -149,13 +367,120 @@ export default class extends Controller {
    * @returns {?string} The current theme name, or null if none can be determined
    */
   getCurrentTheme() {
-    const savedTheme = this.safeStorageGet('savedTheme')
+    const resolved = this.resolveTheme()
 
-    if (savedTheme) {
-      return savedTheme
+    if (resolved) {
+      return resolved.theme
     }
 
     return document.documentElement.getAttribute('data-theme')
+  }
+
+  /**
+   * Migrates the legacy single `savedTheme` key to the per-scheme model by
+   * re-applying it through `applyTheme`, which classifies the theme by its
+   * own `color-scheme`, saves it into the matching slot, pins the mode, and
+   * removes the legacy key.
+   */
+  migrateLegacyStorage() {
+    const legacy = this.safeStorageGet('savedTheme')
+
+    if (legacy && !this.safeStorageGet('savedThemeMode')) {
+      this.applyTheme(legacy)
+    }
+  }
+
+  /**
+   * Stamps `data-color-scheme` on the document element from the active
+   * theme's computed `color-scheme` when an explicit theme is applied but no
+   * scheme is stamped yet (e.g. a server-rendered `data-theme`).
+   */
+  stampScheme() {
+    const root = document.documentElement
+
+    if (root.getAttribute('data-theme') && !root.getAttribute('data-color-scheme')) {
+      root.setAttribute('data-color-scheme', this.computedScheme())
+    }
+  }
+
+  /**
+   * Stamps the saved theme mode on `<html>` as `data-theme-mode` so UI can
+   * reflect the active mode with pure CSS — e.g. the switcher dropdown's
+   * "Sync with system" checkmark uses a
+   * `[[data-theme-mode=system]_&]:visible` variant. Removes the attribute
+   * when no mode is saved.
+   *
+   * @param {?string} mode - `"light"`, `"dark"`, `"system"`, or null
+   */
+  stampMode(mode) {
+    if (mode) {
+      document.documentElement.setAttribute('data-theme-mode', mode)
+    } else {
+      document.documentElement.removeAttribute('data-theme-mode')
+    }
+  }
+
+  /**
+   * Reads the active theme's own scheme from the document element's computed
+   * `color-scheme` — every DaisyUI theme declares `color-scheme: light` or
+   * `color-scheme: dark`.
+   *
+   * @returns {string} `"dark"` or `"light"`
+   */
+  computedScheme() {
+    const value = getComputedStyle(document.documentElement).colorScheme || ''
+
+    return value.includes('dark') && !value.includes('light') ? 'dark' : 'light'
+  }
+
+  /**
+   * Classifies a specific theme by probing its own `color-scheme`
+   * declaration on a scratch element.
+   *
+   * Reading the ROOT's computed value at apply time is unreliable: DaisyUI
+   * theme blocks also match `:root:has(input.theme-controller:checked)`,
+   * which outranks `[data-theme]` in the cascade — so until the page's
+   * radios re-sync, the PREVIOUS theme's checked radio can misclassify the
+   * theme being applied (e.g. synthwave filed as a light preference). The
+   * probe carries only `data-theme`, so only the theme's own declaration
+   * can match it.
+   *
+   * @param {string} value - The theme name to classify
+   * @returns {string} `"dark"` or `"light"`
+   */
+  schemeForTheme(value) {
+    const probe = document.createElement('div')
+
+    probe.setAttribute('data-theme', value)
+    probe.style.display = 'none'
+    document.documentElement.appendChild(probe)
+
+    const scheme = getComputedStyle(probe).colorScheme || ''
+
+    probe.remove()
+
+    return scheme.includes('dark') && !scheme.includes('light') ? 'dark' : 'light'
+  }
+
+  /**
+   * Responds to OS color-scheme changes. Only relevant in `"system"` mode,
+   * where the active theme swaps between the saved light and dark themes.
+   */
+  mediaChanged() {
+    if (this.safeStorageGet('savedThemeMode') === 'system') {
+      this.applyResolvedTheme()
+    }
+  }
+
+  /**
+   * Notifies every theme controller on the page (including this one) that
+   * the theme changed so they can re-sync their inputs.
+   *
+   * @param {?string} value - The newly applied theme name, or null on clear
+   */
+  broadcast(value) {
+    const updateEvent = new CustomEvent('localstorage-update', { detail: { key: 'savedTheme', newValue: value } })
+    window.dispatchEvent(updateEvent)
   }
 
   /**
