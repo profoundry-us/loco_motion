@@ -1,16 +1,14 @@
-# loco_motion's Highball rules — the file `highball run` reads and
-# reports from. `fast: true` marks rules cheap enough to run on every
-# agent edit; the rest join at turn end. `todo: true` declares a rule
-# you're committed to but haven't built — tracked on the dashboard,
-# never a failure.
+# loco_motion's Highball rules — the file `highball run` reads.
+# `fast: true` marks rules cheap enough to run on every agent edit; the
+# rest join at turn end. `todo: true` declares a rule you're
+# committed to but haven't built — tracked in the run journal, never a
+# failure.
+#
+# No `reporting:` block: runs are recorded locally by `highball runs`
+# and go nowhere else. Add `reporting.posthog` to send them to a PostHog
+# project.
 version: 1
 project: loco-motion
-
-# Where runs get reported. The URL is per-team and not a secret, so it
-# lives here in committed config; the token never enters the repo — run
-# `highball login` once per machine (or set HIGHBALL_TOKEN in CI).
-reporting:
-  url: http://localhost:3600
 
 # The Ruby toolchain lives in the loco container (whole repo mounted at
 # /home/loco_motion, its default workdir). Rules that target the demo

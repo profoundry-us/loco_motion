@@ -451,10 +451,10 @@
   dependencies:
     playwright "1.62.1"
 
-"@profoundry-us/loco_motion@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.7.3.tgz#6b8f0f04b80c4a802760bf18f99920785596c02f"
-  integrity sha512-r2MTKcdmgrEwN2hcsmlblKmpo+I55Qm0nAvmlQ0vn6nKu18fA62s9kRiDGtrd5OVtFevXiNh1E46zLprJXhxrg==
+"@profoundry-us/loco_motion@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@profoundry-us/loco_motion/-/loco_motion-0.8.0.tgz#72f2ec4174c9e024f93ee725b530aaa90d00d271"
+  integrity sha512-bXeAq3BUSS0qcuZ5SqFiKgyvbAamvVGcRHIyUi2u/niba21Kw+V0DDShbTiUi3sNxGestPXVfnek8Qd82teOOg==
   dependencies:
     "@hotwired/stimulus" "^3.2.2"
 
