@@ -11,6 +11,18 @@ project "released" until that point in time.
 We plan to use patch versions only for bug fixes, and for now, all **minor releases** should be considered
 **breaking**!
 
+## [Unreleased]
+
+### General Changes
+
+- fix(Release): Actually advance the demo's npm pin on release. PR #406 moved the pin advance out of
+  `bin/update_version` on the assumption that `just demo-version-lock` handled it, but that target only
+  updated the registry Gemfile pin — the `@profoundry-us/loco_motion` dependency in
+  `docs/demo/package.json` never moved, and only registry builds notice because dev, CI, and edge all
+  `yarn link` the local repo over the pin. The v0.8.0 staging deploy caught it: the demo imports
+  `TabsController`, which npm 0.7.3 doesn't export, so esbuild failed the build. `demo-version-lock` now
+  rewrites the npm pin before running `yarn`, and the demo is bumped to `^0.8.0`.
+
 ## [0.8.0] - 2026-09-02
 
 ### Component Changes

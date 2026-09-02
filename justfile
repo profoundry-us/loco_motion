@@ -207,6 +207,8 @@ demo-version-lock:
     @echo "Updating demo app to use version {{version}}..."
     @if npm view @profoundry-us/loco_motion@{{version}} version >/dev/null 2>&1; then \
         echo "✓ NPM package @profoundry-us/loco_motion@{{version}} found"; \
+        echo "Updating demo npm pin to ^{{version}}..."; \
+        ruby -pi -e 'sub(/"@profoundry-us\/loco_motion": "\^[\d.]+"/, %q{"@profoundry-us/loco_motion": "^{{version}}"})' docs/demo/package.json; \
         docker compose exec -it demo bundle; \
         docker compose exec -it demo yarn; \
         echo "Updating registry Gemfile pin to ~> {{version}}..."; \
