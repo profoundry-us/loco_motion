@@ -30,6 +30,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `TabsController`, which npm 0.7.3 doesn't export, so esbuild failed the build. `demo-version-lock` now
   rewrites the npm pin before running `yarn`, and the demo is bumped to `^0.8.0`.
 
+- chore(Tooling): Upgrade the Highball checks runner to `^0.5.0` and tighten the fast hook: the
+  `PostToolUse` hook now also fires on `Bash` tool calls, and passes the new `--if-changed` flag so runs
+  with no changed files since the last run are skipped instead of re-executed.
+
 ## [0.8.0] - 2026-09-02
 
 ### Component Changes
