@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Release): Re-run the library specs after the version bump in `bin/release`, before anything is
+  committed or pushed. The preflight suites run at the pre-release version (e.g. `0.8.0.pre`), so a spec
+  that is sensitive to `LocoMotion::VERSION` can pass preflight and then fail on the release commit
+  itself — v0.8.0 hit exactly this when `new_component?` asserted against the real version (fixed by
+  stubbing in PR #432). The new step proves the release commit green at its own version and aborts the
+  release on failure, per the wizard's non-interactive fix-and-re-run model.
+
 - fix(Release): Actually advance the demo's npm pin on release. PR #406 moved the pin advance out of
   `bin/update_version` on the assumption that `just demo-version-lock` handled it, but that target only
   updated the registry Gemfile pin — the `@profoundry-us/loco_motion` dependency in

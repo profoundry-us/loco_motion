@@ -39,9 +39,12 @@ Before releasing a new version, ensure:
 > The release wizard at `bin/release` runs all of the steps below, in **two
 > phases with a review gate between them**:
 >
-> 1. `bin/release VERSION` publishes the *artifacts* — version bump,
->    CHANGELOG, packages to RubyGems/NPM — and creates a **draft** GitHub
->    release with auto-generated, mention-escaped notes, then stops.
+> 1. `bin/release VERSION` publishes the *artifacts* — version bump (with
+>    a re-run of the library specs at the bumped version, since the
+>    preflight suites ran at the pre-release version and version-sensitive
+>    specs can differ), CHANGELOG, packages to RubyGems/NPM — and creates
+>    a **draft** GitHub release with auto-generated, mention-escaped
+>    notes, then stops.
 > 2. You review and publish the GitHub release (which deploys the API docs).
 > 3. `bin/release --finish` ships the *sites* — it verifies the release is
 >    published and the API docs serve, updates the demo app, advances the
