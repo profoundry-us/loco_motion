@@ -12,11 +12,11 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Write|Edit|Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x node_modules/.bin/highball ]; then npx --no-install @profoundry-us/highball run --fast; fi"
+            "command": "if [ -x node_modules/.bin/highball ]; then npx --no-install @profoundry-us/highball run --fast --if-changed; fi"
           }
         ]
       }
