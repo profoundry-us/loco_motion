@@ -106,8 +106,6 @@ module Daisy
         end
       end
 
-      include ViewComponent::SlotableDefault
-
       renders_one :reset_button, FilterResetComponent
       renders_many :options, FilterOptionComponent
 

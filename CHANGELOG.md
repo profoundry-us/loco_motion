@@ -34,6 +34,20 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   `PostToolUse` hook now also fires on `Bash` tool calls, and passes the new `--if-changed` flag so runs
   with no changed files since the last run are skipped instead of re-executed.
 
+- **Breaking:** chore(Gem): Migrate to ViewComponent 4.x (issue #415). The gemspec now requires
+  `view_component ~> 4.0` and raises the `rails` floor to `>= 7.1` (VC 4's own minimums are Rails 7.1 /
+  Ruby 3.2). Most of the migration is deletion: VC 4 ships our `get_slot` content-evaluation fix and the
+  slot-defaults API natively, so the `SlotableDefault` monkey patch is removed along with the module
+  includes in Dropdown, FAB, Filter, Cally, and CallyInput (their `default_*` slot defaults keep working
+  unchanged). `BaseComponent#initialize` now calls `super()` explicitly since VC 4's initializer takes no
+  arguments. Two methods are renamed to dodge VC 4's convention of auto-adopting any `default_<slot>`
+  method as that slot's default: `SelectComponent#default_options` → `list_options` and
+  `ModalComponent#default_button` → `fallback_trigger_button` (both were plain helpers that collided —
+  Modal's would have force-rendered a trigger button in Global Modal mode). Components also no longer
+  have implicit route-helper access — call them through `helpers.` as the demo's footer buttons now do.
+  As a bonus, VC 4 resolves the Rails 8.2 `ActiveSupport::Configurable` deprecation warning on every
+  spec run.
+
 ## [0.8.0] - 2026-09-02
 
 ### Component Changes

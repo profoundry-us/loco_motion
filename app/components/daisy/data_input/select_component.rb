@@ -134,12 +134,12 @@ module Daisy
       #
       # @option kws options_css [String] CSS classes to apply to each option.
       #   Only styles options generated from the `options:` array
-      #   (`default_options`); block-form `with_option` entries are
+      #   (`list_options`); block-form `with_option` entries are
       #   unaffected.
       #
       # @option kws options_html [Hash] HTML attributes to apply to each
       #   option. Only applies to options generated from the `options:` array
-      #   (`default_options`); block-form `with_option` entries are
+      #   (`list_options`); block-form `with_option` entries are
       #   unaffected.
       #
       # @option kws option_label [Symbol] The key to use for the option label.
@@ -236,7 +236,7 @@ module Daisy
       #
       # @return [Array<SelectOptionComponent>] Array of option components or empty array if @options_list is nil.
       #
-      def default_options
+      def list_options
         return [] unless @options_list
 
         options_list.map do |option|
@@ -307,8 +307,8 @@ module Daisy
         # Add options from the block or default options
         if options?
           result << safe_join(block_options.map(&:call))
-        elsif default_options.present?
-          result << safe_join(default_options.map { |option| render(option) })
+        elsif list_options.present?
+          result << safe_join(list_options.map { |option| render(option) })
         end
 
         result.html_safe

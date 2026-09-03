@@ -24,8 +24,6 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
     end
 
     describe "rendering" do
-      before { render_inline(breadcrumbs) }
-
       it "has the breadcrumbs class" do
         expect(page).to have_selector(".breadcrumbs")
       end
@@ -131,8 +129,6 @@ RSpec.describe Daisy::Navigation::BreadcrumbsComponent, type: :component do
     end
 
     describe "rendering" do
-      before { render_inline(breadcrumbs) }
-
       it "includes custom classes" do
         expect(page).to have_selector(".breadcrumbs.text-xl.bg-base-200.p-4.rounded-lg")
       end

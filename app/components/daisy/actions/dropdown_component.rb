@@ -69,8 +69,6 @@ module Daisy
     #       Favorites
     #
     class DropdownComponent < LocoMotion::BaseComponent
-      include ViewComponent::SlotableDefault
-
       #
       # A single dropdown menu item (`<li class="menu-item">`). Pass a block for
       # fully custom content (the original behavior), or use the structured
