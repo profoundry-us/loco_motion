@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'benchmark', '~> 0.4'
   s.add_dependency 'haml-rails', '>= 2.1', '< 4.0'
   s.add_dependency 'icons', '~> 0.9'
-  s.add_dependency 'rails', '>= 6.1', '< 9'
-  s.add_dependency 'view_component', '~> 3.22'
+  s.add_dependency 'rails', '>= 7.1', '< 9'
+  s.add_dependency 'view_component', '~> 4.0'
 
   # Add some things that are no longer part of the standard Ruby distribution
   s.add_dependency 'base64', '>= 0.2', '< 0.4'
@@ -47,7 +47,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'erb_lint', '~> 0.9'
   s.add_development_dependency 'haml_lint', '~> 0.78'
   s.add_development_dependency 'pry', '~> 0.16.0'
-  s.add_development_dependency 'rails', '>= 6.1', '< 9'
+  s.add_development_dependency 'rails', '>= 7.1', '< 9'
   s.add_development_dependency 'redcarpet', '~> 3.6'
   s.add_development_dependency 'rspec', '~> 3.13.0'
   s.add_development_dependency 'rspec-rails', '~> 8.0.4'

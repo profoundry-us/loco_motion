@@ -57,7 +57,9 @@ module LocoMotion
     #   main element.
     #
     def initialize(*args, **kws, &block)
-      super
+      # ViewComponent 4's Base#initialize takes no arguments (the v3
+      # catch-all initializer is gone), so never forward ours up.
+      super()
 
       # Create our config object
       @config = LocoMotion::ComponentConfig.new(self, **kws, &block)
@@ -77,7 +79,8 @@ module LocoMotion
     # Run registered setup hooks from concerns before rendering.
     #
     def before_render
-      # NOTE: ViewComponent::Base does not define before_render, so no super call needed.
+      # NOTE: ViewComponent::Base defines before_render as an empty hook, so
+      # there is nothing upstream to call.
       self.class.component_setups.each { |setup| send(setup) }
     end
 

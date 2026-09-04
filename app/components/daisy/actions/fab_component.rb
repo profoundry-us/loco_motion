@@ -78,8 +78,6 @@ module Daisy
     #       B
     #
     class FabComponent < LocoMotion::BaseComponent
-      include ViewComponent::SlotableDefault
-
       define_parts :trigger
 
       renders_one :activator, LocoMotion::BasicComponent.build(

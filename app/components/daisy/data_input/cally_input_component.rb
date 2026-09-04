@@ -84,7 +84,6 @@ module Daisy
         end
       end
 
-      include ViewComponent::SlotableDefault
       include LocoMotion::Concerns::LabelableComponent
 
       define_parts :popover

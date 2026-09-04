@@ -31,8 +31,6 @@ module Daisy
     # @loco_example Calendar with min/max date constraints
     #   = daisy_cally(min: 1.month.ago, max: 1.month.from_now)
     class CallyComponent < LocoMotion::BaseComponent
-      include ViewComponent::SlotableDefault
-
       # A component for the previous navigation icon in the calendar header.
       #
       # @note This is used internally by CallyComponent

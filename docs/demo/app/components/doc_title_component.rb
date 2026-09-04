@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class DocTitleComponent < ApplicationComponent
-  include ViewComponent::SlotableDefault
-
   define_parts :title, :title_wrapper, :description, :actions
 
   # Utilizes the new slot defaults API (below) to render a default API button

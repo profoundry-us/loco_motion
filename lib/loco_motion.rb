@@ -29,7 +29,6 @@ require "loco_motion/migrations/leading_trailing"
 require "loco_motion/helpers"
 
 # Load patches
-require "loco_motion/patches/view_component/slotable_default_patch"
 require "loco_motion/patches/view_component/slot_loco_parent_patch"
 
 require "daisy"

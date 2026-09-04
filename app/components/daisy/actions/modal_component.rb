@@ -206,7 +206,7 @@ module Daisy
           elsif button?
             button
           elsif trigger?
-            default_button
+            fallback_trigger_button
           end
 
         # Global Modal mode (`trigger: false`) with no activator or button has
@@ -273,7 +273,7 @@ module Daisy
       end
 
       # Provide a default button if no button is supplied.
-      def default_button
+      def fallback_trigger_button
         with_button(simple_title)
       end
     end
