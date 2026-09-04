@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Demo): Align the demo's dev lockfile with production: `rails` 8.0.2 → 8.0.5.1 (security patches)
+  and `connection_pool` back up to 3.0.2. Rails 8.0.2's `MemCacheStore` passes pool options positionally
+  to `ConnectionPool.new`, which connection_pool 3.0's keyword-only initializer rejects — the pairing that
+  broke PR #439's Playwright CI (the only job booting the demo in production mode). Production already ran
+  the fixed 8.0.5.1 alongside connection_pool 3.0.2; now dev/CI resolves the same versions.
+
 - fix(Release): Replace the silent dot-printing in `bin/release`'s long polls (CI publish, docs deploy,
   staging/production verification) with a once-a-minute heartbeat line naming what is being waited on,
   the elapsed time, and the limit (`WAITING: staging to serve v0.8.0 (3m elapsed of 15m limit)`). The
