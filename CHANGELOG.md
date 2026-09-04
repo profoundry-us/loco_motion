@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Release): Replace the silent dot-printing in `bin/release`'s long polls (CI publish, docs deploy,
+  staging/production verification) with a once-a-minute heartbeat line naming what is being waited on,
+  the elapsed time, and the limit (`WAITING: staging to serve v0.8.0 (3m elapsed of 15m limit)`). The
+  v0.8.0 `--finish` run was killed mid-staging-poll because minutes of bare dots read as a hang.
+
 - fix(Release): Re-run the library specs after the version bump in `bin/release`, before anything is
   committed or pushed. The preflight suites run at the pre-release version (e.g. `0.8.0.pre`), so a spec
   that is sensitive to `LocoMotion::VERSION` can pass preflight and then fail on the release commit

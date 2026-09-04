@@ -107,6 +107,32 @@ def check_gem_auth
   end
 end
 
+# Polls the block until it returns truthy or `timeout` seconds pass,
+# sleeping `interval` between attempts. The long waits used to print bare
+# dots, which reads as a hang from outside — the v0.8.0 --finish run was
+# killed mid-staging-poll for exactly that — so print a heartbeat line
+# about once a minute saying what is being waited on, how long so far,
+# and against what limit. Returns the block's last truthy value, or nil
+# on timeout.
+def poll_with_heartbeat(label, timeout:, interval:)
+  started = Time.now
+  deadline = started + timeout
+  last_beat = started
+
+  loop do
+    result = yield
+    return result if result
+    return nil if Time.now + interval > deadline
+
+    if Time.now - last_beat >= 60
+      elapsed = ((Time.now - started) / 60).round
+      puts "   WAITING: #{label} (#{elapsed}m elapsed of #{(timeout / 60).round}m limit)"
+      last_beat = Time.now
+    end
+    sleep interval
+  end
+end
+
 def execute_command(description, command, exit_on_failure: true)
   puts "\nEXEC: #{description}"
   puts "   Running: #{command}"
@@ -638,14 +664,10 @@ def wait_for_ci_publish(version, dry_run: false)
 
   loop do
     status = nil
-    deadline = Time.now + 900
-    while Time.now < deadline
+    poll_with_heartbeat("publish workflow for v#{version}", timeout: 900, interval: 15) do
       status = `gh run list --workflow publish.yml --limit 5 --json headBranch,status,conclusion --jq '[.[] | select(.headBranch == "v#{version}")][0] | "\\(.status)/\\(.conclusion)"' 2>/dev/null`.strip
-      break if status.start_with?('completed')
-      print "."
-      sleep 15
+      status.start_with?('completed')
     end
-    puts
 
     if status == 'completed/success'
       gem_live = system("curl -sf https://rubygems.org/api/v1/versions/loco_motion-rails.json | grep -q '\"number\":\"#{version}\"'")
@@ -860,15 +882,11 @@ def wait_for_docs_deploy(version, dry_run: false)
   require 'net/http'
   loop do
     # Give the release-published trigger a moment, then watch the workflow.
-    deadline = Time.now + 600
     status = nil
-    while Time.now < deadline
+    poll_with_heartbeat("docs workflow for v#{version}", timeout: 600, interval: 15) do
       status = `gh run list --workflow docs-yard.yml --limit 1 --json status,conclusion --jq '.[0] | "\\(.status)/\\(.conclusion)"' 2>/dev/null`.strip
-      break if status.start_with?('completed')
-      print "."
-      sleep 15
+      status.start_with?('completed')
     end
-    puts
 
     if status == 'completed/success'
       # Workflow green — confirm the pages actually serve.
@@ -1078,18 +1096,10 @@ def verify_site(label, step, url, version, dry_run: false)
   puts "   Waiting for #{url} to serve v#{version} (deploys take a few minutes)..."
 
   loop do
-    deadline = Time.now + 900
-    found = false
-    while Time.now < deadline
+    found = poll_with_heartbeat("#{label.downcase} to serve v#{version}", timeout: 900, interval: 20) do
       body = Net::HTTP.get(URI(url)) rescue ""
-      if body.match?(/v#{Regexp.escape(version)}(?![\w.])/)
-        found = true
-        break
-      end
-      print "."
-      sleep 20
+      body.match?(/v#{Regexp.escape(version)}(?![\w.])/)
     end
-    puts
 
     if found
       puts "SUCCESS: #{label} is serving v#{version}"
