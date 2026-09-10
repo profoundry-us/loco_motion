@@ -898,18 +898,18 @@ htm@^3.0.0:
   resolved "https://registry.yarnpkg.com/htm/-/htm-3.1.1.tgz#49266582be0dc66ed2235d5ea892307cc0c24b78"
   integrity sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==
 
-instantsearch-ui-components@0.36.0:
-  version "0.36.0"
-  resolved "https://registry.yarnpkg.com/instantsearch-ui-components/-/instantsearch-ui-components-0.36.0.tgz#cb72a2d215c5b8135aedffbe8fc46e7733c33969"
-  integrity sha512-9Zd/E2X7ash9MF+WYN6ouoDlFbgGtCKr33uZyH3EGHRz+VHHulXwKdGFdydN4iMwKywPCS0ObgoQSC9oI2SI7A==
+instantsearch-ui-components@0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/instantsearch-ui-components/-/instantsearch-ui-components-0.40.0.tgz#1cb2b9a0dfee4fa2c6cd8285580e72d7e4eadcd5"
+  integrity sha512-iswxns+LY+CsK70eBxAGNk3rNgbbZsHf9Dy+PA+WHahSe/se1N0cZuHNXyvvRepwsuceogft7HGncA2Nqiv8Bw==
   dependencies:
     "@swc/helpers" "0.5.18"
     markdown-to-jsx "^7.7.15"
 
-instantsearch.js@^4.112.0:
-  version "4.112.0"
-  resolved "https://registry.yarnpkg.com/instantsearch.js/-/instantsearch.js-4.112.0.tgz#dbe0a87451c0d813fa4aa45159af92858d0d2223"
-  integrity sha512-1bx0QMq12IvNXCaLVEmYdrkkjEdaKdvU7f13S6C8vuRhmtBtl5kF7q7Ivw/N/Zjhogw0MFnMVTl59C5pWINx+Q==
+instantsearch.js@^4.116.0:
+  version "4.116.0"
+  resolved "https://registry.yarnpkg.com/instantsearch.js/-/instantsearch.js-4.116.0.tgz#46722a5ccb78f9037b41b319f4c0acae7997309c"
+  integrity sha512-d3qolbGBPNCTmoTwSBgXVCXKv/6Ow+gx0AEmNinQyliaoCLXUBgTrh/0dzKJu/j7itw1PYrjUZ6FwtTA1bJnQw==
   dependencies:
     "@algolia/events" "^4.0.1"
     "@swc/helpers" "0.5.18"
@@ -920,7 +920,7 @@ instantsearch.js@^4.112.0:
     algoliasearch-helper "3.29.3"
     hogan.js "^3.0.2"
     htm "^3.0.0"
-    instantsearch-ui-components "0.36.0"
+    instantsearch-ui-components "0.40.0"
     preact "^10.10.0"
     qs "^6.5.1"
     react ">= 0.14.0"
