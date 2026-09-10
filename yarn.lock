@@ -42,10 +42,10 @@
     zod "^3.25 || ^4.0"
     zod-to-json-schema "^3.25.1"
 
-"@profoundry-us/highball@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@profoundry-us/highball/-/highball-0.5.0.tgz#78b3b1ed1fbbd82385ac120242c7de80d68a8d91"
-  integrity sha512-uwYAZ9yzYzOMBgx3Ubuo2yhSFegXILinKldgnFfqnp54PEJho6OESi72tHqQ/OsvBw8ARPR29Tuoww2KDyDPXg==
+"@profoundry-us/highball@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@profoundry-us/highball/-/highball-0.6.0.tgz#9622bf9896973415b023f38b469d445f5fdf403c"
+  integrity sha512-mcs5w+XLD3Xc585SL5c9b2rWffPIBriNT+bmrN4CEtpAqCrS8RzPfWvwCl55SD+l6+My6jZSnqj3dyjvS91ZXg==
   dependencies:
     "@modelcontextprotocol/ext-apps" "^1.7.5"
     "@modelcontextprotocol/sdk" "^1.30.0"
