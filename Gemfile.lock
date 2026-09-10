@@ -155,7 +155,7 @@ GEM
     faraday-net_http_persistent (2.3.0)
       faraday (~> 2.5)
       net-http-persistent (>= 4.0.4, < 5)
-    fiddle (1.1.4)
+    fiddle (1.1.8)
     globalid (1.4.0)
       activesupport (>= 6.1)
     haml (7.4.1)
