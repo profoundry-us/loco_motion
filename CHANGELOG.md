@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
+  8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
+  so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
+  of Claude Code's default. Also commits the `.highball/.gitignore` from 0.6, which keeps the per-checkout
+  `.highball/disabled` off switch out of the repo.
+
 - chore(Demo): Align the demo's dev lockfile with production: `rails` 8.0.2 → 8.0.5.1 (security patches)
   and `connection_pool` back up to 3.0.2. Rails 8.0.2's `MemCacheStore` passes pool options positionally
   to `ConnectionPool.new`, which connection_pool 3.0's keyword-only initializer rejects — the pairing that
