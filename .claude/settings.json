@@ -16,7 +16,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x node_modules/.bin/highball ]; then npx --no-install @profoundry-us/highball run --fast --if-changed; fi"
+            "command": "if [ -x node_modules/.bin/highball ]; then npx --no-install @profoundry-us/highball run --fast --if-changed; fi",
+            "timeout": 120
           }
         ]
       }
