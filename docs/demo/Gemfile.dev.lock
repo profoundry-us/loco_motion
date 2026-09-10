@@ -9,7 +9,7 @@ PATH
       fiddle (~> 1.1.4)
       haml-rails (>= 2.1, < 4.0)
       icons (~> 0.9)
-      logger (~> 1.6.1)
+      logger (>= 1.6.1, < 1.8.0)
       mutex_m (>= 0.2, < 0.4)
       ostruct (~> 0.6.0)
       rails (>= 7.1, < 9)
