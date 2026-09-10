@@ -21,6 +21,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   of Claude Code's default. Also commits the `.highball/.gitignore` from 0.6, which keeps the per-checkout
   `.highball/disabled` off switch out of the repo.
 
+- chore(Demo): Bump the demo's DaisyUI to `^5.7.35` (resolving 5.7.36), catching up thirteen patch releases
+  in one step rather than dependabot's stale 5.7.28 bump. The library's `peerDependencies` range (`^5.6.0`)
+  already admits it, so nothing changes for consumers.
+
 - chore(Demo): Align the demo's dev lockfile with production: `rails` 8.0.2 → 8.0.5.1 (security patches)
   and `connection_pool` back up to 3.0.2. Rails 8.0.2's `MemCacheStore` passes pool options positionally
   to `ConnectionPool.new`, which connection_pool 3.0's keyword-only initializer rejects — the pairing that
