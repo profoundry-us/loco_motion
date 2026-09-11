@@ -170,9 +170,13 @@ Suppress a deliberate exception the usual haml_lint way:
 -# haml-lint:enable LocoMotionComponentUsage
 ```
 
-Adopting this on an existing codebase will surface a backlog. `haml-lint
---auto-gen-config` writes a TODO file that excludes today's offenders so new
-views are held to the rule while the backlog drains.
+Adopting this on an existing codebase will surface a backlog. Lint only the
+files a change touches, or list today's offenders under the linter's `exclude:`
+and delete lines as views are converted — note that `haml-lint
+--auto-gen-config` writes `enabled: false` (switching the rule off wholesale)
+once a rule has offences in more than 15 files. The
+[Component Linting guide](https://loco-motion.profoundry.us/guides/component_linting)
+covers the reasoning, both ratchets, and exactly what is and isn't flagged.
 
 ## Guides
 
@@ -195,6 +199,9 @@ need them to use the gem — they are published on the
   Wire up OmniAuth sign-in with the developer strategy.
 - [Error Handling](https://loco-motion.profoundry.us/guides/error_handling) —
   Inspect errors in the browser with Web Console and BetterErrors.
+- [Component Linting](https://loco-motion.profoundry.us/guides/component_linting) —
+  Keep hand-rolled DaisyUI markup out of your views with the bundled
+  haml_lint / erb_lint rule.
 
 ## Documentation & Demo
 
