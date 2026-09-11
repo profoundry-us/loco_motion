@@ -23,6 +23,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Test Factories guide (issue #338) for `factory_bot`: factories over fixtures and the
+  minimal-valid-record rule, RSpec setup, a build-strategy table (`build` / `create` / `build_stubbed` /
+  `attributes_for`), traits, associations and sequences, transients with callbacks, suite-speed habits
+  including a `FactoryBot.lint traits: true` rake task, and when a plain object beats a factory.
+
 - docs(Guides): Add a Memoization guide (issue #329) recommending `memo_wise`: why it beats `@x ||= …`
   (falsy results, arguments, thread-safety guarantees, reset/preset), installation and usage including
   class methods, resetting shared instances in specs, a "should I memoize this?" table keyed on purity and
