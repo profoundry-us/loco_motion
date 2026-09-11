@@ -131,3 +131,18 @@
 
       = form.daisy_label(:comments, "Additional Comments", css: "mt-4")
       = form.daisy_text_area(:comments, rows: 6, placeholder: "Share your thoughts...")
+
+
+= doc_example(title: "Stimulus Actions") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `action:` to wire a Stimulus action to the text area without nesting
+      `html: { data: { action: ... } }`. Stimulus infers the `input` event for
+      text areas, so the arrow-free `action: "input-demo#changed"` fires on
+      every keystroke — handy for autosaving drafts.
+
+  .flex.flex-col.gap-2{ data: { controller: "input-demo" } }
+    = daisy_label(for: "action_text_area", title: "Draft")
+    = daisy_text_area(name: "action_text_area", id: "action_text_area", placeholder: "Every keystroke fires", action: "input-demo#changed")
+    %p.text-sm.opacity-70{ data: { input_demo_target: "output" } }
+      Waiting for input…

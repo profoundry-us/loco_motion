@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(DataInput): `TextInputComponent` and `TextAreaComponent` accept the `action:` keyword (issue #394) —
+  the same Stimulus `data-action` sugar buttons, links, and alerts already have, so
+  `daisy_text_input(action: "search#update")` replaces the hand-written `html: { data: { action: ... } }`
+  hash. Stimulus infers each element's default event, so the arrow-free form fires on `input` for text
+  controls. The attribute lands on the `<input>` / `<textarea>` itself, never a label wrapper, and an
+  explicit `html: { data: { action: ... } }` still wins. `ActionableComponent`'s docs now cover inputs, and
+  the demo gained a shared `input-demo` Stimulus controller that echoes the fired event on each page.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
