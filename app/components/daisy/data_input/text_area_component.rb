@@ -40,8 +40,13 @@ module Daisy
     # @loco_example Readonly TextArea
     #   = daisy_text_area(name: "message", readonly: true, value: "This content cannot be edited.")
     #
+    # @loco_example With a Stimulus Action
+    #   -# Stimulus infers the `input` event, so this fires on every keystroke
+    #   = daisy_text_area(name: "message", action: "draft#autosave")
+    #
     class TextAreaComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::AriableComponent
+      include LocoMotion::Concerns::ActionableComponent
 
       attr_reader :name, :id, :value, :placeholder, :rows, :cols, :disabled, :required, :readonly
 
@@ -70,6 +75,11 @@ module Daisy
       #
       # @option kws readonly [Boolean] Whether the textarea is read-only. Defaults to
       #   false.
+      #
+      # @option kws action [String] A Stimulus action wired to the textarea via
+      #   its `data-action` attribute. Stimulus infers the `input` event for
+      #   textareas, so `action: "my-controller#handle"` works as a shorthand
+      #   for `action: "input->my-controller#handle"`.
       #
       def initialize(**kws)
         super

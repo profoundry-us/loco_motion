@@ -238,3 +238,19 @@
       aria: { describedby: "aria_password_help" })
     %span#aria_password_help.text-sm.opacity-70
       Must be at least 12 characters.
+
+
+= doc_example(title: "Stimulus Actions") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `action:` to wire a Stimulus action to the input without nesting
+      `html: { data: { action: ... } }`. Stimulus infers the `input` event for
+      text inputs, so the arrow-free `action: "input-demo#changed"` fires on
+      every keystroke. Spell the event out (`"change->input-demo#changed"`) to
+      fire only once the field loses focus.
+
+  .flex.flex-col.gap-2{ data: { controller: "input-demo" } }
+    = daisy_label(for: "action_input", title: "Type something")
+    = daisy_text_input(name: "action_input", id: "action_input", placeholder: "Every keystroke fires", action: "input-demo#changed")
+    %p.text-sm.opacity-70{ data: { input_demo_target: "output" } }
+      Waiting for input…

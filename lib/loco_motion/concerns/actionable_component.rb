@@ -5,22 +5,25 @@ require "active_support/concern"
 module LocoMotion
   module Concerns
     #
-    # Can be included in linkable components to provide a first-class `action`
+    # Can be included in any component to provide a first-class `action`
     # keyword option — Stimulus `data-action` sugar — instead of hand-writing
     # the nested `html: { data: { action: ... } }` hash. This mirrors the way
-    # {TurboableComponent} sugars the `data-turbo-*` attributes, and is pulled
-    # in for every linkable component by {LinkableComponent}.
+    # {TurboableComponent} sugars the `data-turbo-*` attributes. It is pulled
+    # in for every linkable component by {LinkableComponent}, and included
+    # directly by the data-input components.
     #
     # | Option    | Emitted attribute |
     # |-----------|-------------------|
     # | `action`  | `data-action`     |
     #
-    # Stimulus infers the `click` event for both `<button>` and `<a>`, so
-    # `action: "my-controller#handle"` is shorthand for
-    # `action: "click->my-controller#handle"`. The attribute is only emitted
-    # when `action` is provided, and anything passed explicitly via
-    # `html: { data: { action: ... } }` still takes precedence (user HTML is
-    # deep-merged over this default).
+    # Stimulus infers a default event from the element the attribute lands on
+    # (`click` for `<button>` and `<a>`, `input` for `<input>` and
+    # `<textarea>`, `change` for `<select>`), so the arrow-free
+    # `action: "my-controller#handle"` does the right thing on each control
+    # and is shorthand for e.g. `action: "click->my-controller#handle"`. The
+    # attribute is only emitted when `action` is provided, and anything passed
+    # explicitly via `html: { data: { action: ... } }` still takes precedence
+    # (user HTML is deep-merged over this default).
     #
     # The attribute is written in the nested `data: { action: ... }` form (not a
     # flat `"data-action"` key) so it deep-merges cleanly alongside the
@@ -42,8 +45,8 @@ module LocoMotion
       #
       # @option kws action [String] A Stimulus action wired to the component via
       #   its `data-action` attribute (e.g. `"click->my-controller#handle"`).
-      #   Stimulus infers the `click` event, so `"my-controller#handle"` works as
-      #   a shorthand.
+      #   Stimulus infers the element's default event (`click`, `input`, or
+      #   `change`), so `"my-controller#handle"` works as a shorthand.
       #
       def _initialize_actionable_component
         @action = config_option(:action)

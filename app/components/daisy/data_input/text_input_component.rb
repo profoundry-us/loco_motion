@@ -60,9 +60,14 @@ module Daisy
     # @loco_example Disabled Text Input
     #   = daisy_text_input(name: "username", id: "username", disabled: true)
     #
+    # @loco_example With a Stimulus Action
+    #   -# Stimulus infers the `input` event, so this fires on every keystroke
+    #   = daisy_text_input(name: "query", id: "query", action: "search#update")
+    #
     class TextInputComponent < LocoMotion::BaseComponent
       include LocoMotion::Concerns::LabelableComponent
       include LocoMotion::Concerns::AriableComponent
+      include LocoMotion::Concerns::ActionableComponent
 
       attr_reader :name, :id, :value, :type, :disabled, :required, :readonly
 
@@ -110,6 +115,11 @@ module Daisy
       # @option kws change [String] ID of an element whose `value` should be
       #   updated to match this input's value whenever it changes. Sets an
       #   `onchange` handler on the input; see {setup_component}.
+      #
+      # @option kws action [String] A Stimulus action wired to the input via
+      #   its `data-action` attribute. Stimulus infers the `input` event for
+      #   text inputs, so `action: "my-controller#handle"` works as a
+      #   shorthand for `action: "input->my-controller#handle"`.
       #
       def initialize(**kws)
         super
