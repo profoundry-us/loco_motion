@@ -52,7 +52,7 @@
         - # Note that we can't add it directly to the bubble because it won't
         - # render properly. So we render it on the text instead and add some
         - # margin to make sure it's not inside of the bubble.
-        .tooltip.tooltip-right.tooltip-primary.before:ml-4.after:ml-4{ data: { tip: "This is a right chat bubble tooltip!" } }
+        = daisy_tooltip("This is a right chat bubble tooltip!", css: "tooltip-right tooltip-primary before:ml-4 after:ml-4") do
           Here is some text that also has a tooltip!
 
 
@@ -65,9 +65,12 @@
       component which has a `tip` argument to simplify your code a bit.
 
   .flex.flex-col.gap-8
-    - # Manual-style HAML tooltip
+    - # Manual-style HAML tooltip, kept raw on purpose: this example contrasts
+    - # the hand-written DaisyUI markup with the helper right below it.
+    -# haml-lint:disable LocoMotionComponentUsage
     .tooltip{ data: { tip: "This is a progress tooltip!" } }
       = daisy_progress(value: 42, css: "w-56")
+    -# haml-lint:enable LocoMotionComponentUsage
 
     - # Standard helper method
     = daisy_tooltip("This is a radial tooltip!", css: "flex justify-center") do

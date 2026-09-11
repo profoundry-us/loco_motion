@@ -23,6 +23,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the feedback and data-input example pages
+  (issue #417, part 1 of 3). The animated radial, the skeleton-text spans, the chat-bubble tooltip, and the
+  checkbox/toggle "no label" tooltips now call `daisy_radial`, `daisy_skeleton`, and `daisy_tooltip`
+  instead of hand-rolling the DaisyUI markup the demo exists to argue against. The one deliberate raw
+  tooltip — the "manual-style" half of a side-by-side contrast — keeps its markup under an inline
+  `haml-lint:disable` with the reason stated.
+
 - refactor(Demo): Drain the component-usage lint backlog in the actions, data-display, layout, and mockup
   example pages (issue #417, part 2 of 3): the gradient button's spinner, the Global Modal's link menu,
   the swap tooltips and its "Make Indeterminate" button, the accordion form's submit button, the four
