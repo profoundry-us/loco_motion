@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Test Factories guide (issue #338) for `factory_bot`: factories over fixtures and the
+  minimal-valid-record rule, RSpec setup, a build-strategy table (`build` / `create` / `build_stubbed` /
+  `attributes_for`), traits, associations and sequences, transients with callbacks, suite-speed habits
+  including a `FactoryBot.lint traits: true` rake task, and when a plain object beats a factory.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
