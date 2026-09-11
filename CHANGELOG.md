@@ -23,6 +23,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Memoization guide (issue #329) recommending `memo_wise`: why it beats `@x ||= …`
+  (falsy results, arguments, thread-safety guarantees, reset/preset), installation and usage including
+  class methods, resetting shared instances in specs, a "should I memoize this?" table keyed on purity and
+  object lifetime, and the pitfalls (state changes, per-argument memory retention, `dup` sharing the memo
+  store).
+
 - docs(Guides): Document the controller pattern for interactions in the Service Objects guide (issue #325):
   `.run` and check the outcome in controllers so a validation failure becomes a flash message rather than a
   raw 500, and `.run!` only where an exception is the right failure mode (jobs, seeds and rake tasks,
