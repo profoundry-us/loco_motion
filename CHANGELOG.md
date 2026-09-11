@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Query Objects guide (issue #327) for the `active-query` gem — the read-side companion
+  to the Service Objects guide: why query objects, installation with an `ApplicationQuery` concern,
+  defining queries with typed / optional / default arguments and coercion, composing with `if` / `unless`,
+  the comparison operations, `Scopes` modules and resolvers, testing against real records, and a
+  scope-vs-query-vs-interaction table. Flags that model inference only works for the namespaced
+  `Orders::Query` form, so `model_name` is always declared.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
