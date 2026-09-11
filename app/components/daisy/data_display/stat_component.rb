@@ -22,14 +22,18 @@ module Daisy
     # @part description Additional text below the value.
     # @part figure An optional figure (usually an icon or small image) to display.
     #
-    # @slot title Custom content for the title section. You can also provide a
-    #   simple title string via the title option.
+    # @slot title [LocoMotion::BasicComponent] Custom content for the title
+    #   section. Automatically gets the `stat-title` CSS class. You can also
+    #   provide a simple title string via the title option.
     #
-    # @slot description Custom content for the description section. You can also
-    #   provide a simple description string via the description option.
+    # @slot description [LocoMotion::BasicComponent] Custom content for the
+    #   description section. Automatically gets the `stat-desc` CSS class. You
+    #   can also provide a simple description string via the description option.
     #
-    # @slot figure Custom content for the figure section. You can also provide an
-    #   image via the src option or an icon via the icon option.
+    # @slot figure [LocoMotion::BasicComponent] Custom content for the figure
+    #   section. Rendered inside the `figure` part, which carries the
+    #   `stat-figure` CSS class. You can also provide an image via the src
+    #   option or an icon via the icon option.
     #
     # @loco_example Basic Usage
     #   = daisy_stat(title: "Downloads") do
@@ -64,8 +68,8 @@ module Daisy
 
       define_parts :title, :value, :description, :figure
 
-      renders_one :title
-      renders_one :description
+      renders_one :title, LocoMotion::BasicComponent.build(css: "stat-title")
+      renders_one :description, LocoMotion::BasicComponent.build(css: "stat-desc")
       renders_one :figure
 
       # @return [String] The title text when using the simple title option.

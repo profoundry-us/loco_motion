@@ -63,12 +63,42 @@ RSpec.describe Daisy::DataDisplay::StatComponent, type: :component do
         expect(page).to have_css("div div p.font-bold", text: "Average Cart Value")
       end
 
+      it "wraps the title slot in the stat-title class" do
+        expect(page).to have_css(".stat > .stat-title p.font-bold", text: "Average Cart Value")
+      end
+
       it "renders the value" do
         expect(page).to have_css(".stat-value", text: "$319")
       end
 
       it "renders the complex description" do
         expect(page).to have_css("div div p.text-success", text: "You're doing quite well on your ACV!")
+      end
+
+      it "wraps the description slot in the stat-desc class" do
+        expect(page).to have_css(".stat > .stat-desc p.text-success", text: "You're doing quite well on your ACV!")
+      end
+    end
+  end
+
+  context "with custom css on the title and description slots" do
+    let(:stat) { described_class.new }
+
+    before do
+      render_inline(stat) do |s|
+        s.with_title(css: "text-primary") { "Average Cart Value" }
+        s.with_description(css: "italic") { "Nice work!" }
+        "$319"
+      end
+    end
+
+    describe "rendering" do
+      it "merges the custom css with the stat-title class" do
+        expect(page).to have_css(".stat > .stat-title.text-primary", text: "Average Cart Value")
+      end
+
+      it "merges the custom css with the stat-desc class" do
+        expect(page).to have_css(".stat > .stat-desc.italic", text: "Nice work!")
       end
     end
   end
@@ -134,6 +164,11 @@ RSpec.describe Daisy::DataDisplay::StatComponent, type: :component do
       describe "rendering" do
         it "renders the custom figure" do
           expect(page).to have_selector(".stat-figure .bg-primary.rounded-full", text: "★")
+        end
+
+        it "renders the figure slot inside a single stat-figure wrapper" do
+          expect(page).to have_selector(".stat > .stat-figure", count: 1)
+          expect(page).not_to have_selector(".stat-figure .stat-figure")
         end
       end
     end
