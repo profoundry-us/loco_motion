@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a View Caching guide (issue #331) for the Rails 8 / Hotwire / ViewComponent era: why
+  Solid Cache and server-rendered Turbo make fragment caching matter again, fragment and Russian-doll
+  caching with `touch: true`, collection caching with `cached: true`, recyclable keys and the template
+  digest (plus `Template Dependency:` comments), `fresh_when` / `stale?` / `expires_in`, caching
+  components with ViewComponent 4.14's `ExperimentallyCacheable` and `cache_on` (and its no-caller-content
+  restriction), the Turbo interplay, a cache-store table with Solid Cache setup and the `dev:cache` /
+  `just demo-cache` toggle, and when not to cache.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
