@@ -23,6 +23,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the demo app's chrome (issue #417, part 3 of
+  3): the header's hamburger label is `daisy_button(tag_name: :label, icon: "bars-3")`, the sidenav is a
+  `daisy_menu` whose section headings are `with_item(title:)` titles (nested groups render
+  `MenuItemComponent` directly with a `div` title), and the layout's drawer is `daisy_drawer` with the
+  sidenav in its `with_sidebar` slot. The drawer keeps its `sidenav-drawer` id, the `nav` controller's
+  checkbox target, and the docked-sidenav classes via the part options; as a side effect the overlay's
+  close label is now a real `aria-label` (the hand-rolled markup emitted an `aria_label` attribute).
+
 - refactor(Demo): Drain the component-usage lint backlog in the feedback and data-input example pages
   (issue #417, part 1 of 3). The animated radial, the skeleton-text spans, the chat-bubble tooltip, and the
   checkbox/toggle "no label" tooltips now call `daisy_radial`, `daisy_skeleton`, and `daisy_tooltip`

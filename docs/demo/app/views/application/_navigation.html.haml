@@ -4,22 +4,20 @@
 - # home page) pass `_top` because their persisted layout has no docked
 - # sidenav, so nav clicks must re-render the whole page.
 %turbo-frame#navmenu{ target: local_assigns.fetch(:frame_target, "content"), "data-nav-target": "menu" }
-  %ul.menu.w-full.px-4.py-0{ class: "mt-2.5" }
+  = daisy_menu(css: "w-full px-4 py-0 mt-2.5") do |menu|
     - @nav_sections.each do |section|
-      %li
-        %h2.menu-title.text-lg.text-base-content.flex.flex-row.items-center.gap-1.tracking-wide
-          = loco_icon(section[:icon], css: "text-#{section[:icon_color]}")
-          = section[:title]
+      - section_title = safe_join([loco_icon(section[:icon], css: "text-#{section[:icon_color]}"), section[:title]])
 
+      - menu.with_item(title: section_title, title_css: "text-lg text-base-content flex flex-row items-center gap-1 tracking-wide") do
         %ul.ml-5
           - new_badge_css = ["badge-secondary badge-xs ml-auto transition-all",
             "group-hover:-rotate-3 group-hover:scale-125",
             "group-focus:-rotate-3 group-focus:scale-125"]
           - section[:items].each do |item|
             - if item[:is_group]
-              %li
-                .menu-title.text-primary.font-bold.tracking-wide
-                  = item[:title].upcase
+              - # Nested groups sit inside the section's own `<ul>`, so they
+              - # render the item component directly rather than as menu slots.
+              = render(Daisy::Navigation::MenuItemComponent.new(title: item[:title].upcase, title_tag_name: :div, title_css: "text-primary font-bold tracking-wide")) do
                 %ul.ml-4
                   - item[:items].each do |subitem|
                     %li
@@ -40,5 +38,5 @@
                   - if item[:new]
                     = daisy_badge("New", css: new_badge_css, html: { "aria-hidden": "true" })
 
-    .mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
-      <em>That's all folks!</em> 😉
+  .mx-4.mt-8.pt-10.pb-12.border-t.border-base-300.text-center.text-xs
+    <em>That's all folks!</em> 😉
