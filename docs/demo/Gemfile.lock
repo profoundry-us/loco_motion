@@ -126,11 +126,6 @@ GEM
     erb (6.0.7)
     erubi (1.13.1)
     erubis (2.7.0)
-    factory_bot (6.6.0)
-      activesupport (>= 6.1.0)
-    factory_bot_rails (6.5.1)
-      factory_bot (~> 6.5)
-      railties (>= 6.1.0)
     faker (3.8.0)
       i18n (>= 1.8.11, < 2)
     faraday (2.14.3)
@@ -461,7 +456,6 @@ DEPENDENCIES
   cssbundling-rails
   dalli
   debug
-  factory_bot_rails
   faker
   fiddle
   haml-rails (~> 2.0)

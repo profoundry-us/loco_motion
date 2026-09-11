@@ -15,6 +15,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Demo): Drop the demo app's unused `factory_bot_rails` dependency (issue #338). The demo has no
+  models and an empty schema, so no factory could ever be defined; the Test Factories guide documents the
+  gem for real apps instead.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
