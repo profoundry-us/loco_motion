@@ -23,6 +23,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the actions, data-display, layout, and mockup
+  example pages (issue #417, part 2 of 3): the gradient button's spinner, the Global Modal's link menu,
+  the swap tooltips and its "Make Indeterminate" button, the accordion form's submit button, the four
+  direction stacks plus the gap demo's badge and range, and the browser mockup URL bars now call the helpers (`daisy_loading`, `daisy_menu`, `daisy_tooltip`, `daisy_button`,
+  `daisy_stack`, `daisy_badge`, `daisy_range`, `daisy_text_input`). The "CSS Stack" example's raw `.stack`
+  is the point of that example and keeps its markup under a reasoned `haml-lint:disable`.
+
 - docs(Navbar): Document semantic tags for `daisy_navbar`. A YARD `@note` and `@loco_example` and a new
   "Semantic Navbar" demo example show rendering a site's top bar as a `<header>` (`tag_name: :header`) with
   its links in a labelled `<nav>`, and when `tag_name: :nav` fits instead. The default stays a `<div>`.
