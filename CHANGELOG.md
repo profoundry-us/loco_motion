@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Table): Sticky headers and pinned columns via `StickableComponent` (issue #377).
+  `table.with_head(sticky: "top", row_css: "top-0")` pins the header's `<tr>` — the element DaisyUI's own
+  `table-pin-rows` pins, and now a proper `row` part with `row_css:` / `row_html:` — wiring one
+  `loco-sticky` controller per header rather than one per cell; cells style the pinned state through the
+  descendant-matching `stuck:` variant. Header and body cells accept `sticky:` themselves (`sticky: "left",
+  css: "left-0"`) for pinned columns, since cells are the elements that stick in a table.
+
 - feat(Navbar): Add the `StickableComponent` concern and a `sticky:` option on `NavbarComponent` (issue
   #377). `daisy_navbar(sticky: "top", css: "top-0 py-4 stuck:py-0")` adds the `sticky` class and the
   `loco-sticky` controller (plus its `edge` value for anything other than `top` — `"bottom"`, or

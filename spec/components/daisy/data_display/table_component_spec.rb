@@ -45,6 +45,82 @@ RSpec.describe Daisy::DataDisplay::TableComponent, type: :component do
     end
   end
 
+  context "with a sticky head" do
+    before do
+      render_inline(described_class.new) do |t|
+        t.with_head(sticky: "top", row_css: "top-0 bg-base-100") do |head|
+          head.with_column { "Name" }
+        end
+        t.with_row do |row|
+          row.with_column { "Alice" }
+        end
+      end
+    end
+
+    it "pins the header row, not the thead" do
+      expect(page).to have_selector("thead > tr.sticky.top-0.bg-base-100[data-controller='loco-sticky']")
+      expect(page).not_to have_selector("thead.sticky")
+      expect(page).not_to have_selector("thead[data-controller]")
+    end
+
+    it "omits the edge value for the top edge" do
+      expect(page).not_to have_selector("[data-loco-sticky-edge-value]")
+    end
+
+    it "leaves the cells alone" do
+      expect(page).not_to have_selector("th.sticky")
+      expect(page).not_to have_selector("th[data-controller]")
+    end
+  end
+
+  context "without a sticky head" do
+    before do
+      render_inline(described_class.new) do |t|
+        t.with_head(row_css: "font-bold") do |head|
+          head.with_column { "Name" }
+        end
+        t.with_row do |row|
+          row.with_column { "Alice" }
+        end
+      end
+    end
+
+    it "still renders the header row as a plain styled tr" do
+      expect(page).to have_selector("thead > tr.font-bold")
+      expect(page).not_to have_selector("tr.sticky")
+      expect(page).not_to have_selector("[data-controller='loco-sticky']")
+    end
+  end
+
+  context "with pinned column cells" do
+    before do
+      render_inline(described_class.new) do |t|
+        t.with_head do |head|
+          head.with_column(sticky: "left", css: "left-0") { "Name" }
+          head.with_column { "Q1" }
+        end
+        t.with_row do |row|
+          row.with_column(sticky: "left", css: "left-0") { "Alice" }
+          row.with_column { "42" }
+        end
+      end
+    end
+
+    it "pins the header cell" do
+      expect(page).to have_selector("th.sticky.left-0[data-controller='loco-sticky'][data-loco-sticky-edge-value='left']", text: "Name")
+      expect(page).not_to have_selector("th.sticky", text: "Q1")
+    end
+
+    it "pins the body cell" do
+      expect(page).to have_selector("td.sticky.left-0[data-controller='loco-sticky'][data-loco-sticky-edge-value='left']", text: "Alice")
+      expect(page).not_to have_selector("td.sticky", text: "42")
+    end
+
+    it "does not pin the header row" do
+      expect(page).not_to have_selector("tr.sticky")
+    end
+  end
+
   context "with sections" do
     let(:table) { described_class.new(css: "table-pin-rows") }
 

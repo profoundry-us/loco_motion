@@ -75,13 +75,48 @@ module Daisy
     #           - row.with_column { "Bob" }
     #           - row.with_column { "2 days ago" }
     #
+    # @loco_example Sticky header that restyles once it pins
+    #   -# `sticky:` on the head pins its `<tr>` and wires the `loco-sticky`
+    #   -# controller; the offset goes in `row_css:`, and `stuck:` utilities on
+    #   -# the row or its cells style the pinned state.
+    #   .h-96.overflow-y-auto
+    #     = daisy_table do |table|
+    #       - table.with_head(sticky: "top", row_css: "top-0 bg-base-100 stuck:shadow-md") do |head|
+    #         - head.with_column(css: "stuck:text-primary") { "Name" }
+    #         - head.with_column(css: "stuck:text-primary") { "Role" }
+    #
+    #       - table.with_row do |row|
+    #         - row.with_column { "John Smith" }
+    #         - row.with_column { "Developer" }
+    #
+    # @loco_example Pinned first column
+    #   -# Cells are the sticky elements, so each pinned cell takes `sticky:` itself.
+    #   .overflow-x-auto
+    #     = daisy_table(css: "w-max") do |table|
+    #       - table.with_head do |head|
+    #         - head.with_column(sticky: "left", css: "left-0 bg-base-100") { "Name" }
+    #         - head.with_column { "Q1" }
+    #
+    #       - table.with_row do |row|
+    #         - row.with_column(sticky: "left", css: "left-0 bg-base-100 stuck-left:border-r") { "Alice" }
+    #         - row.with_column { "42" }
+    #
     class TableComponent < LocoMotion::BaseComponent
       #
       # A component for rendering individual header cells (`<th>`) within a table
       # header row.
       #
+      # @option kws sticky [String, Symbol, Array, Boolean] Pin this cell to an
+      #   edge (`"left"` for a pinned first column, `"top"`, or several). Adds
+      #   the `sticky` class and the `loco-sticky` controller; set the offset
+      #   via `css:` (e.g. `left-0`). See {LocoMotion::Concerns::StickableComponent}.
+      #
       class HeadColumnComponent < LocoMotion::BasicComponent
+        include LocoMotion::Concerns::StickableComponent
+
         def before_render
+          super
+
           set_tag_name :component, :th
         end
       end
@@ -90,32 +125,70 @@ module Daisy
       # A component for rendering the table header (`<thead>`) section. Contains
       # header columns that define the structure of the table.
       #
+      # Sticky positioning targets the header's `<tr>` (the `row` part), which
+      # is the element DaisyUI's own `table-pin-rows` pins, so detection is a
+      # single controller per header rather than one per cell. Cells style the
+      # pinned state through the descendant-matching `stuck:` variant.
+      #
+      # @part row The `<tr>` wrapping the header cells. Accepts `row_css:` /
+      #   `row_html:`, which is where a sticky header's offset goes
+      #   (`row_css: "top-0"`).
+      #
       # @slot column+ [Daisy::DataDisplay::TableComponent::HeadColumnComponent]
       #   Individual header cells within the header row.
       #
+      # @option kws sticky [String, Symbol, Array, Boolean] Pin the header row
+      #   to an edge — normally `"top"` (or `true`). Adds the `sticky` class and
+      #   the `loco-sticky` controller to the row; the row is stamped with
+      #   `data-stuck` while pinned. Set the offset via `row_css:` (e.g.
+      #   `"top-0"`). See {LocoMotion::Concerns::StickableComponent}.
+      #
       class HeadComponent < LocoMotion::BasicComponent
+        include LocoMotion::Concerns::StickableComponent
+
+        define_part :row
+
         renders_many :columns, HeadColumnComponent
 
         def before_render
+          super
+
           set_tag_name :component, :thead
+          set_tag_name :row, :tr
         end
 
         def call
           part(:component) do
-            content_tag(:tr) do
+            part(:row) do
               columns.each do |column|
                 concat(column)
               end
             end
           end
         end
+
+        protected
+
+        # The `<tr>` sticks, not the `<thead>`.
+        def sticky_part
+          :row
+        end
       end
 
       #
       # A component for rendering individual data cells (`<td>`) within a table row.
       #
+      # @option kws sticky [String, Symbol, Array, Boolean] Pin this cell to an
+      #   edge (`"left"` for a pinned first column, or several). Adds the
+      #   `sticky` class and the `loco-sticky` controller; set the offset via
+      #   `css:` (e.g. `left-0`). See {LocoMotion::Concerns::StickableComponent}.
+      #
       class BodyColumnComponent < LocoMotion::BasicComponent
+        include LocoMotion::Concerns::StickableComponent
+
         def before_render
+          super
+
           set_tag_name :component, :td
         end
       end
