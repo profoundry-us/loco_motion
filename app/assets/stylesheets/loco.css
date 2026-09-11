@@ -72,6 +72,33 @@
 }
 
 /*
+ * `stuck` variants — style a sticky element (and anything inside it) once it
+ * is actually pinned. LocoMotion's `loco-sticky` Stimulus controller stamps
+ * `data-stuck="<edges>"` on the element while it is stuck (the value lists the
+ * pinned edges, mirroring the `scroll-state(stuck: top)` vocabulary), so an
+ * app writes `stuck:py-1` or `stuck:shadow-md` the same way it writes
+ * `hover:underline`.
+ *
+ * `stuck:` matches the stuck element itself OR any descendant of one, which is
+ * the ergonomic default (`= image_tag "logo.png", class: "h-8 stuck:h-6"`
+ * inside a compacting navbar). Its known limit is nested, independently
+ * sticky regions — descendant matching crosses them. The edge-specific
+ * `stuck-top:` / `stuck-bottom:` / `stuck-left:` / `stuck-right:` variants
+ * key on a single pinned edge (a spreadsheet corner cell is both).
+ *
+ * Because these are plain `&`-selector variants, Tailwind's own compound
+ * variants apply to them: `group-stuck:top-12` styles an element off another
+ * element's stuck state, and named groups work too (`group/nav` on the navbar,
+ * `group-stuck/nav:top-12` on a sticky section header below it, so the
+ * header's offset tracks the navbar as it compacts).
+ */
+@custom-variant stuck (&:where([data-stuck], [data-stuck] *));
+@custom-variant stuck-top (&:where([data-stuck~="top"], [data-stuck~="top"] *));
+@custom-variant stuck-bottom (&:where([data-stuck~="bottom"], [data-stuck~="bottom"] *));
+@custom-variant stuck-left (&:where([data-stuck~="left"], [data-stuck~="left"] *));
+@custom-variant stuck-right (&:where([data-stuck~="right"], [data-stuck~="right"] *));
+
+/*
  * Reveal tooltips on keyboard focus when the `tooltip` class is applied
  * directly to a focusable element (e.g. via LocoMotion's `tip:` attribute on a
  * button or link). DaisyUI v5 only reveals tooltips through
