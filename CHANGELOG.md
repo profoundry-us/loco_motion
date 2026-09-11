@@ -23,6 +23,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Component Linting guide (issue #418) for the `LocoMotionComponentUsage` rule: why
+  hand-rolled DaisyUI markup in a view is the problem the library exists to solve, setup for HAML
+  (`.haml-lint.yml` `require:`) and ERB (the `.erb_linters/` shim), a table of exactly what is and isn't
+  flagged, two adoption ratchets for an existing backlog (changed-files-only and per-file `exclude:`), and
+  the reasoned `haml-lint:disable` / `erb_lint:disable` escape hatch. The README's linting section now
+  points to the guide and corrects its `--auto-gen-config` advice — haml_lint writes `enabled: false`
+  rather than per-file excludes once a rule has offences in more than 15 files.
+
 - chore(Demo): Drop the demo app's unused `factory_bot_rails` dependency (issue #338). The demo has no
   models and an empty schema, so no factory could ever be defined; the Test Factories guide documents the
   gem for real apps instead.
