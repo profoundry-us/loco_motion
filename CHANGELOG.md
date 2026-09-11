@@ -23,6 +23,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Document the controller pattern for interactions in the Service Objects guide (issue #325):
+  `.run` and check the outcome in controllers so a validation failure becomes a flash message rather than a
+  raw 500, and `.run!` only where an exception is the right failure mode (jobs, seeds and rake tasks,
+  tests).
+
 - docs(Guides): Add a Component Linting guide (issue #418) for the `LocoMotionComponentUsage` rule: why
   hand-rolled DaisyUI markup in a view is the problem the library exists to solve, setup for HAML
   (`.haml-lint.yml` `require:`) and ERB (the `.erb_linters/` shim), a table of exactly what is and isn't
