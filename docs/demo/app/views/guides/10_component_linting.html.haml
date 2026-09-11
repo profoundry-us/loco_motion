@@ -1,0 +1,345 @@
+= content_for(:page_title) do
+  Component Linting
+
+- # Rows for the "what gets flagged" table: the markup, whether the rule
+- # fires, and why.
+- verdicts = []
+- verdicts << [".card", true, "`card` is the root class `daisy_card` declares."]
+- verdicts << [".card-body", true, "Reported as `daisy_card (body part)` — the part classes belong to the component too."]
+- verdicts << [".btn.btn-primary", true, "Only `.btn` is reported. `btn-primary` is a modifier and goes in `css:`."]
+- verdicts << ["%span.badge-success", false, "A modifier on its own is not hand-rolled markup."]
+- verdicts << [".flex.gap-4.p-4", false, "Tailwind utilities are never flagged — utilities in a view are correct usage."]
+- verdicts << ["%div{ class: card_classes }", false, "Computed values are not the rule's to judge; guessing would only produce false positives."]
+
+.max-w-prose
+  = doc_info(url: "https://github.com/profoundry-us/loco_motion/blob/main/lib/loco_motion/lint/component_map.rb", icon: "magnifying-glass", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** ships a lint rule for HAML and ERB that catches views
+      hand-rolling DaisyUI markup the library already owns — and tells you
+      which helper to call instead.
+
+.prose
+  :markdown
+    # Linting Component Usage
+
+    Views compose components; components own markup. That single sentence is
+    the premise the whole library rests on, and since 0.8.0 it is something
+    you can *enforce* rather than merely agree with. This guide covers why the
+    rule exists, how to wire it up for HAML or ERB, exactly what it does and
+    does not flag, and how to adopt it on a codebase that already has a
+    backlog.
+
+- # The roadmap: five sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#setup", class: "link-hover", data: { turbo: "false" } } Setup
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#flagged", class: "link-hover", data: { turbo: "false" } } What it flags
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#adopting", class: "link-hover", data: { turbo: "false" } } Adopting
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#exceptions", class: "link-hover", data: { turbo: "false" } } Exceptions
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Lint This At All?
+  :markdown
+    A `.card` written by hand in a view *works*. That is exactly the problem:
+    nothing stops it, so it happens — one hurried template at a time — until
+    the app has two ways of rendering every component. The hand-rolled copies
+    miss the accessibility attributes the component adds, drift from it as
+    DaisyUI renames classes between releases, and cannot pick up improvements
+    (a new slot, a Stimulus action, a Turbo option) without being found and
+    rewritten individually.
+
+    The library exists so that the markup for a card lives in **one** place.
+    Every `daisy_card` call is a promise that the view does not know, or care,
+    what classes a card is made of. The linter turns that promise into a
+    build step.
+
+.mt-6
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          .card.bg-base-100.shadow
+            .card-body
+              %h2.card-title Order #1042
+              %p Shipped yesterday.
+              .card-actions.justify-end
+                %a.btn.btn-primary{ href: order_path(order) } View
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "haml") do
+        :plain
+          = daisy_card(title: "Order #1042", css: "bg-base-100 shadow") do |card|
+            %p Shipped yesterday.
+            - card.with_actions(css: "justify-end") do
+              = daisy_button("View", css: "btn-primary", href: order_path(order))
+
+.mt-6.prose
+  :markdown
+    Run against the **Before** column, the rule reports the `.card`, the
+    `.card-body`, and the `.btn`, and each message names the helper to reach
+    for. The **After** column passes — and notice that `bg-base-100`, `shadow`,
+    `justify-end`, and `btn-primary` are all still there. Utilities and
+    modifiers belong in the view; `css:` is how you hand them to the helper.
+
+.mt-12.prose
+  %h2{ id: "setup", class: "scroll-mt-24" } 2. Setup
+  :markdown
+    The rule ships inside the gem as a linter for
+    [haml_lint](https://github.com/sds/haml-lint) and one for
+    [erb_lint](https://github.com/Shopify/erb_lint). Both read the **same**
+    derived class map, so HAML and ERB views are held to identical rules.
+
+= doc_note(modifier: :warning, title: "The Linters Are Not Installed For You", css: "mt-6") do
+  :markdown
+    `haml_lint` and `erb_lint` are *development* dependencies of the gem, and
+    development dependencies do not propagate to the apps that install it.
+    Add whichever one you need to your own `Gemfile`.
+
+.max-w-prose.mt-6
+  = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    - tabs.with_tab(title: "HAML", checked: true, content_wrapper_css: "pt-2") do
+      .prose
+        :markdown
+          Add the gem, then register the rule in `.haml-lint.yml`. The
+          `require:` entry is a plain Ruby `require`, resolved from the gem's
+          load path, so there is nothing to copy into your project.
+
+      = doc_code(css: "my-4", language: "ruby") do
+        :plain
+          # Gemfile
+          group :development do
+            gem "haml_lint", require: false
+          end
+
+      = doc_code(css: "my-4", language: "yaml") do
+        :plain
+          # .haml-lint.yml
+          require:
+            - loco_motion/lint/haml_lint/component_usage
+
+          linters:
+            LocoMotionComponentUsage:
+              enabled: true
+
+      .prose
+        :markdown
+          Run it on its own with `--include-linter`, or drop that flag to run
+          it alongside whatever haml_lint rules you already use.
+
+      = daisy_code(css: "my-4", prefix: "$") do
+        bundle exec haml-lint --include-linter LocoMotionComponentUsage app/views
+
+    - tabs.with_tab(title: "ERB", content_wrapper_css: "pt-2") do
+      .prose
+        :markdown
+          erb_lint loads custom linters from a **directory** rather than a
+          config key, so the registration is a one-line shim in
+          `.erb_linters/` plus the usual `.erb_lint.yml` entry.
+
+      = doc_code(css: "my-4", language: "ruby") do
+        :plain
+          # Gemfile
+          group :development do
+            gem "erb_lint", require: false
+          end
+
+      = doc_code(css: "my-4", language: "ruby") do
+        :plain
+          # .erb_linters/loco_motion.rb
+          require "loco_motion/lint/erb_lint/component_usage"
+
+      = doc_code(css: "my-4", language: "yaml") do
+        :plain
+          # .erb_lint.yml
+          linters:
+            LocoMotionComponentUsage:
+              enabled: true
+
+      = daisy_code(css: "my-4", prefix: "$") do
+        bundle exec erb_lint --lint-all --enable-linters LocoMotionComponentUsage
+
+.mt-6.prose
+  :markdown
+    Either way, the output says what to do rather than merely what is wrong:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bundle exec haml-lint --include-linter LocoMotionComponentUsage app/views
+    - code.with_line(prefix: ">", css: "text-warning") do
+      app/views/orders/show.html.haml:12 [W] LocoMotionComponentUsage: `.card` is LocoMotion's daisy_card — call the helper instead of hand-rolling the markup
+
+.mt-12.prose
+  %h2{ id: "flagged", class: "scroll-mt-24" } 3. What Is (and Isn't) Flagged
+  :markdown
+    Whether a team trusts a lint rule comes down to its false positives, so
+    the rule is deliberately narrow. It reads the **static** classes on a tag
+    — the `.card` shorthand and the `class: "card"` attribute spelling alike —
+    and reports a class only when it is one a LocoMotion component declares
+    as its own.
+
+- # The verdict table: the markup, whether the rule fires, and why.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Markup" }
+      - head.with_column { "Flagged?" }
+      - head.with_column { "Why" }
+    - verdicts.each do |markup, flagged, why|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= markup
+        - row.with_column do
+          - if flagged
+            = daisy_badge("Yes", css: "badge-warning badge-soft")
+          - else
+            = daisy_badge("No", css: "badge-success badge-soft")
+        - row.with_column do
+          :markdown
+            #{why}
+
+.mt-6.prose
+  :markdown
+    The class list is **derived, not hand-maintained**. At load time the rule
+    walks `LocoMotion::COMPONENTS` and pairs each component with the classes
+    its own `add_css` calls declare, so a component and the rule covering it
+    cannot drift apart: a component added in a release is enforced by that
+    release. (The hand-written list this replaced had quietly fallen to 25 of
+    70 components.) You can inspect the map from a Rails console:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: ">>") do
+      require "loco_motion/lint/component_map"
+    - code.with_line(prefix: ">>") do
+      LocoMotion::Lint::ComponentMap.build.slice("card", "card-body", "drawer-side")
+    - code.with_line(prefix: ">") do
+      {"card" => "daisy_card", "card-body" => "daisy_card (body part)", "drawer-side" => "daisy_drawer (nested part)"}
+
+.mt-12.prose
+  %h2{ id: "adopting", class: "scroll-mt-24" } 4. Adopting on an Existing Codebase
+  :markdown
+    Turn the rule on in an app that has been around for a while and you will
+    get a backlog. That is fine — the point is to stop the backlog *growing*
+    while it drains, not to convert everything in one sitting. Two ratchets
+    work well.
+
+    **Lint only what changed.** Hold new and edited views to the rule and let
+    the rest wait their turn. A pre-commit hook or CI step can feed the
+    changed HAML files straight to the linter:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    git diff --name-only --diff-filter=AMR origin/main... -- '*.haml' | xargs -r bundle exec haml-lint --include-linter LocoMotionComponentUsage
+
+.mt-4.prose
+  :markdown
+    This is what LocoMotion's own repository does — see
+    [`.highball/bin/haml-lint-changed`](https://github.com/profoundry-us/loco_motion/blob/main/.highball/bin/haml-lint-changed),
+    which runs the rule against every HAML file an editing session touches.
+
+    **Exclude the backlog by file.** List today's offenders under `exclude:`
+    and delete each line as you convert that view. Your own component
+    templates belong on this list permanently: components own their markup,
+    so raw DaisyUI classes are exactly right there.
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "yaml") do
+    :plain
+      # .haml-lint.yml
+      linters:
+        LocoMotionComponentUsage:
+          enabled: true
+          exclude:
+            # Components own their markup — raw classes are correct here.
+            - "app/components/**/*.haml"
+            # Backlog. Delete each line as the view is converted.
+            - "app/views/orders/show.html.haml"
+            - "app/views/admin/**/*.haml"
+
+= doc_note(modifier: :warning, title: "--auto-gen-config Is Not a Per-File Ratchet", css: "mt-6") do
+  :markdown
+    RuboCop's TODO file excludes offenders file by file. haml_lint's
+    `--auto-gen-config` only does that while a rule has offences in **15 or
+    fewer files** (the `--auto-gen-exclude-limit` default). Past that — which
+    is what a real backlog looks like — it writes `enabled: false` for the
+    rule instead, switching it off wholesale. Raise the limit
+    (`--auto-gen-exclude-limit 500`) or write the exclude list yourself.
+
+.mt-12.prose
+  %h2{ id: "exceptions", class: "scroll-mt-24" } 5. Deliberate Exceptions
+  :markdown
+    Sometimes the raw class is the point — a docs page demonstrating what
+    `.stack` does, or a snippet the design team asked to see verbatim. Suppress
+    the rule the usual way for your template language, and **say why** in the
+    same breath. A suppression without a reason is indistinguishable from
+    someone who gave up.
+
+.max-w-prose
+  = daisy_tabs(css: "tabs-lift", radio: true) do |tabs|
+    - tabs.with_tab(title: "HAML", checked: true, content_wrapper_css: "pt-2") do
+      = doc_code(language: "haml") do
+        :plain
+          -# The raw class IS this example: it shows the CSS `stack` used directly.
+          -# haml-lint:disable LocoMotionComponentUsage
+          .stack.gap-3.w-full
+            %img{ src: image_path("one.jpg") }
+            %img{ src: image_path("two.jpg") }
+          -# haml-lint:enable LocoMotionComponentUsage
+    - tabs.with_tab(title: "ERB", content_wrapper_css: "pt-2") do
+      = doc_code(language: "erb") do
+        :plain
+          <%# The raw class IS this example: it shows the CSS `stack` used directly. %>
+          <div class="stack gap-3 w-full"><%# erb_lint:disable LocoMotionComponentUsage %>
+            <%= image_tag "one.jpg" %>
+            <%= image_tag "two.jpg" %>
+          </div>
+
+.mt-6.prose
+  :markdown
+    If the reason you are reaching for a suppression is "the component can't
+    render what I need", that is a gap in the component, not an exception to
+    the rule. Extend it — the
+    [Building Components guide](#{guide_path("building_components")}) covers
+    parts, slots, and the `css:` / `html:` options — or
+    [open an issue](https://github.com/profoundry-us/loco_motion/issues) so
+    the fix lands for everyone.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    The rule is in place and every new view is held to the premise the
+    library is built on. A quick checklist before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "lint-gem", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `haml_lint` or `erb_lint` is in your `Gemfile` and the rule is registered.
+  = daisy_checkbox(name: "lint-run", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        The linter runs in CI or a pre-commit hook — on changed files if you have a backlog.
+  = daisy_checkbox(name: "lint-exclude", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Your own `app/components` templates are excluded; components own their markup.
+  = daisy_checkbox(name: "lint-reasons", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every `haml-lint:disable` in the codebase carries a reason.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
