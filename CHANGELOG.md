@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Profiling guide (issue #328) for the maintained `rails_mini_profiler` fork: why it over
+  rack-mini-profiler, installing the fork from Git with `stackprof` and ViewComponent instrumentation,
+  reading the waterfall (a tracer table and three habits), day-one configuration (`backtraces_enabled`
+  off, `skip_paths`, a sweeper job), the key-approved-session pattern for profiling a staging or production
+  request, and a table of what the fork adds over upstream v0.7.3.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
