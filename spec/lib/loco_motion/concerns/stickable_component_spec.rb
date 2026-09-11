@@ -21,7 +21,45 @@ class StickableTestComponent < LocoMotion::BaseComponent
   end
 end
 
+# Test class whose pinned element is an inner part rather than the root
+class StickableHandleTestComponent < LocoMotion::BaseComponent
+  include LocoMotion::Concerns::StickableComponent
+
+  define_part :handle
+
+  def call
+    part(:component) do
+      part(:handle) { "Handle" }
+    end
+  end
+
+  def before_render
+    set_tag_name(:component, :div)
+    set_tag_name(:handle, :span)
+    add_css(:component, "wrapper")
+    super
+  end
+
+  protected
+
+  def sticky_part
+    :handle
+  end
+end
+
 RSpec.describe LocoMotion::Concerns::StickableComponent, type: :component do
+  context "when a component redirects sticky_part to an inner part" do
+    before do
+      render_inline(StickableHandleTestComponent.new(sticky: "left", handle_css: "left-0"))
+    end
+
+    it "sticks the inner part and leaves the root alone" do
+      expect(page).to have_css("span.sticky.left-0[data-controller='loco-sticky'][data-loco-sticky-edge-value='left']")
+      expect(page).not_to have_css("div.wrapper.sticky")
+      expect(page).not_to have_css("div.wrapper[data-controller]")
+    end
+  end
+
   context "without the sticky option" do
     before do
       render_inline(StickableTestComponent.new)

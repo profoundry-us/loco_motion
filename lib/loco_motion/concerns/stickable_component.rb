@@ -16,6 +16,10 @@ module LocoMotion
     # |-----------|-----------------------------------------------------------|
     # | `sticky`  | `sticky` class, `loco-sticky` controller, and its `edge`  |
     #
+    # Everything lands on the component's root part by default; a component
+    # whose pinned element is an inner part overrides {#sticky_part} (a table
+    # head pins its `<tr>`).
+    #
     # The **offset is yours to set** via `css:` (`top-0`, `top-16`, `left-0`).
     # The concern deliberately never emits one: Tailwind resolves competing
     # utilities by stylesheet order, so a concern-emitted `top-0` could
@@ -83,12 +87,24 @@ module LocoMotion
       def _setup_stickable_component
         return unless sticky?
 
-        add_css(:component, "sticky")
-        add_stimulus_controller(:component, "loco-sticky")
+        add_css(sticky_part, "sticky")
+        add_stimulus_controller(sticky_part, "loco-sticky")
 
         return if @sticky_edges == ["top"]
 
-        add_html(:component, { data: { loco_sticky_edge_value: @sticky_edges.join(" ") } })
+        add_html(sticky_part, { data: { loco_sticky_edge_value: @sticky_edges.join(" ") } })
+      end
+
+      #
+      # The part that actually sticks (and carries the controller). Defaults to
+      # the component's root; override when the pinned element is an inner
+      # part — a table head pins its `<tr>`, not the `<thead>`, so it returns
+      # `:row`.
+      #
+      # @return [Symbol] A part name.
+      #
+      def sticky_part
+        :component
       end
 
       #
