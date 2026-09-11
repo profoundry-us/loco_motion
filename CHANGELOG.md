@@ -13,6 +13,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ## [Unreleased]
 
+### Component Changes
+
+- feat(Stat): Give the `title` and `description` slots their DaisyUI classes by default. The slots are now
+  built on `LocoMotion::BasicComponent` with `stat-title` / `stat-desc`, matching the simple `title:` /
+  `description:` string options, so block-form callers no longer have to add the class themselves
+  (`stat.with_title do` renders a `.stat-title` wrapper; a `css:` option on the slot merges with it). The
+  `figure` slot is unchanged since the template already wraps it in the `stat-figure` part.
+
 ### General Changes
 
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
