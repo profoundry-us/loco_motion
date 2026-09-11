@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(CSS): Add `stuck:` Tailwind variants to `loco.css` (issue #377). `stuck:` matches an element carrying
+  `data-stuck` or any descendant of one, and `stuck-top:` / `stuck-bottom:` / `stuck-left:` / `stuck-right:`
+  key on a single pinned edge, so a compacting navbar is `py-4 stuck:py-1` and its logo `h-8 stuck:h-6`.
+  They are plain `&`-selector variants, so Tailwind's own compounding gives `group-stuck:` and named
+  `group-stuck/nav:` for styling one element off another's stuck state (a sticky section header whose
+  offset tracks the navbar). The `loco-sticky` controller that stamps `data-stuck` lands separately.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
