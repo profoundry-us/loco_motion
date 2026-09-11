@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the demo app's chrome (issue #417, part 3 of
+  3): the header's hamburger label is `daisy_button(tag_name: :label, icon: "bars-3")`, the sidenav is a
+  `daisy_menu` whose section headings are `with_item(title:)` titles (nested groups render
+  `MenuItemComponent` directly with a `div` title), and the layout's drawer is `daisy_drawer` with the
+  sidenav in its `with_sidebar` slot. The drawer keeps its `sidenav-drawer` id, the `nav` controller's
+  checkbox target, and the docked-sidenav classes via the part options; as a side effect the overlay's
+  close label is now a real `aria-label` (the hand-rolled markup emitted an `aria_label` attribute).
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead

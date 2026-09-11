@@ -1,7 +1,6 @@
 = daisy_navbar(css: "justify-between px-1") do |bar|
   - bar.with_leading(css: "w-auto! gap-2") do
-    %label.-ml-2.btn.btn-ghost.px-1.sm:px-3.xl:hidden{ for: "sidenav-drawer" }
-      = loco_icon("bars-3", css: "size-6")
+    = daisy_button(tag_name: :label, css: "-ml-2 btn-ghost px-1 sm:px-3 xl:hidden", icon: "bars-3", icon_css: "size-6", html: { for: "sidenav-drawer" })
 
     .hidden.md:flex.md:items-center.text-xl.gap-2
       = link_to(root_path, class: "flex items-center gap-2") do
