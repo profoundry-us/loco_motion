@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   # Acronym titles that `titleize` can't produce (e.g. "llms" -> "Llms").
   # Also used by DocFooterButtonsComponent, which builds its own nav list.
-  DOC_TITLE_OVERRIDES = { "llms" => "LLMs", "haml" => "HAML" }.freeze
+  DOC_TITLE_OVERRIDES = { "llms" => "LLMs", "haml" => "HAML", "rubocop" => "RuboCop" }.freeze
 
   before_action :setup_nav_sections
 

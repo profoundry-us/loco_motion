@@ -1,0 +1,329 @@
+= content_for(:page_title) do
+  RuboCop
+
+- # Rows for the "cops we leave off" table: the cop, and the reason it stays
+- # off in our baseline.
+- left_off = []
+- left_off << ["Style/Documentation", "Classes are documented with YARD banners, which the cop doesn't recognise — it would flag every documented class."]
+- left_off << ["Style/ClassAndModuleChildren", "Components use the compact `Daisy::Actions::ButtonComponent <` form; the cop pushes nested `module` / `class` blocks."]
+- left_off << ["Layout/LineLength", "The 80-column wrap is a documented convention, but enforcing it on an existing codebase is a rewrite, not a lint. Opt in once the backlog is gone."]
+- left_off << ["Metrics/* (most of them)", "The noisiest department for a component library or a mature app. Opt in one cop at a time with a generous `Max` and tighten over releases."]
+- left_off << ["Style/IfUnlessModifier", "Reasonable people disagree about one-line conditionals; the cop only ever generates review nits."]
+- left_off << ["Lint/UnusedMethodArgument", "Hook methods with fixed signatures (`before_render(component)`, callbacks) legitimately ignore arguments."]
+- left_off << ["Lint/ConstantDefinitionInBlock", "Specs and DSLs define constants inside blocks on purpose."]
+
+.max-w-prose
+  = doc_info(url: "https://docs.rubocop.org/rubocop/", icon: "adjustments-horizontal", icon_css: "text-info") do
+    :markdown
+      _Loco_**Motion** standardises on **RuboCop**, configured opt-in: every
+      cop is off until the team agrees it earns its place, so the linter only
+      ever says things you have decided are true.
+
+.prose
+  :markdown
+    # RuboCop
+
+    RuboCop is Ruby's linter, formatter, and static analyser in one tool, and
+    it is the reason our code reviews are about design rather than commas.
+    This guide covers installing it with the extensions we use, running it in
+    the loops that matter (your editor, your terminal, CI), and — the core of
+    it — the **baseline configuration** we recommend, including the cops we
+    deliberately leave off and why.
+
+- # The roadmap: six sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#running", class: "link-hover", data: { turbo: "false" } } Running it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#baseline", class: "link-hover", data: { turbo: "false" } } Baseline config
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#exceptions", class: "link-hover", data: { turbo: "false" } } Exceptions
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#integration", class: "link-hover", data: { turbo: "false" } } Integration
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why RuboCop, and Why Opt-In
+  :markdown
+    Three things a linter buys a team: **consistency** (one style across
+    every file, regardless of who wrote it), **fewer review nits** (the
+    machine says "double quotes" so a human never has to), and **real bug
+    detection** — the `Lint` department catches unused variables, unreachable
+    code, forgotten `debugger` calls, and shadowed arguments before a reviewer
+    ever sees them. Most of it is autocorrectable, so the cost of adopting a
+    rule is one commit.
+
+    The default RuboCop experience is the opposite of that promise: hundreds
+    of cops on at once, thousands of offences on day one, and a team that
+    learns to ignore the output. So we configure it **opt-in**.
+    `DisabledByDefault: true` turns everything off, and each cop is enabled
+    deliberately, usually because a code review just argued about it. The
+    linter then only enforces conventions the team has actually agreed to —
+    which is what makes it trustworthy enough to gate CI.
+
+.mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installation
+  :markdown
+    RuboCop is a development tool, not a runtime dependency, so it goes in
+    the `:development` group with `require: false`. We pair it with
+    `rubocop-rails` (Rails-aware cops) and, for apps with an RSpec suite,
+    `rubocop-rspec`. `rubocop-performance` is worth adding once the code is
+    in shape:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      group :development do
+        gem "rubocop", require: false
+        gem "rubocop-rails", require: false
+        gem "rubocop-rspec", require: false
+      end
+
+.mt-6.prose
+  :markdown
+    Extensions are loaded through the `plugins:` key (RuboCop 1.72 and
+    later; older extensions that don't ship as plugins still use
+    `require:`). If your team runs several apps, `inherit_from:` accepts a
+    URL, so one shared baseline can live in a repo and every app pulls it:
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # .rubocop.yml
+      plugins:
+        - rubocop-rails
+        - rubocop-rspec
+
+      # Optional: share one baseline across apps. RuboCop caches the download.
+      # inherit_from:
+      #   - https://raw.githubusercontent.com/your-org/standards/main/rubocop.yml
+
+.mt-12.prose
+  %h2{ id: "running", class: "scroll-mt-24" } 3. Running It
+  :markdown
+    The everyday commands, from safest to most powerful. `-a` applies only
+    autocorrections RuboCop knows are behaviour-preserving; `-A` also applies
+    the *unsafe* ones, which are usually right but deserve a look at the diff
+    before you commit:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bundle exec rubocop
+    - code.with_line(prefix: "$") do
+      bundle exec rubocop -a
+    - code.with_line(prefix: "$") do
+      bundle exec rubocop -A
+    - code.with_line(prefix: "$") do
+      bundle exec rubocop --only Style/GuardClause app/
+
+.mt-4.prose
+  :markdown
+    `--only` is how you adopt a cop: enable it, run just that cop with `-a`
+    across the codebase, review, and commit the result on its own. For a
+    fast local loop on a big app, lint only what you changed:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    git diff --name-only --diff-filter=AMR origin/main... -- '*.rb' | xargs -r bundle exec rubocop
+
+.mt-12.prose
+  %h2{ id: "baseline", class: "scroll-mt-24" } 4. The Baseline Configuration
+  :markdown
+    This is the `.rubocop.yml` we start every app from. It is short on
+    purpose: the whole `Lint` department (real bugs, near-zero false
+    positives), a handful of `Style` and `Layout` cops that encode
+    conventions we have already written down, and the two Rails cops that
+    catch security and data-integrity mistakes. Everything else is off until
+    someone makes the case for it.
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # .rubocop.yml
+      plugins:
+        - rubocop-rails
+
+      AllCops:
+        # Opt-in: every cop is off until it is enabled below.
+        DisabledByDefault: true
+        # Review new cops deliberately rather than inheriting each release's.
+        NewCops: disable
+        SuggestExtensions: false
+        TargetRubyVersion: 3.4
+        Exclude:
+          - "bin/**/*"
+          - "db/**/*"
+          - "node_modules/**/*"
+          - "tmp/**/*"
+          - "vendor/**/*"
+
+      # --- Real bugs: the whole department, minus two that fight Rails idioms.
+      Lint:
+        Enabled: true
+      Lint/UnusedMethodArgument:
+        Enabled: false   # hook methods have fixed signatures
+      Lint/ConstantDefinitionInBlock:
+        Enabled: false   # specs and DSLs define constants in blocks
+
+      # --- Conventions we have already agreed on.
+      Layout/TrailingWhitespace:
+        Enabled: true
+      Style/FrozenStringLiteralComment:
+        Enabled: true
+        EnforcedStyle: always
+      Style/StringLiterals:
+        Enabled: true
+        EnforcedStyle: double_quotes
+      Style/HashSyntax:
+        Enabled: true
+        EnforcedStyle: ruby19
+      Style/GuardClause:
+        Enabled: true    # `return x if cond` over wrapping a method body in if/else
+      Style/StringConcatenation:
+        Enabled: true    # interpolation over `+`
+      Naming/AccessorMethodName:
+        Enabled: true    # no `get_` / `set_` prefixes on plain accessors
+      Metrics/ParameterLists:
+        Enabled: true
+        CountKeywordArgs: false   # keyword args have no call-site ambiguity
+
+      # --- Rails cops that catch real mistakes.
+      Rails/OutputSafety:
+        Enabled: true    # every `html_safe` / `raw` is a deliberate decision
+      Rails/SkipsModelValidations:
+        Enabled: true    # `update_column` & co. bypass validations on purpose — say so
+
+.mt-6.prose
+  :markdown
+    And the cops we have looked at and left **off**, so the next person to
+    wonder doesn't have to re-derive the reasoning:
+
+- # The left-off table: the cop and the rationale.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Cop" }
+      - head.with_column { "Why it stays off" }
+    - left_off.each do |cop, why|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= cop
+        - row.with_column do
+          :markdown
+            #{why}
+
+= doc_note(modifier: :tip, title: "Adopting a Cop", css: "mt-6") do
+  :markdown
+    The unit of change is one cop per commit: enable it, `rubocop --only
+    That/Cop -a`, review, commit. A PR that turns on five cops and touches
+    two hundred files is unreviewable; five PRs that each turn on one are
+    trivial.
+
+.mt-12.prose
+  %h2{ id: "exceptions", class: "scroll-mt-24" } 5. Exceptions
+  :markdown
+    A cop that is right 99% of the time is still wrong sometimes, and the
+    answer is a scoped, explained disable — never turning the cop off
+    globally. RuboCop's inline comments disable a cop for a range of lines;
+    keep the range tight and put the reason in the surrounding comment. This
+    is LocoMotion's own `set_component_name`, which really is a setter with
+    an argument and not an accessor:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Sets the component name used in CSS generation.
+      #
+      # rubocop:disable Naming/AccessorMethodName
+      def self.set_component_name(component_name)
+        self.component_name = component_name
+      end
+      # rubocop:enable Naming/AccessorMethodName
+
+.mt-6.prose
+  :markdown
+    For a single line, the trailing form `# rubocop:disable Cop/Name` on the
+    line itself needs no matching `enable`. If the same cop needs disabling
+    in a whole directory — generated code, a vendored file — use the cop's
+    `Exclude:` in `.rubocop.yml` instead, with a comment saying why.
+
+= doc_note(modifier: :note, title: "Adopting on an Existing Codebase", css: "mt-6") do
+  :markdown
+    Unlike haml_lint (see the
+    <a href="#{guide_path('component_linting')}#adopting" data-turbo="false">Component Linting guide</a>),
+    RuboCop's `--auto-gen-config` is a real per-file ratchet: it writes
+    `.rubocop_todo.yml` excluding today's offenders cop by cop, so new code
+    is held to the rule while the backlog drains. With the opt-in baseline
+    you will rarely need it — enabling cops one at a time *is* the ratchet.
+
+.mt-12.prose
+  %h2{ id: "integration", class: "scroll-mt-24" } 6. Editor, Hooks, and CI
+  :markdown
+    **Editor.** RuboCop ships a language server (`rubocop --lsp`), and
+    [Ruby LSP](https://github.com/Shopify/ruby-lsp) picks RuboCop up
+    automatically when it is in the `Gemfile` — offences appear inline and
+    format-on-save applies the safe autocorrections. No editor plugin
+    configuration is needed beyond installing Ruby LSP.
+
+    **Hooks.** Run it on the files you touched (the `git diff` one-liner
+    above) as a pre-commit hook, or let an agent-side runner do it: this
+    repository runs `bundle exec rubocop` as a
+    [Highball](https://github.com/profoundry-us/highball) check on every
+    editing turn.
+
+    **CI.** Run `bundle exec rubocop` as its own job — it takes seconds and
+    needs no database — and make it a **hard gate**. That is the payoff of
+    the opt-in baseline: every enabled cop is one the team agreed to, so a
+    red check is never "the linter being fussy", it is a convention being
+    broken. LocoMotion's own CI runs it as a dedicated job:
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # .github/workflows/ci.yml
+      rubocop:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v7
+          - uses: ruby/setup-ruby@v1
+            with:
+              bundler-cache: true
+          - run: bundle exec rubocop
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    Your linter enforces exactly the conventions your team has agreed to,
+    everywhere Ruby is written. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "rc-gems", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `rubocop` and `rubocop-rails` are in the `:development` group, loaded via `plugins:`.
+  = daisy_checkbox(name: "rc-baseline", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `.rubocop.yml` starts from the opt-in baseline with `DisabledByDefault: true`.
+  = daisy_checkbox(name: "rc-clean", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `bundle exec rubocop` is clean, and every inline disable has a reason next to it.
+  = daisy_checkbox(name: "rc-ci", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        RuboCop runs in CI as a hard gate and in your editor via Ruby LSP.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
