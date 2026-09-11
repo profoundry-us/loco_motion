@@ -25,7 +25,9 @@
     - steps.with_step(css: "step-primary") do
       %a{ href: "#base", class: "link-hover", data: { turbo: "false" } } Base interaction
     - steps.with_step(css: "step-primary") do
-      %a{ href: "#write", class: "link-hover", data: { turbo: "false" } } Write one 🎉
+      %a{ href: "#write", class: "link-hover", data: { turbo: "false" } } Write one
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#controllers", class: "link-hover", data: { turbo: "false" } } Call it 🎉
 
 .mt-12.prose
   %h2{ id: "gem", class: "scroll-mt-24" } 1. ActiveInteraction
@@ -87,8 +89,10 @@
 
 .mt-6.prose
   :markdown
-    Call it with `.run` (which returns an outcome you can check) or `.run!`
-    (which raises on failure):
+    Every interaction can be called two ways. `.run` always returns an
+    **outcome** — check `valid?`, then read `result` or `errors`. `.run!`
+    returns the result directly and **raises** `ActiveInteraction::InvalidInteractionError`
+    when validation fails:
 
 .mt-6.max-w-prose
   = doc_code(language: "ruby") do
@@ -100,6 +104,50 @@
       else
         # outcome.errors holds the validation messages
       end
+
+      # Or, where an exception is the failure mode you want:
+      user = Users::SignUp.run!(email: "ada@example.com", name: "Ada")
+
+.mt-12.prose
+  %h2{ id: "controllers", class: "scroll-mt-24" } 4. Calling It From a Controller
+  :markdown
+    Which one you reach for is decided by **who sees the failure**. In a
+    controller, a validation failure is user feedback — the email was taken,
+    the date is in the past — so it belongs in a flash message next to a
+    redirect or re-render, never in an exception. Use `.run`, check the
+    outcome, and surface the errors:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/controllers/users_controller.rb
+      def create
+        outcome = Users::SignUp.run(sign_up_params)
+        return redirect_to new_user_path, alert: outcome.errors.full_messages.to_sentence unless outcome.valid?
+
+        redirect_to outcome.result, notice: "Welcome aboard!"
+      end
+
+= doc_note(css: "mt-6", modifier: :warning, title: "Never run! in a Controller") do
+  :markdown
+    `.run!` turns a validation failure into an unhandled exception — a raw
+    **500** page for the user and an error report for you — for something
+    that was never a bug. The outcome pattern above costs one guard clause
+    and gives the user a message they can act on.
+
+.mt-6.prose
+  :markdown
+    `.run!` is the right call **outside** the request cycle, wherever an
+    exception is the correct failure mode and something upstream is prepared
+    to handle it:
+
+    - **Background jobs** — let the exception fail the job so the queue's
+      retry and dead-letter semantics take over.
+    - **Seeds and rake tasks** — a bad record should halt the run loudly, not
+      leave a half-seeded database behind a swallowed outcome.
+    - **Tests** — `run!` gives you the result in one line and turns an
+      unexpected validation failure into a failing example with a real
+      message.
 
 = doc_note(css: "mt-8", modifier: :tip, title: "Pro Tip") do
   :markdown
