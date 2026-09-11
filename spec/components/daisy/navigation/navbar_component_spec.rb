@@ -18,6 +18,38 @@ RSpec.describe Daisy::Navigation::NavbarComponent, type: :component do
       it "has the navbar class" do
         expect(page).to have_selector(".navbar")
       end
+
+      it "is not sticky and carries no controller" do
+        expect(page).not_to have_selector(".navbar.sticky")
+        expect(page).not_to have_selector(".navbar[data-controller]")
+      end
+    end
+  end
+
+  context "sticky navbar" do
+    it "adds the sticky class and the loco-sticky controller for the top edge" do
+      render_inline(described_class.new(sticky: "top", css: "top-0"))
+
+      expect(page).to have_selector(".navbar.sticky.top-0[data-controller='loco-sticky']")
+      expect(page).not_to have_selector("[data-loco-sticky-edge-value]")
+    end
+
+    it "treats true as the top edge" do
+      render_inline(described_class.new(sticky: true))
+
+      expect(page).to have_selector(".navbar.sticky[data-controller='loco-sticky']")
+    end
+
+    it "passes other edges to the controller" do
+      render_inline(described_class.new(sticky: %i[top left]))
+
+      expect(page).to have_selector(".navbar.sticky[data-loco-sticky-edge-value='top left']")
+    end
+
+    it "never emits an offset utility of its own" do
+      render_inline(described_class.new(sticky: "top"))
+
+      expect(page.find(".navbar")[:class].split).not_to include("top-0")
     end
   end
 
