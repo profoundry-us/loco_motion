@@ -54,7 +54,7 @@
       percentage between 8% and 100% every 1.5 seconds:
 
   .flex.flex-col.items-center.gap-4
-    #animated-radial{class: "radial-progress", style: "--value: 50; --size: 8rem; --thickness: 8px;", role: "progressbar"}
+    = daisy_radial(value: 50, size: "8rem", thickness: "8px", html: { id: "animated-radial" }) do
       50%
 
   :javascript

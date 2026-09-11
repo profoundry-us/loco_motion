@@ -20,7 +20,7 @@
   .my-2.flex.flex-col.gap-4
     %div
       = daisy_checkbox(name: "checkbox_no_label", id: "checkbox_no_label")
-      .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
+      = daisy_tooltip("CANNOT click the text to activate", css: "tooltip-warning") do
         Checkbox with no label
 
     = daisy_label(for: "checkbox_with_label") do
