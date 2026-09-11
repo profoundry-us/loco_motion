@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a RuboCop guide (issue #326): why we configure it opt-in (`DisabledByDefault: true`),
+  installation with `rubocop-rails` / `rubocop-rspec` via `plugins:`, the everyday commands (`-a`, `-A`,
+  `--only`, changed files only), the recommended baseline `.rubocop.yml` (the whole `Lint` department plus
+  the Style/Layout/Rails cops LocoMotion and webtree already enable) with a table of the cops deliberately
+  left off, the scoped `rubocop:disable` convention, and editor / hook / CI integration. Adds a `RuboCop`
+  nav-title override.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
