@@ -150,9 +150,9 @@
         per-row modals and no inline JavaScript.
 
     .flex.flex-col.items-center.gap-4
-      %ul.menu.bg-base-200.rounded-box.w-72
+      = daisy_menu(css: "bg-base-200 rounded-box w-72") do |menu|
         - %w[1 2 3].each do |id|
-          %li
+          - menu.with_item do
             = link_to "Edit Contact #{id}", edit_modal_contact_path(id), data: { turbo_frame: "contact-modal" }
 
       = daisy_modal(trigger: false, turbo_frame_id: "contact-modal", dialog_id: "contact-modal-dialog")

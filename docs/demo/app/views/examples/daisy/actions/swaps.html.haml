@@ -45,10 +45,10 @@
     - # to keep the icon centered vertically.
     = daisy_swap(css: "text-blue-600 mt-1") do |swap|
       - swap.with_on do
-        .tooltip.tooltip-right.tooltip-open{ data: { tip: "Dollar" }}
+        = daisy_tooltip("Dollar", css: "tooltip-right tooltip-open") do
           = loco_icon "currency-dollar", css: sizes
       - swap.with_off do
-        .tooltip.tooltip-right.tooltip-open{ data: { tip: "Euro" }}
+        = daisy_tooltip("Euro", css: "tooltip-right tooltip-open") do
           = loco_icon "currency-euro", css: sizes
 
 = doc_example(title: "Custom HTML Elements") do |doc|
@@ -68,6 +68,5 @@
       - swap.with_indeterminate(css: "mask-squircle bg-yellow-500 text-black #{shared_classes}") do
         Slow
 
-    .mt-2.btn.btn-sm.px-4.py-2{ onclick: "document.getElementById('stopsign').indeterminate = true" }
-      Make Indeterminate
+    = daisy_button(title: "Make Indeterminate", css: "mt-2 btn-sm px-4 py-2", html: { onclick: "document.getElementById('stopsign').indeterminate = true" })
 
