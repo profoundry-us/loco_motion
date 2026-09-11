@@ -38,7 +38,7 @@
 
   .w-full{ class: "max-w-[800px]" }
     = daisy_navbar(css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do
-      %a.btn.btn-ghost.text-xl LocoMotion
+      = daisy_link("LocoMotion", "#", css: "btn btn-ghost text-xl")
 
 
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
@@ -72,3 +72,37 @@
             = link_to "Rails", "http://www.rubyonrails.org", target: "_blank"
           - dropdown.with_item do
             = link_to "Hotwire", "https://hotwired.dev/", target: "_blank"
+
+
+= doc_example(title: "Sticky Navbar") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `sticky:` with the edge to pin to and the navbar gets the `sticky`
+      class plus LocoMotion's `loco-sticky` controller, which stamps
+      `data-stuck` on it while it is actually pinned. Style the pinned state
+      with `stuck:` utilities — here the navbar drops its padding and picks up
+      a shadow, and the logo shrinks. The offset (`top-0`) stays in `css:`
+      so it never fights your own utilities.
+
+    = doc_note(css: "mb-8") do
+      :markdown
+        Scroll the box below; the navbar compacts the moment it pins to the
+        top of its scroll container.
+
+  .w-full.h-72.overflow-y-auto.rounded-lg.border.border-base-200{ class: "max-w-[800px]" }
+    = daisy_navbar(sticky: "top", css: "top-0 z-10 bg-base-100 border-b border-base-200 py-4 stuck:py-0 stuck:shadow-md transition-[padding]") do |navbar|
+      - navbar.with_leading do
+        = image_tag("loco-logo-modern.png", class: "h-8 stuck:h-6 transition-[height]")
+        %span
+          %em> Loco
+          %span.font-bold Motion
+
+      - navbar.with_trailing do
+        = daisy_button(title: "Sign In", css: "btn-ghost btn-sm")
+
+    .p-6.space-y-4
+      - 8.times do |i|
+        %p.text-sm.opacity-70
+          Section #{i + 1}: keep scrolling — the navbar above stays put and
+          compacts once it pins, then returns to its full height when you
+          scroll back up.

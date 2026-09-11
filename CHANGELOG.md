@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Navbar): Add the `StickableComponent` concern and a `sticky:` option on `NavbarComponent` (issue
+  #377). `daisy_navbar(sticky: "top", css: "top-0 py-4 stuck:py-0")` adds the `sticky` class and the
+  `loco-sticky` controller (plus its `edge` value for anything other than `top` — `"bottom"`, or
+  `["top", "left"]` for a corner), so `stuck:` utilities style the pinned state. The concern deliberately
+  never emits an offset utility: Tailwind resolves competing utilities by stylesheet order, so the `top-0`
+  belongs in `css:`. Unknown edges raise an `ArgumentError`. A component whose pinned element is an inner
+  part overrides `sticky_part` (a table head pins its `<tr>`). Navbar's `before_render` now calls
+  `super`, which is what lets concern setup hooks run on it at all.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead

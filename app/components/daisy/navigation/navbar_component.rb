@@ -47,7 +47,16 @@ module Daisy
     #   = daisy_navbar(css: "bg-base-100") do
     #     %a.btn.btn-ghost.text-xl daisyUI
     #
+    # @loco_example Sticky navbar that compacts once it pins
+    #   -# `sticky:` adds the class and the `loco-sticky` controller; the offset
+    #   -# (`top-0`) is yours, and `stuck:` utilities style the pinned state.
+    #   = daisy_navbar(sticky: "top", css: "top-0 z-10 bg-base-100 py-4 stuck:py-0 stuck:shadow-md transition-[padding]") do |navbar|
+    #     - navbar.with_leading do
+    #       = image_tag("logo.png", class: "h-8 stuck:h-6 transition-[height]")
+    #
     class NavbarComponent < LocoMotion::BaseComponent
+      include LocoMotion::Concerns::StickableComponent
+
       renders_one :leading, LocoMotion::BasicComponent.build(css: "navbar-start")
 
       renders_one :center, LocoMotion::BasicComponent.build(css: "navbar-center")
@@ -65,11 +74,21 @@ module Daisy
       #   - Shadow: `shadow`, `shadow-lg`
       #   - Min Height: `min-h-8`, `min-h-16`
       #
+      # @option kws sticky [String, Symbol, Array, Boolean] Pin the navbar to
+      #   an edge of its scroll container: `"top"` (or `true`), `"bottom"`,
+      #   or several as an array. Adds the `sticky` class and the
+      #   `loco-sticky` controller, which stamps `data-stuck` while pinned so
+      #   `stuck:` utilities can restyle it. Set the offset yourself via
+      #   `css:` (e.g. `top-0`).
+      #
       def initialize(*args, **kws, &block)
         super
       end
 
       def before_render
+        # Runs the concern setup hooks (e.g. sticky positioning).
+        super
+
         add_css(:component, "navbar")
       end
     end
