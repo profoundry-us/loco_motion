@@ -1,0 +1,469 @@
+= content_for(:page_title) do
+  View Caching
+
+- # Rows for the cache-store table: the store, what it is good for, and the
+- # catch.
+- stores = []
+- stores << ["Solid Cache", "The Rails 8 default. Database-backed, durable, large, and shared by every process and server with no extra service to run.", "Reads are a database query, so it is slower than memory — fine for HTML fragments, wrong for a hot counter."]
+- stores << [":memory_store", "Development and tests: zero setup, per-process.", "Not shared between processes or servers; disappears on restart."]
+- stores << [":redis_cache_store", "Sub-millisecond reads when you already run Redis for something else.", "One more service to operate, patch, and pay for; Solid Cache exists so most apps don't need it."]
+- stores << [":null_store", "Development with caching switched off — every `cache` block simply renders.", "Nothing is ever cached, which is the point."]
+
+.max-w-prose
+  = doc_info(url: "https://guides.rubyonrails.org/caching_with_rails.html", icon: "archive-box", icon_css: "text-accent") do
+    :markdown
+      _Loco_**Motion** apps render HTML on the server, and in the Rails 8 /
+      Hotwire era that makes **view caching** matter again — with Solid Cache
+      in the box, there is nothing extra to run.
+
+.prose
+  :markdown
+    # View Caching
+
+    A decade of "put Redis in front of everything" advice has left view
+    caching with a reputation for complexity it no longer deserves. Rails 8
+    ships a database-backed cache store by default, Hotwire has moved
+    rendering back to the server where fragments can be reused, and
+    ViewComponent has finally learned how to participate. This guide covers
+    the modern toolkit — fragment, collection, and HTTP caching, component
+    caching, the Turbo interplay, and the stores — and, just as importantly,
+    when to leave a view uncached.
+
+- # The roadmap: nine sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why now
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#fragments", class: "link-hover", data: { turbo: "false" } } Fragments
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#collections", class: "link-hover", data: { turbo: "false" } } Collections
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#keys", class: "link-hover", data: { turbo: "false" } } Keys
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#http", class: "link-hover", data: { turbo: "false" } } HTTP
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#components", class: "link-hover", data: { turbo: "false" } } Components
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#turbo", class: "link-hover", data: { turbo: "false" } } Turbo
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#stores", class: "link-hover", data: { turbo: "false" } } Stores
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#when-not", class: "link-hover", data: { turbo: "false" } } When not to
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Now
+  :markdown
+    Two things changed. **Solid Cache** is the default cache store for new
+    Rails 8 applications: it keeps entries in a database table, so there is
+    no Redis or Memcached to provision, and because disk is cheap the cache
+    can be enormous and long-lived — entries stay warm for days instead of
+    being evicted by lunchtime. **Hotwire** moved rendering back to the
+    server. A Turbo app answers every navigation, frame load, and stream
+    with server-rendered HTML, which means the same fragments are generated
+    over and over for every visitor. That is exactly the workload a fragment
+    cache exists for.
+
+    The trade has not changed: a cache turns a rendering problem into an
+    invalidation problem. Everything below is about keeping the second
+    problem small.
+
+.mt-12.prose
+  %h2{ id: "fragments", class: "scroll-mt-24" } 2. Fragment and Russian-Doll Caching
+  :markdown
+    The `cache` helper wraps a block of view logic. The first request
+    renders it and writes the HTML to the store; every later request reads
+    it back. The key combines the record's `cache_key_with_version` with a
+    **digest of the template tree**, so editing the template (or any partial
+    it renders) busts the entry without you doing anything:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# app/views/products/index.html.haml
+      - @products.each do |product|
+        - cache product do
+          = render product
+
+.mt-6.prose
+  :markdown
+    **Russian-doll** caching is nesting: an outer cache for the list, inner
+    caches for each item. When one item changes, only its own fragment and
+    the outer fragment re-render — the other items are read straight out of
+    the cache and stitched in. For that to work the parent's version has to
+    change when a child does, which is what `touch: true` is for:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/models/review.rb
+      class Review < ApplicationRecord
+        belongs_to :product, touch: true   # a new or edited review bumps the product's updated_at
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# app/views/products/show.html.haml
+      - cache @product do
+        %h1= @product.name
+
+        - @product.reviews.each do |review|
+          - cache review do
+            = render review
+
+.mt-6.prose
+  :markdown
+    `cache_if` and `cache_unless` take a condition first, for fragments
+    that should only be cached for some visitors — the classic case is a
+    fragment that renders admin controls:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      - cache_unless current_user&.admin?, product do
+        = render product
+
+.mt-12.prose
+  %h2{ id: "collections", class: "scroll-mt-24" } 3. Collection Caching
+  :markdown
+    Wrapping each item of a list in its own `cache` block works, but it
+    reads the cache once per item. Rendering the collection with
+    `cached: true` fetches every cached entry in **one multi-read**, renders
+    only the misses, and writes those back for next time:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = render partial: "products/product", collection: @products, cached: true
+
+.mt-6.prose
+  :markdown
+    Two caveats. The whole collection must render through **one partial**
+    (Rails needs a single template digest for the batch), so a list that
+    switches partials per item cannot use it. And the cache key is the item
+    alone by default: if the rendering depends on anything else — the
+    locale, the viewer's role — fold it into the key with a lambda, or pass
+    the options hash for an expiry:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      = render partial: "products/product", collection: @products,
+        cached: ->(product) { [I18n.locale, product] }
+
+      = render partial: "products/product", collection: @products,
+        cached: { expires_in: 1.hour, key: ->(product) { [I18n.locale, product] } }
+
+.mt-12.prose
+  %h2{ id: "keys", class: "scroll-mt-24" } 4. Cache Keys and Versioning
+  :markdown
+    Modern Rails uses **recyclable cache keys**. A record's `cache_key` is
+    stable (`products/42`), and its *version* — derived from `updated_at` —
+    is stored inside the entry. When the product is touched, the version no
+    longer matches and the entry is overwritten in place rather than
+    orphaned under a new key. That is why `touch: true` is the whole
+    invalidation strategy for most apps: bump `updated_at` and every
+    fragment that depends on the record is stale.
+
+    Anything else the fragment depends on has to be in the key
+    explicitly. Pass an array — records, strings, whatever changes the
+    output:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# The fragment shows a price in the visitor's currency and differs for admins.
+      - cache [product, current_currency, current_user&.admin?] do
+        = render product
+
+.mt-6.prose
+  :markdown
+    The **template tree digest** covers the other half: Rails scans each
+    template for `render` calls and hashes the whole tree, so editing a
+    nested partial invalidates every fragment that includes it. It can only
+    see literal `render` calls, though. When a render hides inside a helper
+    method, or the partial name is built at runtime, declare the dependency
+    with a comment so the digest stays honest:
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      -# Template Dependency: todolists/todolist
+      = render_sortable_todolists @project.todolists
+
+      -# Template Dependency: events/*
+      = render_categorizable_events @person.events
+
+.mt-12.prose
+  %h2{ id: "http", class: "scroll-mt-24" } 5. HTTP and Conditional Caching
+  :markdown
+    Fragment caching saves rendering; **conditional GET** saves the whole
+    response. `fresh_when` sets `ETag` and `Last-Modified` headers from a
+    record, and when the browser sends them back on the next request and
+    nothing has changed, Rails answers **304 Not Modified** with an empty
+    body — no view is rendered at all:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/controllers/products_controller.rb
+      def show
+        @product = Product.find(params[:id])
+        fresh_when @product   # ETag + Last-Modified from cache_key_with_version and updated_at
+      end
+
+.mt-6.prose
+  :markdown
+    `stale?` is the same check as a conditional, for actions that need to
+    do more than render when the record has changed. And `expires_in` sets
+    `Cache-Control` so a browser or CDN can serve the response without
+    asking at all — reserve it for genuinely public, slow-changing pages:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      def show
+        @product = Product.find(params[:id])
+
+        if stale?(@product)
+          respond_to do |format|
+            format.html
+            format.json { render json: @product }
+          end
+        end
+      end
+
+      def pricing
+        expires_in 1.hour, public: true
+      end
+
+= doc_note(modifier: :note, title: "ETags and Layouts", css: "mt-6") do
+  :markdown
+    Rails generates *weak* ETags by default and mixes in the template
+    digests, so an ETag changes when the layout does. Anything else that
+    varies the page — the current user, a flash message — must be folded in
+    with `fresh_when @product, etag: [current_user, flash]`, or the browser
+    will happily show one user another's 304.
+
+.mt-12.prose
+  %h2{ id: "components", class: "scroll-mt-24" } 6. Caching ViewComponents
+  :markdown
+    This stack renders through ViewComponent, and components have a
+    caching blind spot: the template tree digest is built from *templates*,
+    and a component is a Ruby class. Wrap a component render in a `cache`
+    block and editing the component's template, class, or sidecar files
+    **does not** invalidate the fragment — stale markup ships until the
+    cache is cleared by hand.
+
+    ViewComponent 4.14 fixes this with `ViewComponent::ExperimentallyCacheable`.
+    Include it in a component and the component joins Rails' digest tree:
+    the surrounding fragment is invalidated when the component's template,
+    Ruby class, sidecar files, superclasses, child components, or rendered
+    partials change.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/components/product_card_component.rb
+      class ProductCardComponent < ApplicationComponent
+        include ViewComponent::ExperimentallyCacheable
+
+        def initialize(product:)
+          @product = product
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "haml") do
+    :plain
+      - cache product do
+        = render ProductCardComponent.new(product: product)
+
+.mt-6.prose
+  :markdown
+    A component can also cache **itself**, so every call site is cached
+    without a `cache` block. `cache_on` names the methods whose values form
+    the key; the digest, format, variant, and locale are added for you, and
+    `if:` / `unless:` skip the cache for some renders:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      class ProductCardComponent < ApplicationComponent
+        include ViewComponent::ExperimentallyCacheable
+
+        cache_on :product, unless: -> { product.draft? }
+
+        def initialize(product:)
+          @product = product
+        end
+
+        private
+
+        attr_reader :product
+      end
+
+= doc_note(modifier: :warning, title: "Self-Caching Components Can't Take Content", css: "mt-6") do
+  :markdown
+    A block, `with_content`, or a slot filled by the caller is not part of
+    the cache key, so passing one to a `cache_on` component raises
+    `ContentPassedToCachedComponentError` — in development and test too,
+    not just when caching is on. Move the content into the component and
+    derive it from `cache_on` values, and declare `cache_on` on the
+    components that should self-cache, never on `ApplicationComponent`
+    (it is inherited). Note the API is marked **experimental** and may
+    change in a minor release.
+
+.mt-6.prose
+  :markdown
+    Two more things the digest cannot see: a component rendered from a
+    runtime value (`render @component`) and a module included into a
+    component (modules have no template to hash). Declare both with the
+    same `Template Dependency:` comment, naming components by class. And
+    when a cache is written somewhere the component isn't rendered — a
+    background job precomputing a summary — `ProductCardComponent.cache_digest`
+    ties the entry to the component's source.
+
+.mt-12.prose
+  %h2{ id: "turbo", class: "scroll-mt-24" } 7. Turbo and Hotwire
+  :markdown
+    Fragment caches and Turbo are good neighbours because Turbo only ever
+    asks for HTML. A **Turbo Frame** that lazy-loads (`src:` with
+    `loading: "lazy"`) is a separate GET, so the frame's action gets
+    `fresh_when` and its template gets `cache` blocks like any other page —
+    and because a lazy frame is often the slow, reusable part of a page (a
+    sidebar, a recommendations panel), it is usually the *best* place to
+    cache. **Turbo Streams** broadcast partials, and a `cache` block inside
+    a broadcast partial behaves exactly as it does in a request. **Page
+    refreshes with morphing** re-render the whole page on every change,
+    which is precisely when Russian-doll caching pays off: only the changed
+    fragment costs anything.
+
+    The one rule: keep **per-visitor** markup out of cached fragments. A
+    CSRF token, a "signed in as" badge, or a Stimulus target that depends
+    on the current user inside a `cache` block will be served to the next
+    visitor. Render those outside the block, or key the block on the user.
+
+.mt-12.prose
+  %h2{ id: "stores", class: "scroll-mt-24" } 8. Stores and Configuration
+  :markdown
+    Everything above writes through `Rails.cache`, and the store behind it
+    is a one-line choice per environment.
+
+- # The store table: the store, what it is good for, and the catch.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Store" }
+      - head.with_column { "Good for" }
+      - head.with_column { "The catch" }
+    - stores.each do |store, good, catch|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= store
+        - row.with_column do
+          :markdown
+            #{good}
+        - row.with_column do
+          :markdown
+            #{catch}
+
+.mt-6.prose
+  :markdown
+    A new Rails 8 app already has Solid Cache wired up; an existing app
+    adds the gem and runs its installer, which writes the migration,
+    `config/cache.yml`, and the `cache` database entry. Then point
+    production at it:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bundle add solid_cache
+    - code.with_line(prefix: "$") do
+      bin/rails solid_cache:install
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "ruby") do
+    :plain
+      # config/environments/production.rb
+      config.cache_store = :solid_cache_store
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "yaml") do
+    :plain
+      # config/cache.yml
+      default: &default
+        store_options:
+          max_age: <%= 60.days.to_i %>      # retention ceiling
+          max_size: <%= 256.megabytes %>    # FIFO eviction past this
+          namespace: <%= Rails.env %>
+
+.mt-6.prose
+  :markdown
+    In **development** caching is off by default so you see every change
+    immediately. Rails toggles it with `bin/rails dev:cache`, which creates
+    or removes `tmp/caching-dev.txt`; LocoMotion's demo wraps the same file
+    in `just demo-cache` / `just demo-nocache`. Turn it on when you are
+    working on cache behaviour, off when you are working on views.
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bin/rails dev:cache
+    - code.with_line(prefix: ">") do
+      Development mode is now being cached.
+
+.mt-12.prose
+  %h2{ id: "when-not", class: "scroll-mt-24" } 9. When Not to Cache
+  :markdown
+    Every cache block is a place where the page can be wrong. It earns that
+    risk only when the fragment is **slow to render**, **shown often**, and
+    **the same for many visitors**. Skip it when:
+
+    - The fragment is cheap. A few dozen tags with no queries render faster
+      than the cache read that would replace them.
+    - The fragment is personalised. If the key has to include the current
+      user, the hit rate is one — you are storing a copy of every page for
+      every visitor and reusing none of them.
+    - The data changes more often than it is viewed. A live dashboard
+      invalidates faster than it can be read back.
+    - You have not measured. Profile the page first — the slow part is
+      usually a query, and a query fix helps every visitor without adding
+      an invalidation problem to maintain.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    You know the modern caching toolkit and, more importantly, where each
+    piece belongs. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "vc-store", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Production uses `:solid_cache_store` with `max_age` / `max_size` set in `config/cache.yml`.
+  = daisy_checkbox(name: "vc-touch", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every nested fragment's child association declares `touch: true`.
+  = daisy_checkbox(name: "vc-components", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Components rendered inside `cache` blocks include `ViewComponent::ExperimentallyCacheable`.
+  = daisy_checkbox(name: "vc-personal", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Nothing per-visitor (CSRF tokens, the current user) renders inside a cached fragment.
+  = daisy_checkbox(name: "vc-measure", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Each cache block was added after profiling showed the fragment was slow.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
