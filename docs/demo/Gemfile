@@ -94,7 +94,7 @@ gem "fiddle"
 gem "ostruct"
 
 # App-Specific Gems
-gem "dalli" # For use on Heroku
+gem "dalli" # Rails cache store (mem_cache_store) in production
 gem "haml-rails", "~> 2.0"
 gem "redcarpet", "~> 3.6"
 gem "unsplash"
@@ -108,10 +108,8 @@ gem "unsplash"
 #
 # Everything that runs the repo's own source uses the path-based pair
 # instead: local dev and CI select it via `BUNDLE_GEMFILE=Gemfile.dev`,
-# and the edge app's custom buildpack copies the .dev pair over these
-# canonical names at build time (heroku/ruby ignores BUNDLE_GEMFILE).
-#
-# See https://github.com/profoundry-us/loco_motion-buildpack for more info.
+# and the staging image (docs/demo/Dockerfile.fly, LOCO_SOURCE=path) copies
+# the .dev pair over these canonical names at build time.
 #
 #############################################
 gem "loco_motion-rails", "~> 0.8.0", require: "loco_motion"

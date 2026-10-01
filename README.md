@@ -231,10 +231,9 @@ You should then be able to run `just build` in the project directory and then
 > testing.
 >
 > For the Ruby gem, we point directly to it via the `:path` option in the
-> `Gemfile`. This means that we have a custom Heroku buildpack when we publish
-> the demo site to move the files into the appropriate places.
->
-> See https://github.com/profoundry-us/loco_motion-buildpack for more info.
+> `Gemfile.dev`. The staging demo site's image (`docs/demo/Dockerfile.fly`,
+> built with `LOCO_SOURCE=path`) copies the gem's files into the appropriate
+> places.
 
 From here, you can access the demo site at http://localhost:3000 and the YARD
 docs at http://localhost:8808
@@ -370,5 +369,5 @@ If you feel very strongly that you'd like to contribute, please reach out throug
 the GitHub Discussions feature and let us know!
 
 [1]: https://loco-motion.profoundry.us/
-[2]: https://loco-motion-demo-staging.profoundry.us/
-[3]: https://loco-motion-demo-staging.profoundry.us/api-docs
+[2]: https://loco-motion-edge.profoundry.us/
+[3]: https://loco-motion-edge.profoundry.us/api-docs

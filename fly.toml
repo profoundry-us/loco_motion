@@ -1,0 +1,44 @@
+# Fly.io config for the LIVE demo site (loco-motion.profoundry.us).
+#
+# Builds against the PUBLISHED gem and npm package, and deploys from the
+# `stable` branch (which only ever points at release commits) via
+# .github/workflows/deploy-live.yml. Staging lives in fly.staging.toml.
+# Secrets (Algolia, Unsplash, PostHog, SECRET_KEY_BASE) are Fly secrets.
+
+app = "loco-motion"
+primary_region = "dfw"
+
+[build]
+  dockerfile = "docs/demo/Dockerfile.fly"
+
+  [build.args]
+    LOCO_SOURCE = "registry"
+
+[deploy]
+  # Reindex Algolia for this version (was the Heroku release phase).
+  release_command = "bin/reindex_algolia"
+
+[env]
+  ALGOLIA_ENV = "production"
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  # The public demo stays warm so visitors never wait on a Rails cold boot.
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "20s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/up"
+    # Rails force_ssl would otherwise redirect Fly's plain-HTTP check.
+    headers = { X-Forwarded-Proto = "https" }
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

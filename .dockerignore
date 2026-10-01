@@ -1,0 +1,19 @@
+# Applies to every image built with the repo root as context (the Fly demo
+# image, the loco container, the YARD docs image). Those only COPY source, so
+# keep dependencies, build output and local state out of the context.
+.git/
+**/node_modules/
+**/tmp/
+**/log/*.log
+**/.env*
+**/storage/*.sqlite3*
+builds/
+.yardoc/
+yardocs/
+docs/yard/generated/
+docs/demo/app/assets/builds/*
+!docs/demo/app/assets/builds/.keep
+docs/demo/public/assets/
+docs/demo/test-results/
+docs/demo/vendor/
+spec/internal/

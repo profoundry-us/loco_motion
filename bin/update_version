@@ -52,7 +52,7 @@ def update_version(new_version = nil)
     File.write(version_rb_path, version_content)
     puts "✓ Updated version.rb"
 
-    # Update VERSION file (required by custom Heroku buildpack)
+    # Update VERSION file (the gem's canonical version file)
     version_file_path = File.join(root_dir, 'VERSION')
     File.write(version_file_path, new_version)
     puts "✓ Updated VERSION file"

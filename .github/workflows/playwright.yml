@@ -7,8 +7,8 @@ on:
   push:
     branches:
     - main
-    # `stable` is the demo sites' deploy branch; Heroku staging's auto-deploy
-    # waits for CI on it, so pushes there must produce check runs.
+    # `stable` is the live demo site's deploy branch; keep e2e coverage on
+    # what ships there.
     - stable
 
 concurrency:

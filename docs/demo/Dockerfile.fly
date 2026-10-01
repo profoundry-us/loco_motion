@@ -1,0 +1,90 @@
+# Production image for the demo sites on Fly.io (see fly.toml and
+# fly.staging.toml at the repo root). Build context is the REPO ROOT so the
+# staging build can bundle the gem's own source.
+#
+# LOCO_SOURCE picks which LocoMotion the demo runs:
+#   - "registry" (live): the committed Gemfile/Gemfile.lock and yarn.lock,
+#     i.e. the PUBLISHED gem and npm package consumers install (issue #365).
+#   - "path" (staging): the repo's own source, copied into
+#     vendor/loco_motion-rails with the Gemfile.dev pair swapped in and
+#     package.json pointed at it - what the Heroku edge buildpack did
+#     (https://github.com/profoundry-us/loco_motion-buildpack).
+
+ARG RUBY_VERSION=3.4.4
+
+FROM node:22-slim AS node_source
+
+FROM ruby:${RUBY_VERSION}-slim AS base
+
+WORKDIR /rails
+
+ENV RAILS_ENV=production \
+    RACK_ENV=production \
+    RAILS_SERVE_STATIC_FILES=enabled \
+    LANG=C.UTF-8 \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_WITHOUT="development:test"
+
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libffi8 libyaml-0-2 && \
+    rm -rf /var/lib/apt/lists/*
+
+
+FROM base AS build
+
+ARG LOCO_SOURCE=registry
+
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libffi-dev libyaml-dev pkg-config && \
+    rm -rf /var/lib/apt/lists/*
+
+# Node + Yarn only exist at build time, to bundle the JS and CSS.
+COPY --from=node_source /usr/local/bin/node /usr/local/bin/node
+COPY --from=node_source /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
+    npm install -g yarn@1.22
+
+COPY docs/demo/ ./
+
+# The gem's files, staged where the path-based Gemfile.dev expects them. Only
+# kept for a "path" build; a "registry" build discards them.
+COPY app /tmp/loco/app
+COPY lib /tmp/loco/lib
+COPY bin /tmp/loco/bin
+COPY .ruby-version Gemfile Gemfile.lock index.js LICENSE README.md VERSION \
+     loco_motion-rails.gemspec package.json yarn.lock /tmp/loco/
+
+RUN set -eux; \
+    if [ "$LOCO_SOURCE" = "path" ]; then \
+      rm -rf vendor/loco_motion-rails; \
+      mkdir -p vendor; \
+      mv /tmp/loco vendor/loco_motion-rails; \
+      cp Gemfile.dev Gemfile; \
+      cp Gemfile.dev.lock Gemfile.lock; \
+      sed -i 's|"@profoundry-us/loco_motion": "[^"]*"|"@profoundry-us/loco_motion": "file:vendor/loco_motion-rails"|' package.json; \
+      rm -f yarn.lock; \
+    else \
+      rm -rf /tmp/loco; \
+    fi
+
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+
+RUN if [ -f yarn.lock ]; then yarn install --frozen-lockfile; else yarn install; fi
+
+# jsbundling/cssbundling hook `yarn build` and `yarn build:css` into this.
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+
+RUN rm -rf node_modules tmp/cache log/*.log
+
+
+FROM base
+
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
+
+RUN mkdir -p log tmp/pids storage
+
+EXPOSE 3000
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

@@ -94,7 +94,7 @@ gem "fiddle"
 gem "ostruct"
 
 # App-Specific Gems
-gem "dalli" # For use on Heroku
+gem "dalli" # Rails cache store (mem_cache_store) in production
 gem "haml-rails", "~> 2.0"
 gem "redcarpet", "~> 3.6"
 gem "unsplash"
@@ -106,8 +106,8 @@ gem "unsplash"
 # gem for staging/production (issue #365).
 #
 # Point directly to our gem. The `docker-compose.yml` file mounts it in the
-# vendor directory, and we have a custom Heroku buildpack that copies the
-# relevant files into that directory for release.
+# vendor directory, and the staging image (docs/demo/Dockerfile.fly) copies
+# the relevant files into that directory at build time.
 #
 # See https://github.com/profoundry-us/loco_motion-buildpack for more info.
 #
