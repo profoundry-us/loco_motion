@@ -1,0 +1,312 @@
+= content_for(:page_title) do
+  Memoization
+
+- # Rows for the "should I memoize this?" table: the situation, the verdict,
+- # and why.
+- verdicts = []
+- verdicts << ["A pure, deterministic method that is expensive and read repeatedly during one object's lifetime", true, "The textbook case: a parsed config, a computed total, a resolved association."]
+- verdicts << ["A method that takes arguments and is called with the same few values over and over", true, "`memo_wise` keys the result by argument, so each distinct input is computed once."]
+- verdicts << ["Anything that reads request-varying state — the current user, `Time.current`, `params`", false, "The value is only right for one moment; a long-lived object will serve it forever."]
+- verdicts << ["A method with side effects (writes, emails, logging)", false, "Memoizing it means the side effect happens once and then silently never again."]
+- verdicts << ["A cheap call — an attribute reader, a small arithmetic expression", false, "The hash lookup costs about as much as the work it saves, and you have added a stale-state hazard for nothing."]
+- verdicts << ["A method called with many distinct arguments on a long-lived object", false, "Every argument set is retained; this is a memory leak with a decorator on it."]
+
+.max-w-prose
+  = doc_info(url: "https://github.com/panorama-ed/memo_wise", icon: "bolt", icon_css: "text-warning") do
+    :markdown
+      _Loco_**Motion** recommends **memo_wise** for method memoization: the
+      correctness of a hand-rolled cache without the hand-rolling, and the
+      fastest memoized reads in Ruby.
+
+.prose
+  :markdown
+    # Memoization
+
+    Memoization is the simplest performance tool there is: compute a value
+    once, hand back the same answer every time after. Ruby's idiom for it —
+    `@value ||= compute` — is so short that it hides three real bugs, and
+    fixing them by hand produces exactly the kind of boilerplate a library
+    should own. This guide covers why we use
+    [memo_wise](https://github.com/panorama-ed/memo_wise), how to use it,
+    and — the part that matters more than the syntax — when memoizing is the
+    wrong call.
+
+- # The roadmap: six sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why memo_wise
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#usage", class: "link-hover", data: { turbo: "false" } } Usage
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#reset", class: "link-hover", data: { turbo: "false" } } Reset & preset
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#when", class: "link-hover", data: { turbo: "false" } } When to memoize
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#pitfalls", class: "link-hover", data: { turbo: "false" } } Pitfalls
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why memo_wise Over the ||= Idiom
+  :markdown
+    The `||=` idiom re-runs the method whenever the cached value is **falsy**.
+    A lookup that legitimately returns `nil` or `false` — "does this user
+    have a subscription?" — is never memoized at all; it just runs on every
+    call while looking cached. The fix is `defined?(@x) ? @x : (@x = …)`,
+    which is correct and unreadable. Add a method **argument** and you are
+    now hand-maintaining a hash keyed by the arguments. Add a second thread
+    and you are reasoning about races.
+
+.mt-6
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "ruby") do
+        :plain
+          def subscription
+            # nil is never cached: this runs every call
+            @subscription ||= Subscription.find_by(user: user)
+          end
+
+          def price_for(plan)
+            @price_for ||= {}
+            return @price_for[plan] if @price_for.key?(plan)
+
+            @price_for[plan] = PricingEngine.quote(plan, user)
+          end
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "ruby") do
+        :plain
+          prepend MemoWise
+
+          memo_wise def subscription
+            Subscription.find_by(user: user)
+          end
+
+          memo_wise def price_for(plan)
+            PricingEngine.quote(plan, user)
+          end
+
+.mt-6.prose
+  :markdown
+    memo_wise gets all of that right — `nil` and `false` are memoized,
+    arguments are keyed automatically, class and module methods work, and
+    memoized methods are inherited — with **documented thread-safety
+    guarantees** (before a value is memoized, concurrent callers may each run
+    the method but exactly one result is stored; after, every caller gets
+    that result) and reads that
+    [benchmark](https://github.com/panorama-ed/memo_wise#benchmarks) faster
+    than every other memoization gem. It also gives you first-class
+    **reset** and **preset** helpers, which the `||=` idiom has no answer
+    for at all.
+
+.mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installation
+  :markdown
+    Add the gem to your `Gemfile` and run `bundle install`. There is no
+    generator and nothing to configure.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "memo_wise", "~> 1.13"
+
+.mt-12.prose
+  %h2{ id: "usage", class: "scroll-mt-24" } 3. Usage
+  :markdown
+    `prepend MemoWise` in the class, then mark methods with `memo_wise`. It
+    accepts a method name **or** the `def` itself (since `def` returns the
+    method's name as a symbol), so the decorator form reads naturally.
+    Memoized methods keep their visibility, so `private` still applies:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/models/invoice.rb
+      class Invoice < ApplicationRecord
+        prepend MemoWise
+
+        # No arguments: computed once per invoice instance.
+        memo_wise def total
+          line_items.sum { |item| item.quantity * item.unit_price }
+        end
+
+        # With arguments: computed once per distinct (currency) value.
+        memo_wise def total_in(currency)
+          CurrencyConverter.convert(total, from: "USD", to: currency)
+        end
+
+        private
+
+        memo_wise def tax_rate
+          TaxTable.rate_for(billing_address.region)
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    Class methods memoize the same way with the `self:` form. This is the
+    natural home for data that is genuinely constant for the life of the
+    process, such as a parsed configuration file:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      class FeatureFlags
+        prepend MemoWise
+
+        def self.definitions
+          YAML.load_file(Rails.root.join("config/feature_flags.yml"))
+        end
+        memo_wise self: :definitions
+      end
+
+= doc_note(modifier: :note, title: "Blocks Can't Be Memoized", css: "mt-6") do
+  :markdown
+    A method that takes a block — explicit `&block` or an implicit `yield` —
+    cannot be memoized, because the block is part of the input and has no
+    identity to key on. Restructure so the memoized method takes plain
+    values.
+
+.mt-12.prose
+  %h2{ id: "reset", class: "scroll-mt-24" } 4. Resetting and Presetting
+  :markdown
+    A memoized value is a snapshot, and sometimes the world it was taken
+    from changes. `reset_memo_wise` forgets memoized results — for one
+    method, for one method with a particular argument, or for everything on
+    the object — and `preset_memo_wise` stores a value without running the
+    method at all:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      invoice.reset_memo_wise(:total)              # forget total
+      invoice.reset_memo_wise(:total_in, "EUR")    # forget one argument's result
+      invoice.reset_memo_wise                      # forget everything on this object
+
+      invoice.preset_memo_wise(:total) { 0 }       # store 0 without computing
+
+      FeatureFlags.reset_memo_wise                 # class methods reset the same way
+
+.mt-6.prose
+  :markdown
+    Two places this matters:
+
+    - **Objects that outlive the data they memoized.** A request-scoped
+      object (a component, an interaction, a presenter) is thrown away
+      before anything can go stale, so it rarely needs a reset. A model that
+      memoizes a derived value and then has a setter called does — reset in
+      the setter, or don't memoize the derived value.
+    - **Tests that share an instance.** Rails view helpers are modules that
+      rspec-rails tests through a single shared `helper` object, so a
+      memoized helper method keeps its result from one example to the next.
+      Reset between examples:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/helpers/pricing_helper_spec.rb
+      RSpec.describe PricingHelper, type: :helper do
+        after { helper.reset_memo_wise }
+      end
+
+.mt-12.prose
+  %h2{ id: "when", class: "scroll-mt-24" } 5. When to Memoize — and When Not To
+  :markdown
+    memo_wise makes memoizing so easy that the discipline has to come from
+    you. The test is simple: **the method is pure, it is expensive or called
+    repeatedly, and the answer cannot change during the object's lifetime.**
+    Miss any one of those and memoization is a bug waiting for the right
+    input.
+
+- # The verdict table: the situation, whether to memoize, and why.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Situation" }
+      - head.with_column { "Memoize?" }
+      - head.with_column { "Why" }
+    - verdicts.each do |situation, memoize, why|
+      - table.with_row do |row|
+        - row.with_column do
+          = situation
+        - row.with_column do
+          - if memoize
+            = daisy_badge("Yes", css: "badge-success badge-soft")
+          - else
+            = daisy_badge("No", css: "badge-error badge-soft")
+        - row.with_column do
+          :markdown
+            #{why}
+
+.mt-6.prose
+  :markdown
+    The object's **lifetime** is the variable people forget. A ViewComponent
+    or an interaction lives for one request, so memoizing freely inside one
+    is safe: nothing it caches can outlive the request that produced it.
+    A class method, a constant, or a singleton lives for the whole process,
+    so only genuinely immutable data belongs there — and a deploy is the
+    only reset it will ever get.
+
+.mt-12.prose
+  %h2{ id: "pitfalls", class: "scroll-mt-24" } 6. Pitfalls
+  :markdown
+    **Memoizing across state changes.** memo_wise does not watch your
+    instance variables. Set `invoice.currency = "EUR"` after `total_in` has
+    been memoized and the old answer stays. Either reset in the setter or
+    keep memoized methods on objects that don't change after construction.
+
+    **Memory retention.** Results for methods with arguments are kept per
+    distinct argument set, and nothing evicts them. On a request-scoped
+    object that is a rounding error; on a long-lived one it is unbounded
+    growth. If the argument space is large — record ids, timestamps, user
+    input — reach for `Rails.cache` with an expiry instead.
+
+    **`dup` shares the memo store.** Ruby's `dup` copies instance variables
+    shallowly, and memo_wise keeps its results in one of them, so a copy and
+    its original read *and reset* the same cache. Marshalling round-trips
+    memoized state intact, which is usually what you want; sharing a store
+    between two live objects usually is not. Reset the copy, or don't
+    memoize on objects you copy.
+
+= doc_note(modifier: :tip, title: "Memoize the Expensive Thing, Not the Whole Method", css: "mt-6") do
+  :markdown
+    When a method mixes a slow lookup with cheap, state-dependent logic,
+    split it: memoize the lookup in a private method and leave the logic
+    unmemoized. The cache then stays correct no matter how the object's
+    state changes.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    You have a memoization tool that handles the edge cases for you and a
+    rule for when to reach for it. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "memo-gem", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `memo_wise` is in your `Gemfile`, and new memoization uses it rather than `||=`.
+  = daisy_checkbox(name: "memo-pure", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every memoized method is pure and cannot change during its object's lifetime.
+  = daisy_checkbox(name: "memo-reset", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Specs that share an instance (helpers, singletons) call `reset_memo_wise` between examples.
+  = daisy_checkbox(name: "memo-args", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        No long-lived object memoizes a method with an unbounded argument space.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
