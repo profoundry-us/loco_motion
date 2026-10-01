@@ -299,6 +299,24 @@
           normally collapses the label until the field is focused or has a
           value. The rule also keeps the label visible on disabled fields.
 
+    - accordion.with_section(title: "Style sticky elements once they pin (stuck:)") do
+      .prose
+        :markdown
+          A `position: sticky` element has no CSS state for "currently
+          pinned", so compacting navbars and shadowed section headers get
+          rebuilt per app with a scroll listener. loco.css defines a `stuck:`
+          variant keyed on a `data-stuck` attribute whose value lists the
+          pinned edges (`data-stuck="top"`): write `py-4 stuck:py-1` on the
+          navbar and `h-8 stuck:h-6` on its logo — `stuck:` matches the
+          stuck element and anything inside it. `stuck-top:`,
+          `stuck-bottom:`, `stuck-left:`, and `stuck-right:` key on a single
+          edge, and Tailwind's own compounding gives you `group-stuck:` and
+          named `group-stuck/nav:` for styling one element off another's
+          state (a sticky heading whose `top-16 group-stuck/nav:top-12`
+          tracks the navbar as it compacts). Anything can stamp the
+          attribute; LocoMotion's `loco-sticky` controller does it for you
+          with an `IntersectionObserver` and no configuration.
+
     - accordion.with_section(title: "Tooltips reveal on keyboard focus") do
       .prose
         :markdown
