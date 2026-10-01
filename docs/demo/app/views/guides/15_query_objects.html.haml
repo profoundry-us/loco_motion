@@ -1,0 +1,376 @@
+= content_for(:page_title) do
+  Query Objects
+
+- # Rows for the "which tool?" table: the situation, the tool, and why.
+- tools = []
+- tools << ["One predicate on one model that many places need — `published`, `active`, `recent`", "Model scope", "A scope is the model's vocabulary. Query objects *use* scopes; they don't replace them."]
+- tools << ["A read that takes arguments, has rules about them, or combines several conditions — a filtered listing, a search, a report", "Query object", "Typed arguments, a description, one place to test, and a relation you can keep chaining."]
+- tools << ["Anything that writes — create, update, send, enqueue", "Interaction", "Reads compose; writes need validation, an outcome, and a transaction boundary. That is the Service Objects guide."]
+- tools << ["A one-off `where` in a controller action that nothing else needs", "Inline", "Extracting a single line into a class is ceremony, not design. Promote it when the second caller shows up."]
+
+.max-w-prose
+  = doc_info(url: "https://github.com/matiasasis/active-query", icon: "magnifying-glass", icon_css: "text-secondary") do
+    :markdown
+      _Loco_**Motion** pairs its interactions with **query objects**:
+      interactions mutate, queries read. ActiveQuery gives the reads a
+      typed, discoverable home of their own.
+
+.prose
+  :markdown
+    # Query Objects
+
+    The [Service Objects guide](#{guide_path("services")}) moves the
+    *writes* out of your controllers and models. This guide does the same
+    for the *reads*. A query object is a class that owns one model's
+    non-trivial queries — the filtered listing, the search, the report —
+    with typed, validated arguments and a description of what each query
+    is for. We use [ActiveQuery](https://github.com/matiasasis/active-query)
+    for it: a small DSL over ActiveRecord that returns ordinary relations,
+    so everything you already know about chaining still applies.
+
+- # The roadmap: seven sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#define", class: "link-hover", data: { turbo: "false" } } Define
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#arguments", class: "link-hover", data: { turbo: "false" } } Arguments
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#compose", class: "link-hover", data: { turbo: "false" } } Compose
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#testing", class: "link-hover", data: { turbo: "false" } } Testing
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#when", class: "link-hover", data: { turbo: "false" } } When
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Query Objects
+  :markdown
+    Reads accumulate in two bad places. **Controllers** grow
+    `where` chains that depend on `params`, and every action that lists the
+    same thing reinvents them slightly differently. **Models** grow scopes
+    until the model file is mostly about how other people search it, and
+    scopes can't say which arguments they need or what a bad one looks
+    like.
+
+    A query object fixes both. The controller asks one named question —
+    `OrderQuery.overdue(days: 30)` — and the answer is a relation it can
+    paginate, count, or hand to a view. The model keeps its scopes as
+    vocabulary. And the query class is the one place to read, test, and
+    change how that question is answered. The pairing with interactions is
+    deliberate: **interactions mutate, queries read**, and neither has to
+    know how the other works.
+
+.mt-6
+  %div{ class: "grid grid-cols-1 gap-4 lg:grid-cols-2" }
+    %div
+      = daisy_badge("Before", css: "badge-ghost mb-2")
+      = doc_code(language: "ruby") do
+        :plain
+          def index
+            @orders = Order.where(status: params[:status])
+            @orders = @orders.where("total > ?", params[:min_total]) if params[:min_total].present?
+            @orders = @orders.where(customer_id: current_account.customer_ids)
+            @orders = @orders.order(placed_at: :desc)
+          end
+    %div
+      = daisy_badge("After", css: "badge-primary mb-2")
+      = doc_code(language: "ruby") do
+        :plain
+          def index
+            @orders = OrderQuery.for_account(
+              account_id: current_account.id,
+              status: params[:status],
+              min_total: params[:min_total]
+            ).order(placed_at: :desc)
+          end
+
+.mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installation
+  :markdown
+    Add the gem — note the hyphen; `active_query` with an underscore is an
+    unrelated, abandoned gem — and run `bundle install`. It needs Ruby 3.2+
+    and ActiveRecord 6.1 through 8.x; there is nothing to generate or
+    configure.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "active-query", "~> 0.2"
+
+.mt-6.prose
+  :markdown
+    Mirror the interactions layout: a base module in `app/queries/` that
+    every query object includes, so shared behaviour has a home later.
+    ActiveQuery registers classes that include it through an intermediate
+    concern just as well as direct includes:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/queries/application_query.rb
+      module ApplicationQuery
+        extend ActiveSupport::Concern
+        include ActiveQuery::Base
+      end
+
+.mt-12.prose
+  %h2{ id: "define", class: "scroll-mt-24" } 3. Defining a Query Object
+  :markdown
+    A query object names its model and declares queries with `query`: a
+    name, a one-line **description**, optionally an argument definition,
+    and a lambda that builds on `scope` — the model's `all` relation, with
+    ActiveQuery's extra operations mixed in. Each query becomes a class
+    method returning a plain `ActiveRecord::Relation`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/queries/order_query.rb
+      class OrderQuery
+        include ApplicationQuery
+
+        model_name "Order"
+
+        query :overdue, "Orders past their due date that are still unpaid",
+          { days: { type: Integer, default: 0 } },
+          ->(days:) { scope.where(paid_at: nil).lt(:due_on, days.days.ago.to_date) }
+
+        query :for_account, "An account's orders, optionally filtered by status and minimum total",
+          {
+            account_id: { type: Integer },
+            status:     { type: String, optional: true },
+            min_total:  { type: Float, optional: true }
+          },
+          ->(account_id:, status:, min_total:) {
+            scope.where(account_id: account_id)
+                 .if(status.present?, -> { where(status: status) })
+                 .if(min_total.present?, -> { gt(:total, min_total) })
+          }
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      OrderQuery.overdue                          # => ActiveRecord::Relation
+      OrderQuery.overdue(days: 30).count
+      OrderQuery.for_account(account_id: 7, status: "shipped").includes(:customer).limit(20)
+
+= doc_note(modifier: :warning, title: "Always Set model_name", css: "mt-6") do
+  :markdown
+    ActiveQuery infers the model only from a **namespaced** class named
+    `Query` — `Orders::Query` resolves to `Order`. The flat `OrderQuery`
+    form does *not* infer (the suffix isn't stripped), and the first query
+    you call raises "Model not defined". Declaring `model_name "Order"`
+    costs one line and works for both spellings, so make it a habit.
+
+.mt-12.prose
+  %h2{ id: "arguments", class: "scroll-mt-24" } 4. Arguments
+  :markdown
+    The argument definition is the part a scope can't give you. Each
+    argument has a **type** (`String`, `Integer`, `Float`, `Boolean`, or a
+    type class you register), and may be `optional: true` *or* carry a
+    `default:` — never both. Calls are validated before the lambda runs,
+    and the errors say exactly what went wrong:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      OrderQuery.for_account                          # ArgumentError: Params missing: [:account_id]
+      OrderQuery.for_account(account_id: 7, foo: 1)   # ArgumentError: Unknown params: [:foo]
+      OrderQuery.for_account(account_id: "seven")     # ArgumentError: :account_id must be of type Integer
+
+.mt-6.prose
+  :markdown
+    Values are **coerced** before they are validated: `"7"` becomes `7`,
+    `"true"` becomes `true`, a symbol becomes a string. That is what lets a
+    query object take `params` values directly without a cast at every
+    call site. Optional arguments arrive as `nil`, so the lambda's `if`
+    guards are how "not given" becomes "not filtered". If you need a type
+    the gem doesn't know — a UUID, a currency code — subclass
+    `ActiveQuery::Types::Base` and register it once in an initializer.
+
+.mt-12.prose
+  %h2{ id: "compose", class: "scroll-mt-24" } 5. Composing Queries
+  :markdown
+    Because every query returns a relation, composition is just chaining:
+    `OrderQuery.overdue.merge(OrderQuery.for_account(account_id: 7))`, or
+    call one query object's result from another's lambda. Inside the
+    lambdas, three tools keep the code flat:
+
+    - **`if` / `unless`** apply a block of conditions only when a test is
+      true — the idiomatic way to handle optional filters.
+    - **Comparison and pattern operations** — `gt`, `gteq`, `lt`, `lteq`,
+      `like`, `start_like`, `end_like` — replace the string SQL fragments
+      that `where` needs for anything but equality.
+    - **A `Scopes` module** inside the query object defines named,
+      reusable pieces available on `scope`, so a long query reads as a
+      sentence.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      class OrderQuery
+        include ApplicationQuery
+        model_name "Order"
+
+        module Scopes
+          include ActiveQuery::Scopes
+
+          scope :unpaid, -> { where(paid_at: nil) }
+          scope :placed_since, ->(date:) { gteq(:placed_at, date) }
+        end
+
+        query :recent_unpaid, "Unpaid orders placed in the last month",
+          -> { scope.unpaid.placed_since(date: 1.month.ago) }
+
+        query :search, "Orders whose reference starts with a prefix",
+          { prefix: { type: String } },
+          ->(prefix:) { scope.start_like(:reference, prefix) }
+      end
+
+.mt-6.prose
+  :markdown
+    When a query outgrows a lambda — joins, grouping, a `having` clause —
+    move it to a **resolver**, a class inheriting from
+    `ActiveQuery::Resolver` whose `resolve` method receives the same
+    keyword arguments and builds on `scope`. The query object stays a
+    readable index of *what* can be asked; the resolver holds *how*.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/queries/resolvers/top_customers_resolver.rb
+      class TopCustomersResolver < ActiveQuery::Resolver
+        def resolve(min_orders: 5)
+          scope.joins(:orders)
+               .group("customers.id")
+               .having("COUNT(orders.id) >= ?", min_orders)
+               .select("customers.*, COUNT(orders.id) AS order_count")
+        end
+      end
+
+      class CustomerQuery
+        include ApplicationQuery
+        model_name "Customer"
+
+        query :top, "Customers with at least min_orders orders",
+          { min_orders: { type: Integer } },
+          resolver: TopCustomersResolver
+      end
+
+= doc_note(modifier: :tip, title: "Every Query Is Self-Describing", css: "mt-6") do
+  :markdown
+    `OrderQuery.queries` returns each query's name, description, and
+    argument definition, and `ActiveQuery::Base.registry` lists every
+    query object in the app. That is enough to generate an admin
+    "reports" page, a CLI, or documentation from the query layer itself —
+    and it is why the description argument is required, not decorative.
+
+.mt-12.prose
+  %h2{ id: "testing", class: "scroll-mt-24" } 6. Testing a Query Object
+  :markdown
+    A query object is tested against a real database with a handful of
+    records — this is what
+    [factories](#{guide_path("test_factories")}) are for. Create the rows
+    that should match and one that shouldn't, call the query, and assert
+    on the result. Argument validation gets one example per rule, and a
+    `to_sql` assertion is worth it only when the SQL shape *is* the
+    behaviour (an index you depend on, a join you must avoid):
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/queries/order_query_spec.rb
+      RSpec.describe OrderQuery do
+        describe ".overdue" do
+          it "returns unpaid orders past their due date" do
+            overdue = create(:order, :unpaid, due_on: 10.days.ago)
+            create(:order, :unpaid, due_on: 2.days.from_now)   # not yet due
+            create(:order, :paid,   due_on: 10.days.ago)       # paid, so not overdue
+
+            expect(described_class.overdue).to contain_exactly(overdue)
+          end
+
+          it "widens the window with days:" do
+            create(:order, :unpaid, due_on: 10.days.ago)
+
+            expect(described_class.overdue(days: 30)).to be_empty
+          end
+        end
+
+        describe ".for_account" do
+          it "requires account_id" do
+            expect { described_class.for_account }.to raise_error(ArgumentError, /account_id/)
+          end
+        end
+      end
+
+.mt-12.prose
+  %h2{ id: "when", class: "scroll-mt-24" } 7. Scope, Query Object, or Interaction?
+  :markdown
+    Three tools that all "get data" is a recipe for arguments unless the
+    boundaries are stated. Ours:
+
+- # The tool table: the situation, the tool, and why.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "You need" }
+      - head.with_column { "Reach for" }
+      - head.with_column { "Why" }
+    - tools.each do |need, tool, why|
+      - table.with_row do |row|
+        - row.with_column do
+          :markdown
+            #{need}
+        - row.with_column do
+          = daisy_badge(tool, css: "badge-neutral badge-soft whitespace-nowrap")
+        - row.with_column do
+          :markdown
+            #{why}
+
+.mt-6.prose
+  :markdown
+    The line between the first two is *arguments and rules*. The moment a
+    scope wants two parameters, a default, or a "but only when…", it is a
+    query. The line between a query and an interaction is *side effects*:
+    a query object must never write, enqueue, or send — if it needs to, it
+    was an interaction all along, and the interaction can call the query
+    for its reads.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    Your reads have a home that matches your writes: named, typed,
+    described, and tested in one place. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "aq-gem", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `active-query` is in the `Gemfile` and `ApplicationQuery` lives in `app/queries/`.
+  = daisy_checkbox(name: "aq-model", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every query object declares `model_name` and every query has a real description.
+  = daisy_checkbox(name: "aq-args", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Filters that come from `params` are typed arguments, with `optional:` guards in the lambda.
+  = daisy_checkbox(name: "aq-pure", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        No query object writes anything — side effects belong to interactions.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
