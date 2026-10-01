@@ -95,4 +95,24 @@ RSpec.describe Daisy::DataInput::TextInputComponent, type: :component do
     expect(page).to have_css("label.input")
     expect(page).to have_css("input[type='text']")
   end
+
+  it "renders the data-action attribute on the input, not the label wrapper" do
+    render_inline(described_class.new(name: "username", leading: "Username", action: "autosave#changed"))
+
+    expect(page).to have_css("input[data-action='autosave#changed']")
+    expect(page).not_to have_css("label[data-action]")
+  end
+
+  it "does not render a data-action attribute when no action is provided" do
+    render_inline(described_class.new(name: "username"))
+
+    expect(page).not_to have_css("input[data-action]")
+  end
+
+  it "lets an explicit html data-action override the action option" do
+    render_inline(described_class.new(name: "username", action: "autosave#changed", html: { data: { action: "explicit#handler" } }))
+
+    expect(page).to have_css("input[data-action='explicit#handler']")
+    expect(page).not_to have_css("input[data-action='autosave#changed']")
+  end
 end
