@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the feedback and data-input example pages
+  (issue #417, part 1 of 3). The animated radial, the skeleton-text spans, the chat-bubble tooltip, and the
+  checkbox/toggle "no label" tooltips now call `daisy_radial`, `daisy_skeleton`, and `daisy_tooltip`
+  instead of hand-rolling the DaisyUI markup the demo exists to argue against. The one deliberate raw
+  tooltip — the "manual-style" half of a side-by-side contrast — keeps its markup under an inline
+  `haml-lint:disable` with the reason stated.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
