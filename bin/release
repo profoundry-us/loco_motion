@@ -231,10 +231,10 @@ def check_prerequisites(dry_run: false)
   puts "   'Publish Packages' workflow, which publishes via trusted publishing."
   puts
 
-  # Lint and the fast test suites always run — a red main blocks staging's
-  # CI-gated deploy of `stable`, so catching failures BEFORE the release
+  # Lint and the fast test suites always run — a red main blocks the
+  # CI-gated deploys (staging from main, live from `stable`), so catching failures BEFORE the release
   # commits exist is much cheaper than after (learned on v0.7.1, which
-  # shipped packages fine but stalled at the staging deploy on a rubocop
+  # shipped packages fine but stalled at the Heroku staging deploy on a rubocop
   # offense). Each is an execute_command, so a failure still offers the
   # continue-anyway escape hatch for genuine emergencies. Playwright stays
   # optional: it's the slow suite and can crash locally on a busy Docker VM.
@@ -952,12 +952,12 @@ def update_stable_branch(version, dry_run: false)
   puts "\nFINISH STEP 4: Advance Stable Deploy Branch"
   puts "=" * 50
 
-  # The demo sites (staging + production promote) deploy from `stable`, not
-  # main: main carries a pre-release version between releases, so building it
-  # would publish docs that claim an unreleased version, link to llms files
-  # that don't exist, and index Algolia under the pre version. `stable` only
-  # ever points at release commits; advance it to the demo-update commit we
-  # just pushed.
+  # The live demo site deploys from `stable`, not main (staging runs main):
+  # main carries a pre-release version between releases, so building it would
+  # publish docs that claim an unreleased version, link to llms files that
+  # don't exist, and index Algolia under the pre version. `stable` only ever
+  # points at release commits; advance it to the demo-update commit we just
+  # pushed.
   if dry_run
     puts "DRY RUN: Would advance origin/stable to the current release commit"
     puts "   Running: git push origin HEAD:stable"
@@ -974,11 +974,11 @@ def update_stable_branch(version, dry_run: false)
     return
   end
 
-  puts "   Heroku staging auto-deploys `stable`; advancing it ships v#{version}"
-  puts "   to the public docs sites (promote staging to production after)."
+  puts "   The Deploy Live workflow ships `stable` to Fly.io once CI passes on it;"
+  puts "   advancing it puts v#{version} on the live demo site."
   response = prompt_yes_no("Advance origin/stable to this release?", default: 'y')
   unless response == 'y'
-    puts "WARNING: The deployed demo sites will stay on the previous release"
+    puts "WARNING: The live demo site will stay on the previous release"
     puts "   until you push: git push origin <release-sha>:stable"
     return
   end
@@ -988,9 +988,9 @@ def update_stable_branch(version, dry_run: false)
   # their content ships with the release, so overwriting them is correct.
   # force-with-lease still guards against clobbering an unfetched push.
   #
-  # Never force-push: Heroku's GitHub auto-deploy silently ignores force
-  # pushes (learned on v0.7.2 — stable advanced, CI went green, no deploy
-  # ever fired). A fast-forward push covers the normal case; when stable
+  # Never force-push: rewriting `stable` loses the hotfix history, and
+  # Heroku's GitHub auto-deploy silently ignored force pushes (learned on
+  # v0.7.2). A fast-forward push covers the normal case; when stable
   # carries cherry-picked hotfixes, reconcile with a MERGE instead of a
   # rewrite. Every cherry-pick is a copy of a main commit, so the merged
   # content must equal the release commit's — build the merge directly with
@@ -1071,8 +1071,7 @@ def bump_to_next_pre_release(version, dry_run: false)
   end
 end
 
-STAGING_URL = "https://loco-motion-demo-staging.profoundry.us"
-PRODUCTION_URL = "https://loco-motion.profoundry.us"
+LIVE_URL = "https://loco-motion.profoundry.us"
 
 # Opens a URL in the user's default browser (macOS `open`, Linux `xdg-open`).
 def open_in_browser(url)
@@ -1113,50 +1112,15 @@ def verify_site(label, step, url, version, dry_run: false)
     end
 
     puts "WARNING: #{label} still isn't serving v#{version} after 15 minutes."
-    puts "   Check the deploy in the Heroku dashboard."
+    puts "   Check the Deploy Live workflow:"
+    puts "     gh run list --workflow deploy-live.yml --limit 3"
+    puts "   and the app: fly status -a loco-motion"
     case prompt_retry_skip_abort("#{label} not verified.")
     when 'retry' then next
     when 'skip' then return false
     when 'abort' then exit 1
     end
   end
-end
-
-def promote_to_production(version, dry_run: false)
-  puts "\nFINISH STEP 7: Promote to Production"
-  puts "=" * 50
-
-  if dry_run
-    puts "DRY RUN: Would run: heroku pipelines:promote -a loco-motion-demo-staging"
-    puts "   (non-interactive runs skip this unless --promote is passed)"
-    return true
-  end
-
-  # Production promotion is the one step that ships to real users, so the
-  # deterministic default is to STOP after staging verifies and leave the
-  # promote as an explicit act: eyeball staging, then pass --promote (or run
-  # the heroku command yourself). Interactive mode asks like it always did.
-  unless interactive? || $promote
-    puts "INFO: Staging is verified; production promotion needs an explicit opt-in."
-    puts "   Review staging at #{STAGING_URL}, then either:"
-    puts "     heroku pipelines:promote -a loco-motion-demo-staging"
-    puts "   or re-run with the flag (idempotent — completed steps skip themselves):"
-    puts "     bin/release --finish #{version} --promote"
-    return false
-  end
-
-  response = interactive? ? prompt_yes_no("Promote staging to production?", default: 'y') : 'y'
-  unless response == 'y'
-    puts "INFO: Skipping — promote later with:"
-    puts "   heroku pipelines:promote -a loco-motion-demo-staging"
-    return false
-  end
-
-  execute_command(
-    "Promoting staging to production",
-    "heroku pipelines:promote -a loco-motion-demo-staging",
-    exit_on_failure: false
-  )
 end
 
 def main
@@ -1169,7 +1133,6 @@ def main
   dry_run = ARGV.include?('--dry-run')
   $interactive = ARGV.include?('--interactive')
   $run_playwright = ARGV.include?('--playwright')
-  $promote = ARGV.include?('--promote')
 
   if $interactive
     puts "   This wizard will walk you through the complete release process."
@@ -1210,11 +1173,11 @@ def main
       1. Verify the GitHub release is published (not a draft)
       2. Wait for the API docs workflow and verify the docs URL serves
       3. Update demo app
-      4. Advance the `stable` deploy branch (staging deploys from it)
-      5. Bump main to the next pre-release (e.g. 0.8.0.pre)
-      6. Wait for staging to serve the release; open it for review
-      7. Promote staging to production (prompted)
-      8. Wait for production to serve the release; open it for review
+      4. Advance the `stable` deploy branch (the Deploy Live workflow ships
+         it to Fly.io once CI passes)
+      5. Bump main to the next pre-release (e.g. 0.8.0.pre) — staging
+         auto-deploys main, so it moves on to the pre-release
+      6. Wait for the live site to serve the release; open it for review
 
       The wizard runs NON-INTERACTIVELY by default: every prompt takes a
       deterministic answer (documented defaults; anything that needs human
@@ -1228,9 +1191,6 @@ def main
                        running with --interactive (which prompts for it);
                        --finish infers it from version.rb when omitted.
         --finish       Run phase 2 (after the GitHub release is published)
-        --promote      Phase 2: promote staging to production. Without it a
-                       non-interactive --finish stops after staging verifies
-                       and prints the promote command.
         --playwright   Phase 1: also run the Playwright e2e suite in the
                        preflight checks (CI gates it either way).
         --interactive  Restore the original ask-at-every-step wizard,
@@ -1281,28 +1241,21 @@ def main
       update_demo_app(version, dry_run: dry_run)
       update_stable_branch(version, dry_run: dry_run)
       bump_to_next_pre_release(version, dry_run: dry_run)
-      staging_ok = verify_site("Staging", 6, STAGING_URL, version, dry_run: dry_run)
-
-      promote = staging_ok ||
-                prompt_yes_no("Staging unverified — promote anyway?", default: 'n') == 'y'
-      promoted = promote && promote_to_production(version, dry_run: dry_run)
-
-      verify_site("Production", 8, PRODUCTION_URL, version, dry_run: dry_run) if promoted
+      live = verify_site("Live", 6, LIVE_URL, version, dry_run: dry_run)
 
       if dry_run
         puts "\nDRY RUN COMPLETED (finish phase)"
-      elsif promoted
+      elsif live
         puts "\nSUCCESS: Release v#{version} is fully shipped and live!"
         puts "=" * 50
         puts "   Optional follow-ups:"
         puts "   1. Reindex your local dev Algolia: just algolia-index"
         puts "   2. Close out any release-blocking issues"
       else
-        puts "\nSUCCESS: Release v#{version} is live on staging; production is pending."
+        puts "\nWARNING: Release v#{version} is published, but the live site isn't serving it yet."
         puts "=" * 50
-        puts "   Review staging at #{STAGING_URL}, then promote with:"
-        puts "     heroku pipelines:promote -a loco-motion-demo-staging"
-        puts "   or: bin/release --finish #{version} --promote"
+        puts "   Check: gh run list --workflow deploy-live.yml --limit 3"
+        puts "   Re-deploy: gh workflow run deploy-live.yml"
       end
     else
       # PHASE 1 — publish the artifacts. Stops before anything user-facing

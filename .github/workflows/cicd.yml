@@ -6,8 +6,8 @@ on:
   push:
     branches:
     - main
-    # `stable` is the demo sites' deploy branch; Heroku staging's auto-deploy
-    # waits for CI on it, so pushes there must produce check runs.
+    # Deploy Staging (main) and Deploy Live (stable) run off this workflow's
+    # completion, so both branches must produce CI runs.
     - stable
 
 concurrency:

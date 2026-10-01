@@ -48,11 +48,9 @@ Before releasing a new version, ensure:
 > 2. You review and publish the GitHub release (which deploys the API docs).
 > 3. `bin/release --finish` ships the *sites* — it verifies the release is
 >    published and the API docs serve, updates the demo app, advances the
->    `stable` deploy branch, bumps main to the next minor pre-release
->    (e.g. `0.8.0.pre`), and waits for staging to serve the release. It then
->    stops so you can review staging; promote with
->    `heroku pipelines:promote -a loco-motion-demo-staging` (or re-run with
->    `--promote`, which also verifies production afterward).
+>    `stable` deploy branch (which deploys the live site), bumps main to the
+>    next minor pre-release (e.g. `0.8.0.pre`), and waits for the live site
+>    to serve the release.
 >
 > The wizard is **non-interactive by default** so a release is deterministic
 > whether a human or an agent drives it: every prompt takes a documented
@@ -300,12 +298,12 @@ After both packages are published, update the demo app to use the new versions:
 
 ## Step 6.5 - Advance the Stable Deploy Branch
 
-The public demo sites do **not** deploy from `main`. Between releases, main
+The live demo site does **not** deploy from `main`. Between releases, main
 carries a pre-release version (e.g. `0.8.0.pre`), so building it would publish
 docs that claim an unreleased version, link to `llms-v0.8.0.pre.txt` files
 that were never generated, and index Algolia under the pre version.
 
-Instead, Heroku staging auto-deploys the `stable` branch, which only ever
+Instead, the live site deploys from the `stable` branch, which only ever
 points at release commits. The wizard advances it for you; manually it's:
 
 ```bash
@@ -316,26 +314,39 @@ where `<release-sha>` is the demo-update commit from Step 6. A release always
 fast-forwards `stable` (it lives in main's history) — if the push is rejected,
 `stable` has diverged and you should inspect it rather than force-push.
 
-After staging builds `stable` and you've verified the site shows the new
-version, promote to production:
+### Where the demo sites run
 
-```bash
-heroku pipelines:promote -a loco-motion-demo-staging
-```
+Both demo sites run on [Fly.io](https://fly.io) in the `profoundry` org and
+deploy from GitHub Actions once the CI-CD workflow passes for the pushed
+commit:
+
+| Site | Fly app | Deploys from | Config | Builds against |
+|------|---------|--------------|--------|----------------|
+| [Live](https://loco-motion.profoundry.us) | `loco-motion` | `stable` (`deploy-live.yml`) | `fly.toml` | the published gem + npm package |
+| [Staging](https://loco-motion-demo-staging.profoundry.us) | `loco-motion-staging` | `main` (`deploy-staging.yml`) | `fly.staging.toml` | the repo's own source |
+
+Both build `docs/demo/Dockerfile.fly`; its `LOCO_SOURCE` build arg picks the
+gem source. `loco-motion-edge.profoundry.us` (the old Heroku edge app) now
+points at staging too. App secrets (Algolia, Unsplash, PostHog,
+`SECRET_KEY_BASE`) are Fly secrets (`fly secrets list -a <app>`); the
+workflows authenticate with the `FLY_API_TOKEN_LIVE` and
+`FLY_API_TOKEN_STAGING` repository secrets (per-app deploy tokens).
+
+To re-deploy live by hand (e.g. after a hotfix cherry-picked onto `stable`
+whose CI run was skipped), run the **Deploy Live** workflow from the Actions
+tab or `gh workflow run deploy-live.yml`.
 
 > [!TIP]
-> `bin/release --finish` automates this whole stretch: it waits for staging
-> to serve the released version, offers to open it in your browser for
-> review, prompts for the promotion, then waits for production and offers to
-> open that too.
+> `bin/release --finish` waits for the live site to serve the released
+> version and offers to open it in your browser for review.
 
 ## Step 7 - Algolia Indexing
 
-When the demo application is deployed to Heroku after a new release, the Algolia
-indexing process will run automatically to update the component documentation
-search index.
+Every deploy of a demo site reindexes Algolia automatically to update the
+component documentation search index.
 
-1. The indexing process runs as part of the Heroku release phase.
+1. The indexing process runs as the Fly `release_command` (see `fly.toml` and
+   `fly.staging.toml`), before the new version starts serving.
 
 2. Each environment (staging, production) uses a separate index determined by
    the `ALGOLIA_ENV` environment variable.
@@ -346,7 +357,7 @@ search index.
 If you need to manually trigger the reindexing process, you can run:
 
 ```bash
-heroku run bin/reindex_algolia -a your-app-name
+fly ssh console -a loco-motion -C bin/reindex_algolia   # or loco-motion-staging
 ```
 
 Or you can alter your `env.local` file to set the `ALGOLIA_ENV` variable to the

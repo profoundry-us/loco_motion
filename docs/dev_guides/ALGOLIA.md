@@ -23,15 +23,15 @@ The integration uses two separate API keys with different permission levels:
 
 - `ALGOLIA_APPLICATION_ID`: Your Algolia application ID
 - `ALGOLIA_API_KEY`: A **write-capable** key (`addObject`, `deleteObject`,
-  etc.) used only by the server-side indexing rake tasks and the Heroku
-  release phase. This key must **never** be exposed to the browser.
+  etc.) used only by the server-side indexing rake tasks and the Fly
+  `release_command`. This key must **never** be exposed to the browser.
 - `ALGOLIA_SEARCH_API_KEY`: A **search-only** key injected into every demo
   page (via `algolia_credentials_tag`) to power the frontend search UI. Create
   it in the Algolia dashboard with only the `search` ACL.
 - `DEBUG`: Set to 'true' to enable verbose debug output (optional)
 
 Set all of these in the demo application's `.env.local` file for local
-development, and in the Heroku config vars for deployed environments.
+development, and as Fly secrets for deployed environments.
 
 If the write credentials are not provided, the indexing operation will still
 generate a JSON file locally, but data won't be uploaded to Algolia. If the
@@ -88,10 +88,10 @@ processed data.
 ## Automatic Indexing on Deployment
 
 The Algolia indexing process runs automatically during application deployment on
-Heroku through the following mechanism:
+Fly.io through the following mechanism:
 
-1. The `Procfile` includes a `release` phase command that runs the
-   `bin/reindex_algolia` script.
+1. `fly.toml` (live) and `fly.staging.toml` (staging) set
+   `release_command = "bin/reindex_algolia"`, which runs on every deploy.
 2. This script runs both the `algolia:clear` and `algolia:index` rake tasks.
 3. The environment variable `ALGOLIA_ENV` determines which index is used,
    keeping staging and production environments separate.

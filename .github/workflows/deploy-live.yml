@@ -1,0 +1,45 @@
+# Deploys the live demo site (loco-motion.profoundry.us) on Fly.io from the
+# `stable` branch, once CI-CD passes for the pushed commit. `stable` only
+# ever points at release commits - `bin/release --finish` advances it - so
+# this is the release deploy. Live builds against the PUBLISHED gem and npm
+# package (LOCO_SOURCE=registry in fly.toml).
+#
+# Re-deploy by hand with "Run workflow" (it deploys the tip of `stable`).
+name: Deploy Live
+
+on:
+  workflow_run:
+    workflows: [CI-CD]
+    types: [completed]
+    branches: [stable]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-live
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || 'stable' }}
+
+      # The deploy config lives on main (where this workflow runs from), so a
+      # change to it applies to the next live deploy without waiting for a
+      # release to carry it onto `stable`.
+      - name: Use main's deploy config
+        run: |
+          git fetch --depth 1 origin ${{ github.sha }}
+          git checkout FETCH_HEAD -- fly.toml docs/demo/Dockerfile.fly .dockerignore
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_LIVE }}
