@@ -39,27 +39,28 @@
     - # the page.
     - hide_sidenav = content_for?(:hide_sidenav)
 
-    .drawer{ class: ("xl:drawer-open" unless hide_sidenav) }
-      %input.drawer-toggle{ type: "checkbox", id: "sidenav-drawer", data: { "nav-target": "sidenavCheckbox" } }
+    - # overflow-x-CLIP, not -hidden: hidden makes the content wrapper a
+    - # scroll container, which breaks scroll-to-anchor (#section links) on
+    - # every page; clip only clips the homepage flair without eating
+    - # scrollIntoView.
+    = daisy_drawer(id: "sidenav-drawer",
+      css: ("xl:drawer-open" unless hide_sidenav),
+      input_data: { nav_target: "sidenavCheckbox" },
+      content_wrapper_css: "overflow-x-clip",
+      overlay_aria: { label: "Close Sidebar" }) do |drawer|
 
-      - # overflow-x-CLIP, not -hidden: hidden makes this a scroll container,
-      - # which breaks scroll-to-anchor (#section links) on every page; clip
-      - # only clips the homepage flair without eating scrollIntoView.
-      .drawer-content.overflow-x-clip
-        .mx-auto.mt-5.pl-4.pr-4{ class: ["max-w-[1470px]", ("xl:pl-68" unless hide_sidenav)], "data-ads-target": "content" }
-          %turbo-frame#content.block
-            = yield
+      .mx-auto.mt-5.pl-4.pr-4{ class: ["max-w-[1470px]", ("xl:pl-68" unless hide_sidenav)], "data-ads-target": "content" }
+        %turbo-frame#content.block
+          = yield
 
-          %div{ class: footer_classes }
-            = render partial: "application/footer"
+        %div{ class: footer_classes }
+          = render partial: "application/footer"
 
       - # The drawer sidebar renders on every page — full-width pages still
       - # need it so the header's hamburger opens the nav below `xl` — but
       - # their nav links break out to `_top` so the full layout (docked
       - # sidenav, content padding) comes back when navigating to a docs page.
-      .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
-        %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
-
+      - drawer.with_sidebar(css: "z-20 w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]") do
         %div{ class: nav_classes }
           = render partial: "application/navigation",
             locals: { frame_target: hide_sidenav ? "_top" : "content" }
