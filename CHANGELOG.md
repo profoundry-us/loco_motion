@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Document the controller pattern for interactions in the Service Objects guide (issue #325):
+  `.run` and check the outcome in controllers so a validation failure becomes a flash message rather than a
+  raw 500, and `.run!` only where an exception is the right failure mode (jobs, seeds and rake tasks,
+  tests).
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
