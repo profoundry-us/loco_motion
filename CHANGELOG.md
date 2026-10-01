@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(JS): Add the `loco-sticky` Stimulus controller (`StickyController`, issue #377). It stamps
+  `data-stuck="<edges>"` on a `position: sticky` element while it is pinned — the hook `loco.css`'s `stuck:`
+  variants style against — with zero configuration and no DOM insertion: one `IntersectionObserver` per
+  watched edge (`edge` value, default `"top"`, e.g. `"left"` or `"top left"`) observes the element itself
+  with a `rootMargin` that collapses the root to a 1px line at the element's sticky offset, so "covers the
+  line" is "is stuck" — exact to the pixel, independent of the element's height, no scroll listener.
+  The nearest scrollable ancestor is the root, so headers inside `overflow-auto` panes work. Exported
+  from the npm package, registered in the demo, and covered by a Playwright suite (`e2e/loco/sticky`).
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead
