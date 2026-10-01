@@ -15,6 +15,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- refactor(Demo): Drain the component-usage lint backlog in the actions, data-display, layout, and mockup
+  example pages (issue #417, part 2 of 3): the gradient button's spinner, the Global Modal's link menu,
+  the swap tooltips and its "Make Indeterminate" button, the accordion form's submit button, the block-form
+  stat titles/descriptions, the four direction stacks plus the gap demo's badge and range, and the browser
+  mockup URL bars now call the helpers (`daisy_loading`, `daisy_menu`, `daisy_tooltip`, `daisy_button`,
+  `daisy_stack`, `daisy_badge`, `daisy_range`, `daisy_text_input`). The "CSS Stack" example's raw `.stack`
+  is the point of that example and keeps its markup under a reasoned `haml-lint:disable`.
+
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),
   so the `PostToolUse` fast hook now carries the 120-second timeout that `highball init` scaffolds instead

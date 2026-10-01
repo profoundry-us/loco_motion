@@ -84,6 +84,6 @@
           Groovy!
 
       .mt-4.flex.flex-row.items-center.gap-x-4
-        %input{ type: "submit", value: "Submit", class: "btn btn-secondary" }
+        = daisy_button(title: "Submit", css: "btn-secondary", html: { type: "submit" })
         - if params["favorite-color"]
           %span.font-bold= "You chose #{params["favorite-color"]}!"
