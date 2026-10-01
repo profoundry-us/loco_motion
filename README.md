@@ -369,5 +369,5 @@ If you feel very strongly that you'd like to contribute, please reach out throug
 the GitHub Discussions feature and let us know!
 
 [1]: https://loco-motion.profoundry.us/
-[2]: https://loco-motion-demo-staging.profoundry.us/
-[3]: https://loco-motion-demo-staging.profoundry.us/api-docs
+[2]: https://loco-motion-edge.profoundry.us/
+[3]: https://loco-motion-edge.profoundry.us/api-docs

@@ -1,5 +1,4 @@
-# Fly.io config for the STAGING demo site
-# (loco-motion-demo-staging.profoundry.us, plus the old edge hostname).
+# Fly.io config for the STAGING demo site (loco-motion-edge.profoundry.us).
 #
 # Builds the repo's OWN gem source and deploys every push to `main` via
 # .github/workflows/deploy-staging.yml. Live lives in fly.toml.

@@ -323,11 +323,11 @@ commit:
 | Site | Fly app | Deploys from | Config | Builds against |
 |------|---------|--------------|--------|----------------|
 | [Live](https://loco-motion.profoundry.us) | `loco-motion` | `stable` (`deploy-live.yml`) | `fly.toml` | the published gem + npm package |
-| [Staging](https://loco-motion-demo-staging.profoundry.us) | `loco-motion-staging` | `main` (`deploy-staging.yml`) | `fly.staging.toml` | the repo's own source |
+| [Staging](https://loco-motion-edge.profoundry.us) | `loco-motion-staging` | `main` (`deploy-staging.yml`) | `fly.staging.toml` | the repo's own source |
 
 Both build `docs/demo/Dockerfile.fly`; its `LOCO_SOURCE` build arg picks the
-gem source. `loco-motion-edge.profoundry.us` (the old Heroku edge app) now
-points at staging too. App secrets (Algolia, Unsplash, PostHog,
+gem source. (The Heroku-era `loco-motion-demo-staging.profoundry.us`
+hostname is retired.) App secrets (Algolia, Unsplash, PostHog,
 `SECRET_KEY_BASE`) are Fly secrets (`fly secrets list -a <app>`); the
 workflows authenticate with the `FLY_API_TOKEN_LIVE` and
 `FLY_API_TOKEN_STAGING` repository secrets (per-app deploy tokens).

@@ -1,4 +1,4 @@
-# Deploys the staging demo site (loco-motion-demo-staging.profoundry.us) on
+# Deploys the staging demo site (loco-motion-edge.profoundry.us) on
 # Fly.io from `main`, once CI-CD passes for the pushed commit. Staging runs
 # the repo's own gem source (LOCO_SOURCE=path in fly.staging.toml), so it
 # always shows the next, unreleased version.
