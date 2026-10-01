@@ -27,12 +27,12 @@
     - # Example passing options as blocks. This allows you to pass in HTML.
     = daisy_stat do |stat|
       - stat.with_title do
-        %p.stat-title Average Cart Value
+        Average Cart Value
 
       = number_to_currency(319, precision: 0)
 
       - stat.with_description do
-        %p.stat-desc You're doing quite well on your ACV!
+        You're doing quite well on your ACV!
 
 
 = doc_example(title: "Complex Stats") do |doc|
@@ -50,12 +50,12 @@
 
     = daisy_stat(css: "max-w-80") do |stat|
       - stat.with_title do
-        %p.stat-title New Students
+        New Students
 
       42
 
       - stat.with_description do
-        %p.stat-desc New students in July!
+        New students in July!
 
       - stat.with_figure do
         = daisy_badge(css: "badge-primary") do
