@@ -64,7 +64,11 @@ export default class extends Controller {
     this.activateItemByUrl()
     this.scrollActiveIntoView()
 
-    if (window.loco_currentUrl != window.loco_lastUrl) {
+    // Only a Turbo navigation needs the reset. On the first refresh after a
+    // full page load (no previous URL yet) the browser has already placed the
+    // page, at the top or at a restored position, and a delayed smooth scroll
+    // would yank away anything the reader (or a test) scrolled to meanwhile.
+    if (window.loco_lastUrl && window.loco_currentUrl != window.loco_lastUrl) {
       this.scrollDocumentToTop()
     }
 
