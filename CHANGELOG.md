@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(JS): Add the `loco-sticky` Stimulus controller (`StickyController`, issue #377). It stamps
+  `data-stuck="<edges>"` on a `position: sticky` element while its sticky offset is actually displacing it
+  from its in-flow position, which is what `loco.css`'s `stuck:` variants style against. Zero configuration
+  (an `edge` value, default `"top"`), no DOM insertion, scroll work only while the element is visible, and
+  a `top-0` bar resting at the top of the page is not stuck until the content under it scrolls. Exported
+  from the npm package, registered in the demo, and covered by a Playwright suite (`e2e/loco/sticky`).
+
 - feat(CSS): Add `stuck:` Tailwind variants to `loco.css` (issue #377). `stuck:` matches an element carrying
   `data-stuck` or any descendant of one, and `stuck-top:` / `stuck-bottom:` / `stuck-left:` / `stuck-right:`
   key on a single pinned edge, so a compacting navbar is `py-4 stuck:py-1` and its logo `h-8 stuck:h-6`.
