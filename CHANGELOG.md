@@ -15,6 +15,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(Navbar): Add the `StickableComponent` concern and a `sticky:` option on `NavbarComponent` (issue
+  #377). `daisy_navbar(sticky: "top", css: "top-0 py-4 stuck:py-0")` adds the `sticky` class and the
+  `loco-sticky` controller (plus its `edge` value for anything other than `top` — `"bottom"`, or
+  `["top", "left"]` for a corner), so `stuck:` utilities style the pinned state. The concern deliberately
+  never emits an offset utility: Tailwind resolves competing utilities by stylesheet order, so the `top-0`
+  belongs in `css:`. Unknown edges raise an `ArgumentError`. A component whose pinned element is an inner
+  part overrides `sticky_part` (a table head pins its `<tr>`). Navbar's `before_render` now calls
+  `super`, which is what lets concern setup hooks run on it at all.
+
 - feat(JS): Add the `loco-sticky` Stimulus controller (`StickyController`, issue #377). It stamps
   `data-stuck="<edges>"` on a `position: sticky` element while its sticky offset is actually displacing it
   from its in-flow position, which is what `loco.css`'s `stuck:` variants style against. Zero configuration
