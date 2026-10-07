@@ -15,6 +15,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Sticky): Add a Sticky Elements docs page (issue #377). One live pane combines a navbar that compacts
+  once it pins, section headings that pin below it and track its height through a `group/page` ancestor,
+  and a roster table pinned on its header row and first column inside its own scroller. The page covers
+  the `sticky:` option (the offset goes in `css:`), the `stuck` variants and the cross-element recipe, a
+  z-index layering convention, how tables pin rows versus cells, and known limits. A Playwright
+  acceptance spec (`e2e/loco/sticky_page`) checks every region's `data-stuck` and computed styles.
+
 - feat(Table): Sticky headers and pinned columns via `StickableComponent` (issue #377).
   `table.with_head(sticky: "top", row_css: "top-0")` pins the header's `<tr>` — now a proper `row` part
   with `row_css:` / `row_html:` — wiring one `loco-sticky` controller per header rather than one per cell;

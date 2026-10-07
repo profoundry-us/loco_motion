@@ -1,0 +1,214 @@
+= content_for(:page_title) do
+  Sticky Elements
+
+- # Rows for the live roster table: name plus eight quarters of numbers, wide
+- # enough to scroll sideways inside its own pane.
+- roster = %w[Ada Grace Alan Barbara Edsger Frances Donald Margaret Ken Radia Linus Guido]
+- quarters = (1..8).map { |q| "Q#{q}" }
+
+.max-w-prose
+  = doc_info(icon: "bars-arrow-up", icon_css: "text-primary") do
+    :markdown
+      Pin a navbar, a section heading, a table header, or a column with
+      `sticky:`, then restyle it **only while it is actually pinned** with
+      `stuck:` utilities — `py-4 stuck:py-1` the same way you write
+      `hover:underline`.
+
+.prose
+  :markdown
+    # Sticky Elements
+
+    CSS can pin an element with `position: sticky`, but it has no state for
+    "is pinned right now", so compacting navbars and shadowed headers usually
+    get rebuilt per app with a scroll listener. LocoMotion ships the three
+    pieces instead:
+
+    - **`stuck:` variants** in `loco.css`, keyed on a `data-stuck` attribute
+      whose value lists the pinned edges (`data-stuck="top"`).
+    - **The `loco-sticky` Stimulus controller**, which stamps that attribute
+      while the sticky offset is actually displacing the element. A `top-0`
+      bar resting at the top of the page is not stuck until the content under
+      it scrolls.
+    - **A `sticky:` option** on the components that pin, which adds the
+      `sticky` class and wires the controller for you.
+
+- # The roadmap; the links opt out of Turbo so same-page anchors jump.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#demo", class: "link-hover", data: { turbo: "false" } } See it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#pin", class: "link-hover", data: { turbo: "false" } } Pin it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#style", class: "link-hover", data: { turbo: "false" } } Style it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#layer", class: "link-hover", data: { turbo: "false" } } Layer it
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#tables", class: "link-hover", data: { turbo: "false" } } Tables
+    - steps.with_step(title: "Ship it 🎉")
+
+.mt-12.prose
+  %h2{ id: "demo", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Live", css: "badge-success badge-soft")
+    %span 1. All of it together
+  :markdown
+    Scroll the pane. The navbar compacts from 4rem to 3rem once it pins; each
+    section heading pins **below** it and slides up to track the shorter bar;
+    and the roster table pins its header row and first column inside its own
+    scroller.
+
+- # The acceptance demo for issue #377. The pane is the scroll root for the
+- # navbar and headings; the roster box is a second, inner root for the table.
+%div{ id: "sticky-demo", class: "group/page mt-6 h-[36rem] overflow-y-auto rounded-box border border-base-300 bg-base-100" }
+  = daisy_navbar(sticky: "top", css: "top-0 z-30 min-h-0 h-16 stuck:h-12 px-4 bg-base-100 border-b border-base-300 stuck:shadow-md transition-[height]") do |navbar|
+    - navbar.with_leading do
+      = image_tag("loco-logo-modern.png", class: "h-8 stuck:h-6 transition-[height]", alt: "")
+      %span.ml-2
+        %em> Loco
+        %span.font-bold Motion
+    - navbar.with_trailing do
+      = daisy_button(title: "Sign In", css: "btn-ghost btn-sm")
+
+  - [["Overview", 6], ["Roster", 0], ["Notes", 8]].each do |title, paragraphs|
+    %section.pb-8
+      %h3.sticky.top-16.z-20.px-6.py-2.bg-base-200.font-bold.transition-all{ class: "group-has-[.navbar[data-stuck]]/page:top-12 stuck:shadow stuck:text-primary", data: { controller: "loco-sticky" } }
+        = title
+      - if title == "Roster"
+        .mx-6.mt-4.max-h-72.overflow-auto.rounded-box.border.border-base-300
+          = daisy_table(css: "w-max") do |table|
+            - table.with_head(sticky: "top", row_css: "top-0 z-[2] bg-base-100 stuck:shadow-md") do |head|
+              - head.with_column(sticky: "left", css: "left-0 bg-base-100 stuck:text-primary stuck-left:border-r border-base-300") { "Name" }
+              - quarters.each do |quarter|
+                - head.with_column(css: "min-w-24 stuck:text-primary") { quarter }
+            - roster.each_with_index do |name, r|
+              - table.with_row do |row|
+                - row.with_column(sticky: "left", css: "left-0 z-[1] bg-base-100 font-medium stuck-left:border-r border-base-300") { name }
+                - quarters.each_index do |q|
+                  - row.with_column { ((r + 3) * (q + 5) * 7 % 97).to_s }
+      - paragraphs.times do |i|
+        %p.px-6.pt-4.text-sm.opacity-70
+          #{title} paragraph #{i + 1}. Keep scrolling: the heading above stays
+          pinned under the navbar until the next section pushes it away.
+
+.mt-12.prose
+  %h2{ id: "pin", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Setup", css: "badge-info badge-soft")
+    %span 2. Pin it with sticky:
+  :markdown
+    Pass the edge to pin to — `"top"` (or `true`), `"bottom"`, `"left"`,
+    `"right"`, or several for a corner cell. The component gets the `sticky`
+    class and the `loco-sticky` controller. Today that means the navbar, a
+    table head, and table cells; for anything else, add the class and the
+    controller yourself.
+
+= doc_code(language: "haml") do
+  :plain
+    = daisy_navbar(sticky: "top", css: "top-0 z-30 h-16 stuck:h-12")
+
+    = daisy_table do |table|
+      - table.with_head(sticky: "top", row_css: "top-0 z-[2] bg-base-100")
+      - table.with_row do |row|
+        - row.with_column(sticky: "left", css: "left-0 z-[1] bg-base-100")
+
+    %h3.sticky.top-16{ data: { controller: "loco-sticky" } } Any element
+
+= doc_note(css: "mt-6", modifier: :warning, title: "The offset is yours") do
+  :markdown
+    `sticky:` never emits `top-0` or `left-0`. Tailwind resolves competing
+    utilities by stylesheet order, not by the order you wrote them, so an
+    emitted `top-0` could silently beat your `top-16`. Always put the offset
+    in `css:` (or `row_css:` for a table head). The controller never needs
+    it: it compares the element's position with where it would sit in flow,
+    so offsets that change with `stuck` variants just work.
+
+.mt-12.prose
+  %h2{ id: "style", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Styling", css: "badge-primary badge-soft")
+    %span 3. Style the pinned state
+  :markdown
+    The variants come from `loco.css`, which your Tailwind build already
+    imports.
+
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Variant" }
+      - head.with_column { "Matches" }
+      - head.with_column { "Example" }
+    - [["stuck:", "The stuck element and anything inside it", "py-4 stuck:py-1 on the navbar, h-8 stuck:h-6 on its logo"],
+       ["stuck-top: (bottom, left, right)", "One pinned edge only", "stuck-left:border-r on a pinned column"],
+       ["group-stuck/name:", "Something inside a stuck group/name element", "group-stuck/nav:hidden on a tagline"],
+       ["peer-stuck:", "A later sibling of a stuck peer", "peer-stuck:mt-12"],
+       ["group-has-[.navbar[data-stuck]]/page:", "Anything in a group/page wrapper that holds a stuck navbar", "top-16 group-has-[.navbar[data-stuck]]/page:top-12"]].each do |variant, matches, example|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= variant
+        - row.with_column { matches }
+        - row.with_column do
+          %code= example
+
+.mt-4.prose
+  :markdown
+    Group variants only reach **descendants**, so a heading elsewhere on the
+    page cannot use `group-stuck/nav:` to track the navbar. Put `group/page`
+    on a shared ancestor and key on the stuck navbar inside it, exactly as the
+    demo's headings do. Add `transition-[height]` or `transition-all` to the
+    changing elements so they ease instead of jump.
+
+.mt-12.prose
+  %h2{ id: "layer", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Convention", css: "badge-warning badge-soft")
+    %span 4. Layer and back them
+  :markdown
+    Pinned elements overlap whatever scrolls under them, so give each layer a
+    `z-index` and a background:
+
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Layer" }
+      - head.with_column { "z-index" }
+      - head.with_column { "Why" }
+    - [["Page navbar", "z-30", "Above everything that scrolls in the page"],
+       ["Section headings", "z-20", "Below the navbar, above content and inner scrollers"],
+       ["Table header row", "z-[2]", "Above pinned body cells as they pass under it"],
+       ["Pinned body cells", "z-[1]", "Above the cells that scroll under them"]].each do |layer, z, why|
+      - table.with_row do |row|
+        - row.with_column { layer }
+        - row.with_column do
+          %code= z
+        - row.with_column { why }
+
+.mt-4.prose
+  :markdown
+    Without a background (`bg-base-100`, `bg-base-200`), content shows
+    through the pinned element. Table layers are scoped to their own
+    scroller, so small values are enough there.
+
+.mt-12.prose
+  %h2{ id: "tables", class: "flex flex-col items-start gap-2 scroll-mt-24" }
+    = daisy_badge("Tables", css: "badge-neutral badge-soft")
+    %span 5. Tables pin rows and cells
+  :markdown
+    `with_head(sticky: "top")` pins the header's `<tr>` and puts **one**
+    controller on it; the header cells style off it through the
+    descendant-matching `stuck:` variant. A sticky `<tr>` pins in current
+    Chromium, Firefox, and WebKit; older engines only pinned cells, so don't
+    rely on it for browsers you can't test.
+
+    Columns pin per cell: `sticky: "left"` on the header cell **and** every
+    body cell in the column, each with its own controller so `stuck-left:`
+    can draw a divider only while the column is pinned. On a table with
+    hundreds of rows, prefer the plain `sticky left-0` classes and skip the
+    per-cell detection.
+
+= doc_note(css: "mt-6", modifier: :note, title: "Known limits") do
+  :markdown
+    `stuck:` also matches descendants, so it crosses nested sticky regions: a
+    pinned heading inside a pinned panel matches both. Reach for
+    `stuck-top:` or a named group there. While a parent pushes a sticky
+    element out, it keeps its stuck styling until it leaves.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id], section: "docs")
