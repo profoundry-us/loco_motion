@@ -15,6 +15,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Demo): Stop the sidebar's scroll-to-top from firing on a full page load. The nav controller reset the
+  page to the top 100ms after the first `turbo:load`, so a reload lost the browser's restored position and
+  anything scrolled in that window was yanked back. That is why `cally_input.spec.ts` failed every time
+  locally (its scroll-into-view landed first, then got undone) yet passed on slower CI runners. The reset
+  now runs only on in-app Turbo navigations, which still land at the top.
+
 - docs(Sticky): Add a Sticky Elements docs page (issue #377). One live pane combines a navbar that compacts
   once it pins, section headings that pin below it and track its height through a `group/page` ancestor,
   and a roster table pinned on its header row and first column inside its own scroller. The page covers
