@@ -20,8 +20,8 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
   key on a single pinned edge, so a compacting navbar is `py-4 stuck:py-1` and its logo `h-8 stuck:h-6`.
   They are plain `&`-selector variants, so Tailwind's own compounding gives `group-stuck:` and `peer-stuck:`,
   and a sticky section header elsewhere on the page tracks a compacting navbar through a shared ancestor
-  (`group/page` on the wrapper, `group-has-[nav[data-stuck]]/page:top-12` on the header). The `loco-sticky`
-  controller that stamps `data-stuck` lands separately.
+  (`group/page` on the wrapper, `group-has-[.navbar[data-stuck]]/page:top-12` on the header). The
+  `loco-sticky` controller that stamps `data-stuck` lands separately.
 
 - chore(Tooling): Upgrade the Highball checks runner to `^0.7.0`. 0.7 runs every `fast: true` rule under an
   8-second budget (ours all finish in under a second, even the changed-files haml-lint on a batch of views),

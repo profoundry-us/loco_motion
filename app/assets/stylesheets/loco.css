@@ -92,7 +92,7 @@
  * only reach descendants, so an element elsewhere — a sticky section header
  * whose offset must track a compacting navbar — keys on a shared ancestor
  * instead: `group/page` on the wrapper and
- * `top-16 group-has-[nav[data-stuck]]/page:top-12` on the header.
+ * `top-16 group-has-[.navbar[data-stuck]]/page:top-12` on the header.
  */
 @custom-variant stuck (&:where([data-stuck], [data-stuck] *));
 @custom-variant stuck-top (&:where([data-stuck~="top"], [data-stuck~="top"] *));

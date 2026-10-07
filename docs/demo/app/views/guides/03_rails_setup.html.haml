@@ -314,7 +314,7 @@
           `peer-stuck:`. Group variants only reach descendants, so a sticky
           section header elsewhere on the page tracks a compacting navbar
           through a shared ancestor: `group/page` on the wrapper and
-          `top-16 group-has-[nav[data-stuck]]/page:top-12` on the header.
+          `top-16 group-has-[.navbar[data-stuck]]/page:top-12` on the header.
           Anything can stamp the
           attribute; LocoMotion's `loco-sticky` controller does it for you
           with an `IntersectionObserver` and no configuration.
