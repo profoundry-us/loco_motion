@@ -15,6 +15,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Navbar): Document semantic tags for `daisy_navbar`. A YARD `@note` and `@loco_example` and a new
+  "Semantic Navbar" demo example show rendering a site's top bar as a `<header>` (`tag_name: :header`) with
+  its links in a labelled `<nav>`, and when `tag_name: :nav` fits instead. The default stays a `<div>`.
+
 - chore(Demo): Give the demo layout real landmarks. The top bar renders as a `<header>` through
   `daisy_navbar(tag_name: :header)`, the sidebar is a `<nav aria-label="Documentation">`, page content sits in
   `<main>`, and the footer is a `<footer>`, so screen-reader landmark navigation works and the demo models

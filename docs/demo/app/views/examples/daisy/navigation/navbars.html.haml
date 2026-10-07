@@ -41,6 +41,35 @@
       = daisy_link("LocoMotion", "#", css: "btn btn-ghost text-xl")
 
 
+= doc_example(title: "Semantic Navbar") do |doc|
+  - doc.with_description do
+    :markdown
+      A navbar renders a `<div>` by default. A site's top bar usually holds
+      more than navigation (branding, search, an account menu), so render it
+      as a `<header>` with `tag_name: :header` and wrap just the links in a
+      labelled `<nav>`. Use `tag_name: :nav` only when the whole bar is
+      navigation, and give it an `aria-label` so screen readers can tell
+      several navigation landmarks apart.
+
+  .w-full{ class: "max-w-[800px]" }
+    = daisy_navbar(tag_name: :header, css: "bg-base-100 border border-base-200 rounded-lg shadow-xs") do |navbar|
+      - navbar.with_leading do
+        = image_tag("loco-logo-modern.png", class: "h-8", alt: "")
+        %span
+          %em> Loco
+          %span.font-bold Motion
+
+      - navbar.with_trailing do
+        %nav{ aria: { label: "Main" } }
+          = daisy_menu(css: "menu-horizontal p-0") do |menu|
+            - menu.with_item do
+              = daisy_link("Docs", "#")
+            - menu.with_item do
+              = daisy_link("Guides", "#")
+            - menu.with_item do
+              = daisy_link("Examples", "#")
+
+
 = doc_example(title: "Advanced Navbar", example_css: "pb-24") do |doc|
   - doc.with_description do
     :markdown
