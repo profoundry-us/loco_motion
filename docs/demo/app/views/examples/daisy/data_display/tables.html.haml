@@ -26,6 +26,60 @@
           = d[:col2]
 
 
+= doc_example(title: "Sticky Header") do |doc|
+  - doc.with_description do
+    :markdown
+      Pass `sticky:` to the head and its `<tr>` pins to the top of the scroll
+      container, wired to LocoMotion's `loco-sticky` controller, which stamps
+      `data-stuck` on the row while it is actually pinned. The offset goes in
+      `row_css:` (it is never emitted for you, so it can't fight your own
+      utilities), and `stuck:` utilities — on the row or on its cells — style
+      the pinned state. Scroll the box to see the header pick up a shadow and
+      its titles change color.
+
+  .h-80.w-full.max-w-lg.border.border-base-300.rounded.overflow-y-auto
+    = daisy_table(css: "bg-base-100") do |table|
+      - table.with_head(sticky: "top", row_css: "top-0 bg-base-100 stuck:shadow-md transition-shadow") do |head|
+        - head.with_column(css: "stuck:text-primary transition-colors") do
+          Name
+        - head.with_column(css: "stuck:text-primary transition-colors") do
+          Role
+
+      - 30.times do |i|
+        - table.with_row do |row|
+          - row.with_column do
+            = "Person #{i + 1}"
+          - row.with_column do
+            = %w[Developer Designer Manager Analyst][i % 4]
+
+
+= doc_example(title: "Pinned First Column") do |doc|
+  - doc.with_description do
+    :markdown
+      Cells are the elements that stick in a table, so a pinned column is
+      `sticky: "left"` on each of its cells (header and body). Each pinned cell
+      reports its own `data-stuck`, so `stuck-left:` utilities on the cell
+      draw the divider only while the column is actually pinned. Scroll the
+      box sideways.
+
+  .w-full.max-w-lg.border.border-base-300.rounded.overflow-x-auto
+    = daisy_table(css: "bg-base-100 w-max") do |table|
+      - table.with_head do |head|
+        - head.with_column(sticky: "left", css: "left-0 bg-base-100 stuck-left:border-r stuck-left:border-base-300") do
+          Name
+        - %w[Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8].each do |quarter|
+          - head.with_column(css: "min-w-32") do
+            = quarter
+
+      - %w[Alice Bob Carol Dave].each_with_index do |name, r|
+        - table.with_row do |row|
+          - row.with_column(sticky: "left", css: "left-0 bg-base-100 stuck-left:border-r stuck-left:border-base-300") do
+            = name
+          - 8.times do |q|
+            - row.with_column do
+              = (r + 1) * (q + 1) * 7
+
+
 = doc_example(title: "Pinning Rows (Using Sections)") do |doc|
   - doc.with_description do
     %p
