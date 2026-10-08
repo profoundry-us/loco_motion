@@ -1,0 +1,369 @@
+= content_for(:page_title) do
+  Profiling
+
+- # Rows for the tracer table: the tracer and what shows up in the waterfall
+- # because of it.
+- tracers = []
+- tracers << ["controller", "The action itself — the outer bar every other trace nests inside."]
+- tracers << ["sequel", "Every SQL statement, with its duration, row count, and (in the fork) an N+1 flag when the same shape repeats."]
+- tracers << ["instantiation", "Turning rows into ActiveRecord objects — the cost that hides behind a fast query."]
+- tracers << ["view", "Templates, partials, collections, and layouts."]
+- tracers << ["view_component", "ViewComponent renders, with the arguments each component was built with, so you can tell one `IconComponent` from another. Fork addition."]
+- tracers << ["cache", "Every `Rails.cache` read, write, fetch hit, generate, and delete. Fork addition."]
+- tracers << ["job", "Jobs enqueued during the request (their execution happens elsewhere). Fork addition."]
+
+- # Rows for the "what the fork adds" table.
+- fork_adds = []
+- fork_adds << ["ViewComponent, cache, job, collection, and layout tracers", "Upstream traces controllers, SQL, and templates; a component-based Hotwire app spends its time in exactly the places that left blank."]
+- fork_adds << ["Waterfall-aligned bars with explicit self time, a collapsible trace tree, grouped repeats", "A page rendering 300 components produced 300 flat rows; the tree groups them and shows what each level costs *itself*."]
+- fork_adds << ["Richer popovers: group stats, N+1 flags, row counts, params, component props", "The questions you ask of a slow trace, answered in place instead of in the console."]
+- fork_adds << ["`backtraces_enabled` config", "Backtrace capture measured about 30% of a profiled request on a component-heavy page — the profiler was distorting what it measured."]
+- fork_adds << ["Sprockets / importmap fixes, a raw-SQL bind crash fix, a Dockerised dev environment", "Upstream's last release was v0.7.3 in October 2022; these are the fixes that accumulated since."]
+
+.max-w-prose
+  = doc_info(url: "https://github.com/profoundry-us/rails-mini-profiler", icon: "chart-bar", icon_css: "text-error") do
+    :markdown
+      _Loco_**Motion** recommends **Rails Mini Profiler** — our maintained
+      fork — to answer the only performance question that matters in
+      development: *why* is this request slow?
+
+.prose
+  :markdown
+    # Profiling
+
+    Improving performance is three questions: what is slow, why is it slow,
+    and did the fix work? Monitoring tools answer the first in production.
+    [Rails Mini Profiler](https://github.com/profoundry-us/rails-mini-profiler)
+    answers the second and third at your desk: a waterfall of every query,
+    template, component render, and cache call in a request, plus a
+    flamegraph, one click from the page you are looking at. This guide
+    covers installing our fork, reading a profile, configuring it, and
+    safely turning it on for a staging or production request when the
+    slowness only happens there.
+
+- # The roadmap: six sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#reading", class: "link-hover", data: { turbo: "false" } } Reading a profile
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#config", class: "link-hover", data: { turbo: "false" } } Configure
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#production", class: "link-hover", data: { turbo: "false" } } Beyond development
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#fork", class: "link-hover", data: { turbo: "false" } } Our fork
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Rails Mini Profiler
+  :markdown
+    Two tools share the name and the hedgehog.
+    [rack-mini-profiler](https://github.com/MiniProfiler/rack-mini-profiler)
+    is the veteran: framework-agnostic, capable of light production
+    sampling, and shown as a floating badge with a timing table. Rails Mini
+    Profiler trades the generality for depth. It is Rails-only, it **stores
+    every profiled request** in your database so you can compare a request
+    before and after a change, and it puts the detail — a real waterfall,
+    per-trace popovers, a [Speedscope](https://github.com/jlfwong/speedscope)
+    flamegraph — in a dashboard built for reading rather than a tooltip.
+
+    It is a **developer tool, not monitoring**. For "which endpoints are
+    slow for real users this week" you want an APM. For "this page takes
+    two seconds on my machine and I don't know where", this is the fastest
+    route to the answer.
+
+.mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installation
+  :markdown
+    We install **our fork** from Git — a plain `gem "rails_mini_profiler"`
+    would pull the archived original (see [section 6](#fork)). Put it in
+    the main group, not `:development`, if you ever want to profile a
+    staging or production request; it is inert until enabled. Add
+    `stackprof` alongside it for flamegraphs:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      gem "rails_mini_profiler", git: "https://github.com/profoundry-us/rails-mini-profiler", branch: "main"
+
+      # Flamegraphs for rails_mini_profiler
+      gem "stackprof"
+
+.mt-6.prose
+  :markdown
+    The installer writes an initializer, a migration for the three tables
+    that hold profiled requests, traces, and flamegraphs, and mounts the
+    dashboard. Run it, then migrate:
+
+.max-w-prose
+  = daisy_code(css: "my-4") do |code|
+    - code.with_line(prefix: "$") do
+      bundle install
+    - code.with_line(prefix: "$") do
+      bin/rails rails_mini_profiler:install
+    - code.with_line(prefix: "$") do
+      bin/rails db:migrate
+
+.max-w-prose
+  = doc_code(css: "my-4", language: "ruby") do
+    :plain
+      # config/routes.rb (added by the installer)
+      mount RailsMiniProfiler::Engine => "/rails_mini_profiler"
+
+.mt-6.prose
+  :markdown
+    One more step that the installer **cannot** do for you. ViewComponent
+    does not instrument renders by default, so the component tracer sees
+    nothing until the host app turns instrumentation on. Do it in the
+    initializer rather than `application.rb` so it can be gated later (see
+    [section 5](#production)):
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/rails_mini_profiler.rb
+      Rails.application.config.view_component.instrumentation_enabled = true
+      Rails.application.config.view_component.use_deprecated_instrumentation_name = false
+
+.mt-6.prose
+  :markdown
+    Start the app and load any page. A small hedgehog badge appears in the
+    corner; click it — or visit `/rails_mini_profiler` — for the dashboard.
+
+.mt-12.prose
+  %h2{ id: "reading", class: "scroll-mt-24" } 3. Reading a Profile
+  :markdown
+    The dashboard lists every profiled request with its total time and a
+    breakdown. Open one and you get the **waterfall**: a bar per trace,
+    positioned in time and nested by what called what, with the time a
+    trace spent *itself* (as opposed to in its children) shown explicitly.
+    Each bar is a tracer's output:
+
+- # The tracer table.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Tracer" }
+      - head.with_column { "What you see" }
+    - tracers.each do |tracer, what|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= tracer
+        - row.with_column do
+          :markdown
+            #{what}
+
+.mt-6.prose
+  :markdown
+    Three habits get you to the answer quickly:
+
+    - **Sort by self time, not total.** The controller bar is always the
+      longest; the question is which leaf under it is.
+    - **Collapse the tree and look for grouped repeats.** Fifty identical
+      `SELECT … WHERE id = ?` rows grouped into one line with a count is
+      an N+1, and the popover names the query so you know which
+      `includes` to add.
+    - **Open the flamegraph when the waterfall is quiet.** If the request
+      is slow but no single trace is, the time is in Ruby — serialisation,
+      a helper, a gem — and the flamegraph shows the stack that ate it.
+
+= doc_note(modifier: :note, title: "Flamegraphs and Concurrency", css: "mt-6") do
+  :markdown
+    StackProf cannot sample concurrent requests, so a page that fires
+    several requests at once (Turbo frames, assets) may record a flamegraph
+    for only one of them. Re-send just the request you care about, or
+    append `?rmp_flamegraph=true` to jump straight to its flamegraph.
+
+.mt-12.prose
+  %h2{ id: "config", class: "scroll-mt-24" } 4. Configuration
+  :markdown
+    The generated initializer is well commented; three settings are worth
+    changing on day one.
+
+    **Turn off per-trace backtraces.** Every trace captures a backtrace for
+    the "source" section of its detail view. On a component-heavy page that
+    capture measured around **30% of the profiled request** — the profiler
+    was the slowest thing in the profile. Leave it off for honest numbers
+    and flip it on only when you need to know *where* a trace originates.
+
+    **Skip the noise.** Health checks, asset requests, and the profiler's
+    own dashboard don't need profiling. `skip_paths` takes strings or
+    regexes.
+
+    **Sweep old requests.** Profiled requests are never deleted for you.
+    On a shared staging database the tables grow forever; a small job on a
+    schedule keeps them bounded.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/rails_mini_profiler.rb
+      RailsMiniProfiler.configure do |config|
+        config.enabled = proc { |env| Rails.env.development? }
+
+        # Backtrace capture measured ~30% of a profiled request; the trace
+        # detail view just omits its "source" section with this off.
+        config.backtraces_enabled = false
+
+        config.flamegraph_enabled = true
+        config.skip_paths = ["/up", %r{\A/assets/}]
+
+        # Default set — drop `view_component` if the app doesn't use it.
+        config.tracers = %i[controller instantiation sequel view view_component cache job rmp]
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # app/jobs/profiled_request_cleanup_job.rb
+      class ProfiledRequestCleanupJob < ApplicationJob
+        def perform
+          RailsMiniProfiler::ProfiledRequest.where("created_at < ?", 2.weeks.ago).destroy_all
+        end
+      end
+
+.mt-12.prose
+  %h2{ id: "production", class: "scroll-mt-24" } 5. Profiling Beyond Development
+  :markdown
+    Some slowness only exists with real data. Rails Mini Profiler supports
+    this — nothing is profiled and the dashboard is unreachable until you
+    say otherwise — but the stock suggestion (a request header) is awkward
+    from a browser, and every profiled request costs the server. Our
+    pattern is a **key-approved session**:
+
+    1. Visit any URL once with `?rmp_key=<secret>` (the secret lives in an
+       `RMP_API_KEY` environment variable).
+    2. A small middleware compares it in constant time, stamps the session
+       as approved, and authorises the profiler "user" on every later
+       request in that session.
+    3. `config.enabled` and the dashboard's route constraint both check the
+       session flag, so approved sessions are profiled and can read the
+       dashboard; everyone else sees no badge, no traces, and a 404 for
+       `/rails_mini_profiler`.
+
+    Rotating the key is a config change. The full middleware is about
+    forty lines; the shape is:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/initializers/rails_mini_profiler.rb
+      class RmpApiKeyGate
+        SESSION_FLAG = "rmp_authorized"
+        ENV_FLAG = "app.rmp_authorized"
+
+        def initialize(app) = @app = app
+
+        def call(env)
+          session = env["rack.session"]
+          session[SESSION_FLAG] = true if session && key_valid?(env)
+
+          if session && session[SESSION_FLAG]
+            env[ENV_FLAG] = true
+            RailsMiniProfiler::User.authorize("rmp-api-key")
+          end
+
+          @app.call(env)
+        end
+
+        private
+
+        def key_valid?(env)
+          key = ENV["RMP_API_KEY"].to_s
+          given = Rack::Utils.parse_query(env["QUERY_STRING"].to_s)["rmp_key"].to_s
+          !key.empty? && !given.empty? && ActiveSupport::SecurityUtils.secure_compare(given, key)
+        end
+      end
+
+      Rails.application.config.middleware.insert_after(ActionDispatch::Session::CookieStore, RmpApiKeyGate)
+      Rails.application.config.filter_parameters += [:rmp_key]
+
+      RailsMiniProfiler.configure do |config|
+        config.enabled = proc { |env| Rails.env.development? || env[RmpApiKeyGate::ENV_FLAG] }
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # config/routes.rb
+      mount RailsMiniProfiler::Engine => "/rails_mini_profiler",
+            constraints: ->(req) { Rails.env.development? || req.session[RmpApiKeyGate::SESSION_FLAG] == true }
+
+= doc_note(modifier: :warning, title: "Instrumentation Is Not Free", css: "mt-6") do
+  :markdown
+    ViewComponent instrumentation fires a notification on **every**
+    component render whether or not the request is being profiled. Enable
+    it outside development only when the deployment can actually profile —
+    `if Rails.env.development? || ENV["RMP_API_KEY"].present?` — so a
+    production app without a key pays nothing. And treat the key as
+    rotatable, not secret: it travels in a query string, which your host's
+    router may log even though Rails filters it.
+
+.mt-12.prose
+  %h2{ id: "fork", class: "scroll-mt-24" } 6. Why a Fork
+  :markdown
+    The original project's last release was **v0.7.3 in October 2022**, and
+    it profiles the Rails of that era: controllers, SQL, and templates. A
+    LocoMotion app renders through components, leans on the cache, and
+    enqueues jobs from requests — none of which appeared in a profile. We
+    maintain [profoundry-us/rails-mini-profiler](https://github.com/profoundry-us/rails-mini-profiler)
+    to fill those gaps, and it is what the guide above installs.
+
+- # The fork-additions table.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "The fork adds" }
+      - head.with_column { "Because" }
+    - fork_adds.each do |what, because|
+      - table.with_row do |row|
+        - row.with_column do
+          :markdown
+            #{what}
+        - row.with_column do
+          :markdown
+            #{because}
+
+.mt-6.prose
+  :markdown
+    The fork tracks `main`; there is no separate gem release, which is why
+    the `Gemfile` points at Git. Upgrading means `bundle update
+    rails_mini_profiler` and, if the schema changed, re-running the install
+    migrations — the project is pre-1.0 and does not ship upgrade
+    migrations.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    You can see where every request spends its time, on your machine and —
+    when you need to — on a real deployment. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "rmp-gem", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `rails_mini_profiler` (our fork, from Git) and `stackprof` are in the `Gemfile`; the installer and migration have run.
+  = daisy_checkbox(name: "rmp-vc", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        ViewComponent instrumentation is on in development, so components appear in the waterfall.
+  = daisy_checkbox(name: "rmp-backtraces", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `backtraces_enabled` is off, `skip_paths` covers health checks and assets, and a sweeper job is scheduled.
+  = daisy_checkbox(name: "rmp-gate", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Outside development, profiling and the dashboard are locked behind `RMP_API_KEY`.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
