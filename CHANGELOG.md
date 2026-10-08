@@ -23,6 +23,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): List every guide in the README and on the Getting Started page. The README's Guides section
+  gains the six new guides (Memoization, Test Factories, RuboCop, View Caching, Query Objects, and Profiling)
+  and two older ones it never listed, Rails Setup and Building Components. Getting Started's "After the App
+  Exists" sentence becomes a list, since it would otherwise have run to 13 links.
+
 - docs(Guides): Add a Profiling guide (issue #328) for the maintained `rails_mini_profiler` fork: why it over
   rack-mini-profiler, installing the fork from Git with `stackprof` and ViewComponent instrumentation,
   reading the waterfall (a tracer table and three habits), day-one configuration (`backtraces_enabled`

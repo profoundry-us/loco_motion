@@ -189,8 +189,12 @@ need them to use the gem — they are published on the
   Stand up a new Dockerized Rails app with HAML, TailwindCSS, and DaisyUI.
 - [Docker](https://loco-motion.profoundry.us/guides/docker) — A consistent,
   reliable development environment for any OS.
+- [Rails Setup](https://loco-motion.profoundry.us/guides/rails_setup) — An
+  opinionated starting point for a brand-new Rails app.
 - [HAML](https://loco-motion.profoundry.us/guides/haml) — Cleaner,
   indentation-based templates for a better developer experience.
+- [Building Components](https://loco-motion.profoundry.us/guides/building_components)
+  — Build your own components with parts, slots, and first-class Stimulus.
 - [Debugging & Testing](https://loco-motion.profoundry.us/guides/debugging) —
   Set up RSpec, Playwright, and the remote debugger.
 - [Service Objects](https://loco-motion.profoundry.us/guides/services) —
@@ -202,6 +206,18 @@ need them to use the gem — they are published on the
 - [Component Linting](https://loco-motion.profoundry.us/guides/component_linting) —
   Keep hand-rolled DaisyUI markup out of your views with the bundled
   haml_lint / erb_lint rule.
+- [Memoization](https://loco-motion.profoundry.us/guides/memoization) — Cache
+  method results correctly and quickly with memo_wise.
+- [Test Factories](https://loco-motion.profoundry.us/guides/test_factories) —
+  Expressive test data with factory_bot traits and build strategies.
+- [RuboCop](https://loco-motion.profoundry.us/guides/rubocop) — Install it,
+  run it, and adopt our opt-in cop configuration.
+- [View Caching](https://loco-motion.profoundry.us/guides/view_caching) —
+  Fragment, collection, and HTTP caching with Solid Cache in Rails 8.
+- [Query Objects](https://loco-motion.profoundry.us/guides/query_objects) —
+  Give your reads a typed, discoverable home with ActiveQuery.
+- [Profiling](https://loco-motion.profoundry.us/guides/profiling) — Find out
+  why a request is slow with Rails Mini Profiler.
 
 ## Documentation & Demo
 
