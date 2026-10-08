@@ -47,10 +47,11 @@
       - # only clips the homepage flair without eating scrollIntoView.
       .drawer-content.overflow-x-clip
         .mx-auto.mt-5.pl-4.pr-4{ class: ["max-w-[1470px]", ("xl:pl-68" unless hide_sidenav)], "data-ads-target": "content" }
-          %turbo-frame#content.block
-            = yield
+          %main
+            %turbo-frame#content.block
+              = yield
 
-          %div{ class: footer_classes }
+          %footer{ class: footer_classes }
             = render partial: "application/footer"
 
       - # The drawer sidebar renders on every page — full-width pages still
@@ -60,7 +61,7 @@
       .drawer-side.z-20{ class: "w-64! mt-[65px] xl:fixed! xl:mt-0 xl:top-[65px] xl:left-[max(0px,calc(50vw-735px))] h-[calc(100vh-65px)]" }
         %label.drawer-overlay{ for: "sidenav-drawer", aria_label: "Close Sidebar" }
 
-        %div{ class: nav_classes }
+        %nav{ class: nav_classes, aria: { label: "Documentation" } }
           = render partial: "application/navigation",
             locals: { frame_target: hide_sidenav ? "_top" : "content" }
 

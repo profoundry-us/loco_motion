@@ -15,6 +15,11 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Demo): Give the demo layout real landmarks. The top bar renders as a `<header>` through
+  `daisy_navbar(tag_name: :header)`, the sidebar is a `<nav aria-label="Documentation">`, page content sits in
+  `<main>`, and the footer is a `<footer>`, so screen-reader landmark navigation works and the demo models
+  the markup the Navbar docs recommend.
+
 - fix(Demo): Stop the sidebar's scroll-to-top from firing on a full page load. The nav controller reset the
   page to the top 100ms after the first `turbo:load`, so a reload lost the browser's restored position and
   anything scrolled in that window was yanked back. That is why `cally_input.spec.ts` failed every time
