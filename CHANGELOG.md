@@ -23,6 +23,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a RuboCop guide (issue #326): why we configure it opt-in (`DisabledByDefault: true`),
+  installation with `rubocop-rails` / `rubocop-rspec` via `plugins:`, the everyday commands (`-a`, `-A`,
+  `--only`, changed files only), the recommended baseline `.rubocop.yml` (the whole `Lint` department plus
+  the Style/Layout/Rails cops LocoMotion and webtree already enable) with a table of the cops deliberately
+  left off, the scoped `rubocop:disable` convention, and editor / hook / CI integration. Adds a `RuboCop`
+  nav-title override.
+
 - docs(Guides): Add a Test Factories guide (issue #338) for `factory_bot`: factories over fixtures and the
   minimal-valid-record rule, RSpec setup, a build-strategy table (`build` / `create` / `build_stubbed` /
   `attributes_for`), traits, associations and sequences, transients with callbacks, suite-speed habits
