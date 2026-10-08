@@ -1,0 +1,377 @@
+= content_for(:page_title) do
+  Test Factories
+
+- # Rows for the build-strategy table: the verb, what it hits, and when it
+- # is the right one.
+- strategies = []
+- strategies << ["build(:user)", "Nothing — an unsaved instance", "Unit tests of methods that don't need an id or persisted associations."]
+- strategies << ["create(:user)", "The database", "Anything that queries, joins, or relies on callbacks and constraints actually running."]
+- strategies << ["build_stubbed(:user)", "Nothing — but the object *claims* to be persisted", "The fastest option for view, presenter, and component specs: it has an id and `persisted?` is true, and saving raises."]
+- strategies << ["attributes_for(:user)", "Nothing — returns a Hash", "Request specs: the params hash for a POST or PATCH."]
+
+.max-w-prose
+  = doc_info(url: "https://github.com/thoughtbot/factory_bot", icon: "beaker", icon_css: "text-secondary") do
+    :markdown
+      _Loco_**Motion** recommends **factory_bot** for test data: minimal
+      valid records by default, variations as named traits, and the right
+      build strategy for the speed each spec needs.
+
+.prose
+  :markdown
+    # Test Factories
+
+    Every test needs objects to act on, and how you make them decides
+    whether the suite stays readable and fast or turns into a swamp of
+    fixture files nobody dares edit. This guide covers why we use
+    [factory_bot](https://github.com/thoughtbot/factory_bot), how to set it
+    up with RSpec, the day-to-day API — build strategies, traits,
+    associations, sequences, transients — and the habits that keep a suite
+    quick as the schema grows.
+
+- # The roadmap: eight sections plus the victory lap. The links opt out of
+- # Turbo because the layout wraps pages in a turbo-frame, which would
+- # otherwise swallow same-page anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#install", class: "link-hover", data: { turbo: "false" } } Install
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#strategies", class: "link-hover", data: { turbo: "false" } } Strategies
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#traits", class: "link-hover", data: { turbo: "false" } } Traits
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#associations", class: "link-hover", data: { turbo: "false" } } Associations
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#transients", class: "link-hover", data: { turbo: "false" } } Transients
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#hygiene", class: "link-hover", data: { turbo: "false" } } Speed
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#when", class: "link-hover", data: { turbo: "false" } } When
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Factories Over Fixtures
+  :markdown
+    Rails fixtures are a global, shared dataset: every test sees the same
+    `users.yml`, so the record one test needs is the record another test
+    is counting, and a change to a fixture ripples through specs that never
+    mention it. Factories flip that around. Each test **declares** the
+    objects it needs, right where it needs them, and gets fresh ones nobody
+    else can touch.
+
+    The discipline that makes this work is the **minimal valid record**: a
+    factory defines *only* what the model needs to be valid, and every
+    other attribute is opt-in at the call site. When a spec reads
+    `create(:user, :admin, name: "Ada")`, everything that matters to that
+    spec is on that line — and nothing that doesn't matter is hiding in a
+    file three directories away.
+
+.mt-12.prose
+  %h2{ id: "install", class: "scroll-mt-24" } 2. Installation
+  :markdown
+    Add `factory_bot_rails` to the development and test group so the
+    generators know to create factory files, then include the syntax
+    methods in RSpec so you can write `create(:user)` instead of
+    `FactoryBot.create(:user)`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # Gemfile
+      group :development, :test do
+        gem "factory_bot_rails"
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/support/factory_bot.rb
+      RSpec.configure do |config|
+        config.include FactoryBot::Syntax::Methods
+      end
+
+.mt-6.prose
+  :markdown
+    Factories live in `spec/factories/`, one file per model, and
+    `factory_bot_rails` loads them automatically. A first factory looks
+    like this — note that every attribute is a block, so values are
+    evaluated fresh for each record:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/factories/users.rb
+      FactoryBot.define do
+        factory :user do
+          name  { "Ada Lovelace" }
+          email { generate(:email) }
+        end
+      end
+
+= doc_note(modifier: :note, title: "Does the File Get Required?", css: "mt-6") do
+  :markdown
+    A generated `rails_helper.rb` has the `spec/support` glob commented out.
+    Uncomment `Rails.root.glob("spec/support/**/*.rb").sort.each { |f| require f }`
+    (or add the include directly to `rails_helper.rb`) or the syntax methods
+    silently won't be there.
+
+.mt-12.prose
+  %h2{ id: "strategies", class: "scroll-mt-24" } 3. Build Strategies
+  :markdown
+    Four verbs make objects from a factory, and choosing the cheapest one
+    that satisfies the test is the single biggest lever on suite speed.
+    They all accept the same traits and attribute overrides.
+
+- # The strategy table: the verb, what it touches, and when to use it.
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Verb" }
+      - head.with_column { "What it touches" }
+      - head.with_column { "Reach for it when" }
+    - strategies.each do |verb, touches, use|
+      - table.with_row do |row|
+        - row.with_column do
+          %code= verb
+        - row.with_column do
+          :markdown
+            #{touches}
+        - row.with_column do
+          :markdown
+            #{use}
+
+.mt-6.prose
+  :markdown
+    Each verb has a `_list` form (`create_list(:user, 3)`) and a `_pair`
+    form. Overrides are a trailing hash, and a block receives the object
+    after it is built:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      user   = build(:user, name: "Grace")           # unsaved
+      admins = create_list(:user, 2, :admin)          # saved, with a trait
+      params = attributes_for(:user)                  # { name: "...", email: "..." }
+
+      create(:user) do |user|
+        user.posts.create!(attributes_for(:post))
+      end
+
+.mt-12.prose
+  %h2{ id: "traits", class: "scroll-mt-24" } 4. Traits
+  :markdown
+    A trait is a named bundle of attributes that describes a **variation** of
+    the record — `:admin`, `:expired`, `:with_avatar`. They replace the two
+    ways factories go wrong: one enormous factory that sets everything, and
+    a pile of boolean flags (`admin: true, active: true, verified: true`)
+    that every spec has to get right in combination.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/factories/subscriptions.rb
+      FactoryBot.define do
+        factory :subscription do
+          user
+          plan       { "starter" }
+          expires_at { 1.month.from_now }
+
+          trait :expired do
+            expires_at { 1.day.ago }
+          end
+
+          trait :enterprise do
+            plan  { "enterprise" }
+            seats { 50 }
+          end
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      create(:subscription, :expired)
+      create(:subscription, :enterprise, :expired, seats: 12)   # traits compose; overrides win
+
+.mt-6.prose
+  :markdown
+    Traits are listed as symbols before the overrides hash, compose in any
+    combination, and work with every build strategy. If you find yourself
+    passing the same three traits together everywhere, that is a new trait.
+
+.mt-12.prose
+  %h2{ id: "associations", class: "scroll-mt-24" } 5. Associations and Sequences
+  :markdown
+    Writing the association's name on its own line — the bare `user` in the
+    subscription factory above — builds it from the `:user` factory using
+    **the same strategy as the parent**: `build(:subscription)` builds an
+    unsaved user, `create(:subscription)` creates one. That default (since
+    factory_bot 5) is what keeps `build` from quietly hitting the database
+    through its associations. Point at a different factory or trait with
+    `association`:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      factory :subscription do
+        association :user, factory: [:user, :admin]   # explicit factory + trait
+      end
+
+.mt-6.prose
+  :markdown
+    **Sequences** exist for uniqueness constraints. A factory that hardcodes
+    `email { "ada@example.com" }` works exactly once per test; a sequence
+    hands out a fresh value every time it is asked:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/factories/sequences.rb
+      FactoryBot.define do
+        sequence(:email) { |n| "person\#{n}@example.com" }
+      end
+
+      # Or inline, scoped to one factory:
+      factory :user do
+        sequence(:username) { |n| "user_\#{n}" }
+      end
+
+.mt-12.prose
+  %h2{ id: "transients", class: "scroll-mt-24" } 6. Transient Attributes and Callbacks
+  :markdown
+    A **transient** attribute is a factory input that is not a model
+    attribute. Combined with `after(:build)` / `after(:create)` callbacks it
+    lets a factory take *instructions* — "give this list three items" —
+    without the spec having to build the items itself:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/factories/lists.rb
+      FactoryBot.define do
+        factory :list do
+          title { "Groceries" }
+
+          transient do
+            items_count { 0 }
+          end
+
+          after(:create) do |list, evaluator|
+            create_list(:item, evaluator.items_count, list: list)
+            list.reload
+          end
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      create(:list)                  # no items
+      create(:list, items_count: 3)  # three items, associated and reloaded
+
+.mt-6.prose
+  :markdown
+    The callback receives the record and an **evaluator** holding every
+    attribute including the transient ones. Transients are ignored by
+    `attributes_for` (they aren't model attributes), and an `after(:create)`
+    callback only fires for `create` — if the variation has to work with
+    `build` and `build_stubbed` too, prefer an inline association list
+    (`items { [association(:item)] }`), which every strategy honors.
+
+.mt-12.prose
+  %h2{ id: "hygiene", class: "scroll-mt-24" } 7. Suite Speed and Hygiene
+  :markdown
+    Factories are the easiest way to make a suite slow, because the cost is
+    invisible at the call site. Three habits keep it in check.
+
+    **Persist only when persistence is the point.** A spec of a model
+    method, a presenter, or a component rarely needs a database row. Reach
+    for `build` or `build_stubbed` first and step up to `create` when the
+    test actually queries. Across hundreds of examples this is the
+    difference between seconds and minutes.
+
+    **Watch for association explosions.** A `create(:comment)` that builds a
+    post, which builds an author, which builds an organization, which
+    builds a billing plan, quietly inserts half the schema per example.
+    Keep required associations minimal in the factory, and lean on
+    `build_stubbed` where the chain doesn't matter.
+
+    **Lint the factories.** A factory that no longer produces a valid
+    record fails every spec that uses it, usually with a message about the
+    spec rather than the factory. `FactoryBot.lint` builds every factory
+    (and, with `traits: true`, every trait) and reports the broken ones by
+    name. Run it as a rake task in CI rather than `before(:suite)`, so
+    single-spec runs stay fast:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # lib/tasks/factory_bot.rake
+      namespace :factory_bot do
+        desc "Verify that every factory and trait builds a valid record"
+        task lint: :environment do
+          if Rails.env.test?
+            ActiveRecord::Base.transaction do
+              FactoryBot.lint traits: true
+              raise ActiveRecord::Rollback
+            end
+          else
+            system("bundle exec rake factory_bot:lint RAILS_ENV=test") || abort
+          end
+        end
+      end
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    bundle exec rake factory_bot:lint
+
+.mt-12.prose
+  %h2{ id: "when", class: "scroll-mt-24" } 8. When a Factory Is Overkill
+  :markdown
+    Factories describe **persistable records with validity rules**. Not
+    every object a test needs is one of those:
+
+    - A **plain Ruby object** — a value object, a form object, a service's
+      input — is clearer constructed directly: `Money.new(1200, "USD")`
+      says more than `build(:money)` ever will.
+    - A **params hash** for a request spec is often just a literal hash. Use
+      `attributes_for` when the factory already knows the valid shape;
+      write the hash when the spec is *about* the shape.
+    - A **one-off record** with unusual attributes belongs in the spec as
+      overrides, not as a new factory or trait nobody else will use.
+
+    The question to ask is whether the next reader learns more from the
+    factory name or from the literal. Factories earn their keep when the
+    same valid record is needed in many places; the rest of the time, plain
+    Ruby wins.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    Your test data is declared where it is used, minimal by default, and as
+    fast as each spec allows. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "fb-gem", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `factory_bot_rails` is in the `:development, :test` group and `FactoryBot::Syntax::Methods` is included in RSpec.
+  = daisy_checkbox(name: "fb-minimal", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every factory defines only what validity requires; variations are traits.
+  = daisy_checkbox(name: "fb-strategy", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Specs default to `build` / `build_stubbed` and step up to `create` only when they query.
+  = daisy_checkbox(name: "fb-lint", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        `FactoryBot.lint traits: true` runs in CI.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
