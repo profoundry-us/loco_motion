@@ -11,6 +11,13 @@ module Daisy
     # useful for simple navbars that don't need the three-section layout, or for
     # adding extra elements alongside the named slots.
     #
+    # @note The navbar renders a `<div>` by default. A site's top bar usually
+    #   holds more than navigation (branding, search, an account menu), so
+    #   render it as a `<header>` with `tag_name: :header` and wrap just its
+    #   links in a `<nav>` with an `aria-label`. Use `tag_name: :nav` only when
+    #   the whole bar is navigation, and label it so screen readers can tell
+    #   several navigation landmarks apart.
+    #
     # @slot leading [LocoMotion::BasicComponent] The left section of the navbar.
     #   Automatically gets the `navbar-start` CSS class.
     #
@@ -46,6 +53,17 @@ module Daisy
     # @loco_example Navbar with custom content (no slots)
     #   = daisy_navbar(css: "bg-base-100") do
     #     %a.btn.btn-ghost.text-xl daisyUI
+    #
+    # @loco_example Site header with a labelled nav
+    #   = daisy_navbar(tag_name: :header, css: "bg-base-100") do |navbar|
+    #     - navbar.with_leading do
+    #       = image_tag("logo.png", class: "h-8", alt: "")
+    #
+    #     - navbar.with_trailing do
+    #       %nav{ aria: { label: "Main" } }
+    #         = daisy_menu(css: "menu-horizontal") do |menu|
+    #           - menu.with_item do
+    #             = daisy_link("Docs", "/docs")
     #
     # @loco_example Sticky navbar that compacts once it pins
     #   -# `sticky:` adds the class and the `loco-sticky` controller; the offset
