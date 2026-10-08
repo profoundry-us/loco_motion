@@ -14,13 +14,12 @@ module Algolia
   #   records.first[:type] # => "doc"
   #
   class PageMetadataExtractor
-    # Where pages live and how their records are tagged. Priority bases keep
-    # pages ranked between component records (1..~60) and example records
-    # (1000+): docs slightly above guides, since setup content answers more
-    # searches.
+    # Where pages live and how their records are tagged. Each type's rank group
+    # (see Index::RANK_GROUPS) places docs above guides, since setup content
+    # answers more searches.
     PAGE_SOURCES = [
-      { directory: "docs", type: "doc", section: "Docs", priority_base: 500 },
-      { directory: "guides", type: "guide", section: "Guides", priority_base: 700 }
+      { directory: "docs", type: "doc", section: "Docs" },
+      { directory: "guides", type: "guide", section: "Guides" }
     ].freeze
 
     # Cap section descriptions at roughly a sentence or two.
@@ -133,7 +132,9 @@ module Algolia
         page_title: page[:page_title],
         description: section[:description],
         url: section[:anchor] ? "#{page[:url]}##{section[:anchor]}" : page[:url],
-        priority: source[:priority_base] + (page[:position] * 20) + idx
+        rank_group: Index::RANK_GROUPS.fetch(source[:type].to_sym),
+        rank_position: page[:position],
+        rank_index: idx
       }
     end
 

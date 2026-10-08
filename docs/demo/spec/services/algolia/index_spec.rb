@@ -63,8 +63,12 @@ RSpec.describe Algolia::Index do
     context "when index already exists" do
       let(:index_items) { [double(name: full_index_name)] }
 
-      it "does not reconfigure the index" do
-        expect(client).not_to receive(:set_settings)
+      it "reapplies the default settings so ranking changes reach it" do
+        expect(client).to receive(:set_settings).with(
+          full_index_name,
+          instance_of(Algolia::Search::IndexSettings),
+          true
+        )
 
         described_class.new(short_name)
       end
@@ -139,6 +143,12 @@ RSpec.describe Algolia::Index do
     end
   end
 
+  describe "RANK_GROUPS" do
+    it "ranks components, then docs, then guides, then examples" do
+      expect(described_class::RANK_GROUPS.sort_by(&:last).map(&:first)).to eq(%i[component doc guide example])
+    end
+  end
+
   describe "#default_index_settings" do
     let(:index) { described_class.new(short_name) }
 
@@ -154,7 +164,9 @@ RSpec.describe Algolia::Index do
       # Verify key settings
       expect(settings[:searchable_attributes]).to include("title", "framework", "section", "description")
       expect(settings[:attributes_for_faceting]).to include("filterOnly(framework)", "filterOnly(section)")
-      expect(settings[:custom_ranking]).to include("asc(priority)", "asc(title)")
+      expect(settings[:custom_ranking]).to eq(
+        ["asc(rank_group)", "asc(rank_position)", "asc(rank_index)", "asc(title)"]
+      )
       expect(settings[:highlight_pre_tag]).to eq('<em class="highlight">')
       expect(settings[:highlight_post_tag]).to eq("</em>")
     end

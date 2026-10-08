@@ -23,6 +23,15 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- fix(Search): Rank search records on separate keys instead of one packed number, so the 16th guide no longer
+  overflows into the example records. Records carried a single `priority` built from numeric bands (components
+  1..~60, docs 500+, guides 700+, examples 1000+), and each band had a ceiling. Records now carry
+  `rank_group`, `rank_position`, and `rank_index`, and the index sorts on them in turn
+  (`Algolia::Index::RANK_GROUPS` orders components, docs, guides, then examples), which reproduces the old
+  order exactly with no limit on how many components, pages, sections, or examples exist. The index settings
+  are now applied on every indexing run, since an index created by an earlier release would otherwise keep
+  ranking on `priority`.
+
 - docs(Guides): Add a Query Objects guide (issue #327) for the `active-query` gem — the read-side companion
   to the Service Objects guide: why query objects, installation with an `ApplicationQuery` concern,
   defining queries with typed / optional / default arguments and coercion, composing with `if` / `unless`,
