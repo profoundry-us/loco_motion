@@ -60,7 +60,6 @@ group :development, :test do
   gem "debug", platforms: %i[mri windows]
 
   # RSpec for testing
-  gem "factory_bot_rails"
   gem "faker"
   gem "rspec-rails"
   gem "simplecov", require: false

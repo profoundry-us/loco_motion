@@ -23,6 +23,10 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- chore(Demo): Drop the demo app's unused `factory_bot_rails` dependency (issue #338). The demo has no
+  models and an empty schema, so no factory could ever be defined; the Test Factories guide documents the
+  gem for real apps instead.
+
 - feat(DataInput): `TextInputComponent` and `TextAreaComponent` accept the `action:` keyword (issue #394) —
   the same Stimulus `data-action` sugar buttons, links, and alerts already have, so
   `daisy_text_input(action: "search#update")` replaces the hand-written `html: { data: { action: ... } }`
