@@ -48,7 +48,9 @@ module Algolia
           description: data[:description],
           url: url,
           file_path: source_file,
-          priority: (position + 1)
+          rank_group: Index::RANK_GROUPS[:component],
+          rank_position: position,
+          rank_index: 0
         }
 
         records << component_record
@@ -71,9 +73,9 @@ module Algolia
             code: example[:code],
             url: "#{url}##{example[:anchor]}",
             file_path: source_file,
-
-            # Guessing we won't have more than 1000 components
-            priority: ((position + 1) * 1000) + idx
+            rank_group: Index::RANK_GROUPS[:example],
+            rank_position: position,
+            rank_index: idx
           }
 
           records << example_record

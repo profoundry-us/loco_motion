@@ -59,18 +59,23 @@ RSpec.describe Algolia::PageMetadataExtractor do
       end
     end
 
-    it "ranks pages between components (1..~60) and examples (1000+)" do
-      priorities = records.map { |r| r[:priority] }
+    it "ranks docs pages above guides" do
+      groups = records.group_by { |r| r[:type] }.transform_values { |rs| rs.map { |r| r[:rank_group] }.uniq }
 
-      expect(priorities.min).to be >= 500
-      expect(priorities.max).to be < 1000
+      expect(groups).to eq(
+        "doc" => [Algolia::Index::RANK_GROUPS[:doc]],
+        "guide" => [Algolia::Index::RANK_GROUPS[:guide]]
+      )
+      expect(Algolia::Index::RANK_GROUPS[:doc]).to be < Algolia::Index::RANK_GROUPS[:guide]
     end
 
-    it "ranks docs pages above guides" do
-      doc_max = records.select { |r| r[:type] == "doc" }.map { |r| r[:priority] }.max
-      guide_min = records.select { |r| r[:type] == "guide" }.map { |r| r[:priority] }.min
+    it "ranks each source's records by page and then by section" do
+      records.group_by { |r| r[:type] }.each_value do |source_records|
+        ranks = source_records.map { |r| [r[:rank_position], r[:rank_index]] }
 
-      expect(doc_max).to be < guide_min
+        expect(ranks).to eq(ranks.sort)
+        expect(ranks.uniq.size).to eq(ranks.size)
+      end
     end
 
     it "uses stable objectIDs derived from page and anchor" do

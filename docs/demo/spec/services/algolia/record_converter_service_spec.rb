@@ -68,7 +68,9 @@ RSpec.describe Algolia::RecordConverterService do
         description: "Buttons are used to trigger actions or navigate",
         url: "/examples/Daisy::Actions::ButtonComponent",
         file_path: source_file,
-        priority: 1
+        rank_group: Algolia::Index::RANK_GROUPS[:component],
+        rank_position: 0,
+        rank_index: 0
       )
     end
 
@@ -90,7 +92,9 @@ RSpec.describe Algolia::RecordConverterService do
         code: "%button.btn Primary",
         url: "/examples/Daisy::Actions::ButtonComponent#primary",
         file_path: source_file,
-        priority: 1000
+        rank_group: Algolia::Index::RANK_GROUPS[:example],
+        rank_position: 0,
+        rank_index: 0
       )
 
       # Second example
@@ -105,7 +109,9 @@ RSpec.describe Algolia::RecordConverterService do
         code: "%button.btn.btn-secondary Secondary",
         url: "/examples/Daisy::Actions::ButtonComponent#secondary",
         file_path: source_file,
-        priority: 1001
+        rank_group: Algolia::Index::RANK_GROUPS[:example],
+        rank_position: 0,
+        rank_index: 1
       )
     end
 
