@@ -23,6 +23,13 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Query Objects guide (issue #327) for the `active-query` gem — the read-side companion
+  to the Service Objects guide: why query objects, installation with an `ApplicationQuery` concern,
+  defining queries with typed / optional / default arguments and coercion, composing with `if` / `unless`,
+  the comparison operations, `Scopes` modules and resolvers, testing against real records, and a
+  scope-vs-query-vs-interaction table. Flags that model inference only works for the namespaced
+  `Orders::Query` form, so `model_name` is always declared.
+
 - docs(Guides): Add a View Caching guide (issue #331) for the Rails 8 / Hotwire / ViewComponent era: why
   Solid Cache and server-rendered Turbo make fragment caching matter again, fragment and Russian-doll
   caching with `touch: true`, collection caching with `cached: true`, recyclable keys and the template
