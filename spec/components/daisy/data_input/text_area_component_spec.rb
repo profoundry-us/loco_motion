@@ -68,4 +68,22 @@ RSpec.describe Daisy::DataInput::TextAreaComponent, type: :component do
 
     expect(page).to have_css("textarea.textarea")
   end
+
+  it "renders the data-action attribute on the textarea when an action is provided" do
+    render_inline(described_class.new(name: "message", action: "draft#autosave"))
+
+    expect(page).to have_css("textarea[data-action='draft#autosave']")
+  end
+
+  it "does not render a data-action attribute when no action is provided" do
+    render_inline(described_class.new(name: "message"))
+
+    expect(page).not_to have_css("textarea[data-action]")
+  end
+
+  it "lets an explicit html data-action override the action option" do
+    render_inline(described_class.new(name: "message", action: "draft#autosave", html: { data: { action: "explicit#handler" } }))
+
+    expect(page).to have_css("textarea[data-action='explicit#handler']")
+  end
 end

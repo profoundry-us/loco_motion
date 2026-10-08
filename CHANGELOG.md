@@ -23,6 +23,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- feat(DataInput): `TextInputComponent` and `TextAreaComponent` accept the `action:` keyword (issue #394) —
+  the same Stimulus `data-action` sugar buttons, links, and alerts already have, so
+  `daisy_text_input(action: "search#update")` replaces the hand-written `html: { data: { action: ... } }`
+  hash. Stimulus infers each element's default event, so the arrow-free form fires on `input` for text
+  controls. The attribute lands on the `<input>` / `<textarea>` itself, never a label wrapper, and an
+  explicit `html: { data: { action: ... } }` still wins. `ActionableComponent`'s docs now cover inputs, and
+  the demo gained a shared `input-demo` Stimulus controller that echoes the fired event on each page.
+
 - refactor(Demo): Drain the component-usage lint backlog in the demo app's chrome (issue #417, part 3 of
   3): the header's hamburger label is `daisy_button(tag_name: :label, icon: "bars-3")`, the sidenav is a
   `daisy_menu` whose section headings are `with_item(title:)` titles (nested groups render
