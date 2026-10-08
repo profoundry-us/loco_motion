@@ -176,7 +176,7 @@ GEM
       sysexits (~> 1.1)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    icons (0.9.0)
+    icons (0.11.0)
       nokogiri (~> 1.16, >= 1.16.4)
     io-console (0.9.4)
     irb (1.18.0)
