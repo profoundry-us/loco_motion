@@ -21,7 +21,7 @@
   .my-2.flex.flex-col.gap-4
     %div
       = daisy_toggle(name: "toggle0", id: "toggle0")
-      .tooltip.tooltip-warning{ "data-tip": "CANNOT click the text to activate" }
+      = daisy_tooltip("CANNOT click the text to activate", css: "tooltip-warning") do
         Toggle with no label
 
     = daisy_label(for: "toggle1") do
