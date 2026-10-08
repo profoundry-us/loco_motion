@@ -57,7 +57,7 @@
   .grid.grid-cols-2.gap-6
     .space-y-2
       %p.font-medium.text-center stack-top
-      .stack.stack-top.size-28
+      = daisy_stack(css: "stack-top size-28") do
         - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
         = daisy_card(css: card_css + " bg-primary text-white") do
           1
@@ -68,7 +68,7 @@
 
     .space-y-2
       %p.font-medium.text-center stack-bottom
-      .stack.stack-bottom.size-28
+      = daisy_stack(css: "stack-bottom size-28") do
         - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
         = daisy_card(css: card_css + " bg-primary text-white") do
           1
@@ -79,7 +79,7 @@
 
     .space-y-2
       %p.font-medium.text-center stack-start
-      .stack.stack-start.size-28
+      = daisy_stack(css: "stack-start size-28") do
         - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
         = daisy_card(css: card_css + " bg-primary text-white") do
           1
@@ -90,7 +90,7 @@
 
     .space-y-2
       %p.font-medium.text-center stack-end
-      .stack.stack-end.size-28
+      = daisy_stack(css: "stack-end size-28") do
         - card_css = "border-base-300 border shadow-lg text-center flex items-center justify-center"
         = daisy_card(css: card_css + " bg-primary text-white") do
           1
@@ -113,15 +113,12 @@
   .space-y-4{ data: { controller: "stack-gap" } }
     .flex.flex-wrap.items-center.gap-4
       %span.text-sm.min-w-16 Gap size:
-      %span.badge.badge-primary{ data: { stack_gap_target: "label" } } 3
-      %input.range.range-primary{
-        type: "range",
-        min: "1",
-        max: "5",
-        value: "3",
-        data: { stack_gap_target: "slider", action: "input->stack-gap#updateGap" }
-      }
+      = daisy_badge("3", css: "badge-primary", data: { stack_gap_target: "label" })
+      = daisy_range(min: 1, max: 5, value: 3, css: "range-primary", data: { stack_gap_target: "slider", action: "input->stack-gap#updateGap" })
 
+    - # Raw `.stack` on purpose: this example demonstrates using the CSS class
+    - # directly, as the description says, rather than the helper.
+    -# haml-lint:disable LocoMotionComponentUsage
     .stack.gap-3.w-full.max-w-96{ data: { stack_gap_target: "stack" } }
       %img{ src: image_path("landscapes/beach.jpg") }
       %img{ src: image_path("landscapes/desert.jpg") }
