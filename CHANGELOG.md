@@ -23,6 +23,14 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a View Caching guide (issue #331) for the Rails 8 / Hotwire / ViewComponent era: why
+  Solid Cache and server-rendered Turbo make fragment caching matter again, fragment and Russian-doll
+  caching with `touch: true`, collection caching with `cached: true`, recyclable keys and the template
+  digest (plus `Template Dependency:` comments), `fresh_when` / `stale?` / `expires_in`, caching
+  components with ViewComponent 4.14's `ExperimentallyCacheable` and `cache_on` (and its no-caller-content
+  restriction), the Turbo interplay, a cache-store table with Solid Cache setup and the `dev:cache` /
+  `just demo-cache` toggle, and when not to cache.
+
 - docs(Guides): Add a RuboCop guide (issue #326): why we configure it opt-in (`DisabledByDefault: true`),
   installation with `rubocop-rails` / `rubocop-rspec` via `plugins:`, the everyday commands (`-a`, `-A`,
   `--only`, changed files only), the recommended baseline `.rubocop.yml` (the whole `Lint` department plus
