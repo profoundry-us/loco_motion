@@ -23,6 +23,12 @@ We plan to use patch versions only for bug fixes, and for now, all **minor relea
 
 ### General Changes
 
+- docs(Guides): Add a Test Fixtures guide (issue #514) recommending Rails fixtures for test data: the cost
+  model and our measured speedups, RSpec setup with per-file `fixtures` declarations, writing fixtures by
+  label, rows that skipped callbacks must write out, calendar-safe dates, test-prof's `let_it_be`, a
+  coexistence spec, and migrating off factory_bot with a changed-files RuboCop cop. It replaces the Test
+  Factories guide, which is removed separately.
+
 - docs(Guides): List every guide in the README and on the Getting Started page. The README's Guides section
   gains the six new guides (Memoization, Test Factories, RuboCop, View Caching, Query Objects, and Profiling)
   and two older ones it never listed, Rails Setup and Building Components. Getting Started's "After the App

@@ -1,0 +1,494 @@
+= content_for(:page_title) do
+  Test Fixtures
+
+- # Rows for the fixtures-versus-factories table.
+- comparison = []
+- comparison << ["How records are made", "Bulk-inserted once, then every example rolls back", "Built and saved inside every example"]
+- comparison << ["Cost per example", "One transaction rollback", "A round trip per record, plus each association and callback"]
+- comparison << ["Where the data lives", "Named rows in YAML, shared by every spec", "At the call site of the spec that needs it"]
+- comparison << ["Validations and callbacks", "Skipped — write the resulting rows out", "Run on every `create`"]
+- comparison << ["Extra dependencies", "None — built into Rails", "`factory_bot_rails`"]
+
+- # Rows for the measurements table: what changed, before, after.
+- timings = []
+- timings << ["Prototype across the whole suite (total test time)", "~354 min", "~51 min (~7× faster)"]
+- timings << ["Converting ~29 areas of the codebase", "38.4 min", "8.4 min (−78%)"]
+- timings << ["Loading fixtures once per spec file (CI runners without browser tests)", "38m 50s", "22m 22s"]
+- timings << ["Slowest files: costly records built once, plus builder helpers", "331 s", "81 s (−76%)"]
+
+.max-w-prose
+  = doc_info(url: "https://guides.rubyonrails.org/testing.html#fixtures", icon: "square-3-stack-3d", icon_css: "text-primary") do
+    :markdown
+      _Loco_**Motion** recommends **Rails fixtures** for test data: named
+      rows loaded in bulk and rolled back after every example, so the
+      database work a spec needs is done once instead of every time.
+
+.prose
+  :markdown
+    # Test Fixtures
+
+    Every test needs records to act on, and how you make them decides how
+    fast the suite runs once the schema grows. This guide covers why we use
+    the fixtures built into Rails, how to set them up with RSpec, how to
+    write them, the habits that keep a large fixture set healthy, and how to
+    move an existing suite off factories one piece at a time.
+
+- # The roadmap. One short word per label so the steps fit laptop widths;
+- # links opt out of Turbo so the turbo-frame layout keeps anchor jumps.
+.mt-8.rounded-box.border.border-base-300.p-6
+  = daisy_steps(css: "w-full steps-vertical sm:steps-horizontal") do |steps|
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#why", class: "link-hover", data: { turbo: "false" } } Why
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#setup", class: "link-hover", data: { turbo: "false" } } Setup
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#writing", class: "link-hover", data: { turbo: "false" } } Writing
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#callbacks", class: "link-hover", data: { turbo: "false" } } Callbacks
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#time", class: "link-hover", data: { turbo: "false" } } Time
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#speed", class: "link-hover", data: { turbo: "false" } } Speed
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#health", class: "link-hover", data: { turbo: "false" } } Health
+    - steps.with_step(css: "step-primary") do
+      %a{ href: "#migrating", class: "link-hover", data: { turbo: "false" } } Migrating
+    - steps.with_step do
+      %a{ href: "#success", class: "link-hover", data: { turbo: "false" } } Success 🎉
+
+.mt-12.prose
+  %h2{ id: "why", class: "scroll-mt-24" } 1. Why Fixtures
+  :markdown
+    A factory builds and saves its records inside every example — plus
+    associations it never needed, running every callback on the way.
+    Fixtures are inserted in bulk, once, and each example runs inside a
+    transaction that is rolled back when it finishes.
+
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "" }
+      - head.with_column { "Fixtures" }
+      - head.with_column { "Factories" }
+    - comparison.each do |question, fixtures, factories|
+      - table.with_row do |row|
+        - row.with_column { question }
+        - row.with_column do
+          :markdown
+            #{fixtures}
+        - row.with_column do
+          :markdown
+            #{factories}
+
+.mt-6.prose
+  :markdown
+    The usual objection is that fixtures are **global**: every spec sees
+    the same rows, so the record one spec needs is the record another spec
+    is counting. That is true, and it is manageable. Each feature gets its
+    own parent records instead of reusing shared ones, and a single spec
+    proves the whole set still loads cleanly — both are in
+    [Keeping a Large Set Healthy](#health).
+
+    The other objection is readability: a factory call shows everything
+    that matters on one line, while a fixture lives in YAML. So name rows
+    for what they are *for* — `invoices(:billing_overdue_a_week)` tells
+    the reader what the spec depends on without opening the file.
+
+    We moved a large production Rails app from factories to fixtures, and
+    these are the timings we measured along the way:
+
+.mt-4.overflow-x-auto.rounded-box.border.border-base-300
+  = daisy_table(css: "table-zebra") do |table|
+    - table.with_head do |head|
+      - head.with_column { "Change" }
+      - head.with_column { "Before" }
+      - head.with_column { "After" }
+    - timings.each do |change, before, after|
+      - table.with_row do |row|
+        - row.with_column { change }
+        - row.with_column { before }
+        - row.with_column { after }
+
+= doc_note(modifier: :tip, title: "Using Minitest?", css: "mt-6") do
+  :markdown
+    Fixtures are Minitest's default: a new app's `test_helper.rb` already
+    calls `fixtures :all`, and the writing and health sections apply
+    unchanged. We use RSpec, following
+    [Debugging & Testing](#{guide_path("debugging")}), for the rest.
+
+.mt-12.prose
+  %h2{ id: "setup", class: "scroll-mt-24" } 2. Setup
+  :markdown
+    rspec-rails reads fixtures from the paths you give it and wraps every
+    example in a transaction. List every directory that holds fixtures —
+    engines and subfolders included:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/rails_helper.rb
+      RSpec.configure do |config|
+        config.use_transactional_fixtures = true
+
+        config.fixture_paths = [
+          Rails.root.join("spec/fixtures"),
+          Rails.root.join("engines/billing/spec/fixtures")
+        ]
+      end
+
+.mt-6.prose
+  :markdown
+    Then **declare fixtures per file** instead of setting
+    `config.global_fixtures = :all`. Each spec names the tables it reads, so
+    Rails inserts only those, and the file's dependencies are written at
+    the top where a reader expects them:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      RSpec.describe Invoices::Overdue do
+        fixtures :accounts, :customers, :invoices
+
+        it "finds invoices a week past due" do
+          expect(described_class.call).to include(invoices(:billing_overdue_a_week))
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    Loaded fixtures stay for the rest of the run, so a spec can pass by
+    accident on rows an *earlier* file declared, then fail when parallel CI
+    splits files differently. Random order (`config.order = :random`) and
+    running each file alone both catch a missing declaration.
+
+.mt-12.prose
+  %h2{ id: "writing", class: "scroll-mt-24" } 3. Writing Fixtures
+  :markdown
+    A fixture file is named after its table and holds one entry per row.
+    Each entry's key is its **label**, and labels are how everything else
+    refers to the row:
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # spec/fixtures/accounts.yml
+      billing_acme:
+        name: Acme
+        subdomain: $LABEL
+
+      # spec/fixtures/invoices.yml
+      billing_overdue_a_week:
+        account: billing_acme
+        total_cents: 12000
+        due_on: <%= 1.week.ago.to_date %>
+
+.mt-6.prose
+  :markdown
+    - **Prefix labels with their feature.** Labels must be unique within a
+      table, and with dozens of contributors `acme` gets taken quickly.
+      `billing_acme` and `reports_acme` never collide.
+    - **Reference associations by label** (`account: billing_acme`), never
+      by id. Polymorphic associations name the type too:
+      `owner: billing_acme (Account)`. `$LABEL` drops a row's own label
+      into a value.
+    - **Never hardcode ids.** Rails derives each id from its label. When a
+      spec needs the raw value — an API response, a SQL fragment — ask for
+      it with `ActiveRecord::FixtureSet.identify(:billing_acme)` (pass
+      `:uuid` as the second argument for UUID keys).
+    - **Use ERB sparingly.** It is handy for dates and a short loop, but
+      the Rails docs call dynamic values in fixtures "a code smell" — a
+      fixture should read like data.
+    - **Files that aren't named after their table**, such as
+      `billing/plans.yml`, name their model with a top-level `_fixture:`
+      entry (`model_class: Billing::Plan`) or `set_fixture_class` in the
+      spec.
+
+    Finally, **declare every table the code reads**: loading `invoices`
+    does not load the `accounts` its rows point at.
+
+.mt-12.prose
+  %h2{ id: "callbacks", class: "scroll-mt-24" } 4. Callbacks and Builders
+  :markdown
+    Fixtures are written straight to the database in bulk SQL, so **model
+    validations and callbacks never run**. Anything a callback would have
+    created — a history row, a default profile, a slug — must be written
+    out as fixtures of its own. That gives a simple rule:
+
+    - **Preconditions belong in fixtures.** The account, the customer, the
+      invoice that already exists when the spec starts.
+    - **Records the code under test creates come from the spec.** Use a
+      plain `Model.create!` for a one-off, or a small builder helper, fed by
+      fixtures, when several specs need the same new record.
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/support/builders/invoice_builder.rb
+      module InvoiceBuilder
+        def build_invoice(account: accounts(:billing_acme), **attributes)
+          Invoice.new(account:, total_cents: 12_000,
+                      due_on: 30.days.from_now, **attributes)
+        end
+      end
+
+      RSpec.configure { |config| config.include InvoiceBuilder }
+
+.mt-6.prose
+  :markdown
+    A builder runs your validations and callbacks, so it suits the record
+    a spec is *about*. Keep it small and building on fixtures. And not
+    everything a spec needs is a record. A value object or a form
+    object is clearer constructed directly — `Money.new(1200, "USD")` — and
+    a request spec's params are usually just a literal hash.
+
+.mt-12.prose
+  %h2{ id: "time", class: "scroll-mt-24" } 5. Dates and Time
+  :markdown
+    Fixture ERB runs **once, when the set first loads**, so a relative date
+    like `<%= 1.week.ago.to_date %>` is relative to whenever the run
+    started. That is fine for "sometime last week", and it breaks for
+    anything that depends on the calendar: a month-end report, a rule that
+    only applies on weekdays, a billing period boundary. A suite that is
+    green on the 20th fails on the 31st, or every Monday.
+
+    When a spec cares about the calendar, give the fixture an **absolute**
+    date and freeze the clock around the spec with Rails' own `travel_to`
+    (include `ActiveSupport::Testing::TimeHelpers` in your RSpec config):
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      RSpec.describe Billing::Period do
+        fixtures :accounts, :invoices
+
+        around do |example|
+          travel_to(Time.zone.local(2026, 3, 31, 9)) { example.run }
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    `travel_to` ships with Rails, so skip Timecop. If a suite already uses
+    it, convert files as you touch them rather than mixing the two in one
+    block — they keep separate clocks.
+
+.mt-12.prose
+  %h2{ id: "speed", class: "scroll-mt-24" } 6. Speed
+  :markdown
+    Fixtures remove the per-example cost of *preconditions*. What remains
+    is anything expensive built on top of them — a generated statement,
+    an imported report.
+    [test-prof](https://test-prof.evilmartians.io/)'s `before_all` and
+    `let_it_be` build those once per file, inside a transaction that is
+    rolled back when the file finishes:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/rails_helper.rb
+      require "test_prof/recipes/rspec/before_all"
+      require "test_prof/recipes/rspec/let_it_be"
+
+      # Make fixture accessors like accounts(:billing_acme) work in before_all.
+      TestProf::BeforeAll.configure do |config|
+        config.setup_fixtures = true
+      end
+
+      # spec/models/invoices/statement_spec.rb
+      RSpec.describe Invoices::Statement do
+        fixtures :accounts, :customers, :invoices
+
+        let_it_be(:statement, refind: true) do
+          Invoices::Statement.generate!(accounts(:billing_acme))
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    `refind: true` hands each example a freshly loaded copy, so one
+    example's changes can't leak into the next.
+
+    Parallel CI balances by file, so the slowest file sets the floor for
+    the whole run. `bundle exec rspec --profile 20` lists the slowest
+    examples and groups; split a file that dominates the list into smaller
+    ones by behavior.
+
+.mt-12.prose
+  %h2{ id: "health", class: "scroll-mt-24" } 7. Keeping a Large Set Healthy
+  :markdown
+    Fixtures are global and additive: a row added for one spec is a row
+    every other spec can see.
+
+    **Give new rows their own parents.** Hang a new feature's invoices off
+    a new `billing_acme` account, not the shared `acme`, so Acme's counts
+    hold.
+
+    **Prove the whole set coexists.** Per-file declarations mean no spec
+    ever loads everything — so one spec should. Because fixtures skip
+    validations, this is also the only place a fixture that breaks a
+    uniqueness rule, today or on a future date, gets caught:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # spec/fixtures_coexistence_spec.rb
+      RSpec.describe "Fixtures" do
+        fixtures :all
+
+        def invalid_rows
+          Rails.application.eager_load!
+          models = ApplicationRecord.descendants.reject(&:abstract_class?)
+
+          models.flat_map do |model|
+            model.find_each.reject(&:valid?).map do |record|
+              "\#{model.name} \#{record.id}: " \
+                "\#{record.errors.full_messages.to_sentence}"
+            end
+          end
+        end
+
+        it "are all valid together" do
+          expect(invalid_rows).to be_empty
+        end
+
+        it "stay valid for the coming year" do
+          (1..12).each do |months|
+            travel_to(months.months.from_now) { expect(invalid_rows).to be_empty }
+          end
+        end
+
+        it "never repeat a label within a table" do
+          labels = RSpec.configuration.fixture_paths.flat_map do |root|
+            Dir["\#{root}/**/*.yml"].flat_map do |path|
+              table = path.delete_prefix("\#{root}/").delete_suffix(".yml")
+              File.read(path).scan(/^([a-z0-9_]+):/).flatten
+                  .map { |label| "\#{table}/\#{label}" }
+            end
+          end
+
+          expect(labels.tally.select { |_, count| count > 1 }.keys).to be_empty
+        end
+      end
+
+.mt-6.prose
+  :markdown
+    The label check reads the raw files because YAML silently keeps the
+    *last* of two duplicate keys. Broken foreign keys are already caught:
+    on PostgreSQL and SQLite, Rails verifies them as fixtures load
+    (`verify_foreign_keys_for_fixtures`, on by default since Rails 7.0).
+
+= doc_note(modifier: :warning, title: "Fixtures Are Not Seed Data", css: "mt-6") do
+  :markdown
+    Don't reuse fixtures as development seeds. Fixtures are shaped for
+    tests — edge cases, odd dates — and seeds for people clicking around;
+    sharing them means a demo-data tweak breaks specs.
+
+.mt-12.prose
+  %h2{ id: "migrating", class: "scroll-mt-24" } 8. Coming From factory_bot
+  :markdown
+    An existing suite moves over **one area at a time**: a model, a
+    feature, a directory. Convert how each spec gets its data and leave its
+    expectations alone — a spec that tests something different after the
+    change is a rewrite, not a migration.
+
+    To keep converted specs converted, add a small custom RuboCop cop that
+    flags factory calls:
+
+.mt-6.max-w-prose
+  = doc_code(language: "ruby") do
+    :plain
+      # lib/rubocop/cop/project/no_factories.rb
+      module RuboCop
+        module Cop
+          module Project
+            # Flags factory_bot calls so converted specs stay on fixtures.
+            class NoFactories < Base
+              MSG = "Use fixtures instead of factories (see the Test Fixtures guide)."
+
+              RESTRICT_ON_SEND = %i[
+                attributes_for attributes_for_list build build_list build_pair
+                build_stubbed build_stubbed_list create create_list create_pair
+              ].freeze
+
+              def on_send(node)
+                return unless node.first_argument&.sym_type?
+                return unless node.receiver.nil? || node.receiver.source == "FactoryBot"
+
+                add_offense(node)
+              end
+            end
+          end
+        end
+      end
+
+.mt-6.max-w-prose
+  = doc_code(language: "yaml") do
+    :plain
+      # .rubocop.yml
+      require:
+        - ./lib/rubocop/cop/project/no_factories.rb
+
+      Project/NoFactories:
+        Enabled: false # CI runs it on changed spec files only
+        Include:
+          - "spec/**/*_spec.rb"
+
+.mt-6.prose
+  :markdown
+    Disabled in the shared config, the cop stays out of editors and full
+    runs. CI runs it on the spec files a change touches, since `--only`
+    runs a cop even when the config disables it:
+
+.max-w-prose
+  = daisy_code(css: "my-4", prefix: "$") do
+    git diff --name-only --diff-filter=AM origin/main... -- 'spec/*_spec.rb' | xargs --no-run-if-empty bundle exec rubocop --only Project/NoFactories
+
+.prose
+  :markdown
+    Untouched specs stay green, and any file someone touches has to be
+    converted completely — the same changed-files ratchet the
+    [Component Linting](#{guide_path("component_linting")}) guide uses for
+    views. Delete each factory as its last caller goes, and remove
+    `factory_bot_rails` from the Gemfile when the last factory does.
+
+= doc_note(modifier: :tip, title: "Update the Instructions Too", css: "mt-6") do
+  :markdown
+    In the same change as the cop, update your contributing guide, style
+    guide, and AI agent instructions (`CLAUDE.md`, `AGENTS.md`). Otherwise
+    people and agents keep writing factories the cop then rejects.
+
+.mt-12.prose
+  %h2{ id: "success", class: "scroll-mt-24" } Success!
+  :markdown
+    Your test data loads once, rolls back cheaply, and stays healthy as the
+    set grows. Before you move on:
+
+.mt-4.flex.flex-col.gap-2
+  = daisy_checkbox(name: "fx-declare", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Every spec file declares its own `fixtures`; only the coexistence spec uses `:all`.
+  = daisy_checkbox(name: "fx-ids", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        No hardcoded ids — rows are referenced by label, or through `ActiveRecord::FixtureSet.identify`.
+  = daisy_checkbox(name: "fx-callbacks", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Rows a callback would create are written out, and records the code under test creates come from the spec or a builder.
+  = daisy_checkbox(name: "fx-time", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Calendar-sensitive specs use absolute dates and `travel_to`.
+  = daisy_checkbox(name: "fx-coexist", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        The coexistence spec runs in CI.
+  = daisy_checkbox(name: "fx-cop", css: "checkbox-primary") do |checkbox|
+    - checkbox.with_trailing do
+      :markdown
+        Migrating? The `NoFactories` cop runs on changed spec files.
+
+= daisy_divider
+
+= doc_buttons(css: "mt-8", current_id: params[:id])
